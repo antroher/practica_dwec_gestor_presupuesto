@@ -2,7 +2,7 @@
   El objetivo de esta práctica es aprender y poner en práctica los conceptos fundamentales de JavaScript.
 
 ** Repositorio de la práctica
-   El *repositorio base* de la práctica está disponible en: https://github.com/pedroprieto/practica_dwec_gestor_presupuesto
+   El *repositorio base* de la práctica está disponible en: https://github.com/antroher/practica_dwec_gestor_presupuesto
 
    En esta *segunda práctica* se debe configurar el *repositorio personal* (el que se creó haciendo un /fork/ del repositorio base) para añadir un *segundo repositorio remoto*. De esta manera, tu repositorio tendrá dos remotos:
    - El remoto *principal*, llamado ~origin~, que estará conectado con tu repositorio de tu cuenta de GitHub. Es el que utilizarás normalmente para subir periódicamente los cambios (mediante ~git push~) o para actualizarlo o clonarlo en otro equipo.
@@ -26,7 +26,7 @@ Para realizar la práctica se seguirán los principios del [[https://es.wikipedi
 3. Situarse en la carpeta del repositorio personal de la práctica
 4. *Añadir el remoto secundario* a tu repositorio personal. Para ello hay que ejecutar el comando:
    #+begin_src shell
-     git remote add profesor https://github.com/pedroprieto/practica_dwec_gestor_presupuesto.git
+     git remote add profesor https://github.com/antroher/practica_dwec_gestor_presupuesto.git
    #+end_src
 5. *Incorporar a tu repositorio personal los cambios* realizados por el profesor correspondientes a los archivos de esta práctica. Para ello hay que ejecutar:
    #+begin_src shell
@@ -46,5 +46,5 @@ Para realizar la práctica se seguirán los principios del [[https://es.wikipedi
 - Cada persona trabajará en su *repositorio personal* que habrá creado tras realizar el /fork/ del repositorio base.
 - Todos los archivos de la práctica se guardarán en el repositorio y se subirán a GitHub periódicamente. Es conveniente ir subiendo los cambios aunque no sean definitivos. *No se admitirán entregas de tareas que tengan un solo commit*.
 - *Como mínimo* se debe realizar *un commit* por *cada elemento de la lista de tareas* a realizar (si es que estas exigen crear código, claro está).
-- Para cualquier tipo de *duda o consulta* se pueden abrir ~Issues~ haciendo referencia al profesor mediante el texto ~@pedroprieto~ dentro del texto del ~Issue~.
+- Para cualquier tipo de *duda o consulta* se pueden abrir ~Issues~ haciendo referencia al profesor mediante el texto ~@antroher~ dentro del texto del ~Issue~.
 - Una vez *finalizada* la tarea se debe realizar una ~Pull Request~ al repositorio base indicando tu *nombre y apellidos* en el mensaje.
