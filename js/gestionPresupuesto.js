@@ -2,17 +2,28 @@
 
 // TODO: Variable global
 
-
-function actualizarPresupuesto() {
+var presupuesto='0';
+function actualizarPresupuesto(valor) {
     // TODO
-}
+    if(valor>0)
+    {
+        presupuesto=valor;
+    }
+    else{
+        alert('Error,ha introducido un valor negativo')
+        valor= -1;
+    } 
 
+}
 function mostrarPresupuesto() {
     // TODO
+    alert('Tu presupuesto es de '+ presupuesto)
 }
+
 
 function CrearGasto() {
     // TODO
+    var gasto={};
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
