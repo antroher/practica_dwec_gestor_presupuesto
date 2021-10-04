@@ -1,7 +1,13 @@
+/* 
+    var --> declarar variable global
+    let --> variable ámbito local
+    const --> constante
+*/
+
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
-let presupuesto = 0;
+var presupuesto = 0;
 
 function actualizarPresupuesto(actualiza) {
     // TODO
