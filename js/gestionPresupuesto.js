@@ -1,10 +1,14 @@
+'use strict'
+
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
+var presupuesto = 0;
 
-
-function actualizarPresupuesto() {
+function actualizarPresupuesto(nuevoValor) {
     // TODO
+
+    return;
 }
 
 function mostrarPresupuesto() {
