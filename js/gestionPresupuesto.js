@@ -26,10 +26,14 @@ function mostrarPresupuesto() {
 
 function CrearGasto() {
     // TODO  Deberá comprobar que el valor introducido sea un núḿero no negativo; en caso contrario, asignará a la propiedad valor el valor 0.
-    let gasto = {     // un objeto
-        descripcion: "John",  // En la clave "name" se almacena el valor "John"
-        valor: 30        // En la clave "age" se almacena el valor 30
+   
+    let gasto = {
+        descripcion: "",  
+        valor: 0        
       }
+
+      gasto.valor=prompt("Escribe valor del gasto");
+      gasto.descripcion=prompt("Escribe descripcion del gasto");
     if(gasto>=0)
     {
         return gasto;
