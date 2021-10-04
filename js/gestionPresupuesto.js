@@ -32,7 +32,7 @@ function CrearGasto(desc , datoValor) {
         actualizarValor:function(dato){
             if(parseFloat(dato)>0)this.valor=dato;
         }
-    }
+    };
     return gasto;
 }
 
