@@ -1,18 +1,50 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
+var presupuesto=0;
 
 
-function actualizarPresupuesto() {
-    // TODO
+function actualizarPresupuesto(presup) 
+{
+    if(detectarNegat(presupuesto)==true)
+    {
+        return presupuesto;
+    }
+    else
+    {
+        return -1;
+        alert(`El dato introducido es erroneo.`)
+        
+    }
 }
 
-function mostrarPresupuesto() {
-    // TODO
+function mostrarPresupuesto(presup) 
+{
+    alert(`Tu presupuesto actual es de: ${presupuesto}€`);
 }
 
-function CrearGasto() {
-    // TODO
+function crearGasto(desc, val)
+{
+    if(detectarNegat(val)==false)
+    {
+        val=0;
+    }
+
+  let gasto={
+      descripcion:desc,
+      valor: val,
+  }
+  return gasto;
+}
+
+function detectarNegat(num)
+{
+    if(num>0)
+    {
+        num=true;
+    }
+    else
+        num=false;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -21,5 +53,6 @@ function CrearGasto() {
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    crearGasto
 }
+
