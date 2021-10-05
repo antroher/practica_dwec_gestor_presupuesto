@@ -25,16 +25,16 @@ function mostrarPresupuesto() {
 
 function CrearGasto(descripcion, valor) {
     // TODO
-    if(valor < 0){
+    if(valor < 0 || isNaN(valor)){
         valor = 0;
     }
 
     let gasto = {
         descripcion: descripcion,
-        valor: parseFloat(valor),
+        valor: valor,
 
         mostrarGasto(){
-            console.log(`Gasto correspondiente a ${descripcion} con valor ${valor} €`);
+            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
         },
 
         actualizarDescripcion(nuevaDescripcion){
