@@ -34,16 +34,16 @@ function CrearGasto(v, d) {
 }
 
 function mostrarGasto() {
-    alert(`Gasto correspondiente a ${gasto.descripcion} con valor ${gasto.valor}€`);
+    alert(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor}€`);
 }
 
 function actualizarDescripcion(d) {
-    gasto.descripcion = d;
+    this.descripcion = d;
 }
 
 function actualizarValor(v) {
     if (parseFloat(v) >= 0) {
-        gasto.valor = v;
+        this.valor = v;
     }
 }
 
