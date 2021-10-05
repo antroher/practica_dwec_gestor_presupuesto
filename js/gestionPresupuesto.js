@@ -18,17 +18,35 @@ function actualizarPresupuesto(valores) {
     return DevolverValor;
     }
 
-function mostrarPresupuesto() {
-    alert(`Tu presupuesto actual es de: ${presupuesto}`)
+function mostrarPresupuesto() {  
+     console.log(`Tu presupuesto actual es de: ${presupuesto}`)
+     return(`Tu presupuesto actual es de: ${presupuesto}`)
+
 }
 
-function CrearGasto(descripcion,valor) {
-        if(valor < 0){
-            valor = 0;
+function CrearGasto(descripcionIn,valorIn) {
+        if(valorIn < 0 || isNaN(valorIn)){
+            valorIn = 0;
         }
     let gasto = {
-        descripcion:descripcion,
-        valor:parseFloat(valor)
+        descripcion:descripcionIn,
+        valor:parseFloat(valorIn),
+    
+
+         mostrarGasto() {
+            console.log(`Gasto correspondiente a ${gasto.descripcion} con valor ${gasto.valor} €`);
+            return(`Gasto correspondiente a ${gasto.descripcion} con valor ${gasto.valor} €`);
+        },
+
+        actualizarDescripcion(NewDescripcion){
+            gasto.descripcion = NewDescripcion;
+        },
+        actualizarValor(NewValor){
+            if(NewValor >= 0)
+            {
+                gasto.valor= NewValor;
+            }
+        }
     }
     return gasto;
 }
