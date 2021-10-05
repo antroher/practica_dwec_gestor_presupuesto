@@ -33,7 +33,19 @@ function CrearGasto(v, d) {
         }
 }
 
+function mostrarGasto() {
+    alert(`Gasto correspondiente a ${gasto.descripcion} con valor ${gasto.valor}€`);
+}
 
+function actualizarDescripcion(d) {
+    gasto.descripcion = d;
+}
+
+function actualizarValor(v) {
+    if (v >= 0) {
+        gasto.valor = v;
+    }
+}
 
 
 
