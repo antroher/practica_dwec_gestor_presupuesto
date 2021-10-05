@@ -6,21 +6,23 @@ var presupuesto=0;
 
 function actualizarPresupuesto(presup) 
 {
+    let res;
     if(detectarNegat(presupuesto)==true)
     {
-        return presupuesto;
+        res=presupuesto;
     }
     else
     {
-        return -1;
-        alert(`El dato introducido es erroneo.`)
+        res= -1;
+        console.log(`El dato introducido es erroneo.`)
         
     }
+    return res;
 }
 
 function mostrarPresupuesto(presup) 
 {
-    alert(`Tu presupuesto actual es de: ${presupuesto}€`);
+    console.log(`Tu presupuesto actual es de: ${presupuesto}€`);
 }
 
 function crearGasto(desc, val)
@@ -49,7 +51,7 @@ function detectarNegat(num)
 
 function mostrarGasto()
 {
-    alert `Gasto correspondiente a ${gasto.descripcion} con valor VALOR €`
+    console.log(`Gasto correspondiente a ${gasto.descripcion} con valor VALOR € ${gasto.valor}`);
 }
 
 function actualizarDescripcion(desc)
