@@ -6,15 +6,15 @@ class Gasto {
         this.valor = v;
     }
 
-    function mostrarGasto() {
+    mostrarGasto() {
         console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
     }
     
-    function actualizarDescripcion(d) {
+    actualizarDescripcion(d) {
         this.descripcion = d;
     }
     
-    function actualizarValor(v) {
+    actualizarValor(v) {
         if (parseFloat(v) >= 0) {
             this.valor = v;
         }
