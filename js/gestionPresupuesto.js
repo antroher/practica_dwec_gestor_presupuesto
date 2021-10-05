@@ -9,7 +9,7 @@ function actualizarPresupuesto(valor) {
         presupuesto = valor;
         return valor;
     }else{
-        alert("El valor introducido es un n\xfamero negativo.")
+        console.log("El valor introducido es un n\xfamero negativo.")
         return -1;
     }
 }
@@ -34,7 +34,7 @@ function CrearGasto(desc, val) {
     
 
     gasto.mostrarGasto = function() {
-        alert("Gasto correspondiente a " + this.descripcion + " con valor de " + this.valor + " €.")
+        alert("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €.")
     }
     gasto.actualizarDescripcion = function(nuevaDesc){
         this.descripcion = nuevaDesc;
@@ -48,6 +48,7 @@ function CrearGasto(desc, val) {
     return gasto;
     
 }
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
