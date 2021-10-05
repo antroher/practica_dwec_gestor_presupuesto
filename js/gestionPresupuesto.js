@@ -4,7 +4,9 @@
 var presupuesto = 0;
 
 function actualizarPresupuesto(actualizar) {
+
     let devolverValor;
+
     if(actualizar>=0)
     {
         presupuesto = actualizar;
@@ -19,13 +21,40 @@ function actualizarPresupuesto(actualizar) {
 }
 
 function mostrarPresupuesto() {
+    console.log(`Tu presupuesto actual es de ${presupuesto} €`);
     return (`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto() {
-    // CrearGasto - Función constructora que se encargará de crear un objeto gasto. Esta función devolverá un objeto 
-    //de tipo gasto. Deberá comprobar que el valor introducido sea un núḿero no negativo; en caso contrario, asignará a la 
-    //propiedad valor el valor 0.
+function CrearGasto(descripcion1, valor1) {
+
+    if(valor1 < 0 || isNaN(valor1)){
+        valor1 = 0;
+    }
+
+    let gasto = {
+            descripcion: descripcion1,
+            valor: valor1,
+
+            mostrarGasto(){
+                console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+                return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+            },
+
+            actualizarDescripcion(nuevaDescripcion)
+            {
+                this.descripcion = nuevaDescripcion; 
+            },
+
+            actualizarValor(nuevoValor){
+                let valorDevuelto;
+
+                if (nuevoValor >= 0){
+                    this.valor = nuevoValor;
+                }
+            }
+        };
+
+        return gasto;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
