@@ -7,13 +7,14 @@ function actualizarPresupuesto(precio) {
     if (precio >= 0)
     {
         presupuesto = precio;
-        return presupuesto;
+        devuelveValor = presupuesto;
     }
     else
     {
         console.log('Es un error');
-        return -1;
+        devuelveValor = -1;
     }
+    return devuelveValor;
 }
 
 function mostrarPresupuesto() {
