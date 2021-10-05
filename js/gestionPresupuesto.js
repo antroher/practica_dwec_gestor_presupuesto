@@ -27,14 +27,14 @@ function CrearGasto(midescripcion, mivalor) {
     descripcion : midescripcion,
     valor : parseFloat(mivalor),
     
-    MostrarGasto(){
+    MostrarGasto : function(){
         console.log("Gasto correspondiente a "+ gasto.descripcion + " con valor " + gasto.valor + " €")
     },
 
-    actualizarDescripcion(ladescripcion){
+    actualizarDescripcion: function(ladescripcion){
         descripcion = ladescripcion;
     },
-    actualizarValor(elvalor)
+    actualizarValor : function(elvalor)
     {
         if(elvalor >= 0)
         {
