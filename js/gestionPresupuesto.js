@@ -9,14 +9,14 @@ function actualizarPresupuesto(cantidad) {
     if (cantidad > -1){
         presupuesto = cantidad;
     }else{
-        alert("Error: el presupuesto no puede ser negativo.")
+        console.log("Error: el presupuesto no puede ser negativo.")
         presupuesto = -1;
     }
 }
 
 function mostrarPresupuesto() {
     // TODO
-    alert("Tu presupuesto actual es de " + presupuesto + "€.")
+    console.log("Tu presupuesto actual es de " + presupuesto + "€.")
 }
 
 function CrearGasto(descr, val) {
@@ -29,7 +29,7 @@ function CrearGasto(descr, val) {
 
     //METODOS OBJETO GASTO
     Gasto.mostrarGasto = function(){
-        alert("Gasto correspondiente a " + Gasto.descipcion + "con valor " + Gasto.valor +"€")
+        console.log("Gasto correspondiente a " + Gasto.descipcion + "con valor " + Gasto.valor +"€")
     }
     Gasto.actualizarDescripcion = function(descr){
         Gasto.descipcion = descr;
