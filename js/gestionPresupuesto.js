@@ -22,10 +22,26 @@ function mostrarPresupuesto() {
     console.log("Tu presupuesto actual es de " + presupuesto + " €");
 }
 
-function CrearGasto(descripcion, valor) {
-    var gasto = new Object();
-    gasto.descripcion = descripcion;
-    gasto.valor = valor;
+function CrearGasto(midescripcion, mivalor) {
+    let gasto = {
+    descripcion : midescripcion,
+    valor : parseFloat(mivalor),
+    
+    MostrarGasto(){
+        console.log("Gasto correspondiente a "+ descripcion + " con valor " + valor + " €")
+    },
+
+    actualizarDescripcion(ladescripcion){
+        descripcion = ladescripcion;
+    },
+    actualizarValor(elvalor)
+    {
+        if(elvalor >= 0)
+        {
+        valor = elvalor;
+        }
+    }
+    };
     
     if(gasto.valor < 0){
         gasto.valor = 0;
