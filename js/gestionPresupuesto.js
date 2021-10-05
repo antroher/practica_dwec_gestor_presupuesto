@@ -1,8 +1,10 @@
+"use strict";
+
 var presupuesto = 0;
 
 function actualizarPresupuesto(valor) {
     if (valor < 0) {
-        alert("El valor introducido es negativo e incorrecto.");
+        console.log("El valor introducido es negativo e incorrecto.");
         return -1;
     }
     else {
@@ -12,7 +14,7 @@ function actualizarPresupuesto(valor) {
 }
 
 function mostrarPresupuesto() {
-    alert(`Tu presupuesto actual es de ${presupuesto} €.`);
+    return `Tu presupuesto actual es de ${presupuesto} €.`;
 }
 
 function CrearGasto(descripcion, valor) {
@@ -20,14 +22,31 @@ function CrearGasto(descripcion, valor) {
         valor = 0;
     }
     
-    return gasto = {
+    let gasto = {
         descripcion: descripcion,
-        valor: valor
+        valor: parseFloat(valor),
+
+        mostrarGasto() {
+            console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`);
+        },
+
+        actualizarDescripcion(nuevaDescripcion) {
+            this.descripcion = nuevaDescripcion;
+        },
+
+        actualizarValor(nuevoValor) {
+            if (nuevoValor >= 0) {
+                this.valor = nuevoValor;
+            }
+        }
     };
+
+    return gasto;
 } 
 
 let gasto = CrearGasto("Tintoreria", 4500);
 
+gasto.mostratGasto() 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
