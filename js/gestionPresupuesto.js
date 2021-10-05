@@ -15,7 +15,7 @@ function actualizarPresupuesto(valor) {
 }
 
 function mostrarPresupuesto() {
-    console.log("Tu presupuesto actual es de " +presupuesto + " €." )
+    console.log("Tu presupuesto actual es de " +presupuesto + " €" )
 }
 
 function CrearGasto(desc, val) {
@@ -34,7 +34,7 @@ function CrearGasto(desc, val) {
     
 
     gasto.mostrarGasto = function() {
-        console.log("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €.")
+        console.log("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €")
     }
     gasto.actualizarDescripcion = function(nuevaDesc){
         this.descripcion = nuevaDesc;
