@@ -34,7 +34,7 @@ function CrearGasto(descripcion, valor) {
         valor: parseFloat(valor),
 
         mostrarGasto(){
-            console.log(`Gasto correspondiente a ${gasto.descripcion} con valor ${gasto.valor} €`);
+            console.log(`Gasto correspondiente a ${descripcion} con valor ${valor} €`);
         },
 
         actualizarDescripcion(nuevaDescripcion){
