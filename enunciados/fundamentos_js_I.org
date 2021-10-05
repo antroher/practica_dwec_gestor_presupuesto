@@ -22,6 +22,12 @@ Para realizar la práctica se seguirán los principios del [[https://es.wikipedi
 
 El repositorio se ha configurado para que se *ejecuten los tests automáticamente en la nube de GitHub cuando se realice un push o una pull request*. Para ello se hará uso del servicio [[https://github.com/features/actions][GitHub Actions]]. El fichero ~.github/workflows/nodeTests.yml~ contiene la configuración necesaria para activar la acción de ejecución de tests. Está convenientemente comentado. Se puede ver el resultado de la ejecución de los tests en la pestaña ~Actions~ del repositorio o bien en su página principal (un aspa roja indica fallo en algún test y un icono verde indica que se han superado). Fuente: https://docs.github.com/en/actions/guides/building-and-testing-nodejs
 
+#+begin_quote
+¡IMPORTANTE! Para que el servicio GitHub Actions se active en tu repositorio debes acceder a la pestaña ~Actions~ y activarlo.
+[[./imagenes/activar_actions.png]]
+
+#+end_quote
+
 ** Preparación
 1. Instalar los requisitos de software indicados
 2. Abrir un terminal
