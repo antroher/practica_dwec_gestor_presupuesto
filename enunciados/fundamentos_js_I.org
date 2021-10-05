@@ -20,6 +20,14 @@ Para poder realizar esta práctica y que funcione adecuadamente el entorno de te
 ** Desarrollo guiado por test
 Para realizar la práctica se seguirán los principios del [[https://es.wikipedia.org/wiki/Desarrollo_guiado_por_pruebas][Desarrollo Guiado por Test]]. Para ello se proporciona en el repositorio una serie de ficheros que permiten *ejecutar tests*. Dichos tests comprobarán que la web cumple con algunos de los requisitos de la práctica.
 
+El repositorio se ha configurado para que se *ejecuten los tests automáticamente en la nube de GitHub cuando se realice un push o una pull request*. Para ello se hará uso del servicio [[https://github.com/features/actions][GitHub Actions]]. El fichero ~.github/workflows/nodeTests.yml~ contiene la configuración necesaria para activar la acción de ejecución de tests. Está convenientemente comentado. Se puede ver el resultado de la ejecución de los tests en la pestaña ~Actions~ del repositorio o bien en su página principal (un aspa roja indica fallo en algún test y un icono verde indica que se han superado). Fuente: https://docs.github.com/en/actions/guides/building-and-testing-nodejs
+
+#+begin_quote
+¡IMPORTANTE! Para que el servicio GitHub Actions se active en tu repositorio debes acceder a la pestaña ~Actions~ y activarlo.
+[[./imagenes/activar_actions.png]]
+
+#+end_quote
+
 ** Preparación
 1. Instalar los requisitos de software indicados
 2. Abrir un terminal
@@ -36,11 +44,39 @@ Para realizar la práctica se seguirán los principios del [[https://es.wikipedi
 7. En principio no deben producirse *conflictos*. En caso de que se produzcan (por ejemplo, porque has editado el fichero ~.gitignore~ y yo también porque lo exigía la práctica), *resuélvelos y notifícamelo a través de un Issue*.
 8. Ejecuta el comando ~git push~ para subir los cambios a tu repositorio personal (el remoto principal) en GitHub y que queden guardados ahí también.
 9. Ejecutar el comando ~npm install~. Este comando instalará todas las librerías de Node necesarias para ejecutar los tests. Dichas librerías se guardarán en una carpeta con nombre ~node_modules~ dentro del repositorio. Nótese que dicha carpeta está excluida del repositorio en el archivo ~.gitignore~.
-10. Ejecutar el comando ~npm test~ para lanzar los tests. Este comando podrá ejecutarse tantas veces como sea necesario. Por pantalla se mostrarán los tests que se pasan y los que no, de manera que se tendrá información sobre las acciones que hay que realizar.
+10. Ejecutar el comando ~npm test~ para lanzar los tests. Este comando podrá ejecutarse tantas veces como sea necesario. Por pantalla se mostrarán los tests que se pasan y los que no, de manera que se tendrá información sobre las acciones que hay que realizar. Los tests también se ejecutarán automáticamente en GitHub Actions al subir los cambios al repositorio y al realizar la pull request.
 
 ** Tareas a realizar
 *** Lectura
     Lee atentamente los siguientes artículos y sus correspondientes subsecciones en caso de que las tengan:
+    - https://es.javascript.info/first-steps
+    - https://es.javascript.info/code-quality
+    - https://es.javascript.info/object-basics
+    - https://es.javascript.info/primitives-methods
+    - https://es.javascript.info/number
+    - https://es.javascript.info/string
+ 
+*** Fichero de la aplicación
+    Crea un fichero llamado ~gestionPresupuesto.js~ en la carpeta ~js~ del repositorio. A no ser que se indique lo contrario, todo el código que se cree deberá guardarse en este fichero.
+
+*** Variables globales
+    Crea las siguientes variables:
+    - ~presupuesto~ - Valor inicial: ~0~
+
+*** Funciones
+    Crea las siguientes funciones:
+    - ~actualizarPresupuesto~ - Función de *1 parámetro* que se encargará de actualizar la variable global ~presupuesto~. Esta función *comprobará* que el valor introducido es un *número no negativo*: en caso de que sea un dato válido, actualizará la variable ~presupuesto~ y *devolverá el valor del mismo*; en caso contrario, *mostrará un error por pantalla* y *devolverá el valor -1*.
+    - ~mostrarPresupuesto~ - Función *sin parámetros* que se encargará de devolver el texto siguiente: ~Tu presupuesto actual es de X €~, siendo ~X~ el valor de la variable global ~presupuesto~.
+    - ~CrearGasto~ - *Función constructora* que se encargará de crear un objeto *gasto*. Esta función devolverá un objeto de tipo *gasto*. Deberá *comprobar que el valor introducido sea un núḿero no negativo*; en caso contrario, asignará a la propiedad ~valor~ el *valor 0*.
+
+*** Objeto ~gasto~
+**** Propiedades
+     - ~descripcion~ - Almacenará la descripción del gasto en formato *cadena*
+     - ~valor~ - Almacenará el valor del gasto en formato *numérico*
+**** Métodos
+     - ~mostrarGasto~ - Función sin parámetros que muestre el texto: ~Gasto correspondiente a DESCRIPCION con valor VALOR €~, siendo ~VALOR~ y ~DESCRIPCION~ las propiedades del objeto correspondientes.
+     - ~actualizarDescripcion~ - Función de *1 parámetro* que actualizará la descripción del objeto.
+     - ~actualizarValor~ - Función de *1 parámetro* que actualizará el valor del objeto. Se encargará de *comprobar que el valor introducido sea un número no negativo*; en caso contrario, dejará el valor como estaba.
 
 ** Formato de la entrega
 - Cada persona trabajará en su *repositorio personal* que habrá creado tras realizar el /fork/ del repositorio base.
