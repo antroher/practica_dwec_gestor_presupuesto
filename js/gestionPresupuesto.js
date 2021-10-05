@@ -4,12 +4,15 @@
     const --> constante
 */
 
+/* shift + alt + a   para comentarios de varias líneas */
+// control + } para comentarios de un línea
+
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
 var presupuesto = 0;
 
-function actualizarPresupuesto(actualiza) {
+function actualizarPresupuesto(nuevoValor) {
     // TODO
 
     return ;
