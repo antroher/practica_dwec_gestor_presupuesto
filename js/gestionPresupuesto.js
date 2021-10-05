@@ -6,8 +6,6 @@ class Gasto {
         this.descripcion = descripcion;
         this.valor = valor;
     }
-    descripcion = "";
-    valor = 0;
 
     mostrarGasto () {
         console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor}`);
@@ -20,13 +18,11 @@ class Gasto {
     actualizarValor (newValor) {
         if (newValor > 0) {
             this.valor = newValor;
-        } else {
-            this.valor = this.valor
         }
     }
 }
 // TODO: Variable global
-var presupuesto = 0;
+var presupuesto=0;
 
 function actualizarPresupuesto(presupuesto1) {
     if (presupuesto1 > 0) {
