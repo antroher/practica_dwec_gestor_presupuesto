@@ -20,8 +20,18 @@ function mostrarPresupuesto() {
     alert(`Tu presupuesto actual es de ${presupuesto}€`)
 }
 
-function CrearGasto() {
+function CrearGasto(descripcion, valor) {
     // TODO
+    if(valor < 0){
+        valor = 0;
+    }
+
+    let gasto = {
+        descripcion: descripcion,
+        valor: parseFloat(valor)
+    };
+
+    return gasto;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
