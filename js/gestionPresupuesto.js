@@ -8,7 +8,7 @@ function actualizarPresupuesto(valor) {
     let valorDevolver;
 
     if(valor >= 0){
-        presupuesto = valor;
+        presupuesto = parseFloat(valor);
         valorDevolver = presupuesto;
     }
     else{
