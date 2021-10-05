@@ -6,6 +6,7 @@ var presupuesto = 0;
 function actualizarPresupuesto(valor) {
     // TODO
     let valorDevolver;
+
     if(valor >= 0){
         presupuesto = valor;
         valorDevolver = presupuesto;
@@ -30,7 +31,23 @@ function CrearGasto(descripcion, valor) {
 
     let gasto = {
         descripcion: descripcion,
-        valor: parseFloat(valor)
+        valor: parseFloat(valor),
+
+        mostrarGasto(){
+            console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+        },
+
+        actualizarDescripcion(nuevaDescripcion){
+            this.descripcion = nuevaDescripcion;
+        },
+
+        actualizarValor(nuevoValor){
+            let valorDevuelto
+
+            if(nuevoValor >= 0){
+                this.valor = nuevoValor;
+            }
+        }
     };
 
     return gasto;
