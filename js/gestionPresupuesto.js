@@ -1,6 +1,25 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 "use strict"
+class Gasto {
+    constructor (d, v) {
+        this.descripcion = d;
+        this.valor = v;
+    }
 
+    function mostrarGasto() {
+        console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+    }
+    
+    function actualizarDescripcion(d) {
+        this.descripcion = d;
+    }
+    
+    function actualizarValor(v) {
+        if (parseFloat(v) >= 0) {
+            this.valor = v;
+        }
+    }
+}
 
 // TODO: Variable global
 var presupuesto = 0;
@@ -15,37 +34,21 @@ function actualizarPresupuesto(pres) {
 }
 
 function mostrarPresupuesto() {
-    return `Tu presupuesto actual es de ${presupuesto}€`;
+    return (`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto(v, d) {
-    let gasto = new Object();
-        if (parseFloat(v) >= 0) {
-        let gasto = {
-            valor: `${v}`,
-            descripcion: `${d}`
-            }
-        } else {
-            let gasto = {
-                valor: 0,
-                descripcion: `${d}`
-            }
-        }
-}
-
-function mostrarGasto() {
-    console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor}€`);
-}
-
-function actualizarDescripcion(d) {
-    this.descripcion = d;
-}
-
-function actualizarValor(v) {
+function CrearGasto(d, v) {
+    let gasto = new Gasto();
     if (parseFloat(v) >= 0) {
-        this.valor = v;
-    }
+        Gasto(d, v);
+        }
+         else {
+            gasto(d, 0);
+            }        
+    return (this.gasto);
 }
+
+
 
 
 
