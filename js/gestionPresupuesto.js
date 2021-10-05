@@ -4,7 +4,7 @@ var presupuesto = 0;
 
 function actualizarPresupuesto(valor) {
     let valorDevuelto = 0;
-    
+
     if (valor < 0 || isNaN(valor)) {
         console.log("El valor introducido es negativo e incorrecto.");
         valorDevuelto = -1;
@@ -22,14 +22,14 @@ function mostrarPresupuesto() {
     return `Tu presupuesto actual es de ${presupuesto} €.`;
 }
 
-function CrearGasto(descripcion, valor) {
-    if (valor < 0 || isNaN(valor)) {
-        valor = 0;
+function CrearGasto(descripcionEntrante, valorEntrante) {
+    if (valorEntrante < 0 || isNaN(valorEntrante)) {
+        valorEntrante = 0;
     }
     
     let gasto = {
-        descripcion: descripcion,
-        valor: parseFloat(valor),
+        descripcion: descripcionEntrante,
+        valor: parseFloat(valorEntrante),
 
         mostrarGasto() {
             console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`);
