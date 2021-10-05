@@ -1,14 +1,15 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
+"use strict";
 var presupuesto=0;
 
 function actualizarPresupuesto(valor) {
-    if(parseInt(valor)>0){
+    if(valor>=0 ){
         presupuesto=valor;
         return presupuesto;
     }else{
-        alert("ERROR -> Valor negativo.")
+        console.log("ERROR -> Valor negativo.");
         return -1;
     } 
 }
@@ -17,14 +18,14 @@ function mostrarPresupuesto() {
     return "Tu presupuesto actual es de "+presupuesto+" €"
 }
 
-function CrearGasto(desc , datoValor) {
-    let v=datoValor;
-    if(parseFloat(valor)<0)v=0;
+function CrearGasto(desc  , datoValor) {
+    
+    if(datoValor<0 || isNaN(datoValor))datoValor=0;
     let gasto={
         descripcion:desc+"",
-        valor:parseFloat(v),
+        valor:parseFloat(datoValor),
         mostrarGasto:function(){
-            return "Gasto correspondiente a "+this.descripcion+" con valor "+this.valor+" €.";
+            return "Gasto correspondiente a "+this.descripcion+" con valor "+this.valor+" €";
         },
         actualizarDescripcion:function(desc){
             if(desc !=null && desc !="") this.descripcion=desc;
