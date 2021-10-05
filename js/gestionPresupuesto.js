@@ -8,7 +8,7 @@ class Gasto {
     }
 
     mostrarGasto () {
-        console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor}`);
+        console.log(`Gasto correspondiente a ${descripcion} con valor ${valor} €`);
     }
 
     actualizarDescripcion (param1) {
@@ -22,7 +22,7 @@ class Gasto {
     }
 }
 // TODO: Variable global
-var presupuesto=0;
+var presupuesto = 0;
 
 function actualizarPresupuesto(presupuesto1) {
     if (presupuesto1 > 0) {
@@ -35,15 +35,31 @@ function actualizarPresupuesto(presupuesto1) {
 }
 
 function mostrarPresupuesto() {
-    console.log(`Tu presupuesto actual es de ${presupuesto}`);
+    return(`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
 function CrearGasto(descripcion, valor) {
-    if (valor < 0) {
+    if (parseFloat(valor) < 0) {
         valor = 0;
     }
-    const gasto = new Gasto(descripcion, valor);
-    return gasto;
+
+    this.valor = valor;
+    this.descripcion = descripcion;
+
+    this.mostrarGasto = function() {
+        console.log(`Gasto correspondiente a ${descripcion} con valor ${valor} €`);
+    }
+
+    this.actualizarDescripcion = function(descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    this.actualizarValor = function(newValor) {
+        if (newValor > 0) {
+            this.valor = newValor;
+        }
+    }
+    // return CrearGasto;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
