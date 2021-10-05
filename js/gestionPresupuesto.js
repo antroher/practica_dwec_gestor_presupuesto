@@ -13,16 +13,20 @@ function actualizarPresupuesto(numero) {
 }
 
 function mostrarPresupuesto() {
-    return "Tu presupuesto actual es de "+presupuesto+" €";
+    return ("Tu presupuesto actual es de "+presupuesto+" €");
 }
 
 function CrearGasto(valor, descripcion) {
+    let gasto = {
+        _valor=valor,
+        _descripcion=descripcion
+    }
+    
     if(actualizarPresupuesto(valor) != -1)
     {
         _valor = 0;
-    } 
-    _valor = valor;
-    _descripcion = descripcion;
+        _descripcion = descripcion;
+    }   
 }
 
 
