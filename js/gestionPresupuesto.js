@@ -4,15 +4,17 @@
 var presupuesto = 0;
 
 function actualizarPresupuesto(presupuesto) {
+    let res;
     if(detectarNegativo(presupuesto))
     {
-        return presupuesto;
+        res= presupuesto;
     }
     else
     {
-        alert("El presupuesto introducido no es válido.")
-        return -1;
+        console.log("El presupuesto introducido no es válido.");
+        res= -1;
     }
+    return res;
 }
 
 function mostrarPresupuesto(presupuesto) {
@@ -26,21 +28,19 @@ function crearGasto(des, v){
     let gasto = {
         descripcion=des,
         valor=v,
+
+        mostrarGasto(){
+            console.log(`Gasto correspondiente a ${gasto.descripcion} con valor ${gasto.valor} €`);
+        },
+        actualizarDescripcion(des){
+            gasto.descripcion=des;
+        },
+        actualizarValor(v){
+            if(detectarNegativo(v))
+                gasto.valor=v;
+        }
       };
     return gasto;
-}
-
-function mostrarGasto(){
-    alert(`Gasto correspondiente a ${gasto.descripcion} con valor ${gasto.valor} €`);
-}
-
-function actualizarDescripcion(des){
-    gasto.descripcion=des;
-}
-
-function actualizarValor(v){
-    if(detectarNegativo(v))
-        gasto.valor=v;
 }
 
 function detectarNegativo(num){
