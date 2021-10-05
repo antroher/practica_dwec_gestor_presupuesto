@@ -21,7 +21,7 @@ function mostrarPresupuesto(presupuesto) {
 
 function crearGasto(des, v){
     if(!detectarNegativo(v))
-        v=0
+        v=0;
 
     let gasto = {
         descripcion=des,
@@ -30,12 +30,29 @@ function crearGasto(des, v){
     return gasto;
 }
 
+function mostrarGasto(){
+    alert(`Gasto correspondiente a ${gasto.descripcion} con valor ${gasto.valor} €`);
+}
+
+function actualizarDescripcion(des){
+    gasto.descripcion=des;
+}
+
+function actualizarValor(v){
+    if(detectarNegativo(v))
+        gasto.valor=v;
+}
+
 function detectarNegativo(num){
-    if(num>0)
+    if(num>=0)
         return true;
     else
         return false;
 }
+
+
+
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
