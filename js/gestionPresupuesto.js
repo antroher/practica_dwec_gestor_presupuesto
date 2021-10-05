@@ -5,14 +5,16 @@ var presupuesto = 0;
 
 function actualizarPresupuesto(valor) {
     // TODO
+    let valorDevolver;
     if(valor >= 0){
         presupuesto = valor;
-        return presupuesto;
+        valorDevolver = valor;
     }
     else{
-        alert("Error. Valor introducido no valido.")
-        return -1;
+        console.log("Error. Valor introducido no valido.")
+        valorDevolver = -1;
     }
+return valorDevolver;
 }
 
 function mostrarPresupuesto() {
