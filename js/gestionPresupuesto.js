@@ -8,7 +8,7 @@ function actualizarPresupuesto(valor) {
     let valorDevolver;
     if(valor >= 0){
         presupuesto = valor;
-        valorDevolver = valor;
+        valorDevolver = presupuesto;
     }
     else{
         console.log("Error. Valor introducido no valido.")
