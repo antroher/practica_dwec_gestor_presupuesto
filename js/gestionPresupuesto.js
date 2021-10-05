@@ -19,20 +19,21 @@ function actualizarPresupuesto(precio) {
 }
 
 function mostrarPresupuesto() {    
+    console.log(`Tu presupuesto actual es de ${presupuesto} €`);
     return (`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
 function CrearGasto(descripcion1, valor1) {
-    if (valor < 0 || isNan(valor))
+    if (valor1 < 0 || isNan(valor1))
     {
-        valor = 0;
+        valor1 = 0;
     }
     let gasto = {
         descripcion: descripcion1,
         valor: valor1,    
     mostrarGasto(){
-        console.log("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + "€");
-        return("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + "€");
+        console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+        return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
     },    
     actualizarDescripcion(nuevo){
         this.descripcion = nuevo;
