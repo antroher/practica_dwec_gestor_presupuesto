@@ -3,9 +3,10 @@
 // TODO: Variable global
 var presupuesto = 0;
 
-function actualizarPresupuesto(presupuesto) {
+function actualizarPresupuesto(valor) {
     // TODO
-    if(presupuesto >= 0){
+    if(valor >= 0){
+        presupuesto = valor;
         return presupuesto;
     }
     else{
@@ -16,6 +17,7 @@ function actualizarPresupuesto(presupuesto) {
 
 function mostrarPresupuesto() {
     // TODO
+
 }
 
 function CrearGasto() {
