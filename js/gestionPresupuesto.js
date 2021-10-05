@@ -9,13 +9,13 @@ function actualizarPresupuesto(pres) {
     if (pres > 0){
         presupuesto = pres;
     } else {
-        alert("¡ERROR! Valor no válido");
+        console.log("¡ERROR! Valor no válido");
         return -1;
     }
 }
 
 function mostrarPresupuesto() {
-    alert(`Tu presupuesto actual es de ${presupuesto}€`);
+    return `Tu presupuesto actual es de ${presupuesto}€`;
 }
 
 function CrearGasto(v, d) {
@@ -34,7 +34,7 @@ function CrearGasto(v, d) {
 }
 
 function mostrarGasto() {
-    alert(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor}€`);
+    console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor}€`);
 }
 
 function actualizarDescripcion(d) {
