@@ -24,3 +24,4 @@
    A continuación se muestran los enlaces a los enunciados de cada una de las prácticas:
    
   - [[./enunciados/introduccion_js.org][Introducción a JavaScript]]
+  - [[./enunciados/fundamentos_js_I.org][Fundamentos de JS I]]
