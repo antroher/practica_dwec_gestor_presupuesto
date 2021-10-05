@@ -23,7 +23,7 @@ function mostrarPresupuesto() {
 }
 
 function CrearGasto() {
-    // TODO
+    console.log("Tu presupuesto actual es de " + presupuesto + " €");
 
 }
 
