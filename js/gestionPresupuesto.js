@@ -3,22 +3,27 @@
 var presupuesto = 0;
 
 function actualizarPresupuesto(valor) {
-    if (valor < 0) {
+    let valorDevuelto = 0;
+    
+    if (valor < 0 || isNaN(valor)) {
         console.log("El valor introducido es negativo e incorrecto.");
-        return -1;
+        valorDevuelto = -1;
     }
     else {
         presupuesto = valor;
-        return presupuesto;
+        valorDevuelto = valor;
     }
+
+    return valorDevuelto;
 }
 
 function mostrarPresupuesto() {
+    console.log(`Tu presupuesto actual es de ${presupuesto} €.`);
     return `Tu presupuesto actual es de ${presupuesto} €.`;
 }
 
 function CrearGasto(descripcion, valor) {
-    if (valor < 0) {
+    if (valor < 0 || isNaN(valor)) {
         valor = 0;
     }
     
@@ -28,6 +33,7 @@ function CrearGasto(descripcion, valor) {
 
         mostrarGasto() {
             console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`);
+            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`;
         },
 
         actualizarDescripcion(nuevaDescripcion) {
@@ -43,10 +49,6 @@ function CrearGasto(descripcion, valor) {
 
     return gasto;
 } 
-
-let gasto = CrearGasto("Tintoreria", 4500);
-
-gasto.mostratGasto() 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
