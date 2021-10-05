@@ -10,20 +10,22 @@ function actualizarPresupuesto(valor) {
         presupuesto=valor;
     }
     else{
-        alert('Error,ha introducido un valor negativo')
+        console.log("Error,ha introducido un valor negativo")
         valor= -1;
     } 
-
+    return presupuesto;
 }
 function mostrarPresupuesto() {
     // TODO
-    alert('Tu presupuesto es de '+ presupuesto)
+    alert('Tu presupuesto es de '+ presupuesto+	'\u20AC')
 }
 
 
 function CrearGasto() {
     // TODO
-    var gasto={};
+    var gasto={
+
+    };
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
