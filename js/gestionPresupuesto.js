@@ -10,13 +10,13 @@ function actualizarPresupuesto(valores) {
         presupuesto = valores;
         return valores;
     }else{
-        alert("ha introducido un numero negativo");
+        console.log("ha introducido un numero negativo");
         return -1;
     }
 }
 
 function mostrarPresupuesto() {
-    alert("Tu presupuesto actual es de "+ presupuesto +"€");
+    console.log("Tu presupuesto actual es de "+ presupuesto +"€");
 }
 
 function CrearGasto(Valor, Descripcion) {
@@ -25,7 +25,7 @@ function CrearGasto(Valor, Descripcion) {
         descripcion: Descripcion
     };
     gasto.mostrarGasto= function (){
-        alert("Gasto correspondiente a "+descripcion+ " con valor VALOR "+ valor +"€")
+        console.log("Gasto correspondiente a "+descripcion+ " con valor VALOR "+ valor +"€")
         }
     gasto.actualizarDescripcion = function(actualizarDescripcion){
         gasto.descripcion = actualizarDescripcion;
