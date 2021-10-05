@@ -4,7 +4,7 @@
 var presupuesto = 0;
 
 
-function actualizarPresupuesto(presuspuesto) {
+function actualizarPresupuesto(valor) {
     // TODO
     if(presupuesto < 0)
     {
@@ -13,7 +13,7 @@ function actualizarPresupuesto(presuspuesto) {
     }
     else
     {
-        presupuesto = presupuesto;
+        presupuesto = valor;
         return presupuesto;
     }
 }
