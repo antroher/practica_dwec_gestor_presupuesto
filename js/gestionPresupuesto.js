@@ -9,7 +9,7 @@ function actualizarPresupuesto(cantidad) {
     if (cantidad > -1){
         presupuesto = cantidad;
     }else{
-        console.log("Error: el presupuesto no puede ser negativo.")
+        alert("Error: el presupuesto no puede ser negativo.")
         presupuesto = -1;
     }
 }
