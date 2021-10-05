@@ -19,7 +19,7 @@ return valorDevolver;
 
 function mostrarPresupuesto() {
     // TODO
-    alert(`Tu presupuesto actual es de ${presupuesto}€`)
+    console.log(`Tu presupuesto actual es de ${presupuesto}€`)
 }
 
 function CrearGasto(descripcion, valor) {
