@@ -19,11 +19,14 @@ function actualizarPresupuesto(precio) {
 }
 
 function mostrarPresupuesto() {    
-    return `Tu presupuesto actual es de ${presupuesto}€` 
+    return (`Tu presupuesto actual es de ${presupuesto}€`);
 }
 
 function CrearGasto() {
-    // TODO
+    // Función constructora que se encargará de crear un objeto gasto. 
+    //Esta función devolverá un objeto de tipo gasto. 
+    //Deberá comprobar que el valor introducido sea un núḿero no negativo; 
+    //en caso contrario, asignará a la propiedad valor el valor 0.
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
