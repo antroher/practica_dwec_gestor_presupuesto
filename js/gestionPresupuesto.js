@@ -8,11 +8,11 @@ function actualizarPresupuesto(parametro) {
     // TODO
     if(parametro>=0)
     {
-            presupuesto+=parametro;
+            presupuesto=parametro;
             return presupuesto;
     }else
     {
-        alert("Error parametro menor de 0");
+       console.log("No es un número positivo");
         return -1;
     }
     
@@ -21,7 +21,7 @@ function actualizarPresupuesto(parametro) {
 
 function mostrarPresupuesto() {
     // TODO
-    return "Tu presupuesto actual es de" +presupuesto+ "€";
+    return "Tu presupuesto actual es de " +presupuesto+ " €";
 }
 
 function CrearGasto() {
@@ -31,10 +31,25 @@ function CrearGasto() {
         descripcion: "",  
         valor: 0        
       }
-
-      gasto.valor=prompt("Escribe valor del gasto");
-      gasto.descripcion=prompt("Escribe descripcion del gasto");
-    if(gasto>=0)
+      //Metodos del objeto
+      gasto.mostrarGasto = function() {
+        console.log("Gasto correspondiente a "+gasto.descripcion+" con valor "+gasto.descripcion+" €");
+      };
+    
+      gasto.actualizarGasto=function(parametro)
+      {
+            gasto.descripcion=parametro;
+      };
+      gasto.actualizarValor=function(parametro){
+    
+        if(parametro<0)
+        {
+    
+        }
+        gasto.valor=parametro;
+    
+      }
+    if(gasto.valor>=0)
     {
         return gasto;
     }else gasto.valor=0;
@@ -42,7 +57,6 @@ function CrearGasto() {
     
 
 }
-
 
 
 
