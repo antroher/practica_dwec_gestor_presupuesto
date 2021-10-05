@@ -4,6 +4,7 @@
 var presupuesto = 0;
 
 function actualizarPresupuesto(precio) {
+    let devuelveValor;
     if (precio >= 0)
     {
         presupuesto = precio;
