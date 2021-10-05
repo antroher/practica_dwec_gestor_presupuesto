@@ -20,7 +20,7 @@ function mostrarPresupuesto() {
 
 function CrearGasto(v, d) {
     let gasto = new Object();
-        if (v >= 0) {
+        if (parseFloat(v) >= 0) {
         let gasto = {
             valor: `${v}`,
             descripcion: `${d}`
@@ -42,7 +42,7 @@ function actualizarDescripcion(d) {
 }
 
 function actualizarValor(v) {
-    if (v >= 0) {
+    if (parseFloat(v) >= 0) {
         gasto.valor = v;
     }
 }
