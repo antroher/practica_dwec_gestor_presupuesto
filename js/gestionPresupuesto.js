@@ -3,6 +3,8 @@
 // TODO: Variable global
 var presupuesto = 0;
 
+actualizarPresupuesto(presupuesto);
+
 function actualizarPresupuesto(valor) {
     // TODO
     if(valor >= 0){
