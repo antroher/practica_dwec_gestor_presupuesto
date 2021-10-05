@@ -1,18 +1,30 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
+var presupuesto = 0;
 
 
-function actualizarPresupuesto() {
+function actualizarPresupuesto(presuspuesto) {
     // TODO
+    if(presupuesto < 0)
+    {
+        console.log("Error, el presupuesto no puede ser menor que 0");
+        return -1;
+    }
+    else
+    {
+        presupuesto = presupuesto;
+        return presupuesto;
+    }
 }
 
 function mostrarPresupuesto() {
-    // TODO
+   
 }
 
 function CrearGasto() {
     // TODO
+
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
