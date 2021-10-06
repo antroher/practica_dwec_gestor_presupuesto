@@ -13,9 +13,17 @@
 var presupuesto = 0;
 
 function actualizarPresupuesto(nuevoValor) {
-    // TODO
-
-    return ;
+    
+    if (nuevoValor >= 0)
+    {
+        presupuesto = nuevoValor;
+        return presupuesto;
+    }
+    else 
+    {
+        console.log("Error. Número negativo");
+        return -1;
+    }
 }
 
 function mostrarPresupuesto() {
