@@ -5,33 +5,71 @@
 // TODO: Variable global
 var presupuesto = 0;
 
+function comprobarNumNegativo(num){
+    let negativo = false;
 
-function actualizarPresupuesto(num) {
-    // TODO
     if (num >= 0)
     {
-        presupuesto = num;
-        return num;
+        negativo = false;
     }
     else
     {
-        alert('Error. No se puede introducir valores negativos.');
-        return -1;
+        negativo = true;
+    }   
+    return negativo;
+}
+function actualizarPresupuesto(num) {
+    // TODO
+    let valor;
+
+    if (comprobarNumNegativo(num))
+    {
+        console.log('Error. No se puede introducir valores negativos.');
+        valor = -1;
     }
+    else
+    {
+        presupuesto = num;
+        valor = presupuesto;
+    }
+    return valor;
 }
 
 function mostrarPresupuesto() {
     // TODO
-    alert('Tu presupuesto actual es de ' + presupuesto);
+    let texto = 'Tu presupuesto actual es de ' + presupuesto + ' €';
+    return texto;
 }
 
 function CrearGasto(des, v) {
     // TODO
     let gasto = new Object();
-    let gasto = {
-        descripcion: des,
-        valor: v,
-    };
+
+    if (comprobarNumNegativo(v)){
+        v = 0;
+    }
+    else {
+        let gasto = {
+            descripcion: des,
+            valor: v,
+
+            mostrarGasto(){
+                console.log('Gasto correspondiente a ' + this.descripcion + 
+                ' con valor ' + this.valor + ' €');
+            },
+
+            actualizarDescripcion(newDes){
+                this.descripcion = newDes;
+            },
+
+            actualizarValor(newV){
+                if (!comprobarNumNegativo(newV)){
+                    this.valor = newV;
+                }
+            }
+        };
+    }
+    return gasto;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
