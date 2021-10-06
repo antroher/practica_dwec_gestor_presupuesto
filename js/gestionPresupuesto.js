@@ -1,3 +1,4 @@
+'use strict'
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
@@ -6,28 +7,31 @@ var presupuesto=0;
 
 function actualizarPresupuesto(presup) 
 {
-    let res;
-    if(detectarNegat(presupuesto)==true)
+    
+    if(detectarNegat(parseFloat(presup)) == false)
     {
-        res=presupuesto;
+        presupuesto=presup;
+        return presupuesto;
+        
     }
     else
     {
-        res= -1;
-        console.log(`El dato introducido es erroneo.`)
+        
+        console.log(`El dato introducido es erroneo.`);
+        return -1;
         
     }
-    return res;
+    
 }
 
 function mostrarPresupuesto(presup) 
 {
-    console.log(`Tu presupuesto actual es de: ${presupuesto}€`);
+    return `Tu presupuesto actual es de: ${this.presupuesto}€`;
 }
 
-function crearGasto(desc, val)
+function CrearGasto(desc, val)
 {
-    if(detectarNegat(val)==false)
+    if(detectarNegat(val) == true)
     {
         val=0;
     }
@@ -35,23 +39,24 @@ function crearGasto(desc, val)
   let gasto={
       descripcion:desc,
       valor: val,
-  }
+      mostrarGasto()
+      {
+          return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+      }
+
+    
+  };
   return gasto;
 }
 
 function detectarNegat(num)
 {
-    if(num>0)
+    if(num>=0)
     {
-        num=true;
+        return false;
     }
     else
-        num=false;
-}
-
-function mostrarGasto()
-{
-    console.log(`Gasto correspondiente a ${gasto.descripcion} con valor VALOR € ${gasto.valor}`);
+        return true;
 }
 
 function actualizarDescripcion(desc)
@@ -75,6 +80,6 @@ function actualizarValor()
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    crearGasto
+    CrearGasto
 }
 
