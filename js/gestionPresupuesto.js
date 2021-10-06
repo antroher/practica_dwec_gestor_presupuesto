@@ -8,28 +8,49 @@ function actualizarPresupuesto(valor) {
 	if (valor > 0)
 	{
 			presupuesto= valor;
-			
 	}
 	else
 	{
-		alert("Error valor menor que cero ")
+		console.log("Error valor menor que cero ")
 		presupuesto = -1;
+
 	}
+	return presupuesto;
 }
 
 function mostrarPresupuesto() {
     // TODO
-	alert("Tu presupuesto actual es de " + presupuesto + " \u20AC")
+	var respuesta ="Tu presupuesto actual es de " + presupuesto + " \u20AC"
+	return respuesta;
 }
 
-function CrearGasto() {
-    // TODO
-	var gasto = {};
-	
-	if(gasto < 0)
-	{
-		gasto = 0;
+function CrearGasto(valor1, description) 
+{
+	if (valor1 < 0){
+		valor1 = 0;
 	}
+    // TODO
+	let gasto = 
+	{
+		valor : valor1,
+		description : "Descripcion del gasto: "+ description + "." ,
+		mostrarGasto(){
+			var texto = this.description + this.valor + "€";
+			return texto;
+		},
+		actualizarDescripcion(descripcion){
+			this.description = descripcion;
+		
+		},
+		actualizarValor(valor2){
+			if(valor2 > 0)
+			{
+				this.valor = valor2;
+			}
+
+		}
+	}
+
 	return gasto
 }
 
