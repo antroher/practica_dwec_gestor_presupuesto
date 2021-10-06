@@ -3,9 +3,9 @@
 // TODO: Variable global
 var presupuesto = 0;
 
-function actualizarPresupuesto(presupuesto) {
+function actualizarPresupuesto(presupuesto){
     let res;
-    if(detectarNegativo(presupuesto))
+    if(presupuesto>0)
     {
         res= presupuesto;
     }
@@ -22,7 +22,7 @@ function mostrarPresupuesto(presupuesto) {
 }
 
 function crearGasto(des, v){
-    if(!detectarNegativo(v))
+    if(v<0)
         v=0;
 
     let gasto = {
@@ -36,22 +36,12 @@ function crearGasto(des, v){
             gasto.descripcion=des;
         },
         actualizarValor(v){
-            if(detectarNegativo(v))
+            if(v>0)
                 gasto.valor=v;
         }
-      };
+      }
     return gasto;
 }
-
-function detectarNegativo(num){
-    if(num>=0)
-        return true;
-    else
-        return false;
-}
-
-
-
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
