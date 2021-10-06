@@ -1,3 +1,4 @@
+'use strict'
 /* 
     var --> declarar variable global
     let --> variable ámbito local
@@ -13,7 +14,7 @@
 var presupuesto = 0;
 
 function actualizarPresupuesto(nuevoValor) {
-    
+
     if (nuevoValor >= 0)
     {
         presupuesto = nuevoValor;
@@ -27,11 +28,38 @@ function actualizarPresupuesto(nuevoValor) {
 }
 
 function mostrarPresupuesto() {
-    // TODO
+
+    return "Tu presupuesto actual es de "+presupuesto+" €";
 }
 
-function CrearGasto() {
-    // TODO
+function CrearGasto(descripcion, valor) {
+
+    this.descripcion = descripcion;
+
+    if (valor >= 0)
+    {
+        this.valor = valor;
+    }
+    else
+    {
+        this.valor = 0;
+    }
+
+    this.mostrarGasto = function () {
+        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
+    }
+
+    this.actualizarDescripcion = function(nuevaDescripcion) {
+        this.descripcion = nuevaDescripcion;
+    }
+
+    this.actualizarValor = function(nuevoValor){
+        if (nuevoValor >= 0 )
+        {
+            this.valor = nuevoValor;
+        }
+    }
+
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
