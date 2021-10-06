@@ -21,9 +21,21 @@ function mostrarPresupuesto() {
 }
 
 
-function CrearGasto() {
+function CrearGasto(descrip,valid) {
     // TODO
-    var gasto={
+
+    {
+       if(detectarNegat(val)==false)
+         {
+            val=0;
+        }
+        
+        let gasto={
+            descripcion:descrip,
+            valor: valid,
+        }
+        return gasto;
+        }
 
     };
 }
