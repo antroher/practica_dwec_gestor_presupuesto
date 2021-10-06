@@ -43,32 +43,33 @@ function mostrarPresupuesto() {
 
 function CrearGasto(des, v) {
     // TODO
-    let gasto = new Object();
 
     if (comprobarNumNegativo(v)){
         v = 0;
     }
-    else {
-        let gasto = {
-            descripcion: des,
-            valor: v,
+    
+    let gasto = {
+        descripcion: des,
+        valor: v,
 
-            mostrarGasto(){
-                console.log('Gasto correspondiente a ' + this.descripcion + 
-                ' con valor ' + this.valor + ' €');
-            },
+        mostrarGasto(){
 
-            actualizarDescripcion(newDes){
-                this.descripcion = newDes;
-            },
+            let texto = 'Gasto correspondiente a ' + this.descripcion + 
+            ' con valor ' + this.valor + ' €';
+            return texto;
+        },
 
-            actualizarValor(newV){
-                if (!comprobarNumNegativo(newV)){
-                    this.valor = newV;
-                }
+        actualizarDescripcion(newDes){
+            this.descripcion = newDes;
+        },
+
+        actualizarValor(newV){
+            if (!comprobarNumNegativo(newV)){
+                this.valor = newV;
             }
-        };
-    }
+        }
+    };
+
     return gasto;
 }
 
