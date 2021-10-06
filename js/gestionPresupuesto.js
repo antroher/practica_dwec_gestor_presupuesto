@@ -24,35 +24,37 @@ function mostrarPresupuesto() {
     return "Tu presupuesto actual es de " +presupuesto+ " €";
 }
 
-function CrearGasto() {
+function CrearGasto(descripcionR,gastoR) {
     // TODO  Deberá comprobar que el valor introducido sea un núḿero no negativo; en caso contrario, asignará a la propiedad valor el valor 0.
-   
+    if(gastoR>=0)
+    {
+       
+    }else gastoR=0;
     let gasto = {
-        descripcion: "",  
-        valor: 0        
+        descripcion: descripcionR,  
+        valor: gastoR       
       }
       //Metodos del objeto
       gasto.mostrarGasto = function() {
-        console.log("Gasto correspondiente a "+gasto.descripcion+" con valor "+gasto.descripcion+" €");
+        return 'Gasto correspondiente a '+gasto.descripcion+' con valor '+gasto.valor+' €';
       };
     
-      gasto.actualizarGasto=function(parametro)
+      gasto.actualizarDescripcion=function(parametro)
       {
             gasto.descripcion=parametro;
       };
       gasto.actualizarValor=function(parametro){
     
-        if(parametro<0)
+        if(parseFloat(parametro)>0)
         {
-    
+          gasto.valor=parametro;
         }
-        gasto.valor=parametro;
+        
     
       }
-    if(gasto.valor>=0)
-    {
-        return gasto;
-    }else gasto.valor=0;
+
+
+   return gasto;
 
     
 
