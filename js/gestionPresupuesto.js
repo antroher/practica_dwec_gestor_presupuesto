@@ -1,45 +1,54 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
-var presupuesto = 0;
+'use strict'
+var presupuesto=0;
 
-function actualizarPresupuesto(presupuesto){
-    let res;
-    if(presupuesto>0)
+function actualizarPresupuesto(pre){
+   
+    if(pre>=0)
     {
-        res= presupuesto;
+        presupuesto= pre;
+      return presupuesto;
     }
     else
     {
         console.log("El presupuesto introducido no es válido.");
-        res= -1;
+        return -1;
     }
-    return res;
+   
 }
 
-function mostrarPresupuesto(presupuesto) {
+function mostrarPresupuesto() {
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
-function crearGasto(des, v){
-    if(v<0)
+function CrearGasto(des, v){
+    if((parseFloat(v)<0) || isNaN(v))
+    {
         v=0;
+        
+    }
+        
 
     let gasto = {
-        descripcion=des,
-        valor=v,
+        descripcion:des,
+        valor:v,
 
         mostrarGasto(){
-            console.log(`Gasto correspondiente a ${gasto.descripcion} con valor ${gasto.valor} €`);
+            return 'Gasto correspondiente a '+gasto.descripcion+' con valor '+gasto.valor+' €';
         },
         actualizarDescripcion(des){
             gasto.descripcion=des;
         },
-        actualizarValor(v){
-            if(v>0)
-                gasto.valor=v;
+        actualizarValor(val){
+            if(parseFloat(val)>0)
+            {
+                gasto.valor=val;
+            }       
         }
-      }
+      };
+     
     return gasto;
 }
 
@@ -49,6 +58,6 @@ function crearGasto(des, v){
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    crearGasto
+    CrearGasto
 }
 
