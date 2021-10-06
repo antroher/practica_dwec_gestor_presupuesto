@@ -7,7 +7,7 @@ var presupuesto = 0;
 function actualizarPresupuesto(valor) {
     if(parseFloat(valor) > 0){
         presupuesto = valor;
-        return valor;
+        return presupuesto;
     }else{
         console.log("El valor introducido es un n\xfamero negativo.")
         return -1;
@@ -15,12 +15,12 @@ function actualizarPresupuesto(valor) {
 }
 
 function mostrarPresupuesto() {
-    console.log("Tu presupuesto actual es de " +presupuesto + " €" )
+    return "Tu presupuesto actual es de " +presupuesto + " €";
 }
 
 function CrearGasto(desc, val) {
-    let gasto
-    if(parseFloat(valor) > 0){
+    let gasto;
+    if(parseFloat(val) > 0){
         gasto = {
             descripcion : desc,
             valor : val
@@ -34,7 +34,7 @@ function CrearGasto(desc, val) {
     
 
     gasto.mostrarGasto = function() {
-        console.log("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €")
+        return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
     }
     gasto.actualizarDescripcion = function(nuevaDesc){
         this.descripcion = nuevaDesc;
