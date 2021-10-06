@@ -46,7 +46,7 @@ function CrearGasto(desc, val) {
             this.valor = nuevoValor;
         }
     }
-    
+
     return gasto;
     
 }
