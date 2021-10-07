@@ -20,8 +20,8 @@ let devolver = 0;
 }
 
 function mostrarPresupuesto() {
-    console.log ("Tu presupuesto actual es de" + presupuesto + "€, siendo" +
-    presupuesto + "el NewValu de la variable global presupuesto");
+    console.log ("Tu presupuesto actual es de" + presupuesto + "€");
+    return ("Tu presupuesto actual es de" + presupuesto + "€");
 }
 
 function CrearGasto(NewValu,NewDescriptio) {
