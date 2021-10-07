@@ -70,6 +70,10 @@ function mostrarGasto()
     return 'Gasto correspondiente a '+ gasto.descripcion + 'con valor: ' + gasto.valor;
 }
 
-
+function actualizarDescripcion(descripcion)
+{
+    gasto.descripcion = descripcion;
+    return gasto.descripcion;
+}
 
 
