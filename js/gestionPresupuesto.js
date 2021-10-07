@@ -77,3 +77,10 @@ function actualizarDescripcion(descripcion)
 }
 
 
+function actualizarValor(valor)
+{
+    gasto.valor = valor;
+    return valor;
+}
+
+
