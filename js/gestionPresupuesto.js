@@ -3,22 +3,20 @@
 // TODO: Variable global
 var presupuesto = 0;
 
-function actualizarPresupuesto() {
+function actualizarPresupuesto(num) {
     // TODO
-    let num = parseFloat(prompt('Introduce el presupuesto para actualizar'));
-    let retorno = 0;
+    let retorno = -1;
 
     if(isNaN(num))
     {
-        console.log('El dato introducido no es un numero');
         retorno = -1;
     }
     else
-    {
+    {    
         if(num < 0)
         {
             console.log('El dato introducido tiene que ser positivo');
-            retorno -1;
+            retorno = -1;
         }
         else
         {
@@ -26,26 +24,23 @@ function actualizarPresupuesto() {
             retorno = presupuesto;
         }
     }
+
     return retorno;
 }
 
 function mostrarPresupuesto() {
     // TODO
-    let texto = 'Tu presupuesto actual es de: ' + presupuesto + ' €';
+    let texto = 'Tu presupuesto actual es de ' + presupuesto + ' €';
     return texto;
 }
 
-function CrearGasto() {
+function CrearGasto(desintro, valorintro) {
     // TODO
-    let desintro = prompt("Introduce la descripcion del gasto");
-    let valorintro = parseFloat(prompt("Introduce el gasto"));
-
     if(valorintro < 0)
     {
         valorintro = 0;
     }
 
-    
     let gasto =
     {
         description: desintro,
