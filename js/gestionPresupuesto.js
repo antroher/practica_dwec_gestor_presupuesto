@@ -33,28 +33,21 @@ function CrearGasto(descripcion1, valor1) {
         valor: valor1,    
         mostrarGasto(){
             console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
-            return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+            return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
         },    
         actualizarDescripcion(nuevo){
             this.descripcion = nuevo;
         },
         actualizarValor(nuevoNumero){
-            if (nuevoNumero >= 0)
-            {
-                this.valor = nuevoNumero;
-            }
-            else
-            {
-                return this.valor;
-            }
-        }
-    }
-    return gasto;
-    // Función constructora que se encargará de crear un objeto gasto. 
-    //Esta función devolverá un objeto de tipo gasto. 
-    //Deberá comprobar que el valor introducido sea un núḿero no negativo; 
-    //en caso contrario, asignará a la propiedad valor el valor 0.
+            let valorDev;
 
+            if(nuevo >= 0)
+                {
+                    this.valor = nuevo;
+                }
+        }
+    };
+    return gasto;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
