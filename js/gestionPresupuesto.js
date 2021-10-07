@@ -3,61 +3,51 @@
 var presupuesto = 0;
 
 
-function actualizarPresupuesto(valor) {
-    let val = parseFloat(valor);
-    if (val >= 0) {
-        presupuesto = val;
+function actualizarPresupuesto(v) {
+    let v1 = parseFloat(v);
+    if (v1 >= 0) {
+        presupuesto = v1;
+        return presupuesto;
     }
 
     else {
-       console.log('Error. Presupuesto negativo');
-       val = -1;
+       console.log('¡ERROR! El presupuesto no puede ser negativo.');
+       return -1;
     }
-    return val;
+    
 }
 
 function mostrarPresupuesto() {
     return(`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto(descr, val) {
-    let val_ = parseFloat(val);
-    if (val_ < 0 || isNaN(val_)) {
-        val_ = 0;
+function CrearGasto(d, v1) {
+    let v2 = parseFloat(v1);
+    if (v2 < 0 || isNaN(v2)) {
+        v2 = 0;
     }
 
-let gasto = {
-	descripcion: descr,
-    valor : val_,
+    let gasto = {
+        descripcion: d,
+        valor : v2,
 
-    mostrarGasto() {
-        return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
-    },
+        mostrarGasto() {
+            return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+        },
 
-    actualizarDescripcion(nuevaDes) {
-        this.descripcion = nuevaDes;
-    },
+        actualizarDescripcion(des) {
+            this.descripcion = des;
+        },
 
-    actualizarValor(nuevoValor) {
-        let value = parseFloat(nuevoValor);
-        if (value >= 0) {
-            this.valor = value;
+        actualizarValor(val) {
+            let value = parseFloat(val);
+            if (value >= 0) {
+                this.valor = value;
+            }
         }
-    }
-};
+    };
     return gasto;
 }
-
-/*function gasto(d,v) {
-    
-    this.descripcion = d;
-    if (this.valor >=0)
-    {
-        this.valor = v;
-    }
-    else
-    this.valor = 0;
-}*/
 
 
 
