@@ -67,6 +67,9 @@ function CrearGasto(descripcion, valor )
 
 function mostrarGasto()
 {
-    return 'Gasto correspondiente a '+ gasto.descripcion + ''  
+    return 'Gasto correspondiente a '+ gasto.descripcion + 'con valor: ' + gasto.valor;
 }
+
+
+
 
