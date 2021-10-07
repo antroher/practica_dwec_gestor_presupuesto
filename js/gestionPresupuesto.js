@@ -23,3 +23,50 @@ export   {
     actualizarPresupuesto,
     CrearGasto
 }
+
+let presupuesto = 0;
+let presupuesto1 =
+
+function actualizarPresupuesto(presupuesto1)
+{
+    if (presupuesto<0)
+    {
+        alert('EL numero que has introducido no es valido');
+        return -1;
+    }
+
+    else
+    {
+        presupuesto = presupuesto1;
+        return presupuesto;
+    }
+
+}
+
+function mostrarPresupuesto()
+{
+    return 'Tu presupuesto actual es de ' + presupuesto;
+}
+
+function CrearGasto(descripcion, valor )
+{
+    if (valor<0)
+    {
+        valor=0;
+    }
+    let gasto = 
+    {}
+        obj.descripcion = descripcion;
+        obj.valor = valor;
+
+        return gasto;
+        
+    
+    
+}
+
+function mostrarGasto()
+{
+    return 'Gasto correspondiente a '+ gasto.descripcion + ''  
+}
+
