@@ -6,40 +6,43 @@ var presupuesto = 0;
 
 function actualizarPresupuesto(numero) {
     if(numero >= 0)
-        return numero;
+        presupuesto = numero;
     else
+    {
         console.log("ERROR. Valor no valido");
         return -1;
+    }
+    return presupuesto;
 }
 
 function mostrarPresupuesto() {
-    return ("Tu presupuesto actual es de "+presupuesto+" €");
+    return (`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto(valor, descripcion) {
-    const gasto = {
-        _valor: valor,
-        _descripcion: descripcion,
-        mostrarGastos : function() {
-            return ('Gasto correspondiente a '+descripcion+' con valor '+valor+' €, siendo '+
-            valor+' y '+descripcion+ ' las propiedades del objeto correspondientes.')
-        },
-
-        actualizarDescripcion : function(NDescripcion) {
-            _descripcion: NDescripcion ;
-        },
-
-        actualizarValor : function(NValor) {
-            if(actualizarPresupuesto(NValor) >= 0)
-                _valor: NValor;
-        }
-    }
-    
-    if(actualizarPresupuesto(valor) >= 0)
+function CrearGasto(descripcion, valor) {
+    if(valor <= 0 || isNaN(valor))
     {
-        _valor: 0;
-        _descripcion: descripcion;
+        valor = 0;
     }   
+
+    let gasto = {
+        valor: valor,
+        descripcion: descripcion,
+        mostrarGasto() {
+            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
+        },
+
+        actualizarDescripcion(NDescripcion) {
+            this.descripcion = NDescripcion;
+        },
+
+        actualizarValor(NValor) {
+            if(NValor > 0)
+                this.valor = NValor;
+        }
+    };
+
+    return gasto;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
