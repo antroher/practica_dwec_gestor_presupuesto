@@ -5,48 +5,48 @@ var presupuesto = 0;
 
 
 function actualizarPresupuesto(NewValu) {
-let devolver = 0;
-    if(presupuesto >= NewValue)
+    
+    if(NewValu >= 0)
     {
-        presupuesto = NewValue;
-        devolver = presupuesto;
+        presupuesto = NewValu;
     }
     else
     {
-        console.log("Error, NewValue negativo invalido");
-        devolver = -1;
+        console.log(`Error, ${NewValu} negativo invalido`);
+        NewValu = -1;
+       
     }
-    return devolver;
+    return NewValu;
 }
 
 function mostrarPresupuesto() {
-    console.log ("Tu presupuesto actual es de" + presupuesto + "€, siendo" +
-    presupuesto + "el NewValu de la variable global presupuesto");
+    console.log (`Tu presupuesto actual es de ${presupuesto} €`);
+    return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
-function CrearGasto(NewValu,NewDescriptio) {
-    if(NewValue < 0 || isNaN(NewValue)){
-        NewValue = 0;
+function CrearGasto(NewDescriptio,NewValu) {
+    if(NewValu < 0 || isNaN(NewValu)){
+        NewValu = 0;
     }
     let gasto = {
-        descripcion: NewDescription,
-        valor: NewValue,
+        descripcion: NewDescriptio,
+        valor: NewValu,
 
         mostrarGasto(){
-            console.log("Gasto correspondiente a "+ descripcion + "con " + NewValue +" €");
-            return ("Gasto correspondiente a "+ descripcion + "con " + NewValue +" €")
+            console.log("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor +" €");
+            return ("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor +" €")
         },
-        actualizarDescripcion(NewDescription){
-            this.descripcion = NewDescription;
+        actualizarDescripcion(NewDescript){
+            this.descripcion = NewDescript;
         },
-        actualizarValor(NewValue){
-            let devolver;
-            if(NewValue >= 0)
+        actualizarValor(NewVal){
+
+            if(NewVal >= 0)
             {
-                this.valor = NewValue;
+                this.valor = NewVal;
             }
         }
-    }
+    };
     return gasto;
 }
 
