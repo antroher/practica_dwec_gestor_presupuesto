@@ -26,34 +26,33 @@ function mostrarPresupuesto() {
 }
 
 function CrearGasto(midescripcion, mivalor) {
-    let gasto = {
-    descripcion : midescripcion,
-    valor : parseFloat(mivalor),
+    if(mivalor < 0 || isNaN(mivalor))
+    {
+        mivalor = 0;
+    }
     
-    MostrarGasto : function(){
-        console.log("Gasto correspondiente a "+ gasto.descripcion + " con valor " + gasto.valor + " €");
+    let gasto = {
+    descripcion: midescripcion,
+    valor: parseFloat(mivalor),
+    
+    mostrarGasto() {
+        console.log("Gasto correspondiente a "+ gasto.descripcion + " con valor " + gasto.valor + " €")
         return ("Gasto correspondiente a "+ gasto.descripcion + " con valor " + gasto.valor + " €");
     },
 
-    actualizarDescripcion: function(ladescripcion){
-        descripcion = ladescripcion;
+    actualizarDescripcion(ladescripcion) {
+        this.descripcion = ladescripcion;
     },
-    actualizarValor : function(elvalor)
+    actualizarValor(elvalor) 
     {
         if(elvalor >= 0)
         {
-        valor = elvalor;
+         this.valor = elvalor;
         }
     }
     };
     
-    if(gasto.valor < 0){
-        gasto.valor = 0;
-
-    }
-    else{
-        gasto.valor = valor;
-    }
+   
     return gasto;
 
 }
