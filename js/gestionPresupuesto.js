@@ -4,16 +4,16 @@
 var presupuesto = 0;
 
 
-function actualizarPresupuesto(Numero) {
+function actualizarPresupuesto(NewValu) {
 let devolver = 0;
-    if(presupuesto >= Numero)
+    if(presupuesto >= NewValue)
     {
-        presupuesto = Numero;
+        presupuesto = NewValue;
         devolver = presupuesto;
     }
     else
     {
-        console.log("Error, Numero negativo invalido");
+        console.log("Error, NewValue negativo invalido");
         devolver = -1;
     }
     return devolver;
@@ -21,31 +21,33 @@ let devolver = 0;
 
 function mostrarPresupuesto() {
     console.log ("Tu presupuesto actual es de" + presupuesto + "€, siendo" +
-    presupuesto + "el Numero de la variable global presupuesto");
+    presupuesto + "el NewValu de la variable global presupuesto");
 }
 
-function CrearGasto(Numero,Cadena) {
+function CrearGasto(NewValu,NewDescriptio) {
+    if(NewValue < 0 || isNaN(NewValue)){
+        NewValue = 0;
+    }
     let gasto = {
-        descripcion: Cadena,
-        valor: Numero,
+        descripcion: NewDescription,
+        valor: NewValue,
 
         mostrarGasto(){
-            console.log("Gasto correspondiente a "+ descripcion 
-                +"con " + Numero+" €");
+            console.log("Gasto correspondiente a "+ descripcion + "con " + NewValue +" €");
+            return ("Gasto correspondiente a "+ descripcion + "con " + NewValue +" €")
         },
-        actualizarDescripcion(descripcion){
-            descripcion = descripcion;
-            return descripcion;
+        actualizarDescripcion(NewDescription){
+            this.descripcion = NewDescription;
         },
-        actualizarValor(valor){
+        actualizarValor(NewValue){
             let devolver;
-            if(valor >= 0)
+            if(NewValue >= 0)
             {
-                devolver = valor;
+                this.valor = NewValue;
             }
-            return devolver;
         }
     }
+    return gasto;
 }
 
 
