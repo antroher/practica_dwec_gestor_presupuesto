@@ -17,18 +17,30 @@ function mostrarPresupuesto() {
 }
 
 function CrearGasto(valor, descripcion) {
-    let gasto = {
-        _valor=valor,
-        _descripcion=descripcion
+    const gasto = {
+        _valor: valor,
+        _descripcion: descripcion,
+        mostrarGastos : function() {
+            return ('Gasto correspondiente a '+descripcion+' con valor '+valor+' €, siendo '+
+            valor+' y '+descripcion+ ' las propiedades del objeto correspondientes.')
+        },
+
+        actualizarDescripcion : function(NDescripcion) {
+            _descripcion: NDescripcion ;
+        },
+
+        actualizarValor : function(NValor) {
+            if(actualizarPresupuesto(NValor) >= 0)
+                _valor: NValor;
+        }
     }
     
-    if(actualizarPresupuesto(valor) != -1)
+    if(actualizarPresupuesto(valor) >= 0)
     {
-        _valor = 0;
-        _descripcion = descripcion;
+        _valor: 0;
+        _descripcion: descripcion;
     }   
 }
-
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
