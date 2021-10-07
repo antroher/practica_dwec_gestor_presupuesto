@@ -6,20 +6,23 @@ var presupuesto = 0;
 
 function actualizarPresupuesto(valor) {
     // TODO
-    if(presupuesto < 0)
+    let valorfinal;
+    if(valor < 0 || isNaN(valor))
     {
         console.log("Error, el presupuesto no puede ser menor que 0");
-        return -1;
+        valorfinal = -1;
     }
     else
     {
         presupuesto = valor;
-        return presupuesto;
+        valorfinal = presupuesto;
     }
+    return valorfinal;
 }
 
 function mostrarPresupuesto() {
     console.log("Tu presupuesto actual es de " + presupuesto + " €");
+    return ("Tu presupuesto actual es de " + presupuesto + " €");
 }
 
 function CrearGasto(midescripcion, mivalor) {
@@ -28,7 +31,8 @@ function CrearGasto(midescripcion, mivalor) {
     valor : parseFloat(mivalor),
     
     MostrarGasto : function(){
-        console.log("Gasto correspondiente a "+ gasto.descripcion + " con valor " + gasto.valor + " €")
+        console.log("Gasto correspondiente a "+ gasto.descripcion + " con valor " + gasto.valor + " €");
+        return ("Gasto correspondiente a "+ gasto.descripcion + " con valor " + gasto.valor + " €");
     },
 
     actualizarDescripcion: function(ladescripcion){
