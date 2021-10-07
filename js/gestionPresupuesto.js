@@ -1,56 +1,63 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 "use strict"
-class Gasto {
-    constructor (d, v) {
-        this.descripcion = d;
-        this.valor = v;
-    }
-
-    mostrarGasto() {
-        console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
-    }
-    
-    actualizarDescripcion(d) {
-        this.descripcion = d;
-    }
-    
-    actualizarValor(v) {
-        if (parseFloat(v) >= 0) {
-            this.valor = v;
-        }
-    }
-}
-
-// TODO: Variable global
 var presupuesto = 0;
 
-function actualizarPresupuesto(pres) {
-    if (pres > 0){
-        presupuesto = pres;
-    } else {
-        console.log("¡ERROR! Valor no válido");
-        return -1;
+
+function actualizarPresupuesto(valor) {
+    let val = parseFloat(valor);
+    if (val >= 0) {
+        presupuesto = val;
     }
+
+    else {
+       console.log('Error. Presupuesto negativo');
+       val = -1;
+    }
+    return val;
 }
 
 function mostrarPresupuesto() {
-    return (`Tu presupuesto actual es de ${presupuesto} €`);
+    return(`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto(d, v) {
-    let gasto = new Gasto();
-    if (parseFloat(v) >= 0) {
-        Gasto(d, v);
+function CrearGasto(descr, val) {
+    let val_ = parseFloat(val);
+    if (val_ < 0 || isNaN(val_)) {
+        val_ = 0;
+    }
+
+let gasto = {
+	descripcion: descr,
+    valor : val_,
+
+    mostrarGasto() {
+        return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+    },
+
+    actualizarDescripcion(nuevaDes) {
+        this.descripcion = nuevaDes;
+    },
+
+    actualizarValor(nuevoValor) {
+        let value = parseFloat(nuevoValor);
+        if (value >= 0) {
+            this.valor = value;
         }
-         else {
-            gasto(d, 0);
-            }        
-    return (this.gasto);
+    }
+};
+    return gasto;
 }
 
-
-
-
+/*function gasto(d,v) {
+    
+    this.descripcion = d;
+    if (this.valor >=0)
+    {
+        this.valor = v;
+    }
+    else
+    this.valor = 0;
+}*/
 
 
 
