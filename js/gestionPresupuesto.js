@@ -4,23 +4,23 @@ var presupuesto = 0;
 
 
 function actualizarPresupuesto(valores) {
-    let DevolverValor;
-    if(valores > 0)
+    let DevolverValor = 0;
+    if(valores < 0 || isNaN(valores))
+    {
+        console.log("Error numero negativo");
+        DevolverValor = -1;        
+    }
+    else
     {
         presupuesto = valores;
         DevolverValor = presupuesto;
     }
-    else
-    {
-        alert("Error numero negativo")
-        DevolverValor = -1;
-    }
     return DevolverValor;
-    }
+}
 
 function mostrarPresupuesto() {  
-     console.log(`Tu presupuesto actual es de: ${presupuesto}`)
-     return(`Tu presupuesto actual es de: ${presupuesto}`)
+     console.log(`Tu presupuesto actual es de ${presupuesto} €`)
+     return(`Tu presupuesto actual es de ${presupuesto} €` )
 
 }
 
