@@ -3,46 +3,45 @@
 // TODO: Variable global
 var presupuesto = 0;
 
-
-function actualizarPresupuesto(presupuesto) {
+function actualizarPresupuesto(nuevopresupuesto) {
     // TODO
-    let a = prompt("Introduzca el valor del presupuesto: ");
-
-    if(isNaN(a))
-    {
-        console.log("ERROR El valor introducido no es un número");
+    if(nuevopresupuesto > 0) {
+        presupuesto = nuevopresupuesto;
+    } else {
+        console.log("Error");
         return -1;
     }
-    else
-    {
-        if (a > 0)
-        {
-            presupuesto = a;
-            return presupuesto;
-        }
-        else
-        {
-            console.log("ERROR El valor introducido es negativo");
-            return -1;
-        }
-    }
+    return presupuesto;
 }
 
 function mostrarPresupuesto() {
     // TODO
-    let mensaje = ("Tu presupuesto actual es de " + presupuesto + " €");
-    return mensaje;
+    return(`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto() {
+function CrearGasto(descripcion, valor) {
     // TODO
-    let gasto = new Object();
-    let valor = 0;
+    if(valor < 0 || isNaN(valor)){
+       valor = 0;
+    }   
+    let gasto = {
+        valor : valor,
+        descripcion : descripcion,
 
-    if(gasto < 0)
-        valor = gasto;
-    else
-        return gasto;
+        mostrarGasto : function() {
+            return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+        },
+        actualizarDescripcion : function(descripcion) {
+            this.descripcion  = descripcion;
+        },
+        actualizarValor : function(valor) {
+            if(valor > 0){
+                this.valor = valor;
+            }            
+        }
+
+    }
+    return gasto;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
