@@ -4,9 +4,8 @@ var presupuesto = 0;
 
 
 function actualizarPresupuesto(v) {
-    let v1 = parseFloat(v);
-    if (v1 >= 0) {
-        presupuesto = v1;
+    if (v >= 0) {
+        presupuesto = v;
         return presupuesto;
     }
 
@@ -21,15 +20,14 @@ function mostrarPresupuesto() {
     return(`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto(d, v1) {
-    let v2 = parseFloat(v1);
-    if (v2 < 0 || isNaN(v2)) {
-        v2 = 0;
+function CrearGasto(d, v) {
+    if (parseFloat(v) < 0 || isNaN(v)) {
+        v = 0;
     }
 
     let gasto = {
         descripcion: d,
-        valor : v2,
+        valor : v,
 
         mostrarGasto() {
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
