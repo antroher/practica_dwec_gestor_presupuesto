@@ -18,8 +18,8 @@ function actualizarPresupuesto(valor) {
 }
 
 function mostrarPresupuesto() {
-    console.log(`Tu presupuesto actual es de ${presupuesto} €.`);
-    return `Tu presupuesto actual es de ${presupuesto} €.`;
+    console.log(`Tu presupuesto actual es de ${presupuesto} €`);
+    return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
 function CrearGasto(descripcionEntrante, valorEntrante) {
@@ -32,8 +32,8 @@ function CrearGasto(descripcionEntrante, valorEntrante) {
         valor: parseFloat(valorEntrante),
 
         mostrarGasto() {
-            console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`);
-            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`;
+            console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
         },
 
         actualizarDescripcion(nuevaDescripcion) {
