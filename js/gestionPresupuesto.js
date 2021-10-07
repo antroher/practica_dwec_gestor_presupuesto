@@ -4,15 +4,13 @@
 "use strict"
 var presupuesto = 0;
 
-function actualizarPresupuesto(presupuesto) {
+function actualizarPresupuesto(presupuesto1) {
     // TODO
     let number = 0;
-    if(presupuesto >= 0)
-    {
+    if(presupuesto1 >= 0) {
+        presupuesto = presupuesto1;
         number = presupuesto;
-    }
-    else
-    {
+    } else {
         console.log("Los presupuestos son negativos");
         number = -1;
     }
@@ -21,24 +19,32 @@ function actualizarPresupuesto(presupuesto) {
 
 function mostrarPresupuesto() {
     // TODO
-    return("Tu presupuesto actual es de " + presupuesto + "€");
+    return(`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto(valor) {
+function CrearGasto(valor, descripcion) {
     // TODO
-    let gasto = new Object();
-
-    if(valor >= 0)
-    {
-        return gasto;
-    }
-    else{
+    if(isNaN(valor) || valor < 0 ){
         valor = 0;
-    }
-    
+    }    
+
     let gasto = {
-        descipcion
-    }
+        descripcion : descripcion,
+        valor : valor,
+
+        mostrarGasto : function(){
+            return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+        },
+        actualizarDescripcion : function(descripcion1){
+            this.descripcion = descripcion1;
+        },
+        actualizarValor : function(valor1){
+            if(valor >= 0 ) {
+                this.valor = valor1;
+            }    
+        }
+    };
+        return gasto;
     
 }
 
