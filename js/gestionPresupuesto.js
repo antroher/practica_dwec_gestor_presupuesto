@@ -11,6 +11,9 @@ function actualizarPresupuesto() {
         num = -1;
         alert(`ERROR. El valor debe ser positivo`);
     }
+    else
+        presupuesto = num;
+    return actualizarPresupuesto;
 }
 
 function mostrarPresupuesto() {
