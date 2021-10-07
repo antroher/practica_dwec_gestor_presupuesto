@@ -38,9 +38,8 @@ function CrearGasto(d, v) {
         },
 
         actualizarValor(val) {
-            let value = parseFloat(val);
-            if (value >= 0) {
-                this.valor = value;
+            if (parseFloat(val) >= 0) {
+                this.valor = parseFloat(val);
             }
         }
     };
