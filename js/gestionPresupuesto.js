@@ -24,7 +24,7 @@ function mostrarPresupuesto() {
 }
 
 function CrearGasto(descripcion1, valor1) {
-    if (valor1 < 0 || isNan(valor1))
+    if (valor1 < 0 || isNaN(valor1))
     {
         valor1 = 0;
     }
@@ -39,8 +39,6 @@ function CrearGasto(descripcion1, valor1) {
             this.descripcion = nuevaDesc;
         },
         actualizarValor(nuevoNum) {
-            let valorDev;
-
             if(nuevoNum >= 0)
                 {
                     this.valor = nuevoNum;
