@@ -35,15 +35,15 @@ function CrearGasto(descripcion1, valor1) {
             console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
             return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
         },    
-        actualizarDescripcion(nuevo){
-            this.descripcion = nuevo;
+        actualizarDescripcion(nuevaDesc) {
+            this.descripcion = nuevaDesc;
         },
-        actualizarValor(nuevoNumero){
+        actualizarValor(nuevoNum) {
             let valorDev;
 
-            if(nuevo >= 0)
+            if(nuevoNum >= 0)
                 {
-                    this.valor = nuevo;
+                    this.valor = nuevoNum;
                 }
         }
     };
