@@ -5,57 +5,53 @@
 var presupuesto = 0;
 //COMENTARIO PARA PRIMER COMMIT Y COMPROBAR VERSIONES
 
-function actualizarPresupuesto(value) {
+function actualizarPresupuesto(valor) {
     //TODO
-    let comeBack = 0;
-    if(value < 0){
+    let retorno = 0;
+    if(valor < 0 ||isNaN(valor)){
         console.log("ERROR, es un número negativo");
-        comeBack = -1;
-    }
-    else if(isNaN(value))
-    {
-        console.log("ERROR, carácter invalido");
-        comeBack = -1;
+        retorno = -1;
+    
     }else{
-        budget = value;
-        comeBack = presupuesto;
+        presupuesto = value;
+        retorno = presupuesto;
     }
-    return comeBack;
+    return retorno;
 
 }
 
 function mostrarPresupuesto() {
     // TODO
-    console.log(`Presupuesto actual: ${budget}€`);
-    return (`Presupuesto actual: ${budget}€`);
+    console.log(`Presupuesto actual: ${presupuesto}€`);
+    return (`Presupuesto actual: ${presupuesto}€`);
 }
 
-function CrearGasto(value, description) {
+function CrearGasto(descripcion1, valor1) {
     // TODO
-    if(value1 < 0 || isNaN(value1)){
+    if(valor1 < 0 || isNaN(valor1)){
 
-        value1 = 0;
+        valor1 = 0;
     }//Con esto comprobamos que value1 no sea negativo ni sea un string
     
     let gasto = { //ESTAR ATENTO CON LOS = CUANDO SE DECLARAN CONSTRUCTORES
-        value: value, 
-        description: description, //Esto hace referencia a las propiedades que tiene el objeto y se le asignan por parametro una vez recurrimos al constructor
+        valor: valor1, 
+        descripcion: descripcion1, //Esto hace referencia a las propiedades que tiene el objeto y se le asignan por parametro una vez recurrimos al constructor
         
         //A continuación los métodos que van ligados al constructor
         mostrarGasto(){
-            console.log (`Gasto correspondiente a ${this.description} con valor ${this.value} €.`);
-            return (`Gasto correspondiente a ${this.description} con valor ${this.value} €.`);
+            console.log (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`);
+            return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`);
         },
-        actualizarDescripcion(nDescription){
-            this.description = nDescription;
+        actualizarDescripcion(nuevaDesc){
+            this.descripcion = nuevaDesc;
         },
-        actualizarValor(nValue){
-            if(value1 < 0 || isNaN(value1)){
+        actualizarValor(nuevoValor){
+            if(valor1 < 0 || isNaN(valor1)){
 
                 console.log("El valor introducido no es correcto, introduzca un numero positivo");
 
             }else{
-                this.value = nValue;
+                this.valor = nuevoValor;
             }
         }
         
