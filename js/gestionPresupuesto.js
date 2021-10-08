@@ -1,51 +1,54 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
-let presupuesto = 0;
+var presupuesto = 0;
 
 
 
 function actualizarPresupuesto(valores) {
     // TODO
-    if(valores > 0)
+    let devolvimiento = 0;
+    if(valores < 0 || isNaN(valores))
     {
-        presupuesto = valores;
+        console.log("Error, es un número negativo")
+        devolvimiento = -1; 
     }
     else 
     {
-        alert("Error, es un número negativo")
-        return -1;
+        presupuesto = valores;
+        devolvimiento = presupuesto;
     }
+    return devolvimiento;
 }
 
 function mostrarPresupuesto() {
     // TODO
-    console.log("Tu presupuesto actual es de " + presupuesto + " € ");
-    return("Tu presupuesto actual es de " + presupuesto + " € ");
+    console.log("Tu presupuesto actual es de " + presupuesto + " €");
+    return("Tu presupuesto actual es de " + presupuesto + " €");
 
 }
 
 function CrearGasto(descripcion1, valor1) {
     // TODO
-    if(valor < 0 || isNaN(valor)) //Porque asi comprueba q no es un string
+    if(valor1 < 0 || isNaN(valor1)) //Porque asi comprueba q no es un string
     {
-        valor = 0;
+        valor1 = 0;
     }
     let gasto = { //Valor1 = a lo que introduce la funcion, y lo asigna a valor, para que forme parte del objeto(pq si no salen errores en el nmp)
         descripcion: descripcion1,
         valor: valor1,
         mostrarGasto(){
-            console.log("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + "€")
-            return("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + "€");
+            console.log("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €")
+            return("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €");
         
         },
         actualizarDescripcion(newdescripcion){
             this.descripcion = newdescripcion;
         },
         actualizarValor(newvalor){
-            if(newvalor < 0)
+            if(newvalor < 0 || isNaN(newvalor))
             {
-                return valor
+                console.log("El valor que has metido no es correcto, ponga un número positivo")
             }
             else
             {
