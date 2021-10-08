@@ -8,7 +8,7 @@ var presupuesto=0;
 function actualizarPresupuesto(presup) 
 {
     
-    if(detectarNegat(parseFloat(presup)) == false)
+    if(presup>=0)
     {
         presupuesto=presup;
         return presupuesto;
@@ -24,14 +24,14 @@ function actualizarPresupuesto(presup)
     
 }
 
-function mostrarPresupuesto(presup) 
+function mostrarPresupuesto() 
 {
-    return `Tu presupuesto actual es de: ${this.presupuesto}€`;
+    return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
 function CrearGasto(desc, val)
 {
-    if(detectarNegat(val) == true)
+    if(parseFloat(val)<0 || isNaN(val))
     {
         val=0;
     }
@@ -39,40 +39,26 @@ function CrearGasto(desc, val)
   let gasto={
       descripcion:desc,
       valor: val,
-      mostrarGasto()
+    mostrarGasto()
       {
-          return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
-      }
+          return(`Gasto correspondiente a ${gasto.descripcion} con valor ${gasto.valor} €`);
+      },
 
-    
-  };
+    actualizarDescripcion(desc)
+        {
+            gasto.descripcion=desc;
+        },
+
+    actualizarValor(val)
+            {
+            if(parseFloat(val)>0)
+                {
+                     gasto.valor=val;
+                }
+            }
+        } 
   return gasto;
 }
-
-function detectarNegat(num)
-{
-    if(num>=0)
-    {
-        return false;
-    }
-    else
-        return true;
-}
-
-function actualizarDescripcion(desc)
-{
-    gasto.descripcion=desc;
-}
-
-function actualizarValor()
-{
-    if(detectarNegat(val)==true)
-    {
-        gasto.valor=v;
-    }
-}
-
-
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
