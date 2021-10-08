@@ -1,53 +1,60 @@
-// TODO: Crear las funciones, objetos y variables indicadas en el enunciado
+'use strict'
 
-// TODO: Variable global
-"use strict"
 var presupuesto = 0;
 
-function actualizarPresupuesto(presupuesto1) {
-    // TODO
-    let number = 0;
-    if(presupuesto1 >= 0) {
-        presupuesto = presupuesto1;
-        number = presupuesto;
-    } else {
-        console.log("Los presupuestos son negativos");
-        number = -1;
+function actualizarPresupuesto(valor) {
+    let val = parseFloat(valor);
+
+    if (val >= 0) {
+        presupuesto = val;
     }
-    return number;
+
+    else {
+       console.log('Error. Presupuesto negativo');
+       val = -1;
+    }
+    return val;
 }
 
 function mostrarPresupuesto() {
-    // TODO
+
     return(`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto(valor, descripcion) {
-    // TODO
-    if(isNaN(valor) || valor < 0 ){
-        valor = 0;
-    }    
+function CrearGasto(descripcion, valor) {
+
+    let valor1 = parseFloat(valor);
+
+    if (valor1 < 0 || isNaN(valor1)) {
+        valor1 = 0;
+    }
 
     let gasto = {
-        descripcion : descripcion,
-        valor : valor,
+	    descripcion: descripcion,
+        valor : valor1,
 
-        mostrarGasto : function(){
+        mostrarGasto() {
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
         },
-        actualizarDescripcion : function(descripcion1){
-            this.descripcion = descripcion1;
+
+        actualizarDescripcion(newDescripcion) {
+
+            this.descripcion = newDescripcion;
         },
-        actualizarValor : function(valor1){
-            if(valor >= 0 ) {
-                this.valor = valor1;
-            }    
+
+        actualizarValor(newValor) {
+
+            let value = parseFloat(newValor);
+
+            if (value >= 0)
+            {
+                this.valor = value;
+            }
         }
     };
-        return gasto;
-    
-}
 
+    return gasto;
+}
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
