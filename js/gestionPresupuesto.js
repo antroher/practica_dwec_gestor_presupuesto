@@ -4,12 +4,11 @@
 // TODO: Variable global
 var presupuesto = 0;
 //COMENTARIO PARA PRIMER COMMIT Y COMPROBAR VERSIONES
-
 function actualizarPresupuesto(valor) {
     //TODO
     let retorno = 0;
     if(valor < 0 ||isNaN(valor)){
-        console.log("ERROR, es un número negativo")
+        console.log("Error, es un número negativo")
         retorno = -1;
     
     }else{
@@ -22,9 +21,11 @@ function actualizarPresupuesto(valor) {
 
 function mostrarPresupuesto() {
     // TODO
-    console.log(`Presupuesto actual: ${presupuesto}€`)
-    return (`Presupuesto actual: ${presupuesto}€`);
+    return `Tu presupuesto actual es de ${presupuesto} €`;
 }
+
+let valor1 = 0;
+let descripcion1 = 0;
 
 function CrearGasto(descripcion1, valor1) {
     // TODO
@@ -32,15 +33,17 @@ function CrearGasto(descripcion1, valor1) {
 
         valor1 = 0;
     }//Con esto comprobamos que value1 no sea negativo ni sea un string
+
     
+
     let gasto = { //ESTAR ATENTO CON LOS = CUANDO SE DECLARAN CONSTRUCTORES
         valor: valor1, 
         descripcion: descripcion1, //Esto hace referencia a las propiedades que tiene el objeto y se le asignan por parametro una vez recurrimos al constructor
         
         //A continuación los métodos que van ligados al constructor
         mostrarGasto(){
-            console.log (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`)
-            return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`);
+            console.log `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`
+            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`;
         },
         actualizarDescripcion(nuevaDesc){
             this.descripcion = nuevaDesc;
@@ -48,7 +51,7 @@ function CrearGasto(descripcion1, valor1) {
         actualizarValor(nuevoValor){
             if(nuevoValor < 0 || isNaN(nuevoValor)){
 
-                console.log("El valor introducido no es correcto, introduzca un numero positivo")
+                console.log("Error, es un número negativo")
 
             }else{
                 this.valor = nuevoValor;
