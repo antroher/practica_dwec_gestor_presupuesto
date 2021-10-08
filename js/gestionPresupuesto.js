@@ -18,7 +18,8 @@ function actualizarPresupuesto(num) {
 
 function mostrarPresupuesto() {
     let x = presupuesto;
-    mostrarPresupuesto(`Tu presupuesto actual es de ${x}€`);
+    let mensaje = `Tu presupuesto actual es de ${x}€`;
+    alert(mensaje);
 }
 
 function CrearGasto() {
