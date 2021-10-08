@@ -5,54 +5,52 @@
 let presupuesto= 0;
 
 function actualizarPresupuesto(valor) {
-    // TODO     
-    if(valor<0){
-         
-        console.log("Error al introducir el valor")
-        return -1;  
-             
+    if(parseFloat(valor) > 0){
+        presupuesto = valor;
+        return presupuesto;
+    }else{
+        console.log("El valor introducido es menor que 0.")
+        return -1;
     }
-    else{
-        return presupuesto = valor;
-    }
-    
-
 }
 
 function mostrarPresupuesto() {
     
-    let res = "Tu presupuesto actual es de " + presupuesto + " €";
-    return res;
+    return "Tu presupuesto actual es de " + presupuesto + " €";
+    
 }
 
-function CrearGasto(descrip, valoR) {
-    // TODO
-    valoR = parseFloat(valoR)
-    if (valoR < 0 || isNaN(valoR)){
-    valoR = 0;
-    }
-     let gasto = {
-        descripcion: descrip + "" ,
-        valor: valoR
-    };
-
-    gasto.mostrarGasto = function(){
-       return "Gasto correspondiente a " + gasto.descripcion + " con valor " + gasto.valor +" €";
-    };
-    gasto.actualizarValor = function(val){
-        
-        if (val >= 0){
-        gasto.valor = val;
+function CrearGasto(desc, val) {
+    let gasto;
+    if(parseFloat(val) > 0){
+        gasto = {
+            descripcion : desc,
+            valor : val
+        } 
+    }else{
+        gasto = {
+            descripcion : desc,
+            valor : 0
         }
-    };
-    gasto.actualizarDescripcion = function(descrip){
-        gasto.descripcion = descrip;
-    }; 
-     
-    
+    }
     
 
-   return gasto;
+    gasto.mostrarGasto = function() {
+        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
+    }
+
+    gasto.actualizarDescripcion = function(nuevaDesc){
+        this.descripcion = nuevaDesc;
+    }
+
+    gasto.actualizarValor = function(nuevoValor){
+        if(parseFloat(nuevoValor) > 0){
+            this.valor = nuevoValor;
+        }
+    }
+
+    return gasto;
+    
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
