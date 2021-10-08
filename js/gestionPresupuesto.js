@@ -3,49 +3,51 @@
 // TODO: Variable global
 
 var presupuesto='0';
-function actualizarPresupuesto(valor) {
+
+function actualizarPresupuesto(canti) {
     // TODO
-    if(valor>0)
+    if (canti > -1)
     {
-        presupuesto=valor;
+        return presupuesto = canti;
     }
-    else{
-        console.log("Error,ha introducido un valor negativo")
-        valor= -1;
-    } 
-    return presupuesto;
+    else
+    {
+        console.log("Error: ha introducido un valor negativo")
+         return -1;
+    }
 }
 function mostrarPresupuesto() {
     // TODO
-    let x=presupuesto;
-    console.log('Tu presupuesto es de '+ presupuesto+	'\u20AC')
+    let x = "Tu presupuesto actual es de " + presupuesto + " €";
+    return x;
 }
 
 
-function CrearGasto(descri,valor) {
+function CrearGasto(descri, v1) {
     // TODO
-    
-        this.descri = descri;
-        if(valor>=0) {
-            this.valor = valor;
-        }else{
-            this.valor = 0;
-        }
-        
-    
-        this.mostrarGasto = function () {
-            return `Gasto correspondiente a ${this.descri} con valor ${this.valor} €`;
-        }
-        this.actualizarDescripcion = function(nuevaDescripcion) {
-            this.descri=nuevaDescripcion;
-        }
-        this.actualizarValor = function(nuevoValor){
-            if(nuevoValor>=0){
-                this.valor=nuevoValor;
-            }
-    
-        }
+    v1 = parseFloat(v1)
+    if (v1 < 0 || isNaN(v1)){
+    v1 = 0;
+    }
+     let gasto = {
+        descripcion: descri + "" ,
+        valor: v1
+    };
 
+    //METODOS OBJETO GASTO
+    gasto.mostrarGasto = function(){
+       return "Gasto correspondiente a " + gasto.descripcion + " con valor " + gasto.valor +" €";
+    };
+    gasto.actualizarDescripcion = function(description){
+        gasto.descripcion = description;
+    }; 
+    gasto.actualizarValor = function(v2){
+        if (v2 >= 0){
+        gasto.valor = v2;
+        }
+    }; 
+
+   return gasto;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
