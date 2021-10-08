@@ -21,15 +21,18 @@ function actualizarPresupuesto(value) {
         comeBack = buget;
     }
     return comeBack;
-    
+
 }
 
 function mostrarPresupuesto() {
     // TODO
+    console.log(`Presupuesto actual: ${budget}€`);
+    return (`Presupuesto actual: ${budget}€`);
 }
 
 function CrearGasto() {
     // TODO
+    
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
