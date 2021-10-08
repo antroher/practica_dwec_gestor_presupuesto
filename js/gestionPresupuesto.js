@@ -9,7 +9,7 @@ function actualizarPresupuesto(valor) {
     //TODO
     let retorno = 0;
     if(valor < 0 ||isNaN(valor)){
-        console.log("ERROR, es un número negativo");
+        console.log("ERROR, es un número negativo")
         retorno = -1;
     
     }else{
@@ -22,7 +22,7 @@ function actualizarPresupuesto(valor) {
 
 function mostrarPresupuesto() {
     // TODO
-    console.log(`Presupuesto actual: ${presupuesto}€`);
+    console.log(`Presupuesto actual: ${presupuesto}€`)
     return (`Presupuesto actual: ${presupuesto}€`);
 }
 
@@ -39,16 +39,16 @@ function CrearGasto(descripcion1, valor1) {
         
         //A continuación los métodos que van ligados al constructor
         mostrarGasto(){
-            console.log (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`);
+            console.log (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`)
             return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`);
         },
         actualizarDescripcion(nuevaDesc){
             this.descripcion = nuevaDesc;
         },
         actualizarValor(nuevoValor){
-            if(valor1 < 0 || isNaN(valor1)){
+            if(nuevoValor < 0 || isNaN(nuevoValor)){
 
-                console.log("El valor introducido no es correcto, introduzca un numero positivo");
+                console.log("El valor introducido no es correcto, introduzca un numero positivo")
 
             }else{
                 this.valor = nuevoValor;
