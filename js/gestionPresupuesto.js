@@ -1,34 +1,78 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
+'use strict'
+
 var presupuesto = 0;
 
-function actualizarPresupuesto() 
-{
-    if(presupuesto >= valor) 
-    {
-        return presupuesto;
+
+function actualizarPresupuesto(valor) {
+
+    let val1 = parseFloat(valor);
+
+    if (val1 >= 0) {
+
+        presupuesto = val1;
+
     }
-    else
-    {
-        return -1;
+
+    else {
+       console.log('Error. Presupuesto negativo');
+       val1 = -1;
+
     }
+
+    return val1;
 }
 
-function mostrarPresupuesto() 
-{
-    return("Tu presupuesto actual es de " + presupuesto + "€");
+function mostrarPresupuesto() {
+
+    return(`Tu presupuesto actual es de ${presupuesto} €`);
+
 }
 
-function CrearGasto(valor, descripcion) 
-{
-    if(actualizarPresupuesto(valor)!= 1)
-    {
-        _valor = 0;
+function CrearGasto(descrip, val) {
+
+    let val_ = parseFloat(val);
+
+    if (val_ < 0 || isNaN(val_)) {
+
+        val_ = 0;
     }
 
-    _valor = valor;
-    _descripcion = descripcion;
+    let gasto = {
+
+	descripcion: descrip,
+
+        valor : val_,
+
+
+        mostrarGasto() {
+
+            return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+
+        },
+
+        actualizarDescripcion(newDes) {
+
+            this.descripcion = newDes;
+
+        },
+
+        actualizarValor(newValor) {
+
+            let value = parseFloat(newValor);
+
+            if (value >= 0)
+            {
+                this.valor = value;
+            }
+
+        }
+
+    };
+
+    return gasto;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
