@@ -5,7 +5,7 @@
 var presupuesto = 0; // TODO: Variable global
 
 
-function actualizarPresupuesto() {
+function actualizarPresupuesto(num) {
     let num = parseInt(prompt("Introduce un valor positivo"));
     if (num < 0) {
         num = -1;
@@ -13,11 +13,12 @@ function actualizarPresupuesto() {
     }
     else
         presupuesto = num;
-    return actualizarPresupuesto;
+    return actualizarPresupuesto(num);
 }
 
 function mostrarPresupuesto() {
-    // TODO
+    let x = presupuesto;
+    mostrarPresupuesto(`Tu presupuesto actual es de ${x}€`);
 }
 
 function CrearGasto() {
