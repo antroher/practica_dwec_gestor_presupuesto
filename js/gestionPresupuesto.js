@@ -2,7 +2,7 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
-var budget = 0;
+var presupuesto = 0;
 //COMENTARIO PARA PRIMER COMMIT Y COMPROBAR VERSIONES
 
 function actualizarPresupuesto(value) {
@@ -18,7 +18,7 @@ function actualizarPresupuesto(value) {
         comeBack = -1;
     }else{
         budget = value;
-        comeBack = buget;
+        comeBack = presupuesto;
     }
     return comeBack;
 
@@ -37,7 +37,7 @@ function CrearGasto(value, description) {
         value1 = 0;
     }//Con esto comprobamos que value1 no sea negativo ni sea un string
     
-    let expenditure = { //ESTAR ATENTO CON LOS = CUANDO SE DECLARAN CONSTRUCTORES
+    let gasto = { //ESTAR ATENTO CON LOS = CUANDO SE DECLARAN CONSTRUCTORES
         value: value, 
         description: description, //Esto hace referencia a las propiedades que tiene el objeto y se le asignan por parametro una vez recurrimos al constructor
         
@@ -60,7 +60,7 @@ function CrearGasto(value, description) {
         }
         
     };
-    return expenditure
+    return gasto;
 } 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
