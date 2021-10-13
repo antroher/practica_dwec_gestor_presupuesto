@@ -9,7 +9,7 @@ function actualizarPresupuesto(pre){
     if(pre>=0)
     {
         presupuesto= pre;
-      return presupuesto;
+        return presupuesto;
     }
     else
     {
