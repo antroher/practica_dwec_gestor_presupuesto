@@ -56,7 +56,7 @@ function calcularBalance() {
 }
 
 //Función constructora
-function CrearGasto(descripcion, valor) {
+function CrearGasto(descripcion, valor, ...etiquetas) {
     if (isNaN(valor) || valor < 0) {
         valor = 0;
     }
@@ -64,8 +64,8 @@ function CrearGasto(descripcion, valor) {
     const gasto = {
         valor : valor,
         descripcion : descripcion,
-        fecha : new Date(), 
-        etiquetas : [],
+        fecha : new Date().getDate(),
+        etiquetas : etiquetas,
 
         mostrarGasto : function() {
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
@@ -87,30 +87,30 @@ function CrearGasto(descripcion, valor) {
             Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
             Fecha: ${this.fecha.toLocaleString()}
             Etiquetas:`;
-            for(const etiqueta in etiquetas) {
+            for(let etiqueta in etiquetas) {
                 texto = texto + `\" - ${etiqueta}`;
             };
             return texto;
         },
 
         actualizarFecha : function(newFecha) {
-            if (Date.parse(newFecha)) {
+            if (Date.parse(newFecha) === true) {
                 gasto.fecha = Date.parse(newFecha);
             };
         },
 
-        anyadirEtiquetas : function(...param) {
+        anyadirEtiquetas : function(...etiquetas) {
             //Este método de Array hace que no se guarden los valores repetidos
-            valoresUnicos = Array.from(new Set(param));
+            let valoresUnicos = Array.from(new Set(etiquetas));
             valoresUnicos.forEach((x) => {
                 etiquetas.push(x);
             })
         }, 
 
-        borrarEtiquetas : function(...param) {
-            param.forEach((x) => {
+        borrarEtiquetas : function(...etiquetas) {
+            etiquetas.forEach((x) => {
                 for (let i = 0; i < etiquetas.length; i++) {
-                    if (etiquetas[i] === x[i]) {
+                    if (etiquetas[i] === x) {
                         etiquetas.splice(i, 1);
                     }
                 }
