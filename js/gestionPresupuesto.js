@@ -3,8 +3,8 @@
 
 let presupuesto = 0;
 
-function actualizarPresupuesto(valor) {
-
+function actualizarPresupuesto(valor)
+{
     if (valor >= 0)
     {
         presupuesto = valor;
@@ -16,13 +16,16 @@ function actualizarPresupuesto(valor) {
         console.log("ERROR -> Valor negativo.");
         return -1;
     }
+     return (presupuesto >= 0) ? presupuesto : -1; 
 }
 
-function mostrarPresupuesto() {
+function mostrarPresupuesto()
+{
     return "Tu presupuesto actual es de " + presupuesto + " €";
 }
 
-function CrearGasto(discount, value) {
+function CrearGasto(discount, value)
+{
     if (value < 0 || isNaN(value)) value = 0;
 
     let expense =
@@ -32,7 +35,7 @@ function CrearGasto(discount, value) {
 
         mostrarGasto:function()
         {
-            return "Your expense in "+ this.descripcion+" values " + this.valor + "€";
+            return "Gasto correspondiente a " + this.descripcion+" con valor " + this.valor + " €";
         },
 
         actualizarDescripcion:function(discount)
@@ -45,6 +48,7 @@ function CrearGasto(discount, value) {
             if (parseFloat(dato) > 0) this.valor = dato;
         }
     };
+
     return expense;
 }
 
