@@ -51,7 +51,10 @@ function CrearGasto(descripcion1, valor1) {
     return gasto;
 }
 
-function listarGastos
+function listarGastos()
+{
+    return gastos;
+}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -59,10 +62,10 @@ function listarGastos
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
-    listarGastos
-    anyadirGasto
-    borrarGasto
-    calcularTotalGastos
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
     calcularBalance
 }
