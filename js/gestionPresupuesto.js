@@ -4,9 +4,9 @@ var presupuesto = 0;
 var gastos = [];
 var idGasto = 0;
 
-function actualizarPresupuesto(v) {
-    if (v >= 0) {
-        presupuesto = v;
+function actualizarPresupuesto(val) {
+    if (val >= 0) {
+        presupuesto = val;
         return presupuesto;
     }
 
@@ -21,38 +21,57 @@ function mostrarPresupuesto() {
     return(`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto(d, v) {
-    if (parseFloat(v) < 0 || isNaN(v)) {
-        v = 0;
+function CrearGasto(des, val, eti, fec) {
+    if (parseFloat(val) < 0 || isNaN(val)) {
+        val = 0;
+    }
+
+    if (eti == "") {
+        this.etiquetas = [];
+    }
+
+    if (fec == "") {
+        this.fecha = getDate();
     }
 
     let gasto = {
-        descripcion: d,
-        valor : v,
+        descripcion: des,
+        valor: val,
+        fecha: fec,
+        etiquetas: eti,
 
         mostrarGasto() {
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
-        },
+        } ,
 
         actualizarDescripcion(des) {
             this.descripcion = des;
-        },
+        } ,
 
         actualizarValor(val) {
             if (parseFloat(val) >= 0) {
                 this.valor = parseFloat(val);
             }
+        } ,
+
+        actualizarFecha(fec) {
+            this.fecha = fec;
+        } ,
+
+        actualizarEtiqueta(eti) {
+            this.etiquetas = eti;
         }
     };
     return gasto;
 }
 
 function listarGastos() {
-    return 
+    return gastos;
 }
 
-function anyadirGasto() {
-
+function anyadirGasto(gas) {
+    
+    idGasto += 1;
 }
 
 function borrarGasto() {
