@@ -62,6 +62,18 @@ function borrarGasto(id) {
     }
 }
 
+function calcularTotalGastos() {
+    let result = 0;
+    gastos.forEach((x) => {
+        result = result + x.valor;
+    })
+    return result;
+}
+
+function calcularBalance() {
+    return presupuesto - calcularTotalGastos();
+}
+
 //Función constructora
 function CrearGasto(descripcion, valor) {
     if (isNaN(valor) || valor < 0) {
