@@ -56,7 +56,7 @@ function calcularBalance() {
 }
 
 //Función constructora
-function CrearGasto(descripcion, valor, ...etiquetas) {
+function CrearGasto(descripcion, valor = 0, fecha = new Date().getTime(), ...etiquetas) {
     if (isNaN(valor) || valor < 0) {
         valor = 0;
     }
@@ -64,7 +64,7 @@ function CrearGasto(descripcion, valor, ...etiquetas) {
     const gasto = {
         valor : valor,
         descripcion : descripcion,
-        fecha : new Date().getDate(),
+        fecha : fecha.toLocaleString(),
         etiquetas : etiquetas,
 
         mostrarGasto : function() {
@@ -83,12 +83,12 @@ function CrearGasto(descripcion, valor, ...etiquetas) {
 
         //Falta probar si funciona
         mostrarGastoCompleto : function() {
-            let texto =`
-            Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
-            Fecha: ${this.fecha.toLocaleString()}
-            Etiquetas:`;
-            for(let etiqueta in etiquetas) {
-                texto = texto + `\" - ${etiqueta}`;
+            
+            let texto =`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\n
+            Fecha: ${this.fecha}
+            Etiquetas:\n`;
+            for(let etiqueta of etiquetas) {
+                texto = texto + `- ${etiqueta}\n`;
             };
             return texto;
         },
@@ -101,17 +101,25 @@ function CrearGasto(descripcion, valor, ...etiquetas) {
 
         anyadirEtiquetas : function(...etiquetas) {
             //Este método de Array hace que no se guarden los valores repetidos
-            let valoresUnicos = Array.from(new Set(etiquetas));
-            valoresUnicos.forEach((x) => {
-                etiquetas.push(x);
+            // let valoresUnicos = Array.from(new Set(etiquetas));
+            // valoresUnicos.forEach((x) => {
+            //     this.etiquetas.push(x);
+            // })
+
+            this.etiquetas.forEach((x) => {
+                for (let i = 0; i < etiquetas; i++) {
+                    if (x.includes(etiquetas[i])) {
+                        etiquetas.splice(i, 1);
+                    }
+                }
             })
         }, 
 
         borrarEtiquetas : function(...etiquetas) {
             etiquetas.forEach((x) => {
-                for (let i = 0; i < etiquetas.length; i++) {
-                    if (etiquetas[i] === x) {
-                        etiquetas.splice(i, 1);
+                for (let i = 0; i < this.etiquetas.length; i++) {
+                    if (this.etiquetas[i] === x) {
+                        this.etiquetas.splice(i, 1);
                     }
                 }
             })
