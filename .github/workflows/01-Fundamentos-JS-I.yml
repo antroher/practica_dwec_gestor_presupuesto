@@ -1,4 +1,4 @@
-name: Ejecución de tests de la práctica
+name: 01 - Fundamentos de JS I - Tests
 
 on:
   push:
@@ -27,5 +27,5 @@ jobs:
         run: npm ci
       # Ejecución de los tests
       - name: Ejecutar tests
-        run: npm test
+        run: npm run test1
 
