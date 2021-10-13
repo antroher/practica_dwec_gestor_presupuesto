@@ -70,8 +70,9 @@ function listarGastos() {
 }
 
 function anyadirGasto(gas) {
-    
+    gas.id = idGasto;
     idGasto += 1;
+    gastos.push(gas);
 }
 
 function borrarGasto() {
