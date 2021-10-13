@@ -5,6 +5,7 @@ var presupuesto = 0;
 
 
 function actualizarPresupuesto(Numero) {
+    // TODO
 let devolver = 0;
     if(presupuesto >= Numero)
     {
@@ -20,30 +21,34 @@ let devolver = 0;
 }
 
 function mostrarPresupuesto() {
+    // TODO
     console.log ("Tu presupuesto actual es de" + presupuesto + "€, siendo" +
     presupuesto + "el Numero de la variable global presupuesto");
 }
 
 function CrearGasto(Numero,Cadena) {
+    // TODO
+    if(Numero < 0 || isNaN(Numero)){
+        Numero = 0;
+    }
     let gasto = {
         descripcion: Cadena,
         valor: Numero,
 
         mostrarGasto(){
-            console.log("Gasto correspondiente a "+ descripcion 
-                +"con " + Numero+" €");
+            console.log(`Gasto correspondiente a  ${descripcion} 
+            con valor  ${Numero} €`);
         },
-        actualizarDescripcion(descripcion){
-            descripcion = descripcion;
-            return descripcion;
+        actualizarDescripcion(newDescription){
+            this.descripcion = newDescription;
         },
-        actualizarValor(valor){
-            let devolver;
-            if(valor >= 0)
+        actualizarValor(newValue){
+            let RetournValue
+
+            if(newValue >= 0)
             {
-                devolver = valor;
+                this.valor = newValue;
             }
-            return devolver;
         }
     }
 }
