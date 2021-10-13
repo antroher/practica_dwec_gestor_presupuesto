@@ -1,14 +1,25 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 // TODO: Variable global
 
-let budget = 0;
+let presupuesto = 0;
 
-function actualizarPresupuesto(budget) {
-    return (budget >= 0) ? budget : -1;
+function actualizarPresupuesto(valor) {
+
+    if (valor >= 0)
+    {
+        presupuesto = valor;
+        return presupuesto;
+    }
+    
+    else
+    {
+        console.log("ERROR -> Valor negativo.");
+        return -1;
+    }
 }
 
 function mostrarPresupuesto() {
-    return "You current budget is " + budget + "€";
+    return "Tu presupuesto actual es de " + presupuesto + " €";
 }
 
 function CrearGasto(discount, value) {
@@ -29,8 +40,9 @@ function CrearGasto(discount, value) {
             if (discount != null && discount != "") this.descripcion=discount;
         },
 
-        actualizarValor:function(dato){
-            if (parseFloat(dato) >0 )this.valor = dato;
+        actualizarValor:function(dato)
+        {
+            if (parseFloat(dato) > 0) this.valor = dato;
         }
     };
     return expense;
