@@ -1,6 +1,8 @@
 'use strict'
 
 var presupuesto = 0;
+let gastos = [];
+idgasto = 0;
 
 function actualizarPresupuesto(valor) {
     let val = parseFloat(valor);
