@@ -28,20 +28,20 @@ function CrearGasto(descripcionEntrante, valorEntrante, fechaEntrante, ...etique
     if (valorEntrante < 0 || isNaN(valorEntrante)) {
         valorEntrante = 0;
     }
-    if (etiquetasEntrante === "") {
+    if (etiquetasEntrante.length === 0) {
         etiquetasEntrante = []
     }
     if (fechaEntrante === "" || typeof fechaEntrante !== "string") {
         let fechaObjeto = new Date();
         let fechaActual = fechaObjeto.getDate() + "/" + (fechaObjeto.getMonth() + 1) + "/" + fechaObjeto.getFullYear() + "T" + 
             fechaObjeto.getHours() + ":" + fechaObjeto.getMinutes();
-        fechaEntrante = Date.parse(fechaActual);
+        fechaEntrante = fechaActual;
     }
     else if (isNaN(Date.parse(fechaEntrante))){
         let fechaObjeto = new Date();
         let fechaActual = fechaObjeto.getDate() + "/" + (fechaObjeto.getMonth() + 1) + "/" + fechaObjeto.getFullYear() + "T" + 
             fechaObjeto.getHours() + ":" + fechaObjeto.getMinutes();
-        fechaEntrante = Date.parse(fechaActual);
+        fechaEntrante = fechaActual;
     }
     else {
         fechaEntrante = Date.parse(fechaEntrante);
@@ -50,8 +50,8 @@ function CrearGasto(descripcionEntrante, valorEntrante, fechaEntrante, ...etique
     let gasto = {
         descripcion: descripcionEntrante,
         valor: parseFloat(valorEntrante),
-        etiquetas: etiquetasEntrante.toLocaleString(),
-        fecha: fechaEntrante,
+        etiquetas: etiquetasEntrante,
+        fecha: fechaEntrante.toLocaleString(),
 
         mostrarGastoCompleto() {
             console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\n
