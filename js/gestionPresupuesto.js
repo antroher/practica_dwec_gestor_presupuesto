@@ -48,6 +48,32 @@ function CrearGasto(desc, val) {
     return gasto;
 }
 
+function listarGastos(gastos) {
+    
+}
+
+function CrearGasto() {
+    
+}
+
+function anyadirGasto() {
+    
+}
+
+function borrarGasto() {
+    
+}
+
+function calcularTotalGastos() {
+    
+}
+
+function calcularBalance() {
+    
+}
+
+
+
     
 
 
