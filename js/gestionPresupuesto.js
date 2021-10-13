@@ -3,6 +3,9 @@
 // TODO: Variable global
 
 var presupuesto='0';
+var gastos=[];
+var idGasto='0';
+
 
 function actualizarPresupuesto(canti) {
     // TODO
@@ -38,6 +41,14 @@ function CrearGasto(descri, v1) {
     gasto.mostrarGasto = function(){
        return "Gasto correspondiente a " + gasto.descripcion + " con valor " + gasto.valor +" €";
     };
+    gasto.mostrarGastoCompleto = function () 
+    {
+        let textoEtiquetas = "";
+        for(let i=0;i<gasto.etiquetas.length;i++){
+            textoEtiquetas = textoEtiquetas + `- ` + gasto.etiquetas[i] + `\n`;
+        }
+        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €\n Fecha: ${this.fecha.toLocaleString('es-ES')}\n Etiquetas: - ${textoEtiquetas}`;
+    }
     gasto.actualizarDescripcion = function(description){
         gasto.descripcion = description;
     }; 
@@ -49,6 +60,18 @@ function CrearGasto(descri, v1) {
 
    return gasto;
 }
+function listarGastos() 
+{
+    return gastos;
+}
+
+function anyadirGasto(gasto) {
+    gasto.id = idGasto;
+    idGasto++;
+    gastos.push(gasto);
+
+
+}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -57,4 +80,9 @@ export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
     CrearGasto
+    listarGastos
+    anyadirGasto
+    borrarGasto
+    calcularTotalGastos
+    calcularBalance
 }
