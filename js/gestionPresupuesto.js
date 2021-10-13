@@ -46,7 +46,7 @@ function CrearGasto(descripcion, valor) {
         valor = 0;
     }
 
-    let gasto = {
+    const gasto = {
         valor : valor,
         descripcion : descripcion,
 
