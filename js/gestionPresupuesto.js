@@ -28,15 +28,30 @@ function mostrarPresupuesto() {
     return (`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto(descripcion1, valor1) {
+function CrearGasto(descripcion1, valor1,fecha,etiquetas) {
 
     if(valor1 < 0 || isNaN(valor1)){
         valor1 = 0;
+    }
+    //parámetro vacío etiquetas
+    if((etiquetas == null) || (etiquetas == ""))
+    {
+        etiquetas = [];
+    }
+    typeof fecha == "string";
+    Date.parse(fecha);
+    //parámetro vacío fecha o no válido
+    if((fecha == null) || (fecha == "")|| (fecha != Date))
+    {
+        fecha = Date.now();
     }
 
     let gasto = {
             descripcion: descripcion1,
             valor: valor1,
+            timestamp: fecha,
+            G_etiquetas: etiquetas,
+            id: idGasto,
 
             mostrarGasto(){
                 console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
@@ -49,24 +64,33 @@ function CrearGasto(descripcion1, valor1) {
             },
 
             actualizarValor(nuevoValor){
-                let valorDevuelto;
 
                 if (nuevoValor >= 0){
                     this.valor = nuevoValor;
                 }
+            },
+            anyadirEtiquetas (etiquetas)
+            {
+                G_etiquetas.push(etiquetas);
             }
         };
-
         return gasto;
+        
 }
+let gasto1 = new CrearGasto("Gasto 1");
+let gasto2 = new CrearGasto("Gasto 2", 23.55);
+let gasto3 = new CrearGasto("Gasto 3", 23.55, "2021-10-06T13:10" );
+let gasto4 = new CrearGasto("Gasto 4", 23.55, "2021-10-06T13:10", "casa" );
+let gasto5 = new CrearGasto("Gasto 5", 23.55, "2021-10-06T13:10", "casa", "supermercado" );
+let gasto6 = new CrearGasto("Gasto 6", 23.55, "2021-10-06T13:10", "casa", "supermercado", "comida" );
 
 function listarGastos()
 {
-
+    return gastos;
 }
-function anyadirGasto()
+function anyadirGasto(id)
 {
-
+    idGasto++;
 }
 function borrarGasto()
 {
