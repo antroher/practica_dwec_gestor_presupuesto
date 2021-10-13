@@ -1,61 +1,90 @@
 let presupuesto = 0;
-
-
-function actualizarPresupuesto(presupuesto1)
+function actualizarPresupuesto(presupuesto1) 
 {
-    if (presupuesto<0)
-    {
-        alert('EL numero que has introducido no es valido');
-        return -1;
-    }
 
+  if (presupuesto1 == presupuesto)
+  {
+        return 0;
+  }
+    
+  else
+  {
+    if (isNaN(presupuesto1))
+    {
+        return -1;
+
+    }
     else
     {
-        presupuesto = presupuesto1;
-        return presupuesto;
+        if (presupuesto1>0)
+        {
+            presupuesto = presupuesto1;
+            return presupuesto;
+
+            
+        }
+    
+       
+        else if (presupuesto1 <0)
+        {
+            
+            return -1;
+        }
     }
+  }
+
+   
+
 
 }
 
-function mostrarPresupuesto()
-{
-    return 'Tu presupuesto actual es de ' + presupuesto;
+function mostrarPresupuesto() {
+    
+   return 'Tu presupuesto actual es de '+ presupuesto + ' €'
+    
 }
 
-function CrearGasto(descripcion, valor )
-{
-    if (valor<0)
-    {
-        valor=0;
-    }
+function CrearGasto() {
+    // TODO
+    
     let gasto = 
-    {}
-        obj.descripcion = descripcion;
-        obj.valor = valor;
+    {descripcion:'',
 
-        return gasto;
+    valor:0}
         
+       
+        return gasto; 
+    function mostrarGasto()
+    {
+        return 'Gasto correspondiente a '+ gasto.descripcion + 'con valor: ' + gasto.valor;
+    }
+
+    function actualizarDescripcion(descripcion)
+    {
+        gasto.descripcion = descripcion;
+        return gasto.descripcion;
+    }
     
+    function actualizarValor(valor)
+        {
+            gasto.valor = valor;
+            return valor;
+        }   
+
+
     
-}
 
-function mostrarGasto()
-{
-    return 'Gasto correspondiente a '+ gasto.descripcion + 'con valor: ' + gasto.valor;
-}
-
-function actualizarDescripcion(descripcion)
-{
-    gasto.descripcion = descripcion;
-    return gasto.descripcion;
 }
 
 
-function actualizarValor(valor)
-{
-    gasto.valor = valor;
-    return valor;
-}
+
+
+
+
+
+       
+        
+        
 
 
 
@@ -68,4 +97,3 @@ export   {
     actualizarPresupuesto,
     CrearGasto
 }
-
