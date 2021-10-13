@@ -23,6 +23,8 @@
 // }
 // TODO: Variable global
 var presupuesto = 0;
+var gastos = [];
+var idGasto = 0;
 
 function actualizarPresupuesto(newPresupuesto) {
     let newValor;
