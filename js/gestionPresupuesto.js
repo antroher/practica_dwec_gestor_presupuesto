@@ -48,6 +48,13 @@ function CrearGasto(NewDescriptio,NewValu) {
         }
     };
     return gasto;
+
+    //práctica 2
+    let gastos = new gastos();
+    let gastos = [];
+
+    //datos que introduce el usuario
+    gastos[prompt("¿Cúales son tus gastos?")];
 }
 
 
