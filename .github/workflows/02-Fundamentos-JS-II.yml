@@ -1,0 +1,31 @@
+name: 02 - Fundamentos de JS II - Tests
+
+on:
+  push:
+    # Ejecutar la acción al hacer un push a la rama "master"
+    branches: [ master ]
+  pull_request:
+    # Ejecutar la acción al hacer una pull request a la rama "master"
+    branches: [ master ]
+
+jobs:
+  build:
+
+    # Sistema Operativo de la máquina virtual que ejecutará los tests
+    runs-on: ubuntu-latest
+
+    steps:
+      # Paso 1: clonar el repositorio
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        # Paso 2: utilizar la versión de Node correspondiente
+        with:
+          node-version: '16'
+      
+      # npm ci es "clean install", parecido a "npm install" pero con una instalación limpia
+      - name: Instalar dependencias del proyecto
+        run: npm ci
+      # Ejecución de los tests
+      - name: Ejecutar tests
+        run: npm run test2
+
