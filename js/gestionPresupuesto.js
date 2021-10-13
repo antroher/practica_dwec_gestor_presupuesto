@@ -28,7 +28,7 @@ function actualizarPresupuesto(newPresupuesto) {
     let newValor;
 
     if (newPresupuesto >= 0) {
-        presupuesto = parseFloat(newPresupuesto);
+        presupuesto = newPresupuesto;
         newValor = presupuesto;
     } else {
         console.log("Error. Valor introducido no valido.");
@@ -46,7 +46,7 @@ function CrearGasto(descripcion, valor) {
         valor = 0;
     }
 
-    let gasto = {
+    const gasto = {
         valor : valor,
         descripcion : descripcion,
 
