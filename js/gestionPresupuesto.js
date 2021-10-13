@@ -106,6 +106,16 @@ function CrearGasto(descripcion, valor) {
                 etiquetas.push(x);
             })
         }, 
+
+        borrarEtiquetas : function(...param) {
+            param.forEach((x) => {
+                for (let i = 0; i < etiquetas.length; i++) {
+                    if (etiquetas[i] === x[i]) {
+                        etiquetas.splice(i, 1);
+                    }
+                }
+            })
+        }
     };
     
     return gasto;
