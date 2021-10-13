@@ -13,10 +13,9 @@ function actualizarPresupuesto(valor)
     
     else
     {
-        console.log("ERROR -> Valor negativo.");
+        console.log("ERROR. Valor negativo.");
         return -1;
     }
-     return (presupuesto >= 0) ? presupuesto : -1; 
 }
 
 function mostrarPresupuesto()
