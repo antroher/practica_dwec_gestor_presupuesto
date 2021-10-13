@@ -94,8 +94,18 @@ function CrearGasto(descripcion, valor) {
         },
 
         actualizarFecha : function(newFecha) {
-        
-        };
+            if (Date.parse(newFecha)) {
+                gasto.fecha = Date.parse(newFecha);
+            };
+        },
+
+        anyadirEtiquetas : function(...param) {
+            //Este método de Array hace que no se guarden los valores repetidos
+            valoresUnicos = Array.from(new Set(param));
+            valoresUnicos.forEach((x) => {
+                etiquetas.push(x);
+            })
+        }, 
     };
     
     return gasto;
