@@ -1,7 +1,8 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 "use strict"
 var presupuesto = 0;
-
+var gastos = [];
+var idGasto = 0;
 
 function actualizarPresupuesto(v) {
     if (v >= 0) {
@@ -47,7 +48,7 @@ function CrearGasto(d, v) {
 }
 
 function listarGastos() {
-
+    return 
 }
 
 function anyadirGasto() {
