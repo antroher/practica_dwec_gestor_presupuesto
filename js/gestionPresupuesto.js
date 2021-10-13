@@ -26,11 +26,11 @@ function CrearGasto(des, val, eti, fec) {
         val = 0;
     }
 
-    if (eti == "") {
+    if (eti === "") {
         this.etiquetas = [];
     }
 
-    if (fec == "") {
+    if (fec === "") {
         this.fecha = getDate();
     }
 
@@ -75,8 +75,12 @@ function anyadirGasto(gas) {
     gastos.push(gas);
 }
 
-function borrarGasto() {
-
+function borrarGasto(id) {
+    for (let i = 0; i < gastos.length; i++) {
+        if (gastos[i].id === id) {
+            gastos.splice(i, 1);
+        }
+    }
 }
 
 function calcularTotalGastos() {
