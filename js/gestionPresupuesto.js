@@ -2,8 +2,9 @@
 
 var presupuesto = 0;
 let gastos = [];
-idgasto = 0;
+let idgasto = 0;
 
+//Presupuestos
 function actualizarPresupuesto(valor) {
     let val = parseFloat(valor);
 
@@ -23,7 +24,8 @@ function mostrarPresupuesto() {
     return(`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto(descripcion, valor) {
+//Gastos
+function CrearGasto(descripcion, valor, fecha, etiquetas) {
 
     let valor1 = parseFloat(valor);
 
@@ -34,6 +36,8 @@ function CrearGasto(descripcion, valor) {
     let gasto = {
 	    descripcion: descripcion,
         valor : valor1,
+        fecha : new Date(),
+        etiquetas : [],
 
         mostrarGasto() {
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
@@ -57,11 +61,37 @@ function CrearGasto(descripcion, valor) {
 
     return gasto;
 }
+
+function listarGastos() {
+    return gastos;
+}
+
+function anyadirGasto(gasto) {
+    gasto.id = idgasto; 
+
+    idgasto++;
+
+    gastos.push(gasto);
+}
+
+function borrarGasto(id) {
+    for(let i = 0; i < gastos.length; i++) {
+        if(gastos[i].id === id) {
+            gastos.splice(i, 1);
+        }
+    }
+}
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance,
+
 }
