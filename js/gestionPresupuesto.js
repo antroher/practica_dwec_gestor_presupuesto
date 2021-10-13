@@ -1,26 +1,7 @@
 "use strict"
 
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
-// class Gasto {
-//     constructor (descripcion, valor) {
-//         this.descripcion = descripcion;
-//         this.valor = valor;
-//     }
 
-//     mostrarGasto () {
-//         console.log(`Gasto correspondiente a ${descripcion} con valor ${valor} €`);
-//     }
-
-//     actualizarDescripcion (param1) {
-//         this.descripcion = param1;
-//     }
-
-//     actualizarValor (newValor) {
-//         if (newValor > 0) {
-//             this.valor = newValor;
-//         }
-//     }
-// }
 // TODO: Variable global
 var presupuesto = 0;
 var gastos = [];
@@ -83,6 +64,8 @@ function CrearGasto(descripcion, valor) {
     const gasto = {
         valor : valor,
         descripcion : descripcion,
+        fecha : new Date(), 
+        etiquetas : [],
 
         mostrarGasto : function() {
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
@@ -96,7 +79,23 @@ function CrearGasto(descripcion, valor) {
             if (newValor >= 0) {
                 this.valor = newValor;
             }
-        }
+        },
+
+        //Falta probar si funciona
+        mostrarGastoCompleto : function() {
+            let texto =`
+            Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
+            Fecha: ${this.fecha.toLocaleString()}
+            Etiquetas:`;
+            for(const etiqueta in etiquetas) {
+                texto = texto + `\" - ${etiqueta}`;
+            };
+            return texto;
+        },
+
+        actualizarFecha : function(newFecha) {
+        
+        };
     };
     
     return gasto;
