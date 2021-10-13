@@ -60,6 +60,12 @@ function CrearGasto(des, val, eti, fec) {
 
         actualizarEtiqueta(eti) {
             this.etiquetas = eti;
+        } ,
+
+        mostrarGastoCompleto() {
+            return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €
+            Fecha: ${this.fecha}
+            Etiquetas: `);
         }
     };
     return gasto;
