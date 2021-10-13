@@ -43,6 +43,26 @@ function mostrarPresupuesto() {
     return(`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
+//******Práctica 2****** */
+function listarGastos() {
+    return gastos;
+}
+
+function anyadirGasto(gasto) {
+    gasto.id = idGasto;
+    idGasto++;
+    gastos.push(gasto);
+}
+
+function borrarGasto(id) {
+    for (let i = 0; i < gastos.length; i++) {
+        if (gastos[i].id === id) {
+
+        }
+    }
+}
+
+//Función constructora
 function CrearGasto(descripcion, valor) {
     if (isNaN(valor) || valor < 0) {
         valor = 0;
@@ -76,6 +96,10 @@ function CrearGasto(descripcion, valor) {
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance
 }
-
