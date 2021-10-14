@@ -32,11 +32,19 @@ function CrearGasto(descripcion1, valor1) {
     {
         valor1 = 0;
     }
+    if (etiquetas == "" || etiquetas == null)
+    {
+        etiquetas = [];
+    }
+    if (fecha == null || fecha == "")
+    {
+        fecha = fecga.getDate();
+    }
     let gasto = {
         descripcion: descripcion1,
         valor: valor1, 
         etiquetas = [],
-        fecha = Date.parse(fecha.getDate()), 
+        fecha = Date.parse(fecha), 
         //timetamp + lista de parametro
         mostrarGasto(){
             console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
@@ -67,6 +75,28 @@ function anyadirGasto(id)
 {
     //NO ENTIENDO
     id = iGasto + gastos;
+}
+
+function borrarGasto(gastos)
+{
+    if (id == gastos)
+    {
+        delete gastos;
+    }
+}
+
+function calcularTotalGastos()
+{
+    let gastosTotal = 0;
+    for (let i = 0; i < gastos.length; i++)
+    {
+        gastosTotal = gastoTotal + gastos[i];
+    }
+}
+
+function calcularBalance()
+{
+    let balance = presupuesto - gastosTotal;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
