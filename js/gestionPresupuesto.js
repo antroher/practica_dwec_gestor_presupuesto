@@ -44,16 +44,21 @@ function mostrarPresupuesto() {
     
 }
 
-function CrearGasto() {
+function CrearGasto(descripcion, valor) {
     // TODO
-    
-    let gasto = 
-    {descripcion:'',
+    if(valor > 0)
+    {
+       this.descripcion=descripcion;
+       this.valor=valor;
 
-    valor:0}
-        
-       
-        return gasto; 
+    }
+    else
+    {
+        this.descripcion=descripcion;
+        this.valor=0;
+
+    }
+    
     function mostrarGasto()
     {
         return 'Gasto correspondiente a '+ gasto.descripcion + 'con valor: ' + gasto.valor;
