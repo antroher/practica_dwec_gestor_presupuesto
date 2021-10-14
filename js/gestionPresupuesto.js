@@ -42,9 +42,10 @@ function CrearGasto(descripcion1, valor1) {
     }
     let gasto = {
         descripcion: descripcion1,
-        valor: valor1, 
+        valor: valor1,         
+        fecha = Date.parse(fecha),
+        //No sé 
         etiquetas = [],
-        fecha = Date.parse(fecha), 
         //timetamp + lista de parametro
         mostrarGasto(){
             console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
@@ -59,8 +60,15 @@ function CrearGasto(descripcion1, valor1) {
                     this.valor = nuevoNum;
                 }
         },
+        actualizarFecha() {
+            this.fecha = fecha.getDate();
+        },
         anyadirEtiquetas() {
-            //BLABLABLA
+            //NO ES SEGURO
+            this.etiquetas = etiquetas.push()
+        },
+        borrarEtiquetas() {
+            this.etiquetas = delete
         }
     };
     return gasto;
