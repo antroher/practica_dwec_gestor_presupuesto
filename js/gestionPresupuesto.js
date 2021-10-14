@@ -69,19 +69,32 @@ function CrearGasto(descripcion1, valor1,fecha,etiquetas) {
                     this.valor = nuevoValor;
                 }
             },
-            anyadirEtiquetas (etiquetas)
+            anyadirEtiquetas (etiquetas)/*NÚMERO INDETERMINADO DE PARAMETROS*/
             {
                 G_etiquetas.push(etiquetas);
             },
-            mostrarGastoCompleto(){
+            mostrarGastoCompleto(){/*no se si es dentro o fuera del obejto, return?*/
                 let acumulador = "";
                 for (var i = 0; i < etiquetas.length; i++)
                 {
                     acumulador += etiquetas[i] + "\n";
                 }
             
-                return `${this.gasto} correspondiente a ${this.descripcion} con valor  €.\n Fecha: ${this.timestamp} \n Etiquetas: ${acumulador}`;
+                return `${this.gasto} correspondiente a ${this.descripcion} con valor  €.\n Fecha: ${this.nuevaFecha.toLocaleString()} \n Etiquetas: ${acumulador}`;
+            },
+            actualizarFecha(nuevaFecha)
+            {
+                Date.parse(nuevaFecha);
+                if (nuevaFecha === Date)/*DUDA*/
+                {
+                    this.timestamp=nuevaFecha
+                }
+                
+            },
+            borrarEtiquetas(){/*NI IDEA*/ 
+
             }
+
         };
         return gasto;
         
@@ -99,6 +112,7 @@ function listarGastos()
 }
 function anyadirGasto(id, gasto )
 {
+    /*dudas en este apartado*/ 
     id=idGasto;
     idGasto++;
     gasto=gastos;
@@ -107,7 +121,7 @@ function borrarGasto(id)
 {
     if(id == gastos)
     {
-        delete gastos
+        delete gastos;
     }
 }
 function calcularTotalGastos()
