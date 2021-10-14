@@ -72,6 +72,15 @@ function CrearGasto(descripcion1, valor1,fecha,etiquetas) {
             anyadirEtiquetas (etiquetas)
             {
                 G_etiquetas.push(etiquetas);
+            },
+            mostrarGastoCompleto(){
+                let acumulador = "";
+                for (var i = 0; i < etiquetas.length; i++)
+                {
+                    acumulador += etiquetas[i] + "\n";
+                }
+            
+                return `${this.gasto} correspondiente a ${this.descripcion} con valor  €.\n Fecha: ${this.timestamp} \n Etiquetas: ${acumulador}`;
             }
         };
         return gasto;
@@ -94,18 +103,27 @@ function anyadirGasto(id, gasto )
     idGasto++;
     gasto=gastos;
 }
-function borrarGasto()
+function borrarGasto(id)
 {
-
+    if(id == gastos)
+    {
+        delete gastos
+    }
 }
 function calcularTotalGastos()
 {
-
+    let suma = 0;
+    for (var i = 0; i < gastos.length; i++)
+    {
+        suma += gastos[i];
+    }
+    return suma;
 }
 function calcularBalance()
 {
-
+    /* ni idea*/
 }
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
