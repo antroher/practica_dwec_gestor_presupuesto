@@ -26,14 +26,18 @@ function mostrarPresupuesto() {
     return (`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto(descripcion1, valor1) {
+function CrearGasto(descripcion1, valor1) {  
+
     if (valor1 < 0 || isNaN(valor1))
     {
         valor1 = 0;
     }
     let gasto = {
         descripcion: descripcion1,
-        valor: valor1,    
+        valor: valor1, 
+        etiquetas = [],
+        fecha = Date.parse(fecha.getDate()), 
+        //timetamp + lista de parametro
         mostrarGasto(){
             console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
             return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
@@ -46,6 +50,9 @@ function CrearGasto(descripcion1, valor1) {
                 {
                     this.valor = nuevoNum;
                 }
+        },
+        anyadirEtiquetas() {
+            //BLABLABLA
         }
     };
     return gasto;
@@ -54,6 +61,12 @@ function CrearGasto(descripcion1, valor1) {
 function listarGastos()
 {
     return gastos;
+}
+
+function anyadirGasto(id)
+{
+    //NO ENTIENDO
+    id = iGasto + gastos;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
