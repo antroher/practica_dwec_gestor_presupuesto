@@ -88,9 +88,11 @@ function listarGastos()
 {
     return gastos;
 }
-function anyadirGasto(id)
+function anyadirGasto(id, gasto )
 {
+    id=idGasto;
     idGasto++;
+    gasto=gastos;
 }
 function borrarGasto()
 {
