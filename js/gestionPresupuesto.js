@@ -50,36 +50,56 @@ function CrearGasto(descripcion, valor) {
     {
        this.descripcion=descripcion;
        this.valor=valor;
+       this.mostrarGasto = function(){
+        return 'Gasto correspondiente a ' + this.descripcion + ' con valor ' + this.valor + ' €' ;
+       }
+       this.actualizarDescripcion = function(descripcion){
+        this.descripcion = descripcion;
+        return this.descripcion;
+       }
+       this.actualizarValor = function(valor){
+        this.valor = valor;
+        return this.valor;
+       }
+
+       
 
     }
     else
     {
         this.descripcion=descripcion;
         this.valor=0;
+        this.mostrarGasto = function(){
+            return 'Gasto correspondiente a ' + this.descripcion + ' con valor ' + this.valor + ' €' ;
+           }
+           this.actualizarDescripcion = function(descripcion){
+            this.descripcion = descripcion;
+            return this.descripcion;
+           }
+           this.actualizarValor = function(valor){
+               if (isNaN(valor)){
+                return this.valor;
+               }
+              
+               else if(valor<0)
+               {
+                return this.valor;   
+               }
+               else
+               {
+                this.valor = valor;
+                return this.valor;
+               }
+           }
 
     }
-    
-    function mostrarGasto()
-    {
-        return 'Gasto correspondiente a '+ gasto.descripcion + 'con valor: ' + gasto.valor;
-    }
-
-    function actualizarDescripcion(descripcion)
-    {
-        gasto.descripcion = descripcion;
-        return gasto.descripcion;
-    }
-    
-    function actualizarValor(valor)
-        {
-            gasto.valor = valor;
-            return valor;
-        }   
+   
+} 
 
 
     
 
-}
+
 
 
 
