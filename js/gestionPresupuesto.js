@@ -2,7 +2,9 @@
 
 // TODO: Variable global
 'use strict'
-var presupuesto=0;
+var presupuesto=0, idGasto=0;
+var gastos=[];
+
 
 function actualizarPresupuesto(pre){
    
@@ -18,22 +20,19 @@ function actualizarPresupuesto(pre){
     }
    
 }
-
 function mostrarPresupuesto() {
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
-
-function CrearGasto(des, v){
+function CrearGasto(des, v, fec=Date.now(), ...etiq){
     if((parseFloat(v)<0) || isNaN(v))
-    {
         v=0;
-        
-    }
         
 
     let gasto = {
         descripcion:des,
         valor:v,
+        etiquetas : [...etiq],
+        fecha:(typeof fec==='string') ? Date.parse(fec) : fec,
 
         mostrarGasto(){
             return 'Gasto correspondiente a '+gasto.descripcion+' con valor '+gasto.valor+' €';
@@ -48,8 +47,23 @@ function CrearGasto(des, v){
             }       
         }
       };
-     
     return gasto;
+}
+
+function listarGastos(){
+    return gastos;
+}
+function anyadirGasto(){
+    
+}
+function borrarGasto(){
+    
+}
+function calcularTotalGastos(){
+    
+}
+function calcularBalance(){
+    
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -58,6 +72,11 @@ function CrearGasto(des, v){
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance
 }
 
