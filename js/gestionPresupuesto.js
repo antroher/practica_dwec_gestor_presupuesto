@@ -25,15 +25,23 @@ function mostrarPresupuesto() {
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
-function CrearGasto(descripcion, valor) {
+function CrearGasto(descripcion, valor, fecha, etiquetas) {
     // TODO
     if(valor < 0 || isNaN(valor)){
         valor = 0;
+    }
+    if(etiquetas == null){
+        etiquetas = [];
+    }
+    if(fecha == null){
+        fecha = Date.now();
     }
 
     let gasto = {
         descripcion: descripcion,
         valor: valor,
+        fecha: fecha,
+        etiquetas: etiquetas,
 
         mostrarGasto(){
             return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
