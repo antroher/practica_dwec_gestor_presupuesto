@@ -2,6 +2,8 @@
 
 // TODO: Variable global
 var presupuesto = 0;
+var gastos = []; //UN PUTO ARRAY
+var idGasto = 0;
 
 
 
@@ -28,15 +30,25 @@ function mostrarPresupuesto() {
 
 }
 
-function CrearGasto(descripcion1, valor1) {
+function CrearGasto(descripcion1, valor1, fecha = Date.now(), ...etiquetas) {
     // TODO
     if(valor1 < 0 || isNaN(valor1)) //Porque asi comprueba q no es un string
     {
         valor1 = 0;
     }
+    if(etiquetas.length = 0)
+    {
+        etiquetas = [];//no entiendo
+    }
+
+    
+    {}
     let gasto = { //Valor1 = a lo que introduce la funcion, y lo asigna a valor, para que forme parte del objeto(pq si no salen errores en el nmp)
         descripcion: descripcion1,
         valor: valor1,
+        etiqueta : [...etiquetas],//no entiendo
+        fec : (typeof fecha === "string") ? Date.parse(fecha) : fec,//no entiendo
+
         mostrarGasto(){
             console.log("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €")
             return("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €");
@@ -59,8 +71,25 @@ function CrearGasto(descripcion1, valor1) {
     return gasto;
 }
 
+function listarGastos(){
+return gastos;
+}
+function anyadirGasto(){
+gastos.id = idGasto;
+idGasto++;
+gastos.push(gasto);
+}
+function borrarGasto(){
 
+}
 
+function calcularTotalGastos(){
+
+} 
+
+function calcularBalance(){
+
+}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -68,5 +97,10 @@ function CrearGasto(descripcion1, valor1) {
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance 
 }
