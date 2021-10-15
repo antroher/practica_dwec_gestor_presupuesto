@@ -21,7 +21,7 @@ function mostrarPresupuesto() {
     return(`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto(des, val, eti, fec) {
+function CrearGasto(des, val, fec = Date.now(), eti) {
     if (parseFloat(val) < 0 || isNaN(val)) {
         val = 0;
     }
@@ -55,7 +55,7 @@ function CrearGasto(des, val, eti, fec) {
         } ,
 
         actualizarFecha(fec) {
-            this.fecha = fec;
+            this.fecha = Date.parse(fec);
         } ,
 
         actualizarEtiqueta(eti) {
