@@ -7,6 +7,7 @@ import { strict } from "assert";
 
 var presupuesto = 0;
 var gastos = [];
+var idGasto = 0;
 
 function actualizarPresupuesto(valor) {
     if (valor >= 0) {
