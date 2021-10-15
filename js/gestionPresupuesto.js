@@ -55,5 +55,5 @@ function CrearGasto(desc, val) {
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto,
+    CrearGasto
 }
