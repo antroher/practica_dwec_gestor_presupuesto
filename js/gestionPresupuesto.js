@@ -24,31 +24,23 @@ function mostrarPresupuesto() {
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
-function CrearGasto(descripcionEntrante, valorEntrante = 0, fechaEntrante = Date.now(), ...etiquetasEntrante = []) {
+function CrearGasto(descripcionEntrante, valorEntrante = 0, fechaEntrante = Date.now(), ...etiquetasEntrante) {
     if (valorEntrante < 0 || isNaN(valorEntrante)) {
         valorEntrante = 0;
     }
-    if (fechaEntrante.isEmpty() || typeof fechaEntrante !== "string") {
-        let fechaObjeto = new Date();
-        let fechaActual = fechaObjeto.getDate() + "/" + (fechaObjeto.getMonth() + 1) + "/" + fechaObjeto.getFullYear() + "T" + 
-            fechaObjeto.getHours() + ":" + fechaObjeto.getMinutes();
-        fechaEntrante = fechaActual;
+    if (typeof fechaEntrante === "string") {
+        if (isNaN(Date.parse(fechaEntrante))) {
+            fechaEntrante = Date.now();
+        }
+        else {
+            fechaEntrante = Date.parse(fechaEntrante);
+        }
     }
-    else if (isNaN(Date.parse(fechaEntrante))){
-        let fechaObjeto = new Date();
-        let fechaActual = fechaObjeto.getDate() + "/" + (fechaObjeto.getMonth() + 1) + "/" + fechaObjeto.getFullYear() + "T" + 
-            fechaObjeto.getHours() + ":" + fechaObjeto.getMinutes();
-        fechaEntrante = fechaActual;
-    }
-    else {
-        fechaEntrante = Date.parse(fechaEntrante);
-    }
-    
     let gasto = {
         descripcion: descripcionEntrante,
         valor: parseFloat(valorEntrante),
         etiquetas: [...etiquetasEntrante],
-        fecha: fechaEntrante.toLocaleString(),
+        fecha: fechaEntrante,
 
         mostrarGasto() {
             console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);

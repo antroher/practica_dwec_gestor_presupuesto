@@ -1,9 +1,7 @@
-function prueba(valor1 = Date.now(), valor2) {
-    console.log(typeof valor1);
-    return valor1;
+function convertidorFecha(fecha) {
+    let fechaConvertida = Date.parse(fecha);
+    return fechaConvertida;
 }
 
-let test = prueba();
-let fecha = new Date(test).toLocaleDateString();
+let fecha = convertidorFecha("Mon, 25 Dec 1995 13:30:00 GMT");
 console.log(fecha);
-let fechaNueva = test.toLocaleDateString();
