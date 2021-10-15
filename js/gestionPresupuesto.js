@@ -25,7 +25,7 @@ function mostrarPresupuesto() {
 }
 
 //Gastos
-function CrearGasto(descripcion, valor, fecha, etiquetas) {
+function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
 
     let valor1 = parseFloat(valor);
 
@@ -36,8 +36,9 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
     let gasto = {
 	    descripcion: descripcion,
         valor : valor1,
-        fecha : new Date(),
-        etiquetas : [],
+        etiquetas : [...etiquetas],
+        fecha : (typeof fecha == 'string') ? Date.parse(fecha) : fecha,
+        
 
         mostrarGasto() {
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
@@ -56,6 +57,22 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
             {
                 this.valor = value;
             }
+        },
+
+        mostrarGastoCompleto() {
+            return this.mostrarGasto() + "\n " + this.actualizarFecha() + "\n";
+        },
+
+        actualizarFecha(fecha) {
+            this.fecha = fecha;
+        },
+
+        anyadirEtiquetas() {
+
+        },
+
+        borrarEtiquetas() {
+
         }
     };
 
@@ -80,6 +97,18 @@ function borrarGasto(id) {
             gastos.splice(i, 1);
         }
     }
+}
+
+function calcularTotalGastos() {
+    var suma = 0;
+    for(let i = 0; i < gastos.length; i++) {
+        suma += gastos[i].valor;   
+    }
+    return suma;
+}
+
+function calcularBalance() {
+    return presupuesto - calcularTotalGastos();
 }
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
