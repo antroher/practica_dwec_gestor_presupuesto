@@ -3,7 +3,7 @@
 // TODO: Variable global
 var presupuesto = 0;
 
-var gastos = [];
+var gastos = [];/*hay que preguntar al usuario?*/ 
 var idGasto = 0;
 
 function actualizarPresupuesto(actualizar) {
@@ -28,30 +28,21 @@ function mostrarPresupuesto() {
     return (`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto(descripcion1, valor1,fecha,etiquetas) {
+function CrearGasto(descripcion1, valor1, fecha1 = Date.now(),...etiquetas1) {
 
     if(valor1 < 0 || isNaN(valor1)){
         valor1 = 0;
     }
     //parámetro vacío etiquetas
-    if((etiquetas == null) || (etiquetas == ""))
+    if((etiquetas1 == null) || (etiquetas1 == ""))
     {
-        etiquetas = [];
+        etiquetas1 = [];
     }
-    typeof fecha == "string";
-    Date.parse(fecha);
-    //parámetro vacío fecha o no válido
-    if((fecha == null) || (fecha == "")|| (fecha != Date))
-    {
-        fecha = Date.now();
-    }
-
     let gasto = {
             descripcion: descripcion1,
             valor: valor1,
-            timestamp: fecha,
-            G_etiquetas: etiquetas,
-            id: idGasto,
+            fecha: (typeof fecha1 === "string") ? Date.parse(fecha1) : fecha1,
+            etiquetas:[...etiquetas1],
 
             mostrarGasto(){
                 console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
@@ -91,20 +82,20 @@ function CrearGasto(descripcion1, valor1,fecha,etiquetas) {
                 }
                 
             },
-            borrarEtiquetas(){/*NI IDEA*/ 
-
+            borrarEtiquetas(...etiquetas2){/*hecho*/ 
+                for (let i = 0; i < etiquetas.length; i++)
+                {
+                    if (etiquetas == etiquetas2)
+                         delete etiquetas2[i];
+                }
+                 
             }
 
         };
         return gasto;
         
 }
-let gasto1 = new CrearGasto("Gasto 1");
-let gasto2 = new CrearGasto("Gasto 2", 23.55);
-let gasto3 = new CrearGasto("Gasto 3", 23.55, "2021-10-06T13:10" );
-let gasto4 = new CrearGasto("Gasto 4", 23.55, "2021-10-06T13:10", "casa" );
-let gasto5 = new CrearGasto("Gasto 5", 23.55, "2021-10-06T13:10", "casa", "supermercado" );
-let gasto6 = new CrearGasto("Gasto 6", 23.55, "2021-10-06T13:10", "casa", "supermercado", "comida" );
+
 
 function listarGastos()
 {
@@ -133,9 +124,14 @@ function calcularTotalGastos()
     }
     return suma;
 }
-function calcularBalance()
+function calcularBalance() //hecho
 {
-    /* ni idea*/
+    let result = 0;
+    let totalgastos = calcularTotalGastos();
+
+    result = presupuesto - totalgastos;
+
+    return result;
 }
 
 
