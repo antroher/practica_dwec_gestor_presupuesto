@@ -48,7 +48,9 @@ function CrearGasto(descripcionEntrante, valorEntrante = 0, fechaEntrante = Date
         },
 
         mostrarGastoCompleto() {
-
+            let cadenaCompleta = "";
+            cadenaCompleta += `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\n
+                Fecha: ${this.fecha.toLocaleString()}\n`;
         },
         
         actualizarFecha(nuevaFecha) {
