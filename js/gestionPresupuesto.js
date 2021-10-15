@@ -24,14 +24,15 @@ function mostrarPresupuesto() {
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
-function CrearGasto(NewDescriptio,NewValu) {
+function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     if(NewValu < 0 || isNaN(NewValu)){
         NewValu = 0;
     }
     let gasto = {
         descripcion: NewDescriptio,
         valor: NewValu,
-
+        etiquetas: [...etiq],
+        fecha: (typeof fec === 'string') ? Date.parse(fec) : fec,
         mostrarGasto(){
             console.log("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor +" €");
             return ("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor +" €")
@@ -45,27 +46,46 @@ function CrearGasto(NewDescriptio,NewValu) {
             {
                 this.valor = NewVal;
             }
-        }
+        },
+        anyadirEtiquetas(){
+
+        },
     };
     return gasto;
+
 
     //práctica 2
     let gastos = new gastos();
     let gastos = [];
+    let idGasto = 0;
 
-    //datos que introduce el usuario
-    gastos[prompt("¿Cúales son tus gastos?")];
+    function listarGastos(){
+        return gastos;
+    }
+    function anyadirGasto(){
+
+    }
+    function borrarGasto(){
+
+    }
+    function calcularTotalGastos(){
+
+    }
+    function calcularBalance(){
+
+    }
 }
 
-
-/*tres metodos internos de gastos objeto gasto definido con export{}
-esa funcion devulve dicho objeto */
-
-// NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
-// Las funciones y objetos deben tener los nombres que se indican en el enunciado
+    
+//las funciones y objetos deben tener los nombres que indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance
 }
