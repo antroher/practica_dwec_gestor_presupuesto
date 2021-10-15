@@ -56,17 +56,19 @@ function calcularBalance() {
 }
 
 //Función constructora
-function CrearGasto(descripcion, valor = 0, fecha = new Date(), ...etiquetas) {
+function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
+    valor = parseFloat(valor);
+    
     if (isNaN(valor) || valor < 0) {
         valor = 0;
     }
-    if (etiquetas.length == 0) {etiquetas = []};
+    // if (etiquetas.length == 0) { etiquetas = [] };
 
     const gasto = {
         valor : valor,
         descripcion : descripcion,
-        fecha : fecha.toString(),
-        etiquetas : etiquetas,
+        etiquetas : [...etiquetas],
+        fecha : (typeof fecha === 'string') ? Date.parse(fecha) : Date.now(),
 
         mostrarGasto : function() {
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
@@ -86,25 +88,18 @@ function CrearGasto(descripcion, valor = 0, fecha = new Date(), ...etiquetas) {
         mostrarGastoCompleto : function() {
             
             let texto =`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\n
-            Fecha: ${(this.fecha).toLocaleString()}
+            Fecha: ${(this.fecha)}
             Etiquetas:\n`;
+            let aux = "";
             for(let etiqueta of etiquetas) {
-                texto = texto + `- ${etiqueta}\n`;
+                aux = aux + `- ${etiqueta}\n`;
             };
-            return texto;
+            return texto + aux;
         },
 
         actualizarFecha : function(newFecha) {
-            // if (Date.parse(newFecha) === true) {
-            //     gasto.fecha = Date.parse(newFecha);
-            // };
-            function isValidDate(d) {
-                return d instanceof Date && !isNaN(d);
-              }
-            if (isValidDate(newFecha)) {
-                this.Date = newFecha;
-            } else {
-                this.Date = this.Date;
+            if (fecha instanceof Date && !isNaN(fecha.valueOf())) {
+                this.fecha = newFecha;
             }
         },
 
