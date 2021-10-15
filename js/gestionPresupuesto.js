@@ -24,14 +24,11 @@ function mostrarPresupuesto() {
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
-function CrearGasto(descripcionEntrante, valorEntrante, fechaEntrante, ...etiquetasEntrante) {
+function CrearGasto(descripcionEntrante, valorEntrante = 0, fechaEntrante = Date.now(), ...etiquetasEntrante = []) {
     if (valorEntrante < 0 || isNaN(valorEntrante)) {
         valorEntrante = 0;
     }
-    if (etiquetasEntrante.length === 0) {
-        etiquetasEntrante = []
-    }
-    if (fechaEntrante === "" || typeof fechaEntrante !== "string") {
+    if (fechaEntrante.isEmpty() || typeof fechaEntrante !== "string") {
         let fechaObjeto = new Date();
         let fechaActual = fechaObjeto.getDate() + "/" + (fechaObjeto.getMonth() + 1) + "/" + fechaObjeto.getFullYear() + "T" + 
             fechaObjeto.getHours() + ":" + fechaObjeto.getMinutes();
@@ -50,15 +47,16 @@ function CrearGasto(descripcionEntrante, valorEntrante, fechaEntrante, ...etique
     let gasto = {
         descripcion: descripcionEntrante,
         valor: parseFloat(valorEntrante),
-        etiquetas: etiquetasEntrante,
+        etiquetas: [...etiquetasEntrante],
         fecha: fechaEntrante.toLocaleString(),
 
+        mostrarGasto() {
+            console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
+        },
+
         mostrarGastoCompleto() {
-            console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\n
-                Fecha: ${this.fecha}\n
-                Etiquetas: `);
-            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €\n
-                Fecha: ${this.fecha}`;
+
         },
         
         actualizarFecha(nuevaFecha) {
