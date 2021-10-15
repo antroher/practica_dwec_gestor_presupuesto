@@ -41,14 +41,6 @@ function CrearGasto(descri, v1) {
     gasto.mostrarGasto = function(){
        return "Gasto correspondiente a " + gasto.descripcion + " con valor " + gasto.valor +" €";
     };
-    gasto.mostrarGastoCompleto = function () 
-    {
-        let textoEtiquetas = "";
-        for(let i=0;i<gasto.etiquetas.length;i++){
-            textoEtiquetas = textoEtiquetas + `- ` + gasto.etiquetas[i] + `\n`;
-        }
-        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €\n Fecha: ${this.fecha.toLocaleString('es-ES')}\n Etiquetas: - ${textoEtiquetas}`;
-    }
     gasto.actualizarDescripcion = function(description){
         gasto.descripcion = description;
     }; 
@@ -72,6 +64,37 @@ function anyadirGasto(gasto) {
 
 
 }
+function borrarGasto(id)
+{
+    let ind = gastos.findIndex(gasto => gasto.id == id);
+    if(ind !== -1){
+        gastos.splice(ind, 1);
+    }
+
+}
+
+function calcularTotalGastos()
+{
+    let totalgas = 0;
+
+    for (let i = 0; i < gastos.length; i++) 
+    {
+        
+        totalgas = totalgas + gastos[i].valor;
+    }
+    return totalgas;
+
+}
+
+function calcularBalance()
+{
+    let gTotales = calcularTotalGastos();
+    let bal = presupuesto - gTotales;
+    return bal;
+
+
+}
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -79,10 +102,10 @@ function anyadirGasto(gasto) {
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
-    listarGastos
-    anyadirGasto
-    borrarGasto
-    calcularTotalGastos
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
     calcularBalance
 }
