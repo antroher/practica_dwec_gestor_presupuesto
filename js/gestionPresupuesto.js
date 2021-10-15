@@ -70,7 +70,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                     acumulador += this.etiquetas[i] + "\n";
                 }
             
-                return `${this.valor} correspondiente a ${this.descripcion} con valor €.\n Fecha: ${this.fecha} \n Etiquetas: ${acumulador}`;
+                return `${this.valor} correspondiente a ${this.descripcion} con valor €.\nFecha: ${this.fecha}\nEtiquetas: ${acumulador}`;
             },
             actualizarFecha(nuevaFecha)
             {
@@ -81,7 +81,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
             borrarEtiquetas(...etiquetas2){/*hecho*/ 
                 for (let i = 0; i < this.etiquetas.length; i++)
                 {
-                    for anidado
+                    /*for anidado*/
                     //splice borrado
                 } 
             }
