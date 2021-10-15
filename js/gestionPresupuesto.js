@@ -4,6 +4,7 @@
 // TODO: Variable global
 let presupuesto= 0;
 
+
 function actualizarPresupuesto(valor) {
     if(parseFloat(valor) > 0){
         presupuesto = valor;
@@ -13,15 +14,12 @@ function actualizarPresupuesto(valor) {
         return -1;
     }
 }
-
 function mostrarPresupuesto() {
     
     return "Tu presupuesto actual es de " + presupuesto + " €";
     
 }
-
-function CrearGasto(desc, val) {
-    let gasto;
+function CrearGasto(desc, val) { 
     if(parseFloat(val) > 0){
         gasto = {
             descripcion : desc,
@@ -33,8 +31,6 @@ function CrearGasto(desc, val) {
             valor : 0
         }
     }
-    
-
     gasto.mostrarGasto = function() {
         return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
     }
@@ -59,5 +55,5 @@ function CrearGasto(desc, val) {
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
 }
