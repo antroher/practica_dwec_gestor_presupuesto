@@ -31,7 +31,7 @@ function mostrarPresupuesto() {
 
 }
 
-function CrearGasto(descrip, val) {
+function CrearGasto(descrip, val, fec = Date.now(), ...etiq) {
 
     let val_ = parseFloat(val);
 
@@ -45,6 +45,8 @@ function CrearGasto(descrip, val) {
 	descripcion: descrip,
 
         valor : val_,
+        etiquetas : [...etiq],
+        fecha : (typeof fec ===`string`) ? Date.parse(fec) : fec,
 
 
         mostrarGasto() {
@@ -75,11 +77,41 @@ function CrearGasto(descrip, val) {
     return gasto;
 }
 
+function listarGasto(){
+
+}
+
+function anyadirGasto(){
+
+}
+
+function borrarGasto(){
+
+}
+
+function calcularTotalGastos(){
+
+}
+
+function calcularBalance(){
+
+    let result = 0;
+    let totalGastos = calcularTotalGastos();
+
+    result = presupuesto - totalGastos;
+    return result;
+
+}
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGasto,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance
 }
