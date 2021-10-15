@@ -58,8 +58,19 @@ function CrearGasto(descripcion, valor) {
         return this.descripcion;
        }
        this.actualizarValor = function(valor){
-        this.valor = valor;
-        return this.valor;
+        if (isNaN(valor)){
+            return this.valor;
+           }
+          
+           else if(valor<0)
+           {
+            return this.valor;   
+           }
+           else
+           {
+            this.valor = valor;
+            return this.valor;
+           }
        }
 
        
