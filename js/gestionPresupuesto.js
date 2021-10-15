@@ -94,25 +94,24 @@ function CrearGasto(descripcion, valor = 0, fecha = new Date().getTime(), ...eti
         },
 
         actualizarFecha : function(newFecha) {
-            if (Date.parse(newFecha) === true) {
-                gasto.fecha = Date.parse(newFecha);
-            };
+            // if (Date.parse(newFecha) === true) {
+            //     gasto.fecha = Date.parse(newFecha);
+            // };
+            function isValidDate(d) {
+                return d instanceof Date && !isNaN(d);
+              }
+            if (isValidDate(newFecha)) {
+                this.Date = newFecha;
+            }
         },
 
         anyadirEtiquetas : function(...etiquetas) {
-            //Este método de Array hace que no se guarden los valores repetidos
-            // let valoresUnicos = Array.from(new Set(etiquetas));
-            // valoresUnicos.forEach((x) => {
-            //     this.etiquetas.push(x);
-            // })
-
-            this.etiquetas.forEach((x) => {
-                for (let i = 0; i < etiquetas; i++) {
-                    if (x.includes(etiquetas[i])) {
-                        etiquetas.splice(i, 1);
-                    }
+            const valoresUnicos = etiquetas.filter((x) => {
+                if (!this.etiquetas.includes(x)) {
+                    return x;
                 }
-            })
+            });
+            this.etiquetas.push(...valoresUnicos);
         }, 
 
         borrarEtiquetas : function(...etiquetas) {
