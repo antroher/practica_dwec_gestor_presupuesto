@@ -4,6 +4,8 @@
 
 // TODO: Variable global
 var presupuesto = 0;
+var gastos = [];
+var diGasto = 0;
 
 function comprobarNumNegativo(num){
     let negativo = false;
@@ -41,7 +43,7 @@ function mostrarPresupuesto() {
     return texto;
 }
 
-function CrearGasto(des, v) {
+function CrearGasto(des, v, fec = Date.now(), ...etiq) {
     // TODO
 
     if (comprobarNumNegativo(v)){
@@ -49,8 +51,14 @@ function CrearGasto(des, v) {
     }
     
     let gasto = {
+
         descripcion: des,
+
         valor: v,
+  
+        etiquetas: [...etiq],
+
+        fecha: (typeof fec == 'string') ? Date.parse(fec) : fec,
 
         mostrarGasto(){
 
@@ -73,11 +81,37 @@ function CrearGasto(des, v) {
     return gasto;
 }
 
+function listarGastos(){
+    return gastos;
+}
+
+function anyadirGasto(){
+
+}
+
+function borrarGasto(){
+
+}
+
+function calcularTotalGastos(){
+
+}
+
+function calcularBalance(){
+
+}
+
+
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance
 }
