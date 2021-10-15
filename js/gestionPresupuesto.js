@@ -68,7 +68,7 @@ function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
         valor : valor,
         descripcion : descripcion,
         etiquetas : [...etiquetas],
-        fecha : (typeof fecha === 'string') ? Date.parse(fecha) : Date.now(),
+        fecha : (typeof fecha === 'string') ? Date.parse(fecha) : fecha,
 
         mostrarGasto : function() {
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
@@ -86,21 +86,30 @@ function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
 
         //Falta probar si funciona
         mostrarGastoCompleto : function() {
-            
-            let texto =`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\n
-            Fecha: ${(this.fecha)}
-            Etiquetas:\n`;
+            let fecha1;
+            if(typeof this.fecha === 'string')
+            {
+                fecha1 = Date.parse(this.fecha);
+            }
+            else{
+                fecha1 = this.fecha;
+            }
             let aux = "";
-            for(let etiqueta of etiquetas) {
+            for(let etiqueta of this.etiquetas) {
                 aux = aux + `- ${etiqueta}\n`;
             };
+
+            let fecha2 = new Date(fecha1);
+
+            let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fecha2.toLocaleString())}\nEtiquetas:\n`;
             return texto + aux;
         },
 
         actualizarFecha : function(newFecha) {
-            if (fecha instanceof Date && !isNaN(fecha.valueOf())) {
-                this.fecha = newFecha;
-            }
+            let isValidDate = Date.parse(newFecha);
+            if (!isNaN(isValidDate)) {
+                this.fecha = Date.parse(newFecha);
+            } 
         },
 
         anyadirEtiquetas : function(...etiquetas) {
