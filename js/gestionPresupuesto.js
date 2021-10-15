@@ -3,9 +3,6 @@
 // TODO: Variable global
 var presupuesto = 0;
 
-var gastos = [];
-var idGasto = 0;
-
 function actualizarPresupuesto(precio) {
     let devuelveValor;
     if (precio >= 0)
@@ -42,11 +39,7 @@ function CrearGasto(descripcion1, valor1) {
     }
     let gasto = {
         descripcion: descripcion1,
-        valor: valor1,         
-        fecha = Date.parse(fecha),
-        //No sé 
-        etiquetas = [],
-        //timetamp + lista de parametro
+        valor: valor1,        
         mostrarGasto(){
             console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
             return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
@@ -59,25 +52,40 @@ function CrearGasto(descripcion1, valor1) {
                 {
                     this.valor = nuevoNum;
                 }
-        },
-        actualizarFecha() {
-            this.fecha = fecha.getDate();
-        },
+        }                
+    };
+    return gasto;
+}
+
+//SEGUNDO EJERCICIO
+
+var gastos = [];
+var idGasto = 0;
+
+function listarGastos()
+{
+    return gastos;
+}
+
+function CrearGasto 
+
+fecha = Date.parse(fecha),
+        //No sé 
+        etiquetas = [],
+        //timetamp + lista de parametro
+
         anyadirEtiquetas() {
             //NO ES SEGURO
             this.etiquetas = etiquetas.push()
         },
         borrarEtiquetas() {
             this.etiquetas = delete
+        },
+        actualizarFecha() {
+            this.fecha = fecha.getDate();
         }
-    };
-    return gasto;
-}
 
-function listarGastos()
-{
-    return gastos;
-}
+
 
 function anyadirGasto(id)
 {
