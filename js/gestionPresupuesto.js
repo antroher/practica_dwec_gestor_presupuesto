@@ -38,7 +38,7 @@ function CrearGasto(des, val, fec = Date.now(), eti) {
         descripcion: des,
         valor: val,
         fecha: fec,
-        etiquetas: eti,
+        etiquetas: [...eti],
 
         mostrarGasto() {
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
