@@ -41,6 +41,15 @@ function CrearGasto(desintro, valorintro, fecha, etiquetas) {
     {
         valorintro = 0;
     }
+    if(etiquetas == null)
+    {
+        etiquetas = new Array();
+    }
+   
+    if(fecha == null)
+    {
+        fecha = Date.now();
+    }
 
     let gasto =
     {
@@ -80,9 +89,16 @@ function anyadirGasto(){
 
 function borrarGasto(){
 
+
+
 }
 
 function calcularTotalGastos(){
+
+    for(let i = 0; i <= gasto.length(); i++)
+    {
+        
+    }
 
 }
 
