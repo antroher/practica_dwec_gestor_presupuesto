@@ -6,6 +6,7 @@ import { strict } from "assert";
 'use strict'
 
 var presupuesto = 0;
+var gastos = [];
 
 function actualizarPresupuesto(valor) {
     if (valor >= 0) {
@@ -21,14 +22,17 @@ function mostrarPresupuesto() {
     return(`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto(desc, val) {
+function CrearGasto(desc, val, fech, eti ) {
     if (val < 0 || isNaN(val)) {
         val = 0;
     }
 
     let gasto = {
-	descripcion: desc,
+	    descripcion: desc,
         valor : val,
+        fecha : fech,
+        etiqueta : eti,
+         
         mostrarGasto : function (){
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
             
@@ -48,13 +52,10 @@ function CrearGasto(desc, val) {
     return gasto;
 }
 
-function listarGastos(gastos) {
-    
+function listarGastos() {
+    console.log(gastos);
 }
 
-function CrearGasto() {
-    
-}
 
 function anyadirGasto() {
     
