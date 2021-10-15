@@ -4,6 +4,8 @@
 'use strict'
 
 var presupuesto = 0;
+ var gastos = [];
+var  idGastos = 0; 
 
 
 function actualizarPresupuesto(valor) {
@@ -77,7 +79,7 @@ function CrearGasto(descrip, val, fec = Date.now(), ...etiq) {
     return gasto;
 }
 
-function listarGasto(){
+function listarGastos(){
 
 }
 
@@ -90,6 +92,7 @@ function borrarGasto(){
 }
 
 function calcularTotalGastos(){
+
 
 }
 
@@ -109,7 +112,7 @@ export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
     CrearGasto,
-    listarGasto,
+    listarGastos,
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
