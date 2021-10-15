@@ -3,6 +3,8 @@
 
 
 var presupuesto = 0; // TODO: Variable global
+var idGasto = 0;
+var gastos = [];
 
 
 function actualizarPresupuesto(num) {
