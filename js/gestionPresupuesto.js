@@ -21,7 +21,7 @@ function mostrarPresupuesto() {
     return(`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto(des, val, fec = Date.now(), eti) {
+function CrearGasto(des, val, fec = Date.now(), ...eti) {
     if (parseFloat(val) < 0 || isNaN(val)) {
         val = 0;
     }
@@ -36,9 +36,9 @@ function CrearGasto(des, val, fec = Date.now(), eti) {
 
     let gasto = {
         descripcion: des,
-        valor: val,
-        fecha: fec,
+        valor: val,        
         etiquetas: [...eti],
+        fecha: fec,
 
         mostrarGasto() {
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
@@ -59,13 +59,11 @@ function CrearGasto(des, val, fec = Date.now(), eti) {
         } ,
 
         actualizarEtiqueta(eti) {
-            this.etiquetas = eti;
+            this.etiquetas.push(eti);
         } ,
 
         mostrarGastoCompleto() {
-            return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €
-            Fecha: ${this.fecha}
-            Etiquetas: `);
+            return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €\nFecha: ${this.fecha}\nEtiquetas: ${this.etiquetas}`);
         }
     };
     return gasto;
