@@ -3,6 +3,8 @@
 // TODO: Variable global
 
 var presupuesto = 0;
+var gastos = new Array();
+var idGasto = 0;
 
 function actualizarPresupuesto(numero) {
     if(numero >= 0)
@@ -40,10 +42,15 @@ function CrearGasto(descripcion, valor) {
             if(NValor > 0)
                 this.valor = NValor;
         }
-    };
+    }
 
     return gasto;
 }
+
+
+    function listarGastos(){
+        return gastos;
+    }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -51,5 +58,10 @@ function CrearGasto(descripcion, valor) {
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGastos, 
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance
 }
