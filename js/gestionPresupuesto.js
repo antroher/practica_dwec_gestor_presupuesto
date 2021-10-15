@@ -3,17 +3,17 @@
 // TODO: Variable global
 var presupuesto = 0;
 
-var gastos = [];/*hay que preguntar al usuario?*/ 
+var gastos = [];
 var idGasto = 0;
 
 function actualizarPresupuesto(actualizar) {
 
     let devolverValor;
 
-    if(actualizar>=0)
+    if(actualizar >= 0)
     {
         presupuesto = actualizar;
-        devolverValor=presupuesto;
+        devolverValor = presupuesto;
     }
     else
     {
@@ -28,16 +28,12 @@ function mostrarPresupuesto() {
     return (`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto(descripcion1, valor1, fecha1 = Date.now(),...etiquetas1) {
+function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
 
     if(valor1 < 0 || isNaN(valor1)){
         valor1 = 0;
     }
-    //parámetro vacío etiquetas
-    if((etiquetas1 == null) || (etiquetas1 == ""))
-    {
-        etiquetas1 = [];
-    }
+
     let gasto = {
             descripcion: descripcion1,
             valor: valor1,
@@ -60,40 +56,37 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(),...etiquetas1) {
                     this.valor = nuevoValor;
                 }
             },
-            anyadirEtiquetas (etiquetas)/*NÚMERO INDETERMINADO DE PARAMETROS*/
+
+            anyadirEtiquetas (...etiquetas3)
             {
-                G_etiquetas.push(etiquetas);
+                this.etiquetas.push(etiquetas3);//¿funciona?
             },
-            mostrarGastoCompleto(){/*no se si es dentro o fuera del obejto, return?*/
+
+            mostrarGastoCompleto(){
+
                 let acumulador = "";
-                for (var i = 0; i < etiquetas.length; i++)
+                for (var i = 0; i < this.etiquetas.length; i++)
                 {
-                    acumulador += etiquetas[i] + "\n";
+                    acumulador += this.etiquetas[i] + "\n";
                 }
             
-                return `${this.gasto} correspondiente a ${this.descripcion} con valor  €.\n Fecha: ${this.nuevaFecha.toLocaleString()} \n Etiquetas: ${acumulador}`;
+                return `${this.valor} correspondiente a ${this.descripcion} con valor €.\n Fecha: ${this.fecha} \n Etiquetas: ${acumulador}`;
             },
             actualizarFecha(nuevaFecha)
             {
-                Date.parse(nuevaFecha);
-                if (nuevaFecha === Date)/*DUDA*/
-                {
-                    this.timestamp=nuevaFecha
-                }
+                /**comprobar q  la fecha es valida con lo de antes de arriba*/
+                this.fecha=nuevaFecha;
                 
             },
             borrarEtiquetas(...etiquetas2){/*hecho*/ 
-                for (let i = 0; i < etiquetas.length; i++)
+                for (let i = 0; i < this.etiquetas.length; i++)
                 {
-                    if (etiquetas == etiquetas2)
-                         delete etiquetas2[i];
-                }
-                 
+                    for anidado
+                    //splice borrado
+                } 
             }
-
         };
-        return gasto;
-        
+        return gasto;       
 }
 
 
@@ -101,26 +94,25 @@ function listarGastos()
 {
     return gastos;
 }
+
 function anyadirGasto(id, gasto )
 {
     /*dudas en este apartado*/ 
     id=idGasto;
     idGasto++;
-    gasto=gastos;
+    gastos.push(gasto);
 }
+
 function borrarGasto(id)
 {
-    if(id == gastos)
-    {
-        delete gastos;
-    }
+    /*pasar por el aarray de gastos*/
 }
 function calcularTotalGastos()
 {
     let suma = 0;
     for (var i = 0; i < gastos.length; i++)
     {
-        suma += gastos[i];
+        suma += gastos[i].valor;
     }
     return suma;
 }
