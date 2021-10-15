@@ -56,15 +56,16 @@ function calcularBalance() {
 }
 
 //Función constructora
-function CrearGasto(descripcion, valor = 0, fecha = new Date().getTime(), ...etiquetas) {
+function CrearGasto(descripcion, valor = 0, fecha = new Date(), ...etiquetas) {
     if (isNaN(valor) || valor < 0) {
         valor = 0;
     }
+    if (etiquetas.length == 0) {etiquetas = []};
 
     const gasto = {
         valor : valor,
         descripcion : descripcion,
-        fecha : fecha.toLocaleString(),
+        fecha : fecha.toString(),
         etiquetas : etiquetas,
 
         mostrarGasto : function() {
@@ -85,7 +86,7 @@ function CrearGasto(descripcion, valor = 0, fecha = new Date().getTime(), ...eti
         mostrarGastoCompleto : function() {
             
             let texto =`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\n
-            Fecha: ${this.fecha}
+            Fecha: ${(this.fecha).toLocaleString()}
             Etiquetas:\n`;
             for(let etiqueta of etiquetas) {
                 texto = texto + `- ${etiqueta}\n`;
@@ -102,6 +103,8 @@ function CrearGasto(descripcion, valor = 0, fecha = new Date().getTime(), ...eti
               }
             if (isValidDate(newFecha)) {
                 this.Date = newFecha;
+            } else {
+                this.Date = this.Date;
             }
         },
 
