@@ -63,8 +63,20 @@ function CrearGasto(des, val, fec = Date.now(), ...eti) {
         } ,
 
         mostrarGastoCompleto() {
-            return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €\nFecha: ${this.fecha}\nEtiquetas: ${this.etiquetas}`);
-        }
+            let fec1;
+            if(typeof this.fecha === 'string') {
+                fec1 = Date.parse(this.fecha);
+            } else {
+                fec1 = this.fecha;
+            }
+            let aux = "";
+            for(let etiq of this.etiquetas) {
+                aux = aux + `- ${etiq}\n`;
+            };
+            let fec2 = new Date(fec1);
+            let aux2 = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fec2.toLocaleString())}\nEtiquetas:\n`;
+            return aux2 + aux;
+        },
     };
     return gasto;
 }
