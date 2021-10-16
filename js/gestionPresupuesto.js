@@ -55,11 +55,29 @@ function CrearGasto(des, val = 0, fec = Date.now(), ...eti) {
         } ,
 
         actualizarFecha(fec) {
-            this.fecha = Date.parse(fec);
+            if (!isNaN(Date.parse(fec))) {
+                this.fecha = Date.parse(fec);
+            }
+            
         } ,
 
-        actualizarEtiqueta(eti) {
-            this.etiquetas.push(eti);
+        anyadirEtiquetas(...etiquetas) {
+            const aux = etiquetas.filter((x) => {
+                if (!this.etiquetas.includes(x)) {
+                    return x;
+                }
+            });
+            this.etiquetas.push(...aux);
+        }, 
+
+        borrarEtiquetas(...etiquetas) {
+            etiquetas.forEach((x) => {
+                for (let i = 0; i < this.etiquetas.length; i++) {
+                    if (this.etiquetas[i] === x) {
+                        this.etiquetas.splice(i, 1);
+                    }
+                }
+            })
         } ,
 
         mostrarGastoCompleto() {
