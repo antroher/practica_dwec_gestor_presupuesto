@@ -21,7 +21,7 @@ function mostrarPresupuesto() {
     return(`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto(des, val, fec = Date.now(), ...eti) {
+function CrearGasto(des, val = 0, fec = Date.now(), ...eti) {
     if (parseFloat(val) < 0 || isNaN(val)) {
         val = 0;
     }
@@ -34,11 +34,11 @@ function CrearGasto(des, val, fec = Date.now(), ...eti) {
         this.fecha = getDate();
     }
 
-    let gasto = {
+    const gasto = {
         descripcion: des,
         valor: val,        
         etiquetas: [...eti],
-        fecha: fec,
+        fecha: (typeof fec === 'string') ? Date.parse(fec) : fec,
 
         mostrarGasto() {
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
