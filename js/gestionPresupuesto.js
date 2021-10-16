@@ -32,10 +32,12 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
     {
         valor1 = 0;
     }
+
     if (etiquetas1 == "" || etiquetas1 == null)
     {
         etiquetas1 = [];
-    }    
+    }   
+     
     let gasto = {
         descripcion: descripcion1,
         valor: valor1, 
@@ -45,26 +47,32 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
         mostrarGasto(){
             console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
             return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
-        },    
+        }, 
+
         actualizarDescripcion(nuevaDesc) {
             this.descripcion = nuevaDesc;
         },
+
         actualizarValor(nuevoNum) {
             if(nuevoNum >= 0)
                 {
                     this.valor = nuevoNum;
                 }
         }, 
+
         actualizarFecha() {
             this.fecha = fecha1; //?
         },
+
         anyadirEtiquetas() {
             
             this.etiquetas = etiquetas.push(); //*
-        },  
+        },
+
         borrarEtiquetas() {
             this.etiquetas.splice; //*
-        },             
+        }, 
+
     };
     return gasto;
 }
@@ -73,14 +81,6 @@ function listarGastos()
 {
     return gastos;
 }
-
-
-
-
-       
-        actualizarFecha() {
-            this.fecha = fecha.getDate();
-        }
 
 function anyadirGasto(id)
 {
