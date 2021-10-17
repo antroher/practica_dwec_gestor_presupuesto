@@ -54,6 +54,13 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
                 gasto.valor= NewValor;
             }
         }
+        mostrarGastoCompleto(){
+            let fecha;
+            if()
+        }
+        actualizarFecha(){
+            
+        }
     }
     return gasto;
 }
