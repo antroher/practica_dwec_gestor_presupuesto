@@ -70,7 +70,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                     acumulador += this.etiquetas[i] + "\n";
                 }
             
-                return `${this.valor} correspondiente a ${this.descripcion} con valor €.\nFecha: ${this.fecha}\nEtiquetas: ${acumulador}`;
+                return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(this.fecha.toLocaleString())}\nEtiquetas:\n${acumulador}`;
             },
             actualizarFecha(nuevaFecha)
             {
@@ -102,17 +102,20 @@ function listarGastos()
     return gastos;
 }
 
-function anyadirGasto(id)
+function anyadirGasto(gasto)
 {
-    /*dudas en este apartado*/ 
-    id = idGasto;
+    gasto.id = idGasto;
     idGasto++;
     gastos.push(gasto);
 }
 
 function borrarGasto(id)
 {
-    /*pasar por el aarray de gastos*/
+    for (let i = 0; i < gastos.length; i++) {
+        if (gastos[i].id === id) {
+            gastos.splice(i, 1);
+        }
+    }
 }
 function calcularTotalGastos()
 {
