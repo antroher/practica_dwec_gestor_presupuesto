@@ -5,7 +5,7 @@
 // TODO: Variable global
 var presupuesto = 0;
 var gastos = [];
-var diGasto = 0;
+var idGasto = 0;
 
 function comprobarNumNegativo(num){
     let negativo = false;
@@ -43,7 +43,7 @@ function mostrarPresupuesto() {
     return texto;
 }
 
-function CrearGasto(des, v, fec = Date.now(), ...etiq) {
+    function CrearGasto(des, v, fec = Date.now(), ...etiq) {
     // TODO
 
     if (comprobarNumNegativo(v)){
@@ -67,6 +67,20 @@ function CrearGasto(des, v, fec = Date.now(), ...etiq) {
             return texto;
         },
 
+
+        mostrarGastoCompleto(){
+              
+            let fechaDate = new Date(this.fecha);
+            let texto = this.mostrarGasto() + '.' + '\nFecha: ' + fechaDate.toLocaleString() + 
+            '\nEtiquetas:';
+
+            for (let eti of this.etiquetas){
+                texto += '\n- ' + eti;
+            }
+            texto += '\n';
+            return texto;
+        },
+
         actualizarDescripcion(newDes){
             this.descripcion = newDes;
         },
@@ -75,6 +89,42 @@ function CrearGasto(des, v, fec = Date.now(), ...etiq) {
             if (!comprobarNumNegativo(newV)){
                 this.valor = newV;
             }
+        },
+
+        actualizarFecha(newFec){
+            if (isNaN(Date.parse(newFec))){ 
+            }
+            else{
+                this.fecha = Date.parse(newFec);
+            }
+        },
+
+        buscarElemento(ele){
+            let repetido = false;
+            for (let i = 0; i < this.etiquetas.length && repetido == false; i++){
+                if (this.etiquetas[i] === ele){
+                    repetido = true;
+                }
+            }
+            return repetido;
+        },
+
+        anyadirEtiquetas(...eti){
+            for (let i = 0; i < eti.length; i++){
+                if (this.buscarElemento(eti[0]) == false){
+                    this.etiquetas.push(eti[i]);
+                }
+            }
+        },
+
+        borrarEtiquetas(...nombres){
+            for (let i = 0; i < nombres.length; i++){
+                for (let j = 0; j < this.etiquetas.length; j++){
+                    if (this.etiquetas[j] === nombres[i]){
+                        this.etiquetas.splice(i,1);
+                    }
+                }
+            }  
         }
     };
 
@@ -85,20 +135,31 @@ function listarGastos(){
     return gastos;
 }
 
-function anyadirGasto(){
-
+function anyadirGasto(gasto){
+    gasto.id = idGasto;
+    idGasto++;
+    gastos.push(gasto);
 }
 
-function borrarGasto(){
-
+function borrarGasto(id){
+    for (let i = 0; i < gastos.length; i++){
+        if (id == gastos[i].id){
+            gastos.splice(i,1);
+        }
+    }
 }
 
 function calcularTotalGastos(){
-
+    let total = 0;
+    for (let gasto of gastos){
+        total += gasto.valor;
+    }
+    return total;
 }
 
 function calcularBalance(){
-
+    let balance = presupuesto - calcularTotalGastos();
+    return balance;
 }
 
 
