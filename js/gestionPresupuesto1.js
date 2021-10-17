@@ -2,8 +2,6 @@
 
 // TODO: Variable global
 var presupuesto = 0;
-var gastos = [];
-var idGasto = 0;
 
 function actualizarPresupuesto(valor) {
     // TODO
@@ -25,22 +23,15 @@ function mostrarPresupuesto() {
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
-function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
+function CrearGasto(descripcion, valor) {
     // TODO
     if(valor < 0 || isNaN(valor)){
         valor = 0;
     }
-    if(etiquetas.length == 0){
-        etiquetas = [];
-    }
-    
+
     let gasto = {
         descripcion: descripcion,
         valor: valor,
-        fecha: (typeof fecha === "string") ? Date.parse(fecha) : fecha,
-        etiquetas: [...etiquetas],
-        id: idGasto,
-        
 
         mostrarGasto(){
             return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
@@ -56,52 +47,17 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
             if(nuevoValor >= 0){
                 this.valor = nuevoValor;
             }
-        },
-
-        anyadirEtiquetas(etiquetas){
-
         }
     };
 
     return gasto;
 }
 
-function listarGastos(){
-    return gastos;
-}
-
-function anyadirGasto(gastos){
-    gasto.prototype.idGasto = idGasto;
-    idGasto++
-    gastos.push(gastos);
-}
-
-function borrarGasto(id){
-    for(let i = 0; i < gastos.length; i++){
-        if(gastos.idGasto === id){
-            gastos.splice(i, 1);
-        }
-    }
-}
-
-function calcularBalance(){
-
-}
-
-function calcualrTotalGasto(){
-
-}
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto,
-
-    listarGastos,
-    anyadirGasto,
-    borrarGasto,
-    calcualrTotalGasto,
-    calcularBalance
+    CrearGasto
 }
