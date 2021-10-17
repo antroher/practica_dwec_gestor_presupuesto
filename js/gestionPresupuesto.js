@@ -89,7 +89,15 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
 
         borrarEtiquetas(...etiquetasOut) 
         {
-            //this.etiquetas.splice; 
+            let existe = 0;
+            for (let i = 0; i < etiquetasOut.length; i++)
+            {
+                existe = this.etiquetas.indexOf(etiquetasOut[i]);
+                if (existe != -1)
+                {
+                    this.etiquetas.splice(existe, 1);
+                }
+            }
         }, 
 
         mostrarGastoCompleto()
