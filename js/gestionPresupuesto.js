@@ -7,7 +7,9 @@ var gastos = [];
 var idGasto = 0;
 
 function actualizarPresupuesto(precio) {
+    
     let devuelveValor;
+    
     if (precio >= 0)
     {
         presupuesto = precio;
@@ -42,35 +44,45 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
         descripcion: descripcion1,
         valor: valor1, 
         etiquetas: [...etiquetas1],
-        fecha: (typeof fecha1 =='string') ? Date.parse(fecha1): fecha1,  
+        fecha: (typeof fecha1 == 'string') ? Date.parse(fecha1): fecha1,  
 
-        mostrarGasto(){
+        mostrarGasto()
+        {
             console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
             return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
         }, 
 
-        actualizarDescripcion(nuevaDesc) {
+        actualizarDescripcion(nuevaDesc) 
+        {
             this.descripcion = nuevaDesc;
         },
 
-        actualizarValor(nuevoNum) {
+        actualizarValor(nuevoNum) 
+        {
             if(nuevoNum >= 0)
-                {
-                    this.valor = nuevoNum;
-                }
+            {
+                this.valor = nuevoNum;
+            }                
         }, 
 
-        actualizarFecha() {
-            this.fecha = fecha1; //?
+        mostrarGastoCompleto ()
+        {
+
         },
 
-        anyadirEtiquetas() {
-            
-            this.etiquetas = etiquetas.push(); //*
+        actualizarFecha(FechaNueva)
+        {
+            //this.fecha = fecha1; 
         },
 
-        borrarEtiquetas() {
-            this.etiquetas.splice; //*
+        anyadirEtiquetas(...etiquetasNuevas) 
+        {            
+            this.etiquetas.push(etiquetasNuevas); 
+        },
+
+        borrarEtiquetas(...etiquetasOut) 
+        {
+            //this.etiquetas.splice; 
         }, 
 
     };
@@ -82,19 +94,16 @@ function listarGastos()
     return gastos;
 }
 
-function anyadirGasto(id)
+function anyadirGasto(gasto)
 {
-    id = idGasto;
+    gasto.id = idGasto;
     idGasto++;
-    gastos.splice(gasto);
+    gastos.push(gasto);
 }
 
-function borrarGasto(gastos)
+function borrarGasto(gasto)
 {
-    if (id == gastos)
-    {
-        delete gastos;
-    }
+    
 }
 
 function calcularTotalGastos()
@@ -102,8 +111,9 @@ function calcularTotalGastos()
     let gastosTotal = 0;
     for (let i = 0; i < gastos.length; i++)
     {
-        gastosTotal = gastoTotal + gastos[i];
+        gastosTotal = gastosTotal + gastos[i].valor;
     }
+    return gastosTotal;
 }
 
 function calcularBalance()
