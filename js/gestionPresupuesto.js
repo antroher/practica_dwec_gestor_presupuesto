@@ -59,13 +59,16 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
 
             anyadirEtiquetas (...etiquetas3)
             {
-                var contador = 0;
-                for(var i = 0; i < etiquetas3.length; i++)
+                let nuevaEtiqueta = 0;
+                for(let i = 0; i < etiquetas3.length; i++)
                 {
-                    contador = this.etiquetas.indexOf(etiquetas3[i]);
-                
+                    nuevaEtiqueta = this.etiquetas.indexOf(etiquetas3[i]);
+                    if (nuevaEtiqueta == -1)
+                    {
+                        this.etiquetas.push(etiquetas3[i]);//¿funciona?
+                    }
                 }
-                this.etiquetas.push(etiquetas3);//¿funciona?
+                
             },
 
             mostrarGastoCompleto(){
@@ -81,13 +84,13 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                 
                 return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechanueva}\nEtiquetas:\n ${this.etiquetas}`;
             },
-            actualizarFecha(nuevaFecha)
+            actualizarFecha(nuevaFecha)//ok
             {
                 let BuenaFecha = Date.parse(nuevaFecha);
 
                 if (!isNaN(BuenaFecha)) 
                 {
-                    this.fecha = Date.parse(newFecha);
+                    this.fecha = Date.parse(nuevaFecha);
                 }
             },
             borrarEtiquetas(...etiquetas2){
