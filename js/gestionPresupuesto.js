@@ -1,3 +1,5 @@
+"use strict"
+
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
@@ -40,15 +42,15 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         fecha: (typeof fecha === "string") ? Date.parse(fecha) : fecha,
         etiquetas: [...etiquetas],        
 
-        mostrarGasto(){
+        mostrarGasto : function(){
             return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
         },
 
-        actualizarDescripcion(nuevaDescripcion){
+        actualizarDescripcion : function(nuevaDescripcion){
             this.descripcion = nuevaDescripcion;
         },
 
-        actualizarValor(nuevoValor){
+        actualizarValor : function(nuevoValor){
             let valorDevuelto
 
             if(nuevoValor >= 0){
@@ -56,7 +58,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
             }
         },
 
-        anyadirEtiquetas(etiquetas){
+        anyadirEtiquetas : function(etiquetas){
 
         }
     };
@@ -82,7 +84,7 @@ function borrarGasto(id){
     }
 }
 
-function calcularTotalGasto(){
+function calcularTotalGastos(){
     let resultado = 0;
 
     for(let i = 0; i < gastos.length; i++){
@@ -92,7 +94,7 @@ function calcularTotalGasto(){
 }
 
 function calcularBalance(){
-
+    return presupuesto - calcularTotalGastos();
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -105,6 +107,6 @@ export   {
     listarGastos,
     anyadirGasto,
     borrarGasto,
-    calcularTotalGasto,
+    calcularTotalGastos,
     calcularBalance
 }
