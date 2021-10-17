@@ -33,6 +33,8 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         valor: NewValu,
         etiquetas: [...etiq],
         fecha: (typeof fec === 'string') ? Date.parse(fec) : fec,
+        gastos:[],
+        idGasto = 0,
         mostrarGasto(){
             console.log("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor +" €");
             return ("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor +" €")
@@ -47,9 +49,12 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
                 this.valor = NewVal;
             }
         },
-        anyadirEtiquetas(){
-
+        anyadirEtiquetas(id,gasto){
+            id = idGasto;
+            idGasto++;
+            gastos.push(gasto);
         },
+        borrarGasto();
     };
     return gasto;
 
@@ -59,6 +64,9 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     let gastos = [];
     let idGasto = 0;
 
+    /*
+    - no sabría si la funcion va fuera o dentro del onjeto gasto
+    
     function listarGastos(){
         return gastos;
     }
@@ -73,7 +81,7 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     }
     function calcularBalance(){
 
-    }
+    }*/
 }
 
     
