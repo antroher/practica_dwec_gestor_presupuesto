@@ -38,9 +38,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         descripcion: descripcion,
         valor: valor,
         fecha: (typeof fecha === "string") ? Date.parse(fecha) : fecha,
-        etiquetas: [...etiquetas],
-        id: idGasto,
-        
+        etiquetas: [...etiquetas],        
 
         mostrarGasto(){
             return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
@@ -85,7 +83,12 @@ function borrarGasto(id){
 }
 
 function calcularTotalGasto(){
+    let resultado = 0;
 
+    for(let i = 0; i < gastos.length; i++){
+        resultado = resultado + gastos[i].valor;
+    }
+    return resultado;
 }
 
 function calcularBalance(){
