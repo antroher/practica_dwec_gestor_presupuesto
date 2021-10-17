@@ -74,15 +74,22 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
             },
             actualizarFecha(nuevaFecha)
             {
-                /**comprobar q  la fecha es valida con lo de antes de arriba*/
-                this.fecha=nuevaFecha;
+                
+                (typeof nuevaFecha === "string") ? Date.parse(nuevaFecha) : this.fecha;
+                this.fecha = nuevaFecha;
                 
             },
             borrarEtiquetas(...etiquetas2){/*hecho*/ 
                 for (let i = 0; i < this.etiquetas.length; i++)
                 {
-                    /*for anidado*/
-                    //splice borrado
+                    for(let j = 0; j < etiquetas2.length; j++)
+                    {
+                        if (this.etiquetas[i] === etiquetas2[j])
+                        {
+                            this.etiquetas.splice(i, 1);
+                        }
+                        
+                    }
                 } 
             }
         };
@@ -95,10 +102,10 @@ function listarGastos()
     return gastos;
 }
 
-function anyadirGasto(id, gasto )
+function anyadirGasto(id)
 {
     /*dudas en este apartado*/ 
-    id=idGasto;
+    id = idGasto;
     idGasto++;
     gastos.push(gasto);
 }
@@ -110,7 +117,7 @@ function borrarGasto(id)
 function calcularTotalGastos()
 {
     let suma = 0;
-    for (var i = 0; i < gastos.length; i++)
+    for (let i = 0; i < gastos.length; i++)
     {
         suma += gastos[i].valor;
     }
