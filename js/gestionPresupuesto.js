@@ -254,6 +254,7 @@ describe("Función calcularBalance", function() {
         anyadirGasto(gasto2);
         anyadirGasto(gasto3);
 
+        
         assert.equal(calcularBalance(), presupuesto - valor1 - valor2 - valor3);
         gasto2.actualizarValor(nuevovalor2);
         assert.equal(calcularBalance(), presupuesto - valor1 - nuevovalor2 - valor3);
