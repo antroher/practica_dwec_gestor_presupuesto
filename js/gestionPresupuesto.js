@@ -70,15 +70,15 @@ function listarGastos(){
     return gastos;
 }
 
-function anyadirGasto(gastos){
-    gasto.prototype.idGasto = idGasto;
+function anyadirGasto(gasto){
+    gasto.idGasto = idGasto;
     idGasto++
-    gastos.push(gastos);
+    gastos.push(gasto);
 }
 
 function borrarGasto(id){
     for(let i = 0; i < gastos.length; i++){
-        if(gastos.idGasto === id){
+        if(gastos[i].id === id){
             gastos.splice(i, 1);
         }
     }
@@ -88,7 +88,7 @@ function calcularBalance(){
 
 }
 
-function calcualrTotalGasto(){
+function calcualarTotalGasto(){
 
 }
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -98,10 +98,9 @@ export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
     CrearGasto,
-
     listarGastos,
     anyadirGasto,
     borrarGasto,
-    calcualrTotalGasto,
+    calcularTotalGasto,
     calcularBalance
 }
