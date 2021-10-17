@@ -75,8 +75,10 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
             return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechaT}\nEtiquetas:\n- ${this.etiquetas[0]}\n- ${this.etiquetas[1]}\n- ${this.etiquetas[2]}\n`;
         },
 
-        actualizarFecha(NewFecha){  
-            this.fecha = (typeof NewFecha === "string") ? Date.parse(NewFecha):this.fecha;
+        actualizarFecha(Newfecha = this.fecha){ 
+            var Newfecha2 = Date.parse(Newfecha);
+            if((typeof Newfecha === 'string') && Newfecha2)
+                this.fecha = Newfecha2;
         }
     }
 
