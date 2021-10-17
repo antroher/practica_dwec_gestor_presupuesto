@@ -35,12 +35,12 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
     if(etiquetas.length == 0){
         etiquetas = [];
     }
-    
+
     let gasto = {
         descripcion: descripcion,
         valor: valor,
         fecha: (typeof fecha === "string") ? Date.parse(fecha) : fecha,
-        etiquetas: [...etiquetas],        
+        etiquetas: [...etiquetas],
 
         mostrarGasto : function(){
             return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
@@ -58,9 +58,33 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
             }
         },
 
+        //no sale
+        mostrarGastoCompleto : function(){
+            let listaEtiquetas = "";
+            let fechaLocal = new Date(this.fecha);
+
+            this.etiquetas.forEach((i) =>{
+                listaEtiquetas += `- ${i}\n`
+            })
+
+            let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechaLocal.toLocaleString()}\nEtiquetas:\n${listaEtiquetas}`;
+
+            console.log(texto);
+            return texto;
+        },
+        
+        actualizarFecha : function(nuevaFecha){
+            if (typeof nuevaFecha !== "string") return;
+
+            let okFecha = Date.parse(nuevaFecha) ;
+            if(isNaN(okFecha)) return;
+
+            this.fecha = Date.parse(nuevaFecha);
+        },
+
         anyadirEtiquetas : function(etiquetas){
 
-        }
+        },
     };
 
     return gasto;
@@ -76,12 +100,18 @@ function anyadirGasto(gasto){
     gastos.push(gasto);
 }
 
+// function borrarGasto(id){
+//     for(let i = 0; i < gastos.length; i++){
+//         if(gastos[i].id === id){
+//             gastos.splice(i, 1);
+//         }
+//     }
+// }
+
 function borrarGasto(id){
-    for(let i = 0; i < gastos.length; i++){
-        if(gastos[i].id === id){
-            gastos.splice(i, 1);
-        }
-    }
+    gastos.forEach((i, posi) =>{
+        if(i.id === id) gastos.splice(posi, 1);
+    })
 }
 
 function calcularTotalGastos(){
