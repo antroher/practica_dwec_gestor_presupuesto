@@ -46,24 +46,43 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         },
 
         anyadirEtiquetas(...Netiquetas){
-            for(var i = 0; i < this.etiquetas.length; i++)
+            var contador = 0;
+            for(var i = 0; i < Netiquetas.length; i++)
             {
-                if(Netiquetas != this.etiquetas[i])
-                    this.etiquetas = [...Netiquetas];
+                contador = this.etiquetas.indexOf(Netiquetas[i]);
+                if(contador == -1)
+                {
+                    this.etiquetas.push(Netiquetas[i]);
+                }                   
+            }
+        },
+
+        borrarEtiquetas(...Netiquetas){
+            var contador = 0;
+            for(var i = 0; i < Netiquetas.length; i++)
+            {
+                contador = this.etiquetas.indexOf(Netiquetas[i]);
+                if(contador != -1)
+                {
+                    this.etiquetas.splice(contador, 1);
+                }                   
             }
         },
 
         mostrarGastoCompleto(){
-            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} € 
-            Fecha: ${this.fecha}
-            Etiquetas: 
-            - ${this.etiquetas[1]} 
-            - ${this.etiquetas[2]} 
-            - ${this.etiquetas[3]}`;
+            fechaT = new Date(this.fecha);
+            fechaT = fechaT.toLocaleDateString() + " " + fechaT.toLocaleTimeString();
+            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €. 
+Fecha: ${fechaT} 
+Etiquetas: 
+- ${this.etiquetas[0]} 
+- ${this.etiquetas[1]} 
+- ${this.etiquetas[2]}`;
         },
 
-        actualizarFecha(Nfecha){
-            fecha = (typeof Nfecha == 'string') ? Date.parse(Nfecha) : Nfecha;
+        actualizarFecha(NewFecha){   
+            if((typeof NewFecha == 'string') && Date.parse(NewFecha))
+                this.fecha = NewFecha;
         }
     }
 
@@ -75,22 +94,36 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
     }
 
     function anyadirGasto(gasto){
-        gasto = {
-            id: idGasto
-        }  
+        Object.defineProperty(gasto, 'id', {value: idGasto});
+        idGasto = idGasto + 1;
+        gastos.push(gasto);        
     }
 
     function borrarGasto(id){
-
+        for(var i = 0; i < gastos.length; i++)
+        {
+            if(id == gastos[i].id)
+            {
+                gastos.splice(i, 1);
+            }
+        }
     }
 
     function calcularTotalGastos(){
-
+        var totalGastos = 0;
+        for(var i = 0; i < gastos.length; i++)
+        {
+            totalGastos = totalGastos + gastos[i].valor;
+        }
+        return totalGastos;
     }
 
     function calcularBalance(){
-
+        var balance = 0;
+        balance = presupuesto - calcularTotalGastos();
+        return balance;
     }
+
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
