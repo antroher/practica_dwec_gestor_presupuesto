@@ -59,32 +59,43 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
 
             anyadirEtiquetas (...etiquetas3)
             {
+                var contador = 0;
+                for(var i = 0; i < etiquetas3.length; i++)
+                {
+                    contador = this.etiquetas.indexOf(etiquetas3[i]);
+                
+                }
                 this.etiquetas.push(etiquetas3);//¿funciona?
             },
 
             mostrarGastoCompleto(){
 
-                let acumulador = "";
+                let acumulador;
+                var fechanueva = new Date(this.fecha);
+                fechanueva = fechanueva.toLocaleString();
+
                 for (var i = 0; i < this.etiquetas.length; i++)
                 {
-                    acumulador += this.etiquetas[i] + "\n";
+                    acumulador +=" - "+this.etiquetas[i] + "\n";
                 }
-            
-                return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(this.fecha.toLocaleString())}\nEtiquetas:\n${acumulador}`;
+                
+                return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechanueva}\nEtiquetas:\n ${this.etiquetas}`;
             },
             actualizarFecha(nuevaFecha)
             {
-                
-                (typeof nuevaFecha === "string") ? Date.parse(nuevaFecha) : this.fecha;
-                this.fecha = nuevaFecha;
-                
+                let BuenaFecha = Date.parse(nuevaFecha);
+
+                if (!isNaN(BuenaFecha)) 
+                {
+                    this.fecha = Date.parse(newFecha);
+                }
             },
-            borrarEtiquetas(...etiquetas2){/*hecho*/ 
+            borrarEtiquetas(...etiquetas2){
                 for (let i = 0; i < this.etiquetas.length; i++)
                 {
                     for(let j = 0; j < etiquetas2.length; j++)
                     {
-                        if (this.etiquetas[i] === etiquetas2[j])
+                        if (this.etiquetas[i].valor === etiquetas2[j].valor)
                         {
                             this.etiquetas.splice(i, 1);
                         }
@@ -97,19 +108,19 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
 }
 
 
-function listarGastos()
+function listarGastos()/*OK*/
 {
     return gastos;
 }
 
-function anyadirGasto(gasto)
+function anyadirGasto(gasto)/*OK*/
 {
     gasto.id = idGasto;
     idGasto++;
     gastos.push(gasto);
 }
 
-function borrarGasto(id)
+function borrarGasto(id)/*OK*/
 {
     for (let i = 0; i < gastos.length; i++) {
         if (gastos[i].id === id) {
@@ -117,7 +128,7 @@ function borrarGasto(id)
         }
     }
 }
-function calcularTotalGastos()
+function calcularTotalGastos()/*OK*/
 {
     let suma = 0;
     for (let i = 0; i < gastos.length; i++)
@@ -126,7 +137,7 @@ function calcularTotalGastos()
     }
     return suma;
 }
-function calcularBalance() //hecho
+function calcularBalance() /*OK*/
 {
     let result = 0;
     let totalgastos = calcularTotalGastos();
