@@ -70,19 +70,13 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         },
 
         mostrarGastoCompleto(){
-            fechaT = new Date(this.fecha);
-            fechaT = fechaT.toLocaleDateString() + " " + fechaT.toLocaleTimeString();
-            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €. 
-Fecha: ${fechaT} 
-Etiquetas: 
-- ${this.etiquetas[0]} 
-- ${this.etiquetas[1]} 
-- ${this.etiquetas[2]}`;
+            var fechaT = new Date(this.fecha);
+            fechaT = fechaT.toLocaleString();
+            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechaT}\nEtiquetas:\n- ${this.etiquetas[0]}\n- ${this.etiquetas[1]}\n- ${this.etiquetas[2]}\n`;
         },
 
-        actualizarFecha(NewFecha){   
-            if((typeof NewFecha == 'string') && Date.parse(NewFecha))
-                this.fecha = NewFecha;
+        actualizarFecha(NewFecha){  
+            this.fecha = (typeof NewFecha === "string") ? Date.parse(NewFecha):this.fecha;
         }
     }
 
