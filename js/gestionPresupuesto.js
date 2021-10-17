@@ -67,7 +67,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
 
         actualizarFecha(fechaNueva)
         {
-            var fechaNueva1 = Date.parse(fechaNueva);
+            let fechaNueva1 = Date.parse(fechaNueva);
             if (typeof fechaNueva === 'string' && fechaNueva1)
             {
                 this.fecha = Date.parse(fechaNueva)
@@ -76,7 +76,15 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
 
         anyadirEtiquetas(...etiquetasNuevas) 
         {            
-            this.etiquetas.push(etiquetasNuevas); 
+            let NoExiste = 0;
+            for (let i = 0; i < etiquetasNuevas.length; i++)
+            {
+                NoExiste = this.etiquetas.indexOf(etiquetasNuevas[i]);
+                if (NoExiste == -1)
+                {
+                    this.etiquetas.push(etiquetasNuevas[i]);
+                }
+            }
         },
 
         borrarEtiquetas(...etiquetasOut) 
