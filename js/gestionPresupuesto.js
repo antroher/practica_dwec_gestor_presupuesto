@@ -63,16 +63,15 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
             {
                 this.valor = nuevoNum;
             }                
-        }, 
+        },         
 
-        mostrarGastoCompleto ()
+        actualizarFecha(fechaNueva)
         {
-
-        },
-
-        actualizarFecha(FechaNueva)
-        {
-            //this.fecha = fecha1; 
+            var fechaNueva1 = Date.parse(fechaNueva);
+            if (typeof fechaNueva === 'string' && fechaNueva1)
+            {
+                this.fecha = Date.parse(fechaNueva)
+            }
         },
 
         anyadirEtiquetas(...etiquetasNuevas) 
@@ -84,6 +83,15 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
         {
             //this.etiquetas.splice; 
         }, 
+
+        mostrarGastoCompleto()
+        {            
+            let fechaNew = Date.now();
+            fechaNew = FechaNew.toLocaleString();
+            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor}€. \n Fecha: ${FechaNew}
+            \n Etiquetas:\n - ${this.etiquetas[0]}\n - ${this.etiquetas[1]}\n - ${this.etiquetas[2]}`;            
+            
+        },
 
     };
     return gasto;
