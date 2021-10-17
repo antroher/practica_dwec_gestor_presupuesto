@@ -33,8 +33,6 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         valor: NewValu,
         etiquetas: [...etiq],
         fecha: (typeof fec === 'string') ? Date.parse(fec) : fec,
-        gastos:[],
-        idGasto = 0,
         mostrarGasto(){
             console.log("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor +" €");
             return ("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor +" €")
@@ -49,40 +47,83 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
                 this.valor = NewVal;
             }
         },
-        anyadirEtiquetas(id,gasto){
-            id = idGasto;
-            idGasto++;
-            gastos.push(gasto);
+        mostrarGastoCompleto(){
+            let acomulador = "";
+            for(var i = 0; i < this.etiquetas.length; i++){
+                acomulador += this.etiquetas[i] + "\n";
+            }
+            console.log(`Gasto correspondiente a ${this.NewDescriptio} con valor
+            ${this.NewValu} €. \n Fecha: ${fec.toLocaleString()}
+            \n Etiquetas: \n - ${acomulador}`);
         },
-        borrarGasto();
+        actualizarFecha(fecha){
+            //si la fecha es válida se comprueba al comienzo del objeto
+            Date.now(Date.parse(this.fecha));
+        },
+        anyadirEtiquetas(...etiq){
+            //["nuevo1","nuevo2","nuevo3"] => ["nuevo1","nuevo2","nuevo1"]
+            //array.map(funcion -> funcion) para cada elemento del array
+            //devuelve un array con los resultados.
+            /*var map ={}; //valore no repetidos
+            var repetidos = [];
+            for (var i = 0; i < this.etiquetas.length; i++){
+                if(!(this.etiquetas[i] in map)) { //si no es un valor nuevo del array añadirlo al nuevo array map
+                    map[this.etiquetas[i]] = true;
+                    repetidos.push(this.etiquetas[i]); //insertal el elemento al final
+                }
+                return repetidos
+            }*/
+            var map = {}; //agregamos valores nuevos
+            return this.etiquetas.filter(function anyadirEtiquetas(etiqueta) {
+                if(!(this.etiquetas[i] in map)){ //elemento inexistente en el mapa
+                    map[etiqueta] = true;
+                    return true;
+                }
+                return false;
+            })
+        },
+        borrarEtiquetas(etiq){
+            for(var i = 0; i < this.etiquetas.length; i++){
+                if(etiq == etiquetas[i]){
+                    this.etiquetas.splice(etiq);    
+                }
+            }
+        }
     };
+}
     return gasto;
 
-
     //práctica 2
-    let gastos = new gastos();
+    let gastos = new Array();
     let gastos = [];
     let idGasto = 0;
+        idGasto = 0;
 
-    /*
-    - no sabría si la funcion va fuera o dentro del onjeto gasto
-    
     function listarGastos(){
         return gastos;
     }
-    function anyadirGasto(){
-
+    function anyadirGasto(gasto){
+        id = idGasto;
+        idGasto++;
+        gastos.push(gasto);
     }
-    function borrarGasto(){
-
+    function borrarGasto(id){
+        for(var i = 0; i < gastos.length; i++){
+            if(id == gastos[id]){
+                gastos.splice(id,id);
+            }
+        }
     }
     function calcularTotalGastos(){
-
+        let suma = 0;
+        for(var i = 0; i < gastos.length; i++){
+            suma += gastos[i].valor;
+        }
+        return suma;
     }
     function calcularBalance(){
-
-    }*/
-}
+        return (presupeusto -  calcularTotalGastos());
+    }
 
     
 //las funciones y objetos deben tener los nombres que indican en el enunciado
