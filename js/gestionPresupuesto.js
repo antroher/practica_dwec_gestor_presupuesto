@@ -71,7 +71,7 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta = []) 
             }
         },
         anyadirEtiquetas(){
-
+           
         },
         borrarEtiquetas(){
 
