@@ -69,21 +69,26 @@ function anyadirGasto(idGasto){
 }
 
 function borrarGasto(idGasto){
-    for(int i = 0; i < gastos.length; i++)
+    for(let i = 0; i < gastos.length; i++)
     {
         if(gasto[i].id==idGasto)
         {
-            splice(gasto[i]);
+            gasto.splice(i,1);
         }
     }
 }
 
 function calcularTotalGastos(){
-
+    let total = 0;
+    for(let i=0; i<gastos.length;i++)
+    {
+        total = total + gasto[i].valor;
+    }
+    return total;
 }
 
 function calcularBalance(){
-
+    return presupuesto - calcularTotalGastos();
 }
 
 
