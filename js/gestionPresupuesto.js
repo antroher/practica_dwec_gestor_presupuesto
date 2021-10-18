@@ -72,19 +72,19 @@ function CrearGasto(descripcion1, valor1, fecha = Date.now(), ...etiquetas) {
 }
 
 function listarGastos(){
-return gastos;
+    return gastos;
 }
 function anyadirGasto(gasto){
-gastos.id = idGasto;
-idGasto++;
-gastos.push(gasto);
+    gasto.id = idGasto;
+    idGasto++;
+    gastos.push(gasto);/*push para añadir al array al final, y el .pop sacas la ultima posi del array*/
 }
 function borrarGasto(idrandom){
     for(let i = 0; i < gastos.length; i++)
     {
         if(idrandom === gastos[i].id)
         {
-            gastos.splice(i,1);
+            gastos.splice(i,1);/*igual al remove at*/ 
         }
     }
 }
