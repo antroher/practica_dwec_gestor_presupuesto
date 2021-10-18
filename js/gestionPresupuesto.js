@@ -51,7 +51,7 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         mostrarGastoCompleto(){
             let acomulador = "";
             for(var i = 0; i < this.etiquetas.length; i++){
-                acomulador += this.etiquetas[i] + "\n";
+                acomulador += " " + this.etiquetas[i] + "\n";
             }
             return `Gasto correspondiente a ${this.NewDescriptio} con valor
             ${this.NewValu} €. \n Fecha: ${fec.toLocaleString()}
@@ -59,7 +59,9 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         },
         actualizarFecha(NewDate){
             //si la fecha es válida se comprueba al comienzo del objeto
-            if(!isNaN(Date.parse(NewDate))){this.fecha = Date.now(Date.parse(NewDate));} //si no se define la fecha
+            if(!isNaN(Date.parse(NewDate))){
+                this.fecha = Date.parse(NewDate);
+            } //si no se define la fecha
         },
         anyadirEtiquetas(...etiq){
             //["nuevo1","nuevo2","nuevo3"] => ["nuevo1","nuevo2","nuevo1"]
