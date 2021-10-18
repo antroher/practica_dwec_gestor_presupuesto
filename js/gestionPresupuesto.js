@@ -129,6 +129,22 @@ function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
                     }
                 }
             })
+        },
+
+        obtenerPeriodoAgrupacion : function(periodo) {
+            if (periodo.toLowerCase() === "dia") {
+                let dia = this.fecha.getDate();
+                let mes = this.fecha.getMonth();
+                let anyo = this.fecha.getFullYear();
+                return `${anyo}-${mes}-${dia}`;
+            } else if (periodo.toLowerCase() === "mes") {
+                let mes = this.fecha.getMonth();
+                let anyo = this.fecha.getFullYear();
+                return `${anyo}-${mes}`;
+            } else if (periodo.toLowerCase() === "anyo") {
+                 let anyo = this.fecha.getFullYear();
+                 return `${anyo}`;
+            }
         }
     };
     
@@ -146,5 +162,7 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
