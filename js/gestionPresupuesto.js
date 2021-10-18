@@ -56,6 +56,30 @@ function calcularBalance() {
 }
 
 function filtrarGastos(gastosFilter) {
+    const gastosFiltrados = [].map = gastos.filter((x) => {
+        if (gastosFilter.fechaDesde === x.fecha) {
+
+        }
+        if (gastosFilter.fechaHasta === x.fecha) {
+            
+        }
+        if (gastosFilter.valorMinimo === x.valor) {
+
+        }
+        if (gastosFilter.valorMaximo === x.valor) {
+            
+        }
+        if ((gastosFilter.descripcion).includes(x.descripcionContiene)) {
+            
+        }
+        if ((gastosFilter.descripcion).includes(x.etiquetasTiene)) {
+        
+        }
+    })
+    return gastosFiltrados;
+}
+
+function agruparGastos(periodo, etiquetas, fechaDesde = new Date(new Date().getFullYear(), 0, 1), fechaHasta = new Date.now()) {
 
 }
 
