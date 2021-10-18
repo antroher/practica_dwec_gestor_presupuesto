@@ -3,6 +3,7 @@
 // TODO: Variable global
 "use strict"
 var presupuesto = 0;
+var gastos = [];
 function actualizarPresupuesto(valores) {
 
     if (parseFloat(valores) >= 0) {
@@ -18,9 +19,16 @@ function mostrarPresupuesto() {
     return 'Tu presupuesto actual es de ' + presupuesto + ' €';
 }
 
-function CrearGasto(descr, val) {
+function CrearGasto(descr, val, fechaCreacion, ...etiquetas) {
 
-    let gasto;
+    let gasto = {
+   id = idgasto,
+   descripcion = descr,
+   etiquetas = new Array(),
+   date = Date.now(),
+   valor = null,
+   fecha = null
+    }
 
     if (parseFloat(val) >= 0) {
         gasto = {
@@ -35,6 +43,23 @@ function CrearGasto(descr, val) {
             descripcion: descr,
             valor: 0
         };
+        gastos += gasto;
+        idgasto ++;
+    }
+    if(fechaCreacion==undefined || isNaN(Date.parse(fechaCreacion))){
+        gasto.fecha = new Date(Date.now()).toISOString().substring(0,16);
+        }else{
+            gasto.fecha = Date.parse(fechaCreacion);
+        }
+    gasto.mostrarGastoCompleto = function(){
+        let resp = `Gasto correspondiente a ${descr} con valor ${valor} €.
+        Fecha: ${fechalocale}
+        Etiquetas:\n`
+
+        for(let i =0;i<etiquetas.length; i++){
+            resp += `- ` + etiquetas[i] + `\n`;
+        }
+        return resp;
     }
 
     gasto.mostrarGasto = function () {
@@ -44,7 +69,21 @@ function CrearGasto(descr, val) {
     gasto.actualizarDescripcion = function (newDescr) {
         this.descripcion = newDescr;
     };
-
+    gasto.actualizarValor = function(nuevovalor){
+        if(parseFloat(nuevovalor)> 0){
+        this.valor = nuevovalor;
+        }
+    }
+    gasto.actulizarFecha = function(nuevaFecha){
+        this.fecha = Date.parse(nuevaFecha);
+    }
+    gasto.anyadirEtiquetas = function(...nuevaEtiqueta){
+        nuevaEtiqueta.forEach(a => {
+            if(!this.etiquetas.includes(a)){
+                this.etiquetas.push(a);
+            }
+        })
+    }
     gasto.actualizarValor = function (v1) {
         if (parseFloat(v1) >= 0) {
             this.valor = v1;
@@ -54,8 +93,41 @@ function CrearGasto(descr, val) {
     
     return gasto;
 }
+function listarGastos(){
+return gastos;
+}
+
+function anyadirGasto(gastoante){
+    gastoante = idgasto;
+    gastoante.push(gasto);
+    idgasto++;
+    
+}
+function borrarGasto(idborrar){
+    let contador = 0;
+    array.forEach(j => {
+        if(j.id == idborrar){
+            delete gastos[contador];
+        }
+        contador++;
+    });
 
 
+}
+function calcularTotalGastos(idsumar){
+    let contador = 0;
+    let totalgastos = 0;
+    array.forEach(j => {
+        if(j.id == idsumar){
+           totalgastos +=  gastos[contador];
+        }
+        contador++;
+    });
+}
+function calcularBalance(){
+    let gastostotales = calcularTotalGastos();
+    return(presupuesto - gastostotales);
+}
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -64,5 +136,10 @@ function CrearGasto(descr, val) {
 export {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance
 }
