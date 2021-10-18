@@ -27,7 +27,7 @@ function CrearGasto(des, v, fec=Date.now(), ...etiq){
     if((parseFloat(v)<0) || isNaN(v))
         v=0;
         
-
+    Date.parse(fec)
     let gasto = {
         descripcion:des,
         valor:v,
@@ -45,6 +45,18 @@ function CrearGasto(des, v, fec=Date.now(), ...etiq){
             {
                 gasto.valor=val;
             }       
+        },
+        mostrarGastoCompleto(){
+
+        },
+        actualizarFecha(){
+
+        },
+        añadirEtiquetas(){
+
+        },
+        borrarEtiquedas(){
+            
         }
       };
     return gasto;
@@ -53,10 +65,16 @@ function CrearGasto(des, v, fec=Date.now(), ...etiq){
 function listarGastos(){
     return gastos;
 }
-function anyadirGasto(){
-    
+function anyadirGasto(gasto){
+    gasto.unshift(idGasto);
+    idGasto++;
+    gastos.push(gasto);
 }
-function borrarGasto(){
+function borrarGasto(id){
+    let i=0;
+    while(gastos.length>i)
+        if(gastos[i]==id)
+            delete gastos[i];
     
 }
 function calcularTotalGastos(){
