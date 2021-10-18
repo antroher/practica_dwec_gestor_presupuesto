@@ -61,8 +61,8 @@ function CrearGasto(des, val = 0, fec = Date.now(), ...eti) {
             
         } ,
 
-        anyadirEtiquetas(...etiquetas) {
-            const aux = etiquetas.filter((x) => {
+        anyadirEtiquetas(...eti) {
+            const aux = eti.filter((x) => {
                 if (!this.etiquetas.includes(x)) {
                     return x;
                 }
@@ -70,8 +70,8 @@ function CrearGasto(des, val = 0, fec = Date.now(), ...eti) {
             this.etiquetas.push(...aux);
         }, 
 
-        borrarEtiquetas(...etiquetas) {
-            etiquetas.forEach((x) => {
+        borrarEtiquetas(...eti) {
+            eti.forEach((x) => {
                 for (let i = 0; i < this.etiquetas.length; i++) {
                     if (this.etiquetas[i] === x) {
                         this.etiquetas.splice(i, 1);
@@ -88,8 +88,8 @@ function CrearGasto(des, val = 0, fec = Date.now(), ...eti) {
                 fec1 = this.fecha;
             }
             let aux = "";
-            for(let etiq of this.etiquetas) {
-                aux = aux + `- ${etiq}\n`;
+            for(let eti of this.etiquetas) {
+                aux = aux + `- ${eti}\n`;
             };
             let fec2 = new Date(fec1);
             let aux2 = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fec2.toLocaleString())}\nEtiquetas:\n`;
