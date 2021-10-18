@@ -50,12 +50,13 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         },
         mostrarGastoCompleto(){
             let acomulador = "";
+            var fechaNueva = new Date(this.fecha);
             for(var i = 0; i < this.etiquetas.length; i++){
-                acomulador += " " + this.etiquetas[i] + "\n";
+                acomulador += + this.etiquetas[i];
             }
             return `Gasto correspondiente a ${this.NewDescriptio} con valor
-            ${this.NewValu} €. \n Fecha: ${fec.toLocaleString()}
-            \n Etiquetas: \n - ${acomulador}`;
+            ${this.NewValu} €. \n Fecha: ${fechaNueva.toLocaleString()}
+            \n Etiquetas: \n - ${acomulador}\n`;
         },
         actualizarFecha(NewDate){
             //si la fecha es válida se comprueba al comienzo del objeto
@@ -71,8 +72,8 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
             var repetidos = [];
             for (var i = 0; i < etiq.length; i++){
                 if(!(this.etiquetas[i] in map)) { //si no es un valor nuevo del array añadirlo al nuevo array map
-                    map[this.etiquetas[i]] = true;
-                    repetidos.push(this.etiquetas[i]); //insertal el elemento al final
+                    map[this.etiq[i]] = true;
+                    repetidos.push(this.etiq[i]); //insertal el elemento al final
                 }
                 return repetidos
             }
