@@ -35,7 +35,7 @@ function mostrarPresupuesto() {
     return texto;
 }
 
-function CrearGasto(desintro, valorintro, fecha, ...etiquetas) {
+function CrearGasto(desintro, valorintro, fecha = Date.now(), ...etiquetas) {
     // TODO
     if(valorintro < 0 || isNaN(valorintro))
     {
@@ -92,18 +92,23 @@ function anyadirGasto(){
 
 }
 
-function borrarGasto(){
+function borrarGasto(id){
 
+    for(let i = 0; i <= gasto.length(); i++){
 
+        
+
+    }
 
 }
 
 function calcularTotalGastos(){
 
     for(let i = 0; i <= gasto.length(); i++){
-        let num = gasto[i].
+        let num = gasto[i].valor() + num;
     }
 
+    return num;
 }
 
 function calcularBalance(){
