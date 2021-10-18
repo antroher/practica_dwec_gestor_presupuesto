@@ -49,30 +49,37 @@ function CrearGasto(descripcionEntrante, valorEntrante = 0, fechaEntrante = Date
 
         mostrarGastoCompleto() {
             let cadenaCompleta = "";
-            cadenaCompleta += `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\n
-                Fecha: ${this.fecha.toLocaleString()}\n`;
+            let cadenaFecha = new Date(this.fecha).toLocaleString();
+            cadenaCompleta += `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${cadenaFecha}\nEtiquetas:\n`;
+            for (let i = 0; i < this.etiquetas.length; i++) {
+                cadenaCompleta += `- ${this.etiquetas[i]}\n`
+            }
+            console.log(cadenaCompleta);
+            return cadenaCompleta;
         },
         
         actualizarFecha(nuevaFecha) {
             if (!isNaN(Date.parse(nuevaFecha)))
             {
-                this.fecha = nuevaFecha;
+                this.fecha = Date.parse(nuevaFecha);
             }
         },
 
         anyadirEtiquetas(...nuevasEtiquetas) {
             for (let i = 0; i < nuevasEtiquetas.length; i++) {
                 if(this.etiquetas.includes(nuevasEtiquetas[i])) {
-                    break;
+                    continue;
                 }
                 this.etiquetas.push(nuevasEtiquetas[i]);
             }
         },
 
         borrarEtiquetas(...etiquetasABorrar) {
-            for (let i = 0; i < nuevasEtiquetas.length; i++) {
-                if(etiquetasABorrar.includes(this.etiquetas[i])) {
-                    this.etiquetas.splice(i, 1);
+            for (let i = 0; i < etiquetasABorrar.length; i++) {
+                for (let f = 0; f < this.etiquetas.length; f++) {
+                    if (etiquetasABorrar[i] === this.etiquetas[f]){
+                        this.etiquetas.splice(f, 1);
+                    }
                 }
             }
         },
