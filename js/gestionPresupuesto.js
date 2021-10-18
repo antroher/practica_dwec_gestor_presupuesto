@@ -26,20 +26,17 @@ function mostrarPresupuesto() {
 
 }
 
-function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
+function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta = []) {
         
         if(valorIn < 0 || isNaN(valorIn)){
             valorIn = 0;
         }
 
-        if(etiqueta.lenght === 0){
-            etiqueta = [];
-        }
     let gasto = {
         descripcion:descripcionIn,
         valor:parseFloat(valorIn),
-        etiquetas: [...etiqueta],
-        fech: (typeof fech === "string") ? Date.parse(fech) : fech,
+        etiquetas: [...etiqueta], //El [] ES PARA CREAR EL ARRAY POR DEFECTO
+        fec: (typeof fech === "string") ? Date.parse(fech) : fech,
 
          mostrarGasto() {
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`);
@@ -53,13 +50,21 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
             {
                 gasto.valor= NewValor;
             }
-        }
+        },
         mostrarGastoCompleto(){
-            let fecha;
-            if()
-        }
-        actualizarFecha(){
-            
+         
+        },
+        actualizarFecha(inFecha){
+            if(typeof inFecha === "string"){
+               let fechVar = Date.parse(inFecha);
+               this.fec = fechVar;
+            }
+        },
+        anyadirEtiquetas(){
+
+        },
+        borrarEtiquetas(){
+
         }
     }
     return gasto;
