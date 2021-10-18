@@ -26,7 +26,7 @@ function CrearGasto(discount, value, valueDate, ...ArrayLabels)
         description: discount + "",
         valor: parseFloat(value),
         fecha: Date.parse(valueDate),
-        labels: ArrayLabels,
+        etiquetas: ArrayLabels,
 
         mostrarGasto:function()
         {
@@ -47,9 +47,9 @@ function CrearGasto(discount, value, valueDate, ...ArrayLabels)
         {
             let txt = "Gasto correspondiente a " + this.description + " con valor " + this.valor + " €.\n" + "Fecha: " + new Date(this.fecha).toLocaleString() + "\n" + "Etiquetas:\n";
 
-            if (this.labels.length > 0)
+            if (this.etiquetas.length > 0)
             {
-                this.labels.forEach(show => {txt = txt + "- " + show + "\n"});
+                this.etiquetas.forEach(show => {txt = txt + "- " + show + "\n"});
             }
 
             return txt;
@@ -67,9 +67,9 @@ function CrearGasto(discount, value, valueDate, ...ArrayLabels)
         {
             etiquetas.forEach(label =>
             {
-                if (typeof(label) == "string" && !this.labels.includes(label))
+                if (typeof(label) == "string" && !this.etiquetas.includes(label))
                 {
-                    this.labels.push(label);
+                    this.etiquetas.push(label);
                 }
             });
         },
@@ -78,9 +78,9 @@ function CrearGasto(discount, value, valueDate, ...ArrayLabels)
         {
             etiquetas.forEach(label =>
             {
-                if (this.labels.includes(label))
+                if (this.etiquetas.includes(label))
                 {
-                    this.labels.splice(this.labels.indexOf(label), 1);
+                    this.etiquetas.splice(this.etiquetas.indexOf(label), 1);
                 }
             });
         }
