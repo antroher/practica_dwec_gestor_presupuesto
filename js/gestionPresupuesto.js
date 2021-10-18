@@ -60,12 +60,17 @@ function CrearGasto(desc, val, fec = Date.now(), ...eti) {
 
         actualizarFecha : function(fech) {
             if (!isNaN(Date.parse(fech))) {
-                this.fecha = Date.parse(fech);
+            this.fecha = Date.parse(fech);
             }
         },
 
-        actualizarEtiqueta : function(etiq) {
-            this.etiqueta = etiq;
+        actualizarEtiqueta : function(...etiq) {
+            const aux = etiq.filter((x) => {
+                if (!this.etiq.includes(x)) {
+                    return x;
+                }
+            });
+            this.etiq.push(...aux);
         }
     };
     return gasto;
