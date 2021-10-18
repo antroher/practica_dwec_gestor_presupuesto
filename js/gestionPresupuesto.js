@@ -106,10 +106,14 @@ function CrearGasto(descripcion, valor) {
     }
    
 } 
-
+let gastos = [];
+let idGasto = 0; 
 function listarGastos()
 {
-
+    for (let i = 0; i <gastos.length; i++)
+    {
+        document.write(gastos[i])
+    }
 }
 
 function anyadirGasto()
@@ -128,7 +132,7 @@ function calcularTotalGastos()
 }
 function calcularBalance()
 {
-    
+   
 }    
 
 
