@@ -31,6 +31,7 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     if(NewValu < 0 || isNaN(NewValu)){
         NewValu = 0;
     }
+    //if (etiquetas.length == 0) { etiquetas = [] };
     let gasto = {
         descripcion: NewDescriptio,
         valor: NewValu,
@@ -64,14 +65,14 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
             }
         },
         mostrarGastoCompleto(){
-            let acomulador = "";
-            var fechaNueva = new Date(this.fecha);
-            for(var i = 0; i < this.etiquetas.length; i++){
-                acomulador += this.etiquetas[i];
+            let acumulador = "";
+            var fechanueva = new Date(this.fecha);
+            for (var i = 0; i < this.etiquetas.length; i++)
+            {
+                acumulador += `- ${this.etiquetas[i]}\n`;
             }
-            return `Gasto correspondiente a ${this.NewDescriptio} con valor
-            ${this.NewValu} €. \n Fecha: ${(fechaNueva.toLocaleString())}
-            \n Etiquetas: \n - ${acomulador}\n`;
+            
+            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechanueva.toLocaleString()}\nEtiquetas:\n${acumulador}`;s
         },
         actualizarFecha(NewDate){
             //si la fecha es válida se comprueba al comienzo del objeto
@@ -89,9 +90,10 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
             }
         },
         borrarEtiquetas(...etiq){
-            for(var i = 0; i < this.etiquetas.length; i++){
-                let buscar = this.etiquetas.includes(etiq[i]);
-                if(buscar == true){
+            let buscar = 0;
+            for(var i = 0; i < etiq.length; i++){
+                buscar = this.etiquetas.indexOf(etiq[i]);
+                if(buscar != -1){
                     this.etiquetas.splice(buscar,1);    
                 }
             }
