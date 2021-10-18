@@ -57,13 +57,6 @@ function CrearGasto(descripcionEntrante, valorEntrante = 0, fechaEntrante = Date
             console.log(cadenaCompleta);
             return cadenaCompleta;
         },
-        
-        actualizarFecha(nuevaFecha) {
-            if (!isNaN(Date.parse(nuevaFecha)))
-            {
-                this.fecha = Date.parse(nuevaFecha);
-            }
-        },
 
         anyadirEtiquetas(...nuevasEtiquetas) {
             for (let i = 0; i < nuevasEtiquetas.length; i++) {
@@ -92,6 +85,32 @@ function CrearGasto(descripcionEntrante, valorEntrante = 0, fechaEntrante = Date
             if (nuevoValor >= 0) {
                 this.valor = nuevoValor;
             }
+        },
+        
+        actualizarFecha(nuevaFecha) {
+            if (!isNaN(Date.parse(nuevaFecha)))
+            {
+                this.fecha = Date.parse(nuevaFecha);
+            }
+        },
+
+        obtenerPeriodoAgrupacion(periodo) {
+            let fechaGasto = new Date(this.fecha);
+            let fechaCadena = "";
+            let month = (fechaGasto.getMonth() < 10) ? `0${fechaGasto.getMonth() + 1}` : `${fechaGasto.getMonth() + 1}` 
+            switch(periodo) {
+                case "dia":
+                    fechaCadena += `${fechaGasto.getFullYear()}-${month}-0${fechaGasto.getDate()}`
+                    return fechaCadena;
+                case "mes":
+                    fechaCadena += `${fechaGasto.getFullYear()}-${month}`
+                    return fechaCadena;
+                case "anyo":
+                    fechaCadena += `${fechaGasto.getFullYear()}`
+                    return fechaCadena;
+                default:
+                    return "Periodo incorrecto";
+            };
         }
     };
 
@@ -130,6 +149,17 @@ function calcularBalance() {
     return (presupuesto - calcularTotalGastos())
 }
 
+function filtrarGastos() {
+
+}
+
+function agruparGastos() {
+
+}
+
+let gasto1 = new CrearGasto("Gasto 1", 23.55, "2021-09-06", "casa", "supermercado" );
+
+gasto1.obtenerPeriodoAgrupacion("dia");
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
@@ -141,5 +171,7 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
