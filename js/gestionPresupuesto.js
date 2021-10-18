@@ -88,6 +88,8 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
                 this.etiquetas.push(i);
             })
         },
+
+        
     };
 
     return gasto;
