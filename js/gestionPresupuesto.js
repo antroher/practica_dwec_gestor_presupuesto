@@ -2,7 +2,8 @@
 
 // TODO: Variable global
 var presupuesto = 0;
-
+let gastos = [];
+let idGasto = 0;
 
 function actualizarPresupuesto(NewValu) {
     
@@ -56,33 +57,25 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
             ${this.NewValu} €. \n Fecha: ${fec.toLocaleString()}
             \n Etiquetas: \n - ${acomulador}`);
         },
-        actualizarFecha(fecha){
+        actualizarFecha(NewDate){
             //si la fecha es válida se comprueba al comienzo del objeto
-            Date.now(Date.parse(this.fecha));
+            this.fecha = Date.now(Date.parse(NewDate));
         },
         anyadirEtiquetas(...etiq){
             //["nuevo1","nuevo2","nuevo3"] => ["nuevo1","nuevo2","nuevo1"]
             //array.map(funcion -> funcion) para cada elemento del array
             //devuelve un array con los resultados.
-            /*var map ={}; //valore no repetidos
+            var map ={}; //valore no repetidos
             var repetidos = [];
-            for (var i = 0; i < this.etiquetas.length; i++){
+            for (var i = 0; i < etiq.length; i++){
                 if(!(this.etiquetas[i] in map)) { //si no es un valor nuevo del array añadirlo al nuevo array map
                     map[this.etiquetas[i]] = true;
                     repetidos.push(this.etiquetas[i]); //insertal el elemento al final
                 }
                 return repetidos
-            }*/
-            var map = {}; //agregamos valores nuevos
-            return this.etiquetas.filter(function anyadirEtiquetas(etiqueta) {
-                if(!(this.etiquetas[i] in map)){ //elemento inexistente en el mapa
-                    map[etiqueta] = true;
-                    return true;
-                }
-                return false;
-            })
+            }
         },
-        borrarEtiquetas(etiq){
+        borrarEtiquetas(...etiq){
             for(var i = 0; i < this.etiquetas.length; i++){
                 if(etiq == etiquetas[i]){
                     this.etiquetas.splice(etiq);    
@@ -90,13 +83,11 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
             }
         }
     };
-}
     return gasto;
+}
+    
 
     //práctica 2
-    let gastos = [];
-    let idGasto = 0;
-
     function listarGastos(){
         return gastos;
     }
@@ -107,8 +98,8 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     }
     function borrarGasto(id){
         for(var i = 0; i < gastos.length; i++){
-            if(id == gastos[id]){
-                gastos.splice(id,id);
+            if(id == gastos[i].id){
+                gastos.splice(i,1);
             }
         }
     }
@@ -120,7 +111,6 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         return suma;
     }
     function calcularBalance(){
-
         return (presupuesto -  calcularTotalGastos());
     }
 
