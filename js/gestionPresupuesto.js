@@ -116,9 +116,10 @@ export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
     CrearGasto,
-    listarGastos,
+    borrarGasto,
     anyadirGasto,
-    calcularTotalGastos,
+    listarGastos,
     calcularBalance,
-    borrarGasto
+    calcularTotalGastos
+    
 }
