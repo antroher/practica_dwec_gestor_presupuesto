@@ -34,9 +34,9 @@ function mostrarPresupuesto() {
     return "Tu presupuesto actual es de "+presupuesto+" €";
 }
 
-function CrearGasto(descripcion, valor, fecha = Date.now(),...etiq) {
+function CrearGasto(descripcion, valor, fecha = Date.now(),...etiq = []) {
 
-    if(valor <= 0 || isNaN(valor)){
+    if(isNaN(valor) || valor <= 0 ){
         this.valor = 0
     }else {
         this.valor = valor;
@@ -53,11 +53,26 @@ function CrearGasto(descripcion, valor, fecha = Date.now(),...etiq) {
     actualizarDescripcion(descripcion){
         this.descripcion = descripcion;
     },
-    actualizarValor(){
+    actualizarValor(nuevoValor){
         if (nuevoValor >= 0 )
         {
             this.valor = nuevoValor;
         }
+    },
+    mostrarGastoCompleto(){
+        let gastoCompleto = " ";
+    },
+    actualizarFecha(stringfecha){
+        if (typeof stringfecha === "string"){
+            this.fecha = Date.parse(stringfecha);
+        }
+        
+    },
+    anyadirEtiquetas(){
+
+    },
+    borrarEtiquetas(){
+
     }
     }
 
@@ -94,7 +109,11 @@ function calcularTotalGastos() {
 }
 
 function calcularBalance() {
+    let totalGasto = calcularTotalGastos();
 
+    let balance = presupuesto - totalGasto;
+
+    return balance;  // no se si es esto o tengo que devovlerlo en string
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
