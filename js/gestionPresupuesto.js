@@ -2,6 +2,11 @@
 
 // TODO: Variable global
 var presupuesto = 0;
+<<<<<<< HEAD
+=======
+let gastos = [];
+let idGasto = 0;
+>>>>>>> 8d2b7cf5f60604de4aa03918b0b4cceb07a02ad1
 
 function actualizarPresupuesto(NewValu) {
     
@@ -23,6 +28,7 @@ function mostrarPresupuesto() {
     presupuesto + "el Numero de la variable global presupuesto");
 }
 
+<<<<<<< HEAD
 function CrearGasto(Numero,Cadena) {
     // TODO
     if(Numero < 0 || isNaN(Numero)){
@@ -32,13 +38,17 @@ function CrearGasto(Numero,Cadena) {
     }
 }
 function CrearGasto(NewDescriptio,NewValu) {
+=======
+function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
+>>>>>>> 8d2b7cf5f60604de4aa03918b0b4cceb07a02ad1
     if(NewValu < 0 || isNaN(NewValu)){
         NewValu = 0;
     }
     let gasto = {
         descripcion: NewDescriptio,
         valor: NewValu,
-
+        etiquetas: [...etiq],
+        fecha: (typeof fec === 'string') ? Date.parse(fec) : fec,
         mostrarGasto(){
             console.log(`Gasto correspondiente a  ${descripcion} 
             con valor  ${Numero} €`);
@@ -65,27 +75,90 @@ function CrearGasto(NewDescriptio,NewValu) {
             {
                 this.valor = NewVal;
             }
+        },
+        mostrarGastoCompleto(){
+            let acomulador = "";
+            var fechaNueva = new Date(this.fecha);
+            for(var i = 0; i < this.etiquetas.length; i++){
+                acomulador += + this.etiquetas[i];
+            }
+            return `Gasto correspondiente a ${this.NewDescriptio} con valor
+            ${this.NewValu} €. \n Fecha: ${fechaNueva.toLocaleString()}
+            \n Etiquetas: \n - ${acomulador}\n`;
+        },
+        actualizarFecha(NewDate){
+            //si la fecha es válida se comprueba al comienzo del objeto
+            if(!isNaN(Date.parse(NewDate))){
+                this.fecha = Date.parse(NewDate);
+            } //si no se define la fecha
+        },
+        anyadirEtiquetas(...etiq){
+            //["nuevo1","nuevo2","nuevo3"] => ["nuevo1","nuevo2","nuevo1"]
+            //array.map(funcion -> funcion) para cada elemento del array
+            //devuelve un array con los resultados.
+            var map ={}; //valore no repetidos
+            var repetidos = [];
+            for (var i = 0; i < etiq.length; i++){
+                if(!(this.etiquetas[i] in map)) { //si no es un valor nuevo del array añadirlo al nuevo array map
+                    map[this.etiq[i]] = true;
+                    repetidos.push(this.etiq[i]); //insertal el elemento al final
+                }
+                return repetidos
+            }
+        },
+        borrarEtiquetas(...etiq){
+            for(var i = 0; i < this.etiquetas.length; i++){
+                let busqueda = this.etiquetas.indexOf(etiq);
+                if(etiq is etiquetas[i]){
+                    this.etiquetas.splice(etiq);    
+                }
+            }
         }
     };
     return gasto;
+}
+    
 
     //práctica 2
-    let gastos = new gastos();
-    let gastos = [];
+    function listarGastos(){
+        return gastos;
+    }
+    function anyadirGasto(gasto){
+        id = idGasto;
+        idGasto++;
+        gastos.push(gasto);
+    }
+    function borrarGasto(id){
+        for(var i = 0; i < gastos.length; i++){
+            if(id == gastos[i].id){
+                gastos.splice(i,1);
+            }
+        }
+    }
+    function calcularTotalGastos(){
+        let suma = 0;
+        for(var i = 0; i < gastos.length; i++){
+            suma += gastos[i].valor;
+        }
+        return suma;
+    }
+    function calcularBalance(){
+        return (presupuesto -  calcularTotalGastos());
+    }
 
-    //datos que introduce el usuario
-    gastos[prompt("¿Cúales son tus gastos?")];
-}
-
-
-/*tres metodos internos de gastos objeto gasto definido con export{}
-esa funcion devulve dicho objeto */
-
-// NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
-// Las funciones y objetos deben tener los nombres que se indican en el enunciado
+    
+//las funciones y objetos deben tener los nombres que indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
     CrearGasto,
+<<<<<<< HEAD
+=======
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance
+>>>>>>> 8d2b7cf5f60604de4aa03918b0b4cceb07a02ad1
 }
