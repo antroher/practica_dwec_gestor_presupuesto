@@ -71,7 +71,14 @@ function borrarGasto(idExpense)
 
 function calcularTotalGastos()
 {
+    let totalExp = 0;
 
+    gastos.forEach (g =>
+        {
+            totalExp = parseFloat(totalExp + g.valor);
+        });
+
+    return totalExp;
 }
 
 function calcularBalance()
