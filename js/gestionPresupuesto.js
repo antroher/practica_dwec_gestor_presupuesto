@@ -23,16 +23,17 @@ function actualizarPresupuesto(pre){
 function mostrarPresupuesto() {
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
-function CrearGasto(des, v, fec=Date.now(), ...etiq){
+function CrearGasto(des, v, fec=Date.now(), ...etiq=[]){
     if((parseFloat(v)<0) || isNaN(v))
         v=0;
         
-    Date.parse(fec)
+    Date.parse(fec);
+
     let gasto = {
         descripcion:des,
         valor:v,
-        etiquetas : [...etiq],
         fecha:(typeof fec==='string') ? Date.parse(fec) : fec,
+        etiquetas : [...etiq],
 
         mostrarGasto(){
             return 'Gasto correspondiente a '+gasto.descripcion+' con valor '+gasto.valor+' €';
@@ -42,9 +43,7 @@ function CrearGasto(des, v, fec=Date.now(), ...etiq){
         },
         actualizarValor(val){
             if(parseFloat(val)>0)
-            {
-                gasto.valor=val;
-            }       
+                gasto.valor=val;  
         },
         mostrarGastoCompleto(){
 
@@ -55,7 +54,7 @@ function CrearGasto(des, v, fec=Date.now(), ...etiq){
         añadirEtiquetas(){
 
         },
-        borrarEtiquedas(){
+        borrarEtiquetas(){
             
         }
       };
@@ -66,7 +65,7 @@ function listarGastos(){
     return gastos;
 }
 function anyadirGasto(gasto){
-    gasto.unshift(idGasto);
+    gasto.id=idGasto;
     idGasto++;
     gastos.push(gasto);
 }
@@ -78,10 +77,14 @@ function borrarGasto(id){
     
 }
 function calcularTotalGastos(){
-    
+    let i=0, res=0;
+    while (i<gastos.length)
+        res += gastos[i].valor;
+    return res;
 }
 function calcularBalance(){
-    
+    let res=presupuesto-calcularTotalGastos();
+    return res;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
