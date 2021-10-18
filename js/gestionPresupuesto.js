@@ -102,13 +102,16 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
 
         mostrarGastoCompleto()
         {            
-            let fechaNew = Date.now();
-            fechaNew = FechaNew.toLocaleString();
-            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor}€. \n Fecha: ${FechaNew}
-            \n Etiquetas:\n - ${this.etiquetas[0]}\n - ${this.etiquetas[1]}\n - ${this.etiquetas[2]}`;            
-            
+            let fechaNew = new Date(this.fecha);            
+            let comentario1 = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechaNew.toLocaleString()}\nEtiquetas:\n`;            
+            let comentario2 = "";
+            for (let i = 0; i < this.etiquetas.length; i++)
+            {
+                comentario2 = comentario2 + `- ${this.etiquetas[i]}\n`;
+            }
+            return comentario1 + comentario2;            
         },
-
+        
     };
     return gasto;
 }
