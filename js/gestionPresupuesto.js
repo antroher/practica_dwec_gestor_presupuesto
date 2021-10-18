@@ -55,6 +55,10 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 
+function filtrarGastos(gastosFilter) {
+
+}
+
 //Función constructora
 function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
     valor = parseFloat(valor);
