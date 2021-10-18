@@ -30,24 +30,18 @@ function mostrarPresupuesto() {
 
 }
 
-function CrearGasto(descripcion1, valor1, fecha = Date.now(), ...etiquetas) {
+function CrearGasto(descripcion1, valor1, fecha = Date.now(), ...etiquetas ) {
     // TODO
     if(valor1 < 0 || isNaN(valor1)) //Porque asi comprueba q no es un string
     {
         valor1 = 0;
     }
-    if(etiquetas.length = 0)
-    {
-        etiquetas = [];//no entiendo
-    }
 
-    
-    {}
     let gasto = { //Valor1 = a lo que introduce la funcion, y lo asigna a valor, para que forme parte del objeto(pq si no salen errores en el nmp)
         descripcion: descripcion1,
         valor: valor1,
-        etiqueta : [...etiquetas],//no entiendo
-        fec : (typeof fecha === "string") ? Date.parse(fecha) : fec,//no entiendo
+        etiqueta : [...etiquetas],// el [] es porque si no tienes ninguna etiqueta creas el array  como por defecto
+        fec : (typeof fecha === "string") ? Date.parse(fecha) : fecha,//si es un string lo converte en fecha en milisegundos
 
         mostrarGasto(){
             console.log("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €")
@@ -65,6 +59,13 @@ function CrearGasto(descripcion1, valor1, fecha = Date.now(), ...etiquetas) {
             else
             {
                 this.valor = newvalor;
+            }
+        },
+        actualizarFecha(fechaEntrada){
+            if(typeof fechaEntrada === "string") 
+            {
+                let fechaStamp = Date.parse(fechaEntrada);
+                this.fec = fechaStamp;
             }
         }
     } 
