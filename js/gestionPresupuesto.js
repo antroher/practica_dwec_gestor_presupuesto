@@ -10,8 +10,10 @@
 
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
-// TODO: Variable global
+// Variables globales
 var presupuesto = 0;
+var idGasto = 0;
+var gastos = new Array();
 
 function actualizarPresupuesto(nuevoValor) {
 
@@ -32,33 +34,66 @@ function mostrarPresupuesto() {
     return "Tu presupuesto actual es de "+presupuesto+" €";
 }
 
-function CrearGasto(descripcion, valor) {
+function CrearGasto(descripcion, valor, fecha = Date.now(),...etiq) {
 
-    this.descripcion = descripcion;
-
-    if (valor >= 0)
-    {
+    if(valor <= 0 || isNaN(valor)){
+        this.valor = 0
+    }else {
         this.valor = valor;
     }
-    else
-    {
-        this.valor = 0;
-    }
-
-    this.mostrarGasto = function () {
+    
+    let gasto = {
+        descripcion: descripcion + "",
+        valor: parseFloat(this.valor),
+        fecha: (typeof fecha === "string") ? Date.parse(fecha) : fecha,
+        etiquetas: [...etiq],
+    mostrarGasto(){
         return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
-    }
-
-    this.actualizarDescripcion = function(nuevaDescripcion) {
-        this.descripcion = nuevaDescripcion;
-    }
-
-    this.actualizarValor = function(nuevoValor){
+    },
+    actualizarDescripcion(descripcion){
+        this.descripcion = descripcion;
+    },
+    actualizarValor(){
         if (nuevoValor >= 0 )
         {
             this.valor = nuevoValor;
         }
     }
+    }
+
+}
+// TODO
+function listarGastos() {
+    return gastos;
+}
+
+function anyadirGasto(gastoAnyadir){
+    if(gastoAnyadir !== undefined && gastoAnyadir !== null){
+        gastoAnyadir.id = idGasto;
+        gastos.push(gastoAnyadir);
+        idGasto++;
+    }
+}
+
+function borrarGasto(idGasto) {
+    for (let i = 0; i < gastos.length; i++)
+    {
+        if (gastos[i].id == idGasto)
+        {
+            gastos.pop(gastos[i]);
+        }
+    }
+}
+
+function calcularTotalGastos() {
+    let totalGasto = 0;
+    for (let i = 0; i < gastos.length; i++){
+        totalGasto += gastos[i].valor
+    }
+    return totalGasto;
+}
+
+function calcularBalance() {
 
 }
 
@@ -68,5 +103,10 @@ function CrearGasto(descripcion, valor) {
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance
 }
