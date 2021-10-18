@@ -51,8 +51,18 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta = []) 
                 gasto.valor= NewValor;
             }
         },
-        mostrarGastoCompleto(){
-         
+        mostrarGastoCompleto: function(){
+            let espacioGasto = "";
+            let FechNow = new Date(this.fecha);
+
+            this.etiquetas.forEach((i) =>{
+                espacioGasto += `- ${i}\n`
+            })
+
+            let txtGasto = `Gasto correspondiente a ${this.descripcion}  valor ${this.valor} €.\n Fecha: ${fechaLocal.toLocaleString()}\n Etiquetas: \n ${listaEtiquetas}`;
+
+            console.log(txtGasto);
+            return txtGasto;
         },
         actualizarFecha(inFecha){
             if(typeof inFecha === "string"){
