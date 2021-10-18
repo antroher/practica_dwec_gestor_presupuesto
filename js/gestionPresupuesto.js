@@ -23,7 +23,8 @@ function mostrarPresupuesto() {
     return(`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto(desc, val, fec = Date.now(), ...eti) {
+function CrearGasto(desc, val = 0, fec = Date.now(), ...eti) {
+    val = parseFloat(val)
     if (parseFloat(val) < 0 || isNaN(val)) {
         val = 0;
     }
@@ -64,7 +65,7 @@ function CrearGasto(desc, val, fec = Date.now(), ...eti) {
             }
         },
 
-        anyadirEtiqueta : function(...etiq) {
+        anyadirEtiquetas : function(...etiq) {
             const aux = etiq.filter((x) => {
                 if (!this.etiquetas.includes(x)) {
                     return x;
@@ -84,18 +85,18 @@ function CrearGasto(desc, val, fec = Date.now(), ...eti) {
         },
 
         mostrarGastoCompleto() {
-            let fec1;
+            let fech1;
             if(typeof this.fecha === 'string') {
-                fec1 = Date.parse(this.fecha);
+                fech1 = Date.parse(this.fecha);
             } else {
-                fec1 = this.fecha;
+                fech1 = this.fecha;
             }
             let aux = "";
             for(let etiq of this.etiquetas) {
                 aux = aux + `- ${etiq}\n`;
             };
-            let fec2 = new Date(fec1);
-            let aux2 = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fec2.toLocaleString())}\nEtiquetas:\n`;
+            let fech2 = new Date(fech1);
+            let aux2 = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fech2.toLocaleString())}\nEtiquetas:\n`;
             return aux2 + aux;
         }
     };
@@ -106,13 +107,13 @@ function listarGastos() {
    return gastos;
 }
 
-function anyadirGasto(gast) {
-    gast.id = idGasto;
-    idGasto += 1;
-    gastos.push(gast);
+function anyadirGasto(gasto) {
+    gasto.id = idGasto;
+    idGasto++;
+    gastos.push(gasto);
 }
 
-function borrarGasto() {
+function borrarGasto(id) {
     for (let i = 0; i < gastos.length; i++)
     {
         if(gastos[i].id === id) {
@@ -123,9 +124,9 @@ function borrarGasto() {
 
 function calcularTotalGastos() {
     let total = 0;
-    for (let i = 0; i < gastos.length; i++) {
-        total += gastos[i].valor;
-    }
+    gastos.forEach((x) => {
+        total = total +x.valor;
+    })
     return total;
 }
 
@@ -150,5 +151,6 @@ export   {
     anyadirGasto,
     borrarGasto, 
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    anyadirEtiquetas
 }
