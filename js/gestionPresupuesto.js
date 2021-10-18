@@ -53,13 +53,13 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
             for(var i = 0; i < this.etiquetas.length; i++){
                 acomulador += this.etiquetas[i] + "\n";
             }
-            console.log(`Gasto correspondiente a ${this.NewDescriptio} con valor
+            return `Gasto correspondiente a ${this.NewDescriptio} con valor
             ${this.NewValu} €. \n Fecha: ${fec.toLocaleString()}
-            \n Etiquetas: \n - ${acomulador}`);
+            \n Etiquetas: \n - ${acomulador}`;
         },
         actualizarFecha(NewDate){
             //si la fecha es válida se comprueba al comienzo del objeto
-            this.fecha = Date.now(Date.parse(NewDate));
+            if(!isNaN(Date.parse(NewDate))){this.fecha = Date.now(Date.parse(NewDate));} //si no se define la fecha
         },
         anyadirEtiquetas(...etiq){
             //["nuevo1","nuevo2","nuevo3"] => ["nuevo1","nuevo2","nuevo1"]
