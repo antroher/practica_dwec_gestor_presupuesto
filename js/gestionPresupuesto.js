@@ -66,11 +66,37 @@ function CrearGasto(desc, val, fec = Date.now(), ...eti) {
 
         actualizarEtiqueta : function(...etiq) {
             const aux = etiq.filter((x) => {
-                if (!this.etiq.includes(x)) {
+                if (!this.etiqueta.includes(x)) {
                     return x;
                 }
             });
             this.etiq.push(...aux);
+        },
+
+        borrarEtiquetas(...etiq) {
+            etiq.forEach((x) => {
+                for (let i = 0; i < this.etiqueta.length; i++) {
+                    if (this.etiqueta[i] === x) {
+                        this.etiqueta.splice(i, 1);
+                    }
+                }
+            })
+        } ,
+
+        mostrarGastoCompleto() {
+            let fec1;
+            if(typeof this.fecha === 'string') {
+                fec1 = Date.parse(this.fecha);
+            } else {
+                fec1 = this.fecha;
+            }
+            let aux = "";
+            for(let etiq of this.etiquetas) {
+                aux = aux + `- ${etiq}\n`;
+            };
+            let fec2 = new Date(fec1);
+            let aux2 = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fec2.toLocaleString())}\nEtiquetas:\n`;
+            return aux2 + aux;
         }
     };
     return gasto;
