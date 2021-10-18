@@ -73,16 +73,16 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
 
             mostrarGastoCompleto(){
 
-                let acumulador;
+                let acumulador = "";
                 var fechanueva = new Date(this.fecha);
                 fechanueva = fechanueva.toLocaleString();
 
                 for (var i = 0; i < this.etiquetas.length; i++)
                 {
-                    acumulador +=" - "+this.etiquetas[i] + "\n";
+                    acumulador = acumulador + `- ${this.etiquetas[i]}\n`;
                 }
                 
-                return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechanueva}\nEtiquetas:\n ${this.etiquetas}`;
+                return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechanueva.toLocaleString()}\nEtiquetas:\n${acumulador}`;
             },
             actualizarFecha(nuevaFecha)//ok
             {
@@ -93,16 +93,15 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                     this.fecha = Date.parse(nuevaFecha);
                 }
             },
-            borrarEtiquetas(...etiquetas2){
-                for (let i = 0; i < this.etiquetas.length; i++)
+            borrarEtiquetas(...etiquetas2)
+            {
+                let eliminarEtiqueta = 0;
+                for (let i = 0; i < etiquetas2.length; i++)
                 {
-                    for(let j = 0; j < etiquetas2.length; j++)
+                    eliminarEtiqueta = this.etiquetas.indexOf(etiquetas2[1]);
+                    if(eliminarEtiqueta != -1)
                     {
-                        if (this.etiquetas[i].valor === etiquetas2[j].valor)
-                        {
-                            this.etiquetas.splice(i, 1);
-                        }
-                        
+                        this.etiquetas.splice(eliminarEtiqueta, 1);
                     }
                 } 
             }
@@ -125,8 +124,10 @@ function anyadirGasto(gasto)/*OK*/
 
 function borrarGasto(id)/*OK*/
 {
-    for (let i = 0; i < gastos.length; i++) {
-        if (gastos[i].id === id) {
+    for (let i = 0; i < gastos.length; i++) 
+    {
+        if (gastos[i].id === id) 
+        {
             gastos.splice(i, 1);
         }
     }
