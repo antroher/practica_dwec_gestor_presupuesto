@@ -40,7 +40,7 @@ function CrearGasto(desc, val, fec = Date.now(), ...eti) {
 	    descripcion: desc,
         valor : val,
         fecha : (typeof fec === 'string') ? Date.parse(fec) : fec,
-        etiqueta : [...eti],
+        etiquetas : [...eti],
          
         mostrarGasto : function (){
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
@@ -64,24 +64,24 @@ function CrearGasto(desc, val, fec = Date.now(), ...eti) {
             }
         },
 
-        actualizarEtiqueta : function(...etiq) {
+        anyadirEtiqueta : function(...etiq) {
             const aux = etiq.filter((x) => {
-                if (!this.etiqueta.includes(x)) {
+                if (!this.etiquetas.includes(x)) {
                     return x;
                 }
             });
             this.etiq.push(...aux);
         },
 
-        borrarEtiquetas(...etiq) {
-            etiq.forEach((x) => {
-                for (let i = 0; i < this.etiqueta.length; i++) {
-                    if (this.etiqueta[i] === x) {
-                        this.etiqueta.splice(i, 1);
+        borrarEtiquetas(...etiquetas) {
+            etiquetas.forEach((x) => {
+                for (let i = 0; i < this.etiquetas.length; i++) {
+                    if (this.etiquetas[i] === x) {
+                        this.etiquetas.splice(i, 1);
                     }
                 }
             })
-        } ,
+        },
 
         mostrarGastoCompleto() {
             let fec1;
