@@ -65,7 +65,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                     nuevaEtiqueta = this.etiquetas.indexOf(etiquetas3[i]);
                     if (nuevaEtiqueta == -1)
                     {
-                        this.etiquetas.push(etiquetas3[i]);//¿funciona?
+                        this.etiquetas.push(etiquetas3[i]);
                     }
                 }
                 
@@ -84,7 +84,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                 
                 return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechanueva.toLocaleString()}\nEtiquetas:\n${acumulador}`;
             },
-            actualizarFecha(nuevaFecha)//ok
+            actualizarFecha(nuevaFecha)
             {
                 let BuenaFecha = Date.parse(nuevaFecha);
 
@@ -98,7 +98,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                 let eliminarEtiqueta = 0;
                 for (let i = 0; i < etiquetas2.length; i++)
                 {
-                    eliminarEtiqueta = this.etiquetas.indexOf(etiquetas2[1]);
+                    eliminarEtiqueta = this.etiquetas.indexOf(etiquetas2[i]);
                     if(eliminarEtiqueta != -1)
                     {
                         this.etiquetas.splice(eliminarEtiqueta, 1);
@@ -110,19 +110,19 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
 }
 
 
-function listarGastos()/*OK*/
+function listarGastos()
 {
     return gastos;
 }
 
-function anyadirGasto(gasto)/*OK*/
+function anyadirGasto(gasto)
 {
     gasto.id = idGasto;
     idGasto++;
     gastos.push(gasto);
 }
 
-function borrarGasto(id)/*OK*/
+function borrarGasto(id)
 {
     for (let i = 0; i < gastos.length; i++) 
     {
@@ -132,7 +132,7 @@ function borrarGasto(id)/*OK*/
         }
     }
 }
-function calcularTotalGastos()/*OK*/
+function calcularTotalGastos()
 {
     let suma = 0;
     for (let i = 0; i < gastos.length; i++)
@@ -141,7 +141,7 @@ function calcularTotalGastos()/*OK*/
     }
     return suma;
 }
-function calcularBalance() /*OK*/
+function calcularBalance() 
 {
     let result = 0;
     let totalgastos = calcularTotalGastos();
