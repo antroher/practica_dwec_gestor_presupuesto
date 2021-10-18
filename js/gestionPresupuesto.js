@@ -128,9 +128,13 @@ function borrarGasto(id){
 function calcularTotalGastos(){
     let resultado = 0;
 
-    for(let i = 0; i < gastos.length; i++){
-        resultado = resultado + gastos[i].valor;
-    }
+    gastos.forEach((i) =>{
+        resultado += i.valor;
+    });
+
+    // for(let i = 0; i < gastos.length; i++){
+    //     resultado = resultado + gastos[i].valor;
+    // }
     return resultado;
 }
 
