@@ -2,11 +2,9 @@
 
 // TODO: Variable global
 var presupuesto = 0;
-<<<<<<< HEAD
-=======
 let gastos = [];
 let idGasto = 0;
->>>>>>> 8d2b7cf5f60604de4aa03918b0b4cceb07a02ad1
+
 
 function actualizarPresupuesto(NewValu) {
     
@@ -28,19 +26,8 @@ function mostrarPresupuesto() {
     presupuesto + "el Numero de la variable global presupuesto");
 }
 
-<<<<<<< HEAD
-function CrearGasto(Numero,Cadena) {
-    // TODO
-    if(Numero < 0 || isNaN(Numero)){
-        Numero = 0;
-        console.log (`Tu presupuesto actual es de ${presupuesto} €`);
-        return `Tu presupuesto actual es de ${presupuesto} €`;
-    }
-}
-function CrearGasto(NewDescriptio,NewValu) {
-=======
+
 function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
->>>>>>> 8d2b7cf5f60604de4aa03918b0b4cceb07a02ad1
     if(NewValu < 0 || isNaN(NewValu)){
         NewValu = 0;
     }
@@ -80,10 +67,10 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
             let acomulador = "";
             var fechaNueva = new Date(this.fecha);
             for(var i = 0; i < this.etiquetas.length; i++){
-                acomulador += + this.etiquetas[i];
+                acomulador += this.etiquetas[i];
             }
             return `Gasto correspondiente a ${this.NewDescriptio} con valor
-            ${this.NewValu} €. \n Fecha: ${fechaNueva.toLocaleString()}
+            ${this.NewValu} €. \n Fecha: ${(fechaNueva.toLocaleString())}
             \n Etiquetas: \n - ${acomulador}\n`;
         },
         actualizarFecha(NewDate){
@@ -93,24 +80,19 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
             } //si no se define la fecha
         },
         anyadirEtiquetas(...etiq){
-            //["nuevo1","nuevo2","nuevo3"] => ["nuevo1","nuevo2","nuevo1"]
-            //array.map(funcion -> funcion) para cada elemento del array
-            //devuelve un array con los resultados.
-            var map ={}; //valore no repetidos
-            var repetidos = [];
+            let etiquetaComparada;
             for (var i = 0; i < etiq.length; i++){
-                if(!(this.etiquetas[i] in map)) { //si no es un valor nuevo del array añadirlo al nuevo array map
-                    map[this.etiq[i]] = true;
-                    repetidos.push(this.etiq[i]); //insertal el elemento al final
+                etiquetaComparada = this.etiquetas.includes(etiq[i],1);
+                if(!(etiquetaComparada == true)) { //si la etiqueta introducida no esta en el array
+                    this.etiquetas.push(etiq[i]); //insertal el elemento al final
                 }
-                return repetidos
             }
         },
         borrarEtiquetas(...etiq){
             for(var i = 0; i < this.etiquetas.length; i++){
-                let busqueda = this.etiquetas.indexOf(etiq);
-                if(etiq is etiquetas[i]){
-                    this.etiquetas.splice(etiq);    
+                let buscar = this.etiquetas.includes(etiq[i]);
+                if(buscar == true){
+                    this.etiquetas.splice(buscar,1);    
                 }
             }
         }
@@ -124,7 +106,7 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         return gastos;
     }
     function anyadirGasto(gasto){
-        id = idGasto;
+        gasto.id = idGasto;
         idGasto++;
         gastos.push(gasto);
     }
@@ -153,12 +135,9 @@ export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
     CrearGasto,
-<<<<<<< HEAD
-=======
     listarGastos,
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
     calcularBalance
->>>>>>> 8d2b7cf5f60604de4aa03918b0b4cceb07a02ad1
 }
