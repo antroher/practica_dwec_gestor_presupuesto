@@ -4,6 +4,7 @@
 "use strict"
 var presupuesto = 0;
 var gastos = [];
+var idgasto = 0;
 function actualizarPresupuesto(valores) {
 
     if (parseFloat(valores) >= 0) {
