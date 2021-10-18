@@ -2,7 +2,7 @@
 
 // TODO: Variable global
 var presupuesto = 0;
-var gasto = new Array();
+var gasto = [];
 var idGasto = 0;
 
 // Ejercicio 1
@@ -45,7 +45,6 @@ function CrearGasto(desintro, valorintro, fecha, etiquetas) {
     {
         etiquetas = new Array();
     }
-   
     if(fecha == null)
     {
         fecha = Date.now();
@@ -97,7 +96,7 @@ function calcularTotalGastos(){
 
     for(let i = 0; i <= gasto.length(); i++)
     {
-        
+        let total = gasto[i].valor + total;
     }
 
 }
