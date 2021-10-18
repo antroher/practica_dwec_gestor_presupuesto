@@ -49,10 +49,10 @@ function CrearGasto(desc, val, fechaCreacion , ...etiqueta) {
 
     gasto.mostrarGastoCompleto = function(){
         let respuesta = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
-        Fecha: ${Date.parse(this.fecha).toLocaleString('en-GB')}
-        Etiquetas:`
-        for(let i = 0; i <= this.etiquetas.length; i++){
-            respuesta += "\n- " + this.etiquetas[i]
+Fecha: ${new Date(this.fecha).toLocaleString()}
+Etiquetas:\n`
+        for(let i = 0; i < this.etiquetas.length; i++){
+            respuesta += "- " + this.etiquetas[i]+`\n`
         }
 
         return respuesta;
@@ -111,12 +111,10 @@ function anyadirGasto(gastoPasado){
 }
 
 function borrarGasto(idBorrar){
-    let contador = 0;
     gastos.forEach(g => {
         if(g.id == idBorrar){
             gastos.splice(gastos.indexOf(g),1);
         }
-        contador ++;
     });
 
 }
