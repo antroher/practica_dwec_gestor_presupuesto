@@ -9,7 +9,8 @@ var idGasto = 0;
 function actualizarPresupuesto(newPresupuesto) {
     if(newPresupuesto >= 0){
         presupuesto = newPresupuesto;
-    } else {
+    } 
+    else {
         console.log("Error presupuesto negativo ");
         return -1;
     }
@@ -62,11 +63,19 @@ function CrearGasto(descripcion, valor, fecha, etiquetas){
 
 
 function anyadirGasto(idGasto){
+    gasto.id = idGasto;
     idGasto = +1;
+    gasto.push(gasto);
 }
 
 function borrarGasto(idGasto){
-    
+    for(int i = 0; i < gastos.length; i++)
+    {
+        if(gasto[i].id==idGasto)
+        {
+            splice(gasto[i]);
+        }
+    }
 }
 
 function calcularTotalGastos(){
