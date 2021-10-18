@@ -31,7 +31,7 @@ function CrearGasto(discount, value)
 
         actualizarDescripcion:function(discount)
         {
-            if (discount != null && discount != "") this.descripcion=discount;
+            if (discount != null && discount != "") this.descripcion = discount;
         },
 
         actualizarValor:function(dato)
@@ -45,17 +45,28 @@ function CrearGasto(discount, value)
 
 function listarGastos()
 {
-
+    return gastos;
 }
 
-function anyadirGasto()
+function anyadirGasto(addExpense)
 {
-
+    if (addExpense !== undefined && addExpense !== null)
+    {
+        addExpense.id = idGasto;
+        gastos.push(addExpense);
+        idGasto++;
+    }
 }
 
-function borrarGasto()
+function borrarGasto(idExpense)
 {
-
+    gastos.forEach (g =>
+        {
+            if (g.id == idExpense)
+            {
+                gastos.splice(gastos.indexOf(g), 1);
+            }
+    });
 }
 
 function calcularTotalGastos()
