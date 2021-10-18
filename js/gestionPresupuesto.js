@@ -15,28 +15,74 @@ function mostrarPresupuesto()
     return "Tu presupuesto actual es de " + presupuesto + " €";
 }
 
-function CrearGasto(discount, value)
+function CrearGasto(discount, value, valueDate, ...ArrayLabels)
 {
     if (value < 0 || isNaN(value)) value = 0;
+    if (valueDate === undefined || isNaN(Date.parse(valueDate))) valueDate = new Date(Date.now()).toISOString().substring(0, 16);
+    if (ArrayLabels === undefined) ArrayLabels = [];
 
     let expense =
     {
-        descripcion:discount + "",
-        valor:parseFloat(value),
+        description: discount + "",
+        valor: parseFloat(value),
+        fecha: Date.parse(valueDate),
+        labels: ArrayLabels,
 
         mostrarGasto:function()
         {
-            return "Gasto correspondiente a " + this.descripcion+" con valor " + this.valor + " €";
+            return "Gasto correspondiente a " + this.description + " con valor " + this.valor + " €";
         },
 
-        actualizarDescripcion:function(discount)
+        actualizarDescripcion: function(discount)
         {
-            if (discount != null && discount != "") this.descripcion = discount;
+            if (discount != null && discount != "") this.description = discount;
         },
 
-        actualizarValor:function(dato)
+        actualizarValor: function(data)
         {
-            if (parseFloat(dato) > 0) this.valor = dato;
+            if (parseFloat(data) > 0) this.valor = data;
+        },
+
+        mostrarGastoCompleto()
+        {
+            let txt = "Gasto correspondiente a " + this.description + " con valor " + this.valor + " €.\n" + "Fecha: " + new Date(this.fecha).toLocaleString() + "\n" + "Etiquetas:\n";
+
+            if (this.labels.length > 0)
+            {
+                this.labels.forEach(show => {txt = txt + "- " + show + "\n"});
+            }
+
+            return txt;
+        },
+
+        actualizarFecha(updateDate)
+        {
+            if (!isNaN(Date.parse(updateDate)))
+            {
+                this.fecha = Date.parse(updateDate);
+            }
+        },
+
+        anyadirEtiquetas(...etiquetas)
+        {
+            etiquetas.forEach(label =>
+            {
+                if (typeof(label) == "string" && !this.labels.includes(label))
+                {
+                    this.labels.push(label);
+                }
+            });
+        },
+
+        borrarEtiquetas(...etiquetas)
+        {
+            etiquetas.forEach(label =>
+            {
+                if (this.labels.includes(label))
+                {
+                    this.labels.splice(this.labels.indexOf(label), 1);
+                }
+            });
         }
     };
 
@@ -60,11 +106,11 @@ function anyadirGasto(addExpense)
 
 function borrarGasto(idExpense)
 {
-    gastos.forEach (g =>
+    gastos.forEach (exp =>
         {
-            if (g.id == idExpense)
+            if (exp.id == idExpense)
             {
-                gastos.splice(gastos.indexOf(g), 1);
+                gastos.splice(gastos.indexOf(exp), 1);
             }
     });
 }
@@ -73,9 +119,9 @@ function calcularTotalGastos()
 {
     let totalExp = 0;
 
-    gastos.forEach (g =>
+    gastos.forEach (exp =>
         {
-            totalExp = parseFloat(totalExp + g.valor);
+            totalExp = parseFloat(totalExp + exp.valor);
         });
 
     return totalExp;
