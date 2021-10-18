@@ -39,8 +39,8 @@ function CrearGasto(desc, val, fec = Date.now(), ...eti) {
     let gasto = {
 	    descripcion: desc,
         valor : val,
-        fecha : fec,
-        etiqueta : eti,
+        fecha : (typeof fec === 'string') ? Date.parse(fec) : fec,
+        etiqueta : [...eti],
          
         mostrarGasto : function (){
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
@@ -59,7 +59,9 @@ function CrearGasto(desc, val, fec = Date.now(), ...eti) {
         },
 
         actualizarFecha : function(fech) {
-            this.fecha = Date.parse(fech);
+            if (!isNaN(Date.parse(fech))) {
+                this.fecha = Date.parse(fech);
+            }
         },
 
         actualizarEtiqueta : function(etiq) {
