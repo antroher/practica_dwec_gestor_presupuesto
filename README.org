@@ -26,3 +26,4 @@
   - [[./enunciados/introduccion_js.org][Introducción a JavaScript]]
   - [[./enunciados/fundamentos_js_I.org][Fundamentos de JS I]]
   - [[./enunciados/fundamentos_js_II.org][Fundamentos de JS II]]
+  - [[./enunciados/fundamentos_js_III.org][Fundamentos de JS III]]
