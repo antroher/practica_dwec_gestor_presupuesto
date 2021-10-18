@@ -25,7 +25,7 @@ function mostrarPresupuesto() {
 }
 
 //Gastos
-function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
+function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
 
     let valor1 = parseFloat(valor);
 
@@ -37,7 +37,7 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
 	    descripcion: descripcion,
         valor : valor1,
         etiquetas : [...etiquetas],
-        fecha : (typeof fecha == 'string') ? Date.parse(fecha) : fecha,
+        fecha : (typeof fecha === 'string') ? Date.parse(fecha) : fecha,
         
 
         mostrarGasto() {
@@ -53,26 +53,55 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
 
             let value = parseFloat(newValor);
 
-            if (value >= 0)
-            {
+            if (value >= 0) {
                 this.valor = value;
             }
         },
 
         mostrarGastoCompleto() {
-            return this.mostrarGasto() + "\n " + this.actualizarFecha() + "\n";
+            let controlFecha1;
+
+            if (typeof this.fecha === 'string') {
+                controlFecha1 = Date.parse(this.fecha);
+            }
+            else {
+                controlFecha1 = this.fecha;
+            }
+            let espacio = "";
+
+            for(let etiquetas1 of this.etiquetas) {
+                espacio += `- ${etiquetas1}\n`;
+            }
+            let fecha1 = new Date(controlFecha1);
+
+            let aux = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fecha1.toLocaleString())}\nEtiquetas:\n`;
+            return aux + espacio;
         },
 
         actualizarFecha(fecha) {
-            this.fecha = fecha;
+            if(!isNaN(Date.parse(fecha))) {
+                this.fecha = Date.parse(fecha);
+            }
         },
 
-        anyadirEtiquetas() {
+        anyadirEtiquetas(...etiquetas) {
+            const aux = etiquetas.filter((x) => {
+                if (!this.etiquetas.includes(x)) {
+                    return x;
+                }
+            });
+            this.etiquetas.push(...aux);
 
         },
 
-        borrarEtiquetas() {
-
+        borrarEtiquetas(...etiquetas) {
+            etiquetas.forEach((x) => {
+                for(let i = 0; i < this.etiquetas.length; i++) {
+                    if (this.etiquetas[i] === x) {
+                        this.etiquetas.splice(i, 1);
+                    }
+                }
+            })
         }
     };
 
