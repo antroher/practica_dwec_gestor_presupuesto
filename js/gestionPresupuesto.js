@@ -80,7 +80,8 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         },
         borrarEtiquetas(...etiq){
             for(var i = 0; i < this.etiquetas.length; i++){
-                if(etiq == etiquetas[i]){
+                let busqueda = this.etiquetas.indexOf(etiq);
+                if(etiq is etiquetas[i]){
                     this.etiquetas.splice(etiq);    
                 }
             }
