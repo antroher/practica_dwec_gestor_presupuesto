@@ -6,6 +6,7 @@ var presupuesto=0;
 var gastos=[];
 var idGasto=0;
 
+
 function actualizarPresupuesto(presup) 
 {
     
@@ -27,13 +28,14 @@ function mostrarPresupuesto()
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
-function CrearGasto(desc, val, fec = Date.now(), ...etiq)
+function CrearGasto(desc, val, fec = Date.now(), ...etiq=[])
 {
     if(parseFloat(val)<0 || isNaN(val))
     {
         val=0;
     }
-
+    Date.parse(fec);
+    
   let gasto={
       descripcion:desc,
       valor: val,
