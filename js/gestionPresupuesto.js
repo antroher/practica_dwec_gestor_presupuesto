@@ -71,7 +71,7 @@ function CrearGasto(desc, val = 0, fec = Date.now(), ...eti) {
                     return x;
                 }
             });
-            this.etiq.push(...aux);
+            this.etiquetas.push(...aux);
         },
 
         borrarEtiquetas(...etiquetas) {
@@ -151,6 +151,5 @@ export   {
     anyadirGasto,
     borrarGasto, 
     calcularTotalGastos,
-    calcularBalance,
-    anyadirEtiquetas
+    calcularBalance
 }
