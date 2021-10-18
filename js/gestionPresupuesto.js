@@ -2,7 +2,7 @@
 
 // TODO: Variable global
 var presupuesto = 0;
-var gasto = [];
+var gasto = new Array();
 var idGasto = 0;
 
 // Ejercicio 1
@@ -35,7 +35,7 @@ function mostrarPresupuesto() {
     return texto;
 }
 
-function CrearGasto(desintro, valorintro, fecha, etiquetas) {
+function CrearGasto(desintro, valorintro, fecha, ...etiquetas) {
     // TODO
     if(valorintro < 0 || isNaN(valorintro))
     {
@@ -45,21 +45,27 @@ function CrearGasto(desintro, valorintro, fecha, etiquetas) {
     {
         etiquetas = new Array();
     }
-    if(fecha == null)
+
+    if(typeof fecha === 'string')
     {
-        fecha = Date.now();
+        fecha = date.parse(fecha);
     }
 
     let gasto =
     {
         descripcion : desintro,
         valor : valorintro,
+        etiquetas : [...etiquetas],
+        fecha: fecha,
+
         mostrarGasto : function(){
             return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
         },
+        
         actualizarDescripcion : function(description2){ 
             this.descripcion = description2;
         },
+        
         actualizarValor : function(valor2){ 
             if(valor2 > 0)
             {
@@ -94,9 +100,8 @@ function borrarGasto(){
 
 function calcularTotalGastos(){
 
-    for(let i = 0; i <= gasto.length(); i++)
-    {
-        let total = gasto[i].valor + total;
+    for(let i = 0; i <= gasto.length(); i++){
+        let num = gasto[i].
     }
 
 }
