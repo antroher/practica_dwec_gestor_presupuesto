@@ -3,21 +3,18 @@
 // TODO: Variable global
 var presupuesto = 0;
 
-
-function actualizarPresupuesto(Numero) {
-    // TODO
-let devolver = 0;
-    if(presupuesto >= Numero)
+function actualizarPresupuesto(NewValu) {
+    
+    if(NewValu >= 0)
     {
-        presupuesto = Numero;
-        devolver = presupuesto;
+        presupuesto = NewValu;
     }
     else
     {
-        console.log("Error, Numero negativo invalido");
-        devolver = -1;
+        console.log(`Error, ${NewValu} negativo invalido`);
+        NewValu = -1;
     }
-    return devolver;
+    return NewValu;
 }
 
 function mostrarPresupuesto() {
@@ -30,10 +27,17 @@ function CrearGasto(Numero,Cadena) {
     // TODO
     if(Numero < 0 || isNaN(Numero)){
         Numero = 0;
+        console.log (`Tu presupuesto actual es de ${presupuesto} €`);
+        return `Tu presupuesto actual es de ${presupuesto} €`;
+    }
+}
+function CrearGasto(NewDescriptio,NewValu) {
+    if(NewValu < 0 || isNaN(NewValu)){
+        NewValu = 0;
     }
     let gasto = {
-        descripcion: Cadena,
-        valor: Numero,
+        descripcion: NewDescriptio,
+        valor: NewValu,
 
         mostrarGasto(){
             console.log(`Gasto correspondiente a  ${descripcion} 
@@ -48,9 +52,29 @@ function CrearGasto(Numero,Cadena) {
             if(newValue >= 0)
             {
                 this.valor = newValue;
+            console.log("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor +" €");
+            return ("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor +" €")
+            }
+        },
+        actualizarDescripcion(NewDescript){
+            this.descripcion = NewDescript;
+        },
+        actualizarValor(NewVal){
+
+            if(NewVal >= 0)
+            {
+                this.valor = NewVal;
             }
         }
-    }
+    };
+    return gasto;
+
+    //práctica 2
+    let gastos = new gastos();
+    let gastos = [];
+
+    //datos que introduce el usuario
+    gastos[prompt("¿Cúales son tus gastos?")];
 }
 
 
@@ -63,5 +87,5 @@ esa funcion devulve dicho objeto */
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
 }
