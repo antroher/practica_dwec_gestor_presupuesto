@@ -94,10 +94,8 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     return gasto;
 
     //práctica 2
-    let gastos = new Array();
     let gastos = [];
     let idGasto = 0;
-        idGasto = 0;
 
     function listarGastos(){
         return gastos;
@@ -122,7 +120,8 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         return suma;
     }
     function calcularBalance(){
-        return (presupeusto -  calcularTotalGastos());
+
+        return (presupuesto -  calcularTotalGastos());
     }
 
     
