@@ -59,30 +59,50 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
 
             anyadirEtiquetas (...etiquetas3)
             {
-                this.etiquetas.push(etiquetas3);//¿funciona?
+                let nuevaEtiqueta = 0;
+                for(let i = 0; i < etiquetas3.length; i++)
+                {
+                    nuevaEtiqueta = this.etiquetas.indexOf(etiquetas3[i]);
+                    if (nuevaEtiqueta == -1)
+                    {
+                        this.etiquetas.push(etiquetas3[i]);
+                    }
+                }
+                
             },
 
             mostrarGastoCompleto(){
 
                 let acumulador = "";
+                var fechanueva = new Date(this.fecha);
+                fechanueva = fechanueva.toLocaleString();
+
                 for (var i = 0; i < this.etiquetas.length; i++)
                 {
-                    acumulador += this.etiquetas[i] + "\n";
+                    acumulador = acumulador + `- ${this.etiquetas[i]}\n`;
                 }
-            
-                return `${this.valor} correspondiente a ${this.descripcion} con valor €.\nFecha: ${this.fecha}\nEtiquetas: ${acumulador}`;
+                
+                return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechanueva.toLocaleString()}\nEtiquetas:\n${acumulador}`;
             },
             actualizarFecha(nuevaFecha)
             {
-                /**comprobar q  la fecha es valida con lo de antes de arriba*/
-                this.fecha=nuevaFecha;
-                
-            },
-            borrarEtiquetas(...etiquetas2){/*hecho*/ 
-                for (let i = 0; i < this.etiquetas.length; i++)
+                let BuenaFecha = Date.parse(nuevaFecha);
+
+                if (!isNaN(BuenaFecha)) 
                 {
-                    /*for anidado*/
-                    //splice borrado
+                    this.fecha = Date.parse(nuevaFecha);
+                }
+            },
+            borrarEtiquetas(...etiquetas2)
+            {
+                let eliminarEtiqueta = 0;
+                for (let i = 0; i < etiquetas2.length; i++)
+                {
+                    eliminarEtiqueta = this.etiquetas.indexOf(etiquetas2[i]);
+                    if(eliminarEtiqueta != -1)
+                    {
+                        this.etiquetas.splice(eliminarEtiqueta, 1);
+                    }
                 } 
             }
         };
@@ -95,28 +115,33 @@ function listarGastos()
     return gastos;
 }
 
-function anyadirGasto(id, gasto )
+function anyadirGasto(gasto)
 {
-    /*dudas en este apartado*/ 
-    id=idGasto;
+    gasto.id = idGasto;
     idGasto++;
     gastos.push(gasto);
 }
 
 function borrarGasto(id)
 {
-    /*pasar por el aarray de gastos*/
+    for (let i = 0; i < gastos.length; i++) 
+    {
+        if (gastos[i].id === id) 
+        {
+            gastos.splice(i, 1);
+        }
+    }
 }
 function calcularTotalGastos()
 {
     let suma = 0;
-    for (var i = 0; i < gastos.length; i++)
+    for (let i = 0; i < gastos.length; i++)
     {
         suma += gastos[i].valor;
     }
     return suma;
 }
-function calcularBalance() //hecho
+function calcularBalance() 
 {
     let result = 0;
     let totalgastos = calcularTotalGastos();
