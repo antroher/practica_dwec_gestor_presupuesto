@@ -47,7 +47,8 @@ function mostrarPresupuesto() {
     
 }
 
-function CrearGasto(descripcion, valor,fecha,...etiquetas) {
+function CrearGasto(descripcion, valor,fecha,...etiquetas) 
+{
     // TODO
     this.descripcion=descripcion;
     if(valor > 0)
@@ -59,9 +60,9 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas) {
         this.valor = 0;
     }
     
-    if (etiquetas === 0)
+    if (etiquetas.length === 0)
     {
-            this.etiquetas = []
+            this.etiquetas = new Array();
     }
     else
     {
@@ -84,13 +85,13 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas) {
 
        this.mostrarGastoCompleto = function()
         {
-            let fecha2 = new Date(this.fecha);
+            let fecha2 = new Date(this.fecha).toLocaleString();
             let almacen_etiquetas = "";
             for (let i = 0; i<etiquetas.length; i++)
             {
                 almacen_etiquetas += `- ` + this.etiquetas[i]+'\n';
             }
-            return 'Gasto correspondiente a ' + this.descripcion+ ' con valor ' + valor+' €\n'+
+            return 'Gasto correspondiente a ' + this.descripcion+ ' con valor ' + valor+' €.\n'+
             'Fecha: '+ fecha2+'\n'+
             'Etiquetas:\n' + almacen_etiquetas;
 
@@ -101,7 +102,8 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas) {
         this.descripcion = descripcion;
         return this.descripcion;
        }
-       this.actualizarValor = function(valor){
+       this.actualizarValor = function(valor)
+       {
         if (isNaN(valor)){
             return this.valor;
            }
@@ -117,8 +119,17 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas) {
            }
 
        }
+       this.actualizarFecha = function(fecha_nueva) 
+    {
+        if (Date.parse(fecha_nueva))
+        {
+            fecha = Date.parse(fecha_nueva)
+            this.fecha = fecha;
+        }
+    }
 
-       this.anyadirEtiquetas = function(...nuevaetiqueta) {
+       this.anyadirEtiquetas = function(...nuevaetiqueta) 
+    {
 
         for (let i = 0; i < nuevaetiqueta.length; i++)
         {
@@ -129,6 +140,7 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas) {
                 this.etiquetas.push(nuevaetiqueta[i]);
             }
         }
+    }
 
         this.borrarEtiquetas = function(...borraretiqueta)
         {
@@ -142,8 +154,8 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas) {
                 }
             }
         }
-    }
-    }
+}
+
        
 
     
@@ -151,15 +163,17 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas) {
 
 function listarGastos()
 {
-    for (let i = 0; i <gastos.length; i++)
-    {
-        document.write(gastos[i])
-    }
+     
+    
+    return gastos;
+    
+    
+    
 }
 
 function anyadirGasto(gasto)
 {
-    gasto = idGasto;
+    gasto.id = idGasto;
 
     idGasto = idGasto + 1;
 
@@ -168,10 +182,10 @@ function anyadirGasto(gasto)
 
 function borrarGasto(id)
 {
-    let posicion = gastos.findIndex(gasto => gasto.id == id)
+    let posicion = gastos.findIndex(gasto => gasto.id === id)
     if (posicion >= 0)
     {
-        gastos.splice(pos, 1)
+        gastos.splice(posicion, 1)
     }
 }
 
@@ -181,8 +195,9 @@ function calcularTotalGastos()
 
     for (let i = 0; i < gastos.length; i++)
     {
-        totalgastos +=   gastos[i].valor;
+        totalgastos = totalgastos + gastos[i].valor;
     }
+    return totalgastos;
 }
 function calcularBalance()
 {
