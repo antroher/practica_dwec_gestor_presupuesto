@@ -84,7 +84,7 @@ function CrearGasto(desc, val = 0, fec = Date.now(), ...eti) {
             })
         },
 
-        mostrarGastoCompleto() {
+        mostrarGastoCompleto : function() {
             let fech1;
             if(typeof this.fecha === 'string') {
                 fech1 = Date.parse(this.fecha);
@@ -98,7 +98,12 @@ function CrearGasto(desc, val = 0, fec = Date.now(), ...eti) {
             let fech2 = new Date(fech1);
             let aux2 = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fech2.toLocaleString())}\nEtiquetas:\n`;
             return aux2 + aux;
+        },
+
+        obtenerPeriodoAgrupacion :function(){
+
         }
+
     };
     return gasto;
 }
@@ -134,7 +139,13 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 
+function filtrarGastos(){
 
+}
+
+function agruparGastos(){
+    
+}
 
     
 
