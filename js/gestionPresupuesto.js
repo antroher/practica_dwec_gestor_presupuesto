@@ -42,6 +42,20 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
             if(valor > 0){
                 this.valor = valor;
             }            
+        },
+        mostrarGastoCompleto : function() {
+
+        },
+        actualizarFecha : function(fecha) {
+            if(!isNaN(Date.parse(fecha)))
+                this.fecha =Date.parse(fecha);
+
+        },
+        anyadirEtiquetas : function() {
+            
+        },
+        borrarEtiquetas : function() {
+            
         }
  
     }
