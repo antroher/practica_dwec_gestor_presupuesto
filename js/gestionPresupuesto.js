@@ -52,13 +52,46 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq=[])
         },
 
     actualizarValor(val)
-            {
+        {
             if(parseFloat(val)>0)
                 {
                      gasto.valor=val;
                 }
             }
-        } 
+        }
+
+    anyadirEtiquetas([...etiq])
+        {
+            for(let elem of etiq)
+            {
+                if(!this.etiquetas.includes(elem))
+                {
+                    this.etiquetas.push(elem);
+                }
+            }
+        }
+
+    actualizarFecha(fec)
+        {
+            fec=date.parse(fec);
+            if(fec!=NaN)
+            {
+                fec=fecha;
+            }
+        }
+    borrarEtiquetas([...etiq])
+        {
+            for(let elem of etiq)
+            {
+                for(let i=0; i<this.etiquetas.length;i++)
+                {
+                    if(this.etiquetas[i]===elem)
+                    {
+                        this.etiquetas.splice(i,1)
+                    }
+                }
+            }
+        }
   return gasto;
 }
 
@@ -72,8 +105,9 @@ function anyadirGasto(){
     gastos.push(gasto);
 }
 
-function borrarGasto(){
-
+function borrarGasto()
+{
+   
 }
 
 function calcularTotalGastos(){
