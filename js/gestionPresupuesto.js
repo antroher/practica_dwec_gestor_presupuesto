@@ -87,6 +87,8 @@ function CrearGasto(midescripcion, mivalor, mifecha = Date.now(), ...misetiqueta
     let gasto = {
     descripcion: midescripcion,
     valor: parseFloat(mivalor),
+    fecha: mifecha,
+    etiquetas: [...misetiquetas],
     
     mostrarGasto() {
         console.log("Gasto correspondiente a "+ gasto.descripcion + " con valor " + gasto.valor + " €")
@@ -101,6 +103,32 @@ function CrearGasto(midescripcion, mivalor, mifecha = Date.now(), ...misetiqueta
         if(elvalor >= 0)
         {
          this.valor = elvalor;
+        }
+    },
+    actualizarFecha(lafecha){
+
+        if(isNan(Date.parse(lafecha)) == false)
+        {
+            fecha = Date.parse(lafecha)
+        }
+    },
+    anyadirEtiquetas(...lasetiquetas)
+    {
+        for(let i = 0; i < lasetiquetas.length; i++)
+        {
+            if(this.etiquetas.includes(misetiquetas[i]))
+            continue;
+            else
+            this.etiquetas.push(lasetiquetas[i])
+        }
+    },
+    borrarEtiquetas(...lasetiquetas)
+    {
+        for(let i = 0; i < lasetiquetas.length; i++)
+        {
+            for (let j = 0; i < this.etiquetas.length; f++)
+            if(lasetiquetas[i] == this.etiquetas[f])
+            this.etiquetas.splice(f , 1);
         }
     }
     };
