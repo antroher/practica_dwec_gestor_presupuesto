@@ -105,16 +105,44 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         },
 
         obtenerPeriodoAgrupacion(periodo) {
-            let resulttado;
-            if(periodo === "dia") {
-                
-            }
-            else if(periodo === "mes") {
-
-            }
-            else if(periodo === "anyo") {
-
-            }
+            let validarFecha = new Date(this.fecha);
+                switch(periodo) {
+                    case "dia": { 
+                        if (validarFecha.getDate() < 10) {
+                            if (validarFecha.getMonth() < 10) {
+                                return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
+                            }
+                            else {
+                                return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
+                            }
+                        }
+                        else {
+                            if (validarFecha.getMonth() < 10) {
+                                return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;    
+                            }
+                            else {
+                                return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
+                            }
+                        }
+                        break;
+                    }
+                    case "mes": {
+                        if(validarFecha.getMonth() < 10) {
+                            return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}`;
+                        }
+                        else {
+                            return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}`;
+                        }
+                        break;
+                    }
+                    case "anyo": {
+                        return `${validarFecha.getFullYear()}`
+                        break;
+                    }
+                    default:{
+                        return `Periodo no válido`;
+                    }
+                }
         }
     };
 
