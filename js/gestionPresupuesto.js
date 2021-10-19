@@ -6,14 +6,14 @@ var presupuesto = 0;
 //COMENTARIO PARA PRIMER COMMIT Y COMPROBAR VERSIONES
 function actualizarPresupuesto(valor) {
     //TODO
-    let retorno = 0;
-    if(valor < 0 ||isNaN(valor)){
-        console.log("Error, es un número negativo")
-        retorno = -1;
+    let retorno;
+    if(valor >= 0){
+        presupuesto = parseFloat(valor);
+        retorno = presupuesto;
     
     }else{
-        presupuesto = value;
-        retorno = presupuesto;
+        console.log("Error. Valor introducido no valido.")
+        valorDevolver = -1;
     }
     return retorno;
 
@@ -42,25 +42,22 @@ function CrearGasto(descripcion1, valor1) {
         
         //A continuación los métodos que van ligados al constructor
         mostrarGasto(){
-            console.log `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`
             return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`;
         },
         actualizarDescripcion(nuevaDesc){
             this.descripcion = nuevaDesc;
         },
         actualizarValor(nuevoValor){
-            if(nuevoValor < 0 || isNaN(nuevoValor)){
+            if(nuevoValor >= 0){
 
-                console.log("Error, es un número negativo")
-
-            }else{
                 this.valor = nuevoValor;
-            }
+
         }
         
-    };
-    return gasto;
+    }
+    
 } 
+return gasto;
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
