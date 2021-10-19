@@ -56,25 +56,23 @@ function calcularBalance() {
 }
 
 function filtrarGastos(gastosFilter) {
-    const gastosFiltrados = [].map = gastos.filter((x) => {
-        if (gastosFilter.fechaDesde === x.fecha) {
-
-        }
-        if (gastosFilter.fechaHasta === x.fecha) {
-            
-        }
-        if (gastosFilter.valorMinimo === x.valor) {
-
-        }
-        if (gastosFilter.valorMaximo === x.valor) {
-            
-        }
-        if ((gastosFilter.descripcion).includes(x.descripcionContiene)) {
-            
-        }
-        if ((gastosFilter.descripcion).includes(x.etiquetasTiene)) {
-        
-        }
+    const gastosFiltrados = gastos.filter((x) => {
+        gastosFilter.fechaDesde > x.fecha
+    })
+    gastosFiltrados = gastosFiltrados.filter((x) => {
+        gastosFilter.fechaHasta < x.fecha
+    })
+    gastosFiltrados = gastosFiltrados.filter((x) => {
+        gastosFilter.valorMinimo > x.valor
+    })
+    gastosFiltrados = gastosFiltrados.filter((x) => {
+        gastosFilter.valorMaximo < x.valor
+    })
+    gastosFiltrados = gastosFiltrados.filter((x) => {
+        (x.descripcion).includes(gastosFilter.descripcion)
+    })
+    gastosFiltrados = gastosFiltrados.filter((x) => {
+        (x.descripcion).includes(gastosFilter.descripcion)
     })
     return gastosFiltrados;
 }
