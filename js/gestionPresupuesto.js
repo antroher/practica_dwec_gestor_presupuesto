@@ -95,6 +95,10 @@ function CrearGasto(des, val = 0, fec = Date.now(), ...eti) {
             let aux2 = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fec2.toLocaleString())}\nEtiquetas:\n`;
             return aux2 + aux;
         },
+
+        obtenerPeriodoAgrupacion(per) {
+
+        }
     };
     return gasto;
 }
@@ -129,9 +133,13 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 
+function filtrarGastos() {
 
+}
 
-
+function agruparGastos() {
+    
+}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -144,5 +152,7 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
