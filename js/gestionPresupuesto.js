@@ -73,7 +73,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
 
         anyadirEtiquetas (...etiquetas3)
         {
-            /*
+            
             let nuevaEtiqueta = 0;
             for(let i = 0; i < etiquetas3.length; i++)
             {
@@ -83,7 +83,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                     this.etiquetas.push(etiquetas3[i]);
                 }
             }
-            */
+            
 
         },
         mostrarGastoCompleto(){
