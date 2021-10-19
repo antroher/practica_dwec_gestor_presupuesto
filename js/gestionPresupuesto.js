@@ -2,7 +2,7 @@
 
 // TODO: Variable global
 var presupuesto = 0;
-var gasto = new Array();
+var gastos = new Array();
 var idGasto = 0;
 
 // Ejercicio 1
@@ -86,17 +86,22 @@ function listarGastos(){
 
 }
 
-function anyadirGasto(){
+function anyadirGasto(gasto){
 
-
+    gasto.id = idGasto;
+    idGasto = idGasto + 1;
+    gastos.push(gasto);
 
 }
 
 function borrarGasto(id){
 
-    for(let i = 0; i <= gasto.length(); i++){
+    for(let i = 0; i <= gastos.length(); i++){
 
-        
+        if(gastos[i].gasto.id == id)
+        {
+            gastos.splice(i);
+        }
 
     }
 
@@ -104,14 +109,18 @@ function borrarGasto(id){
 
 function calcularTotalGastos(){
 
-    for(let i = 0; i <= gasto.length(); i++){
-        let num = gasto[i].valor() + num;
+    for(let i = 0; i <= gastos.length(); i++){
+        let num = gastos[i].gasto.valor() + num;
     }
 
     return num;
 }
 
 function calcularBalance(){
+    
+    let totalGastos = calcularTotalGastos();
+    let balance = presupuesto - totalGastos;
+    return balance;
 
 }
 
