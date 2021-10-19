@@ -67,7 +67,9 @@ function listarGastos(){
 }
 
 function anyadirGasto(){
-
+    gasto.id=idGasto;
+    idGasto += 1;
+    gastos.push(gasto);
 }
 
 function borrarGasto(){
@@ -75,10 +77,17 @@ function borrarGasto(){
 }
 
 function calcularTotalGastos(){
-
+    let total=0;
+    for(let i=0; i < gastos.length;i++)
+    {
+        total= total + gastos[i].valor;
+    }
+    return total;
 }
 function calcularBalance(){
-
+    let gastostotales= calcularTotalGastos();
+    let balance= presupuesto-gastostotales;
+    return balance;
 }
 
 
