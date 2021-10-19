@@ -30,10 +30,45 @@ function mostrarPresupuesto() {
     return ("Tu presupuesto actual es de " + presupuesto + " €");
 }
 
+function anyadirGasto(gasto)
+{
+    gasto.id = idGasto;
+    idGasto++;
+    gastos.push(gasto);
+}
+
+function borrarGasto(id)
+{
+    for(let i = 0 ; i < gastos.length; i++)
+    {
+        if(gastos[i].id == id)
+        {
+            gastos.splice(i , 1);
+        }
+    }
+}
+
+
+
 function CrearGasto(midescripcion, mivalor, mifecha = Date.now(), ...misetiquetas) {
     if(mivalor < 0 || isNaN(mivalor))
     {
         mivalor = 0;
+    }
+    if(misetiquetas.length == 0)
+    {
+        misetiquetas = []
+    }
+    if(typeof mifecha == "string")
+    {
+        if(isNan(Date.parse(mifecha)))
+        {
+            mifecha = Date.Now()
+        }
+        else
+        {
+            mifecha = Date.parse(mifecha);
+        }
     }
     
     let gasto = {
