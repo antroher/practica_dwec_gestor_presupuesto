@@ -47,6 +47,7 @@ function CrearGasto(descripcion, valor) {
 }
 
 function listarGastos(){
+    return gastos;
 
 }
 
