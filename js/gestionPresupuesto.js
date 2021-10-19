@@ -26,21 +26,26 @@ function mostrarPresupuesto() {
     return "Tu presupuesto actual es de " +presupuesto+ " €";
 }
 
-function CrearGasto(descripcionR, gastoR, fechaR = Date.now(), ...etiquetasR) {
+function CrearGasto(descripcionR, gastoR=0, fechaR = Date.now(), ...etiquetasR) {
     // TODO  Deberá comprobar que el valor introducido sea un núḿero no negativo; en caso contrario, asignará a la propiedad valor el valor 0.
     
     if (isNaN(Date.parse(fechaR)))
     {
       fechaR=Date.now();
     }
+    if(isNaN(gastoR) || (parseFloat(gastoR))<0 || parseFloat(gastoR)==undefined )
+    {
+      gastoR=0;
+    }
 
     let gasto = {
-      descripcion: descripcionR ,  
-      valor: (gastoR==undefined) ? 0:parseFloat(gastoR),
+      descripcion: descripcionR , 
+      valor:parseFloat(gastoR),
       fecha:fechaR,
       etiquetas:[...etiquetasR]
 
     }
+    
     //Metodos del objeto
     gasto.mostrarGasto = function() {
       return 'Gasto correspondiente a '+gasto.descripcion+' con valor '+gasto.valor+' €';
@@ -77,14 +82,25 @@ function CrearGasto(descripcionR, gastoR, fechaR = Date.now(), ...etiquetasR) {
     }
     gasto.borrarEtiquetas=function(...parametros)
     {
-      /*Función de un número indeterminado de parámetros que recibirá uno o varios nombres de etiquetas y procederá a eliminarlas 
-      (si existen) de la propiedad etiquetas del objeto.*/ 
-      gasto.etiquetas.forEach(et => {
-        if(et==gasto.id)
+    
+      parametros.forEach(et => {
+        if(gasto.etiquetas.includes(et))
         {
           gasto.etiquetas.splice(gasto.etiquetas.indexOf(et),1);
         }
-      });
+      } );
+    }
+    gasto.anyadirEtiquetas=function(...parametros)
+    {
+        /*Función de un *número indeterminado de parámetros* que añadirá las etiquetas pasadas como parámetro a la propiedad ~etiquetas~ del objeto.
+         *Deberá comprobar que no se creen duplicados*.*/ 
+        parametros.forEach(et => {
+          if(!gasto.etiquetas.includes(et))
+          {
+           gasto.etiquetas.push(et);
+          }
+        } );
+
     }
     //comprobar fecha con Date.parse si es numero bien sino gg
     let aEtiquetas= new Array();
