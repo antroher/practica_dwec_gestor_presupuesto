@@ -67,8 +67,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                     {
                         this.etiquetas.push(etiquetas3[i]);
                     }
-                }
-                
+                }      
             },
 
             mostrarGastoCompleto(){
@@ -80,10 +79,10 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                 for (var i = 0; i < this.etiquetas.length; i++)
                 {
                     acumulador = acumulador + `- ${this.etiquetas[i]}\n`;
-                }
-                
+                } 
                 return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechanueva.toLocaleString()}\nEtiquetas:\n${acumulador}`;
             },
+
             actualizarFecha(nuevaFecha)
             {
                 let BuenaFecha = Date.parse(nuevaFecha);
@@ -93,6 +92,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                     this.fecha = Date.parse(nuevaFecha);
                 }
             },
+    
             borrarEtiquetas(...etiquetas2)
             {
                 let eliminarEtiqueta = 0;
@@ -104,6 +104,37 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                         this.etiquetas.splice(eliminarEtiqueta, 1);
                     }
                 } 
+            },
+
+            obtenerPeriodoAgrupacion: function(periodo)//convertir cadena en fecha e ir haciendo cortes
+            {
+                let result = "";
+                let dia = this.fecha.getDate();
+                let mes = this.fecha.getMonth(); //Enero empieza en 0!
+                let anyo = this.fecha.getFullYear();
+              
+                if (dia < 10) {
+                    dia = '0' + dia;
+                }
+
+                if (mes < 10) {
+                    mes = '0' + mes;
+                }
+
+                if(periodo == "anyo")
+                {
+                    result = anyo; 
+                }
+                else if(periodo == "mes")
+                {
+                    result = `${anyo}-${mes}`;
+                }
+                else if(periodo == "dia")
+                {
+                    result = `${anyo}-${mes}-${dia}`;
+                }
+
+                return result;
             }
         };
         return gasto;       
@@ -150,7 +181,11 @@ function calcularBalance()
 
     return result;
 }
+function filtrarGastos()
+{
 
+}
+function agruparGastos(){}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -163,5 +198,7 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
