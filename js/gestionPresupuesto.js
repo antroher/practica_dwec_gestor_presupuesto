@@ -17,13 +17,10 @@ var gastos = new Array();
 
 function actualizarPresupuesto(nuevoValor) {
 
-    if (nuevoValor >= 0)
-    {
-        presupuesto = nuevoValor;
+    if(parseFloat(valor) > 0){
+        presupuesto = valor;
         return presupuesto;
-    }
-    else 
-    {
+    }else {
         console.log("Error. Número negativo");
         return -1;
     }
@@ -34,14 +31,83 @@ function mostrarPresupuesto() {
     return "Tu presupuesto actual es de "+presupuesto+" €";
 }
 
-function CrearGasto(descripcion, valor, fecha = Date.now(),...etiq = []) {
+function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
 
-    if(isNaN(valor) || valor <= 0 ){
-        this.valor = 0
-    }else {
-        this.valor = valor;
+    let gasto={
+        descripcion : desc,
+        etiquetas : new Array(),
+        valor : null,
+        fecha : null
     }
-    
+
+    if(parseFloat(valor) > 0){
+        gasto.valor = valor;
+    }else{
+        gasto.valor = 0;
+    }
+
+    if(fechaCreacion === undefined || isNaN(Date.parse(fechaCreacion))){  // typeof === "string"
+        gasto.fecha = new Date(Date.now()).toISOString().substring(0,16); // "2021-10-06T13:10" 16-char
+    }else{
+        gasto.fecha = Date.parse(fechaCreacion);
+    }
+
+    if(etiqueta !== undefined){
+        gasto.etiquetas = etiqueta;
+    }
+
+    // MÉTODOS del objeto gasto
+
+    gasto.mostrarGastoCompleto = function(){
+        let respuesta = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
+            Fecha: ${new Date(this.fecha).toLocaleString()} 
+            Etiquetas:\n`;
+        
+        for(let i = 0; i < this.etiquetas.length; i++){  // Recorre y muestra los valores del Array
+            respuesta += "- " + this.etiquetas[i]+`\n`
+        }
+
+        return respuesta;
+    }
+
+    gasto.mostrarGasto = function() {
+        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
+    }
+
+    gasto.actualizarDescripcion = function(nuevaDesc){
+        this.descripcion = nuevaDesc;
+    }
+
+    gasto.actualizarValor = function(nuevoValor){
+        if(parseFloat(nuevoValor) > 0){
+            this.valor = nuevoValor;
+        }
+    }
+
+    gasto.actualizarFecha = function(nuevaFecha){
+        if(!isNaN(Date.parse(nuevaFecha))){
+            this.fecha = Date.parse(nuevaFecha);
+        }
+    }
+
+    gasto.anyadirEtiquetas = function(...nuevasEtiquetas){
+        nuevasEtiquetas.forEach(e => {
+            if(!this.etiquetas.includes(e)){
+                this.etiquetas.push(e);
+            }
+        });
+    }
+
+    gasto.borrarEtiquetas = function(...etiquetasABorrar){
+        etiquetasABorrar.forEach(b => {
+            if(this.etiquetas.includes(b)){
+                this.etiquetas.splice(this.etiquetas.indexOf(b),1)
+            }
+        });
+    }
+    return gasto;
+}
+   /* 
     let gasto = {
         descripcion: descripcion + "",
         valor: parseFloat(this.valor),
@@ -67,7 +133,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(),...etiq = []) {
             this.fecha = Date.parse(stringfecha);
         }
         
-    },
+    }, 
     anyadirEtiquetas(){
 
     },
@@ -75,8 +141,9 @@ function CrearGasto(descripcion, valor, fecha = Date.now(),...etiq = []) {
 
     }
     }
+*/
 
-}
+
 // TODO
 function listarGastos() {
     return gastos;
