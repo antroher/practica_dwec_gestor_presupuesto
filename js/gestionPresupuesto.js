@@ -98,15 +98,17 @@ function CrearGasto(des, val = 0, fec = Date.now(), ...eti) {
 
         obtenerPeriodoAgrupacion(per) {
             let peri;
+            let date = this.fecha;
             if (per === "dia") {
-                peri = this.gastos.fecha(0, 10);
+                peri = `${date.getYear()}-${date.getMonth()}-${date.getDay()}`;
             }
             if (per === "mes") {
-                peri = this.gastos.fecha(0, 7);
+                peri = `${date.getYear()}-${date.getMonth()}`;
             }
             if (per === "anyo") {
-                peri = this.gastos.fecha(0, 4);
+                peri = date.getYear();
             }
+            return peri;
         }
     };
     return gasto;
@@ -142,25 +144,11 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 
-function filtrarGastos(par) {
-    let obj = {
-        fechaDesde: "",
-        fechaHasta: "",
-        valorMinimo: "",
-        valorMaximo: "",
-        descripcionContiene: "",
-        etiquetasTiene: ""
-    }
-    
+function filtrarGastos(obj) {
+
 }
 
-function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta) {
-    if (periodo != "dia" && periodo != "mes" && periodo != "anyo") {
-        periodo = "mes";
-    }
-    if (!isNaN(Date.parse(fechaHasta))) {
-        fechaHasta = getDate();
-    }
+function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta = getDate()) {
 
 }
 
