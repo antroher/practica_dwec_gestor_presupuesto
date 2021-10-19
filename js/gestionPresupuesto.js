@@ -111,9 +111,19 @@ function CrearGasto(desintro, valorintro, fecha = Date.now(), ...etiquetas) {
             this.etiquetas.push(...etiquetas)
         },
 
-        borrarEtiquetas : function() {
+        borrarEtiquetas : function(...etiqueta) {
 
+            etiquetas.forEach((aux) => {
 
+                for (let i = 0; i < this.etiquetas.length; i++) {
+
+                    if (this.etiquetas[i] === aux) {
+                        this.etiquetas.splice(i, 1);
+                    }
+
+                }
+
+            })
 
         } 
     };
