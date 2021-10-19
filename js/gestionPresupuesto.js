@@ -29,7 +29,7 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
     let gasto = {
         valor : valor,
         descripcion : descripcion,
-        fecha : fecha,
+        fecha : (typeof fecha === "string") ? Date.parse(fecha) : fecha,
         etiquetas : [...etiquetas],
 
         mostrarGasto : function() {
@@ -78,7 +78,8 @@ function calcularTotalGastos(){
 }
 
 function calcularBalance(){
-    
+    let balance = presupuesto - calcularTotalGastos();
+    return balance;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
