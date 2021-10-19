@@ -97,7 +97,16 @@ function CrearGasto(des, val = 0, fec = Date.now(), ...eti) {
         },
 
         obtenerPeriodoAgrupacion(per) {
-
+            let peri;
+            if (per === "dia") {
+                peri = this.gastos.fecha(0, 10);
+            }
+            if (per === "mes") {
+                peri = this.gastos.fecha(0, 7);
+            }
+            if (per === "anyo") {
+                peri = this.gastos.fecha(0, 4);
+            }
         }
     };
     return gasto;
@@ -133,12 +142,18 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 
-function filtrarGastos() {
-
+function filtrarGastos(obj) {
+    let obj;
 }
 
-function agruparGastos() {
-    
+function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta) {
+    if (periodo != "dia" && periodo != "mes" && periodo != "anyo") {
+        periodo = "mes";
+    }
+    if (!isNaN(Date.parse(fechaHasta))) {
+        fechaHasta = getDate();
+    }
+
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
