@@ -25,7 +25,7 @@ function listarGastos(){
     return gastos;
 }
 
-function CrearGasto(descripcion, valor, fecha, etiquetas){
+function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas){    
     if(valor < 0 || isNaN(valor)){
         valor = 0;
     }
@@ -39,8 +39,8 @@ function CrearGasto(descripcion, valor, fecha, etiquetas){
     let gasto = {
         valor : valor,
         descripcion : descripcion,
-        etiquetas : etiquetas,
-        fecha : fecha,
+        etiquetas : [...etiquetas],
+        fecha : (typeof fecha == `string`) ? Date.parse(fecha) : fecha,
 
         mostrarGasto : function() {
             return(`Gasto correspondiente a ${this.descripcion} con valor ${valor} €`);
@@ -54,7 +54,57 @@ function CrearGasto(descripcion, valor, fecha, etiquetas){
             if(valor > 0) {
                 this.valor = valor;
             }
+        },
+
+        mostrarGastoCompleto : function() {
+            let controlFecha;
+
+            if (typeof this.fecha === 'string') {
+                controlFecha = Date.parse(this.fecha);
+            }
+            else {
+                controlFecha = this.fecha;
+            }
+            let espacio = "";
+
+            for(let etiquetas2 of this.etiquetas) {
+                espacio += `- ${etiquetas2}\n`;
+            }
+            let fecha2 = new Date(controlFecha);
+
+            let aux = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fecha.toLocaleString())}\nEtiquetas:\n`;
+            return aux + espacio;
+        },
+
+        actualizarFecha : function (fecha) {
+            if(!isNaN(Date.parse(fecha)))
+            {
+                this.fecha = Date.parse(fecha);
+            }            
+        },
+
+        anyadirEtiquetas(...etiquetas)
+        {
+            let aux = etiquetas.filter((x) => {
+                if (!this.etiquetas.includes(x)) {
+                    return x;
+                }
+            });
+            this.etiquetas.push(...aux);
+        },
+
+        borrarEtiquetas(...etiquetas) {
+            etiquetas.forEach((x) => {
+                for(let i = 0; i < this.etiquetas.length; i++) {
+                    if (this.etiquetas[i] === x) {
+                        this.etiquetas.splice(i, 1);
+                    }
+                }
+            })
         }
+
+
+
     }
 
     return gasto;
@@ -62,10 +112,10 @@ function CrearGasto(descripcion, valor, fecha, etiquetas){
 
 
 
-function anyadirGasto(idGasto){
+function anyadirGasto(gasto){
     gasto.id = idGasto;
-    idGasto = +1;
-    gasto.push(gasto);
+    idGasto = idGasto +1;
+    gastos.push(gasto);
 }
 
 function borrarGasto(idGasto){
@@ -82,7 +132,7 @@ function calcularTotalGastos(){
     let total = 0;
     for(let i=0; i<gastos.length;i++)
     {
-        total = total + gasto[i].valor;
+        total = total + gastos[i].valor;
     }
     return total;
 }
