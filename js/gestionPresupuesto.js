@@ -1,8 +1,11 @@
+'use strict'
 let presupuesto = 0;
+let gastos = [];
+let idGasto = 0; 
 function actualizarPresupuesto(presupuesto1) 
 {
 
-  if (presupuesto1 == presupuesto)
+  if (presupuesto1 === presupuesto)
   {
         return 0;
   }
@@ -44,15 +47,41 @@ function mostrarPresupuesto() {
     
 }
 
-function CrearGasto(descripcion, valor) {
+function CrearGasto(descripcion, valor,fecha,...etiquetas) {
     // TODO
+    this.descripcion=descripcion;
     if(valor > 0)
     {
-       this.descripcion=descripcion;
        this.valor=valor;
+    }
+    else
+    {
+        this.valor = 0;
+    }
+    
+    if (etiquetas === 0)
+    {
+            this.etiquetas = []
+    }
+    else
+    {
+            this.etiquetas = etiquetas;
+    }
+    if (fecha)
+    {
+        this.fecha = Date.parse(fecha)
+    }
+    else
+    {
+        this.fecha = Date.now(fecha);
+    }
+    
+
+       
        this.mostrarGasto = function(){
         return 'Gasto correspondiente a ' + this.descripcion + ' con valor ' + this.valor + ' €' ;
        }
+       
        this.actualizarDescripcion = function(descripcion){
         this.descripcion = descripcion;
         return this.descripcion;
@@ -71,43 +100,17 @@ function CrearGasto(descripcion, valor) {
             this.valor = valor;
             return this.valor;
            }
+
        }
+       this.mostrarGastoCompleto = function()
+        {
+            
 
-       
-
-    }
-    else
-    {
-        this.descripcion=descripcion;
-        this.valor=0;
-        this.mostrarGasto = function(){
-            return 'Gasto correspondiente a ' + this.descripcion + ' con valor ' + this.valor + ' €' ;
-           }
-           this.actualizarDescripcion = function(descripcion){
-            this.descripcion = descripcion;
-            return this.descripcion;
-           }
-           this.actualizarValor = function(valor){
-               if (isNaN(valor)){
-                return this.valor;
-               }
-              
-               else if(valor<0)
-               {
-                return this.valor;   
-               }
-               else
-               {
-                this.valor = valor;
-                return this.valor;
-               }
-           }
+        }    
 
     }
-   
-} 
-let gastos = [];
-let idGasto = 0; 
+    
+
 function listarGastos()
 {
     for (let i = 0; i <gastos.length; i++)
@@ -133,8 +136,13 @@ function calcularTotalGastos()
 function calcularBalance()
 {
    
-}    
+}  
 
+function gasto()
+{
+    this
+}
+ 
 
 
 
