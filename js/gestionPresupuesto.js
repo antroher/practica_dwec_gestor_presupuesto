@@ -98,19 +98,18 @@ function CrearGasto(description, valor1, fecha1 = new Date(), ...etiquetasPasada
 				}
 			}
 		},
-		
 borrarEtiquetas = function(...etiquetasBorrar)
-{
-for (let i = 0; i < etiquetasBorrar.length; i++) 
-{
-let etiqueta = etiquetasBorrar[i];
-let indice = this.etiquetas.indexOf(etiqueta);
-if(indice !== -1)
-{
-this.etiquetas.splice(indice,1);
-}
-}
-}
+		{
+			for (let i = 0; i < etiquetasBorrar.length; i++) 
+			{
+				let etiqueta = etiquetasBorrar[i];
+				let indice = this.etiquetas.indexOf(etiqueta);
+				if(indice !== -1)
+				{
+					this.etiquetas.splice(indice,1);
+				}
+			}
+		}
 	}
 	return gasto;
 }
@@ -119,16 +118,18 @@ function listarGastos(){
 }
 
 function anyadirGasto(gast){
+
 	gast.id = idGasto;
 	idGasto += 1;
 	gastos.push(gast);
+
 }
 
 function borrarGasto(id){
 for (let i = 0; i < gastos.length; i++) 
 	{
         let gasto = gastos[i];
-		if(gasto.id == id)
+		if(gasto.id === id)
 		{
             gastos.splice(i,1);
         }  
