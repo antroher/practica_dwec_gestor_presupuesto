@@ -101,7 +101,7 @@ function listarGastos(){
     return gastos;
 }
 
-function anyadirGasto(gasto){
+function anyadirGasto(gasto){//CUIDADO CON LOS PARAMENTROS DE ENTRADA
     gasto.id = idGasto;
 
     idGasto++;
@@ -110,15 +110,27 @@ function anyadirGasto(gasto){
 
 }
 
-function borrarGasto(){
-
+function borrarGasto(id){
+    gastos.forEach((i, position) =>{
+        
+        if(i.id === id){
+            gastos.splice(posi,1);
+        }
+    })
 }
 
 function calcularTotalGastos(){
-    
+    let result = 0;
+
+    gastos.forEach((i)=>{
+        result += i.valor;
+    })
 }
 
+//REVISAR LOS FOREACH A NIVEL DE TEORIA (MUY VERDE AUN)
 function calcularBalance(){
+
+    return presupuesto - calcularTotalGastos();
 
 }
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
