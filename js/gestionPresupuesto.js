@@ -51,23 +51,34 @@ var IDGasto = 0;
                     this.fecha = Date.parse(stringFecha);           
             },
             anyadirEtiquetas (...etiquetas) {
-                let valoresUnicos = etiquetas.filter((x) => { // el .filter lo vamos a usar para generar un nuevo array con todos los elementos que cumplan con la condición que le hemos puesto.
-                    if (!this.etiquetas.includes(x))  // el . includes nos dice si el elemento (x) se encuentra dentro del array devolviendo true o false según corresponda.
-                        return x;                   
-                });
-                this.etiquetas.push(...valoresUnicos);
+               // let valoresUnicos = etiquetas.filter((x) => { // el .filter lo vamos a usar para generar un nuevo array con todos los elementos que cumplan con la condición que le hemos puesto.
+               //     if (!this.etiquetas.includes(x))  // el . includes nos dice si el elemento (x) se encuentra dentro del array devolviendo true o false según corresponda.
+               //         return x;                   
+               // });
+               // this.etiquetas.push(...valoresUnicos);
+
+               for(let elem of etiquetas){  //Añadido y usando la lógica de clase ya que me resulta más simple.
+                   if(!this.etiquetas.includes(elem))
+                   this.etiquetas.push(elem);
+               }
             }, 
     
             borrarEtiquetas (...etiquetas) {
-                etiquetas.forEach((x) => { // x es por cada etiqueta dentro del array etiquetas que le aplique la lógica utilizada.
-                    for (let i = 0; i < this.etiquetas.length; i++) {
-                        if (this.etiquetas[i] === x) 
-                            this.etiquetas.splice(i, 1); // Cambia el contenido del array eliminando elementos existentes y añadimos otros nuevos.
-                        
+                //etiquetas.forEach((x) => { // x es por cada etiqueta dentro del array etiquetas que le aplique la lógica utilizada.
+                //    for (let i = 0; i < this.etiquetas.length; i++) {
+                 //       if (this.etiquetas[i] === x) 
+                //            this.etiquetas.splice(i, 1); // Cambia el contenido del array eliminando elementos existentes y añadimos otros nuevos.
+                //        
+                //    }
+                //})
+                
+                for(let elem of etiquetas) //Lógica sacada en clase, voy a usar esta por comodidad y mejor comprensión.
+                {
+                    if(this.etiquetas.includes(elem))
+                        this.etiquetas.splice(this.etiquetas.indexOf(elem),1);
                     }
-                })
-            },
-            mostrarGastoCompleto : function() {
+                },
+            mostrarGastoCompleto() {
                 let fec1;
                     if(typeof this.fecha === 'string')                
                         fec1 = Date.parse(this.fecha);                  
