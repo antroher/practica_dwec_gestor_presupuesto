@@ -157,6 +157,11 @@ function calcularBalance() {
 }
 
 function filtrarGastos(obj) {
+    if (isNaN(obj)) {
+        for (let i = 0; i < gastos.length; i++) {
+            return gastos[i];
+        }
+    }
 
 }
 
