@@ -1,3 +1,5 @@
+import { strict } from "assert";
+
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
@@ -97,6 +99,19 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
                     this.etiquetas.splice(buscar,1);    
                 }
             }
+        },
+        obtenerPeriodoAgrupacion(periodo){
+            /*convertir caden en fecha e ir haciendo cortes usando el getmonth
+            getUTCDate () 
+            si el mes es < 0 tengo que poner un 0*/
+            let mes;
+            if(mes < 0 ){
+                return "0"
+            }
+            if(periodo == "dia"){return `${this.fecha.getFullYear()}-${this.fecha.getMonth()}-${this.fecha.getUTCDate()}`;}
+            else if (this.fecha == "mes"){return `${this.fecha.getFullYear()}-${this.fecha.getMonth()}`;}
+            else if (this.fecha == "anyo"){return this.fecha.getFullYear();}
+            else if(this.fecha == isNaN(this.fecha)){return `valor introducido no válido`}
         }
     };
     return gasto;
@@ -130,7 +145,16 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         return (presupuesto -  calcularTotalGastos());
     }
 
-    
+    //práctica 3
+    function filtrarGastos(miobjeto){ //"Si se pasa un objeto vacío a 'filtrarGastos', se deben devolver todos los gastos que haya.");
+    /*objeto.hasOwnProperty(''); comprobar si existe las propiedades indicadas*/
+        
+    }
+    //substring()método devuelve un subconjunto de un objeto String
+    //PathState js
+    function agruparGastos(){
+
+    }
 //las funciones y objetos deben tener los nombres que indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
 export   {
@@ -141,5 +165,7 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
