@@ -27,7 +27,7 @@ function CrearGasto(des, v, fec=Date.now(), ...etiq=[]){
     if((parseFloat(v)<0) || isNaN(v))
         v=0;
         
-    Date.parse(fec);
+    fec = Date.parse(fec);
 
     let gasto = {
         descripcion:des,
@@ -46,16 +46,65 @@ function CrearGasto(des, v, fec=Date.now(), ...etiq=[]){
                 gasto.valor=val;  
         },
         mostrarGastoCompleto(){
-
+            let i=0, text = 'Gasto correspondiente a '+gasto.descripcion+' con valor '+gasto.valor+' €\n';
+            text += 'Fecha: ' + gasto.fecha;
+            if((gasto.etiquetas).length>0)
+            {
+                text+="Etiquetas: \n";
+                while(i<(gasto.etiquetas).length)
+                {
+                text+=gasto.etiquetas[i] + "\n";
+                }
+            }
+            else
+            {
+                text+="No hay etiquetas.";
+            }
+            return text;
         },
-        actualizarFecha(){
-
+        actualizarFecha(fec)
+        {
+            fec = Date.parse(fec);
+            if(!isNaN(fec))
+                gasto.fecha=fec;
         },
-        añadirEtiquetas(){
-
+        añadirEtiquetas(...etiq)
+        {
+            let i=0,j=0, ok=true, etiqN;
+            while(i<=gasto.etiquetas.length)
+            {
+                while(j<=[...etiq].length)
+                {
+                    if(gasto.etiquetas[i]==[...etiq[j]])
+                    {
+                        ok=false;
+                    }
+                    j++;
+                }
+                etiqN=[...etiq[j-1]];
+                if(ok)
+                {
+                    (gasto.etiquetas).push(etiqN);
+                }
+                i++;
+            }
+                
         },
         borrarEtiquetas(){
-            
+            let i=0,j=0;
+            while(i<=gasto.etiquetas.length)
+            {
+                while(j<=[...etiq].length)
+                {
+                    if(gasto.etiquetas[i]==[...etiq[j]])
+                    {
+                        gasto.etiquetas.splice(i,1);
+                        i--;
+                    }
+                    j++;
+                }
+                i++;
+            }
         }
       };
     return gasto;
