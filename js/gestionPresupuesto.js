@@ -96,18 +96,20 @@ function CrearGasto(descripcionEntrante, valorEntrante = 0, fechaEntrante = Date
 
         obtenerPeriodoAgrupacion(periodo) {
             let fechaGasto = new Date(this.fecha);
-            let fechaCadena = "";
-            let month = (fechaGasto.getMonth() < 10) ? `0${fechaGasto.getMonth() + 1}` : `${fechaGasto.getMonth() + 1}` 
+            
             switch(periodo) {
                 case "dia":
-                    fechaCadena += `${fechaGasto.getFullYear()}-${month}-0${fechaGasto.getDate()}`
-                    return fechaCadena;
+                    return `${
+                        fechaGasto.getFullYear()}-${
+                            (fechaGasto.getMonth() < 10) ? `0${fechaGasto.getMonth() + 1}` : `${fechaGasto.getMonth() + 1}`}-${
+                                (fechaGasto.getDate() < 10) ? `0${fechaGasto.getDate()}` : `${fechaGasto.getDate()}`}`;
                 case "mes":
-                    fechaCadena += `${fechaGasto.getFullYear()}-${month}`
-                    return fechaCadena;
+                    return `${
+                        fechaGasto.getFullYear()}-${
+                            (fechaGasto.getMonth() < 10) ? `0${fechaGasto.getMonth() + 1}` : `${fechaGasto.getMonth() + 1}`}`
                 case "anyo":
-                    fechaCadena += `${fechaGasto.getFullYear()}`
-                    return fechaCadena;
+                    return `${
+                        fechaGasto.getFullYear()}`
                 default:
                     return "Periodo incorrecto";
             };
