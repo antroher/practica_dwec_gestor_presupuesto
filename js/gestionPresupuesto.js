@@ -59,9 +59,7 @@ function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
     // MÉTODOS del objeto gasto
 
     gasto.mostrarGastoCompleto = function(){
-        let respuesta = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
-Fecha: ${new Date(this.fecha).toLocaleString()} 
-Etiquetas:\n`;
+        let respuesta = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${new Date(this.fecha).toLocaleString()} \nEtiquetas:\n`;
         
         for(let i = 0; i < this.etiquetas.length; i++){  // Recorre y muestra los valores del Array
             respuesta += "- " + this.etiquetas[i]+`\n`
