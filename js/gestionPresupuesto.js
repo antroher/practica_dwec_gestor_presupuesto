@@ -117,9 +117,36 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas) {
            }
 
        }
+
+       this.anyadirEtiquetas = function(...nuevaetiqueta) {
+
+        for (let i = 0; i < nuevaetiqueta.length; i++)
+        {
+            let encontrado = this.etiquetas.includes(nuevaetiqueta[i]) 
+
+            if(encontrado == false)
+            {
+                this.etiquetas.push(nuevaetiqueta[i]);
+            }
+        }
+
+        this.borrarEtiquetas = function(...borraretiqueta)
+        {
+            for (let i = 0; i < borraretiqueta.length; i++)
+            {
+                let pos = this.etiquetas.indexOf(borraretiqueta[i])
+    
+                if (pos >= 0) 
+                {
+                    this.etiquetas.splice(pos, 1)
+                }
+            }
+        }
+    }
+    }
        
 
-    }
+    
     
 
 function listarGastos()
@@ -130,29 +157,43 @@ function listarGastos()
     }
 }
 
-function anyadirGasto()
+function anyadirGasto(gasto)
 {
+    gasto = idGasto;
 
+    idGasto = idGasto + 1;
+
+    gastos.push(gasto);
 }
 
-function borrarGasto()
+function borrarGasto(id)
 {
-
+    let posicion = gastos.findIndex(gasto => gasto.id == id)
+    if (posicion >= 0)
+    {
+        gastos.splice(pos, 1)
+    }
 }
 
 function calcularTotalGastos()
 {
+    let totalgastos = 0;
 
+    for (let i = 0; i < gastos.length; i++)
+    {
+        totalgastos +=   gastos[i].valor;
+    }
 }
 function calcularBalance()
 {
-   
+    let balance;
+
+    balance = presupuesto - calcularTotalGastos();
+
+    return balance;
 }  
 
-function gasto()
-{
-    this
-}
+
  
 
 
