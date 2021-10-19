@@ -5,6 +5,7 @@ var presupuesto = 0;
 let gastos = [];
 let idGasto = 0;
 
+
 function actualizarPresupuesto(NewValu) {
     
     if(NewValu >= 0)
@@ -15,28 +16,43 @@ function actualizarPresupuesto(NewValu) {
     {
         console.log(`Error, ${NewValu} negativo invalido`);
         NewValu = -1;
-       
     }
     return NewValu;
 }
 
 function mostrarPresupuesto() {
-    console.log (`Tu presupuesto actual es de ${presupuesto} €`);
-    return `Tu presupuesto actual es de ${presupuesto} €`;
+    // TODO
+    console.log ("Tu presupuesto actual es de" + presupuesto + "€, siendo" +
+    presupuesto + "el Numero de la variable global presupuesto");
 }
+
 
 function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     if(NewValu < 0 || isNaN(NewValu)){
         NewValu = 0;
     }
+    //if (etiquetas.length == 0) { etiquetas = [] };
     let gasto = {
         descripcion: NewDescriptio,
         valor: NewValu,
         etiquetas: [...etiq],
         fecha: (typeof fec === 'string') ? Date.parse(fec) : fec,
         mostrarGasto(){
+            console.log(`Gasto correspondiente a  ${descripcion} 
+            con valor  ${Numero} €`);
+        },
+        actualizarDescripcion(newDescription){
+            this.descripcion = newDescription;
+        },
+        actualizarValor(newValue){
+            let RetournValue
+
+            if(newValue >= 0)
+            {
+                this.valor = newValue;
             console.log("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor +" €");
             return ("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor +" €")
+            }
         },
         actualizarDescripcion(NewDescript){
             this.descripcion = NewDescript;
@@ -49,14 +65,14 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
             }
         },
         mostrarGastoCompleto(){
-            let acomulador = "";
-            var fechaNueva = new Date(this.fecha);
-            for(var i = 0; i < this.etiquetas.length; i++){
-                acomulador += + this.etiquetas[i];
+            let acumulador = "";
+            var fechanueva = new Date(this.fecha);
+            for (var i = 0; i < this.etiquetas.length; i++)
+            {
+                acumulador += `- ${this.etiquetas[i]}\n`;
             }
-            return `Gasto correspondiente a ${this.NewDescriptio} con valor
-            ${this.NewValu} €. \n Fecha: ${fechaNueva.toLocaleString()}
-            \n Etiquetas: \n - ${acomulador}\n`;
+            
+            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechanueva.toLocaleString()}\nEtiquetas:\n${acumulador}`;s
         },
         actualizarFecha(NewDate){
             //si la fecha es válida se comprueba al comienzo del objeto
@@ -65,24 +81,20 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
             } //si no se define la fecha
         },
         anyadirEtiquetas(...etiq){
-            //["nuevo1","nuevo2","nuevo3"] => ["nuevo1","nuevo2","nuevo1"]
-            //array.map(funcion -> funcion) para cada elemento del array
-            //devuelve un array con los resultados.
-            var map ={}; //valore no repetidos
-            var repetidos = [];
+            let etiquetaComparada;
             for (var i = 0; i < etiq.length; i++){
-                if(!(this.etiquetas[i] in map)) { //si no es un valor nuevo del array añadirlo al nuevo array map
-                    map[this.etiq[i]] = true;
-                    repetidos.push(this.etiq[i]); //insertal el elemento al final
+                etiquetaComparada = this.etiquetas.includes(etiq[i],1);
+                if(!(etiquetaComparada == true)) { //si la etiqueta introducida no esta en el array
+                    this.etiquetas.push(etiq[i]); //insertal el elemento al final
                 }
-                return repetidos
             }
         },
         borrarEtiquetas(...etiq){
-            for(var i = 0; i < this.etiquetas.length; i++){
-                let busqueda = this.etiquetas.indexOf(etiq);
-                if(etiq is etiquetas[i]){
-                    this.etiquetas.splice(etiq);    
+            let buscar = 0;
+            for(var i = 0; i < etiq.length; i++){
+                buscar = this.etiquetas.indexOf(etiq[i]);
+                if(buscar != -1){
+                    this.etiquetas.splice(buscar,1);    
                 }
             }
         }
@@ -96,7 +108,7 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         return gastos;
     }
     function anyadirGasto(gasto){
-        id = idGasto;
+        gasto.id = idGasto;
         idGasto++;
         gastos.push(gasto);
     }
