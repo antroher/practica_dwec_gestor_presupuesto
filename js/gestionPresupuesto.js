@@ -94,6 +94,20 @@ Etiquetas:\n`
         });
     }
 
+    gasto.obtenerPeriodoAgrupacion = function(periodo){
+        if(periodo !== undefined){
+            switch(periodo){
+                case "dia":
+                    return new Date(gasto.fecha).toISOString().substring(0, 10);
+                case "mes":
+                    return new Date(gasto.fecha).toISOString().substring(0, 7);
+                case "anyo":
+                    return new Date(gasto.fecha).toISOString().substring(0, 4);
+            }
+            
+        }
+    }
+
     return gasto;
     
 }
@@ -132,6 +146,72 @@ function calcularBalance(){
     return (presupuesto - gastosTotales)
 }
 
+function filtrarGastos(filtro){
+    if(filtro !== undefined){
+        let gastosFiltrados = gastos.filter(function(g){
+            let fechaCorrecta = false, valorCorrecto = false, contieneDesc = false, tieneEtiq = false;
+            if(filtro.hasOwnProperty('fechaDesde') && filtro.hasOwnProperty('fechaHasta')){
+                if(Date.parse(filtro.fechaDesde) <= g.fecha && g.fecha <= Date.parse(filtro.fechaHasta)){
+                    fechaCorrecta = true;
+                }
+            }else if(filtro.hasOwnProperty('fechaDesde')){
+                if(Date.parse(filtro.fechaDesde) <= g.fecha){
+                    fechaCorrecta = true;
+                }
+            }else if(filtro.hasOwnProperty('fechaHasta')){
+                if(Date.parse(filtro.fechaHasta) >= g.fecha){
+                    fechaCorrecta = true;
+                }
+            }else fechaCorrecta = true;
+
+            if(filtro.hasOwnProperty('valorMinimo') && filtro.hasOwnProperty('valorMaximo')){
+                if(filtro.valorMinimo < g.valor && g.valor < filtro.valorMaximo){
+                    valorCorrecto = true;
+                }
+            }else if(filtro.hasOwnProperty('valorMinimo')){
+                if(filtro.valorMinimo < g.valor){
+                    valorCorrecto = true;
+                }
+            }else if(filtro.hasOwnProperty('valorMaximo')){
+                if(filtro.valorMaximo > g.valor){
+                    valorCorrecto = true;
+                }
+            }else valorCorrecto = true;
+
+            if(filtro.hasOwnProperty('descripcionContiene')){
+                if(g.descripcion.includes(filtro.descripcionContiene)){
+                    contieneDesc = true;
+                }
+            }else contieneDesc = true;
+
+            if(filtro.hasOwnProperty('etiquetasTiene')){
+                let todas = false;
+                filtro.etiquetasTiene.forEach(e => {
+                    if(g.etiquetas.includes(e)){
+                        todas = true;
+                    }
+                });
+
+                tieneEtiq = todas;
+            }else tieneEtiq = true;
+
+            if(fechaCorrecta && valorCorrecto && contieneDesc && tieneEtiq){
+                return g;
+            }
+
+        });
+
+        if(gastosFiltrados.length == 0){
+            return gastos;
+        }else{
+            return gastosFiltrados;
+        }
+    }
+}
+
+function agruparGastos(){
+
+}
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -145,5 +225,7 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
