@@ -56,25 +56,86 @@ function calcularBalance() {
 }
 
 function filtrarGastos(gastosFilter) {
-    const gastosFiltrados = gastos.filter((x) => {
-        gastosFilter.fechaDesde > x.fecha
-    })
-    gastosFiltrados = gastosFiltrados.filter((x) => {
-        gastosFilter.fechaHasta < x.fecha
-    })
-    gastosFiltrados = gastosFiltrados.filter((x) => {
-        gastosFilter.valorMinimo > x.valor
-    })
-    gastosFiltrados = gastosFiltrados.filter((x) => {
-        gastosFilter.valorMaximo < x.valor
-    })
-    gastosFiltrados = gastosFiltrados.filter((x) => {
-        (x.descripcion).includes(gastosFilter.descripcion)
-    })
-    gastosFiltrados = gastosFiltrados.filter((x) => {
-        (x.descripcion).includes(gastosFilter.descripcion)
-    })
-    return gastosFiltrados;
+    let gastosFiltrados;
+
+    if(!isNaN(Date.parse(gastosFilter.fechaDesde)))
+    console.log("FECHA:" + Date.parse(gastosFilter.fechaDesde));
+
+    if (!gastosFilter === {} || !isNaN(Date.parse(gastosFilter.fechaDesde))) {
+        gastosFiltrados = gastos.filter((x) => {
+            let a = Date.parse(gastosFilter.fechaDesde); 
+            console.log(a.toLocaleString())
+            return a > x.fecha;
+        })
+        /*gastosFiltrados = gastosFiltrados.filter((x) => {
+            return Date.parse(gastosFilter.fechaHasta) < x.fecha
+        })
+        gastosFiltrados = gastosFiltrados.filter((x) => {
+            return gastosFilter.valorMinimo > x.valor
+        })
+        gastosFiltrados = gastosFiltrados.filter((x) => {
+            return gastosFilter.valorMaximo < x.valor
+        })
+        gastosFiltrados = gastosFiltrados.filter((x) => {
+            return (x.descripcion).includes(gastosFilter.descripcion)
+        })
+        gastosFiltrados = gastosFiltrados.filter((x) => {
+            for (let i = 0; i < gastosFilter.length; i++) {
+                return gastosFilter.etiquetasTiene.find(x.etiquetas[i])
+            }
+        })*/
+        return gastosFiltrados;
+    } 
+        return gastos;
+    // let gastosFiltrados;
+    // if (!gastosFilter === [] || !gastosFilter === undefined) {
+    //     gastosFiltrados = gastos.filter((x) => {
+    //         gastosFilter.fechaDesde > x.fecha
+    //     })
+    //     gastosFiltrados = gastosFiltrados.filter((x) => {
+    //         gastosFilter.fechaHasta < x.fecha
+    //     })
+    //     gastosFiltrados = gastosFiltrados.filter((x) => {
+    //         gastosFilter.valorMinimo > x.valor
+    //     })
+    //     gastosFiltrados = gastosFiltrados.filter((x) => {
+    //         gastosFilter.valorMaximo < x.valor
+    //     })
+    //     gastosFiltrados = gastosFiltrados.filter((x) => {
+    //         (x.descripcion).includes(gastosFilter.descripcion)
+    //     })
+    //     gastosFiltrados = gastosFiltrados.filter((x) => {
+    //         for (let i = 0; i < gastosFilter.length; i++) {
+    //             gastosFilter.etiquetasTiene.find(x.etiquetas[i])
+    //         }
+    //     })
+    //     return gastosFiltrados;
+    // } 
+    //     return gastos;
+    // if (!gastosFilter === [] || !gastosFilter === undefined) {
+    //     const gastosFiltrados = gastos.filter((x) => {
+    //     if (gastosFilter.fechaDesde < x.fecha) {
+    //         return true;
+    //     }
+    //     if (gastosFilter.fechaHasta > x.fecha) {
+    //         return true;
+    //     }
+    //     if (gastosFilter.valorMinimo < x.valor) {
+    //         return true;
+    //     }
+    //     if (gastosFilter.valorMaximo > x.valor) {
+    //         return true;
+    //     }
+    //     if ((gastosFilter.descripcion).includes(x.descripcionContiene)) {
+    //         return true;
+    //     }
+    //     if ((gastosFilter.descripcion).includes(x.etiquetasTiene)) {
+    //         return true;
+    //     }
+    // })
+    //     return gastosFiltrados;
+    // }
+    return gastos;
 }
 
 function agruparGastos(periodo, etiquetas, fechaDesde = new Date(new Date().getFullYear(), 0, 1), fechaHasta = new Date.now()) {
@@ -158,18 +219,30 @@ function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
         },
 
         obtenerPeriodoAgrupacion : function(periodo) {
-            if (periodo.toLowerCase() === "dia") {
-                let dia = this.fecha.getDate();
-                let mes = this.fecha.getMonth();
-                let anyo = this.fecha.getFullYear();
-                return `${anyo}-${mes}-${dia}`;
-            } else if (periodo.toLowerCase() === "mes") {
-                let mes = this.fecha.getMonth();
-                let anyo = this.fecha.getFullYear();
-                return `${anyo}-${mes}`;
-            } else if (periodo.toLowerCase() === "anyo") {
-                 let anyo = this.fecha.getFullYear();
-                 return `${anyo}`;
+            let newFecha = new Date(this.fecha);
+            switch(periodo) {
+                case "dia": {
+                    if (newFecha.getDate() < 10) {
+                        return (newFecha.getMonth() <10) ?  
+                        `${newFecha.getFullYear()}-0${newFecha.getMonth() + 1}-0${newFecha.getDate()}` : 
+                        `${newFecha.getFullYear()}-${newFecha.getMonth() + 1}-0${newFecha.getDate()}`
+                    } else {
+                        return (newFecha.getMonth() < 10) ? 
+                        `${newFecha.getFullYear()}-0${newFecha.getMonth() + 1}-${newFecha.getDate()}` : 
+                        `${newFecha.getFullYear()}-${newFecha.getMonth() + 1}-${newFecha.getDate()}`;
+                    } break;
+                }
+                case "mes": {
+                    return (newFecha.getDate() < 10) ? 
+                    `${newFecha.getFullYear()}-0${newFecha.getMonth() + 1}` : 
+                    `${newFecha.getFullYear()}-${newFecha.getMonth() + 1}`; break;
+                }
+                case "anyo": {
+                    return `${newFecha.getFullYear()}`; break;
+                } 
+                default: {
+                    return "Periodo no valido";
+                }
             }
         }
     };
