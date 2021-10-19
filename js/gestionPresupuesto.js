@@ -30,7 +30,7 @@ function mostrarPresupuesto() {
 }
 
 
-function CrearGasto(description, valor1, fecha1 = Date.now(), ...etiquetasPasadas) 
+function CrearGasto(description, valor1, fecha1 = new Date(), ...etiquetasPasadas) 
 {
 	if ((valor1 <= 0) || (isNaN(valor1))){
 		valor1 = 0;
@@ -65,8 +65,8 @@ function CrearGasto(description, valor1, fecha1 = Date.now(), ...etiquetasPasada
 
 		},
 
-		mostrarGastoCompleto = function(){
-
+		mostrarGastoCompleto = function()
+		{
 			let fechModificada = new Date(fecha);
 			let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
 			\nFecha: ${fechModificada.toLocaleString()}
@@ -87,30 +87,32 @@ function CrearGasto(description, valor1, fecha1 = Date.now(), ...etiquetasPasada
 			}                     
 		},
 
-		anyadirEtiquetas = function(...etiquetasNuevas){
-            
+		anyadirEtiquetas = function(...etiquetasNuevas)
+		{
 			for (let i = 0; i < etiquetasNuevas.length; i++) 
 			{
-				if(this.etiquetas.includes(etiquetasNuevas[i]) == false)
+				let etiqueta = etiquetasNuevas[i];
+				if(!this.etiquetas.includes(etiqueta))
 				{
-                    this.etiquetas.push(etiquetasNuevas[i]);
-                }
-            }           
-		},
-
-		borrarEtiquetas = function(...etiquetasNuevas){
-
-			for (let i = 0; i < etiquetasNuevas.length; i++) {
-	
-				let indice = this.etiquetas.indexOf(etiquetasNuevas[i]);
-				if(indice !== -1){
-					this.etiquetas.splice(indice, 1);
+					this.etiquetas.push(etiqueta);
 				}
 			}
-		}
+		},
+		
+borrarEtiquetas = function(...etiquetasBorrar)
+{
+for (let i = 0; i < etiquetasBorrar.length; i++) 
+{
+let etiqueta = etiquetasBorrar[i];
+let indice = this.etiquetas.indexOf(etiqueta);
+if(indice !== -1)
+{
+this.etiquetas.splice(indice,1);
+}
+}
+}
 	}
-
-	//return gasto;
+	return gasto;
 }
 function listarGastos(){   
     return gastos;
@@ -123,25 +125,30 @@ function anyadirGasto(gast){
 }
 
 function borrarGasto(id){
-
-	let indice = gastos.findIndex(gasto => gasto.id == id);
-	if(indice !== -1){
-		gastos.splice(indice, 1);
-	}
+for (let i = 0; i < gastos.length; i++) 
+	{
+        let gasto = gastos[i];
+		if(gasto.id == id)
+		{
+            gastos.splice(i,1);
+        }  
+    } 
  }
 
- function calcularTotalGastos(){
-
+ function calcularTotalGastos()
+ {
     let total = 0;
 
-    for (let i = 0; i < gastos.length; i++) {
+	for (let i = 0; i < gastos.length; i++) 
+	{
 		total += gastos[i].valor;
     }
 
     return total;
 }
-function calcularBalance(){
 
+function calcularBalance()
+{
     let gastostotales = calcularTotalGastos();
     let balance = presupuesto - gastostotales;
     return balance;
@@ -155,8 +162,8 @@ export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
 	CrearGasto,
+	anyadirGasto,
 	listarGastos,
-    anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
     calcularBalance
