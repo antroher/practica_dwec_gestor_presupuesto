@@ -43,9 +43,7 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
                 this.valor = valor;
             }            
         }
-
-
-
+ 
     }
     return gasto;
 }
