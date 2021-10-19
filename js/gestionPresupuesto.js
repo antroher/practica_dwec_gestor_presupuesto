@@ -75,7 +75,7 @@ var IDGasto = 0;
                         fec1 = this.fecha;                    
                 let aux = "";
                     for(let etiqueta of this.etiquetas) { // Sacamos todas las etiquetas con --> for (let ... of...) Iteramos un array con un objecto creado para ir variando su valor en este caso etiqueta va a coger el valor de cada etiqueta en cada repetición.
-                        aux =+ `.- ${etiqueta}\n`;
+                        aux = aux +  `.- ${etiqueta}\n`;
                     };        
                 let fec2 = new Date(fec1);   
                 let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fec2.toLocaleString())}\nEtiquetas:\n`;
