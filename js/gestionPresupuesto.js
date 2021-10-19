@@ -79,6 +79,38 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
             var Newfecha2 = Date.parse(Newfecha);
             if((typeof Newfecha === 'string') && Newfecha2)
                 this.fecha = Newfecha2;
+        },
+        obtenerPeriodoAgrupacion(periodo){
+            let fechaT = new Date(this.fecha);
+
+            switch(periodo){
+                case 'dia':{
+                    if(fechaT.getDate() < 10)
+                    {
+                        if(fechaT.getMonth() < 10)
+                            return `${fechaT.getFullYear()}-0${fechaT.getMonth()+1}-0${fechaT.getDate()}`;
+                        else
+                            return `${fechaT.getFullYear()}-${fechaT.getMonth()+1}-0${fechaT.getDate()}`;
+                    }                 
+                    else 
+                        return `${fechaT.getFullYear()}-0${fechaT.getMonth()+1}-${fechaT.getDate()}`;
+                    break;
+                }               
+                case 'mes':{
+                    if(fechaT.getMonth() < 10)
+                        return `${fechaT.getFullYear()}-0${fechaT.getMonth()+1}`;
+                    else
+                        return `${fechaT.getFullYear()}-${fechaT.getMonth()+1}`;
+                    break;
+                }                  
+                case 'anyo':{
+                    return `${fechaT.getFullYear()}`;
+                    break;
+                }                
+                default:{
+                    return `Periodo no valido`;
+                }                  
+            }
         }
     }
 
@@ -120,6 +152,14 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         return balance;
     }
 
+    function filtrarGastos(){
+
+    }
+
+    function agruparGastos(){
+
+    }
+
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
@@ -131,5 +171,7 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
