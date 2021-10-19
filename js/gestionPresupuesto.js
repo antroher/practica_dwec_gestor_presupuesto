@@ -33,6 +33,9 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         valor = 0;
     }//Con esto comprobamos que value1 no sea negativo ni sea un string
 
+    if(etiquetas.length == 0){
+        etiquetas = [];
+    }
     let gasto = { //ESTAR ATENTO CON LOS = CUANDO SE DECLARAN CONSTRUCTORES
         valor: parseFloat(valor), 
         descripcion: descripcion, //Esto hace referencia a las propiedades que tiene el objeto y se le asignan por parametro una vez recurrimos al constructor
