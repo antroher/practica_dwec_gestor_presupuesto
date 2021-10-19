@@ -30,7 +30,7 @@ let descripcion1 = 0;
 function CrearGasto(descripcion1, valor1) {
     // TODO
     if(valor1 < 0 || isNaN(valor1)){
-
+        
         valor1 = 0;
     }//Con esto comprobamos que value1 no sea negativo ni sea un string
 
@@ -44,21 +44,20 @@ function CrearGasto(descripcion1, valor1) {
         mostrarGasto(){
             return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`;
         },
+
         actualizarDescripcion(nuevaDesc){
             this.descripcion = nuevaDesc;
         },
+
         actualizarValor(nuevoValor){
             if(nuevoValor >= 0){
 
                 this.valor = nuevoValor;
-
+            }
         }
-        
-    }
-    
-} 
-return gasto;
-
+    } 
+    return gasto;  
+}
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
