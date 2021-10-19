@@ -26,7 +26,7 @@ var idGasto = 0;
 
     }
 
-function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta = []) {
+function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
         
         if(valorIn < 0 || isNaN(valorIn)){
             valorIn = 0;
@@ -36,10 +36,10 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta = []) 
         descripcion:descripcionIn,
         valor:parseFloat(valorIn),
         etiquetas: [...etiqueta], //El [] ES PARA CREAR EL ARRAY POR DEFECTO
-        fec: (typeof fech === "string") ? Date.parse(fech) : fech,
+        fecha: (typeof fech === "string") ? Date.parse(fech) : fech,
 
          mostrarGasto() {
-            return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`);
+            return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
         },
 
         actualizarDescripcion(NewDescripcion){
@@ -53,22 +53,23 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta = []) 
         },
         mostrarGastoCompleto: function(){
             let espacioGasto = "";
-            let FechNow = new Date(this.fec);
+            let FechNow = new Date(this.fecha);
 
                 this.etiquetas.forEach((i) =>{
                     espacioGasto += `- ${i}\n`
             })
 
-            let txtGasto = `Gasto correspondiente ${this.descripcion}  valor ${this.valor} €.\n Fecha: ${fechaLocal.toLocaleString()}\n Etiquetas: \n ${listaEtiquetas}`;
+            let txtGasto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${FechNow.toLocaleString()}\nEtiquetas:\n${espacioGasto}`;
 
             console.log(txtGasto);
             return txtGasto;
         },
-            actualizarFecha(inFecha){
-                if(typeof inFecha === "string"){
-                let fechVar = Date.parse(inFecha);
-                this.fec = fechVar;
-                }
+            actualizarFecha:function(inFecha){
+                if(typeof inFecha !== "string" || isNaN(Date.parse(inFecha))){
+                    return;
+                } 
+
+                    this.fecha = Date.parse(inFecha);
             },
                 anyadirEtiquetas(...NewEtiqueta){
                     for (let f = 0; f < NewEtiqueta.length; f++) {
@@ -79,14 +80,15 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta = []) 
                     }
                 },
                     borrarEtiquetas(...DelEtiqueta){
-                        for(let f = 0; f < this.etiquetas.length; f++){
-                            if(DelEtiqueta.includes(this.etiquetas[f]))
-                            {
-                                this.etiquetas.splice(f)
+                        for(let f = 0; f < DelEtiqueta.length; f++){
+                            for(let i = 0; i < this.etiquetas.length;i ++){
+                                if(DelEtiqueta[f] === this.etiquetas[i])
+                                {
+                                    this.etiquetas.splice(i,1)
+                                }
                             }
                         }
                     }
-
     }
     return gasto;
 }
