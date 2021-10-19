@@ -81,6 +81,21 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas) {
        this.mostrarGasto = function(){
         return 'Gasto correspondiente a ' + this.descripcion + ' con valor ' + this.valor + ' €' ;
        }
+
+       this.mostrarGastoCompleto = function()
+        {
+            let fecha2 = new Date(this.fecha);
+            let almacen_etiquetas = "";
+            for (let i = 0; i<etiquetas.length; i++)
+            {
+                almacen_etiquetas += `- ` + this.etiquetas[i]+'\n';
+            }
+            return 'Gasto correspondiente a ' + this.descripcion+ ' con valor ' + valor+' €\n'+
+            'Fecha: '+ fecha2+'\n'+
+            'Etiquetas:\n' + almacen_etiquetas;
+
+
+        }    
        
        this.actualizarDescripcion = function(descripcion){
         this.descripcion = descripcion;
@@ -102,11 +117,7 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas) {
            }
 
        }
-       this.mostrarGastoCompleto = function()
-        {
-            
-
-        }    
+       
 
     }
     
