@@ -48,7 +48,20 @@ function borrarGasto(id)
     }
 }
 
+function calcularTotalGastos()
+{
+    let aux = 0;
+    for(let i = 0; i < gastos.length; i++)
+    {
+        aux = gastos[i].valor + aux
+    }
+    return aux;
+}
 
+function calcularBalance()
+{
+    return (presupuesto - calcularTotalGastos());
+}
 
 function CrearGasto(midescripcion, mivalor, mifecha = Date.now(), ...misetiquetas) {
     if(mivalor < 0 || isNaN(mivalor))
