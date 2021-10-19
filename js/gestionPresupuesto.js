@@ -30,7 +30,7 @@ function mostrarPresupuesto() {
 
 }
 
-function CrearGasto(descripcion1, valor1, fecha = Date.now(), ...etiquetas ) {
+function CrearGasto(descripcion1, valor1 = 0, fechaIn = new Date(), ...etiquetas ) {
     // TODO
     if(valor1 < 0 || isNaN(valor1)) //Porque asi comprueba q no es un string
     {
@@ -40,8 +40,8 @@ function CrearGasto(descripcion1, valor1, fecha = Date.now(), ...etiquetas ) {
     let gasto = { //Valor1 = a lo que introduce la funcion, y lo asigna a valor, para que forme parte del objeto(pq si no salen errores en el nmp)
         descripcion: descripcion1,
         valor: valor1,
-        etiqueta : [...etiquetas],// el [] es porque si no tienes ninguna etiqueta creas el array  como por defecto
-        fec : (typeof fecha === "string") ? Date.parse(fecha) : fecha,//si es un string lo converte en fecha en milisegundos
+        etiquetas: [...etiquetas],// el [] es porque si no tienes ninguna etiquetas creas el array  como por defecto
+        fecha: (typeof fechaIn === "string") ? Date.parse(fechaIn) : fechaIn,//si es un string lo converte en fecha en milisegundos
 
         mostrarGasto(){
             console.log("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €")
@@ -61,13 +61,42 @@ function CrearGasto(descripcion1, valor1, fecha = Date.now(), ...etiquetas ) {
                 this.valor = newvalor;
             }
         },
+        mostrarGastoCompleto (){
+            let cadenavacia = "";
+            let fecha = new Date(this.fecha);
+            cadenavacia += `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fecha.toLocaleString()}\nEtiquetas:\n`
+            for(let i = 0;i < this.etiquetas.length;i++){
+                cadenavacia += `- ${this.etiquetas[i]}\n`
+            }
+            console.log(cadenavacia);
+            return cadenavacia;            
+        },
         actualizarFecha(fechaEntrada){
-            if(typeof fechaEntrada === "string") 
+            if(typeof fechaEntrada === "string" && !isNaN(Date.parse(fechaEntrada)))
             {
                 let fechaStamp = Date.parse(fechaEntrada);
-                this.fec = fechaStamp;
+                this.fecha = fechaStamp;
             }
-        }
+        },
+        anyadirEtiquetas(...nuevaEtiquetas){
+
+            for(let i = 0; i < nuevaEtiquetas.length; i++)
+            {
+                if(!this.etiquetas.includes(nuevaEtiquetas[i]))
+                {
+                    this.etiquetas.push(nuevaEtiquetas[i]);
+                }
+            }
+        },
+        borrarEtiquetas(...borradorEtiquetas){
+            borradorEtiquetas.forEach((DelEtiqueta) => {
+                this.etiquetas.forEach((PropiaEtiqueta, index) => {
+                    if (DelEtiqueta === PropiaEtiqueta) {
+                        this.etiquetas.splice(index, 1);
+                    }
+                })
+            })
+        }    
     } 
     return gasto;
 }
