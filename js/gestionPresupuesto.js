@@ -44,7 +44,23 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
             }            
         },
         mostrarGastoCompleto : function() {
+            let fech1;
 
+            if (typeof this.fecha === 'string') {
+                fech1 = Date.parse(this.fecha);
+            }
+            else {
+                fech1 = this.fecha;
+            }
+            let espacio = "";
+
+            for(let etiq1 of this.etiquetas) {
+                espacio += `- ${etiq1}\n`;
+            }
+            let fech2 = new Date(fech1);
+
+            let aux = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fech2.toLocaleString())}\nEtiquetas:\n`;
+            return aux + espacio;
         },
         actualizarFecha : function(fecha) {
             if(!isNaN(Date.parse(fecha))){
@@ -60,14 +76,16 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
             this.etiquetas.push(...aux);
 
         },
-        borrarEtiquetas : function(...etiquetas) {
+        borrarEtiquetas(...etiquetas) {
             etiquetas.forEach((x) => {
                 for(let i = 0; i < this.etiquetas.length; i++) {
                     if (this.etiquetas[i] === x) {
                         this.etiquetas.splice(i, 1);
+                    }
+                }
+            })
         }
- 
-    }
+    };
     return gasto;
 }
 
