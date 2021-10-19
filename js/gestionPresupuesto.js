@@ -35,6 +35,8 @@ function mostrarPresupuesto() {
     return texto;
 }
 
+//constructor
+
 function CrearGasto(desintro, valorintro, fecha = Date.now(), ...etiquetas) {
     // TODO
     if(valorintro < 0 || isNaN(valorintro))
@@ -58,11 +60,35 @@ function CrearGasto(desintro, valorintro, fecha = Date.now(), ...etiquetas) {
         etiquetas : [...etiquetas],
         fecha: fecha,
 
-        mostrarGasto : function(){
-            return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+        mostrarGastoCompleto : function() {
+            let texto = (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €. \n
+                          Fecha: ${this.fecha} \n
+                          Etiquetas: \n`);
+            let texto2 = "";
+            for(let etiqueta of this.etiquetas){
+
+                texto2 = texto2 + ` - ${this.etiquetas} \n`;
+
+            }
+
+            let textoFin = texto + texto2;
+
+            return textoFin;
+            
+        },
+
+        actualizarFecha : function(nFecha) {
+
+            nFecha = Date.parse(nfecha);
+
+            if(!isNaN(nFecha))
+            {
+                this.fecha = nFecha;
+            }
+
         },
         
-        actualizarDescripcion : function(description2){ 
+        actualizarDescripcion : function(description2) { 
             this.descripcion = description2;
         },
         
@@ -71,8 +97,25 @@ function CrearGasto(desintro, valorintro, fecha = Date.now(), ...etiquetas) {
             {
                 this.valor = valor2;
             }
-        }
-    
+        },
+
+        anyadirEtiquetas : function(...etiquetas) {
+
+            let nEtiquetas = this.etiquetas.filter((aux) =>{
+
+                if(this.etiquetas.includes(aux)){
+                    return aux;
+                }
+            });
+
+            this.etiquetas.push(...etiquetas)
+        },
+
+        borrarEtiquetas : function() {
+
+
+
+        } 
     };
 
     return gasto;
@@ -80,13 +123,13 @@ function CrearGasto(desintro, valorintro, fecha = Date.now(), ...etiquetas) {
 
 // Ejercicio 2
 
-function listarGastos(){
+function listarGastos() {
 
-    return gasto;
+    return gastos;
 
 }
 
-function anyadirGasto(gasto){
+function anyadirGasto(gasto) {
 
     gasto.id = idGasto;
     idGasto = idGasto + 1;
@@ -94,9 +137,9 @@ function anyadirGasto(gasto){
 
 }
 
-function borrarGasto(id){
+function borrarGasto(id) {
 
-    for(let i = 0; i <= gastos.length(); i++){
+    for(let i = 0; i <= gastos.length(); i++) {
 
         if(gastos[i].gasto.id == id)
         {
@@ -107,16 +150,16 @@ function borrarGasto(id){
 
 }
 
-function calcularTotalGastos(){
+function calcularTotalGastos() {
 
-    for(let i = 0; i <= gastos.length(); i++){
+    for(let i = 0; i <= gastos.length(); i++) {
         let num = gastos[i].gasto.valor() + num;
     }
 
     return num;
 }
 
-function calcularBalance(){
+function calcularBalance() {
     
     let totalGastos = calcularTotalGastos();
     let balance = presupuesto - totalGastos;
