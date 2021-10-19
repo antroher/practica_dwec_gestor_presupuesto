@@ -142,8 +142,16 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 
-function filtrarGastos(obj) {
-    let obj;
+function filtrarGastos(par) {
+    let obj = {
+        fechaDesde: "",
+        fechaHasta: "",
+        valorMinimo: "",
+        valorMaximo: "",
+        descripcionContiene: "",
+        etiquetasTiene: ""
+    }
+    
 }
 
 function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta) {
