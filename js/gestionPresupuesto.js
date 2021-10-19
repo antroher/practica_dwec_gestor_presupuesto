@@ -96,8 +96,8 @@ function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
         });
     }
 
-    gasto.borrarEtiquetas = function(...etiquetasABorrar){
-        etiquetasABorrar.forEach(b => {
+    gasto.borrarEtiquetas = function(...etiquetasBorrar){
+        etiquetasBorrar.forEach(b => {
             if(this.etiquetas.includes(b)){
                 this.etiquetas.splice(this.etiquetas.indexOf(b),1)
             }
