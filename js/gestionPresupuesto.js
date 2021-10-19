@@ -3,6 +3,8 @@
 
 // TODO: Variable global
 var presupuesto = 0;
+var gastos = new Array();
+var idGasto = 0;
 //COMENTARIO PARA PRIMER COMMIT Y COMPROBAR VERSIONES
 function actualizarPresupuesto(valor) {
     //TODO
@@ -24,7 +26,7 @@ function mostrarPresupuesto() {
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
-function CrearGasto(descripcion, valor) {
+function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
     // TODO
     if(valor < 0 || isNaN(valor)){
 
@@ -34,7 +36,8 @@ function CrearGasto(descripcion, valor) {
     let gasto = { //ESTAR ATENTO CON LOS = CUANDO SE DECLARAN CONSTRUCTORES
         valor: parseFloat(valor), 
         descripcion: descripcion, //Esto hace referencia a las propiedades que tiene el objeto y se le asignan por parametro una vez recurrimos al constructor
-        
+        fecha: (typeof fecha === "string") ? Date.parse(fecha) : fecha,
+        etiquetas: [...etiquetas],
         //A continuación los métodos que van ligados al constructor
         mostrarGasto(){
             console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`);
@@ -50,9 +53,33 @@ function CrearGasto(descripcion, valor) {
 
                 this.valor = nuevoValor;
             }
+        },
+
+        mostrarGastoCompleto : function(){
+
+        },
+
+        actualizarFecha : function(){
+
+        },
+
+        anyadirEtiquetas : function(){
+
+        },
+
+        borrarEtiquetas : function(){
+
         }
     };
     return gasto;  
+}
+
+function listarGastos(){
+    return gastos;
+}
+
+function anyadirGasto(){
+
 }
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -60,5 +87,10 @@ function CrearGasto(descripcion, valor) {
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance
 }
