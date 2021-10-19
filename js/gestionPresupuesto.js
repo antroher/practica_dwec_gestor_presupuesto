@@ -2,7 +2,8 @@
 
 // TODO: Variable global
 var presupuesto = 0;
-
+var gastos = [];
+var idGasto = 0;
 
 function actualizarPresupuesto(valor) {
     // TODO
@@ -20,12 +21,16 @@ function actualizarPresupuesto(valor) {
     return valorfinal;
 }
 
+function listarGastos(){
+    return gastos;
+}
+
 function mostrarPresupuesto() {
     console.log("Tu presupuesto actual es de " + presupuesto + " €");
     return ("Tu presupuesto actual es de " + presupuesto + " €");
 }
 
-function CrearGasto(midescripcion, mivalor) {
+function CrearGasto(midescripcion, mivalor, mifecha = Date.now(), ...misetiquetas) {
     if(mivalor < 0 || isNaN(mivalor))
     {
         mivalor = 0;
