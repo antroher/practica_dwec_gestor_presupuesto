@@ -47,14 +47,20 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
 
         },
         actualizarFecha : function(fecha) {
-            if(!isNaN(Date.parse(fecha)))
+            if(!isNaN(Date.parse(fecha))){
                 this.fecha =Date.parse(fecha);
-
+            }                
         },
-        anyadirEtiquetas : function() {
+        anyadirEtiquetas : function(...etiquetas) {
+            const aux = etiquetas.lastIndexOf((x) => {
+                if (!this.etiquetas.includes(x)) {
+                    return x
+                }
+            });
+            this.etiquetas.push(...aux);
             
         },
-        borrarEtiquetas : function() {
+        borrarEtiquetas : function(...etiquetas) {
             
         }
  
