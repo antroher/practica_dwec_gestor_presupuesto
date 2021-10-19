@@ -97,18 +97,30 @@ function CrearGasto(des, val = 0, fec = Date.now(), ...eti) {
         },
 
         obtenerPeriodoAgrupacion(per) {
-            let peri;
-            let date = this.fecha;
+            let date = new Date(this.fecha);
             if (per === "dia") {
-                peri = `${date.getYear()}-${date.getMonth()}-${date.getDay()}`;
+                if (date.getMonth() + 1 < 10) {
+                    if (date.getDate() < 10) {
+                        return `${date.getFullYear()}-0${date.getMonth() + 1}-0${date.getDate()}`;
+                    } else {
+                        return `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`;
+                    }                    
+                } else if (date.getDate() < 10) {
+                    return `${date.getFullYear()}-${date.getMonth() + 1}-0${date.getDate()}`;
+                } else {
+                    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+                }             
             }
             if (per === "mes") {
-                peri = `${date.getYear()}-${date.getMonth()}`;
+                if (date.getMonth() + 1 < 10) {
+                    return `${date.getFullYear()}-0${date.getMonth() + 1}`;
+                } else {
+                    return `${date.getFullYear()}-${date.getMonth() + 1}`;
+                }
             }
             if (per === "anyo") {
-                peri = date.getYear();
+                return date.getFullYear();
             }
-            return peri;
         }
     };
     return gasto;
@@ -148,7 +160,7 @@ function filtrarGastos(obj) {
 
 }
 
-function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta = getDate()) {
+function agruparGastos(periodo = "mes", etiquetas, fechaDesde = getDate().getYear, fechaHasta = getDate()) {
 
 }
 
