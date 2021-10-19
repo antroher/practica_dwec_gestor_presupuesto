@@ -112,7 +112,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
             return comentario1 + comentario2;            
         },
 
-        obtenerperiodoAgrupacion(periodo)
+        obtenerPeriodoAgrupacion(periodo)
         {
             let fecha = new Date();
             let dd = fecha.getDate();
