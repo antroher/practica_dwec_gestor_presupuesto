@@ -127,9 +127,19 @@ function CrearGasto(midescripcion, mivalor, mifecha = Date.now(), ...misetiqueta
         for(let i = 0; i < lasetiquetas.length; i++)
         {
             for (let j = 0; i < this.etiquetas.length; f++)
-            if(lasetiquetas[i] == this.etiquetas[f])
-            this.etiquetas.splice(f , 1);
+                final = "- " + this.etiquetas[i] /n;
         }
+        console.log(final)
+        return final;
+    },
+    MostrarGastoCompleto(){
+        let final = "";
+        let lafecha = new Date(this.fecha);
+         final = ("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor + " €");
+         for(let i = 0; i < this.etiquetas.length; i++) {
+             if(this.etiquetas.in)
+         }
+
     }
     };
     
@@ -144,5 +154,10 @@ function CrearGasto(midescripcion, mivalor, mifecha = Date.now(), ...misetiqueta
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance
+
 }
