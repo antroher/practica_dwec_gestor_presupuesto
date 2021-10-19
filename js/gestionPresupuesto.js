@@ -32,7 +32,7 @@ function mostrarPresupuesto() {
 }
 
 function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
-
+                                                // parámetro rest: que no sabemos la longitug que va a tener, pueden pasarte muchas etiquetas
     let gasto={
         descripcion : desc,
         etiquetas : new Array(),
@@ -89,19 +89,21 @@ function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
     }
 
     gasto.anyadirEtiquetas = function(...nuevasEtiquetas){
-        nuevasEtiquetas.forEach(e => {
-            if(!this.etiquetas.includes(e)){
-                this.etiquetas.push(e);
+
+        for(let elem of nuevasEtiquetas){
+            if(!this.etiquetas.includes(elem)){
+               this.etiquetas.push(elem);
             }
-        });
+        }
     }
 
     gasto.borrarEtiquetas = function(...etiquetasBorrar){
-        etiquetasBorrar.forEach(b => {
-            if(this.etiquetas.includes(b)){
-                this.etiquetas.splice(this.etiquetas.indexOf(b),1)
+
+        for (let e of etiquetasBorrar){
+            if(this.etiquetas.includes(e)){
+                this.etiquetas.splice(this.etiquetas.indexOf(e),1)
             }
-        });
+        }
     }
     return gasto;
     }
