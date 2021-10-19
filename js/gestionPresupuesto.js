@@ -21,89 +21,63 @@ function actualizarPresupuesto(pre){
    
 }
 function mostrarPresupuesto() {
-    return `Tu presupuesto actual es de ${presupuesto} €`;
+    return "Tu presupuesto actual es de "+ presupuesto + " €";
 }
-function CrearGasto(des, v, fec=Date.now(), ...etiq=[]){
+function CrearGasto(des, v, fec=Date.now(), ...etiq){
     if((parseFloat(v)<0) || isNaN(v))
         v=0;
-        
-    fec = Date.parse(fec);
 
     let gasto = {
         descripcion:des,
         valor:v,
         fecha:(typeof fec==='string') ? Date.parse(fec) : fec,
-        etiquetas : [...etiq],
+        etiquetas:[...etiq],
 
         mostrarGasto(){
-            return 'Gasto correspondiente a '+gasto.descripcion+' con valor '+gasto.valor+' €';
+            return 'Gasto correspondiente a '+this.descripcion+' con valor '+this.valor+' €';
         },
         actualizarDescripcion(des){
-            gasto.descripcion=des;
+            this.descripcion=des;
         },
         actualizarValor(val){
             if(parseFloat(val)>0)
-                gasto.valor=val;  
+            this.valor=val;  
         },
-        mostrarGastoCompleto(){
-            let i=0, text = 'Gasto correspondiente a '+gasto.descripcion+' con valor '+gasto.valor+' €\n';
-            text += 'Fecha: ' + gasto.fecha;
-            if((gasto.etiquetas).length>0)
-            {
-                text+="Etiquetas: \n";
-                while(i<(gasto.etiquetas).length)
-                {
-                text+=gasto.etiquetas[i] + "\n";
-                }
-            }
-            else
-            {
-                text+="No hay etiquetas.";
-            }
-            return text;
+        mostrarGastoCompleto() {
+            let fec;
+                if(typeof this.fecha === 'string')                
+                    fec = Date.parse(this.fecha);                  
+                else
+                    fec = this.fecha;                    
+            let aux = "";
+                for(let elem of this.etiquetas) { 
+                    aux += `- ${elem}\n`;
+                };        
+            let fecN = new Date(fec);   
+            let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fecN.toLocaleString())}\nEtiquetas:\n`;
+            return texto + aux;
         },
         actualizarFecha(fec)
         {
-            fec = Date.parse(fec);
+            fec=Date.parse(fec);
             if(!isNaN(fec))
-                gasto.fecha=fec;
+            this.fecha=fec;
         },
-        añadirEtiquetas(...etiq)
+        anyadirEtiquetas(...etiq)
         {
-            let i=0,j=0, ok=true, etiqN;
-            while(i<=gasto.etiquetas.length)
+            for(let elem of etiq)
             {
-                while(j<=[...etiq].length)
-                {
-                    if(gasto.etiquetas[i]==[...etiq[j]])
-                    {
-                        ok=false;
-                    }
-                    j++;
-                }
-                etiqN=[...etiq[j-1]];
-                if(ok)
-                {
-                    (gasto.etiquetas).push(etiqN);
-                }
-                i++;
+                if(!this.etiquetas.includes(elem))
+                this.etiquetas.push(elem);
             }
-                
         },
-        borrarEtiquetas(){
-            let i=0,j=0;
-            while(i<=gasto.etiquetas.length)
+        borrarEtiquetas(...etiq){
+            for(let elem of etiq)
             {
-                while(j<=[...etiq].length)
+                if(this.etiquetas.includes(elem))
                 {
-                    if(gasto.etiquetas[i]==[...etiq[j]])
-                    {
-                        gasto.etiquetas.splice(i,1);
-                        i--;
-                    }
-                    j++;
+                    this.etiquetas.splice(this.etiquetas.indexOf(elem),1);
                 }
-                i++;
             }
         }
       };
@@ -119,17 +93,17 @@ function anyadirGasto(gasto){
     gastos.push(gasto);
 }
 function borrarGasto(id){
-    let i=0;
-    while(gastos.length>i)
-        if(gastos[i]==id)
-            delete gastos[i];
+    gastos.forEach(elem => {
+        if(elem.id == id )           
+        gastos.splice(gastos.indexOf(elem),1);
+    })
     
 }
 function calcularTotalGastos(){
-    let i=0, res=0;
-    while (i<gastos.length)
-        res += gastos[i].valor;
-    return res;
+    let sum = 0;
+    gastos.forEach((elem) => sum += elem.valor); 
+    return sum;    
+
 }
 function calcularBalance(){
     let res=presupuesto-calcularTotalGastos();
