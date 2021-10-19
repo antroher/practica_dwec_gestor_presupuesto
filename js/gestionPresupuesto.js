@@ -5,7 +5,7 @@
 
 var presupuesto = 0;
  var gastos = [];
-var  idGastos = 0; 
+var  idGasto = 0; 
 
 
 function actualizarPresupuesto(valor) {
@@ -79,20 +79,38 @@ function CrearGasto(descrip, val, fec = Date.now(), ...etiq) {
     return gasto;
 }
 
-function listarGastos(){
+function listarGastos()
+{
+    return gastos;
+}
+
+function anyadirGasto(gasto)
+{
+    gasto.id = idGasto;
+    idGasto ++;
+    gastos.push(gasto);
+}
+
+function borrarGasto()
+{
+    for (let i = 0; i < gastos.length; i++) 
+    {
+        if (gastos[i].id === id) 
+        {
+            gastos.splice(i, 1);
+        }
+    }
 
 }
 
-function anyadirGasto(){
-
-}
-
-function borrarGasto(){
-
-}
-
-function calcularTotalGastos(){
-
+function calcularTotalGastos()
+{
+    let suma = 0;
+    for (let i = 0; i < gastos.length; i++)
+    {
+        suma += gastos[i].valor;
+    }
+    return suma;
 
 }
 
@@ -116,5 +134,6 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+  
 }
