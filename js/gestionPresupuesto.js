@@ -97,6 +97,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
             })
         },
 
+        //*****Práctica 3*****/
         obtenerPeriodoAgrupacion : function(periodo){
             let formatoFecha = new Date(this.fecha)
             switch(periodo){
@@ -162,7 +163,7 @@ function calcularBalance(){
 function filtrarGastos(){
 
 }
-
+//*****Practica 3*****
 function agruparGastos(){
 
 }
