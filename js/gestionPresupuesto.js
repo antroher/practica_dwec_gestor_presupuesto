@@ -127,8 +127,12 @@ function borrarGasto(idBorrar){
         if(g.id == idBorrar){
             gastos.splice(gastos.indexOf(g),1);
         }
-    });
-
+    }); 
+    for(let elem of gastos){
+        if(elem.id == idBorrar){
+            gastos.splice(gastos.indexOf(g),1);
+        }
+    }
 }
 /* function borrarGasto(idGasto) {
     for (let i = 0; i < gastos.length; i++)
