@@ -24,7 +24,7 @@ function mostrarPresupuesto() {
 function CrearGasto(desc, val, fech, ...etiq) { 
     let gasto={
         descripcion : desc,
-        etiqueta : new Array(),
+        etiquetas : new Array(),
         valor : null,
         fecha : null
     }
@@ -36,7 +36,7 @@ function CrearGasto(desc, val, fech, ...etiq) {
         gasto.valor = 0;
     }
 
-    if(fech === undefined || isNaN(Date.parse(fech))){
+    if(fech === undefined || isNaN(Date.parse(fech))){  
 
         gasto.fecha = new Date(Date.now()).toISOString().substring(0,16);
     }
@@ -48,18 +48,18 @@ function CrearGasto(desc, val, fech, ...etiq) {
 
     if(etiq !== undefined){
 
-        gasto.etiqueta = etiq; 
+        gasto.etiquetas = etiq; 
     }
 
     gasto.mostrarGastoCompleto = function(){
 
-        let res = `Gasto correspondiente a ${this.descripcion} con el valor ${this.valor}€
+        let res = `Gasto correspondiente a ${this.descripcion} con el valor ${this.valor} €.
                         Fecha: ${new Date(this.fecha).toLocaleString()}
-                        Etiqueta:\n`
+                        Etiquetas:\n`
 
-        for(let i = 0; i < this.etiqueta.length; i++){
+        for(let i = 0; i < this.etiquetas.length; i++){
 
-            res += "- " + this.etiqueta[i] + `\n`
+            res += "- " + this.etiquetas[i]+`\n`
 
         }
 
@@ -83,15 +83,15 @@ function CrearGasto(desc, val, fech, ...etiq) {
     }
     gasto.actualizarFecha = function(fecha_nueva){
         if(!isNaN(Date.parse(fecha_nueva))){
-            
+
             this.fecha = Date.parse(fecha_nueva);
         }
     }
 
     gasto.anyadirEtiquetas = function(...etiqueta_nueva){
         etiqueta_nueva.forEach(e => {
-            if(!this.etiqueta.includes(e)){
-                this.etiqueta.push(e);
+            if(!this.etiquetas.includes(e)){
+                this.etiquetas.push(e);
             }
         });
     }
@@ -99,9 +99,9 @@ function CrearGasto(desc, val, fech, ...etiq) {
     gasto.borrarEtiquetas = function(...borrar_etiquetas){
         borrar_etiquetas.forEach(b => {
 
-            if(this.etiqueta.includes(b)){
+            if(this.etiquetas.includes(b)){
 
-                this.etiqueta.splice(this.etiqueta.indexOf(b),1)
+                this.etiquetas.splice(this.etiquetas.indexOf(b),1)
             }
         });
     }
@@ -113,6 +113,14 @@ function listarGastos(){
     return gastos;
 }
 function anyadirGasto(){
+
+    if(typeof(gasto) === "object"){
+
+        gasto.id = idGasto;
+        gastos.push(gasto);
+        idGasto++;
+
+    }
 
 }
 function borrarGasto(){
