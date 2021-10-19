@@ -20,32 +20,22 @@ function mostrarPresupuesto() {
     return 'Tu presupuesto actual es de ' + presupuesto + ' €';
 }
 
-function CrearGasto(descr, val, fechaCreacion, ...etiquetas) {
+function CrearGasto(descr, val, fechaCreacion, ...etiquet) {
 
     let gasto = {
-   id = idgasto,
-   descripcion = descr,
-   etiquetas = new Array(),
-   date = Date.now(),
-   valor = null,
-   fecha = null
+   descripcion: descr,
+   etiquetas: [...etiquet],
+   valor: val,
+   fecha: fechaCreacion
     }
 
     if (parseFloat(val) >= 0) {
-        gasto = {
-            descripcion: descr,
-            valor: val           
-        };
+        gasto.valor = val;
     }
 
     else {
 
-        gasto = {
-            descripcion: descr,
-            valor: 0
-        };
-        gastos += gasto;
-        idgasto ++;
+        gasto.valor = 0;
     }
     if(fechaCreacion==undefined || isNaN(Date.parse(fechaCreacion))){
         gasto.fecha = new Date(Date.now()).toISOString().substring(0,16);
@@ -53,12 +43,13 @@ function CrearGasto(descr, val, fechaCreacion, ...etiquetas) {
             gasto.fecha = Date.parse(fechaCreacion);
         }
     gasto.mostrarGastoCompleto = function(){
-        let resp = `Gasto correspondiente a ${descr} con valor ${valor} €.
-        Fecha: ${fechalocale}
-        Etiquetas:\n`
+        let nfec = new Date(this.fecha).toLocaleString();
+        let resp = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
+Fecha: ${nfec}
+Etiquetas:\n`
 
-        for(let i =0;i<etiquetas.length; i++){
-            resp += `- ` + etiquetas[i] + `\n`;
+        for(let i =0;i<this.etiquetas.length; i++){
+            resp += `- ` + this.etiquetas[i] + `\n`;
         }
         return resp;
     }
@@ -75,8 +66,10 @@ function CrearGasto(descr, val, fechaCreacion, ...etiquetas) {
         this.valor = nuevovalor;
         }
     }
-    gasto.actulizarFecha = function(nuevaFecha){
+    gasto.actualizarFecha = function(nuevaFecha){
+        if(Date.parse(nuevaFecha)){
         this.fecha = Date.parse(nuevaFecha);
+        }
     }
     gasto.anyadirEtiquetas = function(...nuevaEtiqueta){
         nuevaEtiqueta.forEach(a => {
@@ -90,6 +83,14 @@ function CrearGasto(descr, val, fechaCreacion, ...etiquetas) {
             this.valor = v1;
         } 
     };
+    gasto.borrarEtiquetas = function(...etiquetList){
+        etiquetList.forEach(a => {
+            if(this.etiquetas.includes(a)){
+                let indice = this.etiquetas.indexOf(a);
+                this.etiquetas.splice(indice,1);
+            }
+        })
+    }
 
     
     return gasto;
@@ -99,31 +100,27 @@ return gastos;
 }
 
 function anyadirGasto(gastoante){
-    gastoante = idgasto;
-    gastoante.push(gasto);
+    gastoante.id = idgasto;
+    gastos.push(gastoante);
     idgasto++;
     
 }
 function borrarGasto(idborrar){
-    let contador = 0;
-    array.forEach(j => {
+    gastos.forEach(j => {
         if(j.id == idborrar){
-            delete gastos[contador];
+            let indice = gastos.indexOf(j);
+            gastos.splice(indice,1);
         }
-        contador++;
     });
 
 
 }
-function calcularTotalGastos(idsumar){
-    let contador = 0;
+function calcularTotalGastos(){
     let totalgastos = 0;
-    array.forEach(j => {
-        if(j.id == idsumar){
-           totalgastos +=  gastos[contador];
-        }
-        contador++;
+    gastos.forEach(j => {       
+           totalgastos +=  j.valor;       
     });
+    return totalgastos;
 }
 function calcularBalance(){
     let gastostotales = calcularTotalGastos();
