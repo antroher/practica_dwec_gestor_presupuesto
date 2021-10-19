@@ -86,13 +86,31 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
 
         },
 
-        anyadirEtiquetas(){
+        anyadirEtiquetas(...incEtiquetas){
+            incEtiquetas.forEach((i) =>{
 
+                if(this.etiquetas.includes(i))
+                {
+                    return;
+                }
+                
+                this.etiquetas.push(i);
+            })
+            
         },
 
-        borrarEtiquetas(){
+        borrarEtiquetas(...etiquetas){
+            etiquetas.forEach((i) =>{
 
-        }
+                this.etiquetas.forEach((j, position) =>{
+
+                    if(j.includes(i)){
+
+                        this.etiquetas.splice(position, 1);
+                    }
+                })
+            })
+        },
     };
     return gasto;  
 }
