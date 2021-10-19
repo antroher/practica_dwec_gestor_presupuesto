@@ -87,14 +87,14 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
                 case 'dia':{
                     if(fechaT.getDate() < 10)
                     {
-                        if(fechaT.getMonth() < 10)
+                        if(fechaT.getMonth()+1 < 10)
                             return `${fechaT.getFullYear()}-0${fechaT.getMonth()+1}-0${fechaT.getDate()}`;
                         else
                             return `${fechaT.getFullYear()}-${fechaT.getMonth()+1}-0${fechaT.getDate()}`;
                     }                 
                     else 
                     {
-                        if(fechaT.getMonth() < 10)
+                        if(fechaT.getMonth()+1 < 10)
                             return `${fechaT.getFullYear()}-0${fechaT.getMonth()+1}-${fechaT.getDate()}`;
                         else
                             return `${fechaT.getFullYear()}-${fechaT.getMonth()+1}-${fechaT.getDate()}`;
@@ -102,7 +102,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
                     break;
                 }               
                 case 'mes':{
-                    if(fechaT.getMonth() < 10)
+                    if(fechaT.getMonth()+1 < 10)
                         return `${fechaT.getFullYear()}-0${fechaT.getMonth()+1}`;
                     else
                         return `${fechaT.getFullYear()}-${fechaT.getMonth()+1}`;
@@ -158,7 +158,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
     }
 
     function filtrarGastos(parametro){
-
+        let resultado = gastos.filter()
     }
 
     function agruparGastos(){
