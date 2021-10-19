@@ -18,7 +18,7 @@ function actualizarPresupuesto(newPresupuesto) {
 }
 
 function mostrarPresupuesto() {
-    return (`Tu presupuesto actual es de ${presupuesto}€`);
+    return (`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
 function listarGastos(){
@@ -29,10 +29,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas){
     if(valor < 0 || isNaN(valor)){
         valor = 0;
     }
-    if(Date.parse (fecha) <0)
-    {
-        fecha = date.now();
-    }
+    
     if(etiquetas == null){
         etiquetas = new Array();
     }
@@ -43,7 +40,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas){
         fecha : (typeof fecha == `string`) ? Date.parse(fecha) : fecha,
 
         mostrarGasto : function() {
-            return(`Gasto correspondiente a ${this.descripcion} con valor ${valor} €`);
+            return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
         },
 
         actualizarDescripcion : function(descripcion) {
@@ -59,21 +56,21 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas){
         mostrarGastoCompleto : function() {
             let controlFecha;
 
-            if (typeof this.fecha === 'string') {
+            if (typeof this.fecha == 'string') {
                 controlFecha = Date.parse(this.fecha);
             }
             else {
                 controlFecha = this.fecha;
             }
-            let espacio = "";
+            let space = "";
 
             for(let etiquetas2 of this.etiquetas) {
-                espacio += `- ${etiquetas2}\n`;
+                space += `- ${etiquetas2}\n`;
             }
-            let fecha2 = new Date(controlFecha);
+            let fechabien = new Date(controlFecha);
 
-            let aux = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fecha.toLocaleString())}\nEtiquetas:\n`;
-            return aux + espacio;
+            let aux = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fechabien.toLocaleString())}\nEtiquetas:\n`;
+            return aux + space;
         },
 
         actualizarFecha : function (fecha) {
@@ -111,19 +108,18 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas){
 }
 
 
-
 function anyadirGasto(gasto){
     gasto.id = idGasto;
     idGasto = idGasto +1;
     gastos.push(gasto);
 }
 
-function borrarGasto(idGasto){
+function borrarGasto(id){
     for(let i = 0; i < gastos.length; i++)
     {
-        if(gasto[i].id==idGasto)
+        if(gastos[i].id==id)
         {
-            gasto.splice(i,1);
+            gastos.splice(i,1);
         }
     }
 }
