@@ -89,12 +89,28 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
             })
         },
 
-        borrarEtiquetas(...etiquetas){
+        borrarEtiquetas : function(...etiquetas){
             etiquetas.forEach((i) =>{
                 this.etiquetas.forEach((j, posi) =>{
                     if(j.includes(i)) this.etiquetas.splice(posi, 1)
                 })
             })
+        },
+
+        obtenerPeriodoAgrupacion : function(periodo){
+            let formatoFecha = new Date(this.fecha)
+            switch(periodo){
+                case "anyo":
+                    return formatoFecha.getFullYear();
+                case "mes":
+                    return (formatoFecha.getMonth() < 10) ? formatoFecha.getFullYear() +"-0"+ (formatoFecha.getMonth()+1) : formatoFecha.getFullYear() +"-"+ (formatoFecha.getMonth()+1);
+                case "dia":
+                    return formatoFecha.getFullYear() +"-"+ (
+                        (formatoFecha.getMonth() < 10) ? "0"+(formatoFecha.getMonth()+1) : (formatoFecha.getMonth()+1)) +"-"+ (
+                            (formatoFecha.getDate() < 10) ? "0"+formatoFecha.getDate() : formatoFecha.getDate());
+                default:
+                    break;
+            }
         },
     };
 
@@ -142,6 +158,14 @@ function calcularBalance(){
     return presupuesto - calcularTotalGastos();
 }
 
+//*****Practica 3*****
+function filtrarGastos(){
+
+}
+
+function agruparGastos(){
+
+}
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
@@ -153,5 +177,7 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos,
 }
