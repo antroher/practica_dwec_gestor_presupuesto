@@ -15,7 +15,7 @@ var presupuesto = 0;
 var idGasto = 0;
 var gastos = new Array();
 
-function actualizarPresupuesto(nuevoValor) {
+function actualizarPresupuesto(valor) {
 
     if(parseFloat(valor) > 0){
         presupuesto = valor;
@@ -28,7 +28,7 @@ function actualizarPresupuesto(nuevoValor) {
 
 function mostrarPresupuesto() {
 
-    return "Tu presupuesto actual es de "+presupuesto+" €";
+    return "Tu presupuesto actual es de "+ presupuesto +" €";
 }
 
 function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
@@ -108,6 +108,8 @@ function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
     return gasto;
     }
 
+// FUNCIONES
+
 function listarGastos() {
     return gastos;      // o recorrer el array con un bucle
 }
@@ -167,7 +169,7 @@ function agruparGastos(){
 
 }
 
-function filtarGastos(){
+function filtrarGastos(){
 
 }
 
@@ -184,5 +186,5 @@ export   {
     calcularTotalGastos,
     calcularBalance,
     agruparGastos,
-    filtarGastos
+    filtrarGastos
 }
