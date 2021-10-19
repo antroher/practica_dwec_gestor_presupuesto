@@ -99,30 +99,18 @@ function mostrarPresupuesto() {
             }
         },
 
-        buscarElemento(ele){
-            let repetido = false;
-            for (let i = 0; i < this.etiquetas.length && repetido == false; i++){
-                if (this.etiquetas[i] === ele){
-                    repetido = true;
-                }
-            }
-            return repetido;
-        },
-
         anyadirEtiquetas(...eti){
-            for (let i = 0; i < eti.length; i++){
-                if (this.buscarElemento(eti[0]) == false){
-                    this.etiquetas.push(eti[i]);
+            for (let elem of eti){
+                if (!this.etiquetas.includes(elem)){
+                    this.etiquetas.push(elem);
                 }
             }
         },
 
         borrarEtiquetas(...nombres){
-            for (let i = 0; i < nombres.length; i++){
-                for (let j = 0; j < this.etiquetas.length; j++){
-                    if (this.etiquetas[j] === nombres[i]){
-                        this.etiquetas.splice(i,1);
-                    }
+            for (let nom of nombres){
+                if (this.etiquetas.includes(nom)){
+                    this.etiquetas.splice(this.etiquetas.indexOf(nom),1);
                 }
             }  
         }
