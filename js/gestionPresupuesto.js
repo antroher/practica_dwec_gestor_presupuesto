@@ -13,7 +13,7 @@ function actualizarPresupuesto(valor) {
     
     }else{
         console.log("Error. Valor introducido no valido.")
-        valorDevolver = -1;
+        retorno = -1;
     }
     return retorno;
 
@@ -24,25 +24,21 @@ function mostrarPresupuesto() {
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
-let valor1 = 0;
-let descripcion1 = 0;
-
-function CrearGasto(descripcion1, valor1) {
+function CrearGasto(descripcion, valor) {
     // TODO
-    if(valor1 < 0 || isNaN(valor1)){
-        
-        valor1 = 0;
+    if(valor < 0 || isNaN(valor)){
+
+        valor = 0;
     }//Con esto comprobamos que value1 no sea negativo ni sea un string
 
-    
-
     let gasto = { //ESTAR ATENTO CON LOS = CUANDO SE DECLARAN CONSTRUCTORES
-        valor: valor1, 
-        descripcion: descripcion1, //Esto hace referencia a las propiedades que tiene el objeto y se le asignan por parametro una vez recurrimos al constructor
+        valor: parseFloat(valor), 
+        descripcion: descripcion, //Esto hace referencia a las propiedades que tiene el objeto y se le asignan por parametro una vez recurrimos al constructor
         
         //A continuación los métodos que van ligados al constructor
         mostrarGasto(){
-            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`;
+            console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`);
+            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
         },
 
         actualizarDescripcion(nuevaDesc){
@@ -55,7 +51,7 @@ function CrearGasto(descripcion1, valor1) {
                 this.valor = nuevoValor;
             }
         }
-    } 
+    };
     return gasto;  
 }
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
