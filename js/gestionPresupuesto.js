@@ -106,47 +106,10 @@ function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
         });
     }
     return gasto;
-}
-   /* 
-    let gasto = {
-        descripcion: descripcion + "",
-        valor: parseFloat(this.valor),
-        fecha: (typeof fecha === "string") ? Date.parse(fecha) : fecha,
-        etiquetas: [...etiq],
-    mostrarGasto(){
-        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
-    },
-    actualizarDescripcion(descripcion){
-        this.descripcion = descripcion;
-    },
-    actualizarValor(nuevoValor){
-        if (nuevoValor >= 0 )
-        {
-            this.valor = nuevoValor;
-        }
-    },
-    mostrarGastoCompleto(){
-        let gastoCompleto = " ";
-    },
-    actualizarFecha(stringfecha){
-        if (typeof stringfecha === "string"){
-            this.fecha = Date.parse(stringfecha);
-        }
-        
-    }, 
-    anyadirEtiquetas(){
-
-    },
-    borrarEtiquetas(){
-
     }
-    }
-*/
 
-
-// TODO
 function listarGastos() {
-    return gastos;
+    return gastos;      // o recorrer el array con un bucle
 }
 
 function anyadirGasto(gastoAnyadir){
@@ -157,7 +120,15 @@ function anyadirGasto(gastoAnyadir){
     }
 }
 
-function borrarGasto(idGasto) {
+function borrarGasto(idBorrar){
+    gastos.forEach(g => {
+        if(g.id == idBorrar){
+            gastos.splice(gastos.indexOf(g),1);
+        }
+    });
+
+}
+/* function borrarGasto(idGasto) {
     for (let i = 0; i < gastos.length; i++)
     {
         if (gastos[i].id == idGasto)
@@ -165,7 +136,7 @@ function borrarGasto(idGasto) {
             gastos.pop(gastos[i]);
         }
     }
-}
+} */
 
 function calcularTotalGastos() {
     let totalGasto = 0;
@@ -174,6 +145,15 @@ function calcularTotalGastos() {
     }
     return totalGasto;
 }
+/*
+function calcularTotalGastos(){
+    let totalGastos = 0;
+    gastos.forEach(g => {
+        totalGastos += g.valor;
+    });
+    return totalGastos;
+}
+*/
 
 function calcularBalance() {
     let totalGasto = calcularTotalGastos();
