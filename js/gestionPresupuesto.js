@@ -95,9 +95,9 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
                     else 
                     {
                         if(fechaT.getMonth() < 10)
-                        return `${fechaT.getFullYear()}-0${fechaT.getMonth()+1}-${fechaT.getDate()}`;
-                    else
-                        return `${fechaT.getFullYear()}-${fechaT.getMonth()+1}-${fechaT.getDate()}`;
+                            return `${fechaT.getFullYear()}-0${fechaT.getMonth()+1}-${fechaT.getDate()}`;
+                        else
+                            return `${fechaT.getFullYear()}-${fechaT.getMonth()+1}-${fechaT.getDate()}`;
                     }
                     break;
                 }               
@@ -157,7 +157,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         return balance;
     }
 
-    function filtrarGastos(){
+    function filtrarGastos(parametro){
 
     }
 
