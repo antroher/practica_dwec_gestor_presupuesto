@@ -28,7 +28,7 @@ function mostrarPresupuesto()
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
-function CrearGasto(desc, val, fec = Date.now(), ...etiq=[])
+function CrearGasto(desc, val, fec = Date.now(), ...etiq)
 {
     if(parseFloat(val)<0 || isNaN(val))
     {
@@ -57,10 +57,10 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq=[])
                 {
                      gasto.valor=val;
                 }
-            }
-        }
+            
+        },
 
-    anyadirEtiquetas([...etiq])
+    anyadirEtiquetas(...etiq)
         {
             for(let elem of etiq)
             {
@@ -69,7 +69,7 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq=[])
                     this.etiquetas.push(elem);
                 }
             }
-        }
+        },
 
     actualizarFecha(fec)
         {
@@ -78,14 +78,14 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq=[])
             {
                 fec=fecha;
             }
-        }
-    borrarEtiquetas([...etiq])
+        },
+    borrarEtiquetas(...etiq)
         {
             for(let elem of etiq)
             {
                 for(let i=0; i<this.etiquetas.length;i++)
                 {
-                    if(this.etiquetas[i]===elem)
+                    if(this.etiquetas[i] === elem)
                     {
                         this.etiquetas.splice(i,1)
                     }
@@ -139,4 +139,5 @@ export   {
     calcularBalance,
 
 }
+
 
