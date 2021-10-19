@@ -58,10 +58,13 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
                 }
             });
             this.etiquetas.push(...aux);
-            
+
         },
         borrarEtiquetas : function(...etiquetas) {
-            
+            etiquetas.forEach((x) => {
+                for(let i = 0; i < this.etiquetas.length; i++) {
+                    if (this.etiquetas[i] === x) {
+                        this.etiquetas.splice(i, 1);
         }
  
     }
