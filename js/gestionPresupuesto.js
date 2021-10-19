@@ -58,19 +58,39 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
             }
         },
 
-        mostrarGastoCompleto : function(){
+        mostrarGastoCompleto(){
+            let listaEtiquetas = "";
+            let fechaLocal = new Date(this.fecha);
+
+            this.etiquetas.forEach((i) => {
+                listaEtiquetas += `${i}`
+
+            })
+
+            let message = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechaLocal.toLocaleString()}\nEtiquetas:\n${listaEtiquetas}`;
+
+            console.log(message);
+            return(message);
+        },
+
+        actualizarFecha(newDate){
+            if (typeof newDate !== "string") return;
+
+            let validDate = Date.parse(newDate);
+
+            if(isNaN(validDate)){
+                return;
+            } 
+
+            this.fecha = Date.parse(validDate);
 
         },
 
-        actualizarFecha : function(){
+        anyadirEtiquetas(){
 
         },
 
-        anyadirEtiquetas : function(){
-
-        },
-
-        borrarEtiquetas : function(){
+        borrarEtiquetas(){
 
         }
     };
