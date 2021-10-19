@@ -87,7 +87,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
 
         },
         mostrarGastoCompleto(){
-            /*
+            
             let acumulador = "";
             var fechanueva = new Date(this.fecha);
             fechanueva = fechanueva.toLocaleString();
@@ -99,7 +99,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
 
             
             return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechanueva.toLocaleString()}\nEtiquetas:\n${acumulador}`;
-              */
+              
         },
       
         actualizarFecha(nuevaFecha)
