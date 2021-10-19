@@ -257,6 +257,11 @@ describe("Función calcularBalance", function() {
         assert.equal(calcularBalance(), presupuesto - valor1 - valor2 - valor3);
         gasto2.actualizarValor(nuevovalor2);
         assert.equal(calcularBalance(), presupuesto - valor1 - nuevovalor2 - valor3);
+
+        // Borramos gastos creados
+        borrarGasto(7);
+        borrarGasto(8);
+        borrarGasto(9);
     });
 
 });
