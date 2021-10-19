@@ -81,7 +81,6 @@ function CrearGasto(desc  , datoValor, datoFecha, ...arrayEtiquetas) {
                         return new Date(this.fecha).toISOString().substring(0,7);
                     case "anyo":
                         return new Date(this.fecha).toISOString().substring(0,4);
-
                 }
             }
         }
@@ -121,6 +120,52 @@ function borrarGasto(idObjeto){
         }
     });
 }
+
+function filtrarGastos(filtro){
+    let gastosFiltrados=gastos.filter(function(g){
+        let fechaDesdeBool=false;
+        let fechaHastaBool=false;
+        let valorMaximoBool=false;
+        let valorMinimoBool=false;
+        let descBool=false;
+        let etiquetasBool=false;
+        if(filtro!==undefined){
+
+            if(filtro.hasOwnProperty("fechaDesde") && g.fecha>=Date.parse(filtro.fechaDesde)){
+                fechaDesdeBool=true;
+            }else if(!filtro.hasOwnProperty("fechaDesde"))fechaDesdeBool=true;
+
+            if(filtro.hasOwnProperty("fechaHasta") && g.fecha<=Date.parse(filtro.fechaHasta)){
+                fechaHastaBool=true;
+            }else if(!filtro.hasOwnProperty("fechaHasta")) fechaHastaBool=true;
+
+            if(filtro.hasOwnProperty("valorMinimo") && g.valor>=filtro.valorMinimo){
+                valorMinimoBool=true;
+            } else if(!filtro.hasOwnProperty("valorMinimo")) valorMinimoBool=true;
+
+            if(filtro.hasOwnProperty("valorMaximo") && g.valor<=filtro.valorMaximo){
+                valorMaximoBool=true;
+            } else if(!filtro.hasOwnProperty("valorMaximo"))valorMaximoBool=true;
+
+            if(filtro.hasOwnProperty("descripcionContiene") && g.descripcion.includes(filtro.descripcionContiene)){
+                descBool=true;
+            } else if(!filtro.hasOwnProperty("descripcionContiene"))descBool=true;
+            
+            if(filtro.hasOwnProperty("etiquetasTiene")){
+                filtro.etiquetasTiene.forEach(et => {
+                        if(g.etiquetas.includes(et) && etiquetasBool==false)etiquetasBool=true;
+                });
+            }else if(!filtro.hasOwnProperty("etiquetasTiene"))etiquetasBool=true;
+            if(fechaDesdeBool && fechaHastaBool && valorMaximoBool && valorMinimoBool && etiquetasBool && descBool){
+                return g;
+            }
+        }else return g;
+    })
+    return gastosFiltrados;  
+
+}
+
+function agruparGastos(){}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
