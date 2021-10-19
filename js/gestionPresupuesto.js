@@ -111,6 +111,28 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
             }
             return comentario1 + comentario2;            
         },
+
+        obtenerperiodoAgrupacion(periodo)
+        {
+            let fecha = new Date();
+            let dd = fecha.getDate();
+            let mm = fecha.getMonth();
+            let yyyy = fecha.getFullYear();
+
+            if (periodo == "dia")
+            {
+                return `${yyyy}-${mm}-${dd}`
+            }
+            else if (periodo == "mes")
+            {
+                return `${yyyy}-${mm}`
+            }
+            else if (periodo == "dia")
+            {
+                return `${yyyy}-${mm}`
+            }
+            
+        }
         
     };
     return gasto;
@@ -163,7 +185,7 @@ function filtrarGastos()
 
 function agruparGastos()
 {
-    
+
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
