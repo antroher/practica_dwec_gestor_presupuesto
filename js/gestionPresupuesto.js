@@ -62,7 +62,7 @@ var IDGasto = 0;
                    this.etiquetas.push(elem);
                }
             }, 
-    
+            
             borrarEtiquetas (...etiquetas) {
                 //etiquetas.forEach((x) => { // x es por cada etiqueta dentro del array etiquetas que le aplique la lógica utilizada.
                 //    for (let i = 0; i < this.etiquetas.length; i++) {
@@ -92,6 +92,37 @@ var IDGasto = 0;
                 let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fec2.toLocaleString())}\nEtiquetas:\n`;
                 return texto + aux;
             },
+            obtenerPeriodoAgrupacion(periodo) {
+                let fec;
+                fec = new Date(this.fecha);
+
+                let cadena = "";
+
+                switch(periodo) {
+                    case 'dia' : { //aaaa-mm-dd
+                        let mes = fec.getMonth()<10 ? `0${fec.getMonth()+1}` : `${fec.getMonth()+1}`; //Concatenamos el 0 seguido de la variable porque el test quiere tener dos dígitos en mes y dia (por si sale algún mes o día menor que 10).
+                        let dia = fec.getDate()<10 ? `0${fec.getDate()}` : `${fec.getDate()}`;
+                        cadena = '' + fec.getFullYear() + '-' + mes + '-' + dia;
+                        break;
+                    }
+
+                    case 'mes' : { // aaaa-mm
+                        let mes = fec.getMonth()<10 ? `0${fec.getMonth()+1}` : `${fec.getMonth()+1}`;
+                        cadena = '' + fec.getFullYear() + '-' + mes;
+                        break;
+                    }
+                    case 'anyo' : { // aaaa
+                        cadena = '' + fec.getFullYear();
+                        break;
+                    }
+                    default : {
+                        break;
+                    }
+
+                }
+                return cadena;
+            }
+            
         }
 
         return gasto;
@@ -135,6 +166,14 @@ var IDGasto = 0;
         return balance;
     }
 
+    function filtrarGastos() {
+
+    }
+
+    function agruparGastos() {
+
+    }
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -148,5 +187,7 @@ export   {
     borrarGasto,
     calcularTotalGastos,
     calcularBalance,
+    filtrarGastos,
+    agruparGastos
 
 }
