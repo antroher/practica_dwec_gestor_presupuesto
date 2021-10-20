@@ -30,7 +30,7 @@ function mostrarPresupuesto() {
 }
 
 
-function CrearGasto(description, valor1, fecha1 = new Date(), ...etiquetasPasadas) 
+function CrearGasto(description, valor1, fecha1 = Date.now(), ...etiquetasPasadas) 
 {
 	if ((valor1 <= 0) || (isNaN(valor1))){
 		valor1 = 0;
@@ -65,29 +65,23 @@ function CrearGasto(description, valor1, fecha1 = new Date(), ...etiquetasPasada
 
 		},
 
-		mostrarGastoCompleto = function()
+		mostrarGastoCompleto()
 		{
-			let fechModificada = new Date(fecha);
-			let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
-			\nFecha: ${fechModificada.toLocaleString()}
-			\nEtiquetas: ${this.etiquetas.join('\n- ')}\n`
+			let fechModificada = new Date(this.fecha);
+			let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechModificada.toLocaleString()}\n\nEtiquetas: \n- ${this.etiquetas.join('\n- ')}\n`
 			return texto;
 		},
 		
-		actualizarFecha = function(valor)
+		actualizarFecha(valor)
 		{ 
 			let fechaModificada = Date.parse(valor); 
-			if(isNaN(fechaModificada))
-			{ 
-				this.fecha = this.fecha; 
-			}
-			else
+			if(!isNaN(fechaModificada))
 			{
 				this.fecha = fechaModificada; 
 			}                     
 		},
 
-		anyadirEtiquetas = function(...etiquetasNuevas)
+		anyadirEtiquetas(...etiquetasNuevas)
 		{
 			for (let i = 0; i < etiquetasNuevas.length; i++) 
 			{
@@ -98,7 +92,7 @@ function CrearGasto(description, valor1, fecha1 = new Date(), ...etiquetasPasada
 				}
 			}
 		},
-borrarEtiquetas = function(...etiquetasBorrar)
+		borrarEtiquetas(...etiquetasBorrar)
 		{
 			for (let i = 0; i < etiquetasBorrar.length; i++) 
 			{
@@ -126,6 +120,7 @@ function anyadirGasto(gast){
 }
 
 function borrarGasto(id){
+
 for (let i = 0; i < gastos.length; i++) 
 	{
         let gasto = gastos[i];
