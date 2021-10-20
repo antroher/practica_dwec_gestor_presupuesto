@@ -96,15 +96,44 @@ function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
             }
         }
     }
-
+    
     gasto.borrarEtiquetas = function(...etiquetasBorrar){
-
+        
         for (let e of etiquetasBorrar){
             if(this.etiquetas.includes(e)){
                 this.etiquetas.splice(this.etiquetas.indexOf(e),1)
             }
         }
     }
+    
+    gasto.obtenerPeriodoAgrupacion = function(periodo){
+
+        let fec = new Date(this.fecha); // convierte objeto en fecha (la fecha es un numero en formato TimeStamp)
+
+        let cadena = '';
+        switch (periodo) {
+            case 'dia':{ //aaaa-mm-dd           a los menores de 10 le colocamos un 0 delante para cumplir el formato
+                let mes = fec.getMonth() < 10 ? `0${fec.getMonth()+1}` : `${fec.getMonth()+1}`;
+                let dia = fec.getDate() < 10 ? `0${fec.getDate()}` : `${fec.getDate()}`;
+                cadena = '' + fec.getFullYear() + '-' + mes + '-' + dia;  //get.FUllYear() te da todo el año
+                break;
+            }
+            case 'mes':{//aaaa-mm
+                let mes = fec.getMonth() < 10 ? `0${fec.getMonth()+1}` : `${fec.getMonth()+1}`;
+                cadena = '' + fec.getFullYear() + '-' + mes;
+                break;
+            }
+            case 'anyo':{//aaaa
+                cadena = '' + fec.getFullYear();
+                break;
+            }
+            default :{
+                break;
+            }
+        }
+        return cadena;
+    }
+
     return gasto;
     }
 
@@ -123,26 +152,12 @@ function anyadirGasto(gastoAnyadir){
 }
 
 function borrarGasto(idBorrar){
-    gastos.forEach(g => {
-        if(g.id == idBorrar){
-            gastos.splice(gastos.indexOf(g),1);
-        }
-    }); 
     for(let elem of gastos){
         if(elem.id == idBorrar){
-            gastos.splice(gastos.indexOf(g),1);
+            gastos.splice(gastos.indexOf(elem),1);
         }
     }
 }
-/* function borrarGasto(idGasto) {
-    for (let i = 0; i < gastos.length; i++)
-    {
-        if (gastos[i].id == idGasto)
-        {
-            gastos.pop(gastos[i]);
-        }
-    }
-} */
 
 function calcularTotalGastos() {
     let totalGasto = 0;
@@ -151,29 +166,23 @@ function calcularTotalGastos() {
     }
     return totalGasto;
 }
-/*
-function calcularTotalGastos(){
-    let totalGastos = 0;
-    gastos.forEach(g => {
-        totalGastos += g.valor;
-    });
-    return totalGastos;
-}
-*/
 
 function calcularBalance() {
     let totalGasto = calcularTotalGastos();
 
     let balance = presupuesto - totalGasto;
 
-    return balance;  // no se si es esto o tengo que devovlerlo en string
+    return balance;
 }
 
 function agruparGastos(){
 
 }
 
-function filtrarGastos(){
+function filtrarGastos(objeto){  // filtrar de los arrays  .filter()
+    objeto.hasOwnProperty('fechaDesde');  // función que devuelve true or false
+// gasos.filter --> comparar entre todos los objetos gasto en el array gastos -->devuelve un array con los resultados
+
 
 }
 
