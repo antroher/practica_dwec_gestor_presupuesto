@@ -102,6 +102,28 @@ function CrearGasto(descripcionR, gastoR=0, fechaR = Date.now(), ...etiquetasR) 
         } );
 
     }
+    gasto.obtenerPeriodoAgrupacion=function(parametro)
+    {
+      /*Función de un parámetro que devolverá el período de agrupación correspondiente al parámetro periodo de la función y a la fecha del gasto. Si el período a agrupar es dia,
+     el período de agrupación tendrá el formato aaaa-mm-dd; si es mes, tendrá el formato aaaa-mm; y si es anyo, tendrá el formato aaaa*/ 
+        let fecha=new Date(gasto.fecha);
+        let dia,mes,año;
+        dia=fecha.getDate()<10 ? "0"+(fecha.getDate()):fecha.getDate() ;
+        mes=fecha.getMonth()<10 ? "0"+(fecha.getMonth()+1):fecha.getMonth()+1 ;
+        año=fecha.getFullYear();
+
+        switch(parametro)
+        {
+          case "dia":
+            return año+"-"+mes+"-"+dia;
+            case "mes":
+                return año+"-"+mes;
+              case "anyo":
+                  return año;
+                default:
+                  return "error";
+        }
+    }
     //comprobar fecha con Date.parse si es numero bien sino gg
     let aEtiquetas= new Array();
     if(etiquetasR==undefined)
@@ -195,6 +217,35 @@ function calcularTotalGastos()
   return sumaGastos;
 }
 
+//Enunciados 3
+function filtrarGastos()
+{
+  /*Función de un parámetro que devolverá un subconjunto de los gastos existentes (variable global gastos). Se deberá utilizar la función filter. El parámetro será un objeto que podrá tener las siguientes propiedades:
+
+fechaDesde - Fecha mínima de creación del gasto. Su valor deberá ser un string con formato válido que pueda entender la función Date.parse.
+fechaHasta - Fecha máxima de creación del gasto. Su valor deberá ser un string con formato válido que pueda entender la función Date.parse.
+valorMinimo - Valor mínimo del gasto.
+valorMaximo - Valor máximo del gasto.
+descripcionContiene - Trozo de texto que deberá aparecer en la descripción.
+etiquetasTiene - Array de etiquetas: si un gasto contiene alguna de las etiquetas indicadas en este parámetro, se deberá devolver en el resultado.*/ 
+}
+function agruparGastos()
+{
+  /* Función de cuatro parámetros que devolverá un objeto con los resultados de realizar una agrupación por período temporal. Los parámetros son:
+
+periodo - Período utilizado para hacer la agrupación. Podrá ser uno de estos tres valores: dia, mes y anyo. El valor por defecto será mes.
+etiquetas - Array de etiquetas. Solo se seleccionarán los gastos que contengan alguna de esas etiquetas. Si no se indica o es un array vacío, se considerarán todos los gastos.
+fechaDesde - Fecha mínima de creación del gasto. Su valor deberá ser un string con formato válido que pueda entender la función Date.parse. Si no se indica se considerará el comienzo del año actual.
+fechaHasta - Fecha máxima de creación del gasto. Su valor deberá ser un string con formato válido que pueda entender la función Date.parse. Si no se indica se considerará la fecha actual.
+La función realizará los siguientes pasos:
+
+En primer lugar se llamará a filtrarGastos para obtener el subconjunto de gastos creados entre las fechas indicadas y que tengan alguna de las etiquetas proporcionadas en el parámetro correspondiente.
+Ejecutar reduce sobre el conjunto de gastos filtrados. El valor inicial del acumulador de reduce será un objeto vacío. Dentro del cuerpo de la función de reduce, para cada gasto se obtendrá su período de agrupación (a través del método obtenerPeriodoAgrupacion del gasto y el parámetro periodo), que se utilizará para identificar la propiedad del acumulador sobre la que se sumará su valor. Así, si periodo = mes, un gasto con fecha 2021-11-01 tendrá un período de agrupación 2021-11, por lo que su valor se sumará a acc["2021-11"] (siempre que la variable del acumulador haya recibido el nombre acc en la llamada a reduce). Tienes una pista sobre cómo proceder en la siguiente pregunta de Stack Overflow.
+El resultado de reduce será el valor de vuelta de la función agruparGastos.*/
+
+
+}
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -207,5 +258,7 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos ,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
