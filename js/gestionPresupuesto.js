@@ -93,12 +93,13 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         },
 
         anyadirEtiquetas(...incEtiqueta){
-            for(let i = 0; i < incEtiqueta.length; i++){
+            
+            incEtiqueta.forEach((i) =>{
+                if(!this.etiquetas.includes(i)){
 
-                continue;
-            }
-
-                this.etiquetas.push(i);
+                    this.etiquetas.push(i);
+                }
+            })
         },
       
         borrarEtiquetas(...etiquetas){
