@@ -45,7 +45,7 @@ function CrearGasto(description, valor1, fecha1 = Date.now(), ...etiquetasPasada
 		valor : valor1,
 		descripcion : description,
 		etiquetas : [...etiquetasPasadas],
-		fecha : fecha1,
+		fecha : Date.parse(fecha1),
 
 		mostrarGasto(){
 			let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
@@ -68,7 +68,7 @@ function CrearGasto(description, valor1, fecha1 = Date.now(), ...etiquetasPasada
 		mostrarGastoCompleto()
 		{
 			let fechModificada = new Date(this.fecha);
-			let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechModificada.toLocaleString()}\n\nEtiquetas: \n- ${this.etiquetas.join('\n- ')}\n`
+			let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechModificada.toLocaleString()}\nEtiquetas:\n- ${this.etiquetas.join('\n- ')}\n`
 			return texto;
 		},
 		
