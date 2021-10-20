@@ -96,7 +96,7 @@ function CrearGasto(descripcionEntrante, valorEntrante = 0, fechaEntrante = Date
 
         obtenerPeriodoAgrupacion(periodo) {
             let fechaGasto = new Date(this.fecha);
-            
+
             switch(periodo) {
                 case "dia":
                     return `${
@@ -151,11 +151,22 @@ function calcularBalance() {
     return (presupuesto - calcularTotalGastos())
 }
 
-function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, ...etiquetasTiene}) {
-    fechaDesde = (!isNaN(Date.parse(fechaDesde))) ? Date.parse(fechaDesde) : undefined;
-    fechaHasta = (!isNaN(Date.parse(fechaHasta))) ? Date.parse(fechaHasta) : undefined;
-
-    gastos.filter((gasto) => {
+function filtrarGastos({fechaDesde, fechaHasta, valorMinimo,
+                        valorMaxima, descripcionContiene, ...etiquetasTiene}) {
+    
+    let filtro = {
+        filtroFechaDesde: (!isNaN(Date.parse(fechaDesde))) ? Date.parse(fechaDesde) : undefined,
+        filtroFechaHasta: (!isNaN(Date.parse(fechaHasta))) ? Date.parse(fechaHasta) : undefined,
+        filtroValorMinimo: valorMinimo,
+        filtroValorMaximo: valorMaxima,
+        filtroDescripcionContiene: descripcionContiene,
+        filtroEtiquetasTiene: [...etiquetasTiene]
+    }
+    let valoresFiltro = Object.values(filtro);
+    let isEmpty = false;
+    valoresFiltro.forEach()
+    if ()
+    gastos.filterhadesfechaDesdeEntrante,((gasto) => {
         
     })
 }
