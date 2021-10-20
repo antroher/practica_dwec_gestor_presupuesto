@@ -13,7 +13,8 @@ function actualizarPresupuesto(valor) {
         presupuesto = parseFloat(valor);
         retorno = presupuesto;
     
-    }else{
+    }
+    else{
         console.log("Error. Valor introducido no valido.")
         retorno = -1;
     }
@@ -31,23 +32,31 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
     if(valor < 0 || isNaN(valor)){
 
         valor = 0;
-    }//Con esto comprobamos que value1 no sea negativo ni sea un string
+    }
+    //Con esto comprobamos que value1 no sea negativo ni sea un string
 
     if(etiquetas.length == 0){
+
         etiquetas = [];
     }
+
     let gasto = { //ESTAR ATENTO CON LOS = CUANDO SE DECLARAN CONSTRUCTORES
         valor: parseFloat(valor), 
         descripcion: descripcion, //Esto hace referencia a las propiedades que tiene el objeto y se le asignan por parametro una vez recurrimos al constructor
         fecha: (typeof fecha === "string") ? Date.parse(fecha) : fecha,
         etiquetas: [...etiquetas],
+
         //A continuación los métodos que van ligados al constructor
+
         mostrarGasto(){
+
             console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`);
+
             return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
         },
 
         actualizarDescripcion(nuevaDesc){
+
             this.descripcion = nuevaDesc;
         },
 
@@ -59,12 +68,13 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         },
 
         mostrarGastoCompleto(){
+
             let listaEtiquetas = "";
             let fechaLocal = new Date(this.fecha);
 
             this.etiquetas.forEach((i) => {
-                listaEtiquetas += `${i}`
 
+                listaEtiquetas += `- ${i}\n`
             })
 
             let message = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechaLocal.toLocaleString()}\nEtiquetas:\n${listaEtiquetas}`;
@@ -74,28 +84,22 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         },
 
         actualizarFecha(newDate){
-            if (typeof newDate !== "string") return;
+            if (typeof newDate !== "string" || isNaN(Date.parse(newDate))) {
 
-            let validDate = Date.parse(newDate);
-
-            if(isNaN(validDate)){
                 return;
-            } 
+            }
 
-            this.fecha = Date.parse(validDate);
-
+            this.fecha = Date.parse(newDate);
         },
 
-        anyadirEtiquetas(...incEtiquetas){
-            incEtiquetas.forEach((i) =>{
+        anyadirEtiquetas(...incEtiqueta){
+            for(let i = 0; i < incEtiqueta.length; i++){
 
-                if(this.etiquetas.includes(i))
-                {
-                    return;
-                }
-                
+                continue;
+            }
+
                 this.etiquetas.push(i);
-            })
+            }
             
         },
 
@@ -132,7 +136,7 @@ function borrarGasto(id){
     gastos.forEach((i, position) =>{
         
         if(i.id === id){
-            gastos.splice(posi,1);
+            gastos.splice(position,1);
         }
     })
 }
@@ -141,6 +145,7 @@ function calcularTotalGastos(){
     let result = 0;
 
     gastos.forEach((i)=>{
+
         result += i.valor;
     })
 }
