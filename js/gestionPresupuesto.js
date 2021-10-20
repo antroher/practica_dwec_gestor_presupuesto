@@ -26,7 +26,8 @@ function mostrarPresupuesto() {
 }
 
 
-function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiqueta) {
+function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiqueta) 
+{
     // TODO
     this.mostrarGasto=function()
     {
@@ -111,12 +112,47 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiqueta) {
             }
         }
     }
+    this.obtenerPeriodoAgrupacion=function(...periodo)
+    {  
+            let fec;
+            fec = new Date(this.fecha);// convierto en objeto fecha
+           
+            let cadena = '';
+            switch (periodo) 
+            {
+
+                case 'dia'://aaaa-mm-dd
+                {
+                    let mes = fec.getMonth()<10 ? `0${fec.getMonth()+1}` : `${fec.getMonth()+1}`;//El método fec.getMonth() cuenta los meses del 0(Enero) al 11(Diciembre) lo que hacemos es decirle que a los meses menor que 10n les añada un 0 delante.
+                    let dia = fec.getDate()<10 ? `0${fec.getDate()}` : `${fec.getDate()}`;
+                        cadena = '' + fec.getFullYear() + '-' + mes + '-' + dia;
+                        break;
+                }
+                case 'mes'://aaaa-mm
+                {
+                    let mes = fec.getMonth()<10 ? `0${fec.getMonth()+1}` : `${fec.getMonth()+1}`;
+                    cadena = ''+ `${fec.getFullYear()}-` + mes;
+                    break;
+                }
+                case 'anyo'://aaaa
+                {
+                    cadena = '' + fec.getFullYear();
+                    break;
+                }
+                default:
+                {
+                    console.log("error");
+                }
+        
+            return cadena;
+        }
+
+    }
 
     this.valor=this.actualizar(valor);
     this.descripcion=descripcion;
 	this.fecha=this.FechaValida(fecha);
 	this.etiquetas=etiqueta;
-
 }
 function listarGastos() 
 {
@@ -158,10 +194,21 @@ function calcularBalance()
     let gTotales = calcularTotalGastos();
     let bal = presupuesto - gTotales;
     return bal;
-
-
 }
 
+function filtrarGastos()
+{
+    let gTotales = calcularTotalGastos();
+    let bal = presupuesto - gTotales;
+    return bal;
+}
+
+function agruparGastos()
+{
+    let gTotales = calcularTotalGastos();
+    let bal = presupuesto - gTotales;
+    return bal;
+}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -174,5 +221,7 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
