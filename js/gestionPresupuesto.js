@@ -148,6 +148,8 @@ function calcularTotalGastos(){
 
         result += i.valor;
     })
+
+    return result;
 }
 
 //REVISAR LOS FOREACH A NIVEL DE TEORIA (MUY VERDE AUN)
