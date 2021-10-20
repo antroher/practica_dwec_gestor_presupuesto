@@ -1,28 +1,9 @@
-// TODO: Crear las funciones, objetos y variables indicadas en el enunciado
-
-// TODO: Variable global
+//Variables global
 'use strict'
 var presupuesto=0, idGasto=0;
 var gastos=[];
 
-
-function actualizarPresupuesto(pre){
-   
-    if(pre>=0)
-    {
-        presupuesto= pre;
-        return presupuesto;
-    }
-    else
-    {
-        console.log("El presupuesto introducido no es válido.");
-        return -1;
-    }
-   
-}
-function mostrarPresupuesto() {
-    return "Tu presupuesto actual es de "+ presupuesto + " €";
-}
+//Creacion del objeto "Gasto"
 function CrearGasto(des, v, fec=Date.now(), ...etiq){
     if((parseFloat(v)<0) || isNaN(v))
         v=0;
@@ -79,11 +60,36 @@ function CrearGasto(des, v, fec=Date.now(), ...etiq){
                     this.etiquetas.splice(this.etiquetas.indexOf(elem),1);
                 }
             }
+        },
+        obtenerPeriodoAgrupacion(periodo){
+            let a = new Date(this.fecha), texto="";
+            switch(periodo){
+                case "dia":{
+                    let m=a.getMonth()<10 ? `0${a.getMonth()+1}` : `${a.getMonth()+1}`;
+                    let d=a.getDate()<10 ? `0${a.getDate()}` : `${a.getDate()}`;
+                        texto=a.getFullYear() + '-' + m + '-' + d; //aaaa-mm-dd
+                        break;
+                }
+                case "mes":{
+                    let m=a.getMonth()<10 ? `0${a.getMonth()+1}` : `${a.getMonth()+1}`;
+                        texto=a.getFullYear() + '-' + m; //aaaa-mm
+                        break;
+                }
+                case "anyo":{
+                        texto=a.getFullYear(); //aaaa
+                        break;
+                }
+                default:{
+                    console.log("Error, el formato de la cadena introducida no es valido.");
+                }
+            }
+            return texto;
         }
       };
     return gasto;
 }
-
+//Funciones
+    //Acciones con el array "gastos"
 function listarGastos(){
     return gastos;
 }
@@ -109,6 +115,64 @@ function calcularBalance(){
     let res=presupuesto-calcularTotalGastos();
     return res;
 }
+function filtrarGastos(objeto){
+    let fecD, fecH, vMax, vMin, descrip, etiq;
+    if('fechaDesde' in objeto)
+        fecD=objeto.fechaDesde;
+    if('fechaHasta' in objeto)
+        fecH=objeto.fechaHasta;
+    if('valorMinimo' in objeto)
+        vMax=objeto.valorMinimo;
+    if('valorMaximo' in objeto)
+        vMin=objeto.valorMaximo;
+    if('descripcionContiene' in objeto)
+        descrip=objeto.descripcionContiene;
+    if('etiquetasTiene' in objeto)
+        etiq=objeto.etiquetasTiene;
+    
+    let res = gastos.filter(funtion(item))
+    {
+        let ok = true;
+        if(fecD!==undefined)
+            if(item.fecha<fecD)
+                ok=false;
+        if(fecH!==undefined)
+            if(item.fecha>fecH)
+                ok=false;
+        if(vMax!==undefined)
+            if(item.valor>vMax)
+                ok=false;
+        if(vMin!==undefined)
+            if(item.valor<vMin)
+                ok=false;
+        if(etiq!==undefined)
+            if(!item.etiquetas.includes(etiq))
+                ok=false;
+        return ok;
+    }
+    return res;
+}
+function agruparGastos(){
+    
+}
+    //Acciones con la variable global "presupuesto"
+function actualizarPresupuesto(pre){
+    if(pre>=0)
+    {
+        presupuesto= pre;
+        return presupuesto;
+    }
+    else
+    {
+        console.log("El presupuesto introducido no es válido.");
+        return -1;
+    }
+}
+function mostrarPresupuesto() {
+    return "Tu presupuesto actual es de "+ presupuesto + " €";
+}
+
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -121,6 +185,8 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
 
