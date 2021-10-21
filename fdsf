@@ -1,0 +1,394 @@
+[33mcommit b1a63003480f1a753559ff1d3f98e6506cc01035[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: ProgramDani <garcia19883@iesmarenostrum.com>
+Date:   Mon Oct 18 22:07:52 2021 +0200
+
+    18/10/2021_22:07
+
+[33mcommit ff421f8d5085f5832d6bbba69b15514e0b78530b[m
+Author: ProgramDani <garcia19883@iesmarenostrum.com>
+Date:   Mon Oct 18 20:41:27 2021 +0200
+
+    18/10/2021_20:41
+
+[33mcommit 54e8fc133e98db894df3c9e9b02a44fe29c48b21[m
+Merge: 6c3408e 8d2b7cf
+Author: ProgramDani <garcia19883@iesmarenostrum.com>
+Date:   Mon Oct 18 19:53:37 2021 +0200
+
+    18/10/2021_19:53
+
+[33mcommit 6c3408e6953dff0a97e45bd6ba6034b25f1a1cb5[m
+Merge: dda0138 1fe7066
+Author: ProgramDani <garcia19883@iesmarenostrum.com>
+Date:   Mon Oct 18 19:49:44 2021 +0200
+
+    18/10/2021_19:49
+
+[33mcommit 8d2b7cf5f60604de4aa03918b0b4cceb07a02ad1[m
+Author: Daniela Garcia <garcia19883@iesmarenostrum.com>
+Date:   Mon Oct 18 19:00:25 2021 +0200
+
+    18/10/2021_19:00
+
+[33mcommit a2d7cd58a9463d7914fddac0ea77c6383ff8bad8[m
+Author: Daniela Garcia <garcia19883@iesmarenostrum.com>
+Date:   Mon Oct 18 18:51:39 2021 +0200
+
+    18/10/2021_18:51
+
+[33mcommit e5949023281e5fb3b0d8398806e10da33d502bca[m
+Author: Daniela Garcia <garcia19883@iesmarenostrum.com>
+Date:   Mon Oct 18 18:32:47 2021 +0200
+
+    18/10/2021_17:34
+
+[33mcommit 754e61fef5197ed3e1bd591f64a9b2f1527d0137[m
+Author: Daniela Garcia <garcia19883@iesmarenostrum.com>
+Date:   Mon Oct 18 18:29:10 2021 +0200
+
+    18/10/2021_17:34
+
+[33mcommit 81658e698e3d077127d47807e94633b841600e37[m
+Author: Daniela Garcia <garcia19883@iesmarenostrum.com>
+Date:   Mon Oct 18 18:20:23 2021 +0200
+
+    18/10/2021_18:20
+
+[33mcommit 5c99bffb15fc36a79515c825e6fd5f71169715d5[m
+Author: Daniela Garcia <garcia19883@iesmarenostrum.com>
+Date:   Mon Oct 18 17:34:11 2021 +0200
+
+    18/10/2021_17:34
+
+[33mcommit 73969e50f58ce67ee7d02d8713ab31e906a05bce[m
+Author: ProgramDani <90634544+ProgramDani@users.noreply.github.com>
+Date:   Sun Oct 17 22:12:24 2021 +0200
+
+    17/10/2021_22:12
+
+[33mcommit b56a56862462bf486154a0c59daf6eadd28aeaa9[m
+Author: ProgramDani <90634544+ProgramDani@users.noreply.github.com>
+Date:   Sun Oct 17 18:23:24 2021 +0200
+
+    17/10/2021
+
+[33mcommit add370d6e76971709b392cd316a809d4dc4c67dc[m
+Author: Daniela Garcia <garcia19883@iesmarenostrum.com>
+Date:   Fri Oct 15 20:49:38 2021 +0200
+
+    15/10/2021_20:49
+
+[33mcommit dda0138ee60dd69e567aae6ecb31fac49dabeb8e[m
+Author: ProgramDani <garcia19883@iesmarenostrum.com>
+Date:   Wed Oct 13 22:41:27 2021 +0200
+
+    13/10/2021_22:41
+
+[33mcommit 1fe7066cd66b3db15caf0b9217a229058746771c[m
+Merge: c13ee88 6ee7e8e
+Author: Daniela Garcia <garcia19883@iesmarenostrum.com>
+Date:   Wed Oct 13 17:03:35 2021 +0200
+
+    Merge branch 'master' of https://github.com/ProgramDani/practica_dwec_gestor_presupuesto
+
+[33mcommit c13ee88a82f55ed8bfb052d77d07bf01da063969[m
+Author: Daniela Garcia <garcia19883@iesmarenostrum.com>
+Date:   Wed Oct 13 17:02:55 2021 +0200
+
+    13/10/2021_17:02
+
+[33mcommit 1cf7505f8a13074c57957faafb6e7d09ffa0684a[m
+Merge: 23acd7d 3fb4a4c
+Author: Daniela Garcia <garcia19883@iesmarenostrum.com>
+Date:   Wed Oct 13 16:48:10 2021 +0200
+
+    Merge branch 'master' of https://github.com/antroher/practica_dwec_gestor_presupuesto
+
+[33mcommit 6ee7e8e1d7bddb67cf7bdd3114b78ddbb90c9dbf[m
+Merge: 23acd7d 3fb4a4c
+Author: ProgramDani <90634544+ProgramDani@users.noreply.github.com>
+Date:   Mon Oct 11 11:51:18 2021 +0200
+
+    Merge branch 'antroher:master' into master
+
+[33mcommit 3fb4a4c429a75cfe3a0fc72c769cb7c29a6ab698[m[33m ([m[1;31mprofesor/master[m[33m)[m
+Merge: 4d9556a 1b8d1e0
+Author: Antonio Roig <38523062+antroher@users.noreply.github.com>
+Date:   Sat Oct 9 00:21:42 2021 +0200
+
+    Merge branch 'pedroprieto:master' into master
+
+[33mcommit 1b8d1e0011e2950e25f7ce5f0f9a4fefcf49a43c[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Sat Oct 9 00:00:07 2021 +0200
+
+    Actualizo README
+
+[33mcommit 60d996c479f2e1bf2a7afcd73bf3f6389a96725c[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Fri Oct 8 23:59:12 2021 +0200
+
+    Práctica Fundamentos de JS II
+
+[33mcommit 23acd7d102e6c31231eed131fa03f4a0209b56eb[m
+Author: Daniela Garcia <garcia19883@iesmarenostrum.com>
+Date:   Thu Oct 7 20:05:29 2021 +0200
+
+    07/10/2021_20:05
+
+[33mcommit d85e1d57128467a3e0f392bacf39bb1e4df0ab7f[m
+Merge: dd96bbf 1144e43
+Author: Daniela Garcia <garcia19883@iesmarenostrum.com>
+Date:   Thu Oct 7 19:58:09 2021 +0200
+
+    07/10/2021_19:59
+
+[33mcommit dd96bbf96e77baec912596fe733101aa2075a244[m
+Author: Daniela Garcia <garcia19883@iesmarenostrum.com>
+Date:   Thu Oct 7 19:55:24 2021 +0200
+
+    07/10/2021_19:55
+
+[33mcommit 1144e4371b349b8f53b7042953a388e454b7e153[m
+Author: Daniela Garcia <garcia19883@iesmarenostrum.com>
+Date:   Thu Oct 7 18:18:26 2021 +0200
+
+    07/10/2021_18:18
+
+[33mcommit 29aecd59a1b922c9e3c080c274f1da9af6ca4ba2[m
+Merge: 808e361 4d9556a
+Author: Daniela Garcia <garcia19883@iesmarenostrum.com>
+Date:   Thu Oct 7 18:13:30 2021 +0200
+
+    Merge branch 'master' of https://github.com/antroher/practica_dwec_gestor_presupuesto
+
+[33mcommit 808e361fdc7861f6683518dea57d2a6834a3250a[m
+Author: Daniela Garcia <garcia19883@iesmarenostrum.com>
+Date:   Thu Oct 7 17:29:25 2021 +0200
+
+    07/10/2021_17:29
+
+[33mcommit 4d9556a9c721b2d4216a99a84c02a436a375d46b[m
+Merge: f76cb0a 0a4ad66
+Author: Antonio Roig <38523062+antroher@users.noreply.github.com>
+Date:   Wed Oct 6 18:17:54 2021 +0200
+
+    Merge branch 'pedroprieto:master' into master
+
+[33mcommit 0a4ad66de34c1b1e40ccc89bebfd783bae0b3c02[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Wed Oct 6 11:33:35 2021 +0200
+
+    Errata
+
+[33mcommit befe9762808b8e34de460c427347ab9b849d8b74[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Wed Oct 6 11:31:07 2021 +0200
+
+    Corrijo instrucciones explicativas sobre GitHub Actions
+
+[33mcommit 3073595bed2e79db1ff818d13ee3aa91a54fcd37[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Wed Oct 6 11:09:24 2021 +0200
+
+    Cambio estructura de tests para que sean independientes los de cada práctica
+
+[33mcommit c19f4ee1019afca3bd327b8897ecad2b6d955ed7[m
+Author: Daniela Garcia <garcia19883@iesmarenostrum.com>
+Date:   Tue Oct 5 19:29:46 2021 +0200
+
+    05/10/2021_19:29
+
+[33mcommit 8666d383c143747c2d36b7fc3a95cda41e927bd8[m
+Author: Daniela Garcia <garcia19883@iesmarenostrum.com>
+Date:   Tue Oct 5 19:25:03 2021 +0200
+
+    05/10/2021_19:24
+
+[33mcommit f76cb0a2f9ff46760299a63ee1d3777c61d30dd0[m
+Merge: 94ff027 4308c2f
+Author: Antonio Roig <38523062+antroher@users.noreply.github.com>
+Date:   Tue Oct 5 11:53:01 2021 +0200
+
+    Merge branch 'pedroprieto:master' into master
+
+[33mcommit 4308c2fe8418e6e7fdb82f8a6d2c100da3f4d987[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Tue Oct 5 11:07:44 2021 +0200
+
+    Corrijo ruta
+
+[33mcommit 59cd392048e72c898e78147ff035ea175642695d[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Tue Oct 5 11:06:03 2021 +0200
+
+    Añado nota sobre activar GitHub Actions
+
+[33mcommit 94ff02782057f649479a8161eb5659361b1bfcf8[m
+Merge: 2b2492b d419581
+Author: Antonio Roig <38523062+antroher@users.noreply.github.com>
+Date:   Mon Oct 4 10:52:54 2021 +0200
+
+    Merge branch 'pedroprieto:master' into master
+
+[33mcommit d419581f4400575738f142bab184bdd67872379d[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Mon Oct 4 02:20:09 2021 +0200
+
+    Detallo enunciado sobre GitHub Actions
+
+[33mcommit ef9e67990c1ed18005f8aca3cbd1928c8049d1d1[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Mon Oct 4 02:07:32 2021 +0200
+
+    Retoco fichero actions
+
+[33mcommit 149467264630499dea4f344e6f019869bbd4279d[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Mon Oct 4 02:01:44 2021 +0200
+
+    Corrijo de nuevo archivo Actions
+
+[33mcommit 9ee2357d1d396c9cb332797874fdd505e06b8a97[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Mon Oct 4 01:56:29 2021 +0200
+
+    Corrijo error en archivo Actions
+
+[33mcommit 9cf9ebea6ed9c5dc9a8ed76d93e7cd84be1c2490[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Mon Oct 4 01:54:59 2021 +0200
+
+    Añado archivo para ejecutar tests en GitHub Actions
+
+[33mcommit 5e7c5b6d694fee542a929c6f21a103629b5fd87b[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Mon Oct 4 01:08:50 2021 +0200
+
+    Añado práctica Intro JS I
+
+[33mcommit 7d659fb0b5d6211e096e809a36b6b8f94de56a9c[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Mon Oct 4 01:08:04 2021 +0200
+
+    Esqueleto práctica Intro JS I
+
+[33mcommit bf3a4766d5632b0f62815488302edb0d58a05944[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Mon Oct 4 01:06:15 2021 +0200
+
+    Corrijo enunciado y errores en test IntroJS I
+
+[33mcommit 82ed197afcb0316ea1751fe6a5e0b8ed41d0adc9[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Mon Oct 4 00:46:48 2021 +0200
+
+    Quito caso especial del test introJSI
+
+[33mcommit 2eea762c9490bf068575531c7369b73a9f30d049[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Mon Oct 4 00:24:33 2021 +0200
+
+    Tests intro JS I
+
+[33mcommit 38d93b0c7d0793bf029b5ceb3ade5767872d74ae[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Mon Oct 4 00:24:15 2021 +0200
+
+    Fichero código práctica fundamentos JS I
+
+[33mcommit 9b70f691be8a54f5e44530d97edf1ba038f5ec9d[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Mon Oct 4 00:23:39 2021 +0200
+
+    Cambios en nombres en enunciado
+
+[33mcommit ff98c26a46f8354ef441ce159e3d55b7cf047ed1[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Sun Oct 3 23:48:12 2021 +0200
+
+    package.json
+
+[33mcommit 0f792d9252ed656ca787fca7073a9c907bb22858[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Sun Oct 3 23:45:56 2021 +0200
+
+    gitignore
+
+[33mcommit 40cb82c11b2860e06384363c08d17e67f47c00ce[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Sun Oct 3 23:44:05 2021 +0200
+
+    Tareas práctica fundamentos JS I
+
+[33mcommit 2b2492bd6a42b9c09a687d41320c8cf1fd676168[m
+Author: Antonio Roig <38523062+antroher@users.noreply.github.com>
+Date:   Fri Oct 1 19:52:15 2021 +0200
+
+    Update fundamentos_js_I.org
+
+[33mcommit d5077eb86dc240d4d10479c0e28e80cd63487217[m
+Author: Antonio Roig <38523062+antroher@users.noreply.github.com>
+Date:   Fri Oct 1 07:58:09 2021 +0200
+
+    Update introduccion_js.org
+
+[33mcommit f51afef4cea444630dd7015e7c54f89dbbaee50e[m
+Author: Antonio Roig <38523062+antroher@users.noreply.github.com>
+Date:   Fri Oct 1 07:54:58 2021 +0200
+
+    Update introduccion_js.org
+
+[33mcommit bd698fb81115484262117a382ce88ada86321cb5[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Wed Sep 29 12:34:03 2021 +0200
+
+    Actualizo instrucciones para traer cambios
+
+[33mcommit 43936deac28332cbe046deaa25ff7debd8fe6d06[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Wed Sep 29 12:24:38 2021 +0200
+
+    Inicio enunciado práctica intro js I
+
+[33mcommit 176db96fc4e3732ef247393106460e7b6a6aff30[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Mon Sep 27 11:16:50 2021 +0200
+
+    Elimino archivo no válido
+
+[33mcommit a6c3d50e85fee84329e67f35d27fa154593c9924[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Mon Sep 27 11:14:25 2021 +0200
+
+    Errata
+
+[33mcommit 6a92080a7d4fe0bc1d415138bae002ed466584e5[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Fri Sep 24 12:28:53 2021 +0200
+
+    Creo práctica introducción a javascript
+
+[33mcommit 1a58fc9c84e0d6ca40dd372d153ebde9d284d80a[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Tue Sep 21 12:44:36 2021 +0200
+
+    Actualizo enunciado
+
+[33mcommit 47cc6c626bd9a8c09a9ca8228a572c5c9af8e961[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Tue Sep 21 12:20:05 2021 +0200
+
+    Corrijo enlace
+
+[33mcommit 50504fb28e7649b54fbe31a0febbcc84e22c2a85[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Tue Sep 21 12:19:19 2021 +0200
+
+    Índice general y primera práctica
+
+[33mcommit 324ce35e6e32ba79102e0cddac6bb3f3468907e3[m
+Author: Pedro Prieto <pedpral@gmail.com>
+Date:   Tue Sep 21 12:02:24 2021 +0200
+
+    Initial commit

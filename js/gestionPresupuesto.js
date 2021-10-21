@@ -1,7 +1,11 @@
+import { strict } from "assert";
+
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
 var presupuesto = 0;
+let gastos = [];
+let idGasto = 0;
 
 
 function actualizarPresupuesto(NewValu) {
@@ -14,28 +18,43 @@ function actualizarPresupuesto(NewValu) {
     {
         console.log(`Error, ${NewValu} negativo invalido`);
         NewValu = -1;
-       
     }
     return NewValu;
 }
 
 function mostrarPresupuesto() {
-    console.log (`Tu presupuesto actual es de ${presupuesto} €`);
-    return `Tu presupuesto actual es de ${presupuesto} €`;
+    // TODO
+    console.log ("Tu presupuesto actual es de" + presupuesto + "€, siendo" +
+    presupuesto + "el Numero de la variable global presupuesto");
 }
+
 
 function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     if(NewValu < 0 || isNaN(NewValu)){
         NewValu = 0;
     }
+    //if (etiquetas.length == 0) { etiquetas = [] };
     let gasto = {
         descripcion: NewDescriptio,
         valor: NewValu,
         etiquetas: [...etiq],
         fecha: (typeof fec === 'string') ? Date.parse(fec) : fec,
         mostrarGasto(){
+            console.log(`Gasto correspondiente a  ${descripcion} 
+            con valor  ${Numero} €`);
+        },
+        actualizarDescripcion(newDescription){
+            this.descripcion = newDescription;
+        },
+        actualizarValor(newValue){
+            let RetournValue
+
+            if(newValue >= 0)
+            {
+                this.valor = newValue;
             console.log("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor +" €");
             return ("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor +" €")
+            }
         },
         actualizarDescripcion(NewDescript){
             this.descripcion = NewDescript;
@@ -48,69 +67,79 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
             }
         },
         mostrarGastoCompleto(){
-            let acomulador = "";
-            for(var i = 0; i < this.etiquetas.length; i++){
-                acomulador += this.etiquetas[i] + "\n";
+            let acumulador = "";
+            var fechanueva = new Date(this.fecha);
+            for (var i = 0; i < this.etiquetas.length; i++)
+            {
+                acumulador += `- ${this.etiquetas[i]}\n`;
             }
-            console.log(`Gasto correspondiente a ${this.NewDescriptio} con valor
-            ${this.NewValu} €. \n Fecha: ${fec.toLocaleString()}
-            \n Etiquetas: \n - ${acomulador}`);
+            
+            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechanueva.toLocaleString()}\nEtiquetas:\n${acumulador}`;s
         },
-        actualizarFecha(fecha){
+        actualizarFecha(NewDate){
             //si la fecha es válida se comprueba al comienzo del objeto
-            Date.now(Date.parse(this.fecha));
+            if(!isNaN(Date.parse(NewDate))){
+                this.fecha = Date.parse(NewDate);
+            } //si no se define la fecha
         },
         anyadirEtiquetas(...etiq){
-            //["nuevo1","nuevo2","nuevo3"] => ["nuevo1","nuevo2","nuevo1"]
-            //array.map(funcion -> funcion) para cada elemento del array
-            //devuelve un array con los resultados.
-            /*var map ={}; //valore no repetidos
-            var repetidos = [];
-            for (var i = 0; i < this.etiquetas.length; i++){
-                if(!(this.etiquetas[i] in map)) { //si no es un valor nuevo del array añadirlo al nuevo array map
-                    map[this.etiquetas[i]] = true;
-                    repetidos.push(this.etiquetas[i]); //insertal el elemento al final
+
+            let etiquetaComparada;
+            for (var i = 0; i < etiq.length; i++){
+                etiquetaComparada = this.etiquetas.includes(etiq[i],1);
+                if(!(etiquetaComparada == true)) { //si la etiqueta introducida no esta en el array
+                    this.etiquetas.push(etiq[i]); //insertal el elemento al final
                 }
-                return repetidos
-            }*/
-            var map = {}; //agregamos valores nuevos
-            return this.etiquetas.filter(function anyadirEtiquetas(etiqueta) { //en caso verdadero
-                if(!(this.etiquetas[i] in map)){ //elemento inexistente en el mapa
-                    map[etiqueta] = true;
-                    return true;
-                }
-                return false;
-            })
+            }
         },
         borrarEtiquetas(...etiq){
-            for(var i = 0; i < this.etiquetas.length; i++){
-                if(etiq == this.etiquetas[i]){
-                    this.etiquetas.splice(etiq);    
+            let buscar = 0;
+            for(var i = 0; i < etiq.length; i++){
+                buscar = this.etiquetas.indexOf(etiq[i]);
+                if(buscar != -1){
+                    this.etiquetas.splice(buscar,1);    
                 }
+            }
+        },
+        obtenerPeriodoAgrupacion(periodo){
+            let nuevaFecha = new Date(this.fecha);
+            switch (periodo){
+                case "mes":
+                    if(nuevaFecha.getMonth() == 0 || nuevaFecha.getMonth() > 12){ return `Error, no hay mes 0 o mayor a 12`}
+                    else if(nuevaFecha.getMonth() < 10){return (`${nuevaFecha.getFullYear()}-0${nuevaFecha.getMonth()+1}` );}
+                    else if(nuevaFecha.getMonth() <= 12){return (`${nuevaFecha.getFullYear()}-${nuevaFecha.getMonth()+1}`);}
+                    break;
+                case "dia":
+                    if(nuevaFecha.getDate() == 0 || nuevaFecha.getDate() > 31){ return `Eror`}
+                    else if(nuevaFecha.getDate() < 10){return (`${nuevaFecha.getFullYear()}-0${nuevaFecha.getMonth()+1}-0${nuevaFecha.getDate()}`) ;}
+                    else if(nuevaFecha.getDate() <= 31){return (`${nuevaFecha.getFullYear()}-${nuevaFecha.getMonth()+1}-${nuevaFecha.getDate()}`);}
+                    break;
+                case "anyo":
+                    if(nuevaFecha.getFullYear() === NaN){return `Eror`}
+                    else {return (`${nuevaFecha.getFullYear()}`)}
+                    break;
+                default:
+                    `valor no válido`;
+                    break;
             }
         }
     };
-}
     return gasto;
+} 
 
     //práctica 2
-    let gastos = new Array();
-    let gastos = [];
-    let idGasto = 0;
-        idGasto = 0;
-
     function listarGastos(){
         return gastos;
     }
     function anyadirGasto(gasto){
-        id = idGasto;
+        gasto.id = idGasto;
         idGasto++;
         gastos.push(gasto);
     }
     function borrarGasto(id){
         for(var i = 0; i < gastos.length; i++){
-            if(id == gastos[id]){
-                gastos.splice(id,id);
+            if(id == gastos[i].id){
+                gastos.splice(i,1);
             }
         }
     }
@@ -122,10 +151,19 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         return suma;
     }
     function calcularBalance(){
-        return (presupeusto -  calcularTotalGastos());
+        return (presupuesto -  calcularTotalGastos());
     }
 
-    
+    //práctica 3
+    function filtrarGastos(miobjeto){ //"Si se pasa un objeto vacío a 'filtrarGastos', se deben devolver todos los gastos que haya.");
+    /*objeto.hasOwnProperty(''); comprobar si existe las propiedades indicadas*/
+        
+    }
+    //substring()método devuelve un subconjunto de un objeto String
+    //PathState js
+    function agruparGastos(){
+
+    }
 //las funciones y objetos deben tener los nombres que indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
 export   {
@@ -136,5 +174,7 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
