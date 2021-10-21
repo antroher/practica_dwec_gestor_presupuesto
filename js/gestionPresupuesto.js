@@ -117,26 +117,16 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                         if (MostarFecha.getDate() < 10) 
                         {
                             if (MostarFecha.getMonth() < 10)
-                            {
                                 resultado =`${MostarFecha.getFullYear()}-0${MostarFecha.getMonth() + 1}-0${MostarFecha.getDate()}`;
-                            }
                             else
-                            {
-                                resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}-0${MostarFecha.getDate()}`;
-                            }
-                               
+                                resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}-0${MostarFecha.getDate()}`;        
                         }
                         else
                         {
                             if (MostarFecha.getMonth() <10)
-                            {
                                 resultado =`${MostarFecha.getFullYear()}-0${MostarFecha.getMonth() + 1}-${MostarFecha.getDate()}`;
-                            }
                             else
-                            {
                                 resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}-${MostarFecha.getDate()}`;
-                            }
-                            
                         }
                         return resultado;
 
@@ -150,12 +140,11 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                         return resultado;
 
                     case "anyo":
-                        resultado = `${MostarFecha.getFullYear()}`; 
-                        
-                        return resultado;
+                        return `${MostarFecha.getFullYear()}`;
 
                     default:
                         return `Has Introducido un error`;
+                        
                 };
             }
         };
