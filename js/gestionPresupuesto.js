@@ -108,10 +108,48 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
 
             obtenerPeriodoAgrupacion: function(periodo)//convertir cadena en fecha e ir haciendo cortes
             {
-                let result = "";
-                let dia = this.fecha.getDate();
-                let mes = this.fecha.getMonth(); //Enero empieza en 0!
-                let anyo = this.fecha.getFullYear();
+                //El +1 en el mes porque enero empieza en 0
+                let MostarFecha = new Date(this.fecha);
+                let resultado="";
+                switch(periodo) {
+                    case "dia":
+                        if (MostarFecha.getDate() < 10) 
+                        {
+                            if (MostarFecha.getMonth() <10)
+                            {  
+                                resultado =`${MostarFecha.getFullYear()}-0${MostarFecha.getMonth() + 1}-0${MostarFecha.getDate()}`;
+                            }
+                            resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}-0${MostarFecha.getDate()}`;
+                        }
+                        else
+                        {
+                            if (MostarFecha.getMonth() <10)
+                            {  
+                                resultado =`${MostarFecha.getFullYear()}-0${MostarFecha.getMonth() + 1}-${MostarFecha.getDate()}`;
+                            }
+                            resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}-${MostarFecha.getDate()}`;
+                        }
+                        return resultado;
+
+                    case "mes":
+                        
+                        if (MostarFecha.getMonth() <10)
+                            resultado =`${MostarFecha.getFullYear()}-0${MostarFecha.getMonth() + 1}`;
+                        else
+                            resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}-${MostarFecha.getDate()}`;
+                        return resultado;
+
+                    case "anyo":
+                        resultado = `${MostarFecha.getFullYear()}`; 
+                        return resultado;
+
+                    default:
+                        return `Has Introducido un error`;
+                }
+                //let result = "";
+               // let dia = this.fecha.getDate();
+               // let mes = this.fecha.getMonth(); //Enero empieza en 0 !
+               // let anyo = this.fecha.getFullYear();
               
                 if (dia < 10) {
                     dia = '0' + dia;
