@@ -74,7 +74,7 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
                 return repetidos
             }*/
             var map = {}; //agregamos valores nuevos
-            return this.etiquetas.filter(function anyadirEtiquetas(etiqueta) {
+            return this.etiquetas.filter(function anyadirEtiquetas(etiqueta) { //en caso verdadero
                 if(!(this.etiquetas[i] in map)){ //elemento inexistente en el mapa
                     map[etiqueta] = true;
                     return true;
@@ -82,9 +82,9 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
                 return false;
             })
         },
-        borrarEtiquetas(etiq){
+        borrarEtiquetas(...etiq){
             for(var i = 0; i < this.etiquetas.length; i++){
-                if(etiq == etiquetas[i]){
+                if(etiq == this.etiquetas[i]){
                     this.etiquetas.splice(etiq);    
                 }
             }
