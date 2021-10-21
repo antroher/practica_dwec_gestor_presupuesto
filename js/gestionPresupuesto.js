@@ -6,25 +6,25 @@ let presupuesto = 0;
 let gastos = [];
 let idGasto = 0;
 
-function actualizarPresupuesto(cantidad) {
-    if (cantidad >= 0) {
-        presupuesto = cantidad;
+function actualizarPresupuesto(cant) {
+    if (cant >= 0) {
+        presupuesto = cant;
     } else {
-        cantidad = -1;
-        console.log("Error al introducir el valor");
+        cant = -1;
+        console.log("ERROR, valor incorrecto");
     }
-    return cantidad;
+    return cant;
 }
 
 function mostrarPresupuesto() {
 
     let x = presupuesto;
-    return `Tu presupuesto actual es de ${x} €`;
+    return `Presupuesto actual: ${x} €`;
 }
 
-function crearGasto(descripcion, valor, fecha, ...etiquetas) {
+function crearGasto(descrip, valor, fecha, ...etiquetas) {
 
-    this.descripcion = descripcion;
+    this.descrip = descrip;
     if (valor >= 0) {
         this.valor = valor;
     } else {
@@ -56,7 +56,7 @@ function crearGasto(descripcion, valor, fecha, ...etiquetas) {
 
     this.mostrarGasto = function () {
         
-        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`
+        return `Gasto correspondiente a ${this.descrip} con valor ${this.valor} €`
     }
 
     this.mostrarGastoCompleto = function () {
@@ -71,15 +71,15 @@ function crearGasto(descripcion, valor, fecha, ...etiquetas) {
         return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${textoFecha}\nEtiquetas:\n${textoEtiquetas}`;
     }
 
-    this.actualizarDescripcion = function (nuevaDescripcion) {
-        this.descripcion = nuevaDescripcion;
+    this.actualizarDescripcion = function (nuevaDescrip) {
+        this.descrip = nuevaDescrip;
     }
     this.actualizarValor = function (nuevoValor) {
         if (nuevoValor >= 0) {
             this.valor = nuevoValor;
         }
     }
-    
+
     this.actualizarFecha = function (fecha) {
         fecha = Date.parse(fecha);
         if (fecha) {
