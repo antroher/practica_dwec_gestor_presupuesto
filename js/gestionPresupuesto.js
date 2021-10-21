@@ -2,7 +2,7 @@
 "use strict";
 
 
-let presupuesto = 0;
+let presupuesto = 1;
 let gastos = [];
 let idGasto = 0;
 
