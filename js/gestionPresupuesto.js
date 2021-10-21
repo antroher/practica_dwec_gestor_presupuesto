@@ -130,6 +130,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                             resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}-${MostarFecha.getDate()}`;
                         }
                         return resultado;
+                        break;
 
                     case "mes":
                         
@@ -138,13 +139,16 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                         else
                             resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}-${MostarFecha.getDate()}`;
                         return resultado;
+                        break;
 
                     case "anyo":
                         resultado = `${MostarFecha.getFullYear()}`; 
                         return resultado;
+                        break;
 
                     default:
                         return `Has Introducido un error`;
+                        break;
                 }
                 //let result = "";
                // let dia = this.fecha.getDate();
