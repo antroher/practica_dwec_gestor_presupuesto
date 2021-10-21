@@ -114,26 +114,55 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
 
         obtenerPeriodoAgrupacion(periodo)
         {
-            let fecha = new Date();
-            let dd = fecha.getDate();
-            let mm = fecha.getMonth();
-            let yyyy = fecha.getFullYear();
+            let NuevaFecha = new Date(this.fecha);
+            let dd = NuevaFecha.getDate();
+            let mm = NuevaFecha.getMonth();
+            let yyyy = NuevaFecha.getFullYear();            
 
-            if (periodo == "dia")
+            switch (periodo)
             {
-                return `${yyyy}-${mm}-${dd}`
-            }
-            else if (periodo == "mes")
-            {
-                return `${yyyy}-${mm}`
-            }
-            else if (periodo == "dia")
-            {
-                return `${yyyy}-${mm}`
-            }
-            
-        }
-        
+                case "dia":
+                    {
+                        if (dd < 10)
+                        {
+                            if (mm < 10)
+                            {
+                                return `${yyyy}-0${mm + 1}-0${dd}`;
+                            }
+                            else
+                            {
+                                return `${yyyy}-${mm + 1}-0${dd}`;
+                            }
+                        }
+                        else
+                        {
+                            if (mm < 10)
+                            {
+                                return `${yyyy}-0${mm + 1}-${dd}`;
+                            }
+                            else 
+                            {
+                                return `${yyyy}-${mm + 1}-${dd}`;
+                            }
+                        }                        
+                    }                                                            
+                case "mes":
+                    {
+                        if (mm < 10)
+                        {
+                            return `${yyyy}-0${mm + 1}`;
+                        }
+                        else
+                        {
+                            return `${yyyy}-${mm + 1}`;
+                        }
+                    }
+                case "anyo":
+                    return `${yyyy}`;
+                default:
+                    return 'Error';
+            }  
+        }       
     };
     return gasto;
 }
