@@ -22,7 +22,7 @@ function mostrarPresupuesto() {
     
 }
 function CrearGasto(desc, val, fech, ...etiq) { 
-    let gasto={
+    let gasto= {
         descripcion : desc, 
         etiquetas : new Array(),       
         valor : null,
@@ -30,7 +30,7 @@ function CrearGasto(desc, val, fech, ...etiq) {
         
     }
 
-    if(parseFloat(val) > 0){
+    if(parseFloat(val) > 0) {
         gasto.valor = val;
 
     }
@@ -111,6 +111,19 @@ Etiquetas:\n`
             }
         });
     }
+    gasto.obtenerPeriodoAgrupacion = function (periodo) {
+        switch(periodo){
+
+            case "dia":
+                return new Date(gasto.fecha).toISOString().substring(0, 10);
+                
+            case "mes":
+                return new Date(gasto.fecha).toISOString().substring(0, 7);
+
+            case "anyo":
+                return new Date(gasto.fecha).toISOString().substring(0, 4);
+        }
+    }
 
     return gasto;
 }
@@ -144,6 +157,13 @@ function calcularBalance(){
     return (presupuesto - gastos_totales)
 
 }
+function filtrarGastos(gastos){
+
+}
+function agruparGastos(){
+    
+}
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -156,6 +176,8 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
     
 }
