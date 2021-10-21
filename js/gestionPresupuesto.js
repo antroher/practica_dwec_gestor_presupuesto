@@ -137,7 +137,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                         if (MostarFecha.getMonth() <10)
                             resultado =`${MostarFecha.getFullYear()}-0${MostarFecha.getMonth() + 1}`;
                         else
-                            resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}-${MostarFecha.getDate()}`;
+                            resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}`;
                         return resultado;
                         break;
 
@@ -150,36 +150,9 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                         return `Has Introducido un error`;
                         break;
                 }
-                //let result = "";
-               // let dia = this.fecha.getDate();
-               // let mes = this.fecha.getMonth(); //Enero empieza en 0 !
-               // let anyo = this.fecha.getFullYear();
-              
-                if (dia < 10) {
-                    dia = '0' + dia;
-                }
-
-                if (mes < 10) {
-                    mes = '0' + mes;
-                }
-
-                if(periodo == "anyo")
-                {
-                    result = anyo; 
-                }
-                else if(periodo == "mes")
-                {
-                    result = `${anyo}-${mes}`;
-                }
-                else if(periodo == "dia")
-                {
-                    result = `${anyo}-${mes}-${dia}`;
-                }
-
-                return result;
             }
         };
-        return gasto;       
+    return gasto;       
 }
 
 
