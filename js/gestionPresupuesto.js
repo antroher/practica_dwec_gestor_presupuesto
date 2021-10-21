@@ -56,37 +56,80 @@ function calcularBalance() {
 }
 
 function filtrarGastos(gastosFilter) {
-    let gastosFiltrados;
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
 
-    if(!isNaN(Date.parse(gastosFilter.fechaDesde)))
-    console.log("FECHA:" + Date.parse(gastosFilter.fechaDesde));
-
-    if (!gastosFilter === {} || !isNaN(Date.parse(gastosFilter.fechaDesde))) {
-        gastosFiltrados = gastos.filter((x) => {
-            let a = Date.parse(gastosFilter.fechaDesde); 
-            console.log(a.toLocaleString())
-            return a > x.fecha;
-        })
-        /*gastosFiltrados = gastosFiltrados.filter((x) => {
-            return Date.parse(gastosFilter.fechaHasta) < x.fecha
-        })
-        gastosFiltrados = gastosFiltrados.filter((x) => {
-            return gastosFilter.valorMinimo > x.valor
-        })
-        gastosFiltrados = gastosFiltrados.filter((x) => {
-            return gastosFilter.valorMaximo < x.valor
-        })
-        gastosFiltrados = gastosFiltrados.filter((x) => {
-            return (x.descripcion).includes(gastosFilter.descripcion)
-        })
-        gastosFiltrados = gastosFiltrados.filter((x) => {
-            for (let i = 0; i < gastosFilter.length; i++) {
-                return gastosFilter.etiquetasTiene.find(x.etiquetas[i])
-            }
-        })*/
+    today = mm + '/' + dd + '/' + yyyy;
+    //Deep clone
+    let gastosFiltrados = JSON.parse(JSON.stringify(gastos));
+    console.log("Miau1")
+    if (typeof gastosFilter === 'object' && gastosFilter !== null && gastosFilter !== undefined && Object.entries(gastosFilter).length > 0) {
+        console.log("Miau2")
+        if (Object.hasOwn(gastosFilter, 'fechaDesde') && typeof gastosFilter.fechaDesde === 'string') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                return x.fecha >= (Date.parse(gastosFilter.fechaDesde))
+            })
+        }
+        console.log("Fecha Desde " + gastosFiltrados)
+        if (Object.hasOwn(gastosFilter, 'fechaHasta') && typeof gastosFilter.fechaHasta === 'string') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                return Date.parse(gastosFilter.fechaHasta) <= (x.fecha)
+            })
+        }
+        console.log("Fecha Hasta " + gastosFiltrados)
+        if (Object.hasOwn(gastosFilter, 'valorMinimo') && typeof gastosFilter.valorMinimo === 'number') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                return x.valor >= gastosFilter.valorMinimo
+            })
+        }
+        console.log("Valor Minimo " + gastosFiltrados)
+        if (Object.hasOwn(gastosFilter, 'valorMaximo') && typeof gastosFilter.valorMaximo === 'number') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                
+                return x.valor <= gastosFilter.valorMaximo
+            })
+        }
+        for (let i of gastosFiltrados)
+            console.log(i)
+        console.log("Fecha Maximo " + gastosFiltrados)
+        if (Object.hasOwn(gastosFilter, 'descripcionContiene')) {
+            console.log("Tiene descripcionContiene")
+        }
+        if (Object.hasOwn(gastosFilter, 'etiquetasTiene')) {
+            console.log("Tiene etiquetasTiene")
+        }
         return gastosFiltrados;
-    } 
-        return gastos;
+    }
+    return gastos;
+}
+    // if (!gastosFilter === {} || !isNaN(Date.parse(gastosFilter.fechaDesde))) {
+    //     gastosFiltrados = gastos.filter((x) => {
+    //         let a = Date.parse(gastosFilter.fechaDesde); 
+    //         return a > x.fecha;
+    //     })
+    //     console.log(`Gastos filtrados: ` + gastosFiltrados.length)
+    //     console.log(`Gastos: ` + gastos.length)
+    //     gastosFiltrados = gastosFiltrados.filter((x) => {
+    //         return Date.parse(gastosFilter.fechaHasta) < x.fecha
+    //     })
+    //     gastosFiltrados = gastosFiltrados.filter((x) => {
+    //         return gastosFilter.valorMinimo > x.valor
+    //     })
+    //     gastosFiltrados = gastosFiltrados.filter((x) => {
+    //         return gastosFilter.valorMaximo < x.valor
+    //     })
+    //     gastosFiltrados = gastosFiltrados.filter((x) => {
+    //         return (x.descripcion).includes(gastosFilter.descripcion)
+    //     })
+    //     gastosFiltrados = gastosFiltrados.filter((x) => {
+    //         for (let i = 0; i < gastosFilter.length; i++) {
+    //             return gastosFilter.etiquetasTiene.find(x.etiquetas[i])
+    //         }
+    //     })
+
+        
     // let gastosFiltrados;
     // if (!gastosFilter === [] || !gastosFilter === undefined) {
     //     gastosFiltrados = gastos.filter((x) => {
@@ -135,10 +178,8 @@ function filtrarGastos(gastosFilter) {
     // })
     //     return gastosFiltrados;
     // }
-    return gastos;
-}
 
-function agruparGastos(periodo, etiquetas, fechaDesde = new Date(new Date().getFullYear(), 0, 1), fechaHasta = new Date.now()) {
+function agruparGastos(periodo, etiquetas, fechaDesde = new Date(new Date().getFullYear(), 0, 1), fechaHasta = new Date().toISOString().slice(0, 10)) {
 
 }
 
