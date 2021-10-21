@@ -101,22 +101,30 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
             }
         },
         obtenerPeriodoAgrupacion(periodo){
-            /*convertir caden en fecha e ir haciendo cortes usando el getmonth
-            getUTCDate () 
-            si el mes es < 0 tengo que poner un 0*/
-            let mes;
-            if(mes < 0 ){
-                return "0"
+            let nuevaFecha = new Date(this.fecha);
+            switch (periodo){
+                case "mes":
+                    if(nuevaFecha.getMonth() == 0 || nuevaFecha.getMonth() > 12){ return `Error, no hay mes 0 o mayor a 12`}
+                    else if(nuevaFecha.getMonth() < 10){return (`${nuevaFecha.getFullYear()}-0${nuevaFecha.getMonth()+1}` );}
+                    else if(nuevaFecha.getMonth() <= 12){return (`${nuevaFecha.getFullYear()}-${nuevaFecha.getMonth()+1}`);}
+                    break;
+                case "dia":
+                    if(nuevaFecha.getDate() == 0 || nuevaFecha.getDate() > 31){ return `Eror`}
+                    else if(nuevaFecha.getDate() < 10){return (`${nuevaFecha.getFullYear()}-0${nuevaFecha.getMonth()+1}-0${nuevaFecha.getDate()}`) ;}
+                    else if(nuevaFecha.getDate() <= 31){return (`${nuevaFecha.getFullYear()}-${nuevaFecha.getMonth()+1}-${nuevaFecha.getDate()}`);}
+                    break;
+                case "anyo":
+                    if(nuevaFecha.getFullYear() === NaN){return `Eror`}
+                    else {return (`${nuevaFecha.getFullYear()}`)}
+                    break;
+                default:
+                    `valor no válido`;
+                    break;
             }
-            if(periodo == "dia"){return `${this.fecha.getFullYear()}-${this.fecha.getMonth()}-${this.fecha.getUTCDate()}`;}
-            else if (this.fecha == "mes"){return `${this.fecha.getFullYear()}-${this.fecha.getMonth()}`;}
-            else if (this.fecha == "anyo"){return this.fecha.getFullYear();}
-            else if(this.fecha == isNaN(this.fecha)){return `valor introducido no válido`}
         }
     };
     return gasto;
-}
-    
+} 
 
     //práctica 2
     function listarGastos(){
