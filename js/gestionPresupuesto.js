@@ -155,8 +155,17 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     }
 
     //práctica 3
-    function filtrarGastos(miobjeto){ //"Si se pasa un objeto vacío a 'filtrarGastos', se deben devolver todos los gastos que haya.");
+    function filtrarGastos(miObjeto){
     /*objeto.hasOwnProperty(''); comprobar si existe las propiedades indicadas*/
+    let fechaDesde = miObjeto.fechaDesde; //fechaDesde.MIN_VALUE;
+    let fechaHasta  = miObjeto.fechaHasta;
+    let minimo = miObjeto.valorMinimo;
+    let maximo = miObjeto.valorMaximo;
+    let descripcion = miObjeto.descripcionContiene;
+    let etiquetas =miObjeto.etiquetasTiene;
+    let date = new Date(Date.parse(this.fecha));
+
+    if(miObjeto == {}){return `${miObjeto.gastos}`} //Si se pasa un objeto vacío, devolverá todos los gastos que haya.
         
     }
     //substring()método devuelve un subconjunto de un objeto String
