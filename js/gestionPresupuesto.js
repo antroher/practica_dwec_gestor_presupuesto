@@ -106,31 +106,39 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                 } 
             },
 
-            obtenerPeriodoAgrupacion: function(periodo)//convertir cadena en fecha e ir haciendo cortes
+            obtenerPeriodoAgrupacion: function(periodo)
             {
                 //El +1 en el mes porque enero empieza en 0
                 let MostarFecha = new Date(this.fecha);
                 let resultado="";
+
                 switch(periodo) {
                     case "dia":
                         if (MostarFecha.getDate() < 10) 
                         {
-                            if (MostarFecha.getMonth() <10)
-                            {  
+                            if (MostarFecha.getMonth() < 10)
+                            {
                                 resultado =`${MostarFecha.getFullYear()}-0${MostarFecha.getMonth() + 1}-0${MostarFecha.getDate()}`;
                             }
-                            resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}-0${MostarFecha.getDate()}`;
+                            else
+                            {
+                                resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}-0${MostarFecha.getDate()}`;
+                            }
+                               
                         }
                         else
                         {
                             if (MostarFecha.getMonth() <10)
-                            {  
+                            {
                                 resultado =`${MostarFecha.getFullYear()}-0${MostarFecha.getMonth() + 1}-${MostarFecha.getDate()}`;
                             }
-                            resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}-${MostarFecha.getDate()}`;
+                            else
+                            {
+                                resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}-${MostarFecha.getDate()}`;
+                            }
+                            
                         }
                         return resultado;
-                        break;
 
                     case "mes":
                         
@@ -138,18 +146,17 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                             resultado =`${MostarFecha.getFullYear()}-0${MostarFecha.getMonth() + 1}`;
                         else
                             resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}`;
+
                         return resultado;
-                        break;
 
                     case "anyo":
                         resultado = `${MostarFecha.getFullYear()}`; 
+                        
                         return resultado;
-                        break;
 
                     default:
                         return `Has Introducido un error`;
-                        break;
-                }
+                };
             }
         };
     return gasto;       
