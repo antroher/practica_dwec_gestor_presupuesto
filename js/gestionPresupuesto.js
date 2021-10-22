@@ -49,9 +49,8 @@ function CrearGasto(desintro, valorintro, fecha = Date.now(), ...etiquetas) {
     }*/
 
     const gasto = {
-
-        descripcion : desintro,
         valor : valorintro,
+        descripcion : desintro,
         etiquetas : [...etiquetas],
         fecha : (typeof fecha === 'string') ? Date.parse(fecha) : fecha,
 
@@ -71,12 +70,11 @@ function CrearGasto(desintro, valorintro, fecha = Date.now(), ...etiquetas) {
             let texto2 = "";
 
             for(let etiqueta of this.etiquetas) {
+                texto2 = texto2 + `- ${etiqueta}\n`;
+            };
 
-                texto2 = texto2 + `- ${etiquetas}\n`;
-
-            }
-
-            let textoFin = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(Bfecha.toLocaleString())}\nEtiquetas:\n${texto2}`;
+            let textoFin = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(Bfecha.toLocaleString())}\nEtiquetas:\n`;
+            textoFin = textoFin + texto2;
 
             return textoFin;
             
@@ -106,29 +104,23 @@ function CrearGasto(desintro, valorintro, fecha = Date.now(), ...etiquetas) {
 
         anyadirEtiquetas : function(...etiquetas) {
 
-            const nEtiquetas = this.etiquetas.filter((aux) => {
-                if(!this.etiquetas.includes(aux)) {
-                    return x;
+            const nEtiquetas = etiquetas.filter((aux) => {
+                if (!this.etiquetas.includes(aux)) {
+                    return aux;
                 }
             });
 
-            this.etiquetas.push(...etiquetas)
+            this.etiquetas.push(...nEtiquetas)
         },
 
-        borrarEtiquetas : function(...etiqueta) {
-
+        borrarEtiquetas : function(...etiquetas) {
             etiquetas.forEach((aux) => {
-
                 for (let i = 0; i < this.etiquetas.length; i++) {
-
                     if (this.etiquetas[i] === aux) {
                         this.etiquetas.splice(i, 1);
                     }
-
                 }
-
             })
-
         } 
     };
 
