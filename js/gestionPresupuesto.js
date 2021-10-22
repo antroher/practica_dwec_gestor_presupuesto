@@ -205,6 +205,7 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
     if (periodo !== "mes" && periodo !== "dia" && periodo !== "anyo") {
         periodo = "mes";
     }
+    let valores;
     let filtrador = {fechaDesde : fechaDesde, fechaHasta : fechaHasta, etiquetas : etiquetas}
     let returnFiltrarGastos = filtrarGastos(filtrador);
     //El último valor, el {} será el primer valor con el comenzará el reduce
@@ -214,7 +215,7 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
                 console.log("Miau5")
                 let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
                 console.log("Miauuuu " + periodoReduce +' '+ item.valor);
-                let valores = valores + item.valor;
+                valores = valores + item.valor;
                 acc[periodoReduce] = valores ;
                 return acc;
             }, {});
