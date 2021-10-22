@@ -43,10 +43,10 @@ function CrearGasto(desintro, valorintro, fecha = Date.now(), ...etiquetas) {
     {
         valorintro = 0;
     }
-    if(etiquetas == null)
+    /*if(etiquetas == null)
     {
         etiquetas = new Array();
-    }
+    }*/
 
     const gasto = {
 
@@ -68,16 +68,15 @@ function CrearGasto(desintro, valorintro, fecha = Date.now(), ...etiquetas) {
             }
             
             let Bfecha = new Date(Afecha);
-
-            let texto = (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(Bfecha.toLocaleString())}\nEtiquetas:\n`);
             let texto2 = "";
+
             for(let etiqueta of this.etiquetas) {
 
-                texto2 = texto2 + ` - ${this.etiquetas}\n`;
+                texto2 = texto2 + `- ${etiquetas}\n`;
 
             }
 
-            let textoFin = texto + texto2;
+            let textoFin = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(Bfecha.toLocaleString())}\nEtiquetas:\n${texto2}`;
 
             return textoFin;
             
@@ -89,7 +88,7 @@ function CrearGasto(desintro, valorintro, fecha = Date.now(), ...etiquetas) {
 
             if(!isNaN(iFecha))
             {
-                this.fecha = nFecha;
+                this.fecha = Date.parse(nFecha);
             }
 
         },
@@ -108,9 +107,8 @@ function CrearGasto(desintro, valorintro, fecha = Date.now(), ...etiquetas) {
         anyadirEtiquetas : function(...etiquetas) {
 
             const nEtiquetas = this.etiquetas.filter((aux) => {
-
-                if(this.etiquetas.includes(aux)) {
-                    return aux;
+                if(!this.etiquetas.includes(aux)) {
+                    return x;
                 }
             });
 
