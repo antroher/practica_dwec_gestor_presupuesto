@@ -157,16 +157,21 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     //práctica 3
     function filtrarGastos(miObjeto){
     /*objeto.hasOwnProperty(''); comprobar si existe las propiedades indicadas*/
-    let fechaDesde = miObjeto.fechaDesde; //fechaDesde.MIN_VALUE;
+    let fechaDesde = miObjeto.fechaDesde;
     let fechaHasta  = miObjeto.fechaHasta;
     let minimo = miObjeto.valorMinimo;
     let maximo = miObjeto.valorMaximo;
     let descripcion = miObjeto.descripcionContiene;
     let etiquetas =miObjeto.etiquetasTiene;
-    let date = new Date(Date.parse(this.fecha));
+    let date = string(new Date(Date.parse(this.fecha)));
 
-    if(miObjeto == {}){return `${miObjeto.gastos}`} //Si se pasa un objeto vacío, devolverá todos los gastos que haya.
-        
+    //if(miObjeto == {}){return `${miObjeto.gastos}`} //Si se pasa un objeto vacío, devolverá todos los gastos que haya.
+        if(miObjeto.hasOwnProperty(fechaDesde)){
+            if(!isNaN(fechaDesde)){fechaDesde = Date.parse();}//si devuelve un valor válido lo convierte a fecha
+        }
+        else if(miObjeto.hasOwnProperty(fechaHasta)){
+            if(!isNaN(fechaHasta)){fechaHasta = Date.parse();}
+        }
     }
     //substring()método devuelve un subconjunto de un objeto String
     //PathState js
