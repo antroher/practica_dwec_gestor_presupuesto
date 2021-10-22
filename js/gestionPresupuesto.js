@@ -100,11 +100,26 @@ function CrearGasto(desc, val = 0, fec = Date.now(), ...eti) {
             return aux2 + aux;
         },
 
-        obtenerPeriodoAgrupacion :function(){
+        obtenerPeriodoAgrupacion : function(periodo){
+            let  fech = new Date(this.fecha);
+            let dd = String(fech.getDate()).padStart(2, 0);
+            let mm = string(fech.getMonth()+1).padStart(2, 0);
+            let yyyy = string(fech.getFullYear());   
 
+            switch(parametro)
+            {
+                case 'mes':
+                    return `${yyyy}-${mm}`;
+                    break;
+                case 'dia':
+                    return `${yyyy}-${mm}-${dd}`; 
+                    break;
+                case 'anyo':
+                    return `${yyyy}`;
+                    break;
+            }
         }
-
-    };
+    }
     return gasto;
 }
 
@@ -144,7 +159,7 @@ function filtrarGastos(){
 }
 
 function agruparGastos(){
-    
+
 }
 
     
