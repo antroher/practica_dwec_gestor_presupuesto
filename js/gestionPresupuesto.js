@@ -126,7 +126,7 @@ function CrearGasto(des, val = 0, fec = Date.now(), ...eti) {
     return gasto;
 }
 
-s
+
 function listarGastos() {
     return gastos;
 }
