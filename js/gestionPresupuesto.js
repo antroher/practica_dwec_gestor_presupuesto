@@ -157,8 +157,96 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         return balance;
     }
 
-    function filtrarGastos(parametro){
-        let resultado = gastos.filter()
+    function filtrarGastos(objeto){
+        let fd;
+        let fh;
+        let vM;
+        let vMx;
+        let dc;
+        let eT;
+        let gastosfiltrados;
+
+        if(objeto.hasOwnProperty('fechaDesde'))
+        {
+            fd = objeto.fechaDesde;
+            if(!isNaN(Date.parse(fd)))
+            {
+                fd = Date.parse(fd);
+            }               
+        }
+
+        if(objeto.hasOwnProperty('fechaHasta'))
+        {
+            fh = objeto.fechaHasta;
+            if(!isNaN(Date.parse(fh)))
+            {
+                fh = Date.parse(fh);
+            }
+        }
+
+        if(objeto.hasOwnProperty('valorMinimo'))
+        {
+            vM = objeto.valorMinimo;
+        }
+
+        if(objeto.hasOwnProperty('valorMaximo'))
+        {
+            vMx = objeto.valorMaximo;
+        }
+
+        if(objeto.hasOwnProperty('descripcionContiene'))
+        {
+            dc = objeto.descripcionContiene;
+        }
+
+        if(objeto.hasOwnProperty('etiquetasTiene'))
+        {
+            eT = [...objeto.etiquetasTiene];
+        }
+
+            gastosfiltrados = gastos.filter(function(item){
+                let devuelve = true;
+
+                if((typeof fd !== 'undefined') && (item.fecha < fd))
+                {
+                    devuelve = false;
+                }
+
+                if((typeof fh !== 'undefined') && (item.fecha < fh))
+                {
+                    devuelve = false;
+                }
+
+                if((typeof vM !== 'undefined') && (item.valor < vM))
+                {
+                    devuelve = false;
+                }
+
+                if((typeof vMx !== 'undefined') && (item.valor < vMx))
+                {
+                    devuelve = false;
+                }
+
+                if((typeof dc !== 'undefined') && (item.valor < dc))
+                {
+                    devuelve = false;
+                }
+            
+                if((typeof eT !== 'undefined') && (item.valor < eT))
+                {
+                    devuelve = false;
+                }
+
+                if(devuelve == true)
+                {
+                    let todosGastos = "";
+                    for(var i = 0; i < gastos.length; i++)
+                    {
+                        todosGastos = gastos[i] + " ";
+                    }
+                    return todosGastos;
+                }
+            })                  
     }
 
     function agruparGastos(){
