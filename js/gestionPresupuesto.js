@@ -208,9 +208,16 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
     let returnFiltrarGastos = filtrarGastos(filtrador);
     //PRUEBA 1 : acc será donde se guarden los resultados de reduce, no se si entenderá
     //por si mismo que es un objeto al iterar sobre uno
-    let result = returnFiltrarGastos.reduce((acc) => {
-
+    const result = returnFiltrarGastos.reduce((acc, item) => {
+        let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
     })
+
+    // let agrupaçao = returnFiltrarGastos.reduce((acc, item) => {
+    //         let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
+    //         (acc[x[valor]] = acc[x[valor]] || []).push(x);
+    //         return acc;
+    //     }, {});
+    // };
 }
 
 //Función constructora
