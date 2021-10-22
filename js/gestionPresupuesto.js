@@ -110,13 +110,14 @@ function filtrarGastos(gastosFilter) {
         if (Object.hasOwn(gastosFilter, 'etiquetasTiene') && Array.isArray(gastosFilter.etiquetasTiene)) {
             console.log("vaya, parece QUE SI ES UN ARRAY")
             gastosFiltrados = gastosFiltrados.filter((x) => {
-                return gastosFilter.etiquetasTiene.includes(x.etiquetas);
-                // for (let i = 0; i < gastosFilter.length; i++) {
-                //     for  (let gsFilt of gastosFilter.etiquetasTiene) {
-                //         if (gsFilt.toLowerCase() === x.etiquetas[i].toLowerCase())
-                //         return true;
-                //     }
-                // }
+                for (let i = 0; i < gastosFilter.etiquetasTiene.length; i++) {
+                    for  (let gsFilt of gastosFilter.etiquetasTiene) {
+                        console.log(gsFilt)
+                        if (gsFilt === x.etiquetas[i]) {
+                            return true;
+                        }
+                    }
+                }
             })
         }
         return gastosFiltrados;
