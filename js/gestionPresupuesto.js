@@ -57,8 +57,8 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq)
                 {
                      this.valor=val;
                 }
-            }
-        }
+            
+        },
 
     anyadirEtiquetas(...etiq)
         {
@@ -69,7 +69,7 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq)
                     this.etiquetas.push(elem);
                 }
             }
-        }
+        },
 
     actualizarFecha(fec)
         {
@@ -78,13 +78,21 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq)
             {
                 fec=fecha;
             }
+<<<<<<< HEAD
         }
+=======
+        },
+>>>>>>> 3cf2e71201b7eae82354a83c57d655ab34e25fa2
     borrarEtiquetas(...etiq)
         {
             for(let elem of etiq)
             {
                 {
+<<<<<<< HEAD
                     if(this.etiquetas.includes(etiq))
+=======
+                    if(this.etiquetas[i] === elem)
+>>>>>>> 3cf2e71201b7eae82354a83c57d655ab34e25fa2
                     {
                         this.etiquetas.splice(this.etiquetas.indexOf(elem),1)
                     }
@@ -142,4 +150,5 @@ export   {
     calcularBalance,
 
 }
+
 
