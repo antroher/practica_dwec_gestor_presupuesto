@@ -112,31 +112,35 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiqueta)
             }
         }
     }
-    this.obtenerPeriodoAgrupacion=function(...periodo)
+    this.obtenerPeriodoAgrupacion=function(periodo)
     {  
             let fec;
             fec = new Date(this.fecha);// convierto en objeto fecha
            
+            let yyyy=String(fec.getFullYear());
+            
+            let mm=String(fec.getMonth()+1).padStart(2,0);
+            
+            let dd=String(fec.getDate()).padStart(2,0);
+           
             let cadena = '';
+            
             switch (periodo) 
             {
 
                 case 'dia'://aaaa-mm-dd
                 {
-                    let mes = fec.getMonth()<10 ? `0${fec.getMonth()+1}` : `${fec.getMonth()+1}`;//El método fec.getMonth() cuenta los meses del 0(Enero) al 11(Diciembre) lo que hacemos es decirle que a los meses menor que 10n les añada un 0 delante.
-                    let dia = fec.getDate()<10 ? `0${fec.getDate()}` : `${fec.getDate()}`;
-                        cadena = '' + fec.getFullYear() + '-' + mes + '-' + dia;
+                        cadena = `${yyyy}-${mm}-${dd}`;
                         break;
                 }
                 case 'mes'://aaaa-mm
                 {
-                    let mes = fec.getMonth()<10 ? `0${fec.getMonth()+1}` : `${fec.getMonth()+1}`;
-                    cadena = ''+ `${fec.getFullYear()}-` + mes;
+                    cadena = `${yyyy}-${mm}`;
                     break;
                 }
                 case 'anyo'://aaaa
                 {
-                    cadena = '' + fec.getFullYear();
+                    cadena = `${yyyy}`;
                     break;
                 }
                 default:
@@ -144,9 +148,9 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiqueta)
                     console.log("error");
                 }
         
-            return cadena;
+           
         }
-
+        return cadena;
     }
 
     this.valor=this.actualizar(valor);
