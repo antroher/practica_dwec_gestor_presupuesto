@@ -30,22 +30,32 @@ function mostrarPresupuesto() {
 }
 
 
-function CrearGasto(description, valor1, fecha1 = Date.now(), ...etiquetasPasadas) 
+function CrearGasto(description, valor1, fecha1 = `${Date.now()}`, ...etiquetasPasadas) 
 {
-	if ((valor1 <= 0) || (isNaN(valor1))){
+	let fecha_temp = fecha1;
+	if (parseFloat(valor1) <= 0 || isNaN(valor1)){
 		valor1 = 0;
 	}
 
 	if(isNaN(Date.parse(fecha1))){
-		fecha1 = Date.now();
+		let fec = new Date();
+		let dd = String(fec.getDate()).padStart(2,0);
+		let mm = String(fec.getMonth()+1).padStart(2,0);
+		let yyyy = String(fec.getFullYear());
+		let hh = String(fec.getHours());
+		let min = String(fec.getMinutes());
+		 fecha_temp = `${yyyy}-${mm}-${dd}T${hh}:${min}`;
 	}
+	fecha1 = Date.parse(fecha_temp);
     // TODO
 	let gasto  =
 	{
+		
 		valor : valor1,
 		descripcion : description,
+		fecha : fecha1,
 		etiquetas : [...etiquetasPasadas],
-		fecha : Date.parse(fecha1),
+
 
 		mostrarGasto(){
 			let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
@@ -62,7 +72,6 @@ function CrearGasto(description, valor1, fecha1 = Date.now(), ...etiquetasPasada
 			{
 				this.valor = val2;
 			}
-
 		},
 
 		mostrarGastoCompleto()
