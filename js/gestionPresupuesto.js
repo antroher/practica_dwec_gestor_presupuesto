@@ -158,31 +158,43 @@ function calcularBalance() {
 }
 
 function filtrarGastos(obj) {
+    let fDes = "";
+    let fHas = "";
+    let vMin = "";
+    let vMax = "";
+    let des = "";
+    let eti = "";
+
     if (obj.hasOwnProperty('fechaDesde')) {
-        let fDes = obj.fechaDesde;
+        fDes = obj.fechaDesde;
         if (!isNaN(Date.parse(fDes))) {
             fDes = Date.parse(fDes);
         }
     }
     if (obj.hasOwnProperty('fechaHasta')) {
-        let fHas = obj.fechaHasta;
+        fHas = obj.fechaHasta;
         if (!isNaN(Date.parse(fHas))) {
             fHas = Date.parse(fHas);
         }
     }
     if (obj.hasOwnProperty('valorMinimo')) {
-        let vMin = obj.valorMinimo;
+        vMin = obj.valorMinimo;
     }
     if (obj.hasOwnProperty('valorMaximo')) {
-        let vMax = obj.valorMaximo;
+        vMax = obj.valorMaximo;
     }
     if (obj.hasOwnProperty('descripcionContiene')) {
-        let des = obj.descripcionContiene;
+        des = obj.descripcionContiene;
     }
     if (obj.hasOwnProperty('etiquetasTiene')) {
-        let eti = obj.etiquetasTiene;
+        eti = obj.etiquetasTiene;
     }
     
+    for (let i = 0; i < gastos.length; i++) {
+        if (gastos[i].valorMinimo === vMin || gastos[i].valorMaximo === vMax || gastos[i].etiquetasTiene === eti || gastos[i].descripcionContiene === des || (gastos[i].fechaDesde >= fDes && gastos[i].fechaHasta <= fHas)) {
+            return gastos[i];
+        }
+    }
 
 }
 
