@@ -96,9 +96,65 @@ function CrearGasto(descripcion1, valor1 = 0, fechaIn = new Date(), ...etiquetas
                     }
                 })
             })
-        }    
+        },
+        obtenerPeriodoAgrupacion(periodo){
+            let devuelve = "";
+            let fecha = newDate(this.fecha);
+            let dd = String(fecha.getDate()).padstart(2,"0");//longitud de dos sino un cero
+            let mm = String(fecha.getMonth()+1).padstart(2,"0")// +1 porque esta fnción te devuelve del 0 al 11 , el 0 es enero , por eso se le suma uno, para que el 1 sea enero y el 12 diciembre
+            let yy = String(fecha.getFullYear());
+            switch(periodo){
+                case "dia" :
+                    devuelve = `${yy}-${mm}-${dd}`
+                    return devuelve;
+                case "mes" :
+                    devuelve = `${yy}-${mm}`
+                    return devuelve;;
+                case "año" :
+                    devuelve = `${yy}`
+                    return devuelve;
+                default:
+                    console.log( " Ponga dia , mes , año" );
+            }
+        }  
+
     } 
     return gasto;
+}
+
+function filtrarGastos(objeto){
+    let fd;
+    let fh;
+    let vmin;
+    let vmax;
+    let desc;
+    let etitiene;
+    
+    if(objeto.hasOwnProperty("fechaDesde"))
+    {
+        fd = objeto.fechaDesde;
+        if(!isNaN(Date.parse(fd)))
+        {
+            fd = Date.parse(fd);
+        }
+    }
+    if(objeto.hasOwnProperty("fechaHasta"))
+    {
+        fh = objeto.fechaDesde;
+        if(!isNaN(Date.parse(fh)))
+        {
+            fh = Date.parse(fh);
+        } 
+    }
+    if(objeto.hasOwnProperty("valorMinimo"))
+    {
+        vmin = objeto.valorMinimo;
+    }
+    if(objeto.hasOwnProperty("valorMaximo"))
+    {
+        vmax = objeto.valorMaximo;
+    }
+    
 }
 
 function listarGastos(){
@@ -146,5 +202,7 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance 
+    calcularBalance,
+    obtenerPeriodoAgrupacion,
+    filtrarGastos
 }
