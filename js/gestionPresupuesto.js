@@ -88,7 +88,27 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
                                 }
                             }
                         }
-                    }
+                    },
+                    obtenerPeriodoAgrupacion(periodo){
+                        let devuelve = "";
+                        let fec = new Date(this.fecha);
+                        let dd = String (fec.getDate()).padStart(2,'0');
+                        let mm = String (fec.getMonth() + 1).padStart(2,'0')
+                        let yyyy = String(fec.getFullYear());
+                        switch(periodo){
+                            case "dia":
+                               devuelve =  `${yyyy}-${mm}-${dd}`
+                               return devuelve;
+                            case "mes":
+                                devuelve = `${yyyy}-${mm}`
+                                return devuelve;
+                            case "anyo":
+                                devuelve = `${yyyy}`
+                                return devuelve;
+                            default:
+                                console.log("Error");  
+                        }
+                    }   
     }
     return gasto;
 }
@@ -129,6 +149,14 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
                             
                             return result;
                         }
+                            function filtrarGastos({fechaDesde,fechaHasta,valorMinimo,valorMaximo,descripcionContiene,etiquetasTiene})
+                            {
+
+                            }
+                                function agruparGastos() {
+
+                                }
+                                
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -141,5 +169,7 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
