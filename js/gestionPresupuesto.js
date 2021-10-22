@@ -73,32 +73,51 @@ function filtrarGastos(gastosFilter) {
             })
         }
         console.log("Fecha Desde " + gastosFiltrados)
+
         if (Object.hasOwn(gastosFilter, 'fechaHasta') && typeof gastosFilter.fechaHasta === 'string') {
             gastosFiltrados = gastosFiltrados.filter((x) => {
-                return Date.parse(gastosFilter.fechaHasta) <= (x.fecha)
+                return x.fecha <= Date.parse(gastosFilter.fechaHasta);
             })
         }
         console.log("Fecha Hasta " + gastosFiltrados)
+
         if (Object.hasOwn(gastosFilter, 'valorMinimo') && typeof gastosFilter.valorMinimo === 'number') {
             gastosFiltrados = gastosFiltrados.filter((x) => {
                 return x.valor >= gastosFilter.valorMinimo
             })
         }
         console.log("Valor Minimo " + gastosFiltrados)
+
         if (Object.hasOwn(gastosFilter, 'valorMaximo') && typeof gastosFilter.valorMaximo === 'number') {
             gastosFiltrados = gastosFiltrados.filter((x) => {
                 
                 return x.valor <= gastosFilter.valorMaximo
             })
         }
-        for (let i of gastosFiltrados)
-            console.log(i)
         console.log("Fecha Maximo " + gastosFiltrados)
-        if (Object.hasOwn(gastosFilter, 'descripcionContiene')) {
-            console.log("Tiene descripcionContiene")
+
+        if (Object.hasOwn(gastosFilter, 'descripcionContiene') && typeof gastosFilter.descripcionContiene === 'string') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                let param1 = (x.descripcion).toLowerCase();
+                let param2 = (gastosFilter.descripcionContiene).toLowerCase();
+                let param1Array = param1.split(" ");
+                let param1ArrayJoin = param1Array.join('');
+                if (param1ArrayJoin.indexOf(param2) !== -1) 
+                    return true;
+            })
         }
-        if (Object.hasOwn(gastosFilter, 'etiquetasTiene')) {
-            console.log("Tiene etiquetasTiene")
+
+        if (Object.hasOwn(gastosFilter, 'etiquetasTiene') && Array.isArray(gastosFilter.etiquetasTiene)) {
+            console.log("vaya, parece QUE SI ES UN ARRAY")
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                return gastosFilter.etiquetasTiene.includes(x.etiquetas);
+                // for (let i = 0; i < gastosFilter.length; i++) {
+                //     for  (let gsFilt of gastosFilter.etiquetasTiene) {
+                //         if (gsFilt.toLowerCase() === x.etiquetas[i].toLowerCase())
+                //         return true;
+                //     }
+                // }
+            })
         }
         return gastosFiltrados;
     }
