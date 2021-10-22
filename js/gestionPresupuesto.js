@@ -126,6 +126,7 @@ function CrearGasto(des, val = 0, fec = Date.now(), ...eti) {
     return gasto;
 }
 
+s
 function listarGastos() {
     return gastos;
 }
@@ -157,11 +158,31 @@ function calcularBalance() {
 }
 
 function filtrarGastos(obj) {
-    if (isNaN(obj)) {
-        for (let i = 0; i < gastos.length; i++) {
-            return gastos[i];
+    if (obj.hasOwnProperty('fechaDesde')) {
+        let fDes = obj.fechaDesde;
+        if (!isNaN(Date.parse(fDes))) {
+            fDes = Date.parse(fDes);
         }
     }
+    if (obj.hasOwnProperty('fechaHasta')) {
+        let fHas = obj.fechaHasta;
+        if (!isNaN(Date.parse(fHas))) {
+            fHas = Date.parse(fHas);
+        }
+    }
+    if (obj.hasOwnProperty('valorMinimo')) {
+        let vMin = obj.valorMinimo;
+    }
+    if (obj.hasOwnProperty('valorMaximo')) {
+        let vMax = obj.valorMaximo;
+    }
+    if (obj.hasOwnProperty('descripcionContiene')) {
+        let des = obj.descripcionContiene;
+    }
+    if (obj.hasOwnProperty('etiquetasTiene')) {
+        let eti = obj.etiquetasTiene;
+    }
+    
 
 }
 
