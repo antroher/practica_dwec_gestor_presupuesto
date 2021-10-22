@@ -109,7 +109,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
                 switch(periodo) {
                     case "dia": { 
                         if (validarFecha.getDate() < 10) {
-                            if (validarFecha.getMonth() < 10) {
+                            if (validarFecha.getMonth() < 9) {
                                 return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
                             }
                             else {
@@ -117,18 +117,18 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
                             }
                         }
                         else {
-                            if (validarFecha.getMonth() < 10) {
-                                return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;    
+                            if (validarFecha.getMonth() < 9) {
+                                return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-${validarFecha.getDate()}`;    
                             }
                             else {
-                                return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
+                                return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-${validarFecha.getDate()}`;
                             }
                         }
                         break;
                     }
                     case "mes": {
-                        if(validarFecha.getMonth() < 10) {
-                            return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}`;
+                        if(validarFecha.getMonth() < 9) {
+                            return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}`;
                         }
                         else {
                             return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}`;
@@ -181,7 +181,50 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 
-function filtrarGastos() {
+function filtrarGastos(FechaGastos) {
+    let fd = "";
+    let fh = "";
+    let vmn = "";
+    let vmx = "";
+    let descCon = "";
+    let etiqTn = "";
+
+    if(objeto.hasOwnProperty(`fechaDesde`))
+    {
+        fd = FechaGastos.fechaDesde();
+        if(!isNaN(Date.parse(fd))){
+            fd = Date.parse();
+        }
+    }
+
+    if(objeto.hasOwnProperty(`fechaHasta`))
+    {
+        fh = objeto.fechaHasta();
+        if(!isNaN(Date.parse(fh))){
+            fh = Date.parse();
+        }
+    }
+
+    if(objeto.hasOwnProperty(`valorMinimo`))
+    {
+        vmn = objeto.valorMinimo();
+    }
+
+    if(objeto.hasOwnProperty(`valorMaximo`))
+    {
+        vmx = objeto.valorMaximo();
+    }
+
+    if(objeto.hasOwnProperty(`descripcionContiene`))
+    {
+        descCon = objeto.descripcionContiene();
+    }
+
+    if(objeto.hasOwnProperty(`etiquetasTiene`))
+    {
+        etiqTn = objeto.etiquetasTiene();
+    }
+
 
 
 }
