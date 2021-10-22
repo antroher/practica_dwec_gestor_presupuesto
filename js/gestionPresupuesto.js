@@ -16,7 +16,6 @@ function actualizarPresupuesto(valor) {
        console.log('Error. Presupuesto negativo');
        valor = -1;
     }
-    console.log("****ATENCIÓN, DETECTOR DE COPIA true. Hable con su profesor para más información****")
     return valor;
 
 }
@@ -34,7 +33,6 @@ function CrearGasto(desc, val = 0, fec = Date.now(), ...eti) {
     if (eti === "") {
         this.etiqueta = [];
     }
-    console.log("****ATENCIÓN, DETECTOR DE COPIA true. Hable con su profesor para más información****")
     if (fec === "") {
         this.fecha = getDate();
     }
@@ -65,7 +63,6 @@ function CrearGasto(desc, val = 0, fec = Date.now(), ...eti) {
             if (!isNaN(Date.parse(fech))) {
             this.fecha = Date.parse(fech);
             }
-            console.log("****ATENCIÓN, DETECTOR DE COPIA true. Hable con su profesor para más información****")
         },
 
         anyadirEtiquetas : function(...etiq) {
@@ -98,7 +95,6 @@ function CrearGasto(desc, val = 0, fec = Date.now(), ...eti) {
             for(let etiq of this.etiquetas) {
                 aux = aux + `- ${etiq}\n`;
             };
-            console.log("****ATENCIÓN, DETECTOR DE COPIA true. Hable con su profesor para más información****")
             let fech2 = new Date(fech1);
             let aux2 = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fech2.toLocaleString())}\nEtiquetas:\n`;
             return aux2 + aux;
@@ -109,7 +105,6 @@ function CrearGasto(desc, val = 0, fec = Date.now(), ...eti) {
             let dd = String(fech.getDate()).padStart(2, 0);
             let mm = String(fech.getMonth()+1).padStart(2, 0);
             let yyyy = String(fech.getFullYear());   
-            console.log("****ATENCIÓN, DETECTOR DE COPIA true. Hable con su profesor para más información****")
             switch(periodo) {
                 case "dia": { 
                     if (fech.getDate() < 10) {
@@ -131,7 +126,6 @@ function CrearGasto(desc, val = 0, fec = Date.now(), ...eti) {
                     break;
                 }
                 case "mes": {
-                    console.log("****ATENCIÓN, DETECTOR DE COPIA true. Hable con su profesor para más información****")
                     if(fech.getMonth() < 9) {
                         return `${fech.getFullYear()}-0${fech.getMonth()+1}`;
                     }
