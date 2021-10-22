@@ -28,7 +28,7 @@ function mostrarPresupuesto()
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
-function CrearGasto(desc, val, fec = Date.now(), ...etiq=[])
+function CrearGasto(desc, val, fec = Date.now(), ...etiq)
 {
     if(parseFloat(val)<0 || isNaN(val))
     {
@@ -48,19 +48,19 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq=[])
 
     actualizarDescripcion(desc)
         {
-            gasto.descripcion=desc;
+            this.descripcion=desc;
         },
 
     actualizarValor(val)
         {
             if(parseFloat(val)>0)
                 {
-                     gasto.valor=val;
+                     this.valor=val;
                 }
             }
         }
 
-    anyadirEtiquetas([...etiq])
+    anyadirEtiquetas(...etiq)
         {
             for(let elem of etiq)
             {
@@ -79,35 +79,39 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq=[])
                 fec=fecha;
             }
         }
-    borrarEtiquetas([...etiq])
+    borrarEtiquetas(...etiq)
         {
             for(let elem of etiq)
             {
-                for(let i=0; i<this.etiquetas.length;i++)
                 {
-                    if(this.etiquetas[i]===elem)
+                    if(this.etiquetas.includes(etiq))
                     {
-                        this.etiquetas.splice(i,1)
+                        this.etiquetas.splice(this.etiquetas.indexOf(elem),1)
                     }
                 }
             }
         }
-  return gasto;
 }
 
 function listarGastos(){
     return gastos;
 }
 
-function anyadirGasto(){
+function anyadirGasto(gasto){
     gasto.id=idGasto;
     idGasto += 1;
     gastos.push(gasto);
 }
 
-function borrarGasto()
+function borrarGasto(iden)
 {
-   
+   for(let i=0; i <gastos.length; i++)
+   {
+       if(iden == gastos[i].id)
+       {
+           gastos.splice(i,1);
+       }
+   }
 }
 
 function calcularTotalGastos(){
@@ -119,8 +123,7 @@ function calcularTotalGastos(){
     return total;
 }
 function calcularBalance(){
-    let gastostotales= calcularTotalGastos();
-    let balance= presupuesto-gastostotales;
+    let balance= presupuesto- calcularTotalGastos();
     return balance;
 }
 
