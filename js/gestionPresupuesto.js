@@ -211,15 +211,14 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
     console.log("Funciono 1 " + returnFiltrarGastos[0]);
     //El último valor, el {} será el primer valor con el comenzará el reduce
     const result = returnFiltrarGastos.reduce((acc, item) => {
-        let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
+        var groupBy = function(xs, valor) {
+            return xs.reduce(function(acc, x) {
+                let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
+              (acc[x[valor]] = acc[x[valor]] || []).push(x);
+              return acc;
+            }, {});
+          };
     }, {})
-
-    // let agrupaçao = returnFiltrarGastos.reduce((acc, item) => {
-    //         let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
-    //         (acc[x[valor]] = acc[x[valor]] || []).push(x);
-    //         return acc;
-    //     }, {});
-    // };
 }
 
 //Función constructora
