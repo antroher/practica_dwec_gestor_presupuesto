@@ -151,39 +151,12 @@ function calcularBalance() {
     return (presupuesto - calcularTotalGastos())
 }
 
-function filtrarGastos({fechaDesde, fechaHasta, valorMinimo,
-                        valorMaxima, descripcionContiene, ...etiquetasTiene}) {
-    
-    //Creación de objeto filtro para los subsiguientes filter.                            
-    let filtro = {
-        fFechaDesde: (!isNaN(Date.parse(fechaDesde))) ? Date.parse(fechaDesde) : undefined,
-        fFechaHasta: (!isNaN(Date.parse(fechaHasta))) ? Date.parse(fechaHasta) : undefined,
-        fValorMinimo: valorMinimo,
-        fValorMaximo: valorMaxima,
-        fDescripcionContiene: descripcionContiene,
-        fEtiquetasTiene: [...etiquetasTiene]
-    }
-
-    //Comprobación de si el objeto esta "vacío".
-    let isEmpty = false;
-    let valoresFiltro = Object.values(filtro);
-    valoresFiltro.forEach((value)=> {
-        if (typeof value === undefined){
-            isEmpty = true;
+function filtrarGastos(filtroEntrante) {    
+    if(filtroEntrante.hasOwnProperty("fechaDesde")) {
+        if (!isNaN(Date.parse(filtroEntrante.fechaDesde))) {
+            let fechaDesde = Date.parse(filtroEntrante.fechaDesde);
         }
-    });
-
-    //Empiezan los filtros.
-    if (isEmpty === true) { //Si esta vacío se devuelve un array vacío.
-        return filtroDevuelto = [];
     }
-    else {
-        let arrayFechas = gastos.filter((gasto) => {
-            return filtro.fFechaDesde <= gasto.fecha;
-        });
-    }
-    
-    
 }
 
 function agruparGastos() {
