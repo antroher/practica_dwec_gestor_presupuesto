@@ -126,20 +126,52 @@ function CrearGasto(midescripcion, mivalor, mifecha = Date.now(), ...misetiqueta
     {
         for(let i = 0; i < lasetiquetas.length; i++)
         {
-            for (let j = 0; i < this.etiquetas.length; f++)
-                final = "- " + this.etiquetas[i] /n;
+            for(let j = 0; i < lasetiquetas.length; j++)
+            {
+                if(lasetiquetas[i] == this.etiquetas[f])
+                {
+                    this.etiquetas.splice(f , 1);
+                }
+            }
         }
-        console.log(final)
-        return final;
+       
     },
     MostrarGastoCompleto(){
         let final = "";
         let lafecha = new Date(this.fecha);
          final = ("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor + " €");
-         for(let i = 0; i < this.etiquetas.length; i++) {
-             if(this.etiquetas.in)
+         for(let i = 0; i < lasetiquetas.length; i++)
+         {
+             for (let j = 0; i < this.etiquetas.length; j++)
+                 final = "- " + this.etiquetas[i] /n;
          }
+         console.log(final);
+         return final;
 
+    },
+    borrarEtiquetas(PAgrup)
+    {
+        let fec = new Date(this.fecha);
+        let dd = String(fec.getDate()).padstart(2,'0');
+        let mm = String(fec.getMonth()+1).padstart(2,'0');
+        let yyyy = String(fec.getFullYear());
+        let resultado = "";
+       if(PAgrup == "anyo")
+       {
+            resultado = yyyy;
+            
+       }
+       else if(PAgrup == "mes")
+       {
+            resultado = (yyyy+ "-" + mm);
+            
+       }
+       else if(PAgrup == "dia")
+       {
+            resultado = (yyyy + "-" + mm + "-" + dd);
+            
+       }
+       return resultado;
     }
     };
     
