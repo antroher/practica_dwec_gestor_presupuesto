@@ -199,8 +199,18 @@ function filtrarGastos(gastosFilter) {
     //     return gastosFiltrados;
     // }
 
-function agruparGastos(periodo, etiquetas, fechaDesde = new Date(new Date().getFullYear(), 0, 1), fechaHasta = new Date().toISOString().slice(0, 10)) {
+function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
+    //let agruparGastos = JSON.parse(JSON.stringify(gastos));
+    if (periodo !== "mes" && periodo !== "dia" && periodo !== "anyo") {
+        periodo = "mes";
+    }
+    let filtrador = {fechaDesde : fechaDesde, fechaHasta : fechaHasta, etiquetas : etiquetas}
+    let returnFiltrarGastos = filtrarGastos(filtrador);
+    //PRUEBA 1 : acc será donde se guarden los resultados de reduce, no se si entenderá
+    //por si mismo que es un objeto al iterar sobre uno
+    let result = returnFiltrarGastos.reduce((acc) => {
 
+    })
 }
 
 //Función constructora
