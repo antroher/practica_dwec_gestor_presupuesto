@@ -84,7 +84,7 @@ function CrearGasto(desintro, valorintro, fecha = Date.now(), ...etiquetas) {
 
         actualizarFecha : function(nFecha) {
 
-            let iFecha = Date.parse(nfecha);
+            let iFecha = Date.parse(nFecha);
 
             if(!isNaN(iFecha))
             {
