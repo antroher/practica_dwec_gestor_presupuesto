@@ -155,7 +155,6 @@ function CrearGasto(desc, val = 0, fec = Date.now(), ...eti) {
 }
 
 function listarGastos() {
-    console.log("****ATENCIÓN, DETECTOR DE COPIA true. Hable con su profesor para más información****")
    return gastos;
 }
 
