@@ -108,10 +108,32 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
 
             obtenerPeriodoAgrupacion: function(periodo)
             {
+                /*let MostrarFecha = new Date(this.fecha);
+                let resultado="";
+                let dd = String (MostrarFecha.getDate()).padstart(2,'0');  //----- agregame un 0 al principio si no tiene 2 caracters
+                let mm = String (MostrarFecha.getMonth() + 1).padstart(2,'0'); 
+                let yyyy = String (MostrarFecha.getFullYear()); 
+                switch (periodo) {
+                    case "dia":
+                            resultado = `${yyyy}-${mm}-${dd}`;
+                        return resultado;
+
+                    case "mes":
+                                resultado = `${yyyy}-${mm}`;
+                            return resultado;
+
+                    case "anyo":
+                        return `${yyyy}`;
+
+                    default:
+                        return `Has Introducido un error`;
+                };*/
+
+
                 //El +1 en el mes porque enero empieza en 0
                 let MostarFecha = new Date(this.fecha);
                 let resultado="";
-
+                //let dd = String (MostrarFecha.getDate()).padstart(2,'0'); ----- agregame un 0 al principio si no tiene 2 caracters
                 switch(periodo) {
                     case "dia":
                         if (MostarFecha.getDate() < 10) 
@@ -144,7 +166,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
 
                     default:
                         return `Has Introducido un error`;
-                        
+
                 };
             }
         };
@@ -192,9 +214,9 @@ function calcularBalance()
 
     return result;
 }
-function filtrarGastos()
+function filtrarGastos({fechaDesde, fechasHasta, valorMin, valorMax, descripcionContiene, ...etiquetasTiene})
 {
-
+    return gastos;
 }
 function agruparGastos(){}
 
