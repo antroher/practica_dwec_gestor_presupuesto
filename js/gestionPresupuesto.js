@@ -213,10 +213,12 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
             returnFiltrarGastos.reduce((acc, item) => {
                 console.log("Miau5")
                 let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
-                console.log("Miauuuu " + periodoReduce);
-                (acc[periodoReduce[item.valor]] = acc[periodoReduce[item.valor]] || []).push(item);
+                console.log("Miauuuu " + periodoReduce +' '+ item.valor);
+                let valores = valores + item.valor;
+                acc[periodoReduce] = valores ;
                 return acc;
             }, {});
+            console.log(JSON.stringify(groupBy));
     return groupBy;
 }
 
