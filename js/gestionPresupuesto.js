@@ -152,7 +152,24 @@ function filtrarGastos(objeto){
     }
     return res;
 }
-function agruparGastos(){
+function agruparGastos(periodo, etiquetas, fechaDes="2021-01-01", fechaHas=String(Date.now())){
+    if(periodo=="dia" || periodo=="anyo")
+        periodo=periodo;
+    else
+        periodo="mes";
+
+    let arrayFelGastos = filtrarGastos({});
+    let arrayGastos = arrayFelGastos.filter(funtion(item))
+    {
+        let ok = true;
+        if(item.fecha<fechaDesde)
+            ok=false;
+        if(item.fecha>fechaHas)
+            ok=false;
+        if(!item.etiquetas.includes(etiquetas))
+            ok=false;
+        return ok;
+    }
     
 }
     //Acciones con la variable global "presupuesto"
