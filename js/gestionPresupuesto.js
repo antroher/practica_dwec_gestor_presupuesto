@@ -103,20 +103,45 @@ function CrearGasto(desc, val = 0, fec = Date.now(), ...eti) {
         obtenerPeriodoAgrupacion : function(periodo){
             let  fech = new Date(this.fecha);
             let dd = String(fech.getDate()).padStart(2, 0);
-            let mm = string(fech.getMonth()+1).padStart(2, 0);
-            let yyyy = string(fech.getFullYear());   
+            let mm = String(fech.getMonth()+1).padStart(2, 0);
+            let yyyy = String(fech.getFullYear());   
 
-            switch(parametro)
-            {
-                case 'mes':
-                    return `${yyyy}-${mm}`;
+            switch(periodo) {
+                case "dia": { 
+                    if (fech.getDate() < 10) {
+                        if (fech.getMonth() < 9) {
+                            return `${fech.getFullYear()}-0${fech.getMonth()+1}-0${fech.getDate()}`;
+                        }
+                        else {
+                            return `${fech.getFullYear()}-${fech.getMonth()+1}-0${fech.getDate()}`;
+                        }
+                    }
+                    else {
+                        if (fech.getMonth() < 9) {
+                            return `${fech.getFullYear()}-0${fech.getMonth()+1}-${fech.getDate()}`;    
+                        }
+                        else {
+                            return `${fech.getFullYear()}-${fech.getMonth()+1}-${fech.getDate()}`;
+                        }
+                    }
                     break;
-                case 'dia':
-                    return `${yyyy}-${mm}-${dd}`; 
+                }
+                case "mes": {
+                    if(fech.getMonth() < 9) {
+                        return `${fech.getFullYear()}-0${fech.getMonth()+1}`;
+                    }
+                    else {
+                        return `${fech.getFullYear()}-${fech.getMonth()+1}`;
+                    }
                     break;
-                case 'anyo':
-                    return `${yyyy}`;
+                }
+                case "anyo": {
+                    return `${fech.getFullYear()}`
                     break;
+                }
+                default:{
+                    return `Periodo no válido`;
+                }
             }
         }
     }
@@ -154,8 +179,61 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 
-function filtrarGastos(){
+function filtrarGastos(objeto){
+    let fd;
+    let fh;
+    let vmn;
+    let vmx;
+    let descCon;
+    let etiqTn;
 
+    if(objeto.hasOwnProperty(`fechaDesde`))
+    {
+        fd = objeto.fechaDesde();
+        if(!isNaN(Date.parse(fd))){
+            fd = Date.parse();
+        }
+    }
+
+    if(objeto.hasOwnProperty(`fechaHasta`))
+    {
+        fh = objeto.fechaHasta();
+        if(!isNaN(Date.parse(fh))){
+            fh = Date.parse();
+        }
+    }
+
+    if(objeto.hasOwnProperty(`valorMinimo`))
+    {
+        vmn = objeto.valorMinimo();
+        if(!isNaN(Date.parse(vmn))){
+            vmn = Date.parse();
+        }
+    }
+
+    if(objeto.hasOwnProperty(`valorMaximo`))
+    {
+        vmx = objeto.valorMaximo();
+        if(!isNaN(Date.parse(vmx))){
+            vmx = Date.parse();
+        }
+    }
+
+    if(objeto.hasOwnProperty(`descripcionContiene`))
+    {
+        descCon = objeto.descripcionContiene();
+        if(!isNaN(Date.parse(descCon))){
+            descCon = Date.parse();
+        }
+    }
+
+    if(objeto.hasOwnProperty(`etiquetasTiene`))
+    {
+        etiqTn = objeto.etiquetasTiene();
+        if(!isNaN(Date.parse(etiqTn))){
+            etiqTn = Date.parse();
+        }
+    }
 }
 
 function agruparGastos(){
