@@ -4,13 +4,14 @@
 'use strict'
 
 var presupuesto = 0;
- var gastos = [];
+var gastos = [];
 var  idGasto = 0; 
 
 
 function actualizarPresupuesto(actualizar) {
 
     let devolverValor;
+    
 
     if(actualizar >= 0)
     {
@@ -31,8 +32,17 @@ function mostrarPresupuesto() {
 
 }
 
-function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
+function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
+    {
 
+            let devuelve="";
+            let fecha = new Date(this.fecha);
+            let gastosfiltrados = gastos.filter;
+            
+
+            let dd = String (fecha.getDate()).(2,0);
+            let mm = String (fecha.getMonth()+1).(2,0);
+            let yyy = String(fecha.getFullYear());
 
     if (valor1 < 0 || isNaN(valor1)) {
 
@@ -86,6 +96,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
             
 
         },
+
         mostrarGastoCompleto(){
             
             let acumulador = "";
@@ -111,6 +122,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                 this.fecha = Date.parse(nuevaFecha);
             }
         },
+
         borrarEtiquetas(...etiquetas2)
         {
             let eliminarEtiqueta = 0;
@@ -122,6 +134,13 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                     this.etiquetas.splice(eliminarEtiqueta, 1);
                 }
             } 
+        },
+        
+        
+        obtenerPeriodoAgrupacion(periodo)
+        {
+            
+            
         }
 
     };
@@ -176,6 +195,31 @@ function calcularBalance()
     return result;
 
 }
+
+function filtrarGastos(objeto)
+{
+    let fd
+    objeto = 
+    {
+        fechaDesde: 'YYYY-MM-DD',
+        fechaHasta: 'YYYY-MM-DD',
+        valorMinimo:
+        valorMáximo:
+        descripcionContiene:
+        etiquetasTiene:
+    };
+    if(objeto.('fechaDesde'))
+    {
+        fd = objeto.fechaDesde;
+        if(isNaN(Date.parse(fd)))
+            fd = Date.parse(fd)
+
+    }
+}
+
+function agruparGastos(){
+
+}
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
@@ -188,5 +232,7 @@ export   {
     borrarGasto,
     calcularTotalGastos,
     calcularBalance,
+    filtrarGastos,
+    agruparGastos
   
 }
