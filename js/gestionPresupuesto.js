@@ -154,21 +154,36 @@ function calcularBalance() {
 function filtrarGastos({fechaDesde, fechaHasta, valorMinimo,
                         valorMaxima, descripcionContiene, ...etiquetasTiene}) {
     
+    //Creación de objeto filtro para los subsiguientes filter.                            
     let filtro = {
-        filtroFechaDesde: (!isNaN(Date.parse(fechaDesde))) ? Date.parse(fechaDesde) : undefined,
-        filtroFechaHasta: (!isNaN(Date.parse(fechaHasta))) ? Date.parse(fechaHasta) : undefined,
-        filtroValorMinimo: valorMinimo,
-        filtroValorMaximo: valorMaxima,
-        filtroDescripcionContiene: descripcionContiene,
-        filtroEtiquetasTiene: [...etiquetasTiene]
+        fFechaDesde: (!isNaN(Date.parse(fechaDesde))) ? Date.parse(fechaDesde) : undefined,
+        fFechaHasta: (!isNaN(Date.parse(fechaHasta))) ? Date.parse(fechaHasta) : undefined,
+        fValorMinimo: valorMinimo,
+        fValorMaximo: valorMaxima,
+        fDescripcionContiene: descripcionContiene,
+        fEtiquetasTiene: [...etiquetasTiene]
     }
-    let valoresFiltro = Object.values(filtro);
+
+    //Comprobación de si el objeto esta "vacío".
     let isEmpty = false;
-    valoresFiltro.forEach()
-    if ()
-    gastos.filterhadesfechaDesdeEntrante,((gasto) => {
-        
-    })
+    let valoresFiltro = Object.values(filtro);
+    valoresFiltro.forEach((value)=> {
+        if (typeof value === undefined){
+            isEmpty = true;
+        }
+    });
+
+    //Empiezan los filtros.
+    if (isEmpty === true) { //Si esta vacío se devuelve un array vacío.
+        return filtroDevuelto = [];
+    }
+    else {
+        let arrayFechas = gastos.filter((gasto) => {
+            return filtro.fFechaDesde <= gasto.fecha;
+        });
+    }
+    
+    
 }
 
 function agruparGastos() {
