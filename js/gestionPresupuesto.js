@@ -182,7 +182,7 @@ function filtrarGastos(obj) {
     if (obj.hasOwnProperty('etiquetasTiene')) {
         let eti = obj.etiquetasTiene;
     }
-    
+    /**/
 
 }
 
