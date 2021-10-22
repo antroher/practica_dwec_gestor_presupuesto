@@ -206,19 +206,18 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
         periodo = "mes";
     }
     let filtrador = {fechaDesde : fechaDesde, fechaHasta : fechaHasta, etiquetas : etiquetas}
-    console.log("Hola soy el filtrador :) " + filtrador);
     let returnFiltrarGastos = filtrarGastos(filtrador);
-    console.log("Funciono 1 " + returnFiltrarGastos[0]);
     //El último valor, el {} será el primer valor con el comenzará el reduce
-    const result = returnFiltrarGastos.reduce((acc, item) => {
-        var groupBy = function(xs, valor) {
-            return xs.reduce(function(acc, x) {
+    console.log("Miauuuu " + returnFiltrarGastos.length);
+    let groupBy =
+            returnFiltrarGastos.reduce((acc, item) => {
+                console.log("Miau5")
                 let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
-              (acc[x[valor]] = acc[x[valor]] || []).push(x);
-              return acc;
+                console.log("Miauuuu " + periodoReduce);
+                (acc[periodoReduce[item.valor]] = acc[periodoReduce[item.valor]] || []).push(item);
+                return acc;
             }, {});
-          };
-    }, {})
+    return groupBy;
 }
 
 //Función constructora
@@ -298,34 +297,46 @@ function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
         },
 
         obtenerPeriodoAgrupacion : function(periodo) {
-            let newFecha = new Date(this.fecha);
+            let validarFecha = new Date(this.fecha);
             switch(periodo) {
-                case "dia": {
-                    if (newFecha.getDate() < 10) {
-                        return (newFecha.getMonth() <10) ?  
-                        `${newFecha.getFullYear()}-0${newFecha.getMonth() + 1}-0${newFecha.getDate()}` : 
-                        `${newFecha.getFullYear()}-${newFecha.getMonth() + 1}-0${newFecha.getDate()}`
-                    } else {
-                        return (newFecha.getMonth() < 10) ? 
-                        `${newFecha.getFullYear()}-0${newFecha.getMonth() + 1}-${newFecha.getDate()}` : 
-                        `${newFecha.getFullYear()}-${newFecha.getMonth() + 1}-${newFecha.getDate()}`;
-                    } break;
+                case "dia": { 
+                    if (validarFecha.getDate() < 10) {
+                        if (validarFecha.getMonth() < 9) {
+                            return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
+                        }
+                        else {
+                            return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
+                        }
+                    }
+                    else {
+                        if (validarFecha.getMonth() < 9) {
+                            return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-${validarFecha.getDate()}`;    
+                        }
+                        else {
+                            return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-${validarFecha.getDate()}`;
+                        }
+                    }
+                    break;
                 }
                 case "mes": {
-                    return (newFecha.getDate() < 10) ? 
-                    `${newFecha.getFullYear()}-0${newFecha.getMonth() + 1}` : 
-                    `${newFecha.getFullYear()}-${newFecha.getMonth() + 1}`; break;
+                    if(validarFecha.getMonth() < 9) {
+                        return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}`;
+                    }
+                    else {
+                        return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}`;
+                    }
+                    break;
                 }
                 case "anyo": {
-                    return `${newFecha.getFullYear()}`; break;
-                } 
-                default: {
-                    return "Periodo no valido";
+                    return `${validarFecha.getFullYear()}`
+                    break;
+                }
+                default:{
+                    return `Periodo no válido`;
                 }
             }
         }
-    };
-    
+    }
     return gasto;
 }
 
