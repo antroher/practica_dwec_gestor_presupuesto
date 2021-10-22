@@ -63,7 +63,8 @@ function filtrarGastos(gastosFilter) {
 
     today = mm + '/' + dd + '/' + yyyy;
     //Deep clone
-    let gastosFiltrados = JSON.parse(JSON.stringify(gastos));
+    //let gastosFiltrados = JSON.parse(JSON.stringify(gastos));
+    let gastosFiltrados = Object.assign(gastos);
     console.log("Miau1")
     if (typeof gastosFilter === 'object' && gastosFilter !== null && gastosFilter !== undefined && Object.entries(gastosFilter).length > 0) {
         console.log("Miau2")
@@ -200,17 +201,18 @@ function filtrarGastos(gastosFilter) {
     // }
 
 function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
-    //let agruparGastos = JSON.parse(JSON.stringify(gastos));
+    let agruparGastos = JSON.parse(JSON.stringify(gastos));
     if (periodo !== "mes" && periodo !== "dia" && periodo !== "anyo") {
         periodo = "mes";
     }
     let filtrador = {fechaDesde : fechaDesde, fechaHasta : fechaHasta, etiquetas : etiquetas}
+    console.log("Hola soy el filtrador :) " + filtrador);
     let returnFiltrarGastos = filtrarGastos(filtrador);
-    //PRUEBA 1 : acc será donde se guarden los resultados de reduce, no se si entenderá
-    //por si mismo que es un objeto al iterar sobre uno
+    console.log("Funciono 1 " + returnFiltrarGastos[0]);
+    //El último valor, el {} será el primer valor con el comenzará el reduce
     const result = returnFiltrarGastos.reduce((acc, item) => {
         let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
-    })
+    }, {})
 
     // let agrupaçao = returnFiltrarGastos.reduce((acc, item) => {
     //         let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
