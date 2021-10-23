@@ -1,4 +1,4 @@
-'use strict'
+/*'use strict'
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
@@ -78,21 +78,13 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq)
             {
                 fec=fecha;
             }
-<<<<<<< HEAD
-        }
-=======
         },
->>>>>>> 3cf2e71201b7eae82354a83c57d655ab34e25fa2
     borrarEtiquetas(...etiq)
         {
             for(let elem of etiq)
             {
                 {
-<<<<<<< HEAD
                     if(this.etiquetas.includes(etiq))
-=======
-                    if(this.etiquetas[i] === elem)
->>>>>>> 3cf2e71201b7eae82354a83c57d655ab34e25fa2
                     {
                         this.etiquetas.splice(this.etiquetas.indexOf(elem),1)
                     }
@@ -150,5 +142,65 @@ export   {
     calcularBalance,
 
 }
+*/
+// TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
+// TODO: Variable global
+'use strict'
+var presupuesto=0;
+var gastos=[];
 
+function actualizarPresupuesto(pres){
+
+    if(pres>=0)
+    {
+        presupuesto=pres;
+        return presupuesto;
+    }
+    else
+    {
+        console.log("El presupuesto introducido no es válido.");
+        return -1;
+    }
+}
+function mostrarPresupuesto() {
+    return `Tu presupuesto actual es de ${presupuesto} €`;
+}
+
+function CrearGasto(desc, val){
+    if((parseFloat(val)<0) || isNaN(val))
+    {
+        val=0;
+    }
+    //Declaracíon del objeto
+    let gasto = {
+        //Propiedad
+        descripcion:desc,//propiedad:valor
+        valor:val,
+        //Metodos asociados al objeto
+        mostrarGasto(){
+            return 'Gasto correspondiente a '+gasto.descripcion+' con valor '+gasto.valor+' €';//gasto(objeto).descripcion(propiedad accedida mediante getter)
+        },
+        actualizarDescripcion(desc){
+            gasto.descripcion=desc;
+        },
+        actualizarValor(val){
+            if(parseFloat(val)>0)
+            {
+                gasto.valor=val;
+            }       
+        }
+      }
+    return gasto;
+}
+
+function listarGastos(){
+    return gastos;
+}
+
+export   {
+    mostrarPresupuesto,
+    actualizarPresupuesto,
+    CrearGasto,
+    listarGastos,
+}
