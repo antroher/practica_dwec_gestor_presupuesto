@@ -149,10 +149,28 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
                             
                             return result;
                         }
-                            function filtrarGastos({fechaDesde,fechaHasta,valorMinimo,valorMaximo,descripcionContiene,etiquetasTiene})
+                            function filtrarGastos(filtrar)
                             {
+                                let fD //FechaDesde
+                                let fH //FechaHasta
+                                let vMin
+                                let vMax
+
+                                if(filtrar.hasOwnProperty("fechaDesde")){
+                                    fD = filtrar.fechaDesde;
+                                    if(!isNaN(Date.parse(fD))){
+                                        fD=Date.parse(fd)
+                                    }
+                                }
+
+                                if(filtrar.hasOwnProperty("fechaHasta")){
+                                    if(!isNaN(Date.parse(fH))){
+                                        fD=Date.parse(fd)
+                                    }
+                                }
 
                             }
+
                                 function agruparGastos() {
 
                                 }
