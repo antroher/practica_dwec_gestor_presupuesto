@@ -158,43 +158,50 @@ function calcularBalance() {
 }
 
 function filtrarGastos(obj) {
-    let fDes = "";
-    let fHas = "";
-    let vMin = "";
-    let vMax = "";
-    let des = "";
-    let eti = "";
-
-    if (obj.hasOwnProperty('fechaDesde')) {
-        fDes = obj.fechaDesde;
-        if (!isNaN(Date.parse(fDes))) {
-            fDes = Date.parse(fDes);
+    let result = Object.assign(gastos);
+    if (typeof obj === 'object' && obj !== null && obj !== undefined && Object.entries(obj).length > 0) {
+        if (Object.hasOwn(obj, 'fechaDesde') && typeof obj.fechaDesde === 'string') {
+            result = result.filter((aux) => {
+                return aux.fecha >= (Date.parse(obj.fechaDesde))
+            })
         }
-    }
-    if (obj.hasOwnProperty('fechaHasta')) {
-        fHas = obj.fechaHasta;
-        if (!isNaN(Date.parse(fHas))) {
-            fHas = Date.parse(fHas);
+        if (Object.hasOwn(obj, 'fechaHasta') && typeof obj.fechaHasta === 'string') {
+            result = result.filter((aux) => {
+                return aux.fecha <= Date.parse(obj.fechaHasta);
+            })
         }
-    }
-    if (obj.hasOwnProperty('valorMinimo')) {
-        vMin = obj.valorMinimo;
-    }
-    if (obj.hasOwnProperty('valorMaximo')) {
-        vMax = obj.valorMaximo;
-    }
-    if (obj.hasOwnProperty('descripcionContiene')) {
-        des = obj.descripcionContiene;
-    }
-    if (obj.hasOwnProperty('etiquetasTiene')) {
-        eti = obj.etiquetasTiene;
-    }
-    
-    for (let i = 0; i < gastos.length; i++) {
-        if (gastos[i].valorMinimo === vMin || gastos[i].valorMaximo === vMax || gastos[i].etiquetasTiene === eti || gastos[i].descripcionContiene === des || (gastos[i].fechaDesde >= fDes && gastos[i].fechaHasta <= fHas)) {
-            return gastos[i];
+        if (Object.hasOwn(obj, 'valorMinimo') && typeof obj.valorMinimo === 'number') {
+            result = result.filter((aux) => {
+                return aux.valor >= obj.valorMinimo
+            })
         }
+        if (Object.hasOwn(obj, 'valorMaximo') && typeof obj.valorMaximo === 'number') {
+            result = result.filter((aux) => {                
+                return aux.valor <= obj.valorMaximo
+            })
+        }
+        if (Object.hasOwn(obj, 'descripcionContiene') && typeof obj.descripcionContiene === 'string') {
+            result = result.filter((aux) => {
+                let p1 = (aux.descripcion).toLowerCase();
+                let p2 = (obj.descripcionContiene).toLowerCase();
+                let a1 = p1.split(" ");
+                let a1join = a1.join('');
+                if (a1join.indexOf(p2) !== -1) 
+                    return true;
+            })
+        }
+        if (Object.hasOwn(obj, 'etiquetasTiene') && Array.isArray(obj.etiquetasTiene)) {
+            result = result.filter((aux) => {
+                for (let i = 0; i < obj.etiquetasTiene.length; i++) {
+                    if (obj.etiquetasTiene.includes(aux.etiquetas[i])) {
+                        return true;
+                    }
+                }
+            })
+        }
+        return result;
     }
+    return gastos;
 
 }
 
