@@ -56,18 +56,10 @@ function calcularBalance() {
 }
 
 function filtrarGastos(gastosFilter) {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
-
-    today = mm + '/' + dd + '/' + yyyy;
     //Deep clone
     //let gastosFiltrados = JSON.parse(JSON.stringify(gastos));
     let gastosFiltrados = Object.assign(gastos);
-    console.log("Miau1")
     if (typeof gastosFilter === 'object' && gastosFilter !== null && gastosFilter !== undefined && Object.entries(gastosFilter).length > 0) {
-        console.log("Miau2")
         if (Object.hasOwn(gastosFilter, 'fechaDesde') && typeof gastosFilter.fechaDesde === 'string') {
             gastosFiltrados = gastosFiltrados.filter((x) => {
                 return x.fecha >= (Date.parse(gastosFilter.fechaDesde))
@@ -206,17 +198,11 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
     let returnFiltrarGastos = filtrarGastos(filtrador);
     let groupBy =
             returnFiltrarGastos.reduce((acc, item, index, returnFiltrarGastos) => {
-                console.log("Entro en el reduce...")
                 let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
-                // console.log("Miauuuu " + periodoReduce);
-                // console.log ("valor.item " + item.valor)
                 if (acc[periodoReduce] == null)
                     acc[periodoReduce] = item.valor;
                 else 
                     acc[periodoReduce] += item.valor;
-                // console.log("Miau 7 Object.keys(acc) " + Object.keys(acc))
-                // console.log("Miau 8 acc[periodoReduce] " + acc[periodoReduce])
-                // console.log(acc)
                 return acc;
             }, {});
     return groupBy;
