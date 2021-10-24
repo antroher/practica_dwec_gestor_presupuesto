@@ -235,6 +235,10 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
                     acc[periodoReduce] = item.valor;
                 else 
                     acc[periodoReduce] += item.valor;
+
+                // console.log("Miau 7 Object.keys(acc) " + Object.keys(acc))
+                // console.log("Miau 8 acc[periodoReduce] " + acc[periodoReduce])
+                // console.log(acc)
                 return acc;
             }, {});
     return groupBy;
