@@ -210,11 +210,23 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
     //El último valor, el {} será el primer valor con el comenzará el reduce
     console.log("Miauuuu " + returnFiltrarGastos.length);
     let groupBy =
-            returnFiltrarGastos.reduce((acc, item) => {
+            returnFiltrarGastos.reduce((acc, item, index, returnFiltrarGastos) => {
                 console.log("Miau5")
                 let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
                 console.log("Miauuuu " + periodoReduce);
-                (acc[periodoReduce[item.valor]] = acc[periodoReduce[item.valor]] || []).push(item);
+                console.log ("valor.item " + item.valor)
+
+                if (acc[periodoReduce] == null)
+                    acc[periodoReduce] = item.valor;
+                else 
+                    acc[periodoReduce] += item.valor;
+
+                
+                
+
+                console.log("Miau 7 Object.keys(acc) " + Object.keys(acc))
+                console.log("Miau 8 acc[periodoReduce] " + acc[periodoReduce])
+                console.log(acc)
                 return acc;
             }, {});
     return groupBy;
