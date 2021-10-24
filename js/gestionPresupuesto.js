@@ -214,10 +214,75 @@ function calcularBalance()
 
     return result;
 }
-function filtrarGastos({fechaDesde, fechasHasta, valorMin, valorMax, descripcionContiene, ...etiquetasTiene})
-{
-    return gastos;
+function filtrarGastos(objeto) {
+
+    let fechaDesde1, fecha_desde;
+    let fechaHasta1, fecha_hasta;
+    let valorMin;
+    let valorMax;
+    let descripcion;
+    let etiqueta;
+    let gastosFiltrados = [];
+
+
+    if (objeto.hasOwnProperty('fechaDesde')) {
+        fecha_desde = Date.parse(objeto.fechaDesde);
+        if (typeof objeto.fechaDesde === 'string') {
+            if (!isNaN(fecha_desde)) {
+                fechaDesde1 = fecha_desde;
+            }
+            else
+                fechaDesde1 = undefined;
+        }
+    }
+
+    if (objeto.hasOwnProperty('fechaHasta')) {
+        fecha_hasta = Date.parse(objeto.fechaHasta);
+        if (typeof objeto.fechaHasta === 'string') {
+            if (!isNaN(fecha_hasta)) {
+                fechaHasta1 = fecha_hasta;
+            }
+            else
+                fechaDesde1 = undefined;
+        }
+    }
+
+    if (objeto.hasOwnProperty('valorMinimo')) {
+        valorMin = objeto.valorMinimo;
+    }
+
+    if (objeto.hasOwnProperty('valorMaximo')) {
+        valorMax = objeto.valorMaximo;
+    }
+
+    if (objeto.hasOwnProperty('descripcionContiene')) {
+        descripcion = objeto.descripcionContiene;
+    }
+
+    if (objeto.hasOwnProperty('etiquetasTiene')) {
+
+        etiqueta = [...objeto.etiquetasTiene];
+    }
+
+    gastosFiltrados = gastos.filter(function (item) {
+
+        let devuelve = true;
+        let latiene = false;
+
+        if (typeof fechaD !== 'undefined') {
+
+            if (item.fecha < fechaD) {
+                devuelve = false;
+            }
+        }
+
+        return devuelve && latiene;
+
+    });
+
+    return gastosFiltrados;
 }
+
 function agruparGastos(){}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
