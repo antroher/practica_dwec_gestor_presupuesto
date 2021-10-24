@@ -159,19 +159,48 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     /*objeto.hasOwnProperty(''); comprobar si existe las propiedades indicadas*/
     let fechaDesde = miObjeto.fechaDesde;
     let fechaHasta  = miObjeto.fechaHasta;
-    let minimo = miObjeto.valorMinimo;
-    let maximo = miObjeto.valorMaximo;
-    let descripcion = miObjeto.descripcionContiene;
-    let etiquetas =miObjeto.etiquetasTiene;
-    let date = string(new Date(Date.parse(this.fecha)));
+    let minimo;
+    let maximo;
+    let descripcion = "";
+    let etiquetasTiene = [];
+    let devolver =[];
 
-    //if(miObjeto == {}){return `${miObjeto.gastos}`} //Si se pasa un objeto vacío, devolverá todos los gastos que haya.
         if(miObjeto.hasOwnProperty(fechaDesde)){
-            if(!isNaN(fechaDesde)){fechaDesde = Date.parse();}//si devuelve un valor válido lo convierte a fecha
+                if(!isNaN(fechaDesde)){fechaDesde = Date.parse(fechaDesde);}//si devuelve un valor válido lo convierte a fecha
         }
-        else if(miObjeto.hasOwnProperty(fechaHasta)){
-            if(!isNaN(fechaHasta)){fechaHasta = Date.parse();}
+        if(miObjeto.hasOwnProperty(fechaHasta)){
+            if(!isNaN(fechaHasta)){fechaHasta = Date.parse(fechaHasta);}//si devuelve un valor válido lo convierte a fecha
         }
+        else if(miObjeto.hasOwnProperty(miObjeto.valorMinimo)){
+            if(!isNaN(miObjeto.valorMinimo)){minimo = miObjeto.valorMinimo;}
+        }
+        else if(miObjeto.hasOwnProperty( miObjeto.valorMaximo)){
+            if(!isNaN( miObjeto.valorMaximo)){maximo =  miObjeto.valorMaximo;}
+        }
+        else if(miObjeto.hasOwnProperty( miObjeto.descripcionContiene)){
+            if(!isNaN(miObjeto.descripcionContiene)){descripcion =  miObjeto.descripcionContiene}
+        }
+        else if(miObjeto.hasOwnProperty( miObjeto.etiquetasTiene)){
+            if(!isNaN(miObjeto.etiquetasTiene)){
+                etiquetas =  miObjeto.etiquetasTiene;
+                for(var i = 0 ; i < etiquetas.length; i++){
+                    
+                    if(etiquetas[i] == gastos[i]){
+                        etiquetasTiene += etiquetas[i];
+                    }
+                }
+                return etiquetasTiene;
+            }
+        }
+
+        //Si se pasa un objeto vacío, devolverá todos los gastos que haya.
+        /*if(miObjeto == {}){
+            for(var i = 0 ; i < gastos.length; i++)
+            {
+                devolver += gastos[i]; 
+            }
+            return devolver;
+        }*/
     }
     //substring()método devuelve un subconjunto de un objeto String
     //PathState js
