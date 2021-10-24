@@ -200,16 +200,47 @@ function filtrarGastos(objeto){
     if ('etiquetasTiene' in objeto){
         et = objeto.etiquetasTiene;
     }
-    
+
     let results = gastos.filter(function(gasto){
         let devuelve = true;
         if (fd !== undefined){
-            if (item.fechaDesde < fd){
+            if (gasto.fechaDesde < fd){
                 devuelve = false;   
             }  
         }
+        if (fh !== undefined){
+            if (gasto.fechaHasta > fh){
+                devuelve = false;
+            }
+        }
+        if (vmin !== undefined){
+            if (gasto.valorMinimo < vmin){
+                devuelve = false;
+            }
+        }
+        if (vmax !== undefined){
+            if (gasto.valorMaximo > vmax){
+                devuelve = false;
+            }
+        }
+        if (dc !== undefined){
+            if (!gasto.descripcionContiene.includes(dc)){
+                devuelve = false;
+            }
+        }
+        if (et !== undefined){
+            if (!gasto.etiquetasTiene.includes(et)){
+                devuelve = false;
+            }
+        }
+        return devuelve;
     })
-    
+    if (results !== {}){
+        return results;
+    }
+    else{
+        return gastos;
+    }
 }
 
 function agruparGastos(){
