@@ -109,18 +109,29 @@ function filtrarGastos(gastosFilter) {
         }
 
         if (Object.hasOwn(gastosFilter, 'etiquetasTiene') && Array.isArray(gastosFilter.etiquetasTiene)) {
-            console.log("vaya, parece QUE SI ES UN ARRAY")
             gastosFiltrados = gastosFiltrados.filter((x) => {
                 for (let i = 0; i < gastosFilter.etiquetasTiene.length; i++) {
-                    for  (let gsFilt of gastosFilter.etiquetasTiene) {
-                        console.log(gsFilt)
-                        if (gsFilt === x.etiquetas[i]) {
-                            return true;
-                        }
+                    if (gastosFilter.etiquetasTiene.includes(x.etiquetas[i])) {
+                        return true;
                     }
                 }
             })
         }
+
+        //*************otra forma de hacer la de "etiquetasTiene"************************
+        // if (Object.hasOwn(gastosFilter, 'etiquetasTiene') && Array.isArray(gastosFilter.etiquetasTiene)) {
+        //     console.log("vaya, parece QUE SI ES UN ARRAY")
+        //     gastosFiltrados = gastosFiltrados.filter((x) => {
+        //         for (let i = 0; i < gastosFilter.etiquetasTiene.length; i++) {
+        //             for  (let gsFilt of gastosFilter.etiquetasTiene) {
+        //                 console.log(gsFilt)
+        //                 if (gsFilt === x.etiquetas[i]) {
+        //                     return true;
+        //                 }
+        //             }
+        //         }
+        //     })
+        // }
         return gastosFiltrados;
     }
     return gastos;
@@ -201,32 +212,29 @@ function filtrarGastos(gastosFilter) {
     // }
 
 function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
-    let agruparGastos = JSON.parse(JSON.stringify(gastos));
-    if (periodo !== "mes" && periodo !== "dia" && periodo !== "anyo") {
-        periodo = "mes";
-    }
-    let filtrador = {fechaDesde : fechaDesde, fechaHasta : fechaHasta, etiquetas : etiquetas}
+    // if (periodo !== "mes" && periodo !== "dia" && periodo !== "anyo") {
+    //     periodo = "mes";
+    // }
+    
+    // if (Object.entries(etiquetas).length == 0) {
+
+    // }
+    
+    let filtrador = {etiquetasTiene : etiquetas, fechaDesde : fechaDesde, fechaHasta : fechaHasta}
+
     let returnFiltrarGastos = filtrarGastos(filtrador);
     //El último valor, el {} será el primer valor con el comenzará el reduce
-    console.log("Miauuuu " + returnFiltrarGastos.length);
     let groupBy =
             returnFiltrarGastos.reduce((acc, item, index, returnFiltrarGastos) => {
-                console.log("Miau5")
+                console.log("Entro en el reduce...")
                 let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
-                console.log("Miauuuu " + periodoReduce);
-                console.log ("valor.item " + item.valor)
+                // console.log("Miauuuu " + periodoReduce);
+                // console.log ("valor.item " + item.valor)
 
                 if (acc[periodoReduce] == null)
                     acc[periodoReduce] = item.valor;
                 else 
                     acc[periodoReduce] += item.valor;
-
-                
-                
-
-                console.log("Miau 7 Object.keys(acc) " + Object.keys(acc))
-                console.log("Miau 8 acc[periodoReduce] " + acc[periodoReduce])
-                console.log(acc)
                 return acc;
             }, {});
     return groupBy;
