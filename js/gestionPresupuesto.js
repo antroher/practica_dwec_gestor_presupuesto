@@ -73,30 +73,22 @@ function filtrarGastos(gastosFilter) {
                 return x.fecha >= (Date.parse(gastosFilter.fechaDesde))
             })
         }
-        console.log("Fecha Desde " + gastosFiltrados)
-
         if (Object.hasOwn(gastosFilter, 'fechaHasta') && typeof gastosFilter.fechaHasta === 'string') {
             gastosFiltrados = gastosFiltrados.filter((x) => {
                 return x.fecha <= Date.parse(gastosFilter.fechaHasta);
             })
         }
-        console.log("Fecha Hasta " + gastosFiltrados)
-
         if (Object.hasOwn(gastosFilter, 'valorMinimo') && typeof gastosFilter.valorMinimo === 'number') {
             gastosFiltrados = gastosFiltrados.filter((x) => {
                 return x.valor >= gastosFilter.valorMinimo
             })
         }
-        console.log("Valor Minimo " + gastosFiltrados)
-
         if (Object.hasOwn(gastosFilter, 'valorMaximo') && typeof gastosFilter.valorMaximo === 'number') {
             gastosFiltrados = gastosFiltrados.filter((x) => {
                 
                 return x.valor <= gastosFilter.valorMaximo
             })
         }
-        console.log("Fecha Maximo " + gastosFiltrados)
-
         if (Object.hasOwn(gastosFilter, 'descripcionContiene') && typeof gastosFilter.descripcionContiene === 'string') {
             gastosFiltrados = gastosFiltrados.filter((x) => {
                 let param1 = (x.descripcion).toLowerCase();
@@ -107,7 +99,6 @@ function filtrarGastos(gastosFilter) {
                     return true;
             })
         }
-
         if (Object.hasOwn(gastosFilter, 'etiquetasTiene') && Array.isArray(gastosFilter.etiquetasTiene)) {
             gastosFiltrados = gastosFiltrados.filter((x) => {
                 for (let i = 0; i < gastosFilter.etiquetasTiene.length; i++) {
@@ -117,7 +108,6 @@ function filtrarGastos(gastosFilter) {
                 }
             })
         }
-
         //*************otra forma de hacer la de "etiquetasTiene"************************
         // if (Object.hasOwn(gastosFilter, 'etiquetasTiene') && Array.isArray(gastosFilter.etiquetasTiene)) {
         //     console.log("vaya, parece QUE SI ES UN ARRAY")
@@ -212,30 +202,18 @@ function filtrarGastos(gastosFilter) {
     // }
 
 function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
-    // if (periodo !== "mes" && periodo !== "dia" && periodo !== "anyo") {
-    //     periodo = "mes";
-    // }
-    
-    // if (Object.entries(etiquetas).length == 0) {
-
-    // }
-    
     let filtrador = {etiquetasTiene : etiquetas, fechaDesde : fechaDesde, fechaHasta : fechaHasta}
-
     let returnFiltrarGastos = filtrarGastos(filtrador);
-    //El último valor, el {} será el primer valor con el comenzará el reduce
     let groupBy =
             returnFiltrarGastos.reduce((acc, item, index, returnFiltrarGastos) => {
                 console.log("Entro en el reduce...")
                 let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
                 // console.log("Miauuuu " + periodoReduce);
                 // console.log ("valor.item " + item.valor)
-
                 if (acc[periodoReduce] == null)
                     acc[periodoReduce] = item.valor;
                 else 
                     acc[periodoReduce] += item.valor;
-
                 // console.log("Miau 7 Object.keys(acc) " + Object.keys(acc))
                 // console.log("Miau 8 acc[periodoReduce] " + acc[periodoReduce])
                 // console.log(acc)
