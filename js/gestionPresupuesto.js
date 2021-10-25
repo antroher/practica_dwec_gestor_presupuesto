@@ -218,9 +218,10 @@ function calcularTotalGastos()
 }
 
 //Enunciados 3
-function filtrarGastos()
+function filtrarGastos(parametro)
 {
-  /*Función de un parámetro que devolverá un subconjunto de los gastos existentes (variable global gastos). Se deberá utilizar la función filter. El parámetro será un objeto que podrá tener las siguientes propiedades:
+  /*Función de un parámetro que devolverá un subconjunto de los gastos existentes (variable global gastos). Se deberá utilizar la función filter.
+   El parámetro será un objeto que podrá tener las siguientes propiedades:
 
 fechaDesde - Fecha mínima de creación del gasto. Su valor deberá ser un string con formato válido que pueda entender la función Date.parse.
 fechaHasta - Fecha máxima de creación del gasto. Su valor deberá ser un string con formato válido que pueda entender la función Date.parse.
@@ -228,8 +229,102 @@ valorMinimo - Valor mínimo del gasto.
 valorMaximo - Valor máximo del gasto.
 descripcionContiene - Trozo de texto que deberá aparecer en la descripción.
 etiquetasTiene - Array de etiquetas: si un gasto contiene alguna de las etiquetas indicadas en este parámetro, se deberá devolver en el resultado.*/ 
+var fechaD,fechaH,valorM,valorm,descripcionC,etiquetasT;
+var  gastosFiltrados=[];
+
+
+
+
+if (parametro.hasOwnProperty('fechaDesde'))
+{
+  
+  if(typeof parametro.fechaDesde==='string')
+  {
+    fechaD=Date.parse(parametro.fechaDesde);
+    if(!isNaN(fechaD))
+    {
+      fechaD=fechaDesde;
+    }
+  }
 }
-function agruparGastos()
+if (parametro.hasOwnProperty('fechaHasta'))
+{
+  
+  if(typeof objeto.fechaHasta==='string')
+  {
+    fechaHasta=Date.parse(parametro.fechaHasta);
+    if(!isNaN(fechaHasta))
+    {
+      fechaH=fechaHasta;
+    }
+  }
+}
+if (parametro.hasOwnProperty('valorMinimo'))
+{
+  valorm=valoMinimo;
+  
+}
+if (parametro.hasOwnProperty('valorMaximo'))
+{
+  valorm=valoMinimo;
+  
+}
+if (parametro.hasOwnProperty('descripcionContiene'))
+{
+  descripcionC=parametro.descripcionContiene;
+  
+}
+if (parametro.hasOwnProperty('etiquetasTiene'))
+{
+  etiquetasT=[...parametro.etiquetasTiene];
+  
+}
+
+gastosFiltrados=gastos.filter(function(item){
+  let devuelve = true;
+  let latiene=false;
+
+  if(typeof fechaDesde !== 'undefined')
+  {
+    if(item.fecha<fechaDesde)
+    {
+      devuelve=false;
+    }
+  }
+  if(typeof fechaHasta !== 'undefined')
+  {
+    if(item.fecha>fechaHasta)
+    {
+      devuelve=false;
+    }
+  }
+  if(typeof valorm!=='undefined')
+  {
+
+  }
+  if(typeof valorM!=='undefined')
+  {
+    
+  }
+  if(typeof descripcionC!=='undefined')
+  {
+    
+  }
+  if(typeof etiquetasT!=='undefined')
+  {
+    
+  }
+  return (devuelve && latiene);
+
+});
+return gastosFiltrados;
+
+}
+
+
+
+
+function agruparGastos(gasto0,gasto1,gasto2,gasto3)
 {
   /* Función de cuatro parámetros que devolverá un objeto con los resultados de realizar una agrupación por período temporal. Los parámetros son:
 
