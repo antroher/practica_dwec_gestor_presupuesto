@@ -183,39 +183,39 @@ function filtrarGastos(objetoFiltrado) {
     if (objetoFiltrado != undefined && objetoFiltrado != null) {
 
       let resultado = gastos.filter((gasto) => {
-        if (objetoFiltro.hasOwnProperty("fechaDesde")) {
-          if (gasto.fecha < Date.parse(objetoFiltro.fechaDesde)) {
+        if (objetoFiltrado.hasOwnProperty("fechaDesde")) {
+          if (gasto.fecha < Date.parse(objetoFiltrado.fechaDesde)) {
             return;
           }
         }
   
-        if (objetoFiltro.hasOwnProperty("fechaHasta")) {
-          if (gasto.fecha > Date.parse(objetoFiltro.fechaHasta) ) {
+        if (objetoFiltrado.hasOwnProperty("fechaHasta")) {
+          if (gasto.fecha > Date.parse(objetoFiltrado.fechaHasta) ) {
             return;
           }
         }
   
-        if (objetoFiltro.hasOwnProperty("valorMinimo")) {
-          if (gasto.valor < objetoFiltro.valorMinimo) {
+        if (objetoFiltrado.hasOwnProperty("valorMinimo")) {
+          if (gasto.valor < objetoFiltrado.valorMinimo) {
             return;
           }
         }
   
-        if (objetoFiltro.hasOwnProperty("valorMaximo")) {
-          if (gasto.valor > objetoFiltro.valorMaximo) {
+        if (objetoFiltrado.hasOwnProperty("valorMaximo")) {
+          if (gasto.valor > objetoFiltrado.valorMaximo) {
             return;
           }
         }
   
-        if (objetoFiltro.hasOwnProperty("descripcionContiene")) {
-          if (!gasto.descripcion.includes(objetoFiltro.descripcionContiene)) {
+        if (objetoFiltrado.hasOwnProperty("descripcionContiene")) {
+          if (!gasto.descripcion.includes(objetoFiltrado.descripcionContiene)) {
             return;
           }
         }
-        if (objetoFiltro.hasOwnProperty("etiquetasTiene")) {
-          if ( objetoFiltro.etiquetasTiene.length != 0){
+        if (objetoFiltrado.hasOwnProperty("etiquetasTiene")) {
+          if ( objetoFiltrado.etiquetasTiene.length != 0){
           let devuelve = false;
-          for (let des of objetoFiltro.etiquetasTiene) {
+          for (let des of objetoFiltrado.etiquetasTiene) {
             if (gasto.etiquetas.includes(des)) {
               devuelve = true;
             }
