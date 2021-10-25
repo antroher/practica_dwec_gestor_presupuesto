@@ -152,14 +152,56 @@ function calcularBalance() {
 }
 
 function filtrarGastos(filtroEntrante) {    
+    let fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene;
     if (filtroEntrante.hasOwnProperty("fechaDesde")) {
-        if (!isNaN(Date.parse(filtroEntrante.fechaDesde))) {
-            let fechaDesde = Date.parse(filtroEntrante.fechaDesde);
-        }
+        if (!isNaN(Date.parse(filtroEntrante.fechaDesde))) 
+            fechaDesde = Date.parse(filtroEntrante.fechaDesde);
     }
     if (filtroEntrante.hasOwnProperty("fechaHasta")) {
-        
+        if (!isNaN(Date.parse(filtroEntrante.fechaHasta))) 
+            fechaHasta = Date.parse(filtroEntrante.fechaHasta);
     }
+    if (filtroEntrante.hasOwnProperty("valorMinimo")) {
+        valorMinimo = filtroEntrante.valorMinimo;
+    }
+    if (filtroEntrante.hasOwnProperty("valorMaximo")) {
+        valorMaximo = filtroEntrante.valorMaximo;
+    }
+    if (filtroEntrante.hasOwnProperty("descripcionContiene")) {
+        descripcionContiene = filtroEntrante.descripcionContiene;
+    }
+    if (filtroEntrante.hasOwnProperty("etiquetasTiene")) {
+        etiquetasTiene = filtroEntrante.etiquetasTiene;
+    }
+
+    let arrayDevolver = gastos.filter((gasto) => {
+        let boolDevolucion = false;
+        
+        if (typeof fechaDesde !== undefined && typeof fechaHasta !== undefined) {
+            if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha)
+                boolDevolucion = true;
+        }
+        else {
+            if (typeof fechaDesde !== undefined && fechaDesde < gasto.fecha)
+                boolDevolucion = true;
+            if (typeof fechaHasta !== undefined && fechaHasta >= gasto.fecha)
+                boolDevolucion = true;
+        }
+        if (typeof valorMaximo !== undefined && valorMaximo <= gasto.valor)
+            boolDevolucion = true;
+        if (typeof valorMinimo !== undefined && valorMinimo >= gasto.valor)
+            boolDevolucion = true;
+        if (typeof descripcionContiene !== undefined && gasto.descripcion.includes(descripcionContiene))
+            boolDevolucion = true;
+        
+        return boolDevolucion;
+    })
+
+    if(arrayDevolver.length === 0){
+        arrayDevolver = [...gastos];
+    }
+
+    return arrayDevolver;
 }
 
 function agruparGastos() {

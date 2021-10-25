@@ -60,14 +60,14 @@ function creacionObjeto (objeto) {
     console.log(objeto.fechaDesde);
     console.log(objeto.fechaHasta);
     console.log(objeto.hasOwnProperty("fechaDesde"));
-    console.log(objeto.hasOwnProperty( "fechaHadsta"));
+    console.log(objeto.hasOwnProperty( "precio"));
 }
 
 creacionObjeto({fechaDesde: 3, fechaHasta: 4})
 
 
 
-let array = [3];
+let array = [3, 4, undefined, "precio", "hola", null];
 
 let arrayfiltrado = array.filter((item) => {
     let devolver = false;
@@ -83,3 +83,15 @@ let arrayfiltrado = array.filter((item) => {
 });
 
 console.log(arrayfiltrado);
+
+let hola, adios, quetal;
+hola = "hola";
+adios = "adios";
+quetal = "quetal";
+console.log(hola);
+console.log(adios);
+console.log(quetal);
+let fecha = Date.parse("2021-09-26");
+let fecha2 = Date.parse("2021-09-15");
+console.log(fecha.toLocaleString());
+console.log(fecha2.toLocaleString());
