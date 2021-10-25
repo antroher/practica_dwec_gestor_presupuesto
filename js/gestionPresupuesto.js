@@ -175,17 +175,128 @@ function calcularBalance() {
     return balance;
 }
 
-function agruparGastos(){
+function agruparGastos(periodo = "mes", etiquetas = [], fechDesd, fechaHas = Date.now()) {
+
 
 }
+function filtrarGastos(objetoFiltro) {
+    if (objetoFiltro != undefined && objetoFiltro != null && Object.entries(objetoFiltro).length != 0) {
 
+      let resultado = gastos.filter((gasto) => {
+        if (objetoFiltro.hasOwnProperty("fechaDesde")) {
+          if (gasto.fecha < Date.parse(objetoFiltro.fechaDesde)) {
+            return;
+          }
+        }
+  
+        if (objetoFiltro.hasOwnProperty("fechaHasta")) {
+          if (gasto.fecha > Date.parse(objetoFiltro.fechaHasta) ) {
+            return;
+          }
+        }
+  
+        if (objetoFiltro.hasOwnProperty("valorMinimo")) {
+          if (gasto.valor < objetoFiltro.valorMinimo) {
+            return;
+          }
+        }
+  
+        if (objetoFiltro.hasOwnProperty("valorMaximo")) {
+          if (gasto.valor > objetoFiltro.valorMaximo) {
+            return;
+          }
+        }
+  
+        if (objetoFiltro.hasOwnProperty("descripcionContiene")) {
+          if (!gasto.descripcion.includes(objetoFiltro.descripcionContiene)) {
+            return;
+          }
+        }
+        if (objetoFiltro.hasOwnProperty("etiquetasTiene")) {
+          if ( objetoFiltro.etiquetasTiene.length != 0){
+          let devuelve = false;
+          for (let des of objetoFiltro.etiquetasTiene) {
+            if (gasto.etiquetas.includes(des)) {
+              devuelve = true;
+            }
+          }
+          if (!devuelve) {
+            return;
+          }
+        }
+      }
+        return gasto;
+      });
+  
+      return resultado;
+  
+    } else {
+      return gastos;
+    }
+}
+/*
 function filtrarGastos(objeto){  // filtrar de los arrays  .filter()
-    objeto.hasOwnProperty('fechaDesde');  // función que devuelve true or false
-// gasos.filter --> comparar entre todos los objetos gasto en el array gastos -->devuelve un array con los resultados
+    // gasos.filter --> comparar entre todos los objetos gasto en el array gastos -->devuelve un array con los resultados
 
+    let fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene;
+// hay que ver qué propiedades de estas tiene el objeto
+// si variable local is unfefined, no hace nada
+// si cumple, función filter
 
+    if (typeof objeto != "undefined"){
+        return gastos;
+    }
+
+    if ('fechaDesde' in objeto){
+        fechaDesde = objeto.fechaDesde;
+
+    } else if ('fechaHasta' in objeto){
+        fechaHasta = objeto.fechaHasta;
+
+    } else if ('valorMinimo' in objeto){
+        valorMinimo = objeto.valorMinimo;
+
+    } else if ('valorMaxmo' in objeto){
+        valorMaximo = objeto.valorMaximo;
+
+    } else if ('descripcionContiene' in objeto){
+        descripcionContiene = objeto.descripcionContiene;
+
+    } else if ('etiquetasTiene'){
+        etiquetasTiene = objeto.etiquetasTiene;
+
+    }
+
+    let gastosFiltrados = gastos.filter(function(item){
+        let devuelve = true;
+
+        if (fechaDesde !== undefined){
+            if (item.fecha > Date.parse(fechaDesde)){
+                devuelve = false;
+            }
+        }
+        if (fechaHasta !== undefined){
+            if (item.fecha < Date.parse(fechaHasta)){
+                devuelve = false;
+            }
+        }
+        if (valorMinimo !== undefined){
+            if (item.valor < valorMinimo){
+                devuelve = false;
+            }
+        }
+        if (valorMaximo !== undefined){
+            if (item.valor > valorMaximo){
+                devuelve = false;
+            }
+        }
+        if (descripcionContiene !== undefined){
+
+        }
+    }
+    )
 }
-
+*/
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
