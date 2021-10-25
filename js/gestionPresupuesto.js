@@ -214,59 +214,7 @@ function filtrarGastos(objetoFiltro) {
     return gastos;
   }
 
-  /******FUNCIÓN  filtrarGastos RESUELTA SIN .filter******/
-  /*  let resultado = [];
-  if ((objetoFiltro != undefined && objetoFiltro != null && Object.entries(objetoFiltro).length != 0)) {
-    for (let gast of gastos) {
-      if (objetoFiltro.hasOwnProperty("fechaDesde")) {
-        if (gast.fecha < Date.parse(objetoFiltro.fechaDesde)) {
-          continue;
-        }
-      }
-
-      if (objetoFiltro.hasOwnProperty("fechaHasta")) {
-        if (gast.fecha > Date.parse(objetoFiltro.fechaHasta)) {
-          continue;
-        }
-      }
-
-      if (objetoFiltro.hasOwnProperty("valorMinimo")) {
-        if (gast.valor < objetoFiltro.valorMinimo) {
-          continue;
-        }
-      }
-
-      if (objetoFiltro.hasOwnProperty("valorMaximo")) {
-        if (gast.valor > objetoFiltro.valorMaximo) {
-          continue;
-        }
-      }
-
-      if (objetoFiltro.hasOwnProperty("descripcionContiene")) {
-        if (!gast.descripcion.includes(objetoFiltro.descripcionContiene)) {
-          continue;
-        }
-      }
-
-      if (objetoFiltro.hasOwnProperty("etiquetasTiene")) {
-        let flag = false;
-        for (let des of objetoFiltro.etiquetasTiene) {
-          if (gast.etiquetas.includes(des)) {
-            flag = true;
-          }
-        }
-        if (!flag) {
-          continue;
-        }
-      }  
-    resultado.push(gast);
-
-    }
-    return resultado
-
-  } else {
-    return gastos;
-  }*/
+  
 }
 
 function agruparGastos(periodo = "mes", etiquetas = [], fechDesd, fechaHas = Date.now()) {
@@ -305,4 +253,3 @@ export {
   //MODIFICACIÓN EXPORT
 };
 
-/**** PASAR TESTS npm run test$numero *****/
