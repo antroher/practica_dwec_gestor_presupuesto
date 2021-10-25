@@ -210,15 +210,28 @@ function calcularBalance()
 function filtrarGastos(newFiltro)
 {
     
-    let FechaDesde1 = Date.parse(newFiltro.fechaDesde);
+    let fechaDesde = Date.parse(newFiltro.fechaDesde);
     if (newFiltro.hasOwnPropery('fechaDesde'))
     {
-        if(isNaN(FechaDesde1))
+        if(!isNaN(fechaDesde))
         {
             fechaDesde = Date.parse(newFiltro.fechaDesde);
         }
     }
-    
+
+    let fechaHasta = Date.parse(newFiltro.fechaHasta);
+    if (newFiltro.hasOwnPropery('fechaHasta'))
+    {
+        if(!isNaN(fechaHasta))
+        {
+            fechaHasta = Date.parse(newFiltro.fechaHasta);
+        }
+    }
+
+    let valorMinimo;
+    let valorMaximo;
+    let descripcionContiene;
+    let etiquetasTiene;
 }
 
 function agruparGastos()
