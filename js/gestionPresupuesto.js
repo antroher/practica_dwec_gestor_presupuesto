@@ -128,6 +128,23 @@ var IDGasto = 0;
         return gasto;
 
     }
+    /*------------------------------COMPROBACIÓN */ 
+let gasto1 = new CrearGasto("Gasto 1", 23.55, "2021-09-06", "casa", "supermercado" );
+let gasto2 = new CrearGasto("Gasto 2", 27.55, "2021-11-24", "casa", "supermercado", "comida" );
+
+gasto1.obtenerPeriodoAgrupacion("mes");
+// Resultado: "2021-09"
+gasto1.obtenerPeriodoAgrupacion("anyo");
+// Resultado: "2021"
+gasto1.obtenerPeriodoAgrupacion("dia");
+// Resultado: "2021-09-06"
+
+gasto2.obtenerPeriodoAgrupacion("mes");
+// Resultado: "2021-11"
+gasto2.obtenerPeriodoAgrupacion("anyo");
+// Resultado: "2021"
+gasto2.obtenerPeriodoAgrupacion("dia");
+// Resultado: "2021-11-24"
 
     function listarGastos() {
 
@@ -167,7 +184,7 @@ var IDGasto = 0;
     }
 
     function filtrarGastos(objetoGasto) {
-        if (objetoGasto != undefined && objetoGasto != null) 
+        if (objetoGasto != undefined && objetoGasto != null) /*Corregir Primer Error del test Cannot convert undefined or null object*/
         {
           let gastosFiltrados = gastos.filter((gasto) => {
             if (objetoGasto.hasOwnProperty('fechaDesde')) {
@@ -195,17 +212,19 @@ var IDGasto = 0;
             }
       
             if (objetoGasto.hasOwnProperty("descripcionContiene")) {
-              if (!gasto.descripcion.includes(objetoGasto.descripcionContiene)) {
-                return;
-              }
+
+                if (!gasto.descripcion.includes(objetoGasto.descripcionContiene))
+                        return;
+
             }
             if (objetoGasto.hasOwnProperty("etiquetasTiene")) {
-              if (objetoGasto.etiquetasTiene.length != 0){
-                    let devuelve = false;
 
-              for (let descripcion of objetoGasto.etiquetasTiene) {
-                    if (gasto.etiquetas.includes(descripcion)) {
-                        devuelve = true;
+                if (objetoGasto.etiquetasTiene.length != 0){
+                        let devuelve = false;
+
+                for (let descripcion of objetoGasto.etiquetasTiene) {
+                        if (gasto.etiquetas.includes(descripcion)) {
+                                devuelve = true;
                 }
               }
 
@@ -216,7 +235,6 @@ var IDGasto = 0;
             }
 
           }
-
                 return gasto;
 
           });
@@ -228,10 +246,29 @@ var IDGasto = 0;
           
       }   
 
-    function agruparGastos() {
 
+
+    function agruparGastos(periodo,fechaD,fechaH = Date.now(),...etiq) {
+           let objetoGasto = {
+               fechaDesde : Date.parse(fechaD),
+               fechaHasta : Date.parse(fechaH),
+               etiquetasTiene : [...etiq]
+           }
+        let gastosFiltrados = filtrarGastos(objetoGasto);
     }
 
+
+    filtrarGastos({});
+    filtrarGastos({fechaDesde: "2021-10-10"});
+    filtrarGastos({fechaDesde: "2021-10-10", fechaHasta: "2021-10-15"});
+    filtrarGastos({valorMinimo: 10});
+    filtrarGastos({valorMinimo: 10, valorMaximo: 50});
+    filtrarGastos({fechaDesde: "2021-10-10", fechaHasta: "2021-10-15", valorMaximo: 100});
+    filtrarGastos({descripcionContiene: "carne", valorMinimo: 10, valorMaximo: 50});
+    filtrarGastos({valorMaximo: 50, etiquetasTiene: ["alimentacion"]});
+    filtrarGastos({etiquetasTiene: ["alimentacion", "gasolina"]});
+    filtrarGastos({etiquetasTiene: ["alimentacion", "gasolina"], fechaDesde: "2021-10-10"});
+    filtrarGastos({etiquetasTiene: ["alimentacion", "gasolina"], fechaHasta: "2020-12-31", valorMaximo: 200});
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
