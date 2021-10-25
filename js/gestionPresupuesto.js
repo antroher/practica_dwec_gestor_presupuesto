@@ -179,10 +179,43 @@ function calcularBalance() {
 
     return balance;
 }
+                    // valor por defecto
+function agruparGastos(periodo = "mes", etiquetas = [], fechaDes = '', fechaHas = '') {
+// 1º comprueba los parámetros
+// 2º llama a filtrarGastos con esos parámetros
+// 3º reduce los gastos filtrados por periodo
+// 4º return objeto
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); //empieza en 0, por eso sumamos 1 (enero = 0)
+    let yyyy = today.getFullYear();
 
-function agruparGastos(periodo = "mes", etiquetas = [], fechDesd, fechaHas = Date.now()) {
+    let objeto = {};
+
+    if ((typeof fechaDes !== 'string') || isNaN(Date.parse(fechaDes)) || (typeof fechaDes == "undefined")) {
+        
+    }
 
 
+
+    let subconjG = filtrarGastos(objeto);
+
+    let reducido = subconjG.reduce(function (acu, item){
+        let per = item.obtenerPeriodoAgrupacion(periodo);
+
+        if (!acu.hasOwnProperty(per)) {
+            acu[per] = 0;
+        }
+        if (acu.hasOwnProperty(per)) {
+            if (isNaN(acu[per])) {
+                acu[per] = 0;
+            }
+            acu[per] = acu[per] + item.valor;
+        }
+        return acu;
+    }, {});
+
+    return reducido;
 }
 function filtrarGastos(objetoFiltrado) { // 1 param-> objeto que puede tener esas 6 propiedades
     if (objetoFiltrado != undefined && objetoFiltrado != null) {
@@ -192,7 +225,7 @@ function filtrarGastos(objetoFiltrado) { // 1 param-> objeto que puede tener esa
           if (gasto.fecha < Date.parse(objetoFiltrado.fechaDesde)) {  //si la fecha del objeto gasto del array gastos es menor a
             return;                             // la fecha del atributo fechaDesde del objeto pasado, filtrará desde esa fecha.
           } 
-        }// return: almacena ese gasto en el array de gastos filtrados
+        }// return: true => almacena ese gasto en el array de gastos filtrados
   
         if (objetoFiltrado.hasOwnProperty("fechaHasta")) {
           if (gasto.fecha > Date.parse(objetoFiltrado.fechaHasta) ) {
