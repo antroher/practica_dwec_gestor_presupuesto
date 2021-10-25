@@ -15,27 +15,27 @@ function mostrarPresupuesto()
     return "Tu presupuesto actual es de " + presupuesto + " €";
 }
 
-function CrearGasto(discount, value, valueDate, ...ArrayLabels)
+function CrearGasto(desc, value, fechaGasto = Date.now(), ...ArrayLabels)
 {
     if (value < 0 || isNaN(value)) value = 0;
-    if (valueDate === undefined || isNaN(Date.parse(valueDate))) valueDate = new Date(Date.now()).toISOString().substring(0, 16);
-    if (ArrayLabels === undefined) ArrayLabels = [];
-
+    if (ArrayLabels == undefined) ArrayLabels = new Array();
+    if (fechaGasto == undefined || isNaN(Date.parse(fechaGasto))) fechaGasto = new Date(Date.now());
+    
     let expense =
     {
-        description: discount + "",
+        descripcion: desc + "",
         valor: parseFloat(value),
-        fecha: Date.parse(valueDate),
-        etiquetas: ArrayLabels,
+        fecha: Date.parse(fechaGasto),
+        etiquetas: [...ArrayLabels],
 
-        mostrarGasto:function()
+        mostrarGasto: function()
         {
-            return "Gasto correspondiente a " + this.description + " con valor " + this.valor + " €";
+            return "Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €";
         },
 
-        actualizarDescripcion: function(discount)
+        actualizarDescripcion: function(desc)
         {
-            if (discount != null && discount != "") this.description = discount;
+            if (desc != null && desc != "") this.descripcion = desc;
         },
 
         actualizarValor: function(data)
@@ -45,32 +45,23 @@ function CrearGasto(discount, value, valueDate, ...ArrayLabels)
 
         mostrarGastoCompleto()
         {
-            let txt = "Gasto correspondiente a " + this.description + " con valor " + this.valor + " €.\n" + "Fecha: " + new Date(this.fecha).toLocaleString() + "\n" + "Etiquetas:\n";
+            let txt = "Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €.\n" + "Fecha: " + new Date(this.fecha).toLocaleString() + "\n" + "Etiquetas:\n";
 
-            if (this.etiquetas.length > 0)
-            {
-                this.etiquetas.forEach(show => {txt = txt + "- " + show + "\n"});
-            }
+            if (this.etiquetas.length > 0) this.etiquetas.forEach(show => {txt = txt + "- " + show + "\n"});
 
             return txt;
         },
 
         actualizarFecha(updateDate)
         {
-            if (!isNaN(Date.parse(updateDate)))
-            {
-                this.fecha = Date.parse(updateDate);
-            }
+            if (!isNaN(Date.parse(updateDate))) this.fecha = Date.parse(updateDate);
         },
 
         anyadirEtiquetas(...etiquetas)
         {
             etiquetas.forEach(label =>
             {
-                if (typeof(label) == "string" && !this.etiquetas.includes(label))
-                {
-                    this.etiquetas.push(label);
-                }
+                if (typeof(label) == "string" && !this.etiquetas.includes(label)) this.etiquetas.push(label);
             });
         },
 
@@ -78,10 +69,7 @@ function CrearGasto(discount, value, valueDate, ...ArrayLabels)
         {
             etiquetas.forEach(label =>
             {
-                if (this.etiquetas.includes(label))
-                {
-                    this.etiquetas.splice(this.etiquetas.indexOf(label), 1);
-                }
+                if (this.etiquetas.includes(label)) this.etiquetas.splice(this.etiquetas.indexOf(label), 1);
             });
         }
     };
@@ -107,11 +95,8 @@ function anyadirGasto(addExpense)
 function borrarGasto(idExpense)
 {
     gastos.forEach (exp =>
-        {
-            if (exp.id == idExpense)
-            {
-                gastos.splice(gastos.indexOf(exp), 1);
-            }
+    {
+        if (exp.id == idExpense) gastos.splice(gastos.indexOf(exp), 1);
     });
 }
 
@@ -119,10 +104,7 @@ function calcularTotalGastos()
 {
     let totalExp = 0;
 
-    gastos.forEach (exp =>
-        {
-            totalExp = parseFloat(totalExp + exp.valor);
-        });
+    gastos.forEach (exp => {totalExp = parseFloat(totalExp + exp.valor);});
 
     return totalExp;
 }
