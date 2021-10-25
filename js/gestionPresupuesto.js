@@ -152,10 +152,13 @@ function calcularBalance() {
 }
 
 function filtrarGastos(filtroEntrante) {    
-    if(filtroEntrante.hasOwnProperty("fechaDesde")) {
+    if (filtroEntrante.hasOwnProperty("fechaDesde")) {
         if (!isNaN(Date.parse(filtroEntrante.fechaDesde))) {
             let fechaDesde = Date.parse(filtroEntrante.fechaDesde);
         }
+    }
+    if (filtroEntrante.hasOwnProperty("fechaHasta")) {
+        
     }
 }
 
