@@ -229,9 +229,30 @@ function filtrarGastos(newFiltro)
     }
 
     let valorMinimo;
+    if (newFiltro.hasOwnPropery('valorMinimo'))
+    {
+        valorMinimo = newFiltro.valorMinimo;
+    }
+
     let valorMaximo;
+    if (newFiltro.hasOwnPropery('valorMaximo'))
+    {
+        valorMaximo = newFiltro.valorMaximo;
+    }
+
     let descripcionContiene;
+    if (newFiltro.hasOwnPropery('descripcionContiene'))
+    {
+        descripcionContiene = newFiltro.descripcionContiene;
+    }
+
     let etiquetasTiene;
+    if (newFiltro.hasOwnPropery('etiquetasTiene'))
+    {
+        etiquetasTiene = newFiltro.etiquetasTiene;
+    }
+
+    //BOOL TRUE Y FALSE
 }
 
 function agruparGastos()
