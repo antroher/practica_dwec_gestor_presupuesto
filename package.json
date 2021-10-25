@@ -5,7 +5,8 @@
     "scripts": {
         "test": "mocha",
         "test1": "mocha test/01_testIntroJSI.js",
-        "test2": "mocha test/02_testIntroJSII.js"
+        "test2": "mocha test/02_testIntroJSII.js",
+        "test3": "mocha test/03_testIntroJSIII.js"
     },
     "description": "Práctica de Gestión de Presupuestos del módulo de Desarrollo de Web en Entorno Cliente",
     "license": "GPL-3.0",
