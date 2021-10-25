@@ -96,7 +96,6 @@ function crearGasto(descrip, valor, fecha, ...etiquetas) {
             }
         }
     }
-
 }
 
 function listarGastos() {
@@ -131,6 +130,23 @@ function calcularBalance() {
     return balance;
 }
 
+function filtrarGastos(filtros) {
+    let resul = gastos.filter(item => item.descripcion == filtros.descripcionContiene);
+
+    resul = gastos.filter(item => item.valor > filtros.valorMinimo);
+    resul = gastos.filter(item => item.valor < filtros.valorMaximo);
+    resul = gastos.filter(item => item.fecha.getMilliseconds() > filtros.fechaDesde.getMilliseconds());
+    resul = gastos.filter(item => item.fecha.getMilliseconds() < filtros.fechaHasta.getMilliseconds());
+
+    for (let i = 0; i < filtros.etiquetasTiene.length; i++) {
+        for (let j = 0; j < gastos.length; j++) {
+            if (gastos[i].etiquetas.includes(filtros.etiquetasTiene[j])) {
+                results.push(gastos[i])
+            }
+        }
+    }
+}
+
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
@@ -142,5 +158,7 @@ export {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
