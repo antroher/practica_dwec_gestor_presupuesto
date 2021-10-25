@@ -115,61 +115,59 @@ function calcularBalance(){
     let res=presupuesto-calcularTotalGastos();
     return res;
 }
-function filtrarGastos(objeto){
-    let fecD, fecH, vMax, vMin, descrip, etiq;
-    if('fechaDesde' in objeto)
-        fecD=objeto.fechaDesde;
-    if('fechaHasta' in objeto)
-        fecH=objeto.fechaHasta;
-    if('valorMinimo' in objeto)
-        vMax=objeto.valorMinimo;
-    if('valorMaximo' in objeto)
-        vMin=objeto.valorMaximo;
-    if('descripcionContiene' in objeto)
-        descrip=objeto.descripcionContiene;
-    if('etiquetasTiene' in objeto)
-        etiq=objeto.etiquetasTiene;
-    
-    let res = gastos.filter(funtion(item))
+function filtrarGastos(objeto) {
+    if (objeto != undefined && objeto != null) 
     {
-        let ok = true;
-        if(fecD!==undefined)
-            if(item.fecha<fecD)
-                ok=false;
-        if(fecH!==undefined)
-            if(item.fecha>fecH)
-                ok=false;
-        if(vMax!==undefined)
-            if(item.valor>vMax)
-                ok=false;
-        if(vMin!==undefined)
-            if(item.valor<vMin)
-                ok=false;
-        if(etiq!==undefined)
-            if(!item.etiquetas.includes(etiq))
-                ok=false;
-        return ok;
-    }
-    return res;
-}
-function agruparGastos(periodo, etiquetas, fechaDes="2021-01-01", fechaHas=String(Date.now())){
-    if(periodo=="dia" || periodo=="anyo")
-        periodo=periodo;
-    else
-        periodo="mes";
+    let res = gastos.filter(item => {
+        if (objeto.hasOwnProperty('fechaDesde')) 
+        {
+          if (item.fecha < Date.parse(objeto.fechaDesde)) 
+            return;
+        }
+        if (objeto.hasOwnProperty("fechaHasta")) 
+        {
+          if (item.fecha > Date.parse(objeto.fechaHasta)) 
+          {
+            return;
+          }
+        }
+        if (objeto.hasOwnProperty("valorMinimo")) 
+        {
+          if (item.valor < objeto.valorMinimo) 
+            return;
+        }
+        if (objeto.hasOwnProperty("valorMaximo")) 
+        {
+          if (item.valor > objeto.valorMaximo)
+            return;
+        }
+        if (objeto.hasOwnProperty("descripcionContiene")) 
+        {
+          if (!item.descripcion.includes(objeto.descripcionContiene))
+            return;
+        }
+        if (objeto.hasOwnProperty("etiquetasTiene")) 
+        {
+            if (objeto.etiquetasTiene.length != 0)
+            {
+                let ok = false;
 
-    let arrayFelGastos = filtrarGastos({});
-    let arrayGastos = arrayFelGastos.filter(funtion(item))
-    {
-        let ok = true;
-        if(item.fecha<fechaDesde)
-            ok=false;
-        if(item.fecha>fechaHas)
-            ok=false;
-        if(!item.etiquetas.includes(etiquetas))
-            ok=false;
-        return ok;
-    }
+                for (let descripcion of objeto.etiquetasTiene) 
+                    if (item.etiquetas.includes(descripcion)) 
+                        ok = true;   
+                if (!ok) 
+                    return;
+            }
+        }
+        return item;
+    });
+        return res;
+    } 
+    else 
+        return gastos;
+};
+function agruparGastos(periodo="mes", etiquetas=[], fechaDes='', fechaHas=''){
+    let today = new Date();
     
 }
     //Acciones con la variable global "presupuesto"
