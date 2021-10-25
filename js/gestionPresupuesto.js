@@ -137,19 +137,19 @@ function filtrarGastos(filtro){
 
             if(filtro.hasOwnProperty("fechaHasta") && g.fecha<=Date.parse(filtro.fechaHasta)){
                 fechaHastaBool=true;
-            }else if(!filtro.hasOwnProperty("fechaHasta")) fechaHastaBool=true;
+            }else if(!filtro.hasOwnProperty("fechaHasta") || filtro.fechaHasta===undefined) fechaHastaBool=true;
 
             if(filtro.hasOwnProperty("valorMinimo") && g.valor>=filtro.valorMinimo){
                 valorMinimoBool=true;
-            } else if(!filtro.hasOwnProperty("valorMinimo")) valorMinimoBool=true;
+            } else if(!filtro.hasOwnProperty("valorMinimo") || filtro.valorMinimo===undefined) valorMinimoBool=true;
 
             if(filtro.hasOwnProperty("valorMaximo") && g.valor<=filtro.valorMaximo){
                 valorMaximoBool=true;
-            } else if(!filtro.hasOwnProperty("valorMaximo"))valorMaximoBool=true;
+            } else if(!filtro.hasOwnProperty("valorMaximo") || filtro.valorMaximo===undefined)valorMaximoBool=true;
 
             if(filtro.hasOwnProperty("descripcionContiene") && g.descripcion.includes(filtro.descripcionContiene)){
                 descBool=true;
-            } else if(!filtro.hasOwnProperty("descripcionContiene"))descBool=true;
+            } else if(!filtro.hasOwnProperty("descripcionContiene") || filtro.descripcion===undefined)descBool=true;
             
             if(filtro.hasOwnProperty("etiquetasTiene")){
                 if(filtro.etiquetasTiene.length!=0){
@@ -180,16 +180,9 @@ function agruparGastos(periodoP,etiquetasP,fechaDesdeP,fechaHastaP){
     }
     if(etiquetasP===undefined)etiquetasP=[];
     let gastosFiltrados=[];
-    let cad="";
-    console.log(etiquetasP);
-    //console.log(fechaDesdeP+" - "+fechaHastaP);
     let filtro={fechaDesde:fechaDesdeP,fechaHasta:fechaHastaP,etiquetasTiene:etiquetasP};
-    console.log(filtro)
     gastosFiltrados=filtrarGastos(filtro);
-    gastosFiltrados.forEach(g => {
-        cad+="\n "+new Date(g.fecha).toLocaleDateString()+" - "+g.etiquetas;
-    });
-    console.log(cad+" - "+gastosFiltrados.length);
+    
     return gastosFiltrados.reduce(function(prev,cur){
         
         if(prev.hasOwnProperty(cur.obtenerPeriodoAgrupacion(periodoP))){
@@ -197,7 +190,6 @@ function agruparGastos(periodoP,etiquetasP,fechaDesdeP,fechaHastaP){
         }else {
             prev[cur.obtenerPeriodoAgrupacion(periodoP)]=parseFloat(cur.valor);
         }
-        console.log(prev);
      return prev   
     },{});
 
