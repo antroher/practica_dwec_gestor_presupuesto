@@ -114,6 +114,27 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
                 })
             })
         },
+
+        obtenerPeriodoAgrupacion(periodo){
+
+            let gastoDate = new.Date(this.fecha);
+
+            switch(periodo){
+                case "dia":
+
+                    break;
+                case "mes":
+                    let month = getMonth(gastoDate) < 10 ? {getMonth(gastoDate) + 1}` : ${getMonth(getdate) + 1}}``${getMonth(gastoDate) < 10 ? 0${getMonth(gastoDate) + 1} : ${getMonth(getdate) + 1}}
+                    return `${getFullYear(gastoDate)}-`${getMonth(gastoDate) < 10 ? 0${getMonth(gastoDate) + 1}` : ${getMonth(getdate) + 1}}``${getMonth(gastoDate) < 10 ? 0${getMonth(gastoDate) + 1} : ${getMonth(getdate) + 1}};
+                case "anyo":
+
+                    return `${getFullYear(gastoDate)}`;
+                default:
+                    break;
+            }
+
+            //SWITCH PARA GENERAR LOS CASES
+        },
         
     }
     return gasto;
@@ -158,16 +179,29 @@ function calcularBalance(){
     return presupuesto - calcularTotalGastos();
 
 }
+
+function filtrarGastos(){
+
+}
+
+function agruparGastos(){
+
+}
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
 export   {
+    //Practica1
     mostrarPresupuesto,
     actualizarPresupuesto,
     CrearGasto,
+    //Practica2
     listarGastos,
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    //Practica3
+    filtrarGastos,
+    agruparGastos
 }
