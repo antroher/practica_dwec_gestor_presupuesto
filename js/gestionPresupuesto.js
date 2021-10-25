@@ -179,8 +179,8 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechDesd, fechaHas = Dat
 
 
 }
-function filtrarGastos(objetoFiltro) {
-    if (objetoFiltro != undefined && objetoFiltro != null && Object.entries(objetoFiltro).length != 0) {
+function filtrarGastos(objetoFiltrado) {
+    if (objetoFiltrado != undefined && objetoFiltrado != null) {
 
       let resultado = gastos.filter((gasto) => {
         if (objetoFiltro.hasOwnProperty("fechaDesde")) {
