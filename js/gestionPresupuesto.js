@@ -110,6 +110,11 @@ function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
 
         let fec = new Date(this.fecha); // convierte objeto en fecha (la fecha es un numero en formato TimeStamp)
 
+        /* 
+        let dia = String(fec.getDate()).padStart(2,'0');
+        let mes = ;
+        let anyo = ;
+        */
         let cadena = '';
         switch (periodo) {
             case 'dia':{ //aaaa-mm-dd           a los menores de 10 le colocamos un 0 delante para cumplir el formato
@@ -179,15 +184,15 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechDesd, fechaHas = Dat
 
 
 }
-function filtrarGastos(objetoFiltrado) {
+function filtrarGastos(objetoFiltrado) { // 1 param-> objeto que puede tener esas 6 propiedades
     if (objetoFiltrado != undefined && objetoFiltrado != null) {
-
-      let resultado = gastos.filter((gasto) => {
+// crea un array resultado que almacena lo que devuelve .filter
+      let gastosFiltrados = gastos.filter((gasto) => {  // función que recibe el objeto gasto como parámetro (recorre el array gastos)
         if (objetoFiltrado.hasOwnProperty("fechaDesde")) {
-          if (gasto.fecha < Date.parse(objetoFiltrado.fechaDesde)) {
-            return;
-          }
-        }
+          if (gasto.fecha < Date.parse(objetoFiltrado.fechaDesde)) {  //si la fecha del objeto gasto del array gastos es menor a
+            return;                             // la fecha del atributo fechaDesde del objeto pasado, filtrará desde esa fecha.
+          } 
+        }// return: almacena ese gasto en el array de gastos filtrados
   
         if (objetoFiltrado.hasOwnProperty("fechaHasta")) {
           if (gasto.fecha > Date.parse(objetoFiltrado.fechaHasta) ) {
@@ -228,75 +233,12 @@ function filtrarGastos(objetoFiltrado) {
         return gasto;
       });
   
-      return resultado;
+      return gastosFiltrados;
   
     } else {
       return gastos;
     }
 }
-/*
-function filtrarGastos(objeto){  // filtrar de los arrays  .filter()
-    // gasos.filter --> comparar entre todos los objetos gasto en el array gastos -->devuelve un array con los resultados
-
-    let fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene;
-// hay que ver qué propiedades de estas tiene el objeto
-// si variable local is unfefined, no hace nada
-// si cumple, función filter
-
-    if (typeof objeto != "undefined"){
-        return gastos;
-    }
-
-    if ('fechaDesde' in objeto){
-        fechaDesde = objeto.fechaDesde;
-
-    } else if ('fechaHasta' in objeto){
-        fechaHasta = objeto.fechaHasta;
-
-    } else if ('valorMinimo' in objeto){
-        valorMinimo = objeto.valorMinimo;
-
-    } else if ('valorMaxmo' in objeto){
-        valorMaximo = objeto.valorMaximo;
-
-    } else if ('descripcionContiene' in objeto){
-        descripcionContiene = objeto.descripcionContiene;
-
-    } else if ('etiquetasTiene'){
-        etiquetasTiene = objeto.etiquetasTiene;
-
-    }
-
-    let gastosFiltrados = gastos.filter(function(item){
-        let devuelve = true;
-
-        if (fechaDesde !== undefined){
-            if (item.fecha > Date.parse(fechaDesde)){
-                devuelve = false;
-            }
-        }
-        if (fechaHasta !== undefined){
-            if (item.fecha < Date.parse(fechaHasta)){
-                devuelve = false;
-            }
-        }
-        if (valorMinimo !== undefined){
-            if (item.valor < valorMinimo){
-                devuelve = false;
-            }
-        }
-        if (valorMaximo !== undefined){
-            if (item.valor > valorMaximo){
-                devuelve = false;
-            }
-        }
-        if (descripcionContiene !== undefined){
-
-        }
-    }
-    )
-}
-*/
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
