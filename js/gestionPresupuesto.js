@@ -167,7 +167,7 @@ var IDGasto = 0;
     }
 
     function filtrarGastos(objetoGasto) {
-        if (objetoGasto != undefined && objetoGasto != null && Object.entries(objetoGasto).length != 0) 
+        if (objetoGasto != undefined && objetoGasto != null) 
         {
           let gastosFiltrados = gastos.filter((gasto) => {
             if (objetoGasto.hasOwnProperty('fechaDesde')) {
@@ -217,14 +217,14 @@ var IDGasto = 0;
 
           }
 
-            return gasto;
-            
+                return gasto;
+
           });
       
-          return gastosFiltrados;
+            return gastosFiltrados;
       
-            } else 
-            return gastos;
+    } else 
+        return gastos;
           
       }   
 
