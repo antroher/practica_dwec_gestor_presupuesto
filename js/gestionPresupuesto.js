@@ -106,6 +106,10 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq)
                     }
                 }
             }
+        },
+    obtenerPeriodoAgrupacion(periodo)
+        {
+            
         }
     }
     return gasto;
@@ -145,6 +149,13 @@ function calcularBalance(){
     return balance;
 }
 
+function filtrarGastos(){
+
+}
+
+function agruparGastos(){
+
+}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -157,69 +168,8 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 
 }
-/*
-// TODO: Crear las funciones, objetos y variables indicadas en el enunciado
-
-// TODO: Variable global
-'use strict'
-var presupuesto=0;
-var gastos=[];
-
-function actualizarPresupuesto(pres){
-
-    if(pres>=0)
-    {
-        presupuesto=pres;
-        return presupuesto;
-    }
-    else
-    {
-        console.log("El presupuesto introducido no es válido.");
-        return -1;
-    }
-}
-function mostrarPresupuesto() {
-    return `Tu presupuesto actual es de ${presupuesto} €`;
-}
-
-function CrearGasto(desc, val){
-    if((parseFloat(val)<0) || isNaN(val))
-    {
-        val=0;
-    }
-    //Declaracíon del objeto
-    let gasto = {
-        //Propiedad
-        descripcion:desc,//propiedad:valor
-        valor:val,
-        //Metodos asociados al objeto
-        mostrarGasto(){
-            return 'Gasto correspondiente a '+gasto.descripcion+' con valor '+gasto.valor+' €';//gasto(objeto).descripcion(propiedad accedida mediante getter)
-        },
-        actualizarDescripcion(desc){
-            gasto.descripcion=desc;
-        },
-        actualizarValor(val){
-            if(parseFloat(val)>0)
-            {
-                gasto.valor=val;
-            }       
-        }
-      }
-    return gasto;
-}
-
-function listarGastos(){
-    return gastos;
-}
-
-export   {
-    mostrarPresupuesto,
-    actualizarPresupuesto,
-    CrearGasto,
-    listarGastos,
-}
-*/
