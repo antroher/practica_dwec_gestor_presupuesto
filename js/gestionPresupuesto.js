@@ -207,9 +207,18 @@ function calcularBalance()
     return balance;
 }
 
-function filtrarGastos()
+function filtrarGastos(newFiltro)
 {
-
+    
+    let FechaDesde1 = Date.parse(newFiltro.fechaDesde);
+    if (newFiltro.hasOwnPropery('fechaDesde'))
+    {
+        if(isNaN(FechaDesde1))
+        {
+            fechaDesde = Date.parse(newFiltro.fechaDesde);
+        }
+    }
+    
 }
 
 function agruparGastos()
