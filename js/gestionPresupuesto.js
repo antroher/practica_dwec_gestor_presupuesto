@@ -133,7 +133,7 @@ function filtrarGastos(filtro){
 
             if(filtro.hasOwnProperty("fechaDesde") && g.fecha>=Date.parse(filtro.fechaDesde)){
                 fechaDesdeBool=true;
-            }else if(!filtro.hasOwnProperty("fechaDesde"))fechaDesdeBool=true;
+            }else if(!filtro.hasOwnProperty("fechaDesde") || filtro.fechaDesde===undefined)fechaDesdeBool=true;
 
             if(filtro.hasOwnProperty("fechaHasta") && g.fecha<=Date.parse(filtro.fechaHasta)){
                 fechaHastaBool=true;
@@ -152,9 +152,13 @@ function filtrarGastos(filtro){
             } else if(!filtro.hasOwnProperty("descripcionContiene"))descBool=true;
             
             if(filtro.hasOwnProperty("etiquetasTiene")){
-                filtro.etiquetasTiene.forEach(et => {
-                        if(g.etiquetas.includes(et) && etiquetasBool==false)etiquetasBool=true;
-                });
+                if(filtro.etiquetasTiene.length!=0){
+                    filtro.etiquetasTiene.forEach(et => {
+                            if(g.etiquetas.includes(et) && etiquetasBool==false)etiquetasBool=true;
+                    });
+                }else {
+                    etiquetasBool=true;
+                }
             }else if(!filtro.hasOwnProperty("etiquetasTiene"))etiquetasBool=true;
             if(fechaDesdeBool && fechaHastaBool && valorMaximoBool && valorMinimoBool && etiquetasBool && descBool){
                 return g;
@@ -165,7 +169,39 @@ function filtrarGastos(filtro){
 
 }
 
-function agruparGastos(){}
+function agruparGastos(periodoP,etiquetasP,fechaDesdeP,fechaHastaP){
+    let fechaActual=new Date(Date.now());
+    if(periodoP!="dia" && periodoP!="anyo") periodoP="mes";
+    if(isNaN(Date.parse(fechaDesdeP)) ){
+        fechaDesdeP=undefined;//Funciona->"";"1970-01-01";
+    }
+    if(isNaN(Date.parse(fechaHastaP)) ){
+        fechaHastaP=fechaActual.getFullYear()+"-"+(fechaActual.getMonth()+1)+"-"+fechaActual.getDate();
+    }
+    if(etiquetasP===undefined)etiquetasP=[];
+    let gastosFiltrados=[];
+    let cad="";
+    console.log(etiquetasP);
+    //console.log(fechaDesdeP+" - "+fechaHastaP);
+    let filtro={fechaDesde:fechaDesdeP,fechaHasta:fechaHastaP,etiquetasTiene:etiquetasP};
+    console.log(filtro)
+    gastosFiltrados=filtrarGastos(filtro);
+    gastosFiltrados.forEach(g => {
+        cad+="\n "+new Date(g.fecha).toLocaleDateString()+" - "+g.etiquetas;
+    });
+    console.log(cad+" - "+gastosFiltrados.length);
+    return gastosFiltrados.reduce(function(prev,cur){
+        
+        if(prev.hasOwnProperty(cur.obtenerPeriodoAgrupacion(periodoP))){
+            prev[cur.obtenerPeriodoAgrupacion(periodoP)]=parseFloat(prev[cur.obtenerPeriodoAgrupacion(periodoP)])+parseFloat(cur.valor);
+        }else {
+            prev[cur.obtenerPeriodoAgrupacion(periodoP)]=parseFloat(cur.valor);
+        }
+        console.log(prev);
+     return prev   
+    },{});
+
+}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
