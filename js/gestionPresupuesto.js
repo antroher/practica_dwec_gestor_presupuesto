@@ -200,18 +200,63 @@ function calcularBalance()
     return bal;
 }
 
-function filtrarGastos()
+function filtrarGastos(objfil)
 {
-    let gTotales = calcularTotalGastos();
-    let bal = presupuesto - gTotales;
-    return bal;
+    let res = Object.assign(gastos);
+    if (typeof objfil === 'object' && objfil !== null && objfil !== undefined && Object.entries(objfil).length > 0) 
+    {
+        if (Object.hasOwn(objfil, 'fechaDesde') && typeof objfil.fechaDesde === 'string') {
+            res = res.filter((aux) => {
+                return aux.fecha >= (Date.parse(objfil.fechaDesde))
+            })
+        }
+        if (Object.hasOwn(objfil, 'fechaHasta') && typeof objfil.fechaHasta === 'string') {
+            res = res.filter((aux) => {
+                return aux.fecha <= Date.parse(objfil.fechaHasta);
+            })
+        }
+        if (Object.hasOwn(objfil, 'valorMinimo') && typeof objfil.valorMinimo === 'number') {
+            res = res.filter((aux) => {
+                return aux.valor >= objfil.valorMinimo
+            })
+        }
+        if (Object.hasOwn(objfil, 'valorMaximo') && typeof objfil.valorMaximo === 'number') {
+            res = res.filter((aux) => {                
+                return aux.valor <= objfil.valorMaximo
+            })
+        }
+        if (Object.hasOwn(objfil, 'descripcionContiene') && typeof objfil.descripcionContiene === 'string') 
+        {
+            res = res.filter((aux) => 
+            {
+                let a1 = (aux.descripcion).toLowerCase();
+                let a2 = (objfil.descripcionContiene).toLowerCase();
+                let b1 = a1.split(" ");
+                let a1join = b1.join('');
+                if (a1join.indexOf(a2) !== -1) 
+                    return true;
+            })
+        }
+        if (Object.hasOwn(objfil, 'etiquetasTiene') && Array.isArray(objfil.etiquetasTiene)) 
+        {
+            res = res.filter((aux) => {
+                for (let i = 0; i < objfil.etiquetasTiene.length; i++) 
+                {
+                    if (objfil.etiquetasTiene.includes(aux.etiquetas[i])) 
+                    {
+                        return true;
+                    }
+                }
+            })
+        }
+        return res;
+    }
+    return gastos;
 }
 
 function agruparGastos()
 {
-    let gTotales = calcularTotalGastos();
-    let bal = presupuesto - gTotales;
-    return bal;
+
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
