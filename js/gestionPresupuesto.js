@@ -1,4 +1,4 @@
-/*'use strict'
+'use strict'
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
@@ -46,6 +46,22 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq)
           return(`Gasto correspondiente a ${gasto.descripcion} con valor ${gasto.valor} €`);
       },
 
+    mostrarGastoCompleto()
+      {
+        let fec;
+        if(typeof this.fecha === 'string')                
+            fec = Date.parse(this.fecha);                  
+        else
+            fec = this.fecha;                    
+        let aux = "";
+        for(let elem of this.etiquetas) { 
+            aux += `- ${elem}\n`;
+        };        
+        let fecN = new Date(fec);   
+        let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fecN.toLocaleString())}\nEtiquetas:\n`;
+        return texto + aux;
+      },
+
     actualizarDescripcion(desc)
         {
             this.descripcion=desc;
@@ -73,10 +89,10 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq)
 
     actualizarFecha(fec)
         {
-            fec=date.parse(fec);
-            if(fec!=NaN)
+            fec=Date.parse(fec);
+            if(!isNaN(fec))
             {
-                fec=fecha;
+                this.fecha=fec;
             }
         },
     borrarEtiquetas(...etiq)
@@ -84,15 +100,16 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq)
             for(let elem of etiq)
             {
                 {
-                    if(this.etiquetas.includes(etiq))
+                    if(this.etiquetas.includes(elem))
                     {
                         this.etiquetas.splice(this.etiquetas.indexOf(elem),1)
                     }
                 }
             }
         }
+    }
+    return gasto;
 }
-
 function listarGastos(){
     return gastos;
 }
@@ -122,6 +139,7 @@ function calcularTotalGastos(){
     }
     return total;
 }
+
 function calcularBalance(){
     let balance= presupuesto- calcularTotalGastos();
     return balance;
@@ -139,10 +157,10 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance,
+    calcularBalance
 
 }
-*/
+/*
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
@@ -204,3 +222,4 @@ export   {
     CrearGasto,
     listarGastos,
 }
+*/
