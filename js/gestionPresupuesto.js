@@ -158,10 +158,22 @@ function calcularBalance(){
 
 }
 function filtrarGastos(gastos){
+    let gastosFiltrados=gastos.filter(function(g){
+        let fechaDesdeBool=false;
+        let fechaHastaBool=false;
+        let valorMaximoBool=false;
+        let valorMinimoBool=false;
+        let descBool=false;
+        let etiquetasBool=false;
+        if(filtro!==undefined){
 
+            if(filtro.hasOwnProperty("fechaDesde") && g.fecha>=Date.parse(filtro.fechaDesde)){
+                fechaDesdeBool=true;
+            }
+        
 }
 function agruparGastos(){
-    
+ 
 }
 
 
