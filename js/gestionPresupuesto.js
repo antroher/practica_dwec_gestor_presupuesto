@@ -207,17 +207,17 @@ function calcularBalance()
     return balance;
 }
 
-function filtrarGastos(newFiltro)
+function filtrarGastos(objeto)
 {
     
     let fDesde;
-    if (newFiltro.hasOwnPropery('fechaDesde'))
+    if (objeto.hasOwnProperty('fechaDesde'))
     {
-        if (typeof newFiltro.fechaDesde === 'string')
+        if (typeof objeto.fechaDesde === 'string')
         {
-            if(!isNaN(Date.parse(newFiltro.fechaDesde)))
+            if(!isNaN(Date.parse(objeto.fechaDesde)))
             {
-                fDesde = Date.parse(newFiltro.fechaDesde);
+                fDesde = Date.parse(objeto.fechaDesde);
             }
             else
             {
@@ -227,13 +227,13 @@ function filtrarGastos(newFiltro)
     }
 
     let fHasta;
-    if (newFiltro.hasOwnPropery('fechaHasta'))
+    if (objeto.hasOwnProperty('fechaHasta'))
     {
-        if (typeof newFiltro.fechaHasta === 'string')
+        if (typeof objeto.fechaHasta === 'string')
         {
-            if(!isNaN(Date.parse(newFiltro.fechaHasta)))
+            if(!isNaN(Date.parse(objeto.fechaHasta)))
             {
-                fHasta = Date.parse(newFiltro.fechaHasta);
+                fHasta = Date.parse(objeto.fechaHasta);
             }
             else
             {
@@ -243,27 +243,27 @@ function filtrarGastos(newFiltro)
     }
 
     let vMinimo;
-    if (newFiltro.hasOwnPropery('valorMinimo'))
+    if (objeto.hasOwnProperty('valorMinimo'))
     {
-        vMinimo = newFiltro.valorMinimo;
+        vMinimo = objeto.valorMinimo;
     }
 
     let vMaximo;
-    if (newFiltro.hasOwnPropery('valorMaximo'))
+    if (objeto.hasOwnProperty('valorMaximo'))
     {
-        vMaximo = newFiltro.valorMaximo;
+        vMaximo = objeto.valorMaximo;
     }
 
     let desCont;
-    if (newFiltro.hasOwnPropery('descripcionContiene'))
+    if (objeto.hasOwnProperty('descripcionContiene'))
     {
-        desCont = newFiltro.descripcionContiene;
+        desCont = objeto.descripcionContiene;
     }
 
     let etiqTiene;
-    if (newFiltro.hasOwnPropery('etiquetasTiene'))
+    if (objeto.hasOwnProperty('etiquetasTiene'))
     {
-        etiqTiene = newFiltro.etiquetasTiene;
+        etiqTiene = objeto.etiquetasTiene;
     }
 
     let ArrayGastos = gastos.filter(function(item)
@@ -296,7 +296,7 @@ function filtrarGastos(newFiltro)
             
         if (typeof vMinimo !== 'undefined')
         {
-            if (vrMinimo >= item.valor)
+            if (vMinimo >= item.valor)
             {
                 DevolverBool = true;
             }            
@@ -312,9 +312,17 @@ function filtrarGastos(newFiltro)
 
         if (typeof etiqTiene !== 'undefined')
         {
-            
+            for (let i = 0; i < etiquetas.length; i++)
+            {
+                for (let j = 0; j < item.etiqTiene.length; j++)
+                {
+                    if (etiquetas[i] == item.etiqTiene[j])
+                    {
+                        DevolverBool = true;
+                    }
+                }
+            }
         }
-
 
         return DevolverBool;            
     })
