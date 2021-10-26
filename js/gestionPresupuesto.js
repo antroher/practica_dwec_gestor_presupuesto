@@ -310,7 +310,7 @@ gasto2.obtenerPeriodoAgrupacion("dia");
         return reducido;
     }
 */
-   function agruparGastos(periodo = "mes", etiquetas = [], fechaDes, fechaHas=Date.now()) {
+   function agruparGastos(periodo = "mes", etiquetas = [], fechaDes, fechaHas=Date.now()) { //Obtenido gracias a ayuda de compañero ya que me estaba dando errores con los formatos de las fechas.
         let ResultadoFiltros = filtrarGastos({fechaDesde: fechaDes, fechaHasta:fechaHas, etiquetasTiene: etiquetas});
         let gastosAgrupados = ResultadoFiltros.reduce(function(acumulador, item)
         {
