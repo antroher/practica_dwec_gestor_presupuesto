@@ -100,98 +100,10 @@ function filtrarGastos(gastosFilter) {
                 }
             })
         }
-        //*************otra forma de hacer la de "etiquetasTiene"************************
-        // if (Object.hasOwn(gastosFilter, 'etiquetasTiene') && Array.isArray(gastosFilter.etiquetasTiene)) {
-        //     console.log("vaya, parece QUE SI ES UN ARRAY")
-        //     gastosFiltrados = gastosFiltrados.filter((x) => {
-        //         for (let i = 0; i < gastosFilter.etiquetasTiene.length; i++) {
-        //             for  (let gsFilt of gastosFilter.etiquetasTiene) {
-        //                 console.log(gsFilt)
-        //                 if (gsFilt === x.etiquetas[i]) {
-        //                     return true;
-        //                 }
-        //             }
-        //         }
-        //     })
-        // }
         return gastosFiltrados;
     }
     return gastos;
 }
-    // if (!gastosFilter === {} || !isNaN(Date.parse(gastosFilter.fechaDesde))) {
-    //     gastosFiltrados = gastos.filter((x) => {
-    //         let a = Date.parse(gastosFilter.fechaDesde); 
-    //         return a > x.fecha;
-    //     })
-    //     console.log(`Gastos filtrados: ` + gastosFiltrados.length)
-    //     console.log(`Gastos: ` + gastos.length)
-    //     gastosFiltrados = gastosFiltrados.filter((x) => {
-    //         return Date.parse(gastosFilter.fechaHasta) < x.fecha
-    //     })
-    //     gastosFiltrados = gastosFiltrados.filter((x) => {
-    //         return gastosFilter.valorMinimo > x.valor
-    //     })
-    //     gastosFiltrados = gastosFiltrados.filter((x) => {
-    //         return gastosFilter.valorMaximo < x.valor
-    //     })
-    //     gastosFiltrados = gastosFiltrados.filter((x) => {
-    //         return (x.descripcion).includes(gastosFilter.descripcion)
-    //     })
-    //     gastosFiltrados = gastosFiltrados.filter((x) => {
-    //         for (let i = 0; i < gastosFilter.length; i++) {
-    //             return gastosFilter.etiquetasTiene.find(x.etiquetas[i])
-    //         }
-    //     })
-
-        
-    // let gastosFiltrados;
-    // if (!gastosFilter === [] || !gastosFilter === undefined) {
-    //     gastosFiltrados = gastos.filter((x) => {
-    //         gastosFilter.fechaDesde > x.fecha
-    //     })
-    //     gastosFiltrados = gastosFiltrados.filter((x) => {
-    //         gastosFilter.fechaHasta < x.fecha
-    //     })
-    //     gastosFiltrados = gastosFiltrados.filter((x) => {
-    //         gastosFilter.valorMinimo > x.valor
-    //     })
-    //     gastosFiltrados = gastosFiltrados.filter((x) => {
-    //         gastosFilter.valorMaximo < x.valor
-    //     })
-    //     gastosFiltrados = gastosFiltrados.filter((x) => {
-    //         (x.descripcion).includes(gastosFilter.descripcion)
-    //     })
-    //     gastosFiltrados = gastosFiltrados.filter((x) => {
-    //         for (let i = 0; i < gastosFilter.length; i++) {
-    //             gastosFilter.etiquetasTiene.find(x.etiquetas[i])
-    //         }
-    //     })
-    //     return gastosFiltrados;
-    // } 
-    //     return gastos;
-    // if (!gastosFilter === [] || !gastosFilter === undefined) {
-    //     const gastosFiltrados = gastos.filter((x) => {
-    //     if (gastosFilter.fechaDesde < x.fecha) {
-    //         return true;
-    //     }
-    //     if (gastosFilter.fechaHasta > x.fecha) {
-    //         return true;
-    //     }
-    //     if (gastosFilter.valorMinimo < x.valor) {
-    //         return true;
-    //     }
-    //     if (gastosFilter.valorMaximo > x.valor) {
-    //         return true;
-    //     }
-    //     if ((gastosFilter.descripcion).includes(x.descripcionContiene)) {
-    //         return true;
-    //     }
-    //     if ((gastosFilter.descripcion).includes(x.etiquetasTiene)) {
-    //         return true;
-    //     }
-    // })
-    //     return gastosFiltrados;
-    // }
 
 function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
 
