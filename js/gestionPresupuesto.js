@@ -112,6 +112,7 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
     }
     return gasto;
 }
+
 function filtrarGastos(objeto){
     let fD;
     let fH;
@@ -154,8 +155,35 @@ function filtrarGastos(objeto){
     {
         desCon = objeto.descripcionContiene;
     }
+    if(objeto.hasOwnProperty("etiquetasTiene")){etiTie=objeto.etiquetasTiene}
 
+
+    /*FILTRADO*/
+
+    let results = gastos.filter(function(item){
+        // Si devuelve true el elemento es ingresado ak¡l array y la iteración
+        //Si ada es encontrado, devuelve un array vacio
+        let devuelve = true;
+        
+        if(typeof fD !== "undefined")
+            if(item.fecha < fD)
+                devuelve = false;
+    
+                if(typeof fH !== "undefined")
+            if(item.fecha > fH)
+                devuelve = false;
+    
+                if(item.includes(descr)){
+                    devuelve = true;
+                }
+                    if(item.includes(etiTie)){
+                        devuelve = true
+                    }
+        return devuelve;
+    });
 }
+
+
 
         function listarGastos(){
             return gastos;
@@ -193,9 +221,8 @@ function filtrarGastos(objeto){
                             
                             return result;
                         }
-                            function agruparGastos(){
-
-                            }
+                        function agruparGastos(){
+                          }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
