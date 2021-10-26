@@ -91,9 +91,33 @@ var IDGasto = 0;
                 let fec2 = new Date(fec1);   
                 let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fec2.toLocaleString())}\nEtiquetas:\n`;
                 return texto + aux;
-            },
-            obtenerPeriodoAgrupacion(periodo) {
-                let fec;
+            }}
+
+            gasto.obtenerPeriodoAgrupacion= function (periodo) { //AYUDA DE COMPAÑERO YA QUE CON MI FUNCIÓN NO ME HACÍA LA CONVERSIÓN CORRECTAMENTE AL STRING NECESARIO.
+                let resultado = "0";
+                let fechObj = new Date(this.fecha);
+                switch (periodo) {
+                  case "dia":
+                    return fechObj.toISOString().substring(0, 10);
+                  case "mes":
+                    return fechObj.toISOString().substring(0, 7);
+                  case "anyo":
+                    return fechObj.toISOString().substring(0, 4);
+                  default:
+                    console.log("Periodo erroneo.");
+                    break;
+                }
+            
+                return resultado;
+              };
+            
+              return gasto;
+            }
+               
+               
+               
+               
+                /* let fec; --> ME DA ERRORES ESTA FUNCION obtenerPeriodoAgrupacion
                 fec = new Date(this.fecha);
 
                 let cadena = "";
@@ -127,7 +151,7 @@ var IDGasto = 0;
 
         return gasto;
 
-    }
+    }*/
     /*------------------------------COMPROBACIÓN */ 
 let gasto1 = new CrearGasto("Gasto 1", 23.55, "2021-09-06", "casa", "supermercado" );
 let gasto2 = new CrearGasto("Gasto 2", 27.55, "2021-11-24", "casa", "supermercado", "comida" );
@@ -248,14 +272,61 @@ gasto2.obtenerPeriodoAgrupacion("dia");
 
 
 
-    function agruparGastos(periodo,fechaD,fechaH = Date.now(),...etiq) {
-           let objetoGasto = {
-               fechaDesde : Date.parse(fechaD),
-               fechaHasta : Date.parse(fechaH),
-               etiquetasTiene : [...etiq]
-           }
-        let gastosFiltrados = filtrarGastos(objetoGasto);
+  /*  function agruparGastos(periodo = "mes",fechaD,fechaH = Date.now(),etiq = []) { ME ESTÁ DANDO PROBLEMAS Y NO CONSIGO ARREGLARLO
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2,'0');
+        let mm = String(today.getMonth() + 1).padStart(2,'0');
+        let yyyy = today.getFullYear();
+
+        let objetoGasto = {};
+
+        if((typeof fechaD !== 'string')|| isNaN((Date.parse(fechaD)))|| typeof fechaD == "undefined")
+            fechaD = ""
+        else
+            objetoGasto.fechaDesde = fechaD;
+
+        if((typeof fechaH !== 'string')|| isNaN((Date.parse(fechaH)))|| typeof fechaH == "undefined")
+        {
+            fechaH = `${yyyy}-${mm}-${dd}`;
+            objetoGasto.fechaHasta = fechaH;
+        }
+        else
+            objetoGasto.fechaHasta = fechaH;
+    
+            
+        let subconjG = filtrarGastos({fechaDesde:fechaD,fechaHasta:fechaH,etiquetasTiene:etiq});
+
+        let reducido = subconjG.reduce(function(acu,item) {
+            let periodoAgrup = item.obtenerPeriodoAgrupacion(periodo);
+
+            if(acu.hasOwnProperty(periodo))
+                acu[periodoAgrup] += item.valor;
+
+            else
+                acu[periodoAgrup] = item.valor;
+                           
+            return acu
+        },{});
+        return reducido;
     }
+*/
+   function agruparGastos(periodo = "mes", etiquetas = [], fechaDes, fechaHas=Date.now()) {
+        let ResultadoFiltros = filtrarGastos({fechaDesde: fechaDes, fechaHasta:fechaHas, etiquetasTiene: etiquetas});
+        let gastosAgrupados = ResultadoFiltros.reduce(function(acumulador, item)
+        {
+            let periodoA = item.obtenerPeriodoAgrupacion(periodo);
+    
+            if (acumulador.hasOwnProperty(periodoA))
+                acumulador[periodoA] += item.valor;
+            else     
+                acumulador[periodoA] = item.valor;
+            
+            return acumulador
+            }, {});
+    
+        return gastosAgrupados;
+    }
+  
 
 
     filtrarGastos({});
