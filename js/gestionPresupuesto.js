@@ -207,9 +207,9 @@ function calcularBalance()
     return balance;
 }
 
-function filtrarGastos()
+function filtrarGastos(FechaFiltra)
 {
-
+    
 }
 
 function agruparGastos()
