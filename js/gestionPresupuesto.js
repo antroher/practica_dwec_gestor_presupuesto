@@ -214,7 +214,7 @@ function calcularBalance()
 
     return result;
 }
-function filtrarGastos({fechaDesde, fechasHasta, valorMin, valorMax, descripcionContiene, ...etiquetasTiene})
+function filtrarGastos({})
 {
     return gastos;
 }
