@@ -252,7 +252,44 @@ function filtrarGastos(newFiltro)
         etiquetasTiene = newFiltro.etiquetasTiene;
     }
 
-    //BOOL TRUE Y FALSE
+    let ArrayGastos = gastos.filter((gasto) => 
+    {
+        let DevolverBool = false;
+
+        if (typeof fechaDesde !== undefined && fechaDesde <= gasto.fecha)
+        {
+            DevolverBool = true;
+        }
+
+        if (typeof fechaHasta !== undefined && fechaHasta >= gasto.fecha)
+        {
+            DevolverBool = true;
+        }
+
+        if (typeof valorMaximo !== undefined && valorMaximo <= gasto.valor)
+        {
+            DevolverBool = true;
+        }
+            
+        if (typeof valorMinimo !== undefined && valorMinimo >= gasto.valor)
+        {
+            DevolverBool = true;
+        }
+            
+        if (typeof descripcionContiene !== undefined && gasto.descripcion.includes(descripcionContiene))
+        {
+            DevolverBool = true;
+        }
+
+        return DevolverBool;            
+    })
+
+    if (ArrayGastos.length === 0)
+    {
+        ArrayGastos = [...gastos];
+    }
+
+    return ArrayGastos;
 }
 
 function agruparGastos()
