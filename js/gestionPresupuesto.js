@@ -257,18 +257,21 @@ function filtrarGastos(objeto)
     let desCont;
     if (objeto.hasOwnProperty('descripcionContiene'))
     {
-        desCont = objeto.descripcionContiene;
+        if(isNaN(objeto.descripcionContiene))
+        {
+            desCont = objeto.descripcionContiene;
+        }        
     }
 
     let etiqTiene;
     if (objeto.hasOwnProperty('etiquetasTiene'))
     {
-        etiqTiene = objeto.etiquetasTiene;
+        etiqTiene = [...objeto.etiquetasTiene];
     }
 
     let ArrayGastos = gastos.filter(function(item)
     {
-        let DevolverBool = true;
+        let DevolverBool = true;       
 
         if (typeof fDesde !== 'undefined')
         {
@@ -286,51 +289,55 @@ function filtrarGastos(objeto)
             }
         }
 
-        if (typeof vMaximo !== 'undefined')
-        {
-            if (vMaximo <= item.valor)
-            {
-                DevolverBool = true;
-            }
-        }
-            
         if (typeof vMinimo !== 'undefined')
         {
-            if (vMinimo >= item.valor)
+            if (item.valor < vMinimo)
             {
-                DevolverBool = true;
+                DevolverBool = false;
             }            
         }
+
+        if (typeof vMaximo !== 'undefined')
+        {
+            if (item.valor > vMaximo)
+            {
+                DevolverBool = false;
+            }
+        }       
             
         if (typeof desCont !== 'undefined')
         {
-            if (item.descripcion.includes(desCont))
+            if (!item.descripcion.includes(desCont))
             {
-                DevolverBool = true;
+                DevolverBool = false;
             }            
         }
-
+        
+        let existe;
         if (typeof etiqTiene !== 'undefined')
-        {
-            for (let i = 0; i < etiquetas.length; i++)
+        {            
+            if (etiqTiene.length > 0)
             {
-                for (let j = 0; j < item.etiqTiene.length; j++)
+                for (let i of etiqTiene)
                 {
-                    if (etiquetas[i] == item.etiqTiene[j])
+                    for (let j of item.etiquetas)
                     {
-                        DevolverBool = true;
-                    }
-                }
-            }
+                        if (i === j)
+                        {
+                            existe = true;
+                        }
+                    }                    
+                }  
+            }                      
+        }
+        else 
+        {
+            existe = true;
         }
         
-        return DevolverBool;            
-    })
+        return DevolverBool && existe; 
 
-    if (ArrayGastos.length === 0)
-    {
-        ArrayGastos = [...gastos];
-    }
+    });    
 
     return ArrayGastos;
 
@@ -338,6 +345,7 @@ function filtrarGastos(objeto)
 
 function agruparGastos()
 {
+
 
 }
 
