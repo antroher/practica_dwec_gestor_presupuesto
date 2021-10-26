@@ -154,6 +154,24 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas)
                 }
             }
         }
+        
+        this.obtenerPeriodoAgrupacion = function(Periodo){
+
+            let  nueva_fecha= new Date(fecha).toISOString();
+            let fecha_agrupada = "";
+    
+            if(Periodo == "dia"){
+                fecha_agrupada = nueva_fecha.substr(0,10);
+            }else if(Periodo == "mes"){
+                fecha_agrupada = nueva_fecha.substr(0,7);
+            }else if(Periodo == "anyo"){
+                fecha_agrupada = nueva_fecha.substr(0,4);
+            }
+            return fecha_agrupada;
+        }
+    }
+        
+        
 }
 
        
