@@ -256,15 +256,24 @@ function filtrarGastos(newFiltro)
     {
         let DevolverBool = false;
 
-        if (typeof fechaDesde !== undefined && fechaDesde <= gasto.fecha)
+        if (typeof fechaDesde !== undefined && typeof fechaHasta !== undefined)
         {
-            DevolverBool = true;
+            if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha)
+            {
+                DevolverBool = true;
+            }
         }
-
-        if (typeof fechaHasta !== undefined && fechaHasta >= gasto.fecha)
+        else 
         {
-            DevolverBool = true;
-        }
+            if (typeof fechaDesde !== undefined && fechaDesde <= gasto.fecha)
+            {
+                DevolverBool = true;
+            }
+            if (typeof fechaHasta !== undefined && fechaHasta >= gasto.fecha)
+            {
+                DevolverBool = true;
+            }   
+        }        
 
         if (typeof valorMaximo !== undefined && valorMaximo <= gasto.valor)
         {
