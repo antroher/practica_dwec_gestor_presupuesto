@@ -1,5 +1,5 @@
 {
-<<<<<<< HEAD
+/*<<<<<<< HEAD
     // Use IntelliSense to learn about possible attributes.
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
@@ -14,7 +14,7 @@
         }
     ]
 }
-=======
+=======*/
     "version": "0.2.0",
     "configurations": [
         {
@@ -67,4 +67,4 @@
         }
     ]
 }
->>>>>>> a0eac078740605458cb740036753b785e732c8c5
+//>>>>>>> a0eac078740605458cb740036753b785e732c8c5

@@ -162,22 +162,23 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     let maximo;
     let ParamDesc;
     let etiquetas;
-    let gastosfiltrados;
+    let gastosfiltrados = [];
     
-    
-
-        if(miObjeto.hasOwnProperty('fechaDesde')){
-            if(typeof miObjeto.fechaDesde === 'string'){
+    if (!miObjeto === {})
+    {
+        console.log(`${fechaDesde}`);
+        if(miObjeto.hasOwnProperty(`fechaDesde`)){
+            if(typeof miObjeto.fechaDesde === `string`){
                if(isNaN(Date.parse(miObjeto.fechaDesde))){ //si me pasan una fecha que no es valida no puedo filtrar
                 //en el caso de no ser un número
                 fechaDesde = undefined;
                }
                else{ //si no, si es un número
+                //console.log
                 fechaDesde = Date.parse(miObjeto.fechaDesde);
                }
             }
         }
-        console.log("FECHADESDE :" +fechaDesde);
 
         if(miObjeto.hasOwnProperty(`fechaHasta`)){
             if(typeof miObjeto.fechaHasta === `string`){
@@ -190,16 +191,16 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
                }
             }
         }
-        else if(miObjeto.hasOwnProperty(`valorMinimo`)){
+        if(miObjeto.hasOwnProperty(`valorMinimo`)){
             if(isNaN(miObjeto.valorMinimo)){minimo = miObjeto.valorMinimo;} //is NaN si no es un número
         }
-        else if(miObjeto.hasOwnProperty(`valorMaximo`)){
+        if(miObjeto.hasOwnProperty(`valorMaximo`)){
             if(isNaN(miObjeto.valorMaximo)){maximo = miObjeto.valorMaximo;}
         }
-        else if(miObjeto.hasOwnProperty(`descripcionContiene`)){
+        if(miObjeto.hasOwnProperty(`descripcionContiene`)){
             if(!isNaN(miObjeto.descripcionContiene)){ParamDesc = miObjeto.descripcionContiene}
         }
-        else if(miObjeto.hasOwnProperty(`etiquetasTiene`)){
+        if(miObjeto.hasOwnProperty(`etiquetasTiene`)){
             etiquetas = [...miObjeto.etiquetasTiene];
         }
 
@@ -238,8 +239,12 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         
             return devuelve;
         });
-        return gastosfiltrados;
     }
+    else{
+        gastosfiltrados = [...gastos];
+        return gastosfiltrados;
+    } 
+}
     //substring()método devuelve un subconjunto de un objeto String
     //PathState js
     function agruparGastos(objeto){
