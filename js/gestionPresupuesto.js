@@ -172,8 +172,11 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechaDes, fechaHas=Date.
     {
         let periodoA = item.obtenerPeriodoAgrupacion(periodo);
 
-        if (acumulador.hasOwnProperty(periodoA))
-            acumulador[periodoA] += item.valor;
+        if ((acumulador.hasOwnProperty(periodoA))) 
+        {
+            if (!isNaN(acumulador[periodoA]))
+                acumulador[periodoA] += item.valor;
+        }
         else     
             acumulador[periodoA] = item.valor;
         
