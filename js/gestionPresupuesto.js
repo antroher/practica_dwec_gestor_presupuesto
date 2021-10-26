@@ -151,28 +151,276 @@ function calcularBalance() {
     return (presupuesto - calcularTotalGastos())
 }
 
-function filtrarGastos({fechaDesde, fechaHasta, valorMinimo,
-                        valorMaxima, descripcionContiene, ...etiquetasTiene}) {
-    
-    let filtro = {
-        filtroFechaDesde: (!isNaN(Date.parse(fechaDesde))) ? Date.parse(fechaDesde) : undefined,
-        filtroFechaHasta: (!isNaN(Date.parse(fechaHasta))) ? Date.parse(fechaHasta) : undefined,
-        filtroValorMinimo: valorMinimo,
-        filtroValorMaximo: valorMaxima,
-        filtroDescripcionContiene: descripcionContiene,
-        filtroEtiquetasTiene: [...etiquetasTiene]
+function filtrarGastos(filtroEntrante) {    
+    //Creación de variables.
+    let fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene;
+    let tieneEtiquetas = false;
+    let caseString = ""; //Variable para usarla luego en el switch para las diferentes posibilidades de filtrado.
+
+    //Comprobación y asignacion de las propiedades del objeto entrante.
+    if (filtroEntrante.hasOwnProperty("fechaDesde")) {
+        if (!isNaN(Date.parse(filtroEntrante.fechaDesde))) {
+            fechaDesde = Date.parse(filtroEntrante.fechaDesde);
+            caseString += "a";
+        }
     }
-    let valoresFiltro = Object.values(filtro);
-    let isEmpty = false;
-    valoresFiltro.forEach()
-    if ()
-    gastos.filterhadesfechaDesdeEntrante,((gasto) => {
-        
+    if (filtroEntrante.hasOwnProperty("fechaHasta")) {
+        if (!isNaN(Date.parse(filtroEntrante.fechaHasta))) {
+            fechaHasta = Date.parse(filtroEntrante.fechaHasta);
+            caseString += "b";
+        }
+    }
+    if (filtroEntrante.hasOwnProperty("valorMinimo")) {
+        valorMinimo = filtroEntrante.valorMinimo;
+        caseString += "c";
+    }
+    if (filtroEntrante.hasOwnProperty("valorMaximo")) {
+        valorMaximo = filtroEntrante.valorMaximo;
+        caseString += "d";
+    }
+    if (filtroEntrante.hasOwnProperty("descripcionContiene")) {
+        descripcionContiene = filtroEntrante.descripcionContiene;
+        caseString += "e";
+    }
+    if (filtroEntrante.hasOwnProperty("etiquetasTiene")) {
+        etiquetasTiene = filtroEntrante.etiquetasTiene;
+        tieneEtiquetas = true;
+    }
+
+    //Filtrado del array de gastos.
+    let arrayDevolver = gastos.filter((gasto) => {
+        //Creación de booleanos para su posterior uso.
+        let boolSwitch = false;
+        let boolEtiquetas = false;
+        let tienePropiedades = (caseString === "") ? false : true; 
+        let boolFilter = false;
+
+        //Comprobación de si tiene etiquetas.
+        if (tieneEtiquetas) {
+            etiquetasTiene.forEach((etiqueta) => {
+                if (gasto.etiquetas.includes(etiqueta)) {
+                    boolEtiquetas = true;
+                }
+            });
+        }
+
+        //Switch para comprobar la cantidad de propiedades.
+        switch(caseString) {
+            case "abcde":
+                if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha) {
+                    if(valorMaximo >= gasto.valor && valorMinimo <= gasto.valor) {
+                        if(gasto.descripcion.includes(descripcionContiene)) {
+                            boolSwitch = true;
+                        }
+                    }
+                }
+                break;
+            case "abcd":
+                if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha) {
+                    if(valorMaximo >= gasto.valor && valorMinimo <= gasto.valor) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "abce":
+                if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha) {
+                    if (valorMinimo <= gasto.valor) {
+                        if (gasto.descripcion.includes(descripcionContiene)) {
+                            boolSwitch = true;
+                        }
+                    }
+                }
+                break;
+            case "abc":
+                if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha) {
+                    if(valorMinimo <= gasto.valor) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "abd":
+                if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha) {
+                    if (valorMaximo >= gasto.valor) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "abe":
+                if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha) {
+                    if (gasto.descripcion.includes(descripcionContiene)) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "ab":
+                if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha) {
+                    boolSwitch = true;
+                }
+                break;
+            case "ac":
+                if (fechaDesde <= gasto.fecha) {
+                    if (valorMinimo <= gasto.valor) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "ad":
+                if (fechaDesde <= gasto.fecha) {
+                    if (valorMaximo >= gasto.valor) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "ae":
+                if (fechaDesde <= gasto.fecha) {
+                    if (gasto.descripcion.includes(descripcionContiene)) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "bcde":
+                if (fechaHasta >= gasto.fecha) {
+                    if (valorMaximo >= gasto.valor && valorMinimo <= gasto.valor) {
+                        if (gasto.descripcion.includes(descripcionContiene)) {
+                            boolSwitch = true;
+                        }
+                    }
+                }
+                break;
+            case "bcd":
+                if (fechaHasta >= gasto.fecha) {
+                    if (valorMaximo >= gasto.valor && valorMinimo <= gasto.valor) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "bce":
+                if (fechaHasta >= gasto.fecha) {
+                    if (valorMinimo <= gasto.valor) {
+                        if (gasto.descripcion.includes(descripcionContiene)) {
+                            boolSwitch = true;
+                        }
+                    }
+                }
+                break;
+            case "bc":
+                if (fechaHasta >= gasto.fecha) {
+                    if (valorMinimo <= gasto.valor) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "bd":
+                if (fechaHasta >= gasto.fecha) {
+                    if (valorMaximo >= gasto.valor) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "be":
+                if (fechaHasta >= gasto.fecha) {
+                    if (gasto.descripcion.includes(descripcionContiene)) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "cde":
+                if (valorMinimo <= gasto.valor && valorMaximo >= gasto.valor) {
+                    if (gasto.descripcion.includes(descripcionContiene)) {
+                        boolSwitch = true;
+                    }    
+                }
+                break;
+            case "cd":
+                if (valorMinimo <= gasto.valor && valorMaximo >= gasto.valor) {
+                    boolSwitch = true;
+                }
+                break;
+            case "ce":
+                if (valorMinimo <= gasto.valor) {
+                    if (gasto.descripcion.includes(descripcionContiene)) {
+                        boolSwitch = true;
+                    }    
+                }
+                break;
+            case "de":
+                if (valorMaximo >= gasto.valor) {
+                    if (gasto.descripcion. includes(descripcionContiene)) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "a":
+                if (fechaDesde <= gasto.fecha) {
+                    boolSwitch = true;
+                }
+                break;
+            case "b": 
+                if (fechaHasta >= gasto.fecha) {
+                    boolSwitch = true;
+                }
+                break;
+            case "c":
+                if (valorMinimo <= gasto.valor) {
+                    boolSwitch = true;
+                }
+                break;
+            case "d":
+                if (valorMaximo >= gasto.valor) {
+                    boolSwitch = true;
+                }
+                break;
+            case "e":
+                if (gasto.descripcion.includes(descripcionContiene)) {
+                    boolSwitch = true;
+                }
+                break;
+        }
+
+        //Asignando el bool de return dependiendo de si se han introducido etiquetas o propiedades.
+        if (tieneEtiquetas && tienePropiedades) {
+            if (boolEtiquetas && boolSwitch)
+                boolFilter = true;
+            else
+                boolFilter = false;
+        }
+        else if (tieneEtiquetas && !tienePropiedades) {
+            if (boolEtiquetas)
+                boolFilter = true;
+            else
+                boolFilter = false;
+        }
+        else if (!tieneEtiquetas && tienePropiedades) {
+            if (boolSwitch)
+                boolFilter = true;
+            else
+                boolFilter = false;
+        }
+
+        return boolFilter;
     })
+
+    //Si se introduce un objeto vacio se devuelve el array con todos los gastos.
+    if (arrayDevolver.length === 0) {
+        arrayDevolver = [...gastos];
+    }
+
+    //Return de array de gastos filtrados.
+    return arrayDevolver;
 }
 
-function agruparGastos() {
+function agruparGastos(periodo, etiquetasEntrante = [], fechaDesdeEntrante = "", fechaHastaEntrante = "") {
+    //Creación de objeto gasto.
+    let gasto = {
+        etiquetasTiene: etiquetasEntrante,
+        fechaDesde: (!isNaN(Date.parse(fechaDesdeEntrante)))? Date.parse(fechaDesdeEntrante) : undefined,
+        fechaHasta: (!isNaN(Date.parse(fechaHastaEntrante))) ? Date.parse(fechaHastaEntrante) : undefined
+    }
 
+    //Creación de array de gastos filtrados mediante la función filtrarGastos()
+    let gastosFiltrados = filtrarGastos(gasto);
+
+    
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.

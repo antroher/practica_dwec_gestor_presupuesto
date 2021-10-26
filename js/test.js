@@ -1,5 +1,5 @@
-// function filtrarGastos({fechaDesdeEntrante = undefined, fechaHastaEntrante = undefined, valorMinimoEntrante = undefined,
-//     valorMaximoEntrante = undefined, descripcionContieneEntrante = undefined}) {
+// function filtrarGastos({fechaDesdeEntrante, fechaHastaEntrante, valorMinimoEntrante,
+//     valorMaximoEntrante, descripcionContieneEntrante}) {
 
 // let filtro = {
 // fechaDesde: (!isNaN(Date.parse(fechaDesdeEntrante))) ? Date.parse(fechaDesdeEntrante) : undefined,
@@ -11,48 +11,108 @@
 
     
 // }
-// console.log(typeof filtro.fechaDesde);
-// console.log(typeof filtro.valorMaximo);
-// console.log(typeof filtro.valorMinimo)
+// return filtro;
 // }
-function CrearGasto(descripcionEntrante, valorEntrante = 0, fechaEntrante = Date.now(), ...etiquetasEntrante) {
-    if (valorEntrante < 0 || isNaN(valorEntrante)) {
-        valorEntrante = 0;
+// let obj2 = filtrarGastos({valorMinimoEntrante: 60})
+// let obj = filtrarGastos({});
+
+// let valoresFiltro = Object.values(obj);
+// // let isEmpty = false;
+// valoresFiltro.forEach((x) => {
+//     console.log(typeof x);
+// });
+// let gastos = [];
+// gastos.push(obj2);
+// gastos.push(obj);
+
+
+// let array1 = [obj2, obj];
+// let array2 = [obj];
+// let arrayFinal = [...array1, ...array2]
+
+// console.log(arrayFinal);
+
+// let array = [1,2,3];
+
+
+
+// // let array = gastos.filter((x, index) => {
+// //     return x.valorMinimo === 60;
+// // }) 
+// // let arrayjunto = [...array, ...array1];
+// // console.log(arrayjunto);
+// // console.log(array);
+// // console.log(array.length)
+
+// // let unde = undefined;
+// // let numb = -2;
+// // let isEmpty = (numb > undefined) ? true : false;
+
+// // function test() {
+// //     return array = [];
+// // }
+// // let ye = test();
+// // console.log(ye)
+
+
+
+function creacionObjeto (objeto) {
+    console.log(objeto.fechaDesde);
+    console.log(objeto.fechaHasta);
+    console.log(objeto.hasOwnProperty("fechaDesde"));
+    console.log(objeto.hasOwnProperty( "precio"));
+}
+
+creacionObjeto({fechaDesde: 3, fechaHasta: 4})
+
+
+ let gastos = [3, 4, undefined, "precio", "hola", null];
+let array = [3, 4, undefined, "precio", "hola", null];
+
+let arrayfiltrado = array.filter((item) => {
+    let devolver = false;
+
+    if (item === "precio")
+        devolver = true;
+    if (item === undefined)
+        devolver = true;
+    if (item >= 3)
+        devolver = true;
+
+    return devolver;
+});
+
+console.log(arrayfiltrado);
+
+let hola, adios, quetal;
+hola = "hola";
+adios = "adios";
+quetal = "quetal";
+console.log(hola);
+console.log(adios);
+console.log(quetal);
+let fecha = Date.parse("2021-09-26");
+let fecha2 = Date.parse("2021-09-15");
+console.log(fecha.toLocaleString());
+console.log(fecha2.toLocaleString());
+
+1632614400000
+1632614400000
+
+function crear(objeto){
+    let d;
+
+    if (objeto.hasOwnProperty("fecha"))
+    {
+        d = objeto.fecha
     }
-    if (typeof fechaEntrante === "string") {
-        if (isNaN(Date.parse(fechaEntrante))) {
-            fechaEntrante = Date.now();
-        }
-        else {
-            fechaEntrante = Date.parse(fechaEntrante);
-        }
-    }
-    let gasto = {
-        descripcion: descripcionEntrante,
-        valor: parseFloat(valorEntrante),
-        etiquetas: [...etiquetasEntrante],
-        fecha: fechaEntrante
+    
+    if (typeof d !== "undefined"){
+        console.log("esta definido")
     }
 }
 
-
-function filtrarGastos({fechaDesde, fechaHasta, valorMinimo,
-    valorMaxima, descripcionContiene, ...etiquetasTiene}) {
-
-let filtro = {
-filtroFechaDesde: (!isNaN(Date.parse(fechaDesde))) ? Date.parse(fechaDesde) : undefined,
-filtroFechaHasta: (!isNaN(Date.parse(fechaHasta))) ? Date.parse(fechaHasta) : undefined,
-filtroValorMinimo: valorMinimo,
-filtroValorMaximo: valorMaxima,
-filtroDescripcionContiene: descripcionContiene,
-filtroEtiquetasTiene: [...etiquetasTiene]
-}}
-let gasto1 = new filtrarGastos({descripcionContiene: "Seguro", valorMinimo: 10, valorMaximo: 200} );
-let valoresFiltro = Object.values(gasto1);
-let isEmpty = false;
-valoresFiltro.forEach((valor) => {
-    if (typeof valor === undefined)
-        isEmpty = true;
-})
+crear({fecha: 3})
+crear({});
 
 console.log(isEmpty)
