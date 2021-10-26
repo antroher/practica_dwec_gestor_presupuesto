@@ -152,10 +152,12 @@ function calcularBalance() {
 }
 
 function filtrarGastos(filtroEntrante) {    
+    //Creación de variables.
     let fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene;
     let tieneEtiquetas = false;
-    let caseString = "";
+    let caseString = ""; //Variable para usarla luego en el switch para las diferentes posibilidades de filtrado.
 
+    //Comprobación y asignacion de las propiedades del objeto entrante.
     if (filtroEntrante.hasOwnProperty("fechaDesde")) {
         if (!isNaN(Date.parse(filtroEntrante.fechaDesde))) {
             fechaDesde = Date.parse(filtroEntrante.fechaDesde);
@@ -185,10 +187,15 @@ function filtrarGastos(filtroEntrante) {
         tieneEtiquetas = true;
     }
 
+    //Filtrado del array de gastos.
     let arrayDevolver = gastos.filter((gasto) => {
+        //Creación de booleanos para su posterior uso.
         let boolSwitch = false;
         let boolEtiquetas = false;
-        
+        let tienePropiedades = (caseString === "") ? false : true; 
+        let boolFilter = false;
+
+        //Comprobación de si tiene etiquetas.
         if (tieneEtiquetas) {
             etiquetasTiene.forEach((etiqueta) => {
                 if (gasto.etiquetas.includes(etiqueta)) {
@@ -197,6 +204,7 @@ function filtrarGastos(filtroEntrante) {
             });
         }
 
+        //Switch para comprobar la cantidad de propiedades.
         switch(caseString) {
             case "abcde":
                 if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha) {
@@ -368,18 +376,37 @@ function filtrarGastos(filtroEntrante) {
                 }
                 break;
         }
-        
-        if (tieneEtiquetas && boolEtiquetas && boolSwitch)
-            return true;
-        else if (tieneEtiquetas === false && boolSwitch)
-            return true;
-        else
-            return false;
+
+        //Asignando el bool de return dependiendo de si se han introducido etiquetas o propiedades.
+        if (tieneEtiquetas && tienePropiedades) {
+            if (boolEtiquetas && boolSwitch)
+                boolFilter = true;
+            else
+                boolFilter = false;
+        }
+        else if (tieneEtiquetas && !tienePropiedades) {
+            if (boolEtiquetas)
+                boolFilter = true;
+            else
+                boolFilter = false;
+        }
+        else if (!tieneEtiquetas && tienePropiedades) {
+            if (boolSwitch)
+                boolFilter = true;
+            else
+                boolFilter = false;
+        }
+
+        return boolFilter;
     })
-if (arrayDevolver.length === 0) {
-    arrayDevolver = [...gastos];
-}
-return arrayDevolver;
+
+    //Si se introduce un objeto vacio se devuelve el array con todos los gastos.
+    if (arrayDevolver.length === 0) {
+        arrayDevolver = [...gastos];
+    }
+
+    //Return de array de gastos filtrados.
+    return arrayDevolver;
 }
 
 function agruparGastos() {

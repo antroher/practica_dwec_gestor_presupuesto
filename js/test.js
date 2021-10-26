@@ -106,6 +106,7 @@ function crear(objeto){
     {
         d = objeto.fecha
     }
+    
     if (typeof d !== "undefined"){
         console.log("esta definido")
     }
