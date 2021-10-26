@@ -206,7 +206,17 @@ function calcularBalance()
     balance = presupuesto - calcularTotalGastos();
 
     return balance;
-}  
+} 
+function filtrarGastos()
+{
+
+} 
+function agruparGastos()
+{
+    
+}
+
+
 
 
  
@@ -236,5 +246,7 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
