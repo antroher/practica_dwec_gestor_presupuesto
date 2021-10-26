@@ -7,7 +7,6 @@
 
 /* shift + alt + a   para comentarios de varias líneas */
 // control + } para comentarios de un línea
-
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // Variables globales
@@ -106,40 +105,25 @@ function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
         }
     }
     
-    gasto.obtenerPeriodoAgrupacion = function(periodo){
-
-        let fec = new Date(this.fecha); // convierte objeto en fecha (la fecha es un numero en formato TimeStamp)
-
-        /* 
-        let dia = String(fec.getDate()).padStart(2,'0');
-        let mes = ;
-        let anyo = ;
-        */
-        let cadena = '';
+    gasto.obtenerPeriodoAgrupacion = function (periodo) {
+        let resultado = "0";
+        let fechObj = new Date(this.fecha);
         switch (periodo) {
-            case 'dia':{ //aaaa-mm-dd           a los menores de 10 le colocamos un 0 delante para cumplir el formato
-                let mes = fec.getMonth() < 10 ? `0${fec.getMonth()+1}` : `${fec.getMonth()+1}`;
-                let dia = fec.getDate() < 10 ? `0${fec.getDate()}` : `${fec.getDate()}`;
-                cadena = '' + fec.getFullYear() + '-' + mes + '-' + dia;  //get.FUllYear() te da todo el año
-                break;
-            }
-            case 'mes':{//aaaa-mm
-                let mes = fec.getMonth() < 10 ? `0${fec.getMonth()+1}` : `${fec.getMonth()+1}`;
-                cadena = '' + fec.getFullYear() + '-' + mes;
-                break;
-            }
-            case 'anyo':{//aaaa
-                cadena = '' + fec.getFullYear();
-                break;
-            }
-            default :{
-                break;
-            }
+          case "dia":
+            return fechObj.toISOString().substring(0, 10);
+          case "mes":
+            return fechObj.toISOString().substring(0, 7);
+          case "anyo":
+            return fechObj.toISOString().substring(0, 4);
+          default:
+            console.log("Periodo erroneo.");
+            break;
         }
-        return cadena;
-    }
-
-    return gasto;
+    
+        return resultado;
+      };
+    
+      return gasto;
     }
 
 // FUNCIONES
@@ -178,130 +162,86 @@ function calcularBalance() {
     let balance = presupuesto - totalGasto;
 
     return balance;
-}
-                    // valor por defecto
-function agruparGastos(periodo = "mes", etiquetas = [], fechaDes = '', fechaHas = '') {
-// 1º comprueba los parámetros
-// 2º llama a filtrarGastos con esos parámetros
-// 3º reduce los gastos filtrados por periodo
-// 4º return objeto
-
-    let today = new Date();
-    let dd = String(today.getDate()).padStart(2, '0');
-    let mm = String(today.getMonth() + 1).padStart(2, '0'); //empieza en 0, por eso sumamos 1 (enero = 0)
-    let yyyy = today.getFullYear();
-
-    let objeto = {};
-
-    // Comprobar los parámetros
-
-    if ((typeof fechaDes !== 'string') || isNaN(Date.parse(fechaDes)) || (typeof fechaDes === "undefined")) 
-    {
-        fechaDes = '';
-    }
-    else 
-    {
-        objeto.fechaDesde = fechaDes;
-    }
-    
-    if ((typeof fechaHas !== 'string') || isNaN(Date.parse(fechaHas)) || (typeof fechaHas === 'undefined'))
-    {
-        fechaHas = `${yyyy}-${mm}-${dd}`;
-        objeto.fechaHasta = fechaHas;
-    }
-    else
-    {
-        objeto.fechaHasta = fechaHas;
-    }
-
-    if (typeof etiquetas === 'undefined')
-    {
-        etiquetas = [];
-        objeto.etiquetasTiene = [];
-    }
-    else
-    {
-        objeto.etiquetasTiene = etiquetas;
-    }
-    //  Llamar a la función filtrar gastos
-
-    let subconjG = filtrarGastos(objeto);
-
-
-    let reducido = subconjG.reduce(function (acu, item){
-        let per = item.obtenerPeriodoAgrupacion(periodo);
-
-        if (!acu.hasOwnProperty(per)) {
-            acu[per] = 0;
+}   
+function filtrarGastos(objetoFiltro) {
+    if (
+      objetoFiltro != undefined &&
+      objetoFiltro != null &&
+      Object.entries(objetoFiltro).length != 0
+    ) {
+      let resultado = gastos.filter((gast) => {
+        if (objetoFiltro.hasOwnProperty("fechaDesde")) {
+          if (gast.fecha < Date.parse(objetoFiltro.fechaDesde)) {
+            return;
+          }
         }
-        if (acu.hasOwnProperty(per)) {
-            if (isNaN(acu[per])) {
-                acu[per] = 0;
-            }
-            acu[per] = acu[per] + item.valor;
+  
+        if (objetoFiltro.hasOwnProperty("fechaHasta")) {
+          if (gast.fecha > Date.parse(objetoFiltro.fechaHasta) ) {
+            return;
+          }
         }
-        return acu;
-    }, {});
-
-    return reducido;
-}
-
-
-function filtrarGastos(objetoFiltrado) { // 1 param-> objeto que puede tener esas 6 propiedades
-    if (objetoFiltrado != undefined && objetoFiltrado != null) {
-        // crea un array resultado que almacena lo que devuelve .filter
-        let gastosFiltrados = gastos.filter((gasto) => {  // función que recibe el objeto gasto como parámetro (recorre el array gastos)
-            if (objetoFiltrado.hasOwnProperty("fechaDesde")) {
-                if (gasto.fecha < Date.parse(objetoFiltrado.fechaDesde)) {  //si la fecha del objeto gasto del array gastos es menor a
-                    return;                             // la fecha del atributo fechaDesde del objeto pasado, filtrará desde esa fecha.
-                } 
-            }// return: true => almacena ese gasto en el array de gastos filtrados
-            
-            if (objetoFiltrado.hasOwnProperty("fechaHasta")) {
-                if (gasto.fecha > Date.parse(objetoFiltrado.fechaHasta) ) {
-                    return;
-                }
+  
+        if (objetoFiltro.hasOwnProperty("valorMinimo")) {
+          if (gast.valor < objetoFiltro.valorMinimo) {
+            return;
+          }
+        }
+  
+        if (objetoFiltro.hasOwnProperty("valorMaximo")) {
+          if (gast.valor > objetoFiltro.valorMaximo) {
+            return;
+          }
+        }
+  
+        if (objetoFiltro.hasOwnProperty("descripcionContiene")) {
+          if (!gast.descripcion.includes(objetoFiltro.descripcionContiene)) {
+            return;
+          }
+        }
+        if (objetoFiltro.hasOwnProperty("etiquetasTiene")) {
+          if ( objetoFiltro.etiquetasTiene.length != 0){
+          let check = false;
+          for (let des of objetoFiltro.etiquetasTiene) {
+            if (gast.etiquetas.includes(des)) {
+              check = true;
             }
-            
-            if (objetoFiltrado.hasOwnProperty("valorMinimo")) {
-                if (gasto.valor < objetoFiltrado.valorMinimo) {
-                    return;
-                }
-            }
-            
-            if (objetoFiltrado.hasOwnProperty("valorMaximo")) {
-                if (gasto.valor > objetoFiltrado.valorMaximo) {
-                    return;
-                }
-            }
-            
-            if (objetoFiltrado.hasOwnProperty("descripcionContiene")) {
-                if (!gasto.descripcion.includes(objetoFiltrado.descripcionContiene)) {
-                    return;
-                }
-            }
-            if (objetoFiltrado.hasOwnProperty("etiquetasTiene")) {
-                if ( objetoFiltrado.etiquetasTiene.length != 0){
-                    let devuelve = false;
-                    for (let des of objetoFiltrado.etiquetasTiene) {
-                        if (gasto.etiquetas.includes(des)) {
-                            devuelve = true;
-                        }
-                    }
-                    if (!devuelve) {
-                        return;
-                    }
-                }
-            }
-            return gasto;
-        });
-        
-        return gastosFiltrados;
-        
+          }
+          if (!check) {
+            return;
+          }
+        }
+      }
+        return gast;
+      });
+  
+      return resultado;
+  
     } else {
-        return gastos;
+      return gastos;
     }
-}
+  
+  
+  }
+  
+  function agruparGastos(periodo = "mes", etiquetas = [], fechDesd, fechaHas = Date.now()) {
+  
+    //if (fechDesd == undefined){
+      //let aux = new Date(Date.now()).getFullYear();
+      //fechDesd = 0;
+    //}
+      let listaResultadoFiltros = filtrarGastos({fechaDesde: fechDesd, fechaHasta:fechaHas, etiquetasTiene: etiquetas});
+      let gastosAgrupados = listaResultadoFiltros.reduce(function(acumulador, gast){
+      let perAgrup = gast.obtenerPeriodoAgrupacion(periodo);
+      if (acumulador.hasOwnProperty(perAgrup)){
+         acumulador[perAgrup] = acumulador[perAgrup] + gast.valor;
+      } else {     
+        acumulador[perAgrup] = gast.valor;
+      }
+       return acumulador
+    }, {});
+    return gastosAgrupados;
+  }
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
