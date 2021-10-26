@@ -210,22 +210,36 @@ function calcularBalance()
 function filtrarGastos(newFiltro)
 {
     
-    let fDesde = Date.parse(newFiltro.fechaDesde);
+    let fDesde;
     if (newFiltro.hasOwnPropery('fechaDesde'))
     {
-        if(!isNaN(fDesde))
+        if (typeof newFiltro.fechaDesde === 'string')
         {
-            fDesde = Date.parse(newFiltro.fechaDesde);
-        }
+            if(!isNaN(Date.parse(newFiltro.fechaDesde)))
+            {
+                fDesde = Date.parse(newFiltro.fechaDesde);
+            }
+            else
+            {
+                fDesde = undefined;
+            }
+        }        
     }
 
-    let fHasta = Date.parse(newFiltro.fechaHasta);
+    let fHasta;
     if (newFiltro.hasOwnPropery('fechaHasta'))
     {
-        if(!isNaN(fHasta))
+        if (typeof newFiltro.fechaHasta === 'string')
         {
-            fHasta = Date.parse(newFiltro.fechaHasta);
-        }
+            if(!isNaN(Date.parse(newFiltro.fechaHasta)))
+            {
+                fHasta = Date.parse(newFiltro.fechaHasta);
+            }
+            else
+            {
+                fHasta = undefined;
+            }
+        }        
     }
 
     let vMinimo;
@@ -240,10 +254,10 @@ function filtrarGastos(newFiltro)
         vMaximo = newFiltro.valorMaximo;
     }
 
-    let descCont;
+    let desCont;
     if (newFiltro.hasOwnPropery('descripcionContiene'))
     {
-        descCont = newFiltro.descripcionContiene;
+        desCont = newFiltro.descripcionContiene;
     }
 
     let etiqTiene;
@@ -252,43 +266,55 @@ function filtrarGastos(newFiltro)
         etiqTiene = newFiltro.etiquetasTiene;
     }
 
-    let ArrayGastos = gastos.filter((gasto) => 
+    let ArrayGastos = gastos.filter(function(item)
     {
-        let DevolverBool = false;
+        let DevolverBool = true;
 
-        if (typeof fechaDesde !== undefined && typeof fechaHasta !== undefined)
+        if (typeof fDesde !== 'undefined')
         {
-            if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha)
+            if (item.fecha < fDesde)
+            {
+                DevolverBool = false;
+            }
+        }   
+        
+        if (typeof fHasta !== 'undefined')
+        {
+            if (item.fecha > fHasta)
+            {
+                DevolverBool = false;
+            }
+        }
+
+        if (typeof vMaximo !== 'undefined')
+        {
+            if (vMaximo <= item.valor)
             {
                 DevolverBool = true;
             }
         }
-        else 
+            
+        if (typeof vMinimo !== 'undefined')
         {
-            if (typeof fechaDesde !== undefined && fechaDesde <= gasto.fecha)
+            if (vrMinimo >= item.valor)
             {
                 DevolverBool = true;
-            }
-            if (typeof fechaHasta !== undefined && fechaHasta >= gasto.fecha)
+            }            
+        }
+            
+        if (typeof desCont !== 'undefined')
+        {
+            if (item.descripcion.includes(desCont))
             {
                 DevolverBool = true;
-            }   
-        }        
+            }            
+        }
 
-        if (typeof valorMaximo !== undefined && valorMaximo <= gasto.valor)
+        if (typeof etiqTiene !== 'undefined')
         {
-            DevolverBool = true;
-        }
             
-        if (typeof valorMinimo !== undefined && valorMinimo >= gasto.valor)
-        {
-            DevolverBool = true;
         }
-            
-        if (typeof descripcionContiene !== undefined && gasto.descripcion.includes(descripcionContiene))
-        {
-            DevolverBool = true;
-        }
+
 
         return DevolverBool;            
     })
