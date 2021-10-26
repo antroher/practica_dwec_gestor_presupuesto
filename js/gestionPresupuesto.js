@@ -71,8 +71,29 @@ function CrearGasto(desc, value, fechaGasto = Date.now(), ...ArrayLabels)
             {
                 if (this.etiquetas.includes(label)) this.etiquetas.splice(this.etiquetas.indexOf(label), 1);
             });
+        },
+
+        obtenerPeriodoAgrupacion(periodo)
+    {
+        if (periodo !== undefined)
+        {
+            switch (periodo)
+            {
+                case "dia":
+                    return new Date(this.fecha).toISOString().substring(0,10);
+
+                case "mes":
+
+                    return new Date(this.fecha).toISOString().substring(0,7);
+
+                case "anyo":
+                    return new Date(this.fecha).toISOString().substring(0,4);
+            }
         }
+    }
     };
+
+    
 
     return expense;
 }
@@ -116,12 +137,12 @@ function calcularBalance()
 
 function filtrarGastos()
 {
-    
+       
 }
 
 function agruparGastos()
 {
-    
+
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
