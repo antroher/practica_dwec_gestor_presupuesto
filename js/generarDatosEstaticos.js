@@ -25,4 +25,50 @@ gestionPresupuesto.anyadirGasto(gasto5);
 gestionPresupuesto.anyadirGasto(gasto6);
 
 //Mostrar los gastos totales en div#gastos-totales (funciones calcularTotalGastos y mostrarDatoEnId)
-gestionPresupuestoWeb.mostrarDatoEnId
+let calcularTotalGastos = gestionPresupuesto.calcularTotalGastos();
+gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales", calcularTotalGastos);
+
+//Mostrar el balance total en div#balance-total (funciones calcularBalance y mostrarDatoEnId)
+let calcularBalance = gestionPresupuesto.calcularBalance();
+gestionPresupuestoWeb.mostrarDatoEnId("balance-total", calcularBalance);
+
+//Mostrar el listado completo de gastos en div#listado-gastos-completo (funciones listarGastos y mostrarGastoWeb)
+let listaGastos = gestionPresupuesto.listarGastos();
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", listaGastos);
+
+//Mostrar el listado de gastos realizados en septiembre de 2021 en div#listado-gastos-filtrado-1 (funciones filtrarGastos y mostrarGastoWeb)
+let filtrador = {fechaDesde : "2021-09-01", fechaHasta : "2021-09-30"}
+let gastosFiltrados = gestionPresupuesto.filtrarGastos(filtrador);
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1", gastosFiltrados);
+
+//Mostrar el listado de gastos de más de 50€ en div#listado-gastos-filtrado-2 (funciones filtrarGastos y mostrarGastoWeb)
+let filtrador = {valorMinimo : 50}
+let gastosFiltrados = gestionPresupuesto.filtrarGastos(filtrador);
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2", gastosFiltrados);
+
+//Mostrar el listado de gastos de más de 200€ con etiqueta seguros en div#listado-gastos-filtrado-3 (funciones filtrarGastos y mostrarGastoWeb)
+let filtrador = {valorMinimo : 200, etiquetasTiene : ["seguros"]}
+let gastosFiltrados = gestionPresupuesto.filtrarGastos(filtrador);
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3", gastosFiltrados);
+
+//Mostrar el listado de gastos que tengan las etiquetas comida o transporte de menos de 50€ en div#listado-gastos-filtrado-4 (funciones filtrarGastos y mostrarGastoWeb)
+let filtrador = {valorMaximo : 50, etiquetasTiene : ["comida", "transporte"]}
+let gastosFiltrados = gestionPresupuesto.filtrarGastos(filtrador);
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gastosFiltrados);    
+
+//Mostrar el total de gastos agrupados por día en div#agrupacion-dia (funciones agruparGastos y mostrarGastosAgrupadosWeb)
+let filtrador = {valorMaximo : 50, etiquetasTiene : ["comida", "transporte"]}
+let gastosFiltrados = gestionPresupuesto.filtrarGastos(filtrador);
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gastosFiltrados);   
+
+//Mostrar el total de gastos agrupados por día en div#agrupacion-dia (funciones agruparGastos y mostrarGastosAgrupadosWeb)
+let gastosAgrupados = gestionPresupuesto.agruparGastos("dia");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", gastosAgrupados, "dia")
+
+//Mostrar el total de gastos agrupados por mes en div#agrupacion-mes (funciones agruparGastos y mostrarGastosAgrupadosWeb)
+let gastosAgrupados = gestionPresupuesto.agruparGastos("mes");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", gastosAgrupados, "mes")
+
+//Mostrar el total de gastos agrupados por año en div#agrupacion-anyo (funciones agruparGastos y mostrarGastosAgrupadosWeb)
+let gastosAgrupados = gestionPresupuesto.agruparGastos("anyo");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAgrupados, "anyo")

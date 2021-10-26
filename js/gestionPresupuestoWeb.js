@@ -6,6 +6,7 @@ function mostrarDatoEnId(idElemento, valor) {
     elemento.textContent = valor;
 }
 
+//aqui gasto es un array, con lo que habria que cambiarlo y meterlo todo dentro de una iteracción
 function mostrarGastoWeb(idElemento, gasto) {
     const elemento = document.getElementById(idElemento);
     let span = document.createElement("span").textContent = " ";
@@ -27,7 +28,7 @@ function mostrarGastoWeb(idElemento, gasto) {
 
 }
 
-//Este habrá que arreglarlo -mirar lo del key - value
+///aqui gasto es un array, con lo que habria que cambiarlo y meterlo todo dentro de una iteracción
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     const elemento = document.getElementById(idElemento);
     agrup.forEach((x) => {
