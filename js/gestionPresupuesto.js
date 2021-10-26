@@ -149,48 +149,6 @@ function calcularBalance(){
 function filtrarGastos(filtro){
     if(filtro !== undefined){
         let gastosFiltrados = gastos.filter(function(g){
-            let isFechaD = false, isFechaH = false, isMax = false, isMin = false, isDesc = false, tieneEtiq = false;
-            if(filtro.hasOwnProperty('fechaDesde') && g.fecha >= Date.parse(filtro.fechaDesde)) isFechaD = true;
-            else if(!filtro.hasOwnProperty('fechaDesde') || filtro.fechaDesde === undefined) isFechaH = true;
-
-            if(filtro.hasOwnProperty('fechaHasta') && g.fecha <= Date.parse(filtro.fechaHasta)) isFechaH = true;
-            else if(!filtro.hasOwnProperty('fechaHasta') || filtro.fechaHasta === undefined) isFechaH = true;
-
-            if(filtro.hasOwnProperty('valorMinimo') && g.valor > filtro.valorMinimo) isMin = true;
-            else if(!filtro.hasOwnProperty('valorMinimo') || filtro.valorMinimo === undefined) isMin = true;
-
-            if(filtro.hasOwnProperty('valorMaximo') && g.valor < filtro.valorMaximo) isMax = true;
-            else if(!filtro.hasOwnProperty('valorMaximo') || iltr4o.valorMaximo === undefined) isMax = true;
-
-            if(filtro.hasOwnProperty('descripcionContiene') && g.descripcion.includes(filtro.descripcionContiene)) isDesc = true;
-            else if(!filtro.hasOwnProperty('descripcionContiene') || filtro.descripcionContiene === undefined) isDesc = true;
-
-            if(filtro.hasOwnProperty('etiquetasTiene')){
-                if(filtro.etiquetasTiene.length != 0){
-                    filtro.etiquetasTiene.forEach(e => {
-                        if(g.etiquetas.includes(e) && tieneEtiq == false) tieneEtiq = true;
-                    });
-                }else{
-                    tieneEtiq = true;
-                }
-            }else if(!filtro.hasOwnProperty('etiquetasTiene')) tieneEtiq = true;
-
-            if(isFechaD && isFechaH && isMin && isMax && isDesc && tieneEtiq){
-                return g;
-            }
-        })
-
-        if(gastosFiltrados.length == 0){
-            return gastos;
-        }else{
-            return gastosFiltrados;
-        }
-    }
-}
-
-/*function filtrarGastos(filtro){
-    if(filtro !== undefined){
-        let gastosFiltrados = gastos.filter(function(g){
             let fechaCorrecta = false, valorCorrecto = false, contieneDesc = false, tieneEtiq = false;
 
             if((filtro.hasOwnProperty('fechaDesde') && filtro.fechaDesde !== undefined) && filtro.hasOwnProperty('fechaHasta')){
@@ -231,7 +189,7 @@ function filtrarGastos(filtro){
 
             if(filtro.hasOwnProperty('etiquetasTiene')){
                 let alguna = false;
-                if(filtro.etiquetasTiene === undefined || filtro.etiquetasTiene.length == 0){
+                if(filtro.etiquetasTiene === undefined || filtro.etiquetasTiene.length === 0){
                     alguna = true;
                 }else{
                     filtro.etiquetasTiene.forEach(e => {
@@ -257,7 +215,7 @@ function filtrarGastos(filtro){
         }
     }
 }
-*/
+
 
 
 function agruparGastos(periodoAgrupar, etiquetasArupar, fechaDesdeAgrupar, fechaHastaArupar){
