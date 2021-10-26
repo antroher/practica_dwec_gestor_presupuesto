@@ -88,9 +88,73 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
                                 }
                             }
                         }
-                    }
+                    },
+                    obtenerPeriodoAgrupacion(periodo){
+                        let devuelve = "";
+                        let mostrarFecha = new Date(this.fecha);
+                        let d = String(mostrarFecha.getDate()).padStart(2,'0')
+                        let mm = String(mostrarFecha.getMonth()+1).padStart(2,'0')
+                        let yyyy = String(mostrarFecha.getFullYear());
+                        switch(periodo){
+                            case "dia" :
+                                devuelve = `${yyyy}-${mm}-${d}`;
+                                return devuelve;
+                            case "mes" :
+                                devuelve = `${yyyy}-${mm}`;
+                                return devuelve;
+                            case "anyo" :
+                                devuelve = `${yyyy}`
+                                return devuelve;
+                            default:
+                                return `Error`;
+                        }
+                    }  
     }
     return gasto;
+}
+function filtrarGastos(objeto){
+    let fD;
+    let fH;
+    let valMin;
+    let valMax;
+    let desCon;
+    let etiTie;
+
+    if(objeto.hasOwnProperty("fechaDesde"))
+    {
+        fD = objeto.fechaDesde;
+        if(typeof(objeto.fechaDesde === "string") && !isNaN(date.parse(objeto.fechaDesde)))
+        {
+            fD = Date.parse(objeto.fechaDesde);
+        }
+        else{
+            fD = undefined
+        }
+    }
+    if(objeto.hasOwnProperty("fechaHasta"))
+    {
+        fH = objeto.fechaHasta;
+        if(!isNaN(Date.parse(fH)) || typeof(objeto.fechaHasta === "string"))
+        {
+            fH = Date.parse(objeto.fechaHasta);
+        } 
+        else{
+            fH = undefined;
+        }
+    }
+    if(objeto.hasOwnProperty("valorMinimo"))
+    {
+        valMin = objeto.valorMinimo;
+    }
+    if(objeto.hasOwnProperty("valorMaximo"))
+    {
+        valMax = objeto.valorMaximo;
+    }
+    if(objeto.hasOwnProperty("descripcionContiene"))
+    {
+        desCon = objeto.descripcionContiene;
+    }
+
 }
 
         function listarGastos(){
@@ -129,6 +193,9 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
                             
                             return result;
                         }
+                            function agruparGastos(){
+
+                            }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -141,5 +208,8 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    agruparGastos,
+    filtrarGastos
+    
 }
