@@ -147,47 +147,31 @@ function CrearGasto(desintro, valorintro, fecha = Date.now(), ...etiquetas) {
  
             //let str = "";
             //let result = "";
-            
-            /*function formatDate(date) {
-                var d = new Date(date),
-                    month = '' + (d.getMonth() + 1),
-                    day = '' + d.getDate(),
-                    year = d.getFullYear();
-            
-                if (month.length < 2) 
-                    month = '0' + month;
-                if (day.length < 2) 
-                    day = '0' + day;
-            
-                return [year, month, day].join('-');
-            }
-             
-            console.log(formatDate('Sun May 11,2014'));*/
-
 
             let fechaA = new Date(this.fecha);
-            //let dateofftime = new Date(this.fecha).toISOString().split('T')[0];
             //fechaA.toISOString().split('T')[0];
             //fechaA.toISOString().slice(0, 10);
-            let offset = fechaA.getTimezoneOffset();
-            let dateofftime = new Date(fechaA.getTime() - (offset*60*1000));
-
+            //let offset = fechaA.getTimezoneOffset();
+            //let dateofftime = new Date(fechaA.getTime() - (offset*60*1000));
+            let dateofftime = fechaA.toISOString();
+            dateofftime = dateofftime.slice(0,10);
+            
             switch(intro) {
                 case "dia": {
-                    let result = dateofftime.toISOString();
+                    let result = dateofftime;
                     return result;
                     break;
                 }
 
-                case "mes":{
-                    let str = dateofftime.toISOString();
+                case "mes": {
+                    let str = dateofftime;
                     let result = str.substring(0,7);
                     return result;   
                     break;
                 }
                 
-                case "anyo":{
-                    let str = dateofftime.toISOString();
+                case "anyo": {
+                    let str = dateofftime;
                     let result = str.substring(0,4);
                     return result;
                     break;
