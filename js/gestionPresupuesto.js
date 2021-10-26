@@ -164,23 +164,26 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         let vMx;
         let dc;
         let eT;
-        let gastosfiltrados;
 
         if(objeto.hasOwnProperty('fechaDesde'))
         {
-            fd = objeto.fechaDesde;
-            if(!isNaN(Date.parse(fd)))
+            if(typeof objeto.fechaDesde === 'string')
             {
-                fd = Date.parse(fd);
+                if(isNaN(Date.parse(objeto.fechaDesde)))
+                    fd = undefined;
+                else
+                    fd = Date.parse(objeto.fechaDesde);
             }               
         }
 
         if(objeto.hasOwnProperty('fechaHasta'))
         {
-            fh = objeto.fechaHasta;
-            if(!isNaN(Date.parse(fh)))
+            if(typeof objeto.fechaHasta === 'string')
             {
-                fh = Date.parse(fh);
+                if(isNaN(Date.parse(objeto.fechaHasta)))
+                    fh = undefined;
+                else
+                    fh = Date.parse(objeto.fechaHasta);
             }
         }
 
@@ -196,7 +199,8 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
 
         if(objeto.hasOwnProperty('descripcionContiene'))
         {
-            dc = objeto.descripcionContiene;
+            if(isNaN(objeto.descripcionContiene))
+                dc = objeto.descripcionContiene;         
         }
 
         if(objeto.hasOwnProperty('etiquetasTiene'))
@@ -204,53 +208,78 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
             eT = [...objeto.etiquetasTiene];
         }
 
-            gastosfiltrados = gastos.filter(function(item){
-                let devuelve = true;
+        let gastosfiltrados = gastos.filter(function(item)
+        {
+            let devuelve = true;
 
-                if((typeof fd !== 'undefined') && (item.fecha < fd))
-                {
-                    devuelve = false;
-                }
+            if(typeof fd !== 'undefined')
+            {
+                if(item.fecha < fd)
+                    devuelve = false;                   
+            }
 
-                if((typeof fh !== 'undefined') && (item.fecha < fh))
-                {
-                    devuelve = false;
-                }
+            if(typeof fh !== 'undefined')
+            {
+                if(item.fecha > fh)
+                    devuelve = false;                    
+            }
 
-                if((typeof vM !== 'undefined') && (item.valor < vM))
-                {
+            if(typeof vM !== 'undefined')
+            {
+                if(item.valor < vM)
                     devuelve = false;
-                }
+            }
 
-                if((typeof vMx !== 'undefined') && (item.valor < vMx))
-                {
+            if(typeof vMx !== 'undefined')
+            {
+                if(item.valor > vMx)
                     devuelve = false;
-                }
+            }
 
-                if((typeof dc !== 'undefined') && (item.valor < dc))
-                {
+            if(typeof dc !== 'undefined')
+            {
+                if(!item.descripcion.includes(dc))
                     devuelve = false;
-                }
+            }
             
-                if((typeof eT !== 'undefined') && (item.valor < eT))
+            if(typeof eT !== 'undefined')
+            {
+                for(var i = 0; i < objeto.etiquetasTiene.length; i++)
                 {
-                    devuelve = false;
+                    if(objeto.etiquetasTiene.includes(item.etiquetas[i]))
+                        devuelve = false;
                 }
+            }
 
-                if(devuelve == true)
-                {
-                    let todosGastos = "";
-                    for(var i = 0; i < gastos.length; i++)
-                    {
-                        todosGastos = gastos[i] + " ";
-                    }
-                    return todosGastos;
-                }
-            })                  
+            return devuelve;
+
+            });    
+
+        return gastosfiltrados;              
     }
 
-    function agruparGastos(){
+    function agruparGastos(periodo = 'mes', etiquetas = [], fd = '', fh = ''){
+        let today = new Date;
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getDate() + 1).padStart(2, '0');
+        let yyyy = today.getFullYear();
 
+        let objeto = {};
+
+        if((typeof fd !== 'string') || isNaN(Date.parse(fd)) || (typeof fd !== 'undefined'))
+        {
+            fd = '';
+        }
+            
+        if((typeof fh !== 'string') || isNaN(Date.parse(fh)) || (typeof fh !== 'undefined'))
+        {
+            fh = `${yyyy}-${mm}-${dd}`;
+            objeto.fechaHasta = fh;
+        }
+        if((typeof etiquetas !== 'undefined'))
+        {
+            
+        }
     }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
