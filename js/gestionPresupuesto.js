@@ -145,9 +145,14 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
 
     };
 
+    
+
     return gasto;
 }
 
+
+
+}
 function listarGastos()
 {
     return gastos;
@@ -198,26 +203,78 @@ function calcularBalance()
 
 function filtrarGastos(objeto)
 {
-    let fd
-    objeto = 
-    {
-        fechaDesde: 'YYYY-MM-DD',
-        fechaHasta: 'YYYY-MM-DD',
-        valorMinimo:
-        valorMáximo:
-        descripcionContiene:
-        etiquetasTiene:
-    };
-    if(objeto.('fechaDesde'))
-    {
-        fd = objeto.fechaDesde;
-        if(isNaN(Date.parse(fd)))
-            fd = Date.parse(fd)
+    let fechaDesde;
+    let fechaHasta;
+    let minimo;
+    let maximo;
+    let paramDesc;
+    let etiquetas;
+    let gastosfiltrados;
 
+    if(objeto.hasOwnProperty('fechaDesde'))
+    {
+      if(typeof objeto.fechaDesde === 'string')
+       {
+        
+            if(isNaN(Date.parse(objeto.fechaDesde)))
+            {
+                fechaDesde = undefined;
+            }
+           
+            else
+            {
+             fechaDesde= Date.parse(objeto.fechaDesde)
+            }
+       } 
     }
+    console.log("FECHADESDE :" + fechaDesde);
+
+    if(objeto.hasOwnProperty('fechaHasta')){
+        if(typeof objeto.fechaHasta === `string`){
+            if(isNaN(Date.parse(objeto.fechaHasta))){
+                fechaHasta = undefined;
+            }
+            else{
+                fechaHasta = Date.parse(objeto.fechaHasta);
+            }
+        }
+    }
+    else if(objeto.hasOwnProperty('valorMinimo')){
+        if(isNaN(objeto.valorMinimo)){
+            minimo = objeto.valorMinimo;
+        }
+    }
+    gastosfiltrados = gastos.filter(function item)
+    {
+        let devuelve = true;
+        let latiene = false;
+        if ((typeof fechaDesde !== 'undefined') && (item.fecha < fechaDesde)){
+            devuelve = false;
+        }
+        if ((typeof fechaHasta !== 'undefined') && (item.fecha > fechaHasta)){
+            devuelve = false;
+        }
+        if ((typeof minimo !== 'undefined') && (item.fecha < minimo)){
+            devuelve = false;
+        }
+        if ((typeof maximo !== 'undefined') && (item.fecha > maximo)){
+            devuelve = false;
+        }
+        if ((typeof paramDesc !== 'undefined') && (item.descripcion.includes(paramDesc))){
+            devuelve = false;
+        }
+
+        if((etiquetas !== 'undefined') && (!item.etiquetas.includes(etiquetas))){
+            devuelve = false;
+        }
+        return devuelve;
+    }
+
+    console.log(JSON.stringify(gastosfiltrados));
+    return gastosfiltrados;
 }
 
-function agruparGastos(){
+function agruparGastos(objeto){
 
 }
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
