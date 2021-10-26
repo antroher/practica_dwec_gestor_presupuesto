@@ -233,40 +233,43 @@ var fechaD,fechaH,valorM,valorm,descripcionC,etiquetasT;
 var  gastosFiltrados=[];
 
 
-
+if(parametro==null || parametro==undefined || Object.entries(parametro)==0 )
+{
+  return gastos;
+}
 
 if (parametro.hasOwnProperty('fechaDesde'))
 {
   
   if(typeof parametro.fechaDesde==='string')
   {
-    fechaD=Date.parse(parametro.fechaDesde);
-    if(!isNaN(fechaD))
+    
+    if(Date.parse(parametro.fechaDesde))
     {
-      fechaD=fechaDesde;
+      fechaD=parametro.fechaDesde;
     }
   }
 }
 if (parametro.hasOwnProperty('fechaHasta'))
 {
   
-  if(typeof objeto.fechaHasta==='string')
+  if(typeof parametro.fechaHasta==='string')
   {
-    fechaHasta=Date.parse(parametro.fechaHasta);
-    if(!isNaN(fechaHasta))
+    
+    if(Date.parse(parametro.fechaHasta))
     {
-      fechaH=fechaHasta;
+      fechaH=parametro.fechaHasta;
     }
   }
 }
 if (parametro.hasOwnProperty('valorMinimo'))
 {
-  valorm=valoMinimo;
+  valorm=parametro.valorMinimo;
   
 }
 if (parametro.hasOwnProperty('valorMaximo'))
 {
-  valorm=valoMinimo;
+  valorM=parametro.valorMaximo;
   
 }
 if (parametro.hasOwnProperty('descripcionContiene'))
@@ -276,45 +279,77 @@ if (parametro.hasOwnProperty('descripcionContiene'))
 }
 if (parametro.hasOwnProperty('etiquetasTiene'))
 {
-  etiquetasT=[...parametro.etiquetasTiene];
+  etiquetasT=parametro.etiquetasTiene;
   
 }
 
+
+
 gastosFiltrados=gastos.filter(function(item){
   let devuelve = true;
-  let latiene=false;
+  let latiene=true;
 
-  if(typeof fechaDesde !== 'undefined')
+  if(typeof fechaD !== 'undefined')
   {
-    if(item.fecha<fechaDesde)
+    
+    if(item.fecha<Date.parse(fechaD))
     {
+     
       devuelve=false;
     }
   }
-  if(typeof fechaHasta !== 'undefined')
+  
+  if(typeof fechaH !== 'undefined')
   {
-    if(item.fecha>fechaHasta)
+    if(item.fecha>Date.parse(fechaH))
     {
       devuelve=false;
     }
   }
   if(typeof valorm!=='undefined')
   {
-
+   
+    if(valorm>item.valor)
+    {
+      devuelve=false;
+    }
   }
   if(typeof valorM!=='undefined')
   {
-    
+   
+    if(valorM<item.valor)
+    {
+      devuelve=false;
+    }
   }
   if(typeof descripcionC!=='undefined')
   {
+    if(!item.descripcion.includes(descripcionC))
+    {
+      devuelve=false;
+    }
     
   }
-  if(typeof etiquetasT!=='undefined')
+  if(etiquetasT!==undefined  && etiquetasT.length!==0 ) 
   {
-    
+    latiene=false;
+      for (let index = 0; index < etiquetasT.length; index++) {
+        if(item.etiquetas.includes(etiquetasT[index]))
+        {
+          
+          latiene=true;
+        }
+        
+      }
+      
   }
-  return (devuelve && latiene);
+ 
+  
+  if(devuelve && latiene)
+  {
+   
+    return item;
+  }
 
 });
 return gastosFiltrados;
@@ -324,21 +359,38 @@ return gastosFiltrados;
 
 
 
-function agruparGastos(gasto0,gasto1,gasto2,gasto3)
-{
-  /* Función de cuatro parámetros que devolverá un objeto con los resultados de realizar una agrupación por período temporal. Los parámetros son:
+function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
+
+/*Función de cuatro parámetros que devolverá un objeto con los resultados de realizar una agrupación por período temporal. Los parámetros son:
 
 periodo - Período utilizado para hacer la agrupación. Podrá ser uno de estos tres valores: dia, mes y anyo. El valor por defecto será mes.
 etiquetas - Array de etiquetas. Solo se seleccionarán los gastos que contengan alguna de esas etiquetas. Si no se indica o es un array vacío, se considerarán todos los gastos.
-fechaDesde - Fecha mínima de creación del gasto. Su valor deberá ser un string con formato válido que pueda entender la función Date.parse. Si no se indica se considerará el comienzo del año actual.
+fechaDesde - Fecha mínima de creación del gasto. Su valor deberá ser un string con formato válido que pueda entender la función Date.parse. Si no se indica se considerarán todos los gastos independientemente de su fecha.
 fechaHasta - Fecha máxima de creación del gasto. Su valor deberá ser un string con formato válido que pueda entender la función Date.parse. Si no se indica se considerará la fecha actual.
 La función realizará los siguientes pasos:
 
 En primer lugar se llamará a filtrarGastos para obtener el subconjunto de gastos creados entre las fechas indicadas y que tengan alguna de las etiquetas proporcionadas en el parámetro correspondiente.
 Ejecutar reduce sobre el conjunto de gastos filtrados. El valor inicial del acumulador de reduce será un objeto vacío. Dentro del cuerpo de la función de reduce, para cada gasto se obtendrá su período de agrupación (a través del método obtenerPeriodoAgrupacion del gasto y el parámetro periodo), que se utilizará para identificar la propiedad del acumulador sobre la que se sumará su valor. Así, si periodo = mes, un gasto con fecha 2021-11-01 tendrá un período de agrupación 2021-11, por lo que su valor se sumará a acc["2021-11"] (siempre que la variable del acumulador haya recibido el nombre acc en la llamada a reduce). Tienes una pista sobre cómo proceder en la siguiente pregunta de Stack Overflow.
 El resultado de reduce será el valor de vuelta de la función agruparGastos.*/
+  let filtrador = {etiquetasTiene : etiquetas, fechaDesde : fechaDesde, fechaHasta : fechaHasta}
 
+  let returnFiltrarGastos = filtrarGastos(filtrador);
+  
+  let groupBy =
+          returnFiltrarGastos.reduce((acc, item, index, returnFiltrarGastos) => {
+             
+              let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
+          
 
+              if (acc[periodoReduce] == null)
+                  acc[periodoReduce] = item.valor;
+              else 
+                  acc[periodoReduce] += item.valor;
+
+              
+              return acc;
+          }, {});
+  return groupBy;
 }
 
 
