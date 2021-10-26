@@ -90,7 +90,7 @@ function CrearGasto(descripcion, valor = 0, fecha = new (Date), ...etiquetas) {
                 switch(periodo) {
                     case "dia": {
                         if (obtenerFecha.getDate() < 10) {
-                            if (obtenerFecha.getMonth() < 10) {
+                            if (obtenerFecha.getMonth() < 9) {
                                 return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}-0${obtenerFecha.getDate()}`;
                             }
                             else {
@@ -98,7 +98,7 @@ function CrearGasto(descripcion, valor = 0, fecha = new (Date), ...etiquetas) {
                             }
                         }
                         else {
-                            if (obtenerFecha.getMonth() < 10) {
+                            if (obtenerFecha.getMonth() < 9) {
                                 return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}-${obtenerFecha.getDate()}`;
                             }
                             else {
@@ -108,7 +108,7 @@ function CrearGasto(descripcion, valor = 0, fecha = new (Date), ...etiquetas) {
                         break;
                     }
                     case "mes": {
-                        if(obtenerFecha.getMonth() < 10) {
+                        if(obtenerFecha.getMonth() < 9) {
                             return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}`;
                         }
                         else {
