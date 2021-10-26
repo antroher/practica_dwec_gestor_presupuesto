@@ -160,37 +160,37 @@ function calcularBalance() {
 function filtrarGastos(obj) {
     let result = Object.assign(gastos);
     if (typeof obj === 'object' && obj !== null && obj !== undefined && Object.entries(obj).length > 0) {
-        if (Object.hasOwn(obj, 'fechaDesde') && typeof obj.fechaDesde === 'string') {
+        if (obj.hasOwnProperty('fechaDesde') && typeof obj.fechaDesde === 'string') {
             result = result.filter((aux) => {
                 return aux.fecha >= (Date.parse(obj.fechaDesde))
             })
         }
-        if (Object.hasOwn(obj, 'fechaHasta') && typeof obj.fechaHasta === 'string') {
+        if (obj.hasOwnProperty('fechaHasta') && typeof obj.fechaHasta === 'string') {
             result = result.filter((aux) => {
                 return aux.fecha <= Date.parse(obj.fechaHasta);
             })
         }
-        if (Object.hasOwn(obj, 'valorMinimo') && typeof obj.valorMinimo === 'number') {
+        if (obj.hasOwnProperty('valorMinimo') && typeof obj.valorMinimo === 'number') {
             result = result.filter((aux) => {
                 return aux.valor >= obj.valorMinimo
             })
         }
-        if (Object.hasOwn(obj, 'valorMaximo') && typeof obj.valorMaximo === 'number') {
+        if (obj.hasOwnProperty('valorMaximo') && typeof obj.valorMaximo === 'number') {
             result = result.filter((aux) => {                
                 return aux.valor <= obj.valorMaximo
             })
         }
-        if (Object.hasOwn(obj, 'descripcionContiene') && typeof obj.descripcionContiene === 'string') {
+        if (obj.hasOwnProperty('descripcionContiene') && typeof obj.descripcionContiene === 'string') {
             result = result.filter((aux) => {
-                let p1 = (aux.descripcion).toLowerCase();
-                let p2 = (obj.descripcionContiene).toLowerCase();
-                let a1 = p1.split(" ");
-                let a1join = a1.join('');
-                if (a1join.indexOf(p2) !== -1) 
+                let par1 = (aux.descripcion).toLowerCase();
+                let par2 = (obj.descripcionContiene).toLowerCase();
+                let arr1 = par1.split(" ");
+                let arr1join = arr1.join('');
+                if (arr1join.indexOf(par2) !== -1) 
                     return true;
             })
         }
-        if (Object.hasOwn(obj, 'etiquetasTiene') && Array.isArray(obj.etiquetasTiene)) {
+        if (obj.hasOwnProperty('etiquetasTiene') && Array.isArray(obj.etiquetasTiene)) {
             result = result.filter((aux) => {
                 for (let i = 0; i < obj.etiquetasTiene.length; i++) {
                     if (obj.etiquetasTiene.includes(aux.etiquetas[i])) {
@@ -202,11 +202,21 @@ function filtrarGastos(obj) {
         return result;
     }
     return gastos;
-
 }
 
-function agruparGastos(periodo = "mes", etiquetas, fechaDesde = getDate().getYear, fechaHasta = getDate()) {
-
+function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
+    let filter = {etiquetasTiene: etiquetas, fechaDesde: fechaDesde, fechaHasta: fechaHasta}
+    let aux = filtrarGastos(filter);
+    let agrupar = aux.reduce((acc, item) => {
+        let pred = item.obtenerPeriodoAgrupacion(periodo);
+        if (acc[pred] == null) {
+            acc[pred] = item.valor;
+        } else {
+            acc[pred] += item.valor;
+        }
+        return acc;
+    }, {});
+    return agrupar;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
