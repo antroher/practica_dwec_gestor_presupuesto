@@ -117,10 +117,15 @@ function CrearGasto(descripcion, valor = 0, fecha = new (Date), ...etiquetas) {
                         break;
                     }
                     case "anyo": {
+                        return `${obtenerFecha.getFullYear()}`
                         break;
                     }
+                    default: {
+                        return `Fecha no valida`;
+                    }
                 }
-        };
+        }
+    }
     return gasto;
 }
 
