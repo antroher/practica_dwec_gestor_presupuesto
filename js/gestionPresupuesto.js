@@ -343,9 +343,27 @@ function filtrarGastos(objeto)
 
 }
 
-function agruparGastos()
+function agruparGastos(periodo = 'mes', etiquetas = [], fDesde = '', fHasta = '')
 {
+    let hoy = new Date;
+    let dd = String(hoy.getDate()).padStart(2, '0');
+    let mm = String(hoy.getMonth() + 1).padStart(2,'0'); //Porque el mes de enero es 0
+    let yyyy = hoy.getFullYear();
 
+    if (typeof fDesde !== 'string' || (typeof fDesde !== 'undefined') || isNaN(Date.parse(fDesde)))
+    {
+        fDesde = '';
+    }
+
+    if (typeof fHasta !== 'string' || (typeof fHasta !== 'undefined') || isNaN(Date.parse(fHasta)))
+    {
+        fHasta = '';
+    }
+
+    if (typeof etiquetas == 'undefined')
+    {
+        etiquetas = [];
+    }
 
 }
 
