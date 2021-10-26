@@ -1,21 +1,28 @@
-function filtrarGastos(objeto){
-    let fd;
-    let fh;
-    let vmin;
-    let vmax;
-    let desc;
-    let etitiene;
-    
-    if(objeto.hasOwnProperty("fechaDesde"))
+let result = gastos.filter(function(item){
+    let devuelve = true;
+
+    if(typeof fd === "undefined")
     {
-        fd = objeto.fechaDesde;
-        console.log(fd);
-        if(!isNaN(Date.parse(fd)))
+        if(item.fecha < fd)
         {
-            fd = Date.parse(fd);
+            devuelve = false;
         }
     }
-    
-}
+    if(typeof fh === "undefined")
+    {
+        if(item.fecha > fh)
+        {
+            devuelve = false;
+        }
+    }
+    if(item.descripcion.includes(desc))
+    {
+        devuelve = false;
+    }
+        
+    return devuelve
+});
+return result;
+
 
 filtrarGastos({fechaDesde: 3})

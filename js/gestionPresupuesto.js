@@ -99,10 +99,10 @@ function CrearGasto(descripcion1, valor1 = 0, fechaIn = new Date(), ...etiquetas
         },
         obtenerPeriodoAgrupacion(periodo){
             let devuelve = "";
-            let fecha = newDate(this.fecha);
-            let dd = String(fecha.getDate()).padstart(2,"0");//longitud de dos sino un cero
-            let mm = String(fecha.getMonth()+1).padstart(2,"0")// +1 porque esta fnción te devuelve del 0 al 11 , el 0 es enero , por eso se le suma uno, para que el 1 sea enero y el 12 diciembre
-            let yy = String(fecha.getFullYear());
+            let fecha = new Date(this.fecha);
+            let dd = String(fecha.getDate()).padStart(2,"0");//longitud de dos sino un cero
+            let mm = String(fecha.getMonth()+1).padStart(2,"0");
+            let yy = fecha.getFullYear();// +1 porque esta fnción te devuelve del 0 al 11 , el 0 es enero , por eso se le suma uno, para que el 1 sea enero y el 12 diciembre
             switch(periodo){
                 case "dia" :
                     devuelve = `${yy}-${mm}-${dd}`
@@ -110,7 +110,7 @@ function CrearGasto(descripcion1, valor1 = 0, fechaIn = new Date(), ...etiquetas
                 case "mes" :
                     devuelve = `${yy}-${mm}`
                     return devuelve;;
-                case "año" :
+                case "anyo" :
                     devuelve = `${yy}`
                     return devuelve;
                 default:
@@ -133,18 +133,32 @@ function filtrarGastos(objeto){
     if(objeto.hasOwnProperty("fechaDesde"))
     {
         fd = objeto.fechaDesde;
-        if(!isNaN(Date.parse(fd)))
+        if(typeof(fd === "string") && (!isNaN(Date.parse(fd))))
         {
             fd = Date.parse(fd);
         }
+        else
+        {
+            fd = undefined;
+        }
     }
+    
     if(objeto.hasOwnProperty("fechaHasta"))
     {
-        fh = objeto.fechaDesde;
-        if(!isNaN(Date.parse(fh)))
+        fh = objeto.fechaHasta;
+        if(typeof(fh === "string") && (!isNaN(Date.parse(fh))))
         {
             fh = Date.parse(fh);
-        } 
+        }
+        else
+        {
+            fh = undefined;
+        }
+        // fh = objeto.fechaDesde;
+        // if(!isNaN(Date.parse(fh)))
+        // {
+        //     fh = Date.parse(fh);
+        // } 
     }
     if(objeto.hasOwnProperty("valorMinimo"))
     {
@@ -154,7 +168,55 @@ function filtrarGastos(objeto){
     {
         vmax = objeto.valorMaximo;
     }
+    if(objeto.hasOwnProperty("descripcionContiene"))
+    {
+        desc = objeto.descripcionContiene;
+    }
+    if(objeto.hasOwnProperty("etiquetasTiene"))
+    {
+        etitiene = objeto.etiquetasTiene;    
+    }
+    let result = gastos.filter(function(item){
+        let devuelve = true;
     
+        if(typeof fd === "undefined")
+        {
+            if(item.fecha < fd)
+            {
+                devuelve = false;
+            }
+        }
+        if(typeof fh === "undefined")
+        {
+            if(item.fecha > fh)
+            {
+                devuelve = false;
+            }
+        }
+        if(typeof vmax === "undefined")
+        {
+            if(vmax > item.valor)
+            {
+                devuelve = false;
+            }
+        }
+        if(typeof vmin === "undefined")
+        {
+            if(vmin > item.valor)
+            {
+                devuelve = false;
+            }
+        }
+        if(typeof desc === "undefined" && item.descripcion.includes(desc))
+        {
+            devuelve = false;
+        }
+        if(type of d)
+            
+        return devuelve
+    });
+    Console.log(JSON.stringify(gastosfiltrados))
+    return result;
 }
 
 function listarGastos(){
@@ -174,7 +236,9 @@ function borrarGasto(idrandom){
         }
     }
 }
+function agruparGastos(){
 
+}
 function calcularTotalGastos(){
     let acumulado = 0;
     for(let i = 0; i < gastos.length; i++)
@@ -203,6 +267,6 @@ export   {
     borrarGasto,
     calcularTotalGastos,
     calcularBalance,
-    obtenerPeriodoAgrupacion,
+    agruparGastos,
     filtrarGastos
 }
