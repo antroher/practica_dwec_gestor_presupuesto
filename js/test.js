@@ -66,7 +66,7 @@ function creacionObjeto (objeto) {
 creacionObjeto({fechaDesde: 3, fechaHasta: 4})
 
 
-
+ let gastos = [3, 4, undefined, "precio", "hola", null];
 let array = [3, 4, undefined, "precio", "hola", null];
 
 let arrayfiltrado = array.filter((item) => {
@@ -114,6 +114,4 @@ function crear(objeto){
 
 crear({fecha: 3})
 crear({});
-
-
 

@@ -409,8 +409,18 @@ function filtrarGastos(filtroEntrante) {
     return arrayDevolver;
 }
 
-function agruparGastos() {
+function agruparGastos(periodo, etiquetasEntrante = [], fechaDesdeEntrante = "", fechaHastaEntrante = "") {
+    //Creación de objeto gasto.
+    let gasto = {
+        etiquetasTiene: etiquetasEntrante,
+        fechaDesde: (!isNaN(Date.parse(fechaDesdeEntrante)))? Date.parse(fechaDesdeEntrante) : undefined,
+        fechaHasta: (!isNaN(Date.parse(fechaHastaEntrante))) ? Date.parse(fechaHastaEntrante) : undefined
+    }
 
+    //Creación de array de gastos filtrados mediante la función filtrarGastos()
+    let gastosFiltrados = filtrarGastos(gasto);
+
+    
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
