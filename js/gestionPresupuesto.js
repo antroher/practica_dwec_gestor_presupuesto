@@ -179,12 +179,14 @@ function calcularBalance() {
 
     return balance;
 }
+/*
                     // valor por defecto
 function agruparGastos(periodo = "mes", etiquetas = [], fechaDes = '', fechaHas = '') {
 // 1º comprueba los parámetros
 // 2º llama a filtrarGastos con esos parámetros
 // 3º reduce los gastos filtrados por periodo
 // 4º return objeto
+
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
     let mm = String(today.getMonth() + 1).padStart(2, '0'); //empieza en 0, por eso sumamos 1 (enero = 0)
@@ -192,13 +194,40 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechaDes = '', fechaHas 
 
     let objeto = {};
 
-    if ((typeof fechaDes !== 'string') || isNaN(Date.parse(fechaDes)) || (typeof fechaDes == "undefined")) {
-        
+    // Comprobar los parámetros
+
+    if ((typeof fechaDes !== 'string') || isNaN(Date.parse(fechaDes)) || (typeof fechaDes === "undefined")) 
+    {
+        fechaDes = '';
+    }
+    else 
+    {
+        objeto.fechaDesde = fechaDes;
+    }
+    
+    if ((typeof fechaHas !== 'string') || isNaN(Date.parse(fechaHas)) || (typeof fechaHas === 'undefined'))
+    {
+        fechaHas = `${yyyy}-${mm}-${dd}`;
+        objeto.fechaHasta = fechaHas;
+    }
+    else
+    {
+        objeto.fechaHasta = fechaHas;
     }
 
-
+    if (typeof etiquetas === 'undefined')
+    {
+        etiquetas = [];
+        objeto.etiquetasTiene = [];
+    }
+    else
+    {
+        objeto.etiquetasTiene = etiquetas;
+    }
+    //  Llamar a la función filtrar gastos
 
     let subconjG = filtrarGastos(objeto);
+
 
     let reducido = subconjG.reduce(function (acu, item){
         let per = item.obtenerPeriodoAgrupacion(periodo);
@@ -217,6 +246,26 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechaDes = '', fechaHas 
 
     return reducido;
 }
+*/
+function agruparGastos(periodo = "mes", etiquetas = [], fechDesd, fechaHas = Date.now()) {
+
+    //if (fechDesd == undefined){
+      //let aux = new Date(Date.now()).getFullYear();
+      //fechDesd = 0;
+    //}
+      let listaResultadoFiltros = filtrarGastos({fechaDesde: fechDesd, fechaHasta:fechaHas, etiquetasTiene: etiquetas});
+      let gastosAgrupados = listaResultadoFiltros.reduce(function(acumulador, gast){
+      let perAgrup = gast.obtenerPeriodoAgrupacion(periodo);
+      if (acumulador.hasOwnProperty(perAgrup)){
+         acumulador[perAgrup] = acumulador[perAgrup] + gast.valor;
+      } else {     
+        acumulador[perAgrup] = gast.valor;
+      }
+       return acumulador
+    }, {});
+    return gastosAgrupados;
+  }
+
 function filtrarGastos(objetoFiltrado) { // 1 param-> objeto que puede tener esas 6 propiedades
     if (objetoFiltrado != undefined && objetoFiltrado != null) {
 // crea un array resultado que almacena lo que devuelve .filter
