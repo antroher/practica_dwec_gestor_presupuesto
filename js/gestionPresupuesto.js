@@ -17,21 +17,17 @@ function actualizarPresupuesto(cant) {
 }
 
 function mostrarPresupuesto() {
-
     let x = presupuesto;
     return `Presupuesto actual: ${x} €`;
 }
 
 function crearGasto(descrip, valor, fecha, ...etiquetas) {
-
     this.descrip = descrip;
     if (valor >= 0) {
         this.valor = valor;
     } else {
         this.valor = 0;
     }
-
-
     if (fecha) {
         fecha = Date.parse(fecha);
         this.fecha = fecha;
