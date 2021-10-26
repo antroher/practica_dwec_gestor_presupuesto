@@ -1,4 +1,3 @@
-import { strict } from "assert";
 
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
@@ -161,9 +160,8 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     let fechaHasta  = miObjeto.fechaHasta;
     let minimo;
     let maximo;
-    let descripcion = "";
-    let etiquetasTiene = [];
-    let devolver =[];
+    let ParamDesc;
+    let etiquetas;
 
         if(miObjeto.hasOwnProperty(fechaDesde)){
                 if(!isNaN(fechaDesde)){fechaDesde = Date.parse(fechaDesde);}//si devuelve un valor válido lo convierte a fecha
@@ -174,38 +172,70 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         else if(miObjeto.hasOwnProperty(miObjeto.valorMinimo)){
             if(!isNaN(miObjeto.valorMinimo)){minimo = miObjeto.valorMinimo;}
         }
-        else if(miObjeto.hasOwnProperty( miObjeto.valorMaximo)){
-            if(!isNaN( miObjeto.valorMaximo)){maximo =  miObjeto.valorMaximo;}
+        else if(miObjeto.hasOwnProperty(miObjeto.valorMaximo)){
+            if(!isNaN(miObjeto.valorMaximo)){maximo = miObjeto.valorMaximo;}
         }
-        else if(miObjeto.hasOwnProperty( miObjeto.descripcionContiene)){
-            if(!isNaN(miObjeto.descripcionContiene)){descripcion =  miObjeto.descripcionContiene}
+        else if(miObjeto.hasOwnProperty(miObjeto.descripcionContiene)){
+            if(!isNaN(miObjeto.descripcionContiene)){ParamDesc = miObjeto.descripcionContiene}
         }
-        else if(miObjeto.hasOwnProperty( miObjeto.etiquetasTiene)){
-            if(!isNaN(miObjeto.etiquetasTiene)){
-                etiquetas =  miObjeto.etiquetasTiene;
-                for(var i = 0 ; i < etiquetas.length; i++){
-                    
-                    if(etiquetas[i] == gastos[i]){
-                        etiquetasTiene += etiquetas[i];
-                    }
-                }
-                return etiquetasTiene;
+        else if(miObjeto.hasOwnProperty(miObjeto.etiquetasTiene)){
+            etiquetas = [...miObjeto.etiquetasTiene];
+        }
+        else if(miObjeto == {}){
+            let ListaGastos;
+            
+            for (let i = 0; i <= gastos.length; i++) {
+                ListaGastos = gastos[i];
             }
+            return ListaGastos;
         }
 
-        //Si se pasa un objeto vacío, devolverá todos los gastos que haya.
-        /*if(miObjeto == {}){
-            for(var i = 0 ; i < gastos.length; i++)
-            {
-                devolver += gastos[i]; 
+        let gastosfiltrados = gastos.filter(item => {
+            let devuelve = false;
+
+            if((typeof fechaDesde != 'undefined') && (typeof fechaHasta != 'undefined')){
+                if((fechaDesde <= item.fecha) && (fechaHasta >= item.fecha)){
+                    devuelve = true;
+                }
             }
-            return devolver;
-        }*/
+            else{
+                if(typeof fechaDesde != 'undefined' && fechaDesde <= item.fecha){ 
+                    devuelve = true;
+                }
+                   
+                if(typeof fechaHasta != 'undefined' && fechaHasta >= item.fecha){
+                    devuelve = true;
+                }
+            }
+
+            if((typeof minimo !== 'undefined') && (item.valor > minimo))
+            {
+                devuelve = true;
+            }
+
+            if(typeof maximo !== 'undefined' && item.valor < maximo)
+            {
+                devuelve = true;
+            }
+
+            if(typeof ParamDesc !== 'undefined' && item.descripcion.includes(ParamDesc))
+            {
+                devuelve = true;
+            }
+        
+            if(typeof etiquetasTiene !== 'undefined' && item.etiquetasTiene.includes(etiquetas))
+            {
+                devuelve = true;
+            }
+            return devuelve;
+        });
+        if(gastosfiltrados.length === 0){gastosfiltrados = [...gastos];} //Si se pasa un objeto vacíoss
+        return gastosfiltrados;
     }
     //substring()método devuelve un subconjunto de un objeto String
     //PathState js
-    function agruparGastos(){
-
+    function agruparGastos(objeto){
+        
     }
 //las funciones y objetos deben tener los nombres que indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
