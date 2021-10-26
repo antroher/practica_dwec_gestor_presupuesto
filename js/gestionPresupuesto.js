@@ -254,9 +254,25 @@ function filtrarGastos(objfil)
     return gastos;
 }
 
-function agruparGastos()
+function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) 
 {
-
+    let funfil = {etiquetasTiene : etiquetas, fechaDesde : fechaDesde, fechaHasta : fechaHasta}
+    let rtnFiltrarGastos = filtrarGastos(funfil);
+    let agrupar =
+            rtnFiltrarGastos.reduce((acc, item, index, rtnFiltrarGastos) => 
+            {
+                let periRed = item.obtenerPeriodoAgrupacion(periodo);
+                if (acc[periRed] == null)
+                {
+                    acc[periRed] = item.valor;
+                }     
+                else 
+                {
+                    acc[periRed] += item.valor;
+                }
+                return acc;
+            }, {});
+    return agrupar;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
