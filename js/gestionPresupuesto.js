@@ -153,55 +153,233 @@ function calcularBalance() {
 
 function filtrarGastos(filtroEntrante) {    
     let fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene;
+    let tieneEtiquetas = false;
+    let caseString = "";
+
     if (filtroEntrante.hasOwnProperty("fechaDesde")) {
-        if (!isNaN(Date.parse(filtroEntrante.fechaDesde))) 
+        if (!isNaN(Date.parse(filtroEntrante.fechaDesde))) {
             fechaDesde = Date.parse(filtroEntrante.fechaDesde);
+            caseString += "a";
+        }
     }
     if (filtroEntrante.hasOwnProperty("fechaHasta")) {
-        if (!isNaN(Date.parse(filtroEntrante.fechaHasta))) 
+        if (!isNaN(Date.parse(filtroEntrante.fechaHasta))) {
             fechaHasta = Date.parse(filtroEntrante.fechaHasta);
+            caseString += "b";
+        }
     }
     if (filtroEntrante.hasOwnProperty("valorMinimo")) {
         valorMinimo = filtroEntrante.valorMinimo;
+        caseString += "c";
     }
     if (filtroEntrante.hasOwnProperty("valorMaximo")) {
         valorMaximo = filtroEntrante.valorMaximo;
+        caseString += "d";
     }
     if (filtroEntrante.hasOwnProperty("descripcionContiene")) {
         descripcionContiene = filtroEntrante.descripcionContiene;
+        caseString += "e";
     }
     if (filtroEntrante.hasOwnProperty("etiquetasTiene")) {
         etiquetasTiene = filtroEntrante.etiquetasTiene;
+        tieneEtiquetas = true;
     }
 
     let arrayDevolver = gastos.filter((gasto) => {
-        let boolDevolucion = false;
+        let boolSwitch = false;
+        let boolEtiquetas = false;
         
-        if (typeof fechaDesde !== undefined && typeof fechaHasta !== undefined) {
-            if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha)
-                boolDevolucion = true;
+        if (tieneEtiquetas) {
+            etiquetasTiene.forEach((etiqueta) => {
+                if (gasto.etiquetas.includes(etiqueta)) {
+                    boolEtiquetas = true;
+                }
+            });
         }
-        else {
-            if (typeof fechaDesde !== undefined && fechaDesde < gasto.fecha)
-                boolDevolucion = true;
-            if (typeof fechaHasta !== undefined && fechaHasta >= gasto.fecha)
-                boolDevolucion = true;
+
+        switch(caseString) {
+            case "abcde":
+                if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha) {
+                    if(valorMaximo >= gasto.valor && valorMinimo <= gasto.valor) {
+                        if(gasto.descripcion.includes(descripcionContiene)) {
+                            boolSwitch = true;
+                        }
+                    }
+                }
+                break;
+            case "abcd":
+                if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha) {
+                    if(valorMaximo >= gasto.valor && valorMinimo <= gasto.valor) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "abce":
+                if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha) {
+                    if (valorMinimo <= gasto.valor) {
+                        if (gasto.descripcion.includes(descripcionContiene)) {
+                            boolSwitch = true;
+                        }
+                    }
+                }
+                break;
+            case "abc":
+                if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha) {
+                    if(valorMinimo <= gasto.valor) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "abd":
+                if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha) {
+                    if (valorMaximo >= gasto.valor) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "abe":
+                if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha) {
+                    if (gasto.descripcion.includes(descripcionContiene)) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "ab":
+                if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha) {
+                    boolSwitch = true;
+                }
+                break;
+            case "ac":
+                if (fechaDesde <= gasto.fecha) {
+                    if (valorMinimo <= gasto.valor) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "ad":
+                if (fechaDesde <= gasto.fecha) {
+                    if (valorMaximo >= gasto.valor) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "ae":
+                if (fechaDesde <= gasto.fecha) {
+                    if (gasto.descripcion.includes(descripcionContiene)) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "bcde":
+                if (fechaHasta >= gasto.fecha) {
+                    if (valorMaximo >= gasto.valor && valorMinimo <= gasto.valor) {
+                        if (gasto.descripcion.includes(descripcionContiene)) {
+                            boolSwitch = true;
+                        }
+                    }
+                }
+                break;
+            case "bcd":
+                if (fechaHasta >= gasto.fecha) {
+                    if (valorMaximo >= gasto.valor && valorMinimo <= gasto.valor) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "bce":
+                if (fechaHasta >= gasto.fecha) {
+                    if (valorMinimo <= gasto.valor) {
+                        if (gasto.descripcion.includes(descripcionContiene)) {
+                            boolSwitch = true;
+                        }
+                    }
+                }
+                break;
+            case "bc":
+                if (fechaHasta >= gasto.fecha) {
+                    if (valorMinimo <= gasto.valor) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "bd":
+                if (fechaHasta >= gasto.fecha) {
+                    if (valorMaximo >= gasto.valor) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "be":
+                if (fechaHasta >= gasto.fecha) {
+                    if (gasto.descripcion.includes(descripcionContiene)) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "cde":
+                if (valorMinimo <= gasto.valor && valorMaximo >= gasto.valor) {
+                    if (gasto.descripcion.includes(descripcionContiene)) {
+                        boolSwitch = true;
+                    }    
+                }
+                break;
+            case "cd":
+                if (valorMinimo <= gasto.valor && valorMaximo >= gasto.valor) {
+                    boolSwitch = true;
+                }
+                break;
+            case "ce":
+                if (valorMinimo <= gasto.valor) {
+                    if (gasto.descripcion.includes(descripcionContiene)) {
+                        boolSwitch = true;
+                    }    
+                }
+                break;
+            case "de":
+                if (valorMaximo >= gasto.valor) {
+                    if (gasto.descripcion. includes(descripcionContiene)) {
+                        boolSwitch = true;
+                    }
+                }
+                break;
+            case "a":
+                if (fechaDesde <= gasto.fecha) {
+                    boolSwitch = true;
+                }
+                break;
+            case "b": 
+                if (fechaHasta >= gasto.fecha) {
+                    boolSwitch = true;
+                }
+                break;
+            case "c":
+                if (valorMinimo <= gasto.valor) {
+                    boolSwitch = true;
+                }
+                break;
+            case "d":
+                if (valorMaximo >= gasto.valor) {
+                    boolSwitch = true;
+                }
+                break;
+            case "e":
+                if (gasto.descripcion.includes(descripcionContiene)) {
+                    boolSwitch = true;
+                }
+                break;
         }
-        if (typeof valorMaximo !== undefined && valorMaximo <= gasto.valor)
-            boolDevolucion = true;
-        if (typeof valorMinimo !== undefined && valorMinimo >= gasto.valor)
-            boolDevolucion = true;
-        if (typeof descripcionContiene !== undefined && gasto.descripcion.includes(descripcionContiene))
-            boolDevolucion = true;
         
-        return boolDevolucion;
+        if (tieneEtiquetas && boolEtiquetas && boolSwitch)
+            return true;
+        else if (tieneEtiquetas === false && boolSwitch)
+            return true;
+        else
+            return false;
     })
-
-    if(arrayDevolver.length === 0){
-        arrayDevolver = [...gastos];
-    }
-
-    return arrayDevolver;
+if (arrayDevolver.length === 0) {
+    arrayDevolver = [...gastos];
+}
+return arrayDevolver;
 }
 
 function agruparGastos() {

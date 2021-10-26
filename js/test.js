@@ -95,3 +95,24 @@ let fecha = Date.parse("2021-09-26");
 let fecha2 = Date.parse("2021-09-15");
 console.log(fecha.toLocaleString());
 console.log(fecha2.toLocaleString());
+
+1632614400000
+1632614400000
+
+function crear(objeto){
+    let d;
+
+    if (objeto.hasOwnProperty("fecha"))
+    {
+        d = objeto.fecha
+    }
+    if (typeof d !== "undefined"){
+        console.log("esta definido")
+    }
+}
+
+crear({fecha: 3})
+crear({});
+
+
+
