@@ -168,6 +168,43 @@ function filtrarGastos() {
                 return x.fecha >= (Date.parse(gastosFilter.fechaDesde))
             })
         }
+        if (Object.hasOwn(gastosFilter, 'fechaHasta') && typeof gastosFilter.fechaHasta === 'string') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                return x.fecha <= Date.parse(gastosFilter.fechaHasta);
+            })
+        }
+        if (Object.hasOwn(gastosFilter, 'valorMinimo') && typeof gastosFilter.valorMinimo === 'number') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                return x.valor >= gastosFilter.valorMinimo
+            })
+        }
+        if (Object.hasOwn(gastosFilter, 'valorMaximo') && typeof gastosFilter.valorMaximo === 'number') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                
+                return x.valor <= gastosFilter.valorMaximo
+            })
+            if (Object.hasOwn(gastosFilter, 'descripcionContiene') && typeof gastosFilter.descripcionContiene === 'string') {
+                gastosFiltrados = gastosFiltrados.filter((x) => {
+                    let param1 = (x.descripcion).toLowerCase();
+                    let param2 = (gastosFilter.descripcionContiene).toLowerCase();
+                    let param1Array = param1.split(" ");
+                    let param1ArrayJoin = param1Array.join('');
+                    if (param1ArrayJoin.indexOf(param2) !== -1) 
+                        return true;
+                })
+            }
+            if (Object.hasOwn(gastosFilter, 'etiquetasTiene') && Array.isArray(gastosFilter.etiquetasTiene)) {
+                gastosFiltrados = gastosFiltrados.filter((x) => {
+                    for (let i = 0; i < gastosFilter.etiquetasTiene.length; i++) {
+                        if (gastosFilter.etiquetasTiene.includes(x.etiquetas[i])) {
+                            return true;
+                        }
+                    }
+                })
+            }
+            return gastosFiltrados;
+        }
+        return gastos;
 }
 function agruparGastos() {
     
