@@ -156,80 +156,88 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     //práctica 3
     function filtrarGastos(miObjeto){
     /*objeto.hasOwnProperty(''); comprobar si existe las propiedades indicadas*/
-    let fechaDesde = miObjeto.fechaDesde;
-    let fechaHasta  = miObjeto.fechaHasta;
+    let fechaDesde;
+    let fechaHasta;
     let minimo;
     let maximo;
     let ParamDesc;
     let etiquetas;
+    let gastosfiltrados;
+    
+    
 
-        if(miObjeto.hasOwnProperty(fechaDesde)){
-                if(!isNaN(fechaDesde)){fechaDesde = Date.parse(fechaDesde);}//si devuelve un valor válido lo convierte a fecha
+        if(miObjeto.hasOwnProperty('fechaDesde')){
+            if(typeof miObjeto.fechaDesde === 'string'){
+               if(isNaN(Date.parse(miObjeto.fechaDesde))){ //si me pasan una fecha que no es valida no puedo filtrar
+                //en el caso de no ser un número
+                fechaDesde = undefined;
+               }
+               else{ //si no, si es un número
+                fechaDesde = Date.parse(miObjeto.fechaDesde);
+               }
+            }
         }
-        if(miObjeto.hasOwnProperty(fechaHasta)){
-            if(!isNaN(fechaHasta)){fechaHasta = Date.parse(fechaHasta);}//si devuelve un valor válido lo convierte a fecha
+        console.log("FECHADESDE :" +fechaDesde);
+
+        if(miObjeto.hasOwnProperty(`fechaHasta`)){
+            if(typeof miObjeto.fechaHasta === `string`){
+               if(isNaN(Date.parse(miObjeto.fechaHasta))){ //si me pasan una fecha que no es valida no puedo filtrar
+                //en el caso de no ser un número
+                fechaHasta = undefined;
+               }
+               else{ //si no, si es un número
+                fechaHasta = Date.parse(miObjeto.fechaHasta);
+               }
+            }
         }
-        else if(miObjeto.hasOwnProperty(miObjeto.valorMinimo)){
-            if(!isNaN(miObjeto.valorMinimo)){minimo = miObjeto.valorMinimo;}
+        else if(miObjeto.hasOwnProperty(`valorMinimo`)){
+            if(isNaN(miObjeto.valorMinimo)){minimo = miObjeto.valorMinimo;} //is NaN si no es un número
         }
-        else if(miObjeto.hasOwnProperty(miObjeto.valorMaximo)){
-            if(!isNaN(miObjeto.valorMaximo)){maximo = miObjeto.valorMaximo;}
+        else if(miObjeto.hasOwnProperty(`valorMaximo`)){
+            if(isNaN(miObjeto.valorMaximo)){maximo = miObjeto.valorMaximo;}
         }
-        else if(miObjeto.hasOwnProperty(miObjeto.descripcionContiene)){
+        else if(miObjeto.hasOwnProperty(`descripcionContiene`)){
             if(!isNaN(miObjeto.descripcionContiene)){ParamDesc = miObjeto.descripcionContiene}
         }
-        else if(miObjeto.hasOwnProperty(miObjeto.etiquetasTiene)){
+        else if(miObjeto.hasOwnProperty(`etiquetasTiene`)){
             etiquetas = [...miObjeto.etiquetasTiene];
         }
-        else if(miObjeto == {}){
-            let ListaGastos;
+
+        gastosfiltrados = gastos.filter(function(item){
+           
+            let devuelve = true;
+
+            if((typeof fechaDesde !== 'undefined') && (item.fecha<fechaDesde)) {
+                    devuelve = false;
+                }
+              
+            if((typeof fechaHasta !== 'undefined') && (item.fecha > fechaHasta)){
+                    devuelve = false;
+                }
             
-            for (let i = 0; i <= gastos.length; i++) {
-                ListaGastos = gastos[i];
-            }
-            return ListaGastos;
-        }
 
-        let gastosfiltrados = gastos.filter(item => {
-            let devuelve = false;
-
-            if((typeof fechaDesde != 'undefined') && (typeof fechaHasta != 'undefined')){
-                if((fechaDesde <= item.fecha) && (fechaHasta >= item.fecha)){
-                    devuelve = true;
-                }
-            }
-            else{
-                if(typeof fechaDesde != 'undefined' && fechaDesde <= item.fecha){ 
-                    devuelve = true;
-                }
-                   
-                if(typeof fechaHasta != 'undefined' && fechaHasta >= item.fecha){
-                    devuelve = true;
-                }
-            }
-
-            if((typeof minimo !== 'undefined') && (item.valor > minimo))
+            if((typeof minimo !== 'undefined') && (item.valor < minimo))
             {
-                devuelve = true;
+                devuelve = false;
             }
 
-            if(typeof maximo !== 'undefined' && item.valor < maximo)
+            if((typeof maximo !== 'undefined') && (item.valor > maximo))
             {
-                devuelve = true;
+                devuelve = false;
             }
 
-            if(typeof ParamDesc !== 'undefined' && item.descripcion.includes(ParamDesc))
+            if((typeof ParamDesc !== 'undefined') && (!item.descripcion.includes(ParamDesc)))
             {
-                devuelve = true;
+                devuelve = false;
+            }
+            
+            //for of del gasto etiquetas y comprarlo con el que se ha pasado para comprobar si lo incluye , sí solo tiene una de esas etiqeutas es válido, si no tiene nuinguna no se pone
+            if ((etiquetas !== 'undefined') && (!item.etiquetas.includes(etiquetas))){
+             devuelve = false
             }
         
-            if(typeof etiquetasTiene !== 'undefined' && item.etiquetasTiene.includes(etiquetas))
-            {
-                devuelve = true;
-            }
             return devuelve;
         });
-        if(gastosfiltrados.length === 0){gastosfiltrados = [...gastos];} //Si se pasa un objeto vacíoss
         return gastosfiltrados;
     }
     //substring()método devuelve un subconjunto de un objeto String
