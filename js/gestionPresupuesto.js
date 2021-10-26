@@ -91,19 +91,30 @@ function CrearGasto(descripcion, valor = 0, fecha = new (Date), ...etiquetas) {
                     case "dia": {
                         if (obtenerFecha.getDate() < 10) {
                             if (obtenerFecha.getMonth() < 10) {
-                                return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}-0${obtenerFecha.getDate()} `;
+                                return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}-0${obtenerFecha.getDate()}`;
                             }
                             else {
                                 return `${obtenerFecha.getFullYear()}-${obtenerFecha.getMonth()+1}-0${obtenerFecha.getDate()}`;
                             }
                         }
                         else {
-                            
+                            if (obtenerFecha.getMonth() < 10) {
+                                return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}-${obtenerFecha.getDate()}`;
+                            }
+                            else {
+                                return `${obtenerFecha.getFullYear()}-${obtenerFecha.getMonth()+1}-${obtenerFecha.getDate()}`;
+                            }
                         }
+                        break;
+                    }
+                    case "mes": {
+                        break;
+                    }
+                    case "anyo": {
+                        break;
                     }
                 }
-        }
-    };
+        };
     return gasto;
 }
 
