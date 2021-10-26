@@ -179,7 +179,6 @@ function calcularBalance() {
 
     return balance;
 }
-/*
                     // valor por defecto
 function agruparGastos(periodo = "mes", etiquetas = [], fechaDes = '', fechaHas = '') {
 // 1º comprueba los parámetros
@@ -246,79 +245,61 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechaDes = '', fechaHas 
 
     return reducido;
 }
-*/
-function agruparGastos(periodo = "mes", etiquetas = [], fechDesd, fechaHas = Date.now()) {
 
-    //if (fechDesd == undefined){
-      //let aux = new Date(Date.now()).getFullYear();
-      //fechDesd = 0;
-    //}
-      let listaResultadoFiltros = filtrarGastos({fechaDesde: fechDesd, fechaHasta:fechaHas, etiquetasTiene: etiquetas});
-      let gastosAgrupados = listaResultadoFiltros.reduce(function(acumulador, gast){
-      let perAgrup = gast.obtenerPeriodoAgrupacion(periodo);
-      if (acumulador.hasOwnProperty(perAgrup)){
-         acumulador[perAgrup] = acumulador[perAgrup] + gast.valor;
-      } else {     
-        acumulador[perAgrup] = gast.valor;
-      }
-       return acumulador
-    }, {});
-    return gastosAgrupados;
-  }
 
 function filtrarGastos(objetoFiltrado) { // 1 param-> objeto que puede tener esas 6 propiedades
     if (objetoFiltrado != undefined && objetoFiltrado != null) {
-// crea un array resultado que almacena lo que devuelve .filter
-      let gastosFiltrados = gastos.filter((gasto) => {  // función que recibe el objeto gasto como parámetro (recorre el array gastos)
-        if (objetoFiltrado.hasOwnProperty("fechaDesde")) {
-          if (gasto.fecha < Date.parse(objetoFiltrado.fechaDesde)) {  //si la fecha del objeto gasto del array gastos es menor a
-            return;                             // la fecha del atributo fechaDesde del objeto pasado, filtrará desde esa fecha.
-          } 
-        }// return: true => almacena ese gasto en el array de gastos filtrados
-  
-        if (objetoFiltrado.hasOwnProperty("fechaHasta")) {
-          if (gasto.fecha > Date.parse(objetoFiltrado.fechaHasta) ) {
-            return;
-          }
-        }
-  
-        if (objetoFiltrado.hasOwnProperty("valorMinimo")) {
-          if (gasto.valor < objetoFiltrado.valorMinimo) {
-            return;
-          }
-        }
-  
-        if (objetoFiltrado.hasOwnProperty("valorMaximo")) {
-          if (gasto.valor > objetoFiltrado.valorMaximo) {
-            return;
-          }
-        }
-  
-        if (objetoFiltrado.hasOwnProperty("descripcionContiene")) {
-          if (!gasto.descripcion.includes(objetoFiltrado.descripcionContiene)) {
-            return;
-          }
-        }
-        if (objetoFiltrado.hasOwnProperty("etiquetasTiene")) {
-          if ( objetoFiltrado.etiquetasTiene.length != 0){
-          let devuelve = false;
-          for (let des of objetoFiltrado.etiquetasTiene) {
-            if (gasto.etiquetas.includes(des)) {
-              devuelve = true;
+        // crea un array resultado que almacena lo que devuelve .filter
+        let gastosFiltrados = gastos.filter((gasto) => {  // función que recibe el objeto gasto como parámetro (recorre el array gastos)
+            if (objetoFiltrado.hasOwnProperty("fechaDesde")) {
+                if (gasto.fecha < Date.parse(objetoFiltrado.fechaDesde)) {  //si la fecha del objeto gasto del array gastos es menor a
+                    return;                             // la fecha del atributo fechaDesde del objeto pasado, filtrará desde esa fecha.
+                } 
+            }// return: true => almacena ese gasto en el array de gastos filtrados
+            
+            if (objetoFiltrado.hasOwnProperty("fechaHasta")) {
+                if (gasto.fecha > Date.parse(objetoFiltrado.fechaHasta) ) {
+                    return;
+                }
             }
-          }
-          if (!devuelve) {
-            return;
-          }
-        }
-      }
-        return gasto;
-      });
-  
-      return gastosFiltrados;
-  
+            
+            if (objetoFiltrado.hasOwnProperty("valorMinimo")) {
+                if (gasto.valor < objetoFiltrado.valorMinimo) {
+                    return;
+                }
+            }
+            
+            if (objetoFiltrado.hasOwnProperty("valorMaximo")) {
+                if (gasto.valor > objetoFiltrado.valorMaximo) {
+                    return;
+                }
+            }
+            
+            if (objetoFiltrado.hasOwnProperty("descripcionContiene")) {
+                if (!gasto.descripcion.includes(objetoFiltrado.descripcionContiene)) {
+                    return;
+                }
+            }
+            if (objetoFiltrado.hasOwnProperty("etiquetasTiene")) {
+                if ( objetoFiltrado.etiquetasTiene.length != 0){
+                    let devuelve = false;
+                    for (let des of objetoFiltrado.etiquetasTiene) {
+                        if (gasto.etiquetas.includes(des)) {
+                            devuelve = true;
+                        }
+                    }
+                    if (!devuelve) {
+                        return;
+                    }
+                }
+            }
+            return gasto;
+        });
+        
+        return gastosFiltrados;
+        
     } else {
-      return gastos;
+        return gastos;
     }
 }
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
