@@ -323,7 +323,7 @@ function filtrarGastos(objeto)
                 }
             }
         }
-
+        
         return DevolverBool;            
     })
 
