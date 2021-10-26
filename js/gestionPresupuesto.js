@@ -161,7 +161,13 @@ function calcularBalance(){
     return balance;
 }
 function filtrarGastos() {
-
+    let gastosFiltrados = Object.assign(gastos);
+    if (typeof gastosFilter === 'object' && gastosFilter !== null  && Object.entries(gastosFilter).length > 0) {
+        if (Object.hasOwn(gastosFilter, 'fechaDesde') && typeof gastosFilter.fechaDesde === 'string') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                return x.fecha >= (Date.parse(gastosFilter.fechaDesde))
+            })
+        }
 }
 function agruparGastos() {
     
