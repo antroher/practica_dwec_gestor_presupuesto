@@ -6,7 +6,8 @@
         "test": "mocha",
         "test1": "mocha test/01_testIntroJSI.js",
         "test2": "mocha test/02_testIntroJSII.js",
-        "test3": "mocha test/03_testIntroJSIII.js"
+        "test3": "mocha test/03_testIntroJSIII.js",
+        "test4": "cypress run -b chromium -s test/04_testInteraccionHTML.js"
     },
     "description": "Práctica de Gestión de Presupuestos del módulo de Desarrollo de Web en Entorno Cliente",
     "license": "GPL-3.0",
@@ -14,6 +15,7 @@
     "type": "module",
     "devDependencies": {
         "chai": "^4.3.4",
+        "cypress": "^8.7.0",
         "mocha": "^9.1.2"
     },
     "dependencies": {
