@@ -266,10 +266,6 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta)
                 {
                     acc[periRed] = item.valor;
                 }     
-                else 
-                {
-                    acc[periRed] += item.valor;
-                }
                 return acc;
             }, {});
     return agrupar;
