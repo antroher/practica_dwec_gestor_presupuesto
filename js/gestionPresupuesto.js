@@ -207,9 +207,99 @@ function calcularBalance()
     return balance;
 }
 
-function filtrarGastos(FechaFiltra)
+function filtrarGastos(newFiltro)
 {
     
+    let fDesde = Date.parse(newFiltro.fechaDesde);
+    if (newFiltro.hasOwnPropery('fechaDesde'))
+    {
+        if(!isNaN(fDesde))
+        {
+            fDesde = Date.parse(newFiltro.fechaDesde);
+        }
+    }
+
+    let fHasta = Date.parse(newFiltro.fechaHasta);
+    if (newFiltro.hasOwnPropery('fechaHasta'))
+    {
+        if(!isNaN(fHasta))
+        {
+            fHasta = Date.parse(newFiltro.fechaHasta);
+        }
+    }
+
+    let vMinimo;
+    if (newFiltro.hasOwnPropery('valorMinimo'))
+    {
+        vMinimo = newFiltro.valorMinimo;
+    }
+
+    let vMaximo;
+    if (newFiltro.hasOwnPropery('valorMaximo'))
+    {
+        vMaximo = newFiltro.valorMaximo;
+    }
+
+    let descCont;
+    if (newFiltro.hasOwnPropery('descripcionContiene'))
+    {
+        descCont = newFiltro.descripcionContiene;
+    }
+
+    let etiqTiene;
+    if (newFiltro.hasOwnPropery('etiquetasTiene'))
+    {
+        etiqTiene = newFiltro.etiquetasTiene;
+    }
+
+    let ArrayGastos = gastos.filter((gasto) => 
+    {
+        let DevolverBool = false;
+
+        if (typeof fechaDesde !== undefined && typeof fechaHasta !== undefined)
+        {
+            if (fechaDesde <= gasto.fecha && fechaHasta >= gasto.fecha)
+            {
+                DevolverBool = true;
+            }
+        }
+        else 
+        {
+            if (typeof fechaDesde !== undefined && fechaDesde <= gasto.fecha)
+            {
+                DevolverBool = true;
+            }
+            if (typeof fechaHasta !== undefined && fechaHasta >= gasto.fecha)
+            {
+                DevolverBool = true;
+            }   
+        }        
+
+        if (typeof valorMaximo !== undefined && valorMaximo <= gasto.valor)
+        {
+            DevolverBool = true;
+        }
+            
+        if (typeof valorMinimo !== undefined && valorMinimo >= gasto.valor)
+        {
+            DevolverBool = true;
+        }
+            
+        if (typeof descripcionContiene !== undefined && gasto.descripcion.includes(descripcionContiene))
+        {
+            DevolverBool = true;
+        }
+
+        return DevolverBool;            
+    })
+
+    if (ArrayGastos.length === 0)
+    {
+        ArrayGastos = [...gastos];
+    }
+
+    return ArrayGastos;
+
 }
 
 function agruparGastos()
