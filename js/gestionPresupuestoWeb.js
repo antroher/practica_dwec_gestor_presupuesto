@@ -27,32 +27,23 @@ function mostrarGastoWeb(idElemento, gasto) {
 
 }
 
-//Este habrá que arreglarlo
+//Este habrá que arreglarlo -mirar lo del key - value
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     const elemento = document.getElementById(idElemento);
+    agrup.forEach((x) => {
+        elemento.innerHTML += `<div class="agrupacion-dato">
+        <span class="agrupacion-dato-clave">${Object.keys(x)[0]}</span>
+        <span class="agrupacion-dato-valor">${x[Object.keys(x)[0]]}</span>
+    </div>`
+    });
     elemento.innerHTML = 
     `
     <div class="agrupacion">
         <!-- PERIODO será "mes", "día" o "año" en función de si el parámetro
             de la función es "mes", "dia" o "anyo" respectivamente -->
         <h1>Gastos agrupados por ${periodo}</h1>
-
-        <!-- Se deberá crear un div.agrupacion-dato para cada propiedad del objeto agrup:
-            https://es.javascript.info/keys-values-entries#object-keys-values-entries -->
-        <div class="agrupacion-dato">
-            <span class="agrupacion-dato-clave">${Object.keys(agrup)[0]}</span>
-            <span class="agrupacion-dato-valor">${agrup[Object.keys(agrup)[0]]}</span>
-        </div>
-
-        <div class="agrupacion-dato">
-            <span class="agrupacion-dato-clave">NOMBRE_PROPIEDAD_OBJETO_AGRUP</span>
-            <span class="agrupacion-dato-valor">VALOR_PROPIEDAD_OBJETO_AGRUP</span>
-        </div>
-
-        <!-- Etcétera -->
-
-        </div>
     `
+    + elemento.innerHTML +`</div>`
 }
 
 export   {
