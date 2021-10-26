@@ -108,6 +108,12 @@ function CrearGasto(descripcion, valor = 0, fecha = new (Date), ...etiquetas) {
                         break;
                     }
                     case "mes": {
+                        if(obtenerFecha.getMonth() < 10) {
+                            return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}`;
+                        }
+                        else {
+                            return `${obtenerFecha.getFullYear()}-${obtenerFecha.getMonth()+1}`;
+                        }
                         break;
                     }
                     case "anyo": {
