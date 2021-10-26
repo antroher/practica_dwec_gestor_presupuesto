@@ -109,7 +109,30 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq)
         },
     obtenerPeriodoAgrupacion(periodo)
         {
-            
+            let anyo=new Date(this.fecha);
+            let texto="";
+            switch(periodo)
+            {
+                case "dia":{
+                    let dia=anyo.getDate()<10 ? `0${anyo.getDate()}` : `${anyo.getDate()}`;
+                    let mes=anyo.getMonth()<9 ? `0${anyo.getMonth()+1}` : `${anyo.getMonth()+1}`;
+                    texto=anyo.getFullYear() + '-' + mes + '-' + dia; //xxxx-xx-xx
+                }
+                break;
+                case "mes":{
+                    let mes=anyo.getMonth()<9 ? `0${anyo.getMonth()+1}` : `${anyo.getMonth()+1}`;
+                    texto=anyo.getFullYear() + '-' + mes; //xxxx-xx
+                }
+                break;
+                case "anyo":{
+                    texto=anyo.getFullYear(); //xxxx
+                }
+                break;
+                default:{
+                    console.log("El formato de fecha no es válido.");
+                }
+            }
+            return texto;
         }
     }
     return gasto;
@@ -150,7 +173,7 @@ function calcularBalance(){
 }
 
 function filtrarGastos(){
-
+    
 }
 
 function agruparGastos(){
