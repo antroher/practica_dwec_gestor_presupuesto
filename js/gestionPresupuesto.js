@@ -84,6 +84,24 @@ function CrearGasto(descripcion, valor = 0, fecha = new (Date), ...etiquetas) {
                     }
                 }
             })
+        },
+        obtenerPeriodoAgrupación(periodo) {
+            let obtenerFecha = new Date(this.fecha);
+                switch(periodo) {
+                    case "dia": {
+                        if (obtenerFecha.getDate() < 10) {
+                            if (obtenerFecha.getMonth() < 10) {
+                                return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}-0${obtenerFecha.getDate()} `;
+                            }
+                            else {
+                                return `${obtenerFecha.getFullYear()}-${obtenerFecha.getMonth()+1}-0${obtenerFecha.getDate()}`;
+                            }
+                        }
+                        else {
+                            
+                        }
+                    }
+                }
         }
     };
     return gasto;
@@ -120,6 +138,12 @@ function calcularBalance(){
     let balance = presupuesto - calcularTotalGastos();
     return balance;
 }
+function filtrarGastos() {
+
+}
+function agruparGastos() {
+    
+}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -133,4 +157,6 @@ export   {
     borrarGasto,
     calcularTotalGastos,
     calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
