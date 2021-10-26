@@ -187,7 +187,7 @@ function filtrarGastos(objetoFiltrante){
             fechaH = undefined;
         }
         else{
-            fechaH = Date.parse(objetoFiltrante.FechaHasta);
+            fechaH = Date.parse(objetoFiltrante.fechaHasta);
         }
     }
 
@@ -230,15 +230,34 @@ function filtrarGastos(objetoFiltrante){
         if(typeof fechaD === 'undefined' && typeof fechaH !== 'undefined' && item.fecha <= fechaH) devuelve = true;
 
         if(typeof fechaD !== 'undefined' && typeof fechaH !== 'undefined'){
-            console.log("entra")
-            if(item.fecha >= fechaD && item.fecha <= fechaH){//No entra en fechaH
-                devuelve = true;
+            console.log(valorMax);
+            if(typeof valorMax === 'undefined'){
+                if(item.fecha >= fechaD && item.fecha <= fechaH){
+                    devuelve = true;
+                    console.log("entra undefi")
+                }    
+            }
+            if(typeof valorMax !== 'undefined'){
+                console.log("entraaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                if(item.fecha >= fechaD && item.fecha <= fechaH && item.valor < valorMax){
+                    devuelve = true;
+                    console.log("entra");
+                } 
+            }
+
+        } 
+
+        if(typeof valorMax === 'undefined' && typeof valorMin !== 'undefined' && item.valor > valorMin) devuelve = true;
+
+        if(typeof valorMin === 'undefined' && typeof valorMax !== 'undefined'){
+            if(typeof fechaD === 'undefined' || typeof fechaH == 'undefined'){
+                if(item.valor < valorMax){
+                    devuelve = true;
+                }
             }
         } 
 
-        if(typeof valorMin !== 'undefined' && item.valor > valorMin) devuelve = true;
-
-        if(typeof valorMax !== 'undefined' && item.valor < valorMax) devuelve = true;
+        if(typeof valorMin !== 'undefined' && typeof valorMax !== 'undefined' && item.valor > valorMin && item.valor < valorMax) devuelve =true;
 
         if(typeof descConti !== 'undefined') devuelve = true;
 
