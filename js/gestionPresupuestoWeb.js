@@ -31,13 +31,31 @@ function mostrarGastoWeb(idElemento, gastos) {
 }
 
 ///aqui gasto es un array, con lo que habria que cambiarlo y meterlo todo dentro de una iteracción
+// function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
+//     const elemento = document.getElementById(idElemento);
+//     let data = ""
+//     for (let [key, value] of Object.entries(agrup)) {
+//         data += `<div class="agrupacion-dato">
+//         <span class="agrupacion-dato-clave">${key}</span>
+//         <span class="agrupacion-dato-valor">${value}</span>
+//         </div>`
+//     };
+//     elemento.innerHTML += 
+//     `
+//     <div class="agrupacion">
+//         <h1>Gastos agrupados por ${periodo}</h1>
+//         ${data}
+//     `
+// }
+
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     const elemento = document.getElementById(idElemento);
     let data = ""
     for (let [key, value] of Object.entries(agrup)) {
-        data += `<div class="agrupacion-dato">
-        <span class="agrupacion-dato-clave">${key}</span>
-        <span class="agrupacion-dato-valor">${value}</span>
+        data += `
+        <div class="agrupacion-dato">
+            <div class="agrupacion-dato-clave">${key}</div>
+            <div class="agrupacion-dato-valor">${value}</div>
         </div>`
     };
     elemento.innerHTML += 
