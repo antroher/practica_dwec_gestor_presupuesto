@@ -212,6 +212,12 @@ function filtrarGastos(objetoFiltrante){
         descConti = undefined;
     }
 
+    if(objetoFiltrante.hasOwnProperty("etiquetasTiene")){
+        listEtiq = [...objetoFiltrante.etiquetasTiene];
+    }
+    else{
+        listEtiq = undefined;
+    }
 
 
 
@@ -249,7 +255,7 @@ function filtrarGastos(objetoFiltrante){
 
         if(typeof valorMax === 'undefined' && typeof valorMin !== 'undefined' && item.valor > valorMin) devuelve = true;
 
-        if(typeof valorMin === 'undefined' && typeof valorMax !== 'undefined'){
+        if(listEtiq === undefined && typeof valorMin === 'undefined' && typeof valorMax !== 'undefined'){
             if(typeof fechaD === 'undefined' || typeof fechaH == 'undefined'){
                 if(item.valor < valorMax){
                     devuelve = true;
@@ -257,9 +263,43 @@ function filtrarGastos(objetoFiltrante){
             }
         } 
 
-        if(typeof valorMin !== 'undefined' && typeof valorMax !== 'undefined' && item.valor > valorMin && item.valor < valorMax) devuelve =true;
+        if(descConti === undefined && typeof valorMin !== 'undefined' && typeof valorMax !== 'undefined' && item.valor > valorMin && item.valor < valorMax) devuelve =true;
 
-        if(typeof descConti !== 'undefined') devuelve = true;
+        if(typeof descConti !== 'undefined' && valorMin !== undefined && valorMax !== undefined){
+            if(item.descripcion.includes(descConti) && item.valor >= valorMin && item.valor <= valorMax){
+                devuelve = true;
+            }
+        } 
+
+        if(listEtiq !== undefined){
+            console.log("etiqueta");
+            if(valorMax !== undefined){
+                if(item.valor <= valorMax){
+                    for(let i = 0; i < listEtiq.length; i++){
+                        if(item.etiquetas.includes(listEtiq[i])){
+                            devuelve = true;
+                        }
+                    }        
+                }
+            }
+            // if(fechaD !== undefined){
+            //     if(item.fecha >= fecaD){
+            //         for(let i = 0; i < listEtiq.length; i++){
+            //             if(item.etiquetas.includes(listEtiq[i])){
+            //                 devuelve = true;
+            //             }
+            //         }
+            //     }
+            // }
+            else{
+                for(let i = 0; i < listEtiq.length; i++){
+                    if(item.etiquetas.includes(listEtiq[i])){
+                        devuelve = true;
+                    }
+                }
+    
+            }
+        }
 
 
 
@@ -273,6 +313,7 @@ function filtrarGastos(objetoFiltrante){
     }
 
     console.log(listaFiltrada.length);
+    console.log("---------------------------------");
     return listaFiltrada;
 }
 //*****Practica 3*****
