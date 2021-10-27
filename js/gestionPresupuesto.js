@@ -155,100 +155,143 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
 
     //práctica 3
     function filtrarGastos(miObjeto){
-    /*objeto.hasOwnProperty(''); comprobar si existe las propiedades indicadas*/
-    let fechaDesde;
-    let fechaHasta;
-    let minimo;
-    let maximo;
-    let ParamDesc;
-    let etiquetas;
-    let gastosfiltrados = [];
-    
-    if (!miObjeto === {})
-    {
-        console.log(`${fechaDesde}`);
-        if(miObjeto.hasOwnProperty(`fechaDesde`)){
-            if(typeof miObjeto.fechaDesde === `string`){
-               if(isNaN(Date.parse(miObjeto.fechaDesde))){ //si me pasan una fecha que no es valida no puedo filtrar
-                //en el caso de no ser un número
-                fechaDesde = undefined;
-               }
-               else{ //si no, si es un número
-                //console.log
-                fechaDesde = Date.parse(miObjeto.fechaDesde);
-               }
+        let fechaDesde;
+        let fechaHasta;
+        let minimo;
+        let maximo;
+        let ParamDesc;
+        let etiquetas;
+        let gastosfiltrados;
+
+
+        if (!miObjeto === {})
+        {
+            
+            if(miObjeto.hasOwnProperty('fechaDesde'))
+            {
+                if (typeof miObjeto.fechaDesde === 'string')
+                {
+                    if(!isNaN(Date.parse(miObjeto.fechaDesde)))
+                    {
+                        this.fechaDesde  = Date.parse(miObjeto.fechaDesde);
+                    }
+                    else
+                    {
+                        this.fechaDesde = undefined;
+                    }
+                } 
             }
-        }
 
-        if(miObjeto.hasOwnProperty(`fechaHasta`)){
-            if(typeof miObjeto.fechaHasta === `string`){
-               if(isNaN(Date.parse(miObjeto.fechaHasta))){ //si me pasan una fecha que no es valida no puedo filtrar
-                //en el caso de no ser un número
-                fechaHasta = undefined;
-               }
-               else{ //si no, si es un número
-                fechaHasta = Date.parse(miObjeto.fechaHasta);
-               }
+            if(miObjeto.hasOwnProperty('fechaHasta'))
+            {
+                if(typeof miObjeto.fechaHasta === 'string')
+                {
+                    if(isNaN(Date.parse(miObjeto.fechaHasta))){ 
+                        fechaHasta = undefined;
+                    }
+                    else{
+                        fechaHasta = Date.parse(miObjeto.fechaHasta);
+                    }
+                }
             }
-        }
-        if(miObjeto.hasOwnProperty(`valorMinimo`)){
-            if(isNaN(miObjeto.valorMinimo)){minimo = miObjeto.valorMinimo;} //is NaN si no es un número
-        }
-        if(miObjeto.hasOwnProperty(`valorMaximo`)){
-            if(isNaN(miObjeto.valorMaximo)){maximo = miObjeto.valorMaximo;}
-        }
-        if(miObjeto.hasOwnProperty(`descripcionContiene`)){
-            if(!isNaN(miObjeto.descripcionContiene)){ParamDesc = miObjeto.descripcionContiene}
-        }
-        if(miObjeto.hasOwnProperty(`etiquetasTiene`)){
-            etiquetas = [...miObjeto.etiquetasTiene];
-        }
+            if(miObjeto.hasOwnProperty('valorMinimo'))
+            {
+                if(isNaN(miObjeto.valorMinimo)){minimo = miObjeto.valorMinimo;}
+            }
+            if(miObjeto.hasOwnProperty('valorMaximo')){
+                if(isNaN(miObjeto.valorMaximo)){maximo = miObjeto.valorMaximo;}
+            }
+            if(miObjeto.hasOwnProperty('descripcionContiene')){
+                if(!isNaN(miObjeto.descripcionContiene)){ParamDesc = miObjeto.descripcionContiene}
+            }
+            if(miObjeto.hasOwnProperty('etiquetasTiene')){
+                etiquetas = [...miObjeto.etiquetasTiene];
+            }
+            //console.log(JSON.stringify(gastosfiltrados))
+            gastosfiltrados = gastos.filter(function(item){
+            
+                let devuelve = true;
+                if((typeof fechaDesde !== 'undefined') && (item.fecha<fechaDesde)) {
+                        devuelve = false;
+                    }
+                
+                if((typeof fechaHasta !== 'undefined') && (item.fecha > fechaHasta)){
+                        devuelve = false;
+                    }
+                
 
-        gastosfiltrados = gastos.filter(function(item){
-           
-            let devuelve = true;
-
-            if((typeof fechaDesde !== 'undefined') && (item.fecha<fechaDesde)) {
+                if((typeof minimo !== 'undefined') && (item.valor < minimo))
+                {
                     devuelve = false;
                 }
-              
-            if((typeof fechaHasta !== 'undefined') && (item.fecha > fechaHasta)){
+
+                if((typeof maximo !== 'undefined') && (item.valor > maximo))
+                {
+                    devuelve = false;
+                }
+
+                if((typeof ParamDesc !== 'undefined') && (!item.descripcion.includes(ParamDesc)))
+                {
                     devuelve = false;
                 }
             
-
-            if((typeof minimo !== 'undefined') && (item.valor < minimo))
-            {
-                devuelve = false;
-            }
-
-            if((typeof maximo !== 'undefined') && (item.valor > maximo))
-            {
-                devuelve = false;
-            }
-
-            if((typeof ParamDesc !== 'undefined') && (!item.descripcion.includes(ParamDesc)))
-            {
-                devuelve = false;
-            }
-            
-            //for of del gasto etiquetas y comprarlo con el que se ha pasado para comprobar si lo incluye , sí solo tiene una de esas etiqeutas es válido, si no tiene nuinguna no se pone
-            if ((etiquetas !== 'undefined') && (!item.etiquetas.includes(etiquetas))){
-             devuelve = false
-            }
-        
-            return devuelve;
-        });
+                if ((etiquetas !== 'undefined') && (!item.etiquetas.includes(etiquetas))){
+                devuelve = false
+                }
+                return devuelve;
+            });
+        }
+        else{
+            gastosfiltrados = [...gastos];
+            return gastosfiltrados;
+        }
     }
-    else{
-        gastosfiltrados = [...gastos];
-        return gastosfiltrados;
-    } 
-}
     //substring()método devuelve un subconjunto de un objeto String
     //PathState js
-    function agruparGastos(objeto){
-        
+    function agruparGastos(periodo ='mes',etiquetas = [], FecDes, FecHas){
+        let objet = {};
+        let DateNow = new Date();
+        let periodo;
+
+        if(typeof etiquetas === 'undefined'){
+            etiquetas = [];
+            objet.etiquetasTiene = etiquetas;
+        }
+        else{objet.etiquetasTiene = etiquetas;}
+
+        if(typeof FecDes === "string" || isNaN(Date.parse(FecDes)) || typeof FecDes !== 'undefined'){
+            objet.fechaDesde = FecDes;
+        }
+        else{
+            FecDes = "";
+        }
+
+        if(typeof FecHas === "string" || isNaN(Date.parse(FecHas)) || typeof FecHas !== 'undefined'){
+            FecHas = DateNow;
+        }
+        else{
+            FecHas = "";
+        }
+
+        let SubConjunto = filtrarGastos(objet);
+
+        let Reduce = SubConjunto.reduce(function(accumulador,item){
+            periodo = item.obtenerPeriodoAgrupacion(periodo);
+
+            if(accumulador.hasOwnProperty(periodo)){
+                if(isNaN(accumulador[periodo])){
+                    accumulador[periodo] = 0;
+                }
+            }
+            else{
+                accumulador[periodo] = 0;
+            }
+            accumulador[periodo] += item.valor;
+
+            return accumulador;
+
+        },{}); //valor inicial del acumulador
+        return Reduce;
     }
 //las funciones y objetos deben tener los nombres que indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
