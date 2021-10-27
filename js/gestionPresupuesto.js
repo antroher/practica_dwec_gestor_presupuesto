@@ -332,7 +332,6 @@ function filtrarGastos(objeto) {
 
 function agruparGastos(periodo = "mes", etiquetas1, fechaDesde1, fechaHasta1) 
 {
-    
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
     let mm = String(today.getMonth() + 1).padStart(2, '0'); 
@@ -341,13 +340,15 @@ function agruparGastos(periodo = "mes", etiquetas1, fechaDesde1, fechaHasta1)
      //creación del objeto filtrar
     let filtrar = {};
 
-    if ((typeof fechaDesde1 !== 'string') || isNaN((Date.parse(fechaDesde1))) || (typeof fechaDesde1 === 'undefined')) {
+    if ((typeof fechaDesde1 !== 'string') || isNaN((Date.parse(fechaDesde1))) || (typeof fechaDesde1 === 'undefined')) 
+    {
         fechaDesde1 = '';
     }
     else
         filtrar.fechaDesde = fechaDesde1;
 
-    if ((typeof fechaHasta1 !== 'string') || (isNaN(Date.parse(fechaHasta1))) || (typeof fechaHasta1 === 'undefined')) {
+    if ((typeof fechaHasta1 !== 'string') || (isNaN(Date.parse(fechaHasta1))) || (typeof fechaHasta1 === 'undefined')) 
+    {
         fechaHasta1 = `${yyyy}-${mm}-${dd}`;
         filtrar.fechaHasta = fechaHasta1;
     }
@@ -355,29 +356,37 @@ function agruparGastos(periodo = "mes", etiquetas1, fechaDesde1, fechaHasta1)
         filtrar.fechaHasta = fechaHasta1;
 
 
-    if (typeof etiquetas1 === 'undefined') {
+    if (typeof etiquetas1 === 'undefined') 
+    {
         etiquetas1 = [];
         filtrar.etiquetasTiene = [];
     }
     else
         filtrar.etiquetasTiene = etiquetas1;
    
-
-    //Creación de array de filtrar filtrados mediante la función filtrarGastos()
-    let Filtrar_Gastos = filtrarGastos(filtrar);
-
-    let agrupar =
-            Filtrar_Gastos.reduce((acumulador, item) => {
-                let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
-                if (acumulador[periodoReduce] == null)
-                    acumulador[periodoReduce] = item.valor;
-                else 
-                    acumulador[periodoReduce] += item.valor;
-                return acumulador;
-            }, {});
-
-    return agrupar;
+        
+    let reducido = filtrar.reduce(function (acumulador, item) 
+    {
+        let periodo1 = item.obtenerPeriodoAgrupacion(periodo);
+    
+        if (!acumulador.hasOwnProperty(periodo1)) 
+            acumulador[periodo1] = 0;
+        else 
+        {
+            if (isNaN(acumulador[periodo1]))
+                acumulador[periodo1] = 0;
+        }
+        acumulador[periodo1] = acumulador[periodo1] + item.valor;
+    
+        return acumulador;
+    }, {});
+    
+    return reducido;
 }
+    
+
+
+
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
