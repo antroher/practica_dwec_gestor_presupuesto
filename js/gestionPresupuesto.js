@@ -237,7 +237,16 @@ function filtrarGastos(FechaGastos) {
     return gastos;
 }
     
-        /*if(FechaGastos.hasOwnProperty(`fechaDesde`) && typeof FechaGastos.fechaDesde === "string") {
+    /*function filtrarGastos(parametro) {
+            var fd;
+            var fh;
+            var vmn;
+            var vmx;
+            var descCon;
+            var etiqTn;
+
+
+        if(FechaGastos.hasOwnProperty(`fechaDesde`) && typeof FechaGastos.fechaDesde === "string") {
             if(!isNaN(Date.parse(FechaGastos.fechaDesde))) {
                 fd = undefined;
             }
@@ -274,12 +283,12 @@ function filtrarGastos(FechaGastos) {
         if(FechaGastos.hasOwnProperty(`etiquetasTiene`) && Array.isArray.FechaGastos.etiquetasTiene)
         {
             etiqTn = FechaGastos.etiquetasTiene();
-        }*/ 
-        
+        }
     
-   
+
     /*let results = gastos.filter(function(item) {
         let devuelve = true;
+        let tiene = true;
 
         if(typeof fd != null && item.fecha > fd) {
             devuelve = false;
@@ -287,10 +296,30 @@ function filtrarGastos(FechaGastos) {
         if(typeof fh != null && item.fecha < fh) {
             devuelve = false;
         }
-        if(typeof )
+        if(typeof vnm != null && item.valor < vnm) {
+            devuelve = false;
+        }
+        if(typeof vnx != null && item.valor > vnx) {
+            devuelve = false;
+        }
+        if(typeof descCon != null && item.descripcion.includes(descripcion)){
+            devuelve = false;
+        }
+        if(typeof etiqTn != null && etiquetas.legnth > 0) {
+            tiene = false;
 
-        return devuelve;
-    });*/
+            for(let i = 0; i < rtiquetas.legth; i++) {
+                if(item.etiquetas.includes(etiquetas[i])) {
+                    tiene = true;
+                }
+            }
+        }
+        if(devuelve && tiene) {
+            return item;
+        }
+    });
+    return gastosFiltrar;
+}*/
     
 
 
@@ -309,6 +338,28 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
     return Agrupador;
 
 }
+
+/*function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
+
+    var filtro = {etiquetasTiene : etiquetas, fechaDesde, fechaHasta}
+
+  var returnFiltrarGastos = filtrarGastos(filtro);
+  
+  var agrupacion =
+          returnFiltrarGastos.reduce((acc, item, index, returnFiltrarGastos) => {
+             
+              var reduce = item.obtenerPeriodoAgrupacion(periodo);
+              if (acc[reduce] == null)
+              {
+                acc[reduce] = item.valor;
+              }else 
+              {
+                acc[reduce] += item.valor;
+              }
+              return acc;
+          }, {});
+  return agrupacion;
+}*/
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
