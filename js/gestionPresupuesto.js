@@ -220,8 +220,6 @@ function filtrarGastos(objetoFiltro) {
     } else {
       return gastos;
     }
-  
-  
   }
   
   function agruparGastos(periodo = "mes", etiquetas = [], fechDesd, fechaHas = Date.now()) {
@@ -238,7 +236,7 @@ function filtrarGastos(objetoFiltro) {
       } else {     
         acumulador[perAgrup] = gast.valor;
       }
-       return acumulador
+      return acumulador
     }, {});
     return gastosAgrupados;
   }
