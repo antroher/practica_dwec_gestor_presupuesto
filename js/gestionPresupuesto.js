@@ -211,11 +211,11 @@ function filtrarGastos(FechaGastos) {
             })
         }
 
-        if(FechaGastos.hasOwnProperty(`descripcionContiene`) && typeof FechaGastos.descripcionContiene === "strimg") {
+        if(FechaGastos.hasOwnProperty(`descripcionContiene`) && typeof FechaGastos.descripcionContiene === "string") {
             gastosFiltrar = gastosFiltrar.filter((x) =>{
                 let aux1 = (x.descripcion).toLowerCase();
                 let aux2 = (FechaGastos.descripcionContiene).toLowerCase();
-                let param1Array = param1.split(" ");
+                let param1Array = aux1.split(" ");
                 let param1ArrayJoin = param1Array.join('');
                 if(param1ArrayJoin.indexOf(aux2) !== -1){
                 return true
@@ -223,7 +223,7 @@ function filtrarGastos(FechaGastos) {
             })
         }
 
-        if(FechaGastos.hasOwnProperty(`etiquetasTiene`) && Array.isArray.FechaGastos.etiquetasTiene) {
+        if(FechaGastos.hasOwnProperty(`etiquetasTiene`) && Array.isArray(FechaGastos.etiquetasTiene)) {
             gastosFiltrar = gastosFiltrar.filter((x) => {
                 for(let i = 0; i < FechaGastos.etiquetasTiene.length; i){
                     if(FechaGastos.etiquetasTiene.includes(x.etiquetas[i])){
