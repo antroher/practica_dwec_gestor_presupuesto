@@ -233,43 +233,40 @@ var fechaD,fechaH,valorM,valorm,descripcionC,etiquetasT;
 var  gastosFiltrados=[];
 
 
-if(parametro==null || parametro==undefined || Object.entries(parametro)==0 )
-{
-  return gastos;
-}
+
 
 if (parametro.hasOwnProperty('fechaDesde'))
 {
   
   if(typeof parametro.fechaDesde==='string')
   {
-    
-    if(Date.parse(parametro.fechaDesde))
+    fechaD=Date.parse(parametro.fechaDesde);
+    if(!isNaN(fechaD))
     {
-      fechaD=parametro.fechaDesde;
+      fechaD=fechaDesde;
     }
   }
 }
 if (parametro.hasOwnProperty('fechaHasta'))
 {
   
-  if(typeof parametro.fechaHasta==='string')
+  if(typeof objeto.fechaHasta==='string')
   {
-    
-    if(Date.parse(parametro.fechaHasta))
+    fechaHasta=Date.parse(parametro.fechaHasta);
+    if(!isNaN(fechaHasta))
     {
-      fechaH=parametro.fechaHasta;
+      fechaH=fechaHasta;
     }
   }
 }
 if (parametro.hasOwnProperty('valorMinimo'))
 {
-  valorm=parametro.valorMinimo;
+  valorm=valoMinimo;
   
 }
 if (parametro.hasOwnProperty('valorMaximo'))
 {
-  valorM=parametro.valorMaximo;
+  valorm=valoMinimo;
   
 }
 if (parametro.hasOwnProperty('descripcionContiene'))
@@ -279,77 +276,45 @@ if (parametro.hasOwnProperty('descripcionContiene'))
 }
 if (parametro.hasOwnProperty('etiquetasTiene'))
 {
-  etiquetasT=parametro.etiquetasTiene;
+  etiquetasT=[...parametro.etiquetasTiene];
   
 }
 
-
-
 gastosFiltrados=gastos.filter(function(item){
   let devuelve = true;
-  let latiene=true;
+  let latiene=false;
 
-  if(typeof fechaD !== 'undefined')
+  if(typeof fechaDesde !== 'undefined')
   {
-    
-    if(item.fecha<Date.parse(fechaD))
+    if(item.fecha<fechaDesde)
     {
-     
       devuelve=false;
     }
   }
-  
-  if(typeof fechaH !== 'undefined')
+  if(typeof fechaHasta !== 'undefined')
   {
-    if(item.fecha>Date.parse(fechaH))
+    if(item.fecha>fechaHasta)
     {
       devuelve=false;
     }
   }
   if(typeof valorm!=='undefined')
   {
-   
-    if(valorm>item.valor)
-    {
-      devuelve=false;
-    }
+
   }
   if(typeof valorM!=='undefined')
   {
-   
-    if(valorM<item.valor)
-    {
-      devuelve=false;
-    }
+    
   }
   if(typeof descripcionC!=='undefined')
   {
-    if(!item.descripcion.includes(descripcionC))
-    {
-      devuelve=false;
-    }
     
   }
-  if(etiquetasT!==undefined  && etiquetasT.length!==0 ) 
+  if(typeof etiquetasT!=='undefined')
   {
-    latiene=false;
-      for (let index = 0; index < etiquetasT.length; index++) {
-        if(item.etiquetas.includes(etiquetasT[index]))
-        {
-          
-          latiene=true;
-        }
-        
-      }
-      
+    
   }
- 
-  
-  if(devuelve && latiene)
-  {
-   
-    return item;
-  }
+  return (devuelve && latiene);
 
 });
 return gastosFiltrados;
