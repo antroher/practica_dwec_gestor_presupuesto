@@ -343,27 +343,33 @@ function filtrarGastos(objeto)
 
 }
 
-function agruparGastos(periodo = 'mes', etiquetas = [], fDesde = '', fHasta = '')
+function agruparGastos(periodo = 'mes', etiquetas = [], fDesde, fHasta = Date.now())
 {
-    let hoy = new Date;
-    let dd = String(hoy.getDate()).padStart(2, '0');
-    let mm = String(hoy.getMonth() + 1).padStart(2,'0'); //Porque el mes de enero es 0
-    let yyyy = hoy.getFullYear();
-
-    if (typeof fDesde !== 'string' || (typeof fDesde !== 'undefined') || isNaN(Date.parse(fDesde)))
-    {
-        fDesde = '';
+    let filtrar = 
+    { 
+        etiquetasTiene: etiquetas,
+        fechaDesde: fDesde,
+        fechaHasta: fHasta
     }
 
-    if (typeof fHasta !== 'string' || (typeof fHasta !== 'undefined') || isNaN(Date.parse(fHasta)))
-    {
-        fHasta = '';
-    }
+    let filtrarGast = filtrarGastos(filtrar);
 
-    if (typeof etiquetas == 'undefined')
-    {
-        etiquetas = [];
-    }
+    let agruparReduce = filtrarGast.reduce(function (acum, item) {
+        
+        let periodi = item.obtenerPeriodoAgrupacion(periodo);
+        
+        if (acum.hasOwnProperty(periodi)) 
+        {
+            acum[periodi] = acum[periodi] + item.valor;
+        }
+        else
+        {
+            acum[periodi] = item.valor;
+        }
+        return acum;
+    }, {});
+
+    return agruparReduce;
 
 }
 
