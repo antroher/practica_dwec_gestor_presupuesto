@@ -141,15 +141,15 @@ function filtrarGastos(filtro){
 
             if(filtro.hasOwnProperty("valorMinimo") && g.valor>=filtro.valorMinimo){
                 valorMinimoBool=true;
-            } else if(!filtro.hasOwnProperty("valorMinimo") || filtro.valorMinimo===undefined) valorMinimoBool=true;
+            } else if(!filtro.hasOwnProperty("valorMinimo") ) valorMinimoBool=true;
 
             if(filtro.hasOwnProperty("valorMaximo") && g.valor<=filtro.valorMaximo){
                 valorMaximoBool=true;
-            } else if(!filtro.hasOwnProperty("valorMaximo") || filtro.valorMaximo===undefined)valorMaximoBool=true;
+            } else if(!filtro.hasOwnProperty("valorMaximo") )valorMaximoBool=true;
 
             if(filtro.hasOwnProperty("descripcionContiene") && g.descripcion.includes(filtro.descripcionContiene)){
                 descBool=true;
-            } else if(!filtro.hasOwnProperty("descripcionContiene") || filtro.descripcion===undefined)descBool=true;
+            } else if(!filtro.hasOwnProperty("descripcionContiene") )descBool=true;
             
             if(filtro.hasOwnProperty("etiquetasTiene")){
                 if(filtro.etiquetasTiene.length!=0){
