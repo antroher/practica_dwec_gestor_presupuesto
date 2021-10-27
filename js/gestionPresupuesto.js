@@ -330,7 +330,7 @@ function filtrarGastos(objeto) {
     return result;
 }
 
-function agruparGastos(periodo = "mes", etiquetas1, fechaDesde1, fechaHasta1) 
+function agruparGastos(periodo = "mes", etiquetas1=[], fechaDesde1="", fechaHasta1="") 
 {
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
@@ -346,6 +346,7 @@ function agruparGastos(periodo = "mes", etiquetas1, fechaDesde1, fechaHasta1)
     }
     else
         filtrar.fechaDesde = fechaDesde1;
+
 
     if ((typeof fechaHasta1 !== 'string') || (isNaN(Date.parse(fechaHasta1))) || (typeof fechaHasta1 === 'undefined')) 
     {
@@ -363,25 +364,31 @@ function agruparGastos(periodo = "mes", etiquetas1, fechaDesde1, fechaHasta1)
     }
     else
         filtrar.etiquetasTiene = etiquetas1;
+    
+    
+    let filtrarGastos2 = filtrarGastos(filtrar);
    
-        
-    let reducido = filtrar.reduce(function (acumulador, item) 
+    let result = filtrarGastos2.reduce(function (acumulador, item) 
     {
         let periodo1 = item.obtenerPeriodoAgrupacion(periodo);
     
-        if (!acumulador.hasOwnProperty(periodo1)) 
+        if (!acumulador.hasOwnProperty(periodo1))
+        {
             acumulador[periodo1] = 0;
+        }
         else 
         {
             if (isNaN(acumulador[periodo1]))
+            {
                 acumulador[periodo1] = 0;
+            }
         }
         acumulador[periodo1] = acumulador[periodo1] + item.valor;
     
         return acumulador;
     }, {});
     
-    return reducido;
+    return result;
 }
     
 
