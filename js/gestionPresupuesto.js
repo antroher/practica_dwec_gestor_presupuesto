@@ -10,7 +10,7 @@ var idGasto = 0;
         if(valores < 0 || isNaN(valores))
         {
             console.log("Error numero negativo");
-            DevolverValor = -1;        
+            DevolverValor = -1;
         }
         else
         {
@@ -20,14 +20,14 @@ var idGasto = 0;
         return DevolverValor;
     }
 
-    function mostrarPresupuesto() {  
+    function mostrarPresupuesto() {
         console.log(`Tu presupuesto actual es de ${presupuesto} €`)
         return(`Tu presupuesto actual es de ${presupuesto} €` )
 
     }
 
 function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
-        
+
         if(valorIn < 0 || isNaN(valorIn)){
             valorIn = 0;
         }
@@ -67,7 +67,7 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
             actualizarFecha:function(inFecha){
                 if(typeof inFecha !== "string" || isNaN(Date.parse(inFecha))){
                     return;
-                } 
+                }
 
                     this.fecha = Date.parse(inFecha);
             },
@@ -91,27 +91,99 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
                     },
                     obtenerPeriodoAgrupacion(periodo){
                         let devuelve = "";
-                        let fec = new Date(this.fecha);
-                        let dd = String (fec.getDate()).padStart(2,'0');
-                        let mm = String (fec.getMonth() + 1).padStart(2,'0')
-                        let yyyy = String(fec.getFullYear());
+                        let mostrarFecha = new Date(this.fecha);
+                        let d = String(mostrarFecha.getDate()).padStart(2,'0')
+                        let mm = String(mostrarFecha.getMonth()+1).padStart(2,'0')
+                        let yyyy = String(mostrarFecha.getFullYear());
                         switch(periodo){
-                            case "dia":
-                               devuelve =  `${yyyy}-${mm}-${dd}`
-                               return devuelve;
-                            case "mes":
-                                devuelve = `${yyyy}-${mm}`
+                            case "dia" :
+                                devuelve = `${yyyy}-${mm}-${d}`;
                                 return devuelve;
-                            case "anyo":
+                            case "mes" :
+                                devuelve = `${yyyy}-${mm}`;
+                                return devuelve;
+                            case "anyo" :
                                 devuelve = `${yyyy}`
                                 return devuelve;
                             default:
-                                console.log("Error");  
+                                return `Error`;
                         }
-                    }   
+                    }
     }
     return gasto;
 }
+
+function filtrarGastos(objeto){
+    let fD;
+    let fH;
+    let valMin;
+    let valMax;
+    let desCon;
+    let etiTie;
+
+    if(objeto.hasOwnProperty("fechaDesde"))
+    {
+        fD = objeto.fechaDesde;
+        if(typeof(objeto.fechaDesde === "string") && !isNaN(date.parse(objeto.fechaDesde)))
+        {
+            fD = Date.parse(objeto.fechaDesde);
+        }
+        else{
+            fD = undefined
+        }
+    }
+    if(objeto.hasOwnProperty("fechaHasta"))
+    {
+        fH = objeto.fechaHasta;
+        if(!isNaN(Date.parse(fH)) || typeof(objeto.fechaHasta === "string"))
+        {
+            fH = Date.parse(objeto.fechaHasta);
+        }
+        else{
+            fH = undefined;
+        }
+    }
+    if(objeto.hasOwnProperty("valorMinimo"))
+    {
+        valMin = objeto.valorMinimo;
+    }
+    if(objeto.hasOwnProperty("valorMaximo"))
+    {
+        valMax = objeto.valorMaximo;
+    }
+    if(objeto.hasOwnProperty("descripcionContiene"))
+    {
+        desCon = objeto.descripcionContiene;
+    }
+    if(objeto.hasOwnProperty("etiquetasTiene")){etiTie=objeto.etiquetasTiene}
+
+
+    /*FILTRADO*/
+
+    let results = gastos.filter(function(item){
+        // Si devuelve true el elemento es ingresado ak¡l array y la iteración
+        //Si ada es encontrado, devuelve un array vacio
+        let devuelve = true;
+
+        if(typeof fD !== "undefined")
+            if(item.fecha < fD)
+                devuelve = false;
+
+                if(typeof fH !== "undefined")
+            if(item.fecha > fH)
+                devuelve = false;
+
+                if(item.includes(descr)){
+                    devuelve = true;
+                }
+                    if(item.includes(etiTie)){
+                        devuelve = true
+                    }
+        return devuelve;
+    });
+}
+
+
 
         function listarGastos(){
             return gastos;
@@ -146,7 +218,7 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
                             let TotaldeGastos = calcularTotalGastos();
 
                             result = presupuesto - TotaldeGastos;
-                            
+
                             return result;
                         }
                             function filtrarGastos(filtrar)
@@ -174,7 +246,7 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
                                 function agruparGastos() {
 
                                 }
-                                
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
