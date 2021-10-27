@@ -116,30 +116,45 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         },
 
         obtenerPeriodoAgrupacion(periodo){
-
-            let gastoDate = new.Date(this.fecha);
+            let date = new Date(this.fecha);
 
             switch(periodo){
-                case "dia":
+                case "dia":{
 
-                    break;
-                case "mes":
-                    let month = getMonth(gastoDate) < 10 ? {getMonth(gastoDate) + 1}` : ${getMonth(getdate) + 1}}``${getMonth(gastoDate) < 10 ? 0${getMonth(gastoDate) + 1} : ${getMonth(getdate) + 1}}
-                    return `${getFullYear(gastoDate)}-`${getMonth(gastoDate) < 10 ? 0${getMonth(gastoDate) + 1}` : ${getMonth(getdate) + 1}}``${getMonth(gastoDate) < 10 ? 0${getMonth(gastoDate) + 1} : ${getMonth(getdate) + 1}};
-                case "anyo":
+                    if(date.getMonth() + 1 < 10){
+                        if(date.getDate() < 10){
+                            return `${date.getFullYear()}-0${date.getMonth() + 1}-0${date.getDate()}`;
+    
+                        }else{
+                            return `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`;
+                        } 
 
-                    return `${getFullYear(gastoDate)}`;
-                default:
-                    break;
+                    }else if(date.getDate() < 10) {
+                        return `${date.getFullYear()}-${date.getMonth() + 1}-0${date.getDate()}`;
+
+                    }else{
+                        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+                    }             
+                }
+
+                case "mes":{
+                    if(date.getMonth() + 1 < 10) {
+                        return `${date.getFullYear()}-0${date.getMonth() + 1}`;
+                    }else{
+                        return `${date.getFullYear()}-${date.getMonth() + 1}`;
+                    }
+                }
+
+                case "anyo":{
+                    if (periodo === "anyo") {
+                        return date.getFullYear();
+                    }
+                }
             }
-
-            //SWITCH PARA GENERAR LOS CASES
-        },
-        
+        }
     }
     return gasto;
 }
-
 function listarGastos(){
     return gastos;
 }
@@ -179,10 +194,144 @@ function calcularBalance(){
     return presupuesto - calcularTotalGastos();
 
 }
+/*
+function filtrarGastos(objetoFil) {
+    if (objetoFil != undefined && objetoFil != null && Object.entries(objetoFil).length != 0) {
+      
+        let resultado = gastos.filter((gast) => {
 
-function filtrarGastos(){
+            if (objetoFiltro.hasOwnProperty("fechaDesde")) {
+                if (gast.fecha < Date.parse(objetoFiltro.fechaDesde)) {
+                    return;
+                }
+            }
+  
+            if (objetoFiltro.hasOwnProperty("fechaHasta")) {
+                if (gast.fecha > Date.parse(objetoFiltro.fechaHasta)) {
+                    return;
+                }
+            }
+  
+            if (objetoFiltro.hasOwnProperty("valorMinimo")) {
+                if (gast.valor < objetoFiltro.valorMinimo) {
+                    return;
+                }
+            }
+  
+            if (objetoFiltro.hasOwnProperty("valorMaximo")) {
+                if (gast.valor > objetoFiltro.valorMaximo){
+                    return;
+                }
+            }
+  
+            if (objetoFiltro.hasOwnProperty("descripcionContiene")) {
+                if (!gast.descripcion.includes(objetoFiltro.descripcionContiene)) {
+                    return;
+                }
+            }
 
+            if (objetoFiltro.hasOwnProperty("etiquetasTiene")) {
+                if(objetoFiltro.etiquetasTiene.length != 0){
+                    let check = false;
+                    for (let descrip of objetoFiltro.etiquetasTiene) {
+                        if (gast.etiquetas.includes(descrip)) {
+                            check = true;
+                        }
+                    }
+                    if(!check){
+                        return;
+                    }
+                }
+            }
+            return gast;
+        });  
+        return resultado;
+
+    }else{
+        return gastos;
+    }
+}*/
+
+/*function fechaDesde(gFiltrado){
+    if('fechaDesde' in gFiltrado)
+        return true;
 }
+
+function fechaHasta(gFiltrado){
+    if('fechaHasta' in gFiltrado)
+        return true;
+}
+
+function valorMinimo(gFiltrado){
+    if('valorMinimo' in gFiltrado)
+        return true;
+}
+
+function valorMaximo(gFiltrado){
+    if('valorMaximo' in gFiltrado)
+        return true;
+}
+
+function descripcionContain(gFiltrado){
+    if('descripcionContiene' in gFiltrado)
+        return true;
+}*/
+
+/*
+function filtrarGastos(gFiltrado){
+    function fechaDesde(gFiltrado){
+        if('fechaDesde' in gFiltrado)
+            return true;
+    }
+    
+    function fechaHasta(gFiltrado){
+        if('fechaHasta' in gFiltrado)
+            return true;
+    }
+    
+    function valorMinimo(gFiltrado){
+        if('valorMinimo' in gFiltrado)
+            return true;
+    }
+    
+    function valorMaximo(gFiltrado){
+        if('valorMaximo' in gFiltrado)
+            return true;
+    }
+    
+    function descripcionContain(gFiltrado){
+        if('descripcionContiene' in gFiltrado)
+            return true;
+    }
+
+    let gastoF = {};
+
+    if(fechaDesde(gFiltrado) == false & fechaHasta(gFiltrado) == false & valorMinimo(gFiltrado) == false & valorMaximo(gFiltrado) == false & descripcionContain(gFiltrado) == false){
+        return gastoF;
+    }else if(fechaDesde(gFiltrado) == (true) & fechaHasta(gFiltrado) == false & valorMinimo(gFiltrado) == false & valorMaximo(gFiltrado) == false & descripcionContain(gFiltrado) == false){
+        return gastoF = gFiltrado;
+    }else if(fechaDesde(gFiltrado) == (true) & fechaHasta(gFiltrado) == true & valorMinimo(gFiltrado) == false & valorMaximo(gFiltrado) == false & descripcionContain(gFiltrado) == false){
+        return gastoF = gFiltrado;
+    }else if(fechaDesde(gFiltrado) == (false) & fechaHasta(gFiltrado) == false & valorMinimo(gFiltrado) == false & valorMaximo(gFiltrado) == false & descripcionContain(gFiltrado) == false){
+        return gastoF = gFiltrado;
+    }else if(fechaDesde(gFiltrado) == (false) & fechaHasta(gFiltrado) == false & valorMinimo(gFiltrado) == true & valorMaximo(gFiltrado) == false & descripcionContain(gFiltrado) == false){
+        return gastoF = gFiltrado;
+    }else if(fechaDesde(gFiltrado) == (false) & fechaHasta(gFiltrado) == false & valorMinimo(gFiltrado) == true & valorMaximo(gFiltrado) == true & descripcionContain(gFiltrado) == false){
+        return gastoF = gFiltrado;
+    }else if(fechaDesde(gFiltrado) == (true) & fechaHasta(gFiltrado) == true & valorMinimo(gFiltrado) == false & valorMaximo(gFiltrado) == true & descripcionContain(gFiltrado) == false){
+        return gastoF = gFiltrado;
+    }else if(fechaDesde(gFiltrado) == (false) & fechaHasta(gFiltrado) == false & valorMinimo(gFiltrado) == true & valorMaximo(gFiltrado) == true & descripcionContain(gFiltrado) == true){
+        return gastoF = gFiltrado;
+    }else if(fechaDesde(gFiltrado) == (false) & fechaHasta(gFiltrado) == false & valorMinimo(gFiltrado) == false & valorMaximo(gFiltrado) == false & descripcionContain(gFiltrado) == true){
+        return gastoF = gFiltrado;
+    }else if(fechaDesde(gFiltrado) == (false) & fechaHasta(gFiltrado) == false & valorMinimo(gFiltrado) == false & valorMaximo(gFiltrado) == true & descripcionContain(gFiltrado) == true){
+        return gastoF = gFiltrado;
+    }else if(fechaDesde(gFiltrado) == (true) & fechaHasta(gFiltrado) == false & valorMinimo(gFiltrado) == false & valorMaximo(gFiltrado) == false & descripcionContain(gFiltrado) == true){
+        return gastoF = gFiltrado;
+    }else if(fechaDesde(gFiltrado) == (false) & fechaHasta(gFiltrado) == true & valorMinimo(gFiltrado) == false & valorMaximo(gFiltrado) == true & descripcionContain(gFiltrado) == true){
+        return gastoF = gFiltrado;
+    }
+}*/
 
 function agruparGastos(){
 
