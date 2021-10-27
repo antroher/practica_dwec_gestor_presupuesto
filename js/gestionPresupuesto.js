@@ -329,7 +329,24 @@ function filtrarGastos(objeto) {
 
     return result;
 }
-function agruparGastos(){}
+function agruparGastos(periodo = 'mes', etiquetas = [], F_Desde = '', F_Hasta = '') 
+{
+
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); 
+    let yyyy = today.getFullYear();
+
+    let objet = {};
+
+    if ((typeof F_Desde !== 'string') || isNaN((Date.parse(F_Desde))) || (typeof F_Desde === 'undefined')) {
+        fechaDesd = '';
+    }
+    else
+        objet.fechaDesde = F_Desde;
+
+}
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
