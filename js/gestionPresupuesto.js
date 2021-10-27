@@ -1,5 +1,5 @@
-//Variables global
 'use strict'
+//Variables global
 var presupuesto=0, idGasto=0;
 var gastos=[];
 
@@ -116,30 +116,28 @@ function calcularBalance(){
     return res;
 }
 function filtrarGastos(objeto) {
-    if (objeto != undefined && objeto != null) 
+    if (objeto != undefined || objeto != null) 
     {
         let res = gastos.filter(item => {
-            if (objeto.hasOwnProperty('fechaDesde')) 
+            if (objeto.hasOwnProperty("fechaDesde")) 
             {
-            if (item.fecha < Date.parse(objeto.fechaDesde)) 
-                return;
+                if (item.fecha < Date.parse(objeto.fechaDesde)) 
+                    return;
             }
             if (objeto.hasOwnProperty("fechaHasta")) 
             {
-            if (item.fecha > Date.parse(objeto.fechaHasta)) 
-            {
-                return;
-            }
+                if (item.fecha > Date.parse(objeto.fechaHasta)) 
+                    return;
             }
             if (objeto.hasOwnProperty("valorMinimo")) 
             {
-            if (item.valor < objeto.valorMinimo) 
-                return;
+                if (item.valor < objeto.valorMinimo) 
+                    return;
             }
             if (objeto.hasOwnProperty("valorMaximo")) 
             {
-            if (item.valor > objeto.valorMaximo)
-                return;
+                if (item.valor > objeto.valorMaximo)
+                    return;
             }
             if (objeto.hasOwnProperty("descripcionContiene")) 
             {
@@ -180,7 +178,7 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechaDes, fechaHas=Date.
         else     
             acumulador[periodoA] = item.valor;
         
-        return acumulador
+        return acumulador;
     }, 
     {});
 
