@@ -329,22 +329,54 @@ function filtrarGastos(objeto) {
 
     return result;
 }
-function agruparGastos(periodo = 'mes', etiquetas = [], F_Desde = '', F_Hasta = '') 
-{
 
+function agruparGastos(periodo = "mes", etiquetas1, fechaDesde1, fechaHasta1) 
+{
+    
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
     let mm = String(today.getMonth() + 1).padStart(2, '0'); 
     let yyyy = today.getFullYear();
 
-    let objet = {};
+     //creación del objeto filtrar
+    let filtrar = {};
 
-    if ((typeof F_Desde !== 'string') || isNaN((Date.parse(F_Desde))) || (typeof F_Desde === 'undefined')) {
-        fechaDesd = '';
+    if ((typeof fechaDesde1 !== 'string') || isNaN((Date.parse(fechaDesde1))) || (typeof fechaDesde1 === 'undefined')) {
+        fechaDesde1 = '';
     }
     else
-        objet.fechaDesde = F_Desde;
+        filtrar.fechaDesde = fechaDesde1;
 
+    if ((typeof fechaHasta1 !== 'string') || (isNaN(Date.parse(fechaHasta1))) || (typeof fechaHasta1 === 'undefined')) {
+        fechaHasta1 = `${yyyy}-${mm}-${dd}`;
+        filtrar.fechaHasta = fechaHasta1;
+    }
+    else
+        filtrar.fechaHasta = fechaHasta1;
+
+
+    if (typeof etiquetas1 === 'undefined') {
+        etiquetas1 = [];
+        filtrar.etiquetasTiene = [];
+    }
+    else
+        filtrar.etiquetasTiene = etiquetas1;
+   
+
+    //Creación de array de filtrar filtrados mediante la función filtrarGastos()
+    let Filtrar_Gastos = filtrarGastos(filtrar);
+
+    let agrupar =
+            Filtrar_Gastos.reduce((acumulador, item) => {
+                let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
+                if (acumulador[periodoReduce] == null)
+                    acumulador[periodoReduce] = item.valor;
+                else 
+                    acumulador[periodoReduce] += item.valor;
+                return acumulador;
+            }, {});
+
+    return agrupar;
 }
 
 
