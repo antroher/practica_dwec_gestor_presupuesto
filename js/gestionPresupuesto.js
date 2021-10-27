@@ -376,7 +376,7 @@ El resultado de reduce será el valor de vuelta de la función agruparGastos.*/
 
   var returnFiltrarGastos = filtrarGastos(filtro);
   
-  var groupBy =
+  var agrupacion =
           returnFiltrarGastos.reduce((acc, item, index, returnFiltrarGastos) => {
              
               var reduce = item.obtenerPeriodoAgrupacion(periodo);
@@ -389,7 +389,7 @@ El resultado de reduce será el valor de vuelta de la función agruparGastos.*/
               }
               return acc;
           }, {});
-  return groupBy;
+  return agrupacion;
 }
 
 
