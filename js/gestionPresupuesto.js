@@ -101,12 +101,12 @@ function CrearGasto(descripcionEntrante, valorEntrante = 0, fechaEntrante = Date
                 case "dia":
                     return `${
                         fechaGasto.getFullYear()}-${
-                            (fechaGasto.getMonth() < 10) ? `0${fechaGasto.getMonth() + 1}` : `${fechaGasto.getMonth() + 1}`}-${
+                            ((fechaGasto.getMonth() + 1) < 10) ? `0${fechaGasto.getMonth() + 1}` : `${fechaGasto.getMonth() + 1}`}-${
                                 (fechaGasto.getDate() < 10) ? `0${fechaGasto.getDate()}` : `${fechaGasto.getDate()}`}`;
                 case "mes":
                     return `${
                         fechaGasto.getFullYear()}-${
-                            (fechaGasto.getMonth() < 10) ? `0${fechaGasto.getMonth() + 1}` : `${fechaGasto.getMonth() + 1}`}`
+                            ((fechaGasto.getMonth() + 1) < 10) ? `0${fechaGasto.getMonth() + 1}` : `${fechaGasto.getMonth() + 1}`}`
                 case "anyo":
                     return `${
                         fechaGasto.getFullYear()}`
@@ -431,20 +431,7 @@ function agruparGastos(periodo = "mes", etiquetasEntrante = [], fechaDesdeEntran
         return acumulado;
     }, {});
 
-    let keyNames = Object.keys(gastosAgrupados);
-    let keyValues = Object.values(gastosAgrupados);
-    let arrayDevolver = []
-    keyNames.forEach((key, index) => {
-        let concatString = `${key}: ` + keyValues[index];
-        arrayDevolver.push(concatString);
-        console.log(concatString);
-    })
-
-
-
-   console.log(keyNames);
-   console.log(arrayDevolver);
-    return arrayDevolver;
+    return gastosAgrupados;
 
 }
 
