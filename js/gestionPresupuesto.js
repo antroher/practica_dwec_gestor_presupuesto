@@ -35,19 +35,28 @@ function CrearGasto(desc, value, fechaGasto = Date.now(), ...ArrayLabels)
 
         actualizarDescripcion: function(desc)
         {
-            if (desc != null && desc != '') this.descripcion = desc;
+            if (desc != null && desc != '')
+            {
+                this.descripcion = desc;
+            }
         },
 
         actualizarValor: function(data)
         {
-            if (parseFloat(data) > 0) this.valor = data;
+            if (parseFloat(data) > 0)
+            {
+                this.valor = data;
+            }
         },
 
         mostrarGastoCompleto()
         {
             let txt = 'Gasto correspondiente a ' + this.descripcion + ' con valor ' + this.valor + ' €.\n' + 'Fecha: ' + new Date(this.fecha).toLocaleString() + '\n' + 'Etiquetas:\n';
 
-            if (this.etiquetas.length > 0) this.etiquetas.forEach(show => {txt = txt + '- ' + show + '\n'});
+            if (this.etiquetas.length > 0)
+            {
+                this.etiquetas.forEach(show => {txt = txt + '- ' + show + '\n'});
+            }
 
             return txt;
         },
@@ -69,7 +78,10 @@ function CrearGasto(desc, value, fechaGasto = Date.now(), ...ArrayLabels)
         {
             etiquetas.forEach(label =>
             {
-                if (this.etiquetas.includes(label)) this.etiquetas.splice(this.etiquetas.indexOf(label), 1);
+                if (this.etiquetas.includes(label))
+                {
+                    this.etiquetas.splice(this.etiquetas.indexOf(label), 1);
+                }
             });
         },
 
@@ -231,10 +243,11 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta)
         fechaHasta = fechaActual.getFullYear() + '-' + (fechaActual.getMonth() + 1) + '-' + fechaActual.getDate();
     }
 
-    if (etiquetas == undefined) etiquetas = new Array();
+    if (etiquetas == undefined)
+    {
+        etiquetas = new Array()
+    };
     
-    console.log(etiquetas);
-
     let filtro =
     {
         fechaDesde:fechaDesde,
@@ -242,15 +255,8 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta)
         etiquetasTiene:etiquetas
     };
 
-    console.log(filtro);
-
     gastosFiltrados = filtrarGastos(filtro);
-    gastosFiltrados.forEach(exp =>
-    {
-        txt += '\n '+ new Date(exp.fecha).toLocaleDateString() + ' - ' + exp.etiquetas;
-    });
-
-    console.log(txt + ' - ' + gastosFiltrados.length);
+    gastosFiltrados.forEach(exp => {txt += '\n '+ new Date(exp.fecha).toLocaleDateString() + ' - ' + exp.etiquetas;});
 
     return gastosFiltrados.reduce(function(previousValue, currentValue)
     {
