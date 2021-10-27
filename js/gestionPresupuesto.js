@@ -157,20 +157,78 @@ function calcularBalance(){
     return (presupuesto - gastos_totales)
 
 }
-function filtrarGastos(gastos){
-    let gastosFiltrados=gastos.filter(function(g){
-        let fechaDesdeBool=false;
-        let fechaHastaBool=false;
-        let valorMaximoBool=false;
-        let valorMinimoBool=false;
-        let descBool=false;
-        let etiquetasBool=false;
-        if(filtro!==undefined){
+function filtrarGastos(filt){
+    if(filt !== undefined || Object.entries(filt != 0)){
 
-            if(filtro.hasOwnProperty("fechaDesde") && g.fecha>=Date.parse(filtro.fechaDesde)){
-                fechaDesdeBool=true;
+        let gastosFiltrados = gastos.filter((gast) => {
+            if (filt.hasOwnProperty("fechaDesde")) {
+
+              if (gast.fecha < Date.parse(filt.fechaDesde)) {
+
+                return;
+              }
             }
-        
+      
+            if (filt.hasOwnProperty("fechaHasta")) {
+
+              if (gast.fecha > Date.parse(filt.fechaHasta) ) {
+
+                return;
+              }
+            }
+      
+            if (filt.hasOwnProperty("valorMinimo")) {
+
+              if (gast.valor < filt.valorMinimo) {
+
+                return;
+              }
+            }
+      
+            if (filt.hasOwnProperty("valorMaximo")) {
+
+              if (gast.valor > filt.valorMaximo) {
+
+                return;
+              }
+            }
+      
+            if (filt.hasOwnProperty("descripcionContiene")) {
+
+              if (!gast.descripcion.includes(filt.descripcionContiene)) {
+
+                return;
+              }
+            }
+            if (filt.hasOwnProperty("etiquetasTiene") && filt.etiquetasTiene !== undefined) {
+
+              if ( filt.etiquetasTiene.length != 0){
+
+              let comprobado = false;
+              for (let des of filt.etiquetasTiene) {
+
+                if (gast.etiquetas.includes(des)) {
+
+                  comprobado = true;
+                }
+              }
+              if (!comprobado) {
+
+                return;
+              }
+            }
+          }
+            return gast;
+          });  
+
+          if(gastosFiltrados.length === 0){
+
+            return gastos;
+        }else{
+
+            return gastosFiltrados;
+        }
+    }
 }
 function agruparGastos(){
  
