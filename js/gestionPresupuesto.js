@@ -182,15 +182,9 @@ function calcularBalance() {
 }
 
 function filtrarGastos(FechaGastos) {
-    let fd;
-    let fh;
-    let vmn;
-    let vmx;
-    let descCon;
-    let etiqTn;
     
-    let gastosFiltrar = object.assign(gastos)
-    if(typeof FechaGastos === 'object' && FechaGastos !== null && object.entries(FechaGastos.length) > 0)
+    let gastosFiltrar = Object.assign(gastos)
+    if(typeof FechaGastos === 'object' && FechaGastos != null && Object.entries(FechaGastos).length > 0)
     {
         if(FechaGastos.hasOwnProperty(`fechaDesde`) && typeof FechaGastos.fechaDesde === "string") {
             gastosFiltrar = gastosFiltrar.filter((x) =>{
@@ -238,7 +232,11 @@ function filtrarGastos(FechaGastos) {
                 }
             })
         }
-
+        return gastosFiltrar;    
+    }
+    return gastos;
+}
+    
         /*if(FechaGastos.hasOwnProperty(`fechaDesde`) && typeof FechaGastos.fechaDesde === "string") {
             if(!isNaN(Date.parse(FechaGastos.fechaDesde))) {
                 fd = undefined;
@@ -277,9 +275,9 @@ function filtrarGastos(FechaGastos) {
         {
             etiqTn = FechaGastos.etiquetasTiene();
         }*/ 
-        return gastosFiltrar;
-    }
-    return gastos;
+        
+    
+   
     /*let results = gastos.filter(function(item) {
         let devuelve = true;
 
@@ -293,9 +291,10 @@ function filtrarGastos(FechaGastos) {
 
         return devuelve;
     });*/
-}
+    
 
-function agruparGastos(etiquet) {
+
+function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
     let filtrador = {etiquetasTiene : etiquetas, fechaDesde : fechaDesde, fechaHasta : fechaHasta}
     let returnFiltrarGastos = filtrarGastos(filtrador);
     let groupBy =
