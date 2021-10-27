@@ -47,7 +47,7 @@ let gastosFiltrados2 = gestionPresupuesto.filtrarGastos(filtrador2);
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2", gastosFiltrados2);
 
 //Mostrar el listado de gastos de más de 200€ con etiqueta seguros en div#listado-gastos-filtrado-3 (funciones filtrarGastos y mostrarGastoWeb)
-let filtrador3 = {valorMinimo : 200, etiquetasTiene : ["seguros"]}
+let filtrador3 = {valorMinimo : 200, etiquetasTiene : ["seguros", ""]}
 let gastosFiltrados3 = gestionPresupuesto.filtrarGastos(filtrador3);
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3", gastosFiltrados3);
 
@@ -56,10 +56,10 @@ let filtrador4 = {valorMaximo : 50, etiquetasTiene : ["comida", "transporte"]}
 let gastosFiltrados4 = gestionPresupuesto.filtrarGastos(filtrador4);
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gastosFiltrados4);    
 
-//Mostrar el total de gastos agrupados por día en div#agrupacion-dia (funciones agruparGastos y mostrarGastosAgrupadosWeb)
-let filtrador5 = {valorMaximo : 50, etiquetasTiene : ["comida", "transporte"]}
-let gastosFiltrados5 = gestionPresupuesto.filtrarGastos(filtrador5);
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gastosFiltrados5);   
+// //Mostrar el total de gastos agrupados por día en div#agrupacion-dia (funciones agruparGastos y mostrarGastosAgrupadosWeb)
+// let filtrador5 = {valorMaximo : 50, etiquetasTiene : ["comida", "transporte"]}
+// let gastosFiltrados5 = gestionPresupuesto.filtrarGastos(filtrador5);
+// gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gastosFiltrados5);   
 
 //Mostrar el total de gastos agrupados por día en div#agrupacion-dia (funciones agruparGastos y mostrarGastosAgrupadosWeb)
 let gastosAgrupados1 = gestionPresupuesto.agruparGastos("dia");
