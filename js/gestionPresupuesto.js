@@ -236,18 +236,14 @@ function filtrarGastos(objetoFiltrante){
         if(typeof fechaD === 'undefined' && typeof fechaH !== 'undefined' && item.fecha <= fechaH) devuelve = true;
 
         if(typeof fechaD !== 'undefined' && typeof fechaH !== 'undefined'){
-            console.log(valorMax);
             if(typeof valorMax === 'undefined'){
                 if(item.fecha >= fechaD && item.fecha <= fechaH){
                     devuelve = true;
-                    console.log("entra undefi")
                 }    
             }
             if(typeof valorMax !== 'undefined'){
-                console.log("entraaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                 if(item.fecha >= fechaD && item.fecha <= fechaH && item.valor < valorMax){
                     devuelve = true;
-                    console.log("entra");
                 } 
             }
 
