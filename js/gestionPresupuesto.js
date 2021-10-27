@@ -53,7 +53,7 @@ function CrearGasto(desc, value, fechaGasto = Date.now(), ...ArrayLabels)
 
         actualizarFecha(updateDate)
         {
-            (!isNaN(Date.parse(updateDate))) && (this.fecha = Date.parse(updateDate));
+            !isNaN(Date.parse(updateDate)) && (this.fecha = Date.parse(updateDate));
         },
 
         anyadirEtiquetas(...etiquetas)
@@ -157,7 +157,7 @@ function filtrarGastos(filtro)
 
             else if (!filtro.hasOwnProperty('etiquetasTiene')) etiquetas = true;
 
-            if (fechaDesde && fechaHasta && valorMaximo && valorMinimo && etiquetas && descBool)    return exp;
+            if (fechaDesde && fechaHasta && valorMaximo && valorMinimo && etiquetas && descBool) return exp;
         }
     })
 
@@ -171,9 +171,9 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta)
     let txt = '';
 
     periodo != 'dia' && periodo != 'anyo' && (periodo = 'mes');
-    isNaN(Date.parse(fechaDesde)) && (fechaDesde = undefined);   
-    isNaN(Date.parse(fechaHasta)) && (fechaHasta = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate());     
     etiquetas == undefined && (etiquetas = new Array());
+    isNaN(Date.parse(fechaDesde)) && (fechaDesde = undefined);   
+    isNaN(Date.parse(fechaHasta)) && (fechaHasta = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate());    
         
     let filtro =
     {
