@@ -297,7 +297,7 @@ function filtrarGastos(FechaGastos) {
 function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
     let filtrador = {etiquetasTiene : etiquetas, fechaDesde : fechaDesde, fechaHasta : fechaHasta}
     let returnFiltrarGastos = filtrarGastos(filtrador);
-    let groupBy =
+    let Agrupador =
             returnFiltrarGastos.reduce((acc, item) => {
                 let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
                 if (acc[periodoReduce] == null)
@@ -306,7 +306,7 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
                     acc[periodoReduce] += item.valor;
                 return acc;
             }, {});
-    return groupBy;
+    return Agrupador;
 
 }
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
