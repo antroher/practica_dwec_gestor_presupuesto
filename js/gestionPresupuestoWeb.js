@@ -2,19 +2,28 @@
 
 
 function mostrarDatoEnId(idElemento, valor) {
-    const elemento = document.getElementById(idElemento);
-    elemento.textContent = valor;
+    let elemento = document.getElementById(idElemento);
+    let p = document.createElement("p");
+    p.textContent = valor;
+    elemento.appendChild(p);
 }
 
 //aqui gasto es un array, con lo que habria que cambiarlo y meterlo todo dentro de una iteracción
 function mostrarGastoWeb(idElemento, gasto) {
     const elemento = document.getElementById(idElemento);
     let span = document.createElement("span").textContent = " ";
-    for (let i of gasto.etiquetas) {
+    if (gasto.etiquetas.length > 0 && gasto.etiquetas != null) {
+        for (let i in gasto.etiquetas) {
+            span.innerHTML += `
+            <span class="gasto-etiquetas-etiqueta">
+                ${i}
+            </span>`
+        }
+    } else {
         span.innerHTML += `
-        <span class="gasto-etiquetas-etiqueta">
-            ${i}
-        </span>`
+            <span class="gasto-etiquetas-etiqueta">
+                ${gasto.etiquetas[0]}
+            </span>`
     }
 
     elemento.innerHTML = 
