@@ -409,18 +409,43 @@ function filtrarGastos(filtroEntrante) {
     return arrayDevolver;
 }
 
-function agruparGastos(periodo, etiquetasEntrante = [], fechaDesdeEntrante = "", fechaHastaEntrante = "") {
+function agruparGastos(periodo = "mes", etiquetasEntrante = [], fechaDesdeEntrante = "", fechaHastaEntrante = "") {
     //Creación de objeto gasto.
     let gasto = {
         etiquetasTiene: etiquetasEntrante,
-        fechaDesde: (!isNaN(Date.parse(fechaDesdeEntrante)))? Date.parse(fechaDesdeEntrante) : undefined,
-        fechaHasta: (!isNaN(Date.parse(fechaHastaEntrante))) ? Date.parse(fechaHastaEntrante) : undefined
+        fechaDesde: fechaDesdeEntrante,
+        fechaHasta: fechaHastaEntrante
     }
 
     //Creación de array de gastos filtrados mediante la función filtrarGastos()
     let gastosFiltrados = filtrarGastos(gasto);
 
-    
+    let gastosAgrupados = gastosFiltrados.reduce((acumulado, gasto) => {
+        let periodoString = gasto.obtenerPeriodoAgrupacion(periodo);
+        if (acumulado[periodoString] == null) {
+            acumulado[periodoString] = gasto.valor;
+        }
+        else {
+            acumulado[periodoString] += gasto.valor;
+        }
+        return acumulado;
+    }, {});
+
+    let keyNames = Object.keys(gastosAgrupados);
+    let keyValues = Object.values(gastosAgrupados);
+    let arrayDevolver = []
+    keyNames.forEach((key, index) => {
+        let concatString = `${key}: ` + keyValues[index];
+        arrayDevolver.push(concatString);
+        console.log(concatString);
+    })
+
+
+
+   console.log(keyNames);
+   console.log(arrayDevolver);
+    return arrayDevolver;
+
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
