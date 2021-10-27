@@ -119,7 +119,7 @@ function CrearGasto(descr, val, fech = Date.now(), ...etiq) {
         console.log("Periodo erroneo.");
         break;
     }
-    
+
     return resultado;
   };
 
@@ -163,76 +163,92 @@ function filtrarGastos(objetoFiltro) {
     Object.entries(objetoFiltro).length != 0
   ) {
     let resultado = gastos.filter((gast) => {
+      //Comporbar fechaDesde
       if (objetoFiltro.hasOwnProperty("fechaDesde")) {
         if (gast.fecha < Date.parse(objetoFiltro.fechaDesde)) {
           return;
         }
       }
 
+      //Comporbar fechaHasta
       if (objetoFiltro.hasOwnProperty("fechaHasta")) {
-        if (gast.fecha > Date.parse(objetoFiltro.fechaHasta) ) {
+        if (gast.fecha > Date.parse(objetoFiltro.fechaHasta)) {
           return;
         }
       }
 
+      //Comporbar valorMinimo
       if (objetoFiltro.hasOwnProperty("valorMinimo")) {
         if (gast.valor < objetoFiltro.valorMinimo) {
           return;
         }
       }
 
+      //Comporbar valorMaximo
       if (objetoFiltro.hasOwnProperty("valorMaximo")) {
         if (gast.valor > objetoFiltro.valorMaximo) {
           return;
         }
       }
 
+      //Comporbar descripcionContiene
       if (objetoFiltro.hasOwnProperty("descripcionContiene")) {
         if (!gast.descripcion.includes(objetoFiltro.descripcionContiene)) {
           return;
         }
       }
+
+      //Comporbar etiquetasTiene
       if (objetoFiltro.hasOwnProperty("etiquetasTiene")) {
-        if ( objetoFiltro.etiquetasTiene.length != 0){
-        let check = false;
-        for (let des of objetoFiltro.etiquetasTiene) {
-          if (gast.etiquetas.includes(des)) {
-            check = true;
+        if (objetoFiltro.etiquetasTiene.length != 0) {
+          let check = false;
+          for (let des of objetoFiltro.etiquetasTiene) {
+            if (gast.etiquetas.includes(des)) {
+              check = true;
+            }
+          }
+          if (!check) {
+            return;
           }
         }
-        if (!check) {
-          return;
-        }
       }
-    }
       return gast;
     });
 
     return resultado;
-
   } else {
     return gastos;
   }
-
-  
 }
 
-function agruparGastos(periodo = "mes", etiquetas = [], fechDesd, fechaHas = Date.now()) {
-  
+function agruparGastos(
+  periodo = "mes",
+  etiquetas = [],
+  fechDesd,
+  fechaHas = Date.now()
+) {
   //if (fechDesd == undefined){
-    //let aux = new Date(Date.now()).getFullYear();
-    //fechDesd = 0;
+  //let aux = new Date(Date.now()).getFullYear();
+  //fechDesd = 0;
   //}
-    let listaResultadoFiltros = filtrarGastos({fechaDesde: fechDesd, fechaHasta:fechaHas, etiquetasTiene: etiquetas});
-    let gastosAgrupados = listaResultadoFiltros.reduce(function(acumulador, gast){
+  let listaResultadoFiltros = filtrarGastos({
+    fechaDesde: fechDesd,
+    fechaHasta: fechaHas,
+    etiquetasTiene: etiquetas,
+  });
+  let gastosAgrupados = listaResultadoFiltros.reduce(function (
+    acumulador,
+    gast
+  ) {
     let perAgrup = gast.obtenerPeriodoAgrupacion(periodo);
-    if (acumulador.hasOwnProperty(perAgrup)){
-       acumulador[perAgrup] = acumulador[perAgrup] + gast.valor;
-    } else {     
+    if (acumulador.hasOwnProperty(perAgrup)) {
+      acumulador[perAgrup] = acumulador[perAgrup] + gast.valor;
+    } else {
       acumulador[perAgrup] = gast.valor;
     }
-     return acumulador
-  }, {});
+    return acumulador;
+  },
+  {});
   return gastosAgrupados;
 }
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -252,4 +268,3 @@ export {
 
   //MODIFICACIÓN EXPORT
 };
-
