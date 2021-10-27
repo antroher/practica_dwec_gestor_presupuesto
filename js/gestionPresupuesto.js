@@ -225,6 +225,17 @@ function filtrarGastos(gastoF){
                 })
             }
 
+            if(gastoF.hasOwnProperty('descripcionContiene') && typeof gastoF.descripcionContiene === 'string'){
+                res = res.filter((aux) => {
+                    for (let i = 0; i < gastoF.descripcionContiene.length; i++){
+
+                        if (gastoF.descripcionContiene.includes(aux.etiquetas[i])){
+                            return true;
+                        }              
+                    }    
+                })
+            }
+
             return res;
         }
     return gastos;
