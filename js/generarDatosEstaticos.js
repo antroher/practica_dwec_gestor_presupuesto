@@ -22,17 +22,17 @@ gastosF.forEach(gf => {
     gpw.mostrarGastoWeb("listado-gastos-filtrado-1",gf);
 });
 
-let gastosF=gp.filtrarGastos({valorMinimo:50});
+gastosF=gp.filtrarGastos({valorMinimo:50});
 gastosF.forEach(gf => {
     gpw.mostrarGastoWeb("listado-gastos-filtrado-2",gf);
 });
 
-let gastosF=gp.filtrarGastos({valorMinimo:200,etiquetasTiene:["seguros"]});
+gastosF=gp.filtrarGastos({valorMinimo:200,etiquetasTiene:["seguros"]});
 gastosF.forEach(gf => {
     gpw.mostrarGastoWeb("listado-gastos-filtrado-3",gf);
 });
 
-let gastosF=gp.filtrarGastos({valorMaximo:50,etiquetasTiene:["comida","transporte"]});
+gastosF=gp.filtrarGastos({valorMaximo:50,etiquetasTiene:["comida","transporte"]});
 gastosF.forEach(gf => {
     gpw.mostrarGastoWeb("listado-gastos-filtrado-4",gf);
 });

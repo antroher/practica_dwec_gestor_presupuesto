@@ -141,7 +141,7 @@ function filtrarGastos(filtro){
 
             if(filtro.hasOwnProperty("valorMinimo") && g.valor>=filtro.valorMinimo){
                 valorMinimoBool=true;
-            } else if(!filtro.hasOwnProperty("valorMinimo") ) valorMinimoBool=true;
+            } else if(!filtro.hasOwnProperty("valorMinimo")) valorMinimoBool=true;
 
             if(filtro.hasOwnProperty("valorMaximo") && g.valor<=filtro.valorMaximo){
                 valorMaximoBool=true;
