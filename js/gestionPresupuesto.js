@@ -305,20 +305,17 @@ function filtrarGastos(objeto) {
                 devuelve = false;
         }
 
-        if (typeof etiqueta !== 'undefined')
-        {            
-            if (etiqueta.length > 0)
+        if ((typeof etiqueta !== 'undefined') && (etiqueta.length > 0))
+        {          
+            for (let i of etiqueta)
             {
-                for (let i of etiqueta)
+                for (let j of item.etiquetas)
                 {
-                    for (let j of item.etiquetas)
+                    if (i === j)
                     {
-                        if (i === j)
-                        {
-                            devuelve2 = true;
-                        }
-                    }                    
-                }  
+                        devuelve2 = true;
+                    }
+                }                    
             }                      
         }
         else 
@@ -331,8 +328,8 @@ function filtrarGastos(objeto) {
     });    
 
     return result;
-
 }
+function agruparGastos(){}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
