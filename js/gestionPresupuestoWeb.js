@@ -9,43 +9,37 @@ function mostrarDatoEnId(idElemento, valor) {
 }
 
 //aqui gasto es un array, con lo que habria que cambiarlo y meterlo todo dentro de una iteracción
-function mostrarGastoWeb(idElemento, gasto) {
-    const elemento = document.getElementById(idElemento);
-    let span = document.createElement("span").textContent = " ";
-    if (gasto.etiquetas.length > 0 && gasto.etiquetas != null) {
-        for (let i in gasto.etiquetas) {
-            span.innerHTML += `
-            <span class="gasto-etiquetas-etiqueta">
-                ${i}
-            </span>`
-        }
-    } else {
-        span.innerHTML += `
-            <span class="gasto-etiquetas-etiqueta">
-                ${gasto.etiquetas[0]}
-            </span>`
+function mostrarGastoWeb(idElemento, gastos) {
+    let elemento = document.getElementById(idElemento);
+    let span = document.createElement("span");
+    for (let gasto of gastos) {
+        elemento.innerHTML += 
+        `<div class="gasto">
+            <div class="gasto-descripcion">${gasto.descripcion}</div>
+            <div class="gasto-fecha">${gasto.fecha}</div> 
+            <div class="gasto-valor">${gasto.valor}</div> 
+            <div class="gasto-etiquetas">`;
+            for (let i of gasto.etiquetas) {
+                span.innerHTML += `
+                <span class="gasto-etiquetas-etiqueta">
+                    ${i}
+                </span>`
+            }
     }
 
-    elemento.innerHTML = 
-    `<div class="gasto">
-    <div class="gasto-descripcion">${gasto.descripcion}</div>
-    <div class="gasto-fecha">${gasto.fecha}</div> 
-    <div class="gasto-valor">${gasto.valor}</div> 
-    <div class="gasto-etiquetas">`;
     elemento.innerHTML = elemento.innerHTML + span.innerHTML + `</div> 
     </div>`
-
 }
 
 ///aqui gasto es un array, con lo que habria que cambiarlo y meterlo todo dentro de una iteracción
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     const elemento = document.getElementById(idElemento);
-    agrup.forEach((x) => {
+    for (let [key, value] of Object.entries(agrup)) {
         elemento.innerHTML += `<div class="agrupacion-dato">
-        <span class="agrupacion-dato-clave">${Object.keys(x)[0]}</span>
-        <span class="agrupacion-dato-valor">${x[Object.keys(x)[0]]}</span>
+        <span class="agrupacion-dato-clave">${key}</span>
+        <span class="agrupacion-dato-valor">${value}</span>
     </div>`
-    });
+    };
     elemento.innerHTML = 
     `
     <div class="agrupacion">
