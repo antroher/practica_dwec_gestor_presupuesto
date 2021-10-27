@@ -244,7 +244,14 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
+<<<<<<< HEAD
     calcularBalance,
     filtrarGastos,
     agruparGastos
 }
+=======
+    calcularBalance
+}
+
+
+>>>>>>> 095e23c914882f2735d73c9cfb97a0caedb6f9e9
