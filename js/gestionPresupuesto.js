@@ -193,61 +193,6 @@ function filtrarGastos(filtro){
           }
             return gast;
           });
-        
-        /*gastos.filter(function(g){
-            let fechaCorrecta = false, valorCorrecto = false, contieneDesc = false, tieneEtiq = false;
-              
-            if(filtro.hasOwnProperty('fechaDesde')){
-                if(g.fecha > Date.parse(filtro.fechaDesde) ){
-                    fechaCorrecta = true;
-                }
-            }
-
-            if(filtro.hasOwnProperty('fechaHasta')){
-                if(Date.parse(filtro.fechaHasta) > g.fecha){
-                    fechaCorrecta = true;
-                }
-            }  
-           
-
-            if(filtro.hasOwnProperty('valorMinimo')){
-                if(filtro.valorMinimo < g.valor){
-                    valorCorrecto = true;
-                }
-            }
-
-            if (filtro.hasOwnProperty('valorMaximo')){
-                if(g.valor < filtro.valorMaximo){
-                    valorCorrecto = true;
-                }
-            }
-
-            if(filtro.hasOwnProperty('descripcionContiene')){
-                if(g.descripcion.includes(filtro.descripcionContiene)){
-                    contieneDesc = true;
-                }
-            }else contieneDesc = true;
-
-            if(filtro.hasOwnProperty('etiquetasTiene')){
-                let alguna = false;
-                if(filtro.etiquetasTiene === undefined || filtro.etiquetasTiene.length === 0){
-                    alguna = true;
-                }else{
-                    filtro.etiquetasTiene.forEach(e => {
-                        if(g.etiquetas.includes(e)){
-                            alguna = true;
-                        }
-                    });
-                }
-
-                tieneEtiq = alguna;
-            }else tieneEtiq = true;
-
-            if(fechaCorrecta && valorCorrecto && contieneDesc && tieneEtiq){
-                return g;
-            }
-
-        });*/
 
         if(gastosFiltrados.length === 0){
             return gastos;
