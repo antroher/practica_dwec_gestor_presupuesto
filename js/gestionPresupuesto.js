@@ -343,8 +343,21 @@ function filtrarGastos(objeto)
 
 }
 
-function agruparGastos(periodo = 'mes', etiquetas = [], fDesde, fHasta = Date.now())
+function agruparGastos(periodo = 'mes', etiquetas = [], fDesde, fHasta)
 {
+    
+    let now = new Date(Date.now());    
+    
+    if (isNaN(Date.parse(fDesde)))
+    {
+        fDesde = undefined;
+    }
+
+    if (isNaN(Date.parse(fHasta)))
+    {
+        fHasta = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+    }    
+
     let filtrar = 
     { 
         etiquetasTiene: etiquetas,
