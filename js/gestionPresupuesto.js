@@ -160,29 +160,29 @@ function filtrarGastos(objeto){
     {
         let result= gastos.filter(posicion=>{
             if(objeto.hasOwnProperty('fechaDesde'))
-                if(posicion.fecha < objeto.fechaDesde)
+                if(posicion.fecha < Date.parse(objeto.fechaDesde))
                     return;
-            if(objeto.hasOwnProperty('fechaHasta'))
-                if(posicion.fecha > objeto.fechaHasta)
+            if(objeto.hasOwnProperty("fechaHasta"))
+                if(posicion.fecha > Date.parse(objeto.fechaHasta))
                     return;
-            if(objeto.hasOwnProperty('valorMinimo'))
+            if(objeto.hasOwnProperty("valorMinimo"))
                 if(posicion.valor < objeto.valorMinimo)
                     return;
-            if(objeto.hasOwnProperty('valorMaximo'))
+            if(objeto.hasOwnProperty("valorMaximo"))
                 if(posicion.valor > objeto.valorMaximo)
                     return;
-            if(objeto.hasOwnProperty('descripcionContiene'))
+            if(objeto.hasOwnProperty("descripcionContiene"))
                 if(!posicion.descripcion.includes(objeto.descripcionContiene))
                     return;
-            if(objeto.hasOwnProperty('etiquetasTiene')){
-                if(objeto.etiquetasTiene.length!=0)
+            if(objeto.hasOwnProperty("etiquetasTiene")){
+                if(objeto.etiquetasTiene.length != 0)
                 {
                     let comp=false;
                     for(let desc of objeto.etiquetasTiene){
                         if(posicion.etiquetas.includes(desc))
                         comp=true;
                     }
-                    if(comp!=false)
+                    if(!comp)
                         return;
                 }
             }
@@ -194,8 +194,21 @@ function filtrarGastos(objeto){
         return gastos;
 }
 
-function agruparGastos(){
+function agruparGastos(periodo='mes',etiquetas=[],fechaDesde,fechaHasta=Date.now()){
+        let obj={fechaDesde: fechaDesde, fechaHasta: fechaHasta,etiquetasTiene: etiquetas};
+        let resultFiltros= filtrarGastos(obj);
+        let valorAgrupado=resultFiltros.reduce(acumulador,posicion=>{
+            if(obj.hasOwnProperty(acumulador)){
+                resultFiltros+=posicion.valor;
+            }
+            else
+                acumulador[filtrarGastos]=posicion.valor;
 
+            return acumulador;
+            },
+            {});
+                return valorAgrupado;
+        
 }
 // Acciones con la variable global Gastos
 function actualizarPresupuesto(presup) 
