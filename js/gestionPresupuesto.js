@@ -17,9 +17,9 @@ function mostrarPresupuesto()
 
 function CrearGasto(desc, value, fechaGasto = Date.now(), ...ArrayLabels)
 {
-    if (value < 0 || isNaN(value)) value = 0;
-    if (ArrayLabels == undefined) ArrayLabels = new Array();
-    if (fechaGasto == undefined || isNaN(Date.parse(fechaGasto))) fechaGasto = new Date(Date.now());
+    value < 0 || isNaN(value) && (value = 0);
+    ArrayLabels == undefined && (ArrayLabels = new Array());
+    fechaGasto == undefined || isNaN(Date.parse(fechaGasto)) && (fechaGasto = new Date(Date.now()));
     
     let expense =
     {
@@ -35,54 +35,35 @@ function CrearGasto(desc, value, fechaGasto = Date.now(), ...ArrayLabels)
 
         actualizarDescripcion: function(desc)
         {
-            if (desc != null && desc != '')
-            {
-                this.descripcion = desc;
-            }
+            desc != null && desc != '' && (this.descripcion = desc);
         },
 
         actualizarValor: function(data)
         {
-            if (parseFloat(data) > 0)
-            {
-                this.valor = data;
-            }
+            parseFloat(data) > 0 && (this.valor = data);
         },
 
         mostrarGastoCompleto()
         {
             let txt = 'Gasto correspondiente a ' + this.descripcion + ' con valor ' + this.valor + ' €.\n' + 'Fecha: ' + new Date(this.fecha).toLocaleString() + '\n' + 'Etiquetas:\n';
-
-            if (this.etiquetas.length > 0)
-            {
-                this.etiquetas.forEach(show => {txt = txt + '- ' + show + '\n'});
-            }
+            this.etiquetas.length > 0 && this.etiquetas.forEach(show => {txt = txt + '- ' + show + '\n'});
 
             return txt;
         },
 
         actualizarFecha(updateDate)
         {
-            if (!isNaN(Date.parse(updateDate))) this.fecha = Date.parse(updateDate);
+            (!isNaN(Date.parse(updateDate))) && (this.fecha = Date.parse(updateDate));
         },
 
         anyadirEtiquetas(...etiquetas)
         {
-            etiquetas.forEach(label =>
-            {
-                if (typeof(label) == 'string' && !this.etiquetas.includes(label)) this.etiquetas.push(label);
-            });
+            etiquetas.forEach(label => typeof(label) == 'string' && !this.etiquetas.includes(label) && this.etiquetas.push(label));
         },
 
         borrarEtiquetas(...etiquetas)
         {
-            etiquetas.forEach(label =>
-            {
-                if (this.etiquetas.includes(label))
-                {
-                    this.etiquetas.splice(this.etiquetas.indexOf(label), 1);
-                }
-            });
+            etiquetas.forEach(label => {this.etiquetas.includes(label) && this.etiquetas.splice(this.etiquetas.indexOf(label), 1)});
         },
 
         obtenerPeriodoAgrupacion(periodo)
@@ -95,7 +76,6 @@ function CrearGasto(desc, value, fechaGasto = Date.now(), ...ArrayLabels)
                         return new Date(this.fecha).toISOString().substring(0, 10);
 
                     case 'mes':
-
                         return new Date(this.fecha).toISOString().substring(0, 7);
 
                     case 'anyo':
@@ -103,7 +83,7 @@ function CrearGasto(desc, value, fechaGasto = Date.now(), ...ArrayLabels)
                 }
             }
         }
-    };   
+    }
 
     return expense;
 }
@@ -115,7 +95,7 @@ function listarGastos()
 
 function anyadirGasto(addExpense)
 {
-    if (addExpense !== undefined && addExpense !== null)
+    if (addExpense != undefined && addExpense != null)
     {
         addExpense.id = idGasto;
         gastos.push(addExpense);
@@ -125,16 +105,13 @@ function anyadirGasto(addExpense)
 
 function borrarGasto(idExpense)
 {
-    gastos.forEach (exp =>
-    {
-        if (exp.id == idExpense) gastos.splice(gastos.indexOf(exp), 1);
-    });
+    gastos.forEach (exp => {exp.id == idExpense && gastos.splice(gastos.indexOf(exp), 1)});
 }
 
 function calcularTotalGastos()
 {
     let totalExp = 0;
-    gastos.forEach (exp => {totalExp = parseFloat(totalExp + exp.valor);});
+    gastos.forEach (exp => {totalExp = parseFloat(totalExp + exp.valor);})
 
     return totalExp;
 }
@@ -153,70 +130,35 @@ function filtrarGastos(filtro)
         let valorMaximo = false;
         let valorMinimo = false;
         let descBool = false;
-        let etiquetasBool = false;
+        let etiquetas = false;
 
-        if (filtro !== undefined)
+        if (filtro != undefined)
         {
-            if (filtro.hasOwnProperty('fechaDesde') && exp.fecha >= Date.parse(filtro.fechaDesde))
-            {
-                fechaDesde = true;
-            }
-            
-            else if (!filtro.hasOwnProperty('fechaDesde') || filtro.fechaDesde == undefined) fechaDesde = true;
+            filtro.hasOwnProperty('fechaDesde') && exp.fecha >= Date.parse(filtro.fechaDesde) ? fechaDesde = true :
+            !filtro.hasOwnProperty('fechaDesde') || filtro.fechaDesde == undefined ? fechaDesde = true : exp;
 
-            if (filtro.hasOwnProperty('fechaHasta') && exp.fecha <= Date.parse(filtro.fechaHasta))
-            {
-                fechaHasta=true;
-            }
+            filtro.hasOwnProperty('fechaHasta') && exp.fecha <= Date.parse(filtro.fechaHasta) ? fechaHasta = true :
+            !filtro.hasOwnProperty('fechaHasta') ? fechaHasta = true : exp;
 
-            else if (!filtro.hasOwnProperty('fechaHasta')) fechaHasta = true;
+            filtro.hasOwnProperty('valorMinimo') && exp.valor >= filtro.valorMinimo ? valorMinimo = true :
+            !filtro.hasOwnProperty('valorMinimo') ? valorMinimo = true : exp;
 
-            if (filtro.hasOwnProperty('valorMinimo') && exp.valor >= filtro.valorMinimo)
-            {
-                valorMinimo = true;
-            }
+            filtro.hasOwnProperty('valorMaximo') && exp.valor <= filtro.valorMaximo ? valorMaximo = true :
+            !filtro.hasOwnProperty('valorMaximo') ? valorMaximo = true : exp;
 
-            else if (!filtro.hasOwnProperty('valorMinimo')) valorMinimo = true;
-
-            if (filtro.hasOwnProperty('valorMaximo') && exp.valor <= filtro.valorMaximo)
-            {
-                valorMaximo = true;
-            }
-
-            else if (!filtro.hasOwnProperty('valorMaximo')) valorMaximo = true;
-
-            if (filtro.hasOwnProperty('descripcionContiene') && exp.descripcion.includes(filtro.descripcionContiene))
-            {
-                descBool = true;
-            }
-
-            else if (!filtro.hasOwnProperty('descripcionContiene')) descBool = true;
+            filtro.hasOwnProperty('descripcionContiene') && exp.descripcion.includes(filtro.descripcionContiene) ? descBool = true :
+            !filtro.hasOwnProperty('descripcionContiene') ? descBool = true : exp;
             
             if (filtro.hasOwnProperty('etiquetasTiene'))
             {
-                if (filtro.etiquetasTiene.length != 0)
-                {
-                    filtro.etiquetasTiene.forEach(et =>
-                    {
-                        if (exp.etiquetas.includes(et) && etiquetasBool == false) etiquetasBool = true;
-                    });
-                }
-                
-                else
-                {
-                    etiquetasBool = true;
-                }
+                filtro.etiquetasTiene.length != 0 ? filtro.etiquetasTiene.forEach(label =>{exp.etiquetas.includes(label) && etiquetas == false && (etiquetas = true);}) :
+                etiquetas = true;
             }
 
-            else if (!filtro.hasOwnProperty('etiquetasTiene')) etiquetasBool = true;
+            else if (!filtro.hasOwnProperty('etiquetasTiene')) etiquetas = true;
 
-            if (fechaDesde && fechaHasta && valorMaximo && valorMinimo && etiquetasBool && descBool)
-            {
-                return exp;
-            }
+            if (fechaDesde && fechaHasta && valorMaximo && valorMinimo && etiquetas && descBool)    return exp;
         }
-        
-        else return exp;
     })
 
     return gastosFiltrados;
@@ -224,35 +166,20 @@ function filtrarGastos(filtro)
 
 function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta)
 {
-    let fechaActual = new Date(Date.now());
+    let currentDate = new Date(Date.now());
     let gastosFiltrados = new Array();
     let txt = '';
 
-    if (periodo != 'dia' && periodo != 'anyo')
-    {
-        periodo = 'mes';
-    }
-
-    if (isNaN(Date.parse(fechaDesde)))
-    {
-        fechaDesde = undefined;
-    }
-
-    if (isNaN(Date.parse(fechaHasta)))
-    {
-        fechaHasta = fechaActual.getFullYear() + '-' + (fechaActual.getMonth() + 1) + '-' + fechaActual.getDate();
-    }
-
-    if (etiquetas == undefined)
-    {
-        etiquetas = new Array()
-    };
-    
+    periodo != 'dia' && periodo != 'anyo' && (periodo = 'mes');
+    isNaN(Date.parse(fechaDesde)) && (fechaDesde = undefined);   
+    isNaN(Date.parse(fechaHasta)) && (fechaHasta = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate());     
+    etiquetas == undefined && (etiquetas = new Array());
+        
     let filtro =
     {
-        fechaDesde:fechaDesde,
-        fechaHasta:fechaHasta,
-        etiquetasTiene:etiquetas
+        fechaDesde: fechaDesde,
+        fechaHasta: fechaHasta,
+        etiquetasTiene: etiquetas
     };
 
     gastosFiltrados = filtrarGastos(filtro);
@@ -260,18 +187,10 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta)
 
     return gastosFiltrados.reduce(function(previousValue, currentValue)
     {
-        if (previousValue.hasOwnProperty(currentValue.obtenerPeriodoAgrupacion(periodo)))
-        {
-            previousValue[currentValue.obtenerPeriodoAgrupacion(periodo)] = parseFloat(previousValue[currentValue.obtenerPeriodoAgrupacion(periodo)]) + parseFloat(currentValue.valor);
-        }
+        previousValue.hasOwnProperty(currentValue.obtenerPeriodoAgrupacion(periodo)) ? 
+        previousValue[currentValue.obtenerPeriodoAgrupacion(periodo)] = parseFloat(previousValue[currentValue.obtenerPeriodoAgrupacion(periodo)]) + parseFloat(currentValue.valor) :
+        previousValue[currentValue.obtenerPeriodoAgrupacion(periodo)] = parseFloat(currentValue.valor);
         
-        else
-        {
-            previousValue [currentValue.obtenerPeriodoAgrupacion(periodo)] = parseFloat(currentValue.valor);
-        }
-
-        console.log(previousValue);
-
         return previousValue;
     },  {}
     );
