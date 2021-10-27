@@ -11,24 +11,23 @@ function mostrarDatoEnId(idElemento, valor) {
 //aqui gasto es un array, con lo que habria que cambiarlo y meterlo todo dentro de una iteracción
 function mostrarGastoWeb(idElemento, gastos) {
     let elemento = document.getElementById(idElemento);
-    let span = document.createElement("span");
     for (let gasto of gastos) {
+        let data = "";
+        for (let i of gasto.etiquetas) {
+            data += `
+            <div class="gasto-etiquetas-etiqueta">
+                ${i}
+            </div>`
+        }
         elemento.innerHTML += 
         `<div class="gasto">
             <div class="gasto-descripcion">${gasto.descripcion}</div>
             <div class="gasto-fecha">${gasto.fecha}</div> 
             <div class="gasto-valor">${gasto.valor}</div> 
-            <div class="gasto-etiquetas">`;
-            for (let i of gasto.etiquetas) {
-                span.innerHTML += `
-                <span class="gasto-etiquetas-etiqueta">
-                    ${i}
-                </span>`
-            }
+            <div class="gasto-etiquetas">
+            ${data}`;
+        // elemento.innerHTML += span.innerHTML + "</div>";
     }
-
-    elemento.innerHTML = elemento.innerHTML + span.innerHTML + `</div> 
-    </div>`
 }
 
 ///aqui gasto es un array, con lo que habria que cambiarlo y meterlo todo dentro de una iteracción
