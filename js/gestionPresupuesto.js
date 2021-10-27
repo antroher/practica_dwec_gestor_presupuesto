@@ -227,12 +227,20 @@ function filtrarGastos(gastoF){
 
             if(gastoF.hasOwnProperty('descripcionContiene') && typeof gastoF.descripcionContiene === 'string'){
                 res = res.filter((aux) => {
-                    for (let i = 0; i < gastoF.descripcionContiene.length; i++){
+                                        
+                    if(aux.descripcion.includes(gastoF.descripcionContiene))
+                        return true;
+                })
+            }//FINALMENTE NO ES NECESARIA LA UTILIZACION DE SPLIT JOIN, UTILIZANDO EL INCLUDE Y COMPARANDO LA descripcion DEL aux CON LA DEL OBJETO Y LA PROPIEDAD etiquetaContiene se resuelve.
+            
+            if(gastoF.hasOwnProperty('etiquetasTiene') && Array.isArray(gastoF.etiquetasTiene)){
+                res = res.filter((aux) => {
+                    for(let i = 0; i < gastoF.etiquetasTiene.length; i++){
 
-                        if (gastoF.descripcionContiene.includes(aux.etiquetas[i])){
+                        if(gastoF.etiquetasTiene.includes(aux.etiquetas[i]))
                             return true;
-                        }              
-                    }    
+
+                    }
                 })
             }
 
