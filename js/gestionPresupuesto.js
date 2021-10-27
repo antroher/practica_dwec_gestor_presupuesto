@@ -277,6 +277,7 @@ function filtrarGastos(FechaGastos) {
         {
             etiqTn = FechaGastos.etiquetasTiene();
         }*/ 
+        return gastosFiltrar;
     }
     return gastos;
     /*let results = gastos.filter(function(item) {
@@ -294,8 +295,19 @@ function filtrarGastos(FechaGastos) {
     });*/
 }
 
-function agruparGastos() {
-
+function agruparGastos(etiquet) {
+    let filtrador = {etiquetasTiene : etiquetas, fechaDesde : fechaDesde, fechaHasta : fechaHasta}
+    let returnFiltrarGastos = filtrarGastos(filtrador);
+    let groupBy =
+            returnFiltrarGastos.reduce((acc, item) => {
+                let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
+                if (acc[periodoReduce] == null)
+                    acc[periodoReduce] = item.valor;
+                else 
+                    acc[periodoReduce] += item.valor;
+                return acc;
+            }, {});
+    return groupBy;
 
 }
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
