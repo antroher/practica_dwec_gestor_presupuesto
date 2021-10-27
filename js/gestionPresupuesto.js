@@ -101,6 +101,7 @@ function CrearGasto(description, valor1, fecha1 = `${Date.now()}`, ...etiquetasP
 				}
 			}
 		},
+
 		borrarEtiquetas(...etiquetasBorrar)
 		{
 			for (let i = 0; i < etiquetasBorrar.length; i++) 
@@ -112,10 +113,54 @@ function CrearGasto(description, valor1, fecha1 = `${Date.now()}`, ...etiquetasP
 					this.etiquetas.splice(indice,1);
 				}
 			}
-		}
-	}
+		},
+
+        obtenerPeriodoAgrupacion(per) {
+            let date = new Date(this.fecha);
+            if (per === "dia") {
+                if (date.getMonth() + 1 < 10) {
+                    if (date.getDate() < 10) {
+                        return `${date.getFullYear()}-0${date.getMonth() + 1}-0${date.getDate()}`;
+                    } else {
+                        return `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`;
+                    }                    
+                } else if (date.getDate() < 10) {
+                    return `${date.getFullYear()}-${date.getMonth() + 1}-0${date.getDate()}`;
+                } else {
+                    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+                }             
+            }
+            if (per === "mes") {
+                if (date.getMonth() + 1 < 10) {
+                    return `${date.getFullYear()}-0${date.getMonth() + 1}`;
+                } else {
+                    return `${date.getFullYear()}-${date.getMonth() + 1}`;
+                }
+            }
+            if (per === "anyo") {
+                return date.getFullYear();
+            }
+        }
+    }
 	return gasto;
 }
+let gasto1 = new CrearGasto("Gasto 1", 23.55, "2021-09-06", "casa", "supermercado" );
+let gasto2 = new CrearGasto("Gasto 2", 27.55, "2021-11-24", "casa", "supermercado", "comida" );
+
+gasto1.obtenerPeriodoAgrupacion("mes");
+// Resultado: "2021-09"
+gasto1.obtenerPeriodoAgrupacion("anyo");
+// Resultado: "2021"
+gasto1.obtenerPeriodoAgrupacion("dia");
+// Resultado: "2021-09-06"
+
+gasto2.obtenerPeriodoAgrupacion("mes");
+// Resultado: "2021-11"
+gasto2.obtenerPeriodoAgrupacion("anyo");
+// Resultado: "2021"
+gasto2.obtenerPeriodoAgrupacion("dia");
+// Resultado: "2021-11-24"
+
 function listarGastos(){   
     return gastos;
 }
@@ -160,6 +205,118 @@ function calcularBalance()
 
 }
 
+function filtrarGastos(objeto)
+{
+	if (objeto != undefined && objeto != null){
+
+		let gastosFiltrados = gastos.filter(function(item)
+		{
+
+			if (objeto.hasOwnProperty('fechaDesde')){
+				if(item.fecha < Date.parse(objeto.fechaDesde) ){
+					return;
+				}
+				return;
+			}
+
+			if (objeto.hasOwnProperty('fechaHasta')){
+				if(item.fecha > Date.parse(objeto.fechaHasta) ){
+					return;
+				}
+				return;
+			}
+
+			if (objeto.hasOwnProperty('valorMinimo')){
+				if(item.valor < objeto.valorMinimo ){
+					return;
+				}
+				return;
+			}
+
+			if (objeto.hasOwnProperty('valorMaximo') ){
+				if(item.valor > objeto.valorMaximo ) {
+					return;
+				}
+				return;
+			}
+
+			if (objeto.hasOwnProperty('descripcionContiene')){
+				if(!item.descripcion.includes(objeto.descripcionContiene)){
+					return;
+				}
+				return;
+			}
+
+			if (objeto.hasOwnProperty('etiquetasTiene')){
+				if (!item.etiquetas.includes(objeto.etiquetasTiene)){
+					return;
+				}
+				return;
+			}
+
+		return item
+
+		})
+
+	return gastosFiltrados
+}
+else{
+	return gastos;
+}
+}
+
+function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta)
+{
+	let fec = new Date();
+	let dd = String(fec.getDate()).padStart(2,0);
+	let mm = String(fec.getMonth()+1).padStart(2,0);
+	let yyyy = String(fec.getFullYear());
+
+	if ((typeof fechaDesde !== 'string') || isNaN((Date.parse(fechaDesde))) || (typeof fechaDesde === 'undefined')) 
+	{
+		fechaDesde = '';
+	}
+		
+	if ((typeof fechaHasta !== 'string') || (isNaN(Date.parse(fechaHasta))) || (typeof fechaHasta === 'undefined')) 
+	{
+		fechaHasta = `${yyyy}-${mm}-${dd}`;
+	}
+
+	
+	if (typeof etiquetas === 'undefined') 
+	{
+		etiquetas = [];
+	}
+		let objeto2 = 
+	{
+		fechaDesdeObj : fechaDesde,
+		fechaHastaObj : fechaHasta,
+		etiquetasObj : etiquetas,
+
+	}
+	let subconjG = filtrarGastos(objet);
+    let reducido = subconjG.reduce(function (acumulado, item) {
+        
+        let per = item.obtenerPeriodoAgrupacion(periodo);
+
+        if (!acu.hasOwnProperty(per)) {
+            acumulado[per] = 0;
+        }
+        else {
+            if (isNaN(acumulado[per])) {
+                acumulado[per] = 0;
+            }
+        }
+
+        acumulado[per] += item.valor;
+
+        return acumulado;
+
+    }, {});
+
+    return reducido;
+}
+
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
@@ -171,5 +328,7 @@ export   {
 	listarGastos,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+	calcularBalance,
+	filtrarGastos,
+	agruparGastos
 }
