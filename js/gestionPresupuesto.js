@@ -122,13 +122,13 @@ function mostrarPresupuesto() {
             let cadena = '';
             switch (periodo){
                 case 'dia':{//aaaa-mm-dd
-                    let mes = fec.getMonth()<10 ? `0${fec.getMonth()+1}` : `${fec.getMonth()+1}`;
-                    let dia = fec.getDate() <10 ? `0${fec.getDate()}` : `${fec.getDate()}`;
+                    let mes = fec.getMonth()<9 ? `0${fec.getMonth()+1}` : `${fec.getMonth()+1}`;
+                    let dia = fec.getDate() <9 ? `0${fec.getDate()}` : `${fec.getDate()}`;
                         cadena = fec.getFullYear() + '-' + mes + '-' + dia;
                         break;
                 }
                 case 'mes':{//aaaa-mm
-                    let mes = fec.getMonth()<10 ? `0${fec.getMonth()+1}` : `${fec.getMonth()+1}`;
+                    let mes = fec.getMonth()<9 ? `0${fec.getMonth()+1}` : `${fec.getMonth()+1}`;
                     cadena = `${fec.getFullYear()}-` + mes;
                     break;
                 }
@@ -180,71 +180,113 @@ function calcularBalance(){
 
 function filtrarGastos(objeto){
 
-    let fd, fh, vmin, vmax, dc, et;
+    let fd, fh, vmin, vmax, dc, et, fechaD, fechaH;
 
-    if ('fechaDesde' in objeto){
-        fd = objeto.fechaDesde;
+    if (objeto.hasOwnProperty('fechaDesde')){
+        fd = Date.parse(objeto.fechaDesde);
+        if (typeof objeto.fechaDesde === 'string'){
+            if (!isNaN(fd)){
+                fechaD = fd;
+            }
+            else{
+                fechaD = undefined;
+            }
+        }
     }
-    if ('fechaHasta' in objeto){
-        fh = objeto.fechaHasta;
+    if (objeto.hasOwnProperty('fechaHasta')){
+        fh = Date.parse(objeto.fechaHasta);
+        if (typeof objeto.fechaHasta === 'string'){
+            if (!isNaN(fh)){
+                fechaH = fh;
+            }
+            else{
+                fechaH = undefined;
+            }
+        }
     }
-    if ('valorMinimo' in objeto){
+    if (objeto.hasOwnProperty('valorMinimo')){
         vmin = objeto.valorMinimo;
     }
-    if ('valorMaximo' in objeto){
+    if (objeto.hasOwnProperty('valorMaximo')){
         vmax = objeto.valorMaximo;
     }
-    if ('descripcionContiene' in objeto){
+    if (objeto.hasOwnProperty('descripcionContiene')){
         dc = objeto.descripcionContiene;
     }
-    if ('etiquetasTiene' in objeto){
-        et = objeto.etiquetasTiene;
+    if (objeto.hasOwnProperty('etiquetasTiene')){
+        et = [...objeto.etiquetasTiene];
     }
 
     let results = gastos.filter(function(gasto){
         let devuelve = true;
-        if (fd !== undefined){
-            if (gasto.fechaDesde < fd){
+        let latiene = false;
+
+        if (typeof fechaD !== 'undefined'){
+            if (gasto.fecha < fechaD){
                 devuelve = false;   
             }  
         }
-        if (fh !== undefined){
-            if (gasto.fechaHasta > fh){
+        if (typeof fechaH !== 'undefined'){
+            if (gasto.fecha > fechaH){
                 devuelve = false;
             }
         }
-        if (vmin !== undefined){
-            if (gasto.valorMinimo < vmin){
+        if (typeof vmin !== 'undefined'){
+            if (gasto.valor < vmin){
                 devuelve = false;
             }
         }
-        if (vmax !== undefined){
-            if (gasto.valorMaximo > vmax){
+        if (typeof vmax !== 'undefined'){
+            if (gasto.valor > vmax){
                 devuelve = false;
             }
         }
-        if (dc !== undefined){
-            if (!gasto.descripcionContiene.includes(dc)){
+        if (typeof dc !== 'undefined'){
+            if (!gasto.descripcion.includes(dc)){
                 devuelve = false;
             }
         }
-        if (et !== undefined){
-            if (!gasto.etiquetasTiene.includes(et)){
-                devuelve = false;
+        if (typeof et !== 'undefined' && (et.length > 0)){
+            for (let it of et){
+                for (let ot of gasto.etiquetas){
+                    if (it == ot){
+                        latiene ||= true;
+                    }
+                }
             }
         }
-        return devuelve;
+        else{
+            latiene = true;
+        }
+        return devuelve && latiene;
     })
-    if (results !== {}){
-        return results;
-    }
-    else{
-        return gastos;
-    }
+    return results;
 }
 
-function agruparGastos(){
 
+
+function agruparGastos(periodo = 'mes', etiquetas = [], fechaDesd = '', fechaHast = Date.now()){
+
+    let gastosFiltrados = filtrarGastos({fechaDesde: fechaDesd, fechaHasta: fechaHast, etiquetasTiene: etiquetas});
+
+
+    let reducido = gastosFiltrados.reduce(function(acu, item) {
+        
+       let per = item.obtenerPeriodoAgrupacion(periodo); 
+
+       if (!acu.hasOwnProperty(per)){
+           acu[per] = item.valor;
+       }
+       else {
+           if (isNaN(acu[per])){
+               acu[per] = 0;
+           }
+           acu[per] = acu[per] + item.valor;
+       }
+       return acu;
+    }, {});
+
+    return reducido;
 }
 
 
