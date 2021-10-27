@@ -370,7 +370,6 @@ function agruparGastos(periodo = 'mes', etiquetas = [], fDesde, fHasta = Date.no
     }, {});
 
     return agruparReduce;
-
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
