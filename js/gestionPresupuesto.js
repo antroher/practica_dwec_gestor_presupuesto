@@ -214,11 +214,7 @@ function calcularBalance()
 
     return result;
 }
-<<<<<<< HEAD
-function filtrarGastos({})
-{
-    return gastos;
-=======
+
 function filtrarGastos(objeto) {
 
     let fechaDesde1, fecha_desde;
@@ -286,7 +282,6 @@ function filtrarGastos(objeto) {
     });
 
     return gastosFiltrados;
->>>>>>> 54df87dbe262289ca9bc76883e3675c5f6ac2752
 }
 
 function agruparGastos(){}
