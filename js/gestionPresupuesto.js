@@ -223,68 +223,116 @@ function filtrarGastos(objeto) {
     let valorMax;
     let descripcion;
     let etiqueta;
-    let gastosFiltrados = [];
+    let result = [];
 
 
-    if (objeto.hasOwnProperty('fechaDesde')) {
+    if (objeto.hasOwnProperty('fechaDesde')) 
+    {
         fecha_desde = Date.parse(objeto.fechaDesde);
-        if (typeof objeto.fechaDesde === 'string') {
-            if (!isNaN(fecha_desde)) {
+        if (typeof objeto.fechaDesde === 'string') 
+        {
+            if (!isNaN(fecha_desde)) 
                 fechaDesde1 = fecha_desde;
-            }
             else
                 fechaDesde1 = undefined;
         }
     }
 
-    if (objeto.hasOwnProperty('fechaHasta')) {
+    if (objeto.hasOwnProperty('fechaHasta')) 
+    {
         fecha_hasta = Date.parse(objeto.fechaHasta);
-        if (typeof objeto.fechaHasta === 'string') {
-            if (!isNaN(fecha_hasta)) {
+        if (typeof objeto.fechaHasta === 'string') 
+        {
+            if (!isNaN(fecha_hasta)) 
                 fechaHasta1 = fecha_hasta;
-            }
             else
                 fechaDesde1 = undefined;
         }
     }
 
-    if (objeto.hasOwnProperty('valorMinimo')) {
+    if (objeto.hasOwnProperty('valorMinimo')) 
+    {
         valorMin = objeto.valorMinimo;
     }
 
-    if (objeto.hasOwnProperty('valorMaximo')) {
+    if (objeto.hasOwnProperty('valorMaximo')) 
+    {
         valorMax = objeto.valorMaximo;
     }
 
-    if (objeto.hasOwnProperty('descripcionContiene')) {
+    if (objeto.hasOwnProperty('descripcionContiene')) 
+    {
         descripcion = objeto.descripcionContiene;
     }
 
-    if (objeto.hasOwnProperty('etiquetasTiene')) {
-
+    if (objeto.hasOwnProperty('etiquetasTiene')) 
+    {
         etiqueta = [...objeto.etiquetasTiene];
     }
 
-    gastosFiltrados = gastos.filter(function (item) {
-
+    result = gastos.filter(function (item) 
+    {
         let devuelve = true;
-        let latiene = false;
+        let devuelve2 = false;
 
-        if (typeof fechaD !== 'undefined') {
-
-            if (item.fecha < fechaD) {
+        if (typeof fechaDesde1 !== 'undefined') 
+        {
+            if (item.fecha < fechaDesde1)
                 devuelve = false;
-            }
         }
 
-        return devuelve && latiene;
+        if (typeof fechaHasta1 !== 'undefined') 
+        {
+            if (item.fecha > fechaHasta1) 
+                devuelve = false;
+        }
 
-    });
+        if (typeof valorMin !== 'undefined')
+        {
+            if (item.valor < valorMin)
+                devuelve = false;
+        }
 
-    return gastosFiltrados;
+        if (typeof valorMax !== 'undefined')
+        {
+            if(item.valor > valorMax)
+                devuelve = false;
+        }
+
+        if (typeof descripcion !== 'undefined')  
+        {
+            if (!item.descripcion.includes(descripcion))
+                devuelve = false;
+        }
+
+        if (typeof etiqueta !== 'undefined')
+        {            
+            if (etiqueta.length > 0)
+            {
+                for (let i of etiqueta)
+                {
+                    for (let j of item.etiquetas)
+                    {
+                        if (i === j)
+                        {
+                            devuelve2 = true;
+                        }
+                    }                    
+                }  
+            }                      
+        }
+        else 
+        {
+            devuelve2 = true;
+        }
+        
+        return devuelve && devuelve2; 
+
+    });    
+
+    return result;
+
 }
-
-function agruparGastos(){}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
