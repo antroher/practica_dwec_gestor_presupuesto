@@ -222,24 +222,20 @@ function filtrarGastos(objetoFiltro) {
     }
   }
   
-  function agruparGastos(periodo = "mes", etiquetas = [], fechDesd, fechaHas = Date.now()) {
+function agruparGastos(periodo = "mes", etiquetas = [], fechDesd, fechaHas = Date.now()) {
   
-    //if (fechDesd == undefined){
-      //let aux = new Date(Date.now()).getFullYear();
-      //fechDesd = 0;
-    //}
-      let listaResultadoFiltros = filtrarGastos({fechaDesde: fechDesd, fechaHasta:fechaHas, etiquetasTiene: etiquetas});
-      let gastosAgrupados = listaResultadoFiltros.reduce(function(acumulador, gast){
-      let perAgrup = gast.obtenerPeriodoAgrupacion(periodo);
-      if (acumulador.hasOwnProperty(perAgrup)){
-         acumulador[perAgrup] = acumulador[perAgrup] + gast.valor;
-      } else {     
-        acumulador[perAgrup] = gast.valor;
-      }
-      return acumulador
-    }, {});
-    return gastosAgrupados;
-  }
+  let listaResultadoFiltros = filtrarGastos({fechaDesde: fechDesd, fechaHasta:fechaHas, etiquetasTiene: etiquetas});
+  let gastosAgrupados = listaResultadoFiltros.reduce(function(acumulador, gast){
+    let perAgrup = gast.obtenerPeriodoAgrupacion(periodo);
+    if (acumulador.hasOwnProperty(perAgrup)){
+      acumulador[perAgrup] = acumulador[perAgrup] + gast.valor;
+    } else {     
+      acumulador[perAgrup] = gast.valor;
+    }
+    return acumulador
+  }, {});
+  return gastosAgrupados;
+}
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
