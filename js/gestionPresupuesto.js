@@ -150,11 +150,11 @@ function borrarGasto(id) {
 }
 
 function calcularTotalGastos() {
-    let result = 0;
+    let resul = 0;
     gastos.forEach((x) => {
-        result = result + x.valor;
+        resul = resul + x.valor;
     })
-    return result;
+    return resul;
 }
 
 function calcularBalance() {
@@ -178,7 +178,7 @@ function filtrarGastos(filtros) {
     for (let i = 0; i < filtros.etiquetasTiene.length; i++) {
         for (let j = 0; j < gastos.length; j++) {
             if (gastos[i].etiquetas.includes(filtros.etiquetasTiene[j])) {
-                results.push(gastos[i])
+                resuls.push(gastos[i])
             }
         }
     }
