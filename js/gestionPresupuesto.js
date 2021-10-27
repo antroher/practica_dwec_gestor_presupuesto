@@ -31,7 +31,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiqueta)
     // TODO
     this.mostrarGasto=function()
     {
-        return `Gasto ${this.descripcion} con valor ${this.valor} €`;
+        return `Gasto ${this.descripcion} con valor ${this.valor} €`
     }
     this.mostrarGastoCompleto=function()
     {
@@ -266,6 +266,10 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta)
                 {
                     acc[periRed] = item.valor;
                 }     
+                else 
+                {
+                    acc[periRed] += item.valor;
+                }
                 return acc;
             }, {});
     return agrupar;
