@@ -200,7 +200,7 @@ function filtrarGastos(gastoF){
         let res = Object.assign(gastos);
 
         if(typeof gastoF === 'object' && gastoF !== null && gastoF !== undefined && Object.entries(gastoF).length > 0){
-            
+
             if(gastoF.hasOwnProperty('fechaDesde') && typeof gastoF.fechaDesde === 'string'){
                 res = res.filter((aux) => {
                     return aux.fecha >= (Date.parse(gastoF.fechaDesde));
@@ -210,6 +210,18 @@ function filtrarGastos(gastoF){
             if(gastoF.hasOwnProperty('fechaHasta') && typeof gastoF.fechaHasta === 'string'){
                 res = res.filter((aux) => {
                     return aux.fecha <= (Date.parse(gastoF.fechaHasta));
+                })
+            }
+
+            if(gastoF.hasOwnProperty('valorMinimo') && typeof gastoF.valorMinimo === 'number'){
+                res = res.filter((aux) => {
+                    return aux.valor >= gastoF.valorMinimo;
+                })
+            }
+
+            if(gastoF.hasOwnProperty('valorMaximo') && typeof gastoF.valorMaximo === 'number'){
+                res = res.filter((aux) => {
+                    return aux.valor <= gastoF.valorMaximo;
                 })
             }
 
