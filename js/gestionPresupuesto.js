@@ -230,10 +230,35 @@ function filtrarGastos(filt){
         }
     }
 }
-function agruparGastos(){
- 
-}
+function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) 
+{
+    let filtrar = {
+        etiquetasTiene : etiquetas,
+        fechaDesde : fechaDesde,
+        fechaHasta : fechaHasta
+        }
 
+    let rtnFiltrarGastos = filtrarGastos(filtrar);
+
+    let res =
+            rtnFiltrarGastos.reduce((acc, item, index, rtnFiltrarGastos) => 
+            {
+                let key = item.obtenerPeriodoAgrupacion(periodo);
+
+                if (acc[key] == null)
+                {
+
+                    acc[key] = item.valor;
+                }
+                else {
+                    
+                    acc[key] += item.valor;
+                }
+                return acc;
+            }, {});
+
+    return res;
+}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
