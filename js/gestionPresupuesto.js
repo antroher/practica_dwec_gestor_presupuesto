@@ -6,28 +6,7 @@ var presupuesto=0;
 var gastos=[];
 var idGasto=0;
 
-
-function actualizarPresupuesto(presup) 
-{
-    
-    if(presup>=0)
-    {
-        presupuesto=presup;
-        return presupuesto;       
-    }
-    else
-    {      
-        console.log(`El dato introducido es erroneo.`);
-        return -1;  
-    }
-    
-}
-
-function mostrarPresupuesto() 
-{
-    return `Tu presupuesto actual es de ${presupuesto} €`;
-}
-
+//Creación de objeto Gasto
 function CrearGasto(desc, val, fec = Date.now(), ...etiq)
 {
     if(parseFloat(val)<0 || isNaN(val))
@@ -113,12 +92,14 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq)
             let texto="";
             switch(periodo)
             {
+                //añadiremos +1 en el mes debido a que empieza a contar desde 0 (Enero)
                 case "dia":{
                     let dia=anyo.getDate()<10 ? `0${anyo.getDate()}` : `${anyo.getDate()}`;
                     let mes=anyo.getMonth()<9 ? `0${anyo.getMonth()+1}` : `${anyo.getMonth()+1}`;
                     texto=anyo.getFullYear() + '-' + mes + '-' + dia; //xxxx-xx-xx
                 }
                 break;
+                //añadiremos +1 en el mes debido a que empieza a contar desde 0 (Enero)
                 case "mes":{
                     let mes=anyo.getMonth()<9 ? `0${anyo.getMonth()+1}` : `${anyo.getMonth()+1}`;
                     texto=anyo.getFullYear() + '-' + mes; //xxxx-xx
@@ -137,6 +118,8 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq)
     }
     return gasto;
 }
+
+//Acciones con el Array de gastos
 function listarGastos(){
     return gastos;
 }
@@ -172,12 +155,66 @@ function calcularBalance(){
     return balance;
 }
 
-function filtrarGastos(){
-    
+function filtrarGastos(objeto){
+    if(objeto != undefined || objeto!=null)
+    {
+        let result= gastos.filter(posicion=>{
+            if(objeto.hasOwnProperty('fechaDesde'))
+                if(posicion.fecha < objeto.fechaDesde)
+                    return;
+            if(objeto.hasOwnProperty('fechaHasta'))
+                if(posicion.fecha > objeto.fechaHasta)
+                    return;
+            if(objeto.hasOwnProperty('valorMinimo'))
+                if(posicion.valor < objeto.valorMinimo)
+                    return;
+            if(objeto.hasOwnProperty('valorMaximo'))
+                if(posicion.valor > objeto.valorMaximo)
+                    return;
+            if(objeto.hasOwnProperty('descripcionContiene'))
+                if(!posicion.descripcion.includes(objeto.descripcionContiene))
+                    return;
+            if(objeto.hasOwnProperty('etiquetasTiene')){
+                if(objeto.etiquetasTiene.length!=0)
+                {
+                    let comp=false;
+                    for(let desc of objeto.etiquetasTiene){
+                        if(posicion.etiquetas.includes(desc))
+                        comp=true;
+                    }
+                    if(comp!=false)
+                        return;
+                }
+            }
+            return posicion;
+        });
+        return result;
+    }
+    else
+        return gastos;
 }
 
 function agruparGastos(){
 
+}
+// Acciones con la variable global Gastos
+function actualizarPresupuesto(presup) 
+{
+    if(presup>=0)
+    {
+        presupuesto=presup;
+        return presupuesto;       
+    }
+    else
+    {      
+        console.log(`El dato introducido es erroneo.`);
+        return -1;  
+    } 
+}
+
+function mostrarPresupuesto() 
+{
+    return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
