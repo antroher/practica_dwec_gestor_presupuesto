@@ -12,7 +12,7 @@ function actualizarPresupuesto(valor)
 
 function mostrarPresupuesto()
 {
-    return "Tu presupuesto actual es de " + presupuesto + " €";
+    return 'Tu presupuesto actual es de ' + presupuesto + ' €';
 }
 
 function CrearGasto(desc, value, fechaGasto = Date.now(), ...ArrayLabels)
@@ -23,19 +23,19 @@ function CrearGasto(desc, value, fechaGasto = Date.now(), ...ArrayLabels)
     
     let expense =
     {
-        descripcion: desc + "",
+        descripcion: desc + '',
         valor: parseFloat(value),
         fecha: Date.parse(fechaGasto),
         etiquetas: [...ArrayLabels],
 
         mostrarGasto: function()
         {
-            return "Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €";
+            return 'Gasto correspondiente a ' + this.descripcion + ' con valor ' + this.valor + ' €';
         },
 
         actualizarDescripcion: function(desc)
         {
-            if (desc != null && desc != "") this.descripcion = desc;
+            if (desc != null && desc != '') this.descripcion = desc;
         },
 
         actualizarValor: function(data)
@@ -45,9 +45,9 @@ function CrearGasto(desc, value, fechaGasto = Date.now(), ...ArrayLabels)
 
         mostrarGastoCompleto()
         {
-            let txt = "Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €.\n" + "Fecha: " + new Date(this.fecha).toLocaleString() + "\n" + "Etiquetas:\n";
+            let txt = 'Gasto correspondiente a ' + this.descripcion + ' con valor ' + this.valor + ' €.\n' + 'Fecha: ' + new Date(this.fecha).toLocaleString() + '\n' + 'Etiquetas:\n';
 
-            if (this.etiquetas.length > 0) this.etiquetas.forEach(show => {txt = txt + "- " + show + "\n"});
+            if (this.etiquetas.length > 0) this.etiquetas.forEach(show => {txt = txt + '- ' + show + '\n'});
 
             return txt;
         },
@@ -61,7 +61,7 @@ function CrearGasto(desc, value, fechaGasto = Date.now(), ...ArrayLabels)
         {
             etiquetas.forEach(label =>
             {
-                if (typeof(label) == "string" && !this.etiquetas.includes(label)) this.etiquetas.push(label);
+                if (typeof(label) == 'string' && !this.etiquetas.includes(label)) this.etiquetas.push(label);
             });
         },
 
@@ -74,26 +74,24 @@ function CrearGasto(desc, value, fechaGasto = Date.now(), ...ArrayLabels)
         },
 
         obtenerPeriodoAgrupacion(periodo)
-    {
-        if (periodo !== undefined)
         {
-            switch (periodo)
+            if (periodo != undefined)
             {
-                case "dia":
-                    return new Date(this.fecha).toISOString().substring(0,10);
+                switch (periodo)
+                {
+                    case 'dia':
+                        return new Date(this.fecha).toISOString().substring(0, 10);
 
-                case "mes":
+                    case 'mes':
 
-                    return new Date(this.fecha).toISOString().substring(0,7);
+                        return new Date(this.fecha).toISOString().substring(0, 7);
 
-                case "anyo":
-                    return new Date(this.fecha).toISOString().substring(0,4);
+                    case 'anyo':
+                        return new Date(this.fecha).toISOString().substring(0, 4);
+                }
             }
         }
-    }
-    };
-
-    
+    };   
 
     return expense;
 }
@@ -124,7 +122,6 @@ function borrarGasto(idExpense)
 function calcularTotalGastos()
 {
     let totalExp = 0;
-
     gastos.forEach (exp => {totalExp = parseFloat(totalExp + exp.valor);});
 
     return totalExp;
@@ -135,14 +132,143 @@ function calcularBalance()
     return presupuesto - calcularTotalGastos();
 }
 
-function filtrarGastos()
+function filtrarGastos(filtro)
 {
-       
+    let gastosFiltrados = gastos.filter(function(exp)
+    {
+        let fechaDesde = false;
+        let fechaHasta = false;
+        let valorMaximo = false;
+        let valorMinimo = false;
+        let descBool = false;
+        let etiquetasBool = false;
+
+        if (filtro !== undefined)
+        {
+            if (filtro.hasOwnProperty('fechaDesde') && exp.fecha >= Date.parse(filtro.fechaDesde))
+            {
+                fechaDesde = true;
+            }
+            
+            else if (!filtro.hasOwnProperty('fechaDesde') || filtro.fechaDesde == undefined) fechaDesde = true;
+
+            if (filtro.hasOwnProperty('fechaHasta') && exp.fecha <= Date.parse(filtro.fechaHasta))
+            {
+                fechaHasta=true;
+            }
+
+            else if (!filtro.hasOwnProperty('fechaHasta')) fechaHasta = true;
+
+            if (filtro.hasOwnProperty('valorMinimo') && exp.valor >= filtro.valorMinimo)
+            {
+                valorMinimo = true;
+            }
+
+            else if (!filtro.hasOwnProperty('valorMinimo')) valorMinimo = true;
+
+            if (filtro.hasOwnProperty('valorMaximo') && exp.valor <= filtro.valorMaximo)
+            {
+                valorMaximo = true;
+            }
+
+            else if (!filtro.hasOwnProperty('valorMaximo')) valorMaximo = true;
+
+            if (filtro.hasOwnProperty('descripcionContiene') && exp.descripcion.includes(filtro.descripcionContiene))
+            {
+                descBool = true;
+            }
+
+            else if (!filtro.hasOwnProperty('descripcionContiene')) descBool = true;
+            
+            if (filtro.hasOwnProperty('etiquetasTiene'))
+            {
+                if (filtro.etiquetasTiene.length != 0)
+                {
+                    filtro.etiquetasTiene.forEach(et =>
+                    {
+                        if (exp.etiquetas.includes(et) && etiquetasBool == false) etiquetasBool = true;
+                    });
+                }
+                
+                else
+                {
+                    etiquetasBool = true;
+                }
+            }
+
+            else if (!filtro.hasOwnProperty('etiquetasTiene')) etiquetasBool = true;
+
+            if (fechaDesde && fechaHasta && valorMaximo && valorMinimo && etiquetasBool && descBool)
+            {
+                return exp;
+            }
+        }
+        
+        else return exp;
+    })
+
+    return gastosFiltrados;
 }
 
-function agruparGastos()
+function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta)
 {
+    let fechaActual = new Date(Date.now());
+    let gastosFiltrados = new Array();
+    let txt = '';
 
+    if (periodo != 'dia' && periodo != 'anyo')
+    {
+        periodo = 'mes';
+    }
+
+    if (isNaN(Date.parse(fechaDesde)))
+    {
+        fechaDesde = undefined;
+    }
+
+    if (isNaN(Date.parse(fechaHasta)))
+    {
+        fechaHasta = fechaActual.getFullYear() + '-' + (fechaActual.getMonth() + 1) + '-' + fechaActual.getDate();
+    }
+
+    if (etiquetas == undefined) etiquetas = new Array();
+    
+    console.log(etiquetas);
+
+    let filtro =
+    {
+        fechaDesde:fechaDesde,
+        fechaHasta:fechaHasta,
+        etiquetasTiene:etiquetas
+    };
+
+    console.log(filtro);
+
+    gastosFiltrados = filtrarGastos(filtro);
+    gastosFiltrados.forEach(exp =>
+    {
+        txt += '\n '+ new Date(exp.fecha).toLocaleDateString() + ' - ' + exp.etiquetas;
+    });
+
+    console.log(txt + ' - ' + gastosFiltrados.length);
+
+    return gastosFiltrados.reduce(function(previousValue, currentValue)
+    {
+        if (previousValue.hasOwnProperty(currentValue.obtenerPeriodoAgrupacion(periodo)))
+        {
+            previousValue[currentValue.obtenerPeriodoAgrupacion(periodo)] = parseFloat(previousValue[currentValue.obtenerPeriodoAgrupacion(periodo)]) + parseFloat(currentValue.valor);
+        }
+        
+        else
+        {
+            previousValue [currentValue.obtenerPeriodoAgrupacion(periodo)] = parseFloat(currentValue.valor);
+        }
+
+        console.log(previousValue);
+
+        return previousValue;
+    },  {}
+    );
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
