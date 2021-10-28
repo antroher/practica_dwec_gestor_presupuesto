@@ -300,9 +300,29 @@ function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descri
        
 }
 
-function agruparGastos()
+
+
+function agruparGastos(periodo, etiquetasTiene, fechaDesde, fechaHasta)
 {
     
+    if(!fechaDesde){
+        fechaDesde = "1800-05-07";
+    }
+    if(!fechaHasta){
+        fechaHasta =  new Date(Date.now()).toISOString().substr(0,10);
+    }
+    
+    let Gastos_filtrados = filtrarGastos({fechaDesde, fechaHasta, etiquetasTiene});
+
+   let groupBy = Gastos_filtrados.reduce(function(acc, gasto) {
+    acc[gasto.obtenerPeriodoAgrupacion(periodo)] = (acc[gasto.obtenerPeriodoAgrupacion(periodo)] || 0) + gasto.valor;
+    return acc;
+},
+{});
+    
+
+    return groupBy;
+   
 }
 
 
