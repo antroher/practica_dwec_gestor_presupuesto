@@ -219,7 +219,7 @@ function filtrarGastos(objeto) {
                         return true;
                     }
                 }
-            }
+            })
         }
         return resultado;
     }
