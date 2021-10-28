@@ -226,19 +226,34 @@ function calcularBalance(){
 function filtrarGastos(gastosFilter){
     let gastosFiltrados = Object.assign(gastos);
     if(typeof gastosFilter === `object` && gastosFilter !== null && gastosFilter !== undefined && Object.defineProperties(gastosFilter).length > 0){
-        if (Object.hasOwn(gastosFilter, `fechaDesde`) && typeof gastosFilter.fechaDesde === `string`){
-            gastosFiltrados = gastosFiltrados.filter((x) => {
+        if (Object.hasOwn(gastosFilter, `fechaDesdee`) && typeof gastosFilter.fechaDesde === `string`){
+            gastosFiltrados = gastosFiltrados.filter(x) => {
                 return x.fecha >= (Date.parse(gastosFilter.fechaDesde))
-            })
+            }
         }
         if (Object.hasOwn(gastosFilter, `fechaHasta`) && typeof gastosFilter.fechaHasta === `string`){
-            gastosFiltrados = gastosFiltrados.filter((x) => {
+            gastosFiltrados = gastosFiltrados.filter(x) => {
                 return x.fecha <= Date.parse(gastosFilter.fechaHasta);
-            })
+            }
         }
 
-        if()
-        
+        if(Object.hasOwn(gastosFilter `valorMinimo`) && typeof gastosFilter.valorMinimo === `string`)
+        {
+            gastosFiltrados = gastosFiltrados.filter(x) => {
+                return x.valor >= gastosFilter.valorMinimo;
+            }
+        }
+
+        if(Object.hasOwn(gastosFilter, `valorMaximo`) && typeof gastosFilter.valorMaximo === `string`){
+            gastosFilter = gastosFiltrados.filter(x) =>{
+                return x.valor <= gastosFilter.valorMaximo;
+            }
+        }
+
+        if(Object.hasOwn(gastosFilter, `descripcionContiene`) && typeof gastosFilter.descripcionContiene === `string`){
+
+        }
+    
     }
 }
 
