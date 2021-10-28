@@ -113,77 +113,59 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
     return gasto;
 }
 
-function filtrarGastos(objeto){
-    let fD;
-    let fH;
-    let valMin;
-    let valMax;
-    let desCon;
-    let etiTie;
 
-    if(objeto.hasOwnProperty("fechaDesde"))
-    {
-        fD = objeto.fechaDesde;
-        if(typeof(objeto.fechaDesde === "string") && !isNaN(date.parse(objeto.fechaDesde)))
-        {
-            fD = Date.parse(objeto.fechaDesde);
-        }
-        else{
-            fD = undefined
-        }
-    }
-    if(objeto.hasOwnProperty("fechaHasta"))
-    {
-        fH = objeto.fechaHasta;
-        if(!isNaN(Date.parse(fH)) || typeof(objeto.fechaHasta === "string"))
-        {
-            fH = Date.parse(objeto.fechaHasta);
-        }
-        else{
-            fH = undefined;
-        }
-    }
-    if(objeto.hasOwnProperty("valorMinimo"))
-    {
-        valMin = objeto.valorMinimo;
-    }
-    if(objeto.hasOwnProperty("valorMaximo"))
-    {
-        valMax = objeto.valorMaximo;
-    }
-    if(objeto.hasOwnProperty("descripcionContiene"))
-    {
-        desCon = objeto.descripcionContiene;
-    }
-    if(objeto.hasOwnProperty("etiquetasTiene")){etiTie=objeto.etiquetasTiene}
-
-
-    /*FILTRADO*/
-
-    let results = gastos.filter(function(item){
-        // Si devuelve true el elemento es ingresado ak¡l array y la iteración
-        //Si ada es encontrado, devuelve un array vacio
-        let devuelve = true;
-
-        if(typeof fD !== "undefined")
-            if(item.fecha < fD)
-                devuelve = false;
-
-                if(typeof fH !== "undefined")
-            if(item.fecha > fH)
-                devuelve = false;
-
-                if(item.includes(descr)){
-                    devuelve = true;
+function filtrarGastos(objetoDelGasto){
+    //Primera comprobacion
+    if(objetoDelGasto != undefined && objetoDelGasto !=null){  //Si el objetoDelGasto esta indefinido o es nulo que entre en el if, si no se va al else
+        let gastosFil = gastos.filter((gasto)=>{
+            if(objetoDelGasto.hasOwnProperty("fechaDesde")){
+                if(gasto.fecha < Date.parse(objetoDelGasto.fechaDesde)){
+                    return;
                 }
-                    if(item.includes(etiTie)){
-                        devuelve = true
+            }
+            if(objetoDelGasto.hasOwnProperty("fechaHasta")){
+                if(gasto.fecha > Date.parse(objetoDelGasto.fechaHasta)){
+                    return;
+                }
+            }
+            if (objetoDelGasto.hasOwnProperty("valorMaximo")) {
+                if (gasto.valor > objetoDelGasto.valorMaximo) {
+                  return;
+                }
+              }
+            if(objetoDelGasto.hasOwnProperty("valorMinimo")){
+                if(gasto.valor < objetoDelGasto.valorMinimo){
+                    return;
+                }
+            }
+            if (objetoDelGasto.hasOwnProperty("descripcionContiene")) {
+
+                if (!gasto.descripcion.includes(objetoDelGasto.descripcionContiene))
+                        return;
+    
+            }
+            if(objetoDelGasto.hasOwnProperty("etiquetasTiene")){
+                if(objetoDelGasto.etiquetasTiene.length != 0){
+                    let devu =false;
+
+                    for(let descrip of objetoDelGasto.etiquetasTiene){
+                        if(gasto.etiquetas.includes(descrip)){
+                            devu = true;
+                        }
                     }
-        return devuelve;
-    });
+                    if(!devu){
+                        return;
+                    }
+                }
+            }
+            return gasto;
+        });
+        return gastosFil;
+    }
+    else{
+        return gastos;
+    }
 }
-
-
 
         function listarGastos(){
             return gastos;
@@ -221,27 +203,7 @@ function filtrarGastos(objeto){
 
                             return result;
                         }
-                            function filtrarGastos(filtrar)
-                            {
-                                let fD //FechaDesde
-                                let fH //FechaHasta
-                                let vMin
-                                let vMax
 
-                                if(filtrar.hasOwnProperty("fechaDesde")){
-                                    fD = filtrar.fechaDesde;
-                                    if(!isNaN(Date.parse(fD))){
-                                        fD=Date.parse(fd)
-                                    }
-                                }
-
-                                if(filtrar.hasOwnProperty("fechaHasta")){
-                                    if(!isNaN(Date.parse(fH))){
-                                        fD=Date.parse(fd)
-                                    }
-                                }
-
-                            }
 
                                 function agruparGastos() {
 
