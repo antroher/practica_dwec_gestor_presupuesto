@@ -46,6 +46,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         fecha: (typeof fecha === "string") ? Date.parse(fecha) : fecha,
         etiquetas: [...etiquetas],
 
+
         //A continuación los métodos que van ligados al constructor
 
         mostrarGasto(){
@@ -116,6 +117,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         },
 
         obtenerPeriodoAgrupacion(periodo){
+            
             let date = new Date(this.fecha);
 
             switch(periodo){
@@ -239,7 +241,6 @@ function filtrarGastos(gastoF){
 
                         if(gastoF.etiquetasTiene.includes(aux.etiquetas[i]))
                             return true;
-
                     }
                 })
             }
@@ -250,9 +251,37 @@ function filtrarGastos(gastoF){
 }
 
 
-function agruparGastos(){
-
+function agruparGastos(periodo = "mes", etiquetasT, fechaDes , fechaHas) {
+    
+    let gastoA = {etiquetasTiene: etiquetasT, fechaDesde: fechaDes, fechaHasta: fechaHas};
+    
+    let aux = filtrarGastos(gastoA);
+    
+    let agrupar = aux.reduce((acc, item) => {
+        let pred = item.obtenerPeriodoAgrupacion(periodo);
+        if (!acc.hasOwnProperty(pred)) {
+            acc[pred] = item.valor;
+        }else{
+            acc[pred] += item.valor;
+        }
+        return acc;
+    },{});
+    return agrupar;
 }
+
+/*function groupBy(list, keyGetter) {
+    const map = new Map();
+    list.forEach((item) => {
+         const key = keyGetter(item);
+         const collection = map.get(key);
+         if (!collection) {
+             map.set(key, [item]);
+         } else {
+             collection.push(item);
+         }
+    });
+    return map;
+}ESTO PARA VER SI CON UN forEach SOY CAPAZ DE METER CADA UNO DE LOS OBJETOS A AGRUPAR EN UN ARRAY NUEVO Y DEVOLVER ESE ARRAY
 
 /*
 function filtrarGastos(objetoFil) {
