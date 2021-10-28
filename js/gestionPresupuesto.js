@@ -181,62 +181,54 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 
-function filtrarGastos(FechaGastos) {
-    
-    let gastosFiltrar = Object.assign(gastos)
-    if(typeof FechaGastos === 'object' && FechaGastos != null && Object.entries(FechaGastos).length > 0)
-    {
-        if(FechaGastos.hasOwnProperty(`fechaDesde`) && typeof FechaGastos.fechaDesde === "string") {
-            gastosFiltrar = gastosFiltrar.filter((x) =>{
-                return x.fecha >= (Date.parse(FechaGastos.fechaDesde))
-            })
-            
-        }
+function filtrarGastos(FiltrarGastos) {
 
-        if(FechaGastos.hasOwnProperty(`fechaHasta`) && typeof FechaGastos.fechaHasta === "string") {
-            gastosFiltrar = gastosFiltrar.filter((x) =>{
-                return x.fecha <= (Date.parse(FechaGastos.fechaHasta))
+    let gastosFiltrados = Object.assign(gastos);
+    if (typeof FiltrarGastos === 'object' && FiltrarGastos != null && Object.entries(FiltrarGastos).length > 0) {
+        if (Object.hasOwn(FiltrarGastos, 'fechaDesde') && typeof FiltrarGastos.fechaDesde === 'string') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                return x.fecha >= (Date.parse(FiltrarGastos.fechaDesde))
             })
         }
-
-        if(FechaGastos.hasOwnProperty(`valorMinimo`) && typeof FechaGastos.valorMinimo === "number") {
-            gastosFiltrar = gastosFiltrar.filter((x) =>{
-                return x.valor >= FechaGastos.valorMinimo
-            })    
-        }
-
-        if(FechaGastos.hasOwnProperty(`valorMaximo`) && typeof FechaGastos.valorMaximo === "number") {
-            gastosFiltrar = gastosFiltrar.filter((x) =>{
-                return x.valor <= FechaGastos.valorMaximo
+        if (Object.hasOwn(FiltrarGastos, 'fechaHasta') && typeof FiltrarGastos.fechaHasta === 'string') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                return x.fecha <= Date.parse(FiltrarGastos.fechaHasta);
             })
         }
-
-        if(FechaGastos.hasOwnProperty(`descripcionContiene`) && typeof FechaGastos.descripcionContiene === "string") {
-            gastosFiltrar = gastosFiltrar.filter((x) =>{
-                let aux1 = (x.descripcion).toLowerCase();
-                let aux2 = (FechaGastos.descripcionContiene).toLowerCase();
-                let param1Array = aux1.split(" ");
+        if (Object.hasOwn(FiltrarGastos, 'valorMinimo') && typeof FiltrarGastos.valorMinimo === 'number') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                return x.valor >= FiltrarGastos.valorMinimo
+            })
+        }
+        if (Object.hasOwn(FiltrarGastos, 'valorMaximo') && typeof FiltrarGastos.valorMaximo === 'number') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                return x.valor <= FiltrarGastos.valorMaximo
+            })
+        }
+        if (Object.hasOwn(FiltrarGastos, 'descripcionContiene') && typeof FiltrarGastos.descripcionContiene === 'string') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                let param1 = (x.descripcion).toLowerCase();
+                let param2 = (FiltrarGastos.descripcionContiene).toLowerCase();
+                let param1Array = param1.split(" ");
                 let param1ArrayJoin = param1Array.join('');
-                if(param1ArrayJoin.indexOf(aux2) !== -1){
-                return true
-                }
+                if (param1ArrayJoin.indexOf(param2) !== -1) 
+                    return true;
             })
         }
-
-        if(FechaGastos.hasOwnProperty(`etiquetasTiene`) && Array.isArray(FechaGastos.etiquetasTiene)) {
-            gastosFiltrar = gastosFiltrar.filter((x) => {
-                for(let i = 0; i < FechaGastos.etiquetasTiene.length; i){
-                    if(FechaGastos.etiquetasTiene.includes(x.etiquetas[i])){
+        if (Object.hasOwn(FiltrarGastos, 'etiquetasTiene') && Array.isArray(FiltrarGastos.etiquetasTiene)) {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                for (let i = 0; i < FiltrarGastos.etiquetasTiene.length; i++) {
+                    if (FiltrarGastos.etiquetasTiene.includes(x.etiquetas[i])) {
                         return true;
                     }
                 }
             })
         }
-        return gastosFiltrar;    
+
+        return gastosFiltrados;
     }
     return gastos;
 }
-    
     /*function filtrarGastos(parametro) {
             var fd;
             var fh;
