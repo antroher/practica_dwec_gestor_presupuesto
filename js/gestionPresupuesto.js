@@ -86,42 +86,42 @@ function CrearGasto(descripcion, valor = 0, fecha = new (Date), ...etiquetas) {
             })
         },
         obtenerPeriodoAgrupacion : function (periodo) {
-            let validarFecha = new Date(this.fecha);
+            let obtenerFecha = new Date(this.fecha);
             switch(periodo) {
                 case "dia": { 
-                    if (validarFecha.getDate() < 10) {
-                        if (validarFecha.getMonth() < 9) {
-                            return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
+                    if (obtenerFecha.getDate() < 10) {
+                        if (obtenerFecha.getMonth() < 9) {
+                            return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}-0${obtenerFecha.getDate()}`;
                         }
                         else {
-                            return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
+                            return `${obtenerFecha.getFullYear()}-${obtenerFecha.getMonth()+1}-0${obtenerFecha.getDate()}`;
                         }
                     }
                     else {
-                        if (validarFecha.getMonth() < 9) {
-                            return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-${validarFecha.getDate()}`;    
+                        if (obtenerFecha.getMonth() < 9) {
+                            return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}-${obtenerFecha.getDate()}`;    
                         }
                         else {
-                            return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-${validarFecha.getDate()}`;
+                            return `${obtenerFecha.getFullYear()}-${obtenerFecha.getMonth()+1}-${obtenerFecha.getDate()}`;
                         }
                     }
                     break;
                 }
                 case "mes": {
-                    if(validarFecha.getMonth() < 9) {
-                        return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}`;
+                    if(obtenerFecha.getMonth() < 9) {
+                        return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}`;
                     }
                     else {
-                        return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}`;
+                        return `${obtenerFecha.getFullYear()}-${obtenerFecha.getMonth()+1}`;
                     }
                     break;
                 }
                 case "anyo": {
-                    return `${validarFecha.getFullYear()}`
+                    return `${obtenerFecha.getFullYear()}`
                     break;
                 }
                 default:{
-                    return `Periodo no válido`;
+                    return `Valor no valido`;
                 }
             }
         }
