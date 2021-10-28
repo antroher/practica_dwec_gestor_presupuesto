@@ -265,27 +265,57 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
     }
 
     function agruparGastos(periodo = 'mes', etiquetas = [], fd = '', fh = ''){
-        let today = new Date;
+        let today = new Date();
         let dd = String(today.getDate()).padStart(2, '0');
         let mm = String(today.getDate() + 1).padStart(2, '0');
         let yyyy = today.getFullYear();
 
         let objeto = {};
 
-        if((typeof fd !== 'string') || isNaN(Date.parse(fd)) || (typeof fd !== 'undefined'))
+        if((typeof fd !== 'string') || isNaN(Date.parse(fd)) || (typeof fd === 'undefined'))
         {
             fd = '';
         }
+        else{
+            objeto.fechaDesde = fd;
+        }
             
-        if((typeof fh !== 'string') || isNaN(Date.parse(fh)) || (typeof fh !== 'undefined'))
+        if((typeof fh !== 'string') || isNaN(Date.parse(fh)) || (typeof fh === 'undefined'))
         {
             fh = `${yyyy}-${mm}-${dd}`;
             objeto.fechaHasta = fh;
         }
-        if((typeof etiquetas !== 'undefined'))
-        {
-            
+        else{
+            objeto.fechaHasta = fh;
         }
+
+        if((typeof etiquetas === 'undefined'))
+        {
+            etiquetas = [];
+            objeto.etiquetasTiene = [];
+        }
+        else{
+            objeto.etiquetasTiene = etiquetas;
+        }
+
+        let subconj = filtrarGastos(objeto);
+
+        let reducido = subconj.reduce(function(acu, item){
+            let per = item.obtenerPeriodoAgrupacion(periodo);
+
+            if(!acu.hasOwnProperty(per)){
+                acu[per] = 0;
+            }
+            else{
+                if (isNaN(acu[per])){
+                    acu[per] = 0;
+                }
+            }
+
+            acu[per] = acu[per] + item.valor;
+
+            return acu[per];
+        })
     }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
