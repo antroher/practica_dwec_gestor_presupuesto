@@ -238,8 +238,11 @@ function calcularBalance() {
 
 // ejercicio 3 funciones
 
-function filtrarGastos() {
+function filtrarGastos(filtro) {
+    let gastosB = Object.assign(gastos);
+    if(typeof filtro === 'object' && filtro != null) {
 
+    }
 }
 
 function agruparGastos() {
