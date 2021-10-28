@@ -188,11 +188,11 @@ function filtrarGastos(gastosFilter) {
         }
         if (Object.hasOwn(gastosFilter, 'descripcionContiene') && typeof gastosFilter.descripcionContiene === 'string') {
             gastosFiltrados = gastosFiltrados.filter((x) => {
-                let param1 = (x.descripcion).toLowerCase();
-                let param2 = (gastosFilter.descripcionContiene).toLowerCase();
-                let param1Array = param1.split(" ");
-                let param1ArrayJoin = param1Array.join('');
-                if (param1ArrayJoin.indexOf(param2) !== -1) 
+                let var1 = (x.descripcion).toLowerCase();
+                let var2 = (gastosFilter.descripcionContiene).toLowerCase();
+                let var1Array = var1.split(" ");
+                let var1ArrayJoin = var1Array.join('');
+                if (var1ArrayJoin.indexOf(var2) !== -1) 
                     return true;
             })
         }
