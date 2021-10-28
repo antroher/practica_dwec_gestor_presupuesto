@@ -179,49 +179,49 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 
-function filtrarGastos(obj) {
-    let result = Object.assign(gastos);
-    if (typeof obj === 'object' && obj !== null && obj !== undefined && Object.entries(obj).length > 0) {
-        if (obj.hasOwnProperty('fechaDesde') && typeof obj.fechaDesde === 'string') {
-            result = result.filter((aux) => {
-                return aux.fecha >= (Date.parse(obj.fechaDesde))
+function filtrarGastos(objeto) {
+    let resultado = Object.assign(gastos);
+    if (typeof objeto === 'object' && objeto !== null && objeto !== undefined && Object.entries(objeto).length > 0) {
+        if (objeto.hasOwnProperty('fechaDesde') && typeof objeto.fechaDesde === 'string') {
+            resultado = resultado.filter((aux) => {
+                return aux.fecha >= (Date.parse(objeto.fechaDesde))
             })
         }
-        if (obj.hasOwnProperty('fechaHasta') && typeof obj.fechaHasta === 'string') {
-            result = result.filter((aux) => {
-                return aux.fecha <= Date.parse(obj.fechaHasta);
+        if (objeto.hasOwnProperty('fechaHasta') && typeof objeto.fechaHasta === 'string') {
+            resultado = resultado.filter((aux) => {
+                return aux.fecha <= Date.parse(objeto.fechaHasta);
             })
         }
-        if (obj.hasOwnProperty('valorMinimo') && typeof obj.valorMinimo === 'number') {
-            result = result.filter((aux) => {
-                return aux.valor >= obj.valorMinimo
+        if (objeto.hasOwnProperty('valorMinimo') && typeof objeto.valorMinimo === 'number') {
+            resultado = resultado.filter((aux) => {
+                return aux.valor >= objeto.valorMinimo
             })
         }
-        if (obj.hasOwnProperty('valorMaximo') && typeof obj.valorMaximo === 'number') {
-            result = result.filter((aux) => {                
-                return aux.valor <= obj.valorMaximo
+        if (objeto.hasOwnProperty('valorMaximo') && typeof objeto.valorMaximo === 'number') {
+            resultado = resultado.filter((aux) => {                
+                return aux.valor <= objeto.valorMaximo
             })
         }
-        if (obj.hasOwnProperty('descripcionContiene') && typeof obj.descripcionContiene === 'string') {
-            result = result.filter((aux) => {
+        if (objeto.hasOwnProperty('descripcionContiene') && typeof objeto.descripcionContiene === 'string') {
+            resultado = resultado.filter((aux) => {
                 let par1 = (aux.descripcion).toLowerCase();
-                let par2 = (obj.descripcionContiene).toLowerCase();
+                let par2 = (objeto.descripcionContiene).toLowerCase();
                 let arr1 = par1.split(" ");
                 let arr1join = arr1.join('');
                 if (arr1join.indexOf(par2) !== -1) 
                     return true;
             })
         }
-        if (obj.hasOwnProperty('etiquetasTiene') && Array.isArray(obj.etiquetasTiene)) {
-            result = result.filter((aux) => {
-                for (let i = 0; i < obj.etiquetasTiene.length; i++) {
-                    if (obj.etiquetasTiene.includes(aux.etiquetas[i])) {
+        if (objeto.hasOwnProperty('etiquetasTiene') && Array.isArray(objeto.etiquetasTiene)) {
+            resultado = resultado.filter((aux) => {
+                for (let i = 0; i < objeto.etiquetasTiene.length; i++) {
+                    if (objeto.etiquetasTiene.includes(aux.etiquetas[i])) {
                         return true;
                     }
                 }
             })
         }
-        return result;
+        return resultado;
     }
     return gastos;
 }
@@ -229,14 +229,14 @@ function filtrarGastos(obj) {
 function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
     let filter = {etiquetasTiene: etiquetas, fechaDesde: fechaDesde, fechaHasta: fechaHasta}
     let aux = filtrarGastos(filter);
-    let agrupar = aux.reduce((acc, item) => {
+    let agrupar = aux.reduce((acu, item) => {
         let pred = item.obtenerPeriodoAgrupacion(periodo);
-        if (acc[pred] == null) {
-            acc[pred] = item.valor;
+        if (acu[pred] == null) {
+            acu[pred] = item.valor;
         } else {
-            acc[pred] += item.valor;
+            acu[pred] += item.valor;
         }
-        return acc;
+        return acu;
     }, {});
     return agrupar;
 }
