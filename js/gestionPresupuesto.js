@@ -239,19 +239,19 @@ function filtrarGastos(objeto){
     })
 }
 
-function agruparGastos(period = "mes", etiquetas, fechaDesde, fechaHasta){
-    let filtrar = {etiquetasTiene : etiquetas, fechaDesde : fechaDesde, fechaHasta : fechaHasta}
-    let returnFiltrarGastos = filtrarGastos(filtrar);
-    let groupBy =
-        returnFiltrarGastos.reduce((acc, item, index, returnFiltrarGastos) => {
-                let periodoReduce = item.obtenerPeriodoAgrupacion(period);
-                if (acum[periodoReduce] == null)
-                    acum[periodoReduce] = item.valor;
-                else 
-                    acum[periodoReduce] += item.valor;
-                return acum;
-            }, {});
-    return groupBy;
+function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
+    let filter = {etiquetasTiene: etiquetas, fechaDesde: fechaDesde, fechaHasta: fechaHasta}
+    let aux = filtrarGastos(filter);
+    let agrupar = aux.reduce((acc, item) => {
+        let pred = item.obtenerPeriodoAgrupacion(periodo);
+        if (acc[pred] == null) {
+            acc[pred] = item.valor;
+        } else {
+            acc[pred] += item.valor;
+        }
+        return acc;
+    }, {});
+    return agrupar;
 }
 
     
