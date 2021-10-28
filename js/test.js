@@ -115,4 +115,3 @@ function crear(objeto){
 crear({fecha: 3})
 crear({});
 
-console.log(isEmpty)
