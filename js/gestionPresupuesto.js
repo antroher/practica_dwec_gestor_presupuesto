@@ -199,8 +199,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
 
         if(objeto.hasOwnProperty('descripcionContiene'))
         {
-            if(isNaN(objeto.descripcionContiene))
-                dc = objeto.descripcionContiene;         
+            dc = objeto.descripcionContiene;         
         }
 
         if(objeto.hasOwnProperty('etiquetasTiene'))
@@ -211,6 +210,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         let gastosfiltrados = gastos.filter(function(item)
         {
             let devuelve = true;
+            let latiene = false;
 
             if(typeof fd !== 'undefined')
             {
@@ -244,14 +244,20 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
             
             if(typeof eT !== 'undefined')
             {
-                for(var i = 0; i < objeto.etiquetasTiene.length; i++)
+                if(eT.length > 0)
                 {
-                    if(objeto.etiquetasTiene.includes(item.etiquetas[i]))
-                        devuelve = false;
+                    for(var i = 0; i < objeto.etiquetasTiene.length; i++)
+                    {
+                        if(objeto.etiquetasTiene.includes(item.etiquetas[i]))
+                            latiene = true;
+                    }
                 }
             }
+            else{
+                latiene = true;
+            }
 
-            return devuelve;
+            return devuelve && latiene;
 
             });    
 
