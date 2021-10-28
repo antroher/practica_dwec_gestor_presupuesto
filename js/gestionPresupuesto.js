@@ -92,10 +92,9 @@ function filtrarGastos(filtro) {
                 }
             })
         }
-
-        return gastosFiltrados;
+        return filtrados;
     }
-    return gastos;
+    return filtrados;
 }
 
 function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
@@ -113,22 +112,22 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
     return agrupar;
 }
 
-function CrearGasto(descr, val = 0, fec = Date.now(), ...etiquetas) {
+function CrearGasto(descr, valor = 0, fec = Date.now(), ...etiquetas) {
     valor = parseFloat(valor);
     
-    if (isNaN(val) || val < 0) {
-        val = 0;
+    if (isNaN(valor) || valor < 0) {
+        valor = 0;
     }
     if((typeof fec === 'string')){
-       if ( isNaN(Date.parse(fecha)) ){
+       if ( isNaN(Date.parse(fec)) ){
            fec = Date.now()
        }else{
-        fec = Date.parse(fecha);
+        fec = Date.parse(fec);
        }
     }
 
     let gasto = {
-        valor : val,
+        valor : valor,
         descripcion : descr,
         etiquetas : [...etiquetas],
         fecha : fec,
@@ -141,33 +140,33 @@ function CrearGasto(descr, val = 0, fec = Date.now(), ...etiquetas) {
             this.descripcion = newDescripcion;
         },
 
-        actualizarValor : function(val) {
-            if (val >= 0) {
-                this.valor = val;
+        actualizarValor : function(valor) {
+            if (valor >= 0) {
+                this.valor = valor;
             }
         },
 
         mostrarGastoCompleto : function() {
-            let f = this.fecha
-            if(typeof f === 'string')
+            let validarFecha = this.fecha
+            if(typeof validarFecha === 'string')
             {
-                f = Date.parse(f);
+                validarFecha = Date.parse(validarFecha);
             }
             let aux = "";
             for(let etiqueta of this.etiquetas) {
                 aux = aux + '-'+etiqueta+'\n';
             };
 
-            f = new Date(f);
+            validarFecha = new Date(validarFecha);
 
-            let texto = ' El gasto de '+this.descripcion+' tiene valor '+this.valor+'€.\nFecha: '+(f.toLocaleString())+'\nEtiquetas:\n';
+            let texto = ' El gasto de '+this.descripcion+' tiene valor '+this.valor+'€.\nFecha: '+(validarFecha.toLocaleString())+'\nEtiquetas:\n';
             return texto + aux;
         },
 
-        actualizarFecha : function(f) {
-            let valida = Date.parse(f);
+        actualizarFecha : function(validarFecha) {
+            let valida = Date.parse(validarFecha);
             if (!isNaN(valida)) {
-                this.fecha = Date.parse(f);
+                this.fecha = Date.parse(validarFecha);
             } 
         },
 
@@ -190,38 +189,38 @@ function CrearGasto(descr, val = 0, fec = Date.now(), ...etiquetas) {
         },
 
         obtenerPeriodoAgrupacion : function(periodo="mes") {
-            let f = new Date(this.fecha);
+            let validarFecha = new Date(this.fecha);
             switch(periodo) {
                 case "dia": { 
                     if (validarFecha.getDate() < 10) {
                         if (validarFecha.getMonth() < 9) {
-                            return `${f.getFullYear()}-0${f.getMonth()+1}-0${f.getDate()}`;
+                            return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
                         }
                         else {
-                            return `${f.getFullYear()}-${f.getMonth()+1}-0${f.getDate()}`;
+                            return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
                         }
                     }
                     else {
                         if (validarFecha.getMonth() < 9) {
-                            return `${f.getFullYear()}-0${f.getMonth()+1}-${f.getDate()}`;    
+                            return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-${validarFecha.getDate()}`;    
                         }
                         else {
-                            return `${f.getFullYear()}-${f.getMonth()+1}-${f.getDate()}`;
+                            return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-${validarFecha.getDate()}`;
                         }
                     }
                     break;
                 }
                 case "mes": {
                     if(validarFecha.getMonth() < 9) {
-                        return `${f.getFullYear()}-0${f.getMonth()+1}`;
+                        return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}`;
                     }
                     else {
-                        return `${f.getFullYear()}-${f.getMonth()+1}`;
+                        return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}`;
                     }
                     break;
                 }
                 case "anyo": {
-                    return `${f.getFullYear()}`
+                    return `${validarFecha.getFullYear()}`
                     break;
                 }
                 default:{
@@ -244,14 +243,7 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-<<<<<<< HEAD
     calcularBalance,
     filtrarGastos,
     agruparGastos
 }
-=======
-    calcularBalance
-}
-
-
->>>>>>> 095e23c914882f2735d73c9cfb97a0caedb6f9e9
