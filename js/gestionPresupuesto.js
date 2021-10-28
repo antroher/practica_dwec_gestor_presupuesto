@@ -108,44 +108,43 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas){
 
         }*/
 
-        obtenerPeriodoAgrupacion(periodo){
-            let validarFecha= new Date(this.fecha);
-            switch(periodo){
-                case "dia":{
-                    if(validarFecha.getDay()<10){
-                        if(validarFecha.getMonth() < 9){
-                            return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()}-0${validarFecha.getDate()}`
+        obtenerPeriodoAgrupacion : function(periodo) {
+            let validarFecha = new Date(this.fecha);
+            switch(periodo) {
+                case "dia": { 
+                    if (validarFecha.getDate() < 10) {
+                        if (validarFecha.getMonth() < 9) {
+                            return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
                         }
-                        else{
-                            return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()}-${validarFecha.getDate()}`
-                        }
-                    }
-
-                    else{
-                        if(validarFecha.getMonth() < 9){
-                            return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-${validarFecha.getDate()}`
-                        }
-                        else{
-                            return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-${validarFecha.getDate()}`
+                        else {
+                            return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
                         }
                     }
+                    else {
+                        if (validarFecha.getMonth() < 9) {
+                            return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-${validarFecha.getDate()}`;    
+                        }
+                        else {
+                            return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-${validarFecha.getDate()}`;
+                        }
+                    }
+                    break;
                 }
-
-                case "mes":{
-                    if(validarFecha.getMonth() < 9){
-                        return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}`
+                case "mes": {
+                    if(validarFecha.getMonth() < 9) {
+                        return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}`;
                     }
-                    else{
-                        return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}`
+                    else {
+                        return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}`;
                     }
+                    break;
                 }
-
-                case "año":{
+                case "anyo": {
                     return `${validarFecha.getFullYear()}`
+                    break;
                 }
-
                 default:{
-                    return `Debe introducir como valor dia, mes o año`
+                    return `Periodo no válido`;
                 }
             }
         }
@@ -223,43 +222,71 @@ function calcularBalance(){
     }
 }*/
 
-function filtrarGastos(gastosFilter){
+function filtrarGastos(gastosFilter) {
+    //Deep clone
+    //let gastosFiltrados = JSON.parse(JSON.stringify(gastos));
     let gastosFiltrados = Object.assign(gastos);
-    if(typeof gastosFilter === `object` && gastosFilter !== null && gastosFilter !== undefined && Object.defineProperties(gastosFilter).length > 0){
-        if (Object.hasOwn(gastosFilter, `fechaDesdee`) && typeof gastosFilter.fechaDesde === `string`){
-            gastosFiltrados = gastosFiltrados.filter(x) => {
+    if (typeof gastosFilter === 'object' && gastosFilter != null && Object.entries(gastosFilter).length > 0) {
+        if (Object.hasOwn(gastosFilter, 'fechaDesde') && typeof gastosFilter.fechaDesde === 'string') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
                 return x.fecha >= (Date.parse(gastosFilter.fechaDesde))
-            }
+            })
         }
-        if (Object.hasOwn(gastosFilter, `fechaHasta`) && typeof gastosFilter.fechaHasta === `string`){
-            gastosFiltrados = gastosFiltrados.filter(x) => {
+        if (Object.hasOwn(gastosFilter, 'fechaHasta') && typeof gastosFilter.fechaHasta === 'string') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
                 return x.fecha <= Date.parse(gastosFilter.fechaHasta);
-            }
+            })
+        }
+        if (Object.hasOwn(gastosFilter, 'valorMinimo') && typeof gastosFilter.valorMinimo === 'number') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                return x.valor >= gastosFilter.valorMinimo
+            })
+        }
+        if (Object.hasOwn(gastosFilter, 'valorMaximo') && typeof gastosFilter.valorMaximo === 'number') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                return x.valor <= gastosFilter.valorMaximo
+            })
+        }
+        if (Object.hasOwn(gastosFilter, 'descripcionContiene') && typeof gastosFilter.descripcionContiene === 'string') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                let param1 = (x.descripcion).toLowerCase();
+                let param2 = (gastosFilter.descripcionContiene).toLowerCase();
+                let param1Array = param1.split(" ");
+                let param1ArrayJoin = param1Array.join('');
+                if (param1ArrayJoin.indexOf(param2) !== -1) 
+                    return true;
+            })
+        }
+        if (Object.hasOwn(gastosFilter, 'etiquetasTiene') && Array.isArray(gastosFilter.etiquetasTiene)) {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                for (let i = 0; i < gastosFilter.etiquetasTiene.length; i++) {
+                    if (gastosFilter.etiquetasTiene.includes(x.etiquetas[i])) {
+                        return true;
+                    }
+                }
+            })
         }
 
-        if(Object.hasOwn(gastosFilter `valorMinimo`) && typeof gastosFilter.valorMinimo === `string`)
-        {
-            gastosFiltrados = gastosFiltrados.filter(x) => {
-                return x.valor >= gastosFilter.valorMinimo;
-            }
-        }
-
-        if(Object.hasOwn(gastosFilter, `valorMaximo`) && typeof gastosFilter.valorMaximo === `string`){
-            gastosFilter = gastosFiltrados.filter(x) =>{
-                return x.valor <= gastosFilter.valorMaximo;
-            }
-        }
-
-        if(Object.hasOwn(gastosFilter, `descripcionContiene`) && typeof gastosFilter.descripcionContiene === `string`){
-
-        }
-    
+        return gastosFiltrados;
     }
+    return gastos;
 }
 
 
-function agruparGastos(gasto){
-    
+
+function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta){
+    let filtrador = {etiquetasTiene : etiquetas, fechaDesde : fechaDesde, fechaHasta: fechaHasta}
+    let returnFiltrarGastos = filtrarGastos(filtrador);
+    let groupBy =
+            returnFiltrarGastos.reduce((acc, item) => {
+                let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
+                if (acc[periodoReduce] == null)
+                    acc[periodoReduce] = item.valor;
+                else 
+                    acc[periodoReduce] += item.valor;
+                return acc;
+            }, {});
+    return groupBy;
 }
 
 
