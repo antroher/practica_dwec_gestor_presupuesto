@@ -120,105 +120,78 @@ function CrearGasto(descripcion1, valor1 = 0, fechaIn = new Date(), ...etiquetas
 
     } 
     return gasto;
-}
-
-function filtrarGastos(objeto){
-    let fd;
-    let fh;
-    let vmin;
-    let vmax;
-    let desc;
-    let etitiene;
-    
-    if(objeto.hasOwnProperty("fechaDesde"))
+}  
+function filtrarGastos(objeto) {
+    if (objeto != undefined || objeto != null) 
     {
-        fd = objeto.fechaDesde;
-        if(typeof(fd === "string") && (!isNaN(Date.parse(fd))))
+        let devuelve = gastos.filter(item => {
+            if (objeto.hasOwnProperty("fechaDesde")) 
+            {
+                if (item.fecha < Date.parse(objeto.fechaDesde)) 
+                    return;
+            }
+            if (objeto.hasOwnProperty("fechaHasta")) 
+            {
+                if (item.fecha > Date.parse(objeto.fechaHasta)) 
+                    return;
+            }
+            if (objeto.hasOwnProperty("valorMinimo")) 
+            {
+                if (item.valor < objeto.valorMinimo) 
+                    return;
+            }
+            if (objeto.hasOwnProperty("valorMaximo")) 
+            {
+                if (item.valor > objeto.valorMaximo)
+                    return;
+            }
+            if (objeto.hasOwnProperty("descripcionContiene")) 
+            {
+            if (!item.descripcion.includes(objeto.descripcionContiene))
+                return;
+            }
+            if (objeto.hasOwnProperty("etiquetasTiene")) 
+            {
+                if (objeto.etiquetasTiene.length != 0)
+                {
+                    let resu = false;
+
+                    for (let descripcion of objeto.etiquetasTiene) 
+                        if (item.etiquetas.includes(descripcion)) 
+                            resu = true;   
+                    if (!resu) 
+                        return;
+                }
+            }
+            return item;
+        });
+            return devuelve;
+    } 
+    else 
+        return gastos;
+};   
+
+function agruparGastos(periodo = "mes", etiquetas = [], fechaDes, fechaHas=Date.now()) {
+    let resultfil = filtrarGastos({fechaDesde: fechaDes, fechaHasta:fechaHas, etiquetasTiene: etiquetas});
+    let agrupacionDeGastos = resultfil.reduce(function(acumulador, item)
+    {
+        let periodo2 = item.obtenerPeriodoAgrupacion(periodo);
+
+        if (acumulador.hasOwnProperty(periodo2))
         {
-            fd = Date.parse(fd);
+            if(!isNaN(acumulador[periodo2]))
+            {
+                acumulador[periodo2] += item.valor;
+            }
         }
         else
         {
-            fd = undefined;
+            acumulador[periodo2] = item.valor;
         }
-    }
-    
-    if(objeto.hasOwnProperty("fechaHasta"))
-    {
-        fh = objeto.fechaHasta;
-        if(typeof(fh === "string") && (!isNaN(Date.parse(fh))))
-        {
-            fh = Date.parse(fh);
-        }
-        else
-        {
-            fh = undefined;
-        }
-        // fh = objeto.fechaDesde;
-        // if(!isNaN(Date.parse(fh)))
-        // {
-        //     fh = Date.parse(fh);
-        // } 
-    }
-    if(objeto.hasOwnProperty("valorMinimo"))
-    {
-        vmin = objeto.valorMinimo;
-    }
-    if(objeto.hasOwnProperty("valorMaximo"))
-    {
-        vmax = objeto.valorMaximo;
-    }
-    if(objeto.hasOwnProperty("descripcionContiene"))
-    {
-        desc = objeto.descripcionContiene;
-    }
-    if(objeto.hasOwnProperty("etiquetasTiene"))
-    {
-        etitiene = objeto.etiquetasTiene;    
-    }
-    let result = gastos.filter(function(item){
-        let devuelve = true;
-    
-        if(typeof fd === "undefined")
-        {
-            if(item.fecha < fd)
-            {
-                devuelve = false;
-            }
-        }
-        if(typeof fh === "undefined")
-        {
-            if(item.fecha > fh)
-            {
-                devuelve = false;
-            }
-        }
-        if(typeof vmax === "undefined")
-        {
-            if(vmax > item.valor)
-            {
-                devuelve = false;
-            }
-        }
-        if(typeof vmin === "undefined")
-        {
-            if(vmin > item.valor)
-            {
-                devuelve = false;
-            }
-        }
-        if(typeof desc === "undefined" && item.descripcion.includes(desc))
-        {
-            devuelve = false;
-        }
-        if(type of d)
-            
-        return devuelve
-    });
-    Console.log(JSON.stringify(gastosfiltrados))
-    return result;
+        return acumulador;
+    }, {});   
+    return agrupacionDeGastos;
 }
-
 function listarGastos(){
     return gastos;
 }
@@ -236,9 +209,7 @@ function borrarGasto(idrandom){
         }
     }
 }
-function agruparGastos(){
 
-}
 function calcularTotalGastos(){
     let acumulado = 0;
     for(let i = 0; i < gastos.length; i++)
