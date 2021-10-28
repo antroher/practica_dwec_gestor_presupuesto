@@ -1,11 +1,12 @@
 
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
-
+//variables globales con VAR
 // TODO: Variable global
 var presupuesto = 0;
 let gastos = [];
 let idGasto = 0;
 
+"use strict";
 
 function actualizarPresupuesto(NewValu) {
     
@@ -115,7 +116,7 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
                     break;
                 case "anyo":
                     if(nuevaFecha.getFullYear() === NaN){return `Eror`}
-                    else {return (`${nuevaFecha.getFullYear()}`)}
+                    else {return (`${nuevaFecha.getFullYear()}`);}
                     break;
                 default:
                     `valor no válido`;
@@ -155,69 +156,76 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
 
     //práctica 3
     function filtrarGastos(miObjeto){
-        let fechaDesde;
-        let fechaHasta;
+        let fechDesde,Fd;
+        let fechHasta,Fh;
         let minimo;
         let maximo;
         let ParamDesc;
         let etiquetas;
         let gastosfiltrados;
 
-
+        console.log(JSON.stringify(miObjeto));
         if (!miObjeto === {})
         {
-            
+            console.log("1");
             if(miObjeto.hasOwnProperty('fechaDesde'))
             {
+                console.log("2");
+                fechDesde = Date.parse(miObjeto.fechaDesde);
                 if (typeof miObjeto.fechaDesde === 'string')
                 {
-                    if(!isNaN(Date.parse(miObjeto.fechaDesde)))
+                    console.log("3");
+                    if(!isNaN(fechDesde))
                     {
-                        this.fechaDesde  = Date.parse(miObjeto.fechaDesde);
+                        Fd = fechDesde; //en el caso de no ser número
                     }
                     else
                     {
-                        this.fechaDesde = undefined;
+                        Fd  = undefined;
                     }
                 } 
             }
 
             if(miObjeto.hasOwnProperty('fechaHasta'))
             {
+                fechHasta=Date.parse(miObjeto.fechaHasta);
                 if(typeof miObjeto.fechaHasta === 'string')
                 {
-                    if(isNaN(Date.parse(miObjeto.fechaHasta))){ 
-                        fechaHasta = undefined;
+                    if(!isNaN(fechHasta)){ 
+                        Fh = fechHasta;
                     }
                     else{
-                        fechaHasta = Date.parse(miObjeto.fechaHasta);
+                        Fh = undefined;
                     }
                 }
             }
             if(miObjeto.hasOwnProperty('valorMinimo'))
             {
-                if(isNaN(miObjeto.valorMinimo)){minimo = miObjeto.valorMinimo;}
+                minimo = miObjeto.valorMinimo;
             }
             if(miObjeto.hasOwnProperty('valorMaximo')){
-                if(isNaN(miObjeto.valorMaximo)){maximo = miObjeto.valorMaximo;}
+                maximo = miObjeto.valorMaximo;
             }
             if(miObjeto.hasOwnProperty('descripcionContiene')){
-                if(!isNaN(miObjeto.descripcionContiene)){ParamDesc = miObjeto.descripcionContiene}
+                ParamDesc = miObjeto.descripcionContiene;
             }
             if(miObjeto.hasOwnProperty('etiquetasTiene')){
-                etiquetas = [...miObjeto.etiquetasTiene];
+                etiquetas = [...miObjeto.etiquetasTiene];//array vaciío
             }
-            //console.log(JSON.stringify(gastosfiltrados))
             gastosfiltrados = gastos.filter(function(item){
             
                 let devuelve = true;
-                if((typeof fechaDesde !== 'undefined') && (item.fecha<fechaDesde)) {
+                let latiene = false;
+
+                if(typeof fechDesde !== 'undefined') {
+                    if(item.fecha < fechDesde)
                         devuelve = false;
-                    }
+                }
                 
-                if((typeof fechaHasta !== 'undefined') && (item.fecha > fechaHasta)){
+                if(typeof fechHasta !== 'undefined'){
+                    if(item.fecha > fechHasta)
                         devuelve = false;
-                    }
+                }
                 
 
                 if((typeof minimo !== 'undefined') && (item.valor < minimo))
@@ -235,11 +243,22 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
                     devuelve = false;
                 }
             
-                if ((etiquetas !== 'undefined') && (!item.etiquetas.includes(etiquetas))){
-                devuelve = false
+                if ((etiquetas !== 'undefined') && (etiquetas.length > 0)){//comprobar tamaño mayor que cero
+                    for(let it of etiquetas){
+                        for(let ot of item.etiquetas)
+                            if(it === ot)
+                            latiene= true;
+                    }
                 }
-                return devuelve;
+                else { latiene = true;}
+
+                return devuelve && latiene;
             });
+            //return gastosfiltrados;
+            for (let z of gastosfiltrados)
+            console.log("GastosFiltrados" + JSON.stringify(z));
+
+
         }
         else{
             gastosfiltrados = [...gastos];
@@ -248,10 +267,11 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     }
     //substring()método devuelve un subconjunto de un objeto String
     //PathState js
-    function agruparGastos(periodo ='mes',etiquetas = [], FecDes, FecHas){
+    //si no tiene etiqueta le creo un array vaio, sino objt.etiquetasTiene = []
+    function agruparGastos(periodo ='mes',etiquetas = [], FecDes='', FecHas=''){//fecha en formato de cadena
         let objet = {};
         let DateNow = new Date();
-        let periodo;
+        let peri;
 
         if(typeof etiquetas === 'undefined'){
             etiquetas = [];
@@ -259,7 +279,7 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         }
         else{objet.etiquetasTiene = etiquetas;}
 
-        if(typeof FecDes === "string" || isNaN(Date.parse(FecDes)) || typeof FecDes !== 'undefined'){
+        if(typeof FecDes === "string" || !isNaN(Date.parse(FecDes)) || typeof FecDes !== 'undefined'){
             objet.fechaDesde = FecDes;
         }
         else{
@@ -275,18 +295,18 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
 
         let SubConjunto = filtrarGastos(objet);
 
-        let Reduce = SubConjunto.reduce(function(accumulador,item){
-            periodo = item.obtenerPeriodoAgrupacion(periodo);
+        let Reduce = SubConjunto.reduce(function(accumulador,item){//si empiezo por cero el accomulador empuieza por 0
+            peri = item.obtenerPeriodoAgrupacion(periodo); //devuelve año - mes
 
-            if(accumulador.hasOwnProperty(periodo)){
-                if(isNaN(accumulador[periodo])){
-                    accumulador[periodo] = 0;
+            if(accumulador.hasOwnProperty(peri)){
+                if(isNaN(accumulador[peri])){
+                    accumulador[peri] = 0; //en ves de punto [] para llamar a la propiedad
                 }
             }
             else{
-                accumulador[periodo] = 0;
+                accumulador[peri] = 0;
             }
-            accumulador[periodo] += item.valor;
+            accumulador[peri] = accumulador[peri] + item.valor;
 
             return accumulador;
 
@@ -307,3 +327,6 @@ export   {
     filtrarGastos,
     agruparGastos
 }
+//padStart(2,0) si es de longitud 2 añade a la izquierda un 0
+/*JSON.stringify(objeto)  --> muestra el objeto completo
+también se puede meter un método*/
