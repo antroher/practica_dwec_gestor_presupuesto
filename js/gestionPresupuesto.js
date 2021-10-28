@@ -1,6 +1,7 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
+'use strict'
 var presupuesto = 0;
 
 var gastos = [];
@@ -313,7 +314,7 @@ function filtrarGastos(objeto)
             }            
         }
         
-        let existe;
+        let existe = false;
         if (typeof etiqTiene !== 'undefined')
         {            
             if (etiqTiene.length > 0)
@@ -344,9 +345,8 @@ function filtrarGastos(objeto)
 }
 
 function agruparGastos(periodo = 'mes', etiquetas = [], fDesde, fHasta)
-{
-    
-    let now = new Date(Date.now());    
+{    
+    let now = new Date(Date.now());
     
     if (isNaN(Date.parse(fDesde)))
     {
