@@ -76,7 +76,7 @@ function CrearGasto(descripcion, valor = 0, fecha = new (Date), ...etiquetas) {
             this.etiquetas.push(...aux);
 
         },
-        borrarEtiquetas(...etiquetas) {
+        borrarEtiquetas : function (...etiquetas) {
             etiquetas.forEach((x) => {
                 for(let i = 0; i < this.etiquetas.length; i++) {
                     if (this.etiquetas[i] === x) {
@@ -85,45 +85,45 @@ function CrearGasto(descripcion, valor = 0, fecha = new (Date), ...etiquetas) {
                 }
             })
         },
-        obtenerPeriodoAgrupación(periodo) {
-            let obtenerFecha = new Date(this.fecha);
-                switch(periodo) {
-                    case "dia": {
-                        if (obtenerFecha.getDate() < 10) {
-                            if (obtenerFecha.getMonth() < 9) {
-                                return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}-0${obtenerFecha.getDate()}`;
-                            }
-                            else {
-                                return `${obtenerFecha.getFullYear()}-${obtenerFecha.getMonth()+1}-0${obtenerFecha.getDate()}`;
-                            }
+        obtenerPeriodoAgrupacion : function (periodo) {
+            let validarFecha = new Date(this.fecha);
+            switch(periodo) {
+                case "dia": { 
+                    if (validarFecha.getDate() < 10) {
+                        if (validarFecha.getMonth() < 9) {
+                            return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
                         }
                         else {
-                            if (obtenerFecha.getMonth() < 9) {
-                                return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}-${obtenerFecha.getDate()}`;
-                            }
-                            else {
-                                return `${obtenerFecha.getFullYear()}-${obtenerFecha.getMonth()+1}-${obtenerFecha.getDate()}`;
-                            }
+                            return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
                         }
-                        break;
                     }
-                    case "mes": {
-                        if(obtenerFecha.getMonth() < 9) {
-                            return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}`;
+                    else {
+                        if (validarFecha.getMonth() < 9) {
+                            return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-${validarFecha.getDate()}`;    
                         }
                         else {
-                            return `${obtenerFecha.getFullYear()}-${obtenerFecha.getMonth()+1}`;
+                            return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-${validarFecha.getDate()}`;
                         }
-                        break;
                     }
-                    case "anyo": {
-                        return `${obtenerFecha.getFullYear()}`
-                        break;
-                    }
-                    default: {
-                        return `Fecha no valida`;
-                    }
+                    break;
                 }
+                case "mes": {
+                    if(validarFecha.getMonth() < 9) {
+                        return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}`;
+                    }
+                    else {
+                        return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}`;
+                    }
+                    break;
+                }
+                case "anyo": {
+                    return `${validarFecha.getFullYear()}`
+                    break;
+                }
+                default:{
+                    return `Periodo no válido`;
+                }
+            }
         }
     }
     return gasto;
@@ -160,9 +160,12 @@ function calcularBalance(){
     let balance = presupuesto - calcularTotalGastos();
     return balance;
 }
-function filtrarGastos() {
+
+function filtrarGastos(gastosFilter) {
+    //Deep clone
+    //let gastosFiltrados = JSON.parse(JSON.stringify(gastos));
     let gastosFiltrados = Object.assign(gastos);
-    if (typeof gastosFilter === 'object' && gastosFilter !== null  && Object.entries(gastosFilter).length > 0) {
+    if (typeof gastosFilter === 'object' && gastosFilter != null && Object.entries(gastosFilter).length > 0) {
         if (Object.hasOwn(gastosFilter, 'fechaDesde') && typeof gastosFilter.fechaDesde === 'string') {
             gastosFiltrados = gastosFiltrados.filter((x) => {
                 return x.fecha >= (Date.parse(gastosFilter.fechaDesde))
@@ -180,34 +183,48 @@ function filtrarGastos() {
         }
         if (Object.hasOwn(gastosFilter, 'valorMaximo') && typeof gastosFilter.valorMaximo === 'number') {
             gastosFiltrados = gastosFiltrados.filter((x) => {
-                
                 return x.valor <= gastosFilter.valorMaximo
             })
-            if (Object.hasOwn(gastosFilter, 'descripcionContiene') && typeof gastosFilter.descripcionContiene === 'string') {
-                gastosFiltrados = gastosFiltrados.filter((x) => {
-                    let param1 = (x.descripcion).toLowerCase();
-                    let param2 = (gastosFilter.descripcionContiene).toLowerCase();
-                    let param1Array = param1.split(" ");
-                    let param1ArrayJoin = param1Array.join('');
-                    if (param1ArrayJoin.indexOf(param2) !== -1) 
-                        return true;
-                })
-            }
-            if (Object.hasOwn(gastosFilter, 'etiquetasTiene') && Array.isArray(gastosFilter.etiquetasTiene)) {
-                gastosFiltrados = gastosFiltrados.filter((x) => {
-                    for (let i = 0; i < gastosFilter.etiquetasTiene.length; i++) {
-                        if (gastosFilter.etiquetasTiene.includes(x.etiquetas[i])) {
-                            return true;
-                        }
-                    }
-                })
-            }
-            return gastosFiltrados;
         }
-        return gastos;
+        if (Object.hasOwn(gastosFilter, 'descripcionContiene') && typeof gastosFilter.descripcionContiene === 'string') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                let param1 = (x.descripcion).toLowerCase();
+                let param2 = (gastosFilter.descripcionContiene).toLowerCase();
+                let param1Array = param1.split(" ");
+                let param1ArrayJoin = param1Array.join('');
+                if (param1ArrayJoin.indexOf(param2) !== -1) 
+                    return true;
+            })
+        }
+        if (Object.hasOwn(gastosFilter, 'etiquetasTiene') && Array.isArray(gastosFilter.etiquetasTiene)) {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                for (let i = 0; i < gastosFilter.etiquetasTiene.length; i++) {
+                    if (gastosFilter.etiquetasTiene.includes(x.etiquetas[i])) {
+                        return true;
+                    }
+                }
+            })
+        }
+
+        return gastosFiltrados;
+    }
+    return gastos;
 }
-function agruparGastos() {
-    
+
+
+function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
+    let filtrador = {etiquetasTiene : etiquetas, fechaDesde : fechaDesde, fechaHasta : fechaHasta}
+    let returnFiltrarGastos = filtrarGastos(filtrador);
+    let groupBy =
+            returnFiltrarGastos.reduce((acc, item) => {
+                let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
+                if (acc[periodoReduce] == null)
+                    acc[periodoReduce] = item.valor;
+                else 
+                    acc[periodoReduce] += item.valor;
+                return acc;
+            }, {});
+    return groupBy;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
