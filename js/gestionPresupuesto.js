@@ -124,26 +124,6 @@ function CrearGasto(desintro, valorintro, fecha = Date.now(), ...etiquetas) {
         }, 
 
         obtenerPeriodoAgrupacion : function(intro) {
-
-            /*let str = "";
-            let result = "";
-
-            if(intro == "dia") {
-                result = toString(this.fecha);
-                return result;
-            }
-
-            if(intro == "mes") {
-                    str = toString(this.fecha);
-                    result = toString(str.substring(0, 7));
-                    return result;          
-            }
-
-            if(intro == "anyo") {
-                str = toString(this.fecha);
-                result = toString(str.substring(0, 4));
-                return result;
-            }*/
  
             //let str = "";
             //let result = "";
@@ -243,12 +223,14 @@ function filtrarGastos(filtro) {
     if(typeof filtro === 'object' && filtro != null) {
 
         //fechaDesde
-        if() {
+        if(typeof filtro.fechaDesde === 'string' && filtro.fechaDesde != null) { 
 
+
+            
         }
 
         //fechaHasta
-        if() {
+        /*if() {
 
         }
 
@@ -270,7 +252,7 @@ function filtrarGastos(filtro) {
         //etiquetasTiene
         if() {
 
-        }
+        }*/
     }
 
     return gastos;
