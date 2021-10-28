@@ -242,7 +242,38 @@ function filtrarGastos(filtro) {
     let gastosB = Object.assign(gastos);
     if(typeof filtro === 'object' && filtro != null) {
 
+        //fechaDesde
+        if() {
+
+        }
+
+        //fechaHasta
+        if() {
+
+        }
+
+        //valorMinimo
+        if() {
+
+        }
+
+        //valorMaximo
+        if() {
+
+        }
+
+        //descripcionContiene
+        if() {
+
+        }
+
+        //etiquetasTiene
+        if() {
+
+        }
     }
+
+    return gastos;
 }
 
 function agruparGastos() {
