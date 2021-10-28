@@ -205,9 +205,14 @@ function filtrarGastos(objetoDelGasto){
                         }
 
 
-                                function agruparGastos() {
-
+                               function agruparGastos(periodo = "mes", etiquetas = [],fechaDes,fechaHas=Date.now()) {
+                                    let resFil =  filtrarGastos({fechaDesde: fechaDes, fechaHasta: fechaHas, etiquetasTiene: etiquetas});
+                                    let gastAgrup = resFil.reduce(function(acumular,gasto){
+                                        
                                 }
+
+                                
+
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
