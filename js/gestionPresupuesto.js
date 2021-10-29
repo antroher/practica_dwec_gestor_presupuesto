@@ -220,17 +220,24 @@ function calcularBalance() {
 
 function filtrarGastos(filtro) {
     let gastosB = Object.assign(gastos);
+
     if(typeof filtro === 'object' && filtro != null) {
 
         //fechaDesde
-        if(typeof filtro.fechaDesde === 'string' && filtro.fechaDesde != null) { 
+        if(Object.hasOwn(filtro, 'fechaDesde') && typeof filtro.fechaDesde === 'string') { 
 
+            gastosB = gastosB.filter((y) => {
+                return y.fecha <= (Date.parse(filtro.fechaDesde))
+            })
 
-            
         }
 
         //fechaHasta
-        /*if() {
+        if(Object.hasOwn(filtro, 'fechaHasta') && typeof filtro.fechaHasta === 'string') {
+
+            gastosB = gastosB.filter((y) => {
+                return y.fecha <= (Date.parse(filtro.fechaHasta));
+            })
 
         }
 
@@ -240,7 +247,7 @@ function filtrarGastos(filtro) {
         }
 
         //valorMaximo
-        if() {
+        /*if() {
 
         }
 
