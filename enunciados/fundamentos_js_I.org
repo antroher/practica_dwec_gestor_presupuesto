@@ -69,7 +69,7 @@ El repositorio se ha configurado para que se *ejecuten los tests automáticament
 *** Funciones
     Crea las siguientes funciones:
     - ~actualizarPresupuesto~ - Función de *1 parámetro* que se encargará de actualizar la variable global ~presupuesto~. Esta función *comprobará* que el valor introducido es un *número no negativo*: en caso de que sea un dato válido, actualizará la variable ~presupuesto~ y *devolverá el valor del mismo*; en caso contrario, *mostrará un error por pantalla* y *devolverá el valor -1*.
-    - ~mostrarPresupuesto~ - Función *sin parámetros* que se encargará de devolver el texto siguiente: ~Tu presupuesto actual es de X €~, siendo ~X~ el valor de la variable global ~presupuesto~.
+    - ~mostrarPresupuesto~ - Función *sin parámetros* que se encargará de devolver el texto siguiente: ~Tu presupuesto actual es de X €~.
     - ~CrearGasto~ - *Función constructora* que se encargará de crear un objeto *gasto*. Esta función devolverá un objeto de tipo *gasto*. Deberá *comprobar que el valor introducido sea un núḿero no negativo*; en caso contrario, asignará a la propiedad ~valor~ el *valor 0*.
 
 *** Objeto ~gasto~
