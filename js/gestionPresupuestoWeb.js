@@ -1,7 +1,7 @@
 
 function mostrarDatoEnId(idElemento, valor){
     let elemento = document.getElementById(idElemento);
-    elemento.innerHTML += valor + "<hr>";
+    elemento.innerHTML += valor;
 }
 
 function mostrarGastoWeb(idElemento, gasto){
@@ -15,7 +15,7 @@ function mostrarGastoWeb(idElemento, gasto){
     gasto.etiquetas.forEach(e => {
         elemento.innerHTML += "<span class='gasto-etiquetas-etiqueta'>\n" + e + "\n</span><br>\n"
     });
-    elemento.innerHTML += "</div>\n </div>\n <hr>"
+    elemento.innerHTML += "</div>\n </div>\n"
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -30,7 +30,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
         "<span class='agrupacion-dato-valor'>" + agrup[prop] + "</span>\n"+
         "</div>\n";
     }
-    elemento.innerHTML += "</div>\n <hr>";
+    elemento.innerHTML += "</div>\n";
 }
 
 export {
