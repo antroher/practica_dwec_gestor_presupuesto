@@ -1,0 +1,1 @@
+/*programa de ejemplo para generar un conjunto de gastos*/
