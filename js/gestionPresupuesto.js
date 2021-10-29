@@ -162,7 +162,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         if (typeof param1PRO === 'object' && param1PRO !== null && param1PRO !== undefined && Object.entries(param1PRO).length > 0) {
             if (param1PRO.hasOwnProperty('fechaDesde') && typeof param1PRO.fechaDesde === 'string') 
             {
-                resultado = resultado.filter((variable) => { //
+                resultado = resultado.filter((variable) => { 
                     return variable.fecha >= (Date.parse(param1PRO.fechaDesde))
                 })
             }
