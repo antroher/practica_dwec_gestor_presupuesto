@@ -15,9 +15,9 @@ function mostrarGastoWeb(idElemento, gastos) {
         let data = "";
         for (let i of gasto.etiquetas) {
             data += `
-            <div class="gasto-etiquetas-etiqueta">
+            <span class="gasto-etiquetas-etiqueta">
                 ${i}
-            </div>`
+            </span>`
         }
         elemento.innerHTML += 
         `<div class="gasto">
@@ -54,8 +54,8 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     for (let [key, value] of Object.entries(agrup)) {
         data += `
         <div class="agrupacion-dato">
-            <div class="agrupacion-dato-clave">${key}</div>
-            <div class="agrupacion-dato-valor">${value}</div>
+            <span class="agrupacion-dato-clave">${key}</span>
+            <span class="agrupacion-dato-valor">${value}</span>
         </div>`
     };
     elemento.innerHTML += 
