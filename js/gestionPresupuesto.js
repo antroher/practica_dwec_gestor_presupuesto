@@ -103,24 +103,29 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         },
         obtenerPeriodoAgrupacion(periodo){
             let nuevaFecha = new Date(this.fecha);
+            let mes = nuevaFecha.getMonth();
+            let dia = nuevaFecha.getDate();
+            let anyo = nuevaFecha.getFullYear();
             switch (periodo){
                 case "mes":
-                    if(nuevaFecha.getMonth() == 0 || nuevaFecha.getMonth() > 12){ return `Error, no hay mes 0 o mayor a 12`}
-                    else if(nuevaFecha.getMonth() < 10){return (`${nuevaFecha.getFullYear()}-0${nuevaFecha.getMonth()+1}` );}
-                    else if(nuevaFecha.getMonth() <= 12){return (`${nuevaFecha.getFullYear()}-${nuevaFecha.getMonth()+1}`);}
-                    break;
+                    if( mes < 9){return (`${anyo}-0${mes+1}` );}
+                    else {return (`${anyo}-${mes+1}` );}
                 case "dia":
-                    if(nuevaFecha.getDate() == 0 || nuevaFecha.getDate() > 31){ return `Eror`}
-                    else if(nuevaFecha.getDate() < 10){return (`${nuevaFecha.getFullYear()}-0${nuevaFecha.getMonth()+1}-0${nuevaFecha.getDate()}`) ;}
-                    else if(nuevaFecha.getDate() <= 31){return (`${nuevaFecha.getFullYear()}-${nuevaFecha.getMonth()+1}-${nuevaFecha.getDate()}`);}
-                    break;
+                    let result;
+                    if( dia < 10){
+                        if (mes < 9)
+                            result = (`${anyo}-0${mes+1}-0${dia}`);
+                        else result = (`${anyo}-${mes+1}-0${dia}`);
+                    }
+                    else{
+                        if(mes < 9){result = `${anyo}-0${mes+1}-${dia}`}
+                        else{result = `${anyo}-${mes+1}-${dia}`}
+                    }
+                    return result;
                 case "anyo":
-                    if(nuevaFecha.getFullYear() === NaN){return `Eror`}
-                    else {return (`${nuevaFecha.getFullYear()}`);}
-                    break;
+                    return (`${anyo}`);
                 default:
-                    `valor no válido`;
-                    break;
+                   return `valor no válido`;
             }
         }
     };
@@ -265,7 +270,6 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         let dia = String(DateNow.getDate()).padStart(2,`0`);
         let mes = String(DateNow.getMonth()+1).padStart(2,`0`);
         let año = DateNow.getFullYear();
-        let peri;
         
         if(typeof etiquetas === 'undefined'){
             etiquetas = [];
@@ -289,32 +293,24 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         }
 
         let SubConjunto = filtrarGastos(objet);
-        //console.log(objet)
         let Reduce = SubConjunto.reduce(function(accumulador,item){//si empiezo por cero, el accomulador empuieza por 0
-            peri = item.obtenerPeriodoAgrupacion(periodo);
-            console.log(peri);
-            if(accumulador.hasOwnProperty(peri)){
-                if(isNaN(accumulador.peri)){
-                    accumulador.peri = 0; 
-                }
+            let peri = item.obtenerPeriodoAgrupacion(periodo);
+            if(!accumulador.hasOwnProperty(peri)){
+                accumulador[peri] = 0;
             }
             else{
-                accumulador.peri = 0;
+                if(isNaN(accumulador[peri])){
+                    accumulador[peri] = 0; 
+                }
             }
-
-            accumulador.peri += item.valor;
+            accumulador[peri] += item.valor;
 
             return accumulador;
 
         },{}); //valor inicial del acumulador
-        //for (let z of Reduce)
-        //console.log("GastosFiltrados"+JSON.stringify(z));
-        //console.log(z);
         return Reduce;
-        
     }
     
-
 
 //las funciones y objetos deben tener los nombres que indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
