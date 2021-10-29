@@ -28,6 +28,8 @@ function mostrarGastoWeb(idElemento, gasto){
 }
 
 function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
+    let cad=periodo;
+    if(peridod=="anyo")cad="año";
     if(idElemento!==undefined){
         let elem=document.getElementById(idElemento);
         let cad="<div class='agrupacion'>\n"+
