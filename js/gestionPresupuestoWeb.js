@@ -1,21 +1,21 @@
 
 function mostrarDatoEnId(idElemento, valor){
     let elemento = document.getElementById(idElemento);
-    elemento.innerHTML += valor;
+    elemento.innerHTML += valor + "<hr>";
 }
 
 function mostrarGastoWeb(idElemento, gasto){
     let elemento = document.getElementById(idElemento);
     elemento.innerHTML += 
     "<div class='gasto'>\n" +
-    "<div class='gasto-descripcion'>" + gasto.descripcion + "</div>\n" +
-    "<div class='gasto-fecha'>" + new Date(gasto.fecha).toLocaleDateString() + "</div>\n" + 
-    "<div class='gasto-valor'>" + gasto.valor + "</div>\n" + 
-    "<div class='gasto-etiquetas'>\n";
+    "<div class='gasto-descripcion'>Descripción: " + gasto.descripcion + "</div>\n" +
+    "<div class='gasto-fecha'>Fecha: " + new Date(gasto.fecha).toLocaleDateString() + "</div>\n" + 
+    "<div class='gasto-valor'>Valor: " + gasto.valor + "</div>\n" + 
+    "<div class='gasto-etiquetas'>Etiquetas: \n";
     gasto.etiquetas.forEach(e => {
-        elemento.innerHTML += "<span class='gasto-etiquetas-etiqueta'>\n" + e + "\n</span>\n"
+        elemento.innerHTML += "<span class='gasto-etiquetas-etiqueta'>\n" + e + "\n</span><br>\n"
     });
-    elemento.innerHTML += "</div>\n </div>\n"
+    elemento.innerHTML += "</div>\n </div>\n <hr>"
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -26,9 +26,15 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     for(let prop in agrup){
         elemento.innerHTML += 
         "<div class='agrupacion-dato'>\n" +
-        "<span class='agrupacion-dato-clave'>" + prop + "</span>\n" +
+        "<span class='agrupacion-dato-clave'>" + prop + ": </span>\n" +
         "<span class='agrupacion-dato-valor'>" + agrup[prop] + "</span>\n"+
         "</div>\n";
     }
-    elemento.innerHTML += "</div>\n";
+    elemento.innerHTML += "</div>\n <hr>";
+}
+
+export {
+    mostrarDatoEnId,
+    mostrarGastoWeb,
+    mostrarGastosAgrupadosWeb
 }
