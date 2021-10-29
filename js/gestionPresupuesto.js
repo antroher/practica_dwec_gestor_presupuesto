@@ -238,28 +238,34 @@ function filtrarGastos(filtro) {
             gastosB = gastosB.filter((y) => {
                 return y.fecha <= (Date.parse(filtro.fechaHasta));
             })
-
         }
 
         //valorMinimo
-        if() {
+        if(Object.hasOwn(filtro, 'valorMinimo') && typeof filtro.valorMinimo === 'number') {
 
+            gastosB = gastosB.filter((y) => {
+                return y.valor <= filtro.valorMinimo
+            })
         }
 
         //valorMaximo
-        /*if() {
+        if(Object.hasOwn(filtro, 'valorMaximo') && typeof filtro.valorMaximo === 'string') {
+
+            gastosB = gastosB.filter((y) => {
+                return y.valor <= filtro.valorMaximo
+            })
 
         }
 
         //descripcionContiene
-        if() {
-
-        }
-
-        //etiquetasTiene
-        if() {
+        /*if() {
 
         }*/
+
+        //etiquetasTiene
+        if(Object.hasOwn(filtro, 'etiquetasTiene') && ) {
+
+        }
     }
 
     return gastos;
