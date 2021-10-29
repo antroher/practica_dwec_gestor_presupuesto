@@ -1,6 +1,7 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
+"use strict";
 var presupuesto = 0;
 
 var gastos = [];
@@ -106,7 +107,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                 } 
             },
 
-            obtenerPeriodoAgrupacion: function(periodo)
+            obtenerPeriodoAgrupacion(periodo)
             {
                 /*let MostrarFecha = new Date(this.fecha);
                 let resultado="";
@@ -329,8 +330,21 @@ function filtrarGastos(objeto) {
 
     return result;
 }
-
-function agruparGastos(periodo = "mes", etiquetas1=[], fechaDesde1="", fechaHasta1="") 
+function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
+    let filter = {etiquetasTiene: etiquetas, fechaDesde: fechaDesde, fechaHasta: fechaHasta}
+    let aux = filtrarGastos(filter);
+    let agrupar = aux.reduce((acu, item) => {
+        let pred = item.obtenerPeriodoAgrupacion(periodo);
+        if (acu[pred] == null) {
+            acu[pred] = item.valor;
+        } else {
+            acu[pred] += item.valor;
+        }
+        return acu;
+    }, {});
+    return agrupar;
+}
+/*function agruparGastos(periodo = "mes", etiquetas1=[], fechaDesde1="", fechaHasta1="") 
 {
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
@@ -345,8 +359,9 @@ function agruparGastos(periodo = "mes", etiquetas1=[], fechaDesde1="", fechaHast
         fechaDesde1 = '';
     }
     else
+    {
         filtrar.fechaDesde = fechaDesde1;
-
+    }
 
     if ((typeof fechaHasta1 !== 'string') || (isNaN(Date.parse(fechaHasta1))) || (typeof fechaHasta1 === 'undefined')) 
     {
@@ -354,8 +369,9 @@ function agruparGastos(periodo = "mes", etiquetas1=[], fechaDesde1="", fechaHast
         filtrar.fechaHasta = fechaHasta1;
     }
     else
+    {
         filtrar.fechaHasta = fechaHasta1;
-
+    }
 
     if (typeof etiquetas1 === 'undefined') 
     {
@@ -363,12 +379,13 @@ function agruparGastos(periodo = "mes", etiquetas1=[], fechaDesde1="", fechaHast
         filtrar.etiquetasTiene = [];
     }
     else
+    {
         filtrar.etiquetasTiene = etiquetas1;
-    
-    
+    }
+       
     let filtrarGastos2 = filtrarGastos(filtrar);
    
-    let result = filtrarGastos2.reduce(function (acumulador, item) 
+    let result = filtrarGastos2.reduce(function (acumulador, item)
     {
         let periodo1 = item.obtenerPeriodoAgrupacion(periodo);
     
@@ -390,11 +407,7 @@ function agruparGastos(periodo = "mes", etiquetas1=[], fechaDesde1="", fechaHast
     
     return result;
 }
-    
-
-
-
-
+*/
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
