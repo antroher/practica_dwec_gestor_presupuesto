@@ -139,14 +139,14 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                     case "dia":
                         if (MostarFecha.getDate() < 10) 
                         {
-                            if (MostarFecha.getMonth() < 10)
+                            if (MostarFecha.getMonth() < 9)
                                 resultado =`${MostarFecha.getFullYear()}-0${MostarFecha.getMonth() + 1}-0${MostarFecha.getDate()}`;
                             else
                                 resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}-0${MostarFecha.getDate()}`;        
                         }
                         else
                         {
-                            if (MostarFecha.getMonth() <10)
+                            if (MostarFecha.getMonth() <9)
                                 resultado =`${MostarFecha.getFullYear()}-0${MostarFecha.getMonth() + 1}-${MostarFecha.getDate()}`;
                             else
                                 resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}-${MostarFecha.getDate()}`;
@@ -155,7 +155,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
 
                     case "mes":
                         
-                        if (MostarFecha.getMonth() <10)
+                        if (MostarFecha.getMonth() < 9)
                             resultado =`${MostarFecha.getFullYear()}-0${MostarFecha.getMonth() + 1}`;
                         else
                             resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}`;
@@ -330,21 +330,8 @@ function filtrarGastos(objeto) {
 
     return result;
 }
-function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
-    let filter = {etiquetasTiene: etiquetas, fechaDesde: fechaDesde, fechaHasta: fechaHasta}
-    let aux = filtrarGastos(filter);
-    let agrupar = aux.reduce((acu, item) => {
-        let pred = item.obtenerPeriodoAgrupacion(periodo);
-        if (acu[pred] == null) {
-            acu[pred] = item.valor;
-        } else {
-            acu[pred] += item.valor;
-        }
-        return acu;
-    }, {});
-    return agrupar;
-}
-/*function agruparGastos(periodo = "mes", etiquetas1=[], fechaDesde1="", fechaHasta1="") 
+
+function agruparGastos(periodo = "mes", etiquetas1=[], fechaDesde1="", fechaHasta1="") 
 {
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
@@ -407,7 +394,21 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
     
     return result;
 }
-*/
+
+/*function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
+    let filter = {etiquetasTiene: etiquetas, fechaDesde: fechaDesde, fechaHasta: fechaHasta}
+    let aux = filtrarGastos(filter);
+    let agrupar = aux.reduce((acu, item) => {
+        let pred = item.obtenerPeriodoAgrupacion(periodo);
+        if (acu[pred] == null) {
+            acu[pred] = item.valor;
+        } else {
+            acu[pred] += item.valor;
+        }
+        return acu;
+    }, {});
+    return agrupar;
+}*/
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
