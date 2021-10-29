@@ -1,8 +1,7 @@
 function mostrarDatoEnId(valor, idElemento){
     if(idElemento!==undefined){
         let elem= document.getElementById(idElemento);
-        elem.innerHTML+=''+valor+
-        "<hr>\n";
+        elem.innerHTML+=''+valor;
     }
     
 }
@@ -21,8 +20,7 @@ function mostrarGastoWeb(idElemento, gasto){
             etiq+="</span>\n";
         });
         etiq+="</div>\n"+
-            "</div>\n"+
-            "<hr>\n";
+            "</div>\n";
         elem.innerHTML+=etiq;
                         
     }
@@ -38,7 +36,6 @@ function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
             cad+="<div class='agrupacion-dato'>\n"+
                 "<span class='agrupacion-dato-clave'>"+prop+"</span>\n"+
                 "<span class='agrupacion-dato-valor'>"+agrup[prop]+"</span>\n"+
-                "<hr>\n"+
                 "</div>\n";
         }  
     
