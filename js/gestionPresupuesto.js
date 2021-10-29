@@ -130,6 +130,7 @@ function CrearGasto(descr, val, fech = Date.now(), ...etiq) {
 function listarGastos() {
   return gastos;
 }
+
 function anyadirGasto(objetoGasto) {
   objetoGasto.id = idGasto;
   gastos.push(objetoGasto);
@@ -145,6 +146,7 @@ function borrarGasto(id) {
     }
   }
 }
+
 function calcularTotalGastos() {
   let totalGastos = 0;
   for (let i in gastos) {
@@ -152,6 +154,7 @@ function calcularTotalGastos() {
   }
   return totalGastos;
 }
+
 function calcularBalance() {
   return presupuesto - calcularTotalGastos();
 }
@@ -247,8 +250,7 @@ function agruparGastos(
       acumulador[perAgrup] = gast.valor;
     }
     return acumulador;
-  },
-  {});
+  }, {});
   return gastosAgrupados;
 }
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
