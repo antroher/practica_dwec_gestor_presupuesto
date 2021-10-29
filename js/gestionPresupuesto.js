@@ -164,17 +164,13 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         let etiquetas;
         let gastosfiltrados;
 
-        console.log(JSON.stringify(miObjeto));
-        if (!miObjeto === {})
-        {
-            console.log("1");
+        //console.log(JSON.stringify(miObjeto));
+            
             if(miObjeto.hasOwnProperty('fechaDesde'))
             {
-                console.log("2");
                 fechDesde = Date.parse(miObjeto.fechaDesde);
                 if (typeof miObjeto.fechaDesde === 'string')
                 {
-                    console.log("3");
                     if(!isNaN(fechDesde))
                     {
                         Fd = fechDesde; //en el caso de no ser número
@@ -243,7 +239,7 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
                     devuelve = false;
                 }
             
-                if ((etiquetas !== 'undefined') && (etiquetas.length > 0)){//comprobar tamaño mayor que cero
+                if ((typeof etiquetas !== 'undefined') && (etiquetas.length > 0)){
                     for(let it of etiquetas){
                         for(let ot of item.etiquetas)
                             if(it === ot)
@@ -254,65 +250,72 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
 
                 return devuelve && latiene;
             });
-            //return gastosfiltrados;
-            for (let z of gastosfiltrados)
-            console.log("GastosFiltrados" + JSON.stringify(z));
 
-
-        }
-        else{
-            gastosfiltrados = [...gastos];
+            if (miObjeto === {})
+            {
+                gastosfiltrados = [...gastos];
+                return gastosfiltrados;
+            }
             return gastosfiltrados;
-        }
     }
-    //substring()método devuelve un subconjunto de un objeto String
-    //PathState js
-    //si no tiene etiqueta le creo un array vaio, sino objt.etiquetasTiene = []
-    function agruparGastos(periodo ='mes',etiquetas = [], FecDes='', FecHas=''){//fecha en formato de cadena
+    
+    function agruparGastos(periodo ='mes',etiquetas = [], FecDes='', FecHas=''){
         let objet = {};
         let DateNow = new Date();
+        let dia = String(DateNow.getDate()).padStart(2,`0`);
+        let mes = String(DateNow.getMonth()+1).padStart(2,`0`);
+        let año = DateNow.getFullYear();
         let peri;
-
+        
         if(typeof etiquetas === 'undefined'){
             etiquetas = [];
             objet.etiquetasTiene = etiquetas;
         }
         else{objet.etiquetasTiene = etiquetas;}
 
-        if(typeof FecDes === "string" || !isNaN(Date.parse(FecDes)) || typeof FecDes !== 'undefined'){
+        if((typeof FecDes !== "string") || (isNaN(Date.parse(FecDes))) || (typeof FecDes === 'undefined')){
+           FecDes = "";
+        }
+        else{
             objet.fechaDesde = FecDes;
         }
-        else{
-            FecDes = "";
-        }
 
-        if(typeof FecHas === "string" || isNaN(Date.parse(FecHas)) || typeof FecHas !== 'undefined'){
-            FecHas = DateNow;
+        if((typeof FecHas !== "string") || (isNaN(Date.parse(FecHas))) || (typeof FecHas === 'undefined')){
+            FecHas = `${año}-${mes}-${dia}`;
+            objet.fechHasta = FecHas;
         }
         else{
-            FecHas = "";
+            objet.fechaHasta = FecHas;
         }
 
         let SubConjunto = filtrarGastos(objet);
-
-        let Reduce = SubConjunto.reduce(function(accumulador,item){//si empiezo por cero el accomulador empuieza por 0
-            peri = item.obtenerPeriodoAgrupacion(periodo); //devuelve año - mes
-
+        //console.log(objet)
+        let Reduce = SubConjunto.reduce(function(accumulador,item){//si empiezo por cero, el accomulador empuieza por 0
+            peri = item.obtenerPeriodoAgrupacion(periodo);
+            console.log(peri);
             if(accumulador.hasOwnProperty(peri)){
-                if(isNaN(accumulador[peri])){
-                    accumulador[peri] = 0; //en ves de punto [] para llamar a la propiedad
+                if(isNaN(accumulador.peri)){
+                    accumulador.peri = 0; 
                 }
             }
             else{
-                accumulador[peri] = 0;
+                accumulador.peri = 0;
             }
-            accumulador[peri] = accumulador[peri] + item.valor;
+
+            accumulador.peri += item.valor;
 
             return accumulador;
 
         },{}); //valor inicial del acumulador
+        //for (let z of Reduce)
+        //console.log("GastosFiltrados"+JSON.stringify(z));
+        //console.log(z);
         return Reduce;
+        
     }
+    
+
+
 //las funciones y objetos deben tener los nombres que indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
 export   {
@@ -327,6 +330,8 @@ export   {
     filtrarGastos,
     agruparGastos
 }
-//padStart(2,0) si es de longitud 2 añade a la izquierda un 0
-/*JSON.stringify(objeto)  --> muestra el objeto completo
-también se puede meter un método*/
+/*
+ - padStart(2,0) si es de longitud 2 añade a la izquierda un 0
+ - console.log(JSON.stringify(objeto))  --> muestra el objeto/parámetro/método completo
+ - substring()método devuelve un subconjunto de un objeto String
+*/
