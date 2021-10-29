@@ -157,152 +157,171 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         return balance;
     }
 
-    function filtrarGastos(objeto){
-        let fd;
-        let fh;
-        let vM;
-        let vMx;
-        let dc;
-        let eT;
-
-        if(objeto.hasOwnProperty('fechaDesde'))
-        {
-            if(typeof objeto.fechaDesde === 'string')
+    function filtrarGastos(param1PRO) {
+        let resultado = Object.assign(gastos);
+        if (typeof param1PRO === 'object' && param1PRO !== null && param1PRO !== undefined && Object.entries(param1PRO).length > 0) {
+            if (param1PRO.hasOwnProperty('fechaDesde') && typeof param1PRO.fechaDesde === 'string') 
             {
-                if(isNaN(Date.parse(objeto.fechaDesde)))
-                    fd = undefined;
-                else
-                    fd = Date.parse(objeto.fechaDesde);
-            }               
-        }
-
-        if(objeto.hasOwnProperty('fechaHasta'))
-        {
-            if(typeof objeto.fechaHasta === 'string')
-            {
-                if(isNaN(Date.parse(objeto.fechaHasta)))
-                    fh = undefined;
-                else
-                    fh = Date.parse(objeto.fechaHasta);
+                resultado = resultado.filter((variable) => { //
+                    return variable.fecha >= (Date.parse(param1PRO.fechaDesde))
+                })
             }
-        }
-
-        if(objeto.hasOwnProperty('valorMinimo'))
-        {
-            vM = objeto.valorMinimo;
-        }
-
-        if(objeto.hasOwnProperty('valorMaximo'))
-        {
-            vMx = objeto.valorMaximo;
-        }
-
-        if(objeto.hasOwnProperty('descripcionContiene'))
-        {
-            dc = objeto.descripcionContiene;         
-        }
-
-        if(objeto.hasOwnProperty('etiquetasTiene'))
-        {
-            eT = [...objeto.etiquetasTiene];
-        }
-
-        let gastosfiltrados = gastos.filter(function(item)
-        {
-            let devuelve = true;
-            let latiene = false;
-
-            if(typeof fd !== 'undefined')
+            if (param1PRO.hasOwnProperty('fechaHasta') && typeof param1PRO.fechaHasta === 'string') 
             {
-                if(item.fecha < fd)
-                    devuelve = false;                   
+                resultado = resultado.filter((variable) => {
+                    return variable.fecha <= Date.parse(param1PRO.fechaHasta);
+                })
             }
-
-            if(typeof fh !== 'undefined')
+            if (param1PRO.hasOwnProperty('valorMinimo') && typeof param1PRO.valorMinimo === 'number') 
             {
-                if(item.fecha > fh)
-                    devuelve = false;                    
+                resultado = resultado.filter((variable) => {
+                    return variable.valor >= param1PRO.valorMinimo
+                })
             }
-
-            if(typeof vM !== 'undefined')
+            if (param1PRO.hasOwnProperty('valorMaximo') && typeof param1PRO.valorMaximo === 'number') 
             {
-                if(item.valor < vM)
-                    devuelve = false;
+                resultado = resultado.filter((variable) => {                
+                    return variable.valor <= param1PRO.valorMaximo
+                })
             }
-
-            if(typeof vMx !== 'undefined')
+            if (param1PRO.hasOwnProperty('descripcionContiene') && typeof param1PRO.descripcionContiene === 'string') 
             {
-                if(item.valor > vMx)
-                    devuelve = false;
+                resultado = resultado.filter((variable) => {
+                    let var1able = (variable.descripcion).toLowerCase();
+                    let var2able = (param1PRO.descripcionContiene).toLowerCase();
+                    let arr1 = var1able.split(" ");
+                    let arr1join = arr1.join('');
+                    if (arr1join.indexOf(var2able) !== -1) 
+                        return true;
+                })
             }
-
-            if(typeof dc !== 'undefined')
+            if (param1PRO.hasOwnProperty('etiquetasTiene') && Array.isArray(param1PRO.etiquetasTiene)) 
             {
-                if(!item.descripcion.includes(dc))
-                    devuelve = false;
-            }
-            
-            if(typeof eT !== 'undefined')
-            {
-                if(eT.length > 0)
-                {
-                    for(var i = 0; i < objeto.etiquetasTiene.length; i++)
-                    {
-                        if(objeto.etiquetasTiene.includes(item.etiquetas[i]))
-                            latiene = true;
+                resultado = resultado.filter((variable) => {
+                    for (let i = 0; i < param1PRO.etiquetasTiene.length; i++) {
+                        if (param1PRO.etiquetasTiene.includes(variable.etiquetas[i])) {
+                            return true;
+                        }
                     }
-                }
+                })
             }
-            else{
-                latiene = true;
-            }
-
-            return devuelve && latiene;
-
-            });    
-
-        return gastosfiltrados;              
+            return resultado;
+        }
+        return gastos;
     }
 
-    function agruparGastos(periodo = 'mes', etiquetas = [], fd = '', fh = ''){
-        let today = new Date();
-        let dd = String(today.getDate()).padStart(2, '0');
-        let mm = String(today.getDate() + 1).padStart(2, '0');
-        let yyyy = today.getFullYear();
+    //                                      LA FUNCIÓN NO FUNCIONA CORRECTAMENTE (COPIADA DEL PROFESOR)
+    // function filtrarGastos(param1PRO){
+    //     let fd;
+    //     let fh;
+    //     let vM;
+    //     let vMx;
+    //     let dc;
+    //     let eT;
 
-        let objeto = {};
+    //     if(objeto.hasOwnProperty('fechaDesde'))
+    //     {
+    //         if(typeof objeto.fechaDesde === 'string')
+    //         {
+    //             if(isNaN(Date.parse(objeto.fechaDesde)))
+    //                 fd = undefined;
+    //             else
+    //                 fd = Date.parse(objeto.fechaDesde);
+    //         }               
+    //     }
 
-        if((typeof fd !== 'string') || isNaN(Date.parse(fd)) || (typeof fd === 'undefined'))
-        {
-            fd = '';
-        }
-        else{
-            objeto.fechaDesde = fd;
-        }
+    //     if(objeto.hasOwnProperty('fechaHasta'))
+    //     {
+    //         if(typeof objeto.fechaHasta === 'string')
+    //         {
+    //             if(isNaN(Date.parse(objeto.fechaHasta)))
+    //                 fh = undefined;
+    //             else
+    //                 fh = Date.parse(objeto.fechaHasta);
+    //         }
+    //     }
+
+    //     if(objeto.hasOwnProperty('valorMinimo'))
+    //     {
+    //         vM = objeto.valorMinimo;
+    //     }
+
+    //     if(objeto.hasOwnProperty('valorMaximo'))
+    //     {
+    //         vMx = objeto.valorMaximo;
+    //     }
+
+    //     if(objeto.hasOwnProperty('descripcionContiene'))
+    //     {
+    //         dc = objeto.descripcionContiene;         
+    //     }
+
+    //     if(objeto.hasOwnProperty('etiquetasTiene'))
+    //     {
+    //         eT = [...objeto.etiquetasTiene];
+    //     }
+
+    //     let gastosfiltrados = gastos.filter(function(item)
+    //     {
+    //         let devuelve = true;
+    //         let latiene = false;
+
+    //         if(typeof fd !== 'undefined')
+    //         {
+    //             if(item.fecha < fd)
+    //                 devuelve = false;                   
+    //         }
+
+    //         if(typeof fh !== 'undefined')
+    //         {
+    //             if(item.fecha > fh)
+    //                 devuelve = false;                    
+    //         }
+
+    //         if(typeof vM !== 'undefined')
+    //         {
+    //             if(item.valor < vM)
+    //                 devuelve = false;
+    //         }
+
+    //         if(typeof vMx !== 'undefined')
+    //         {
+    //             if(item.valor > vMx)
+    //                 devuelve = false;
+    //         }
+
+    //         if(typeof dc !== 'undefined')
+    //         {
+    //             if(!item.descripcion.includes(dc))
+    //                 devuelve = false;
+    //         }
             
-        if((typeof fh !== 'string') || isNaN(Date.parse(fh)) || (typeof fh === 'undefined'))
-        {
-            fh = `${yyyy}-${mm}-${dd}`;
-            objeto.fechaHasta = fh;
-        }
-        else{
-            objeto.fechaHasta = fh;
-        }
+    //         if(typeof eT !== 'undefined' && Array.isArray(objeto.etiquetasTiene))
+    //         {
+    //             if(eT.length > 0)
+    //             {
+    //                 for(var i = 0; i < objeto.etiquetasTiene.length; i++)
+    //                 {
+    //                     if(objeto.etiquetasTiene.includes(item.etiquetas[i]))
+    //                         latiene = true;
+    //                 }
+    //             }
+    //         }
+    //         else{
+    //             latiene = true;
+    //         }
+    //         return devuelve && latiene;
+    //         });    
 
-        if((typeof etiquetas === 'undefined'))
-        {
-            etiquetas = [];
-            objeto.etiquetasTiene = [];
-        }
-        else{
-            objeto.etiquetasTiene = etiquetas;
-        }
+    //     return gastosfiltrados;              
+    // }
 
-        let subconj = filtrarGastos(objeto);
+    function agruparGastos(periodo = 'mes', etiquetas, fd, fh){
+        let filtrar = {etiquetasTiene: etiquetas, fechaDesde: fd, fechaHasta:fh};
+        let subconj = filtrarGastos(filtrar);
 
         let reducido = subconj.reduce(function(acu, item){
             let per = item.obtenerPeriodoAgrupacion(periodo);
-
             if(!acu.hasOwnProperty(per)){
                 acu[per] = 0;
             }
@@ -314,8 +333,10 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
 
             acu[per] = acu[per] + item.valor;
 
-            return acu[per];
-        })
+            return acu;
+        }, {});
+
+        return reducido;
     }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
