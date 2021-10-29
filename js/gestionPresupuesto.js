@@ -126,7 +126,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                     {
                         if (dd < 10)
                         {
-                            if (mm < 10)
+                            if (mm < 9)
                             {
                                 return `${yyyy}-0${mm + 1}-0${dd}`;
                             }
@@ -137,7 +137,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                         }
                         else
                         {
-                            if (mm < 10)
+                            if (mm < 9)
                             {
                                 return `${yyyy}-0${mm + 1}-${dd}`;
                             }
@@ -149,7 +149,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                     }                                                            
                 case "mes":
                     {
-                        if (mm < 10)
+                        if (mm < 9)
                         {
                             return `${yyyy}-0${mm + 1}`;
                         }
@@ -210,7 +210,7 @@ function calcularBalance()
 
 function filtrarGastos(objeto)
 {
-    
+    let ArrayGastos = [];
     let fDesde;
     if (objeto.hasOwnProperty('fechaDesde'))
     {
@@ -270,7 +270,7 @@ function filtrarGastos(objeto)
         etiqTiene = [...objeto.etiquetasTiene];
     }
 
-    let ArrayGastos = gastos.filter(function(item)
+     ArrayGastos = gastos.filter(function(item)
     {
         let DevolverBool = true;       
 
@@ -338,7 +338,11 @@ function filtrarGastos(objeto)
         
         return DevolverBool && existe; 
 
-    });    
+    }); 
+    for (let j of ArrayGastos)
+    {
+        console.log("FILTRADO" + JSON.stringify(ArrayGastos));
+    }
 
     return ArrayGastos;
 
@@ -346,7 +350,10 @@ function filtrarGastos(objeto)
 
 function agruparGastos(periodo = 'mes', etiquetas = [], fDesde, fHasta)
 {    
-    let now = new Date(Date.now());
+    let now = new Date();
+    let dd = String(now.getDate()).padStart(2, '0');
+    let mm = String(now.getMonth()+1).padStart(2, '0');
+    let yyyy = String(now.getFullYear());
     
     if (isNaN(Date.parse(fDesde)))
     {
@@ -355,7 +362,7 @@ function agruparGastos(periodo = 'mes', etiquetas = [], fDesde, fHasta)
 
     if (isNaN(Date.parse(fHasta)))
     {
-        fHasta = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+        fHasta = `${yyyy}-${mm}-${dd}`;
     }    
 
     let filtrar = 
@@ -365,22 +372,35 @@ function agruparGastos(periodo = 'mes', etiquetas = [], fDesde, fHasta)
         fechaHasta: fHasta
     }
 
-    let filtrarGast = filtrarGastos(filtrar);
+    for (let k of gastos)
+    {
+        console.log(JSON.stringify(k))
+    }
 
+    console.log("objeto de filtrado:" + JSON.stringify(filtrar));
+
+    let filtrarGast = filtrarGastos(filtrar);
+    for (let i of filtrarGast)
+    {
+        console.log(JSON.stringify(i));
+    }
     let agruparReduce = filtrarGast.reduce(function (acum, item) {
         
         let periodi = item.obtenerPeriodoAgrupacion(periodo);
         
         if (acum.hasOwnProperty(periodi)) 
         {
-            acum[periodi] = acum[periodi] + item.valor;
+           if (isNaN(acum[periodi]))
+           acum[periodi] = 0;
         }
-        else
-        {
-            acum[periodi] = item.valor;
-        }
+      
+        acum[periodi] = acum[periodi] + item.valor;
+       
         return acum;
+
     }, {});
+
+    console.log(JSON.stringify(agruparReduce));
 
     return agruparReduce;
 }
