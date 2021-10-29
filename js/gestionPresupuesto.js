@@ -194,16 +194,36 @@ function filtrarGastos(objeto){
         return gastos;
 }
 
-function agruparGastos(periodo='mes',etiquetas=[],fechaDesde,fechaHasta=Date.now()){
-        let obj={fechaDesde: fechaDesde, fechaHasta: fechaHasta,etiquetasTiene: etiquetas};
-        let resultFiltros= filtrarGastos(obj);
-        let valorAgrupado=resultFiltros.reduce(acumulador,posicion=>{
-            if(obj.hasOwnProperty(acumulador)){
-                resultFiltros+=posicion.valor;
-            }
-            else
-                acumulador[filtrarGastos]=posicion.valor;
+function agruparGastos(periodo='mes',etiquetas=[],fechaDesde = '',fechaHasta= ''){
+        let fecH;
+        if (fechaHasta === ''){
+            let g1 = new CrearGasto();
+            fecH=g1.obtenerPeriodoAgrupacion('dia');
+            console.log(fecH);
+        }
 
+        let obj={fechaDesde: fechaDesde, fechaHasta: fecH,etiquetasTiene: etiquetas};
+
+
+        console.log(JSON.stringify(obj));
+
+        let resultFiltros= filtrarGastos(obj);
+
+        let valorAgrupado = resultFiltros.reduce(function (acumulador,posicion){
+
+           let per = posicion.obtenerPeriodoAgrupacion(periodo);
+           console.log(JSON.stringify(acumulador));
+            if(!acumulador.hasOwnProperty(per)){
+              
+            acumulador[per]=0;
+            }
+            else{
+              if (isNaN(acumulador[per]))
+                     acumulador[per]=posicion.valor;
+            }
+              
+            acumulador[per]=acumulador[per] + posicion.valor;
+            
             return acumulador;
             },
             {});
