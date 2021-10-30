@@ -258,12 +258,30 @@ function filtrarGastos(filtro) {
         }
 
         //descripcionContiene
-        /*if() {
+        if(Object.hasOwn(filtro, 'descripcionContiene') && typeof filtro.descripcionContiene === 'string') {
 
-        }*/
+            gastosB = gastosB.filter((y) => {
+                let descripcion1 = (y.descripcion).toLowerCase();
+                let descripcion2 = (filtro.descripcionContiene).toLowerCase();
+                let Array1 = descripcion1.split(" ");
+                let Array1Join = Array1.join('');
+                if(Array1Join.indexOf(descripcion2) !== -1) {
+                    return true;
+                }
+            })
+
+        }
 
         //etiquetasTiene
-        if(Object.hasOwn(filtro, 'etiquetasTiene') && ) {
+        if(Object.hasOwn(filtro, 'etiquetasTiene') && Array.isArray(filtro.etiquetasTiene)) {
+
+            gastosB = gastosB.filter((y) => {
+                for(let i = 0; i < filtro.etiquetasTiene.length; i++) {
+                    if(filtro.etiquetasTiene.includes(y.etiquetas[i])){
+                        return true;
+                    }
+                }
+            })
 
         }
     }
