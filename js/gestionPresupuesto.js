@@ -119,7 +119,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
             let dd = NuevaFecha.getDate();
             let mm = NuevaFecha.getMonth();
             let yyyy = NuevaFecha.getFullYear();            
-
+            let devuelve = '';
             switch (periodo)
             {
                 case "dia":
@@ -128,41 +128,45 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
                         {
                             if (mm < 9)
                             {
-                                return `${yyyy}-0${mm + 1}-0${dd}`;
+                                devuelve = `${yyyy}-0${mm + 1}-0${dd}`;
                             }
                             else
                             {
-                                return `${yyyy}-${mm + 1}-0${dd}`;
+                                devuelve = `${yyyy}-${mm + 1}-0${dd}`;
                             }
                         }
                         else
                         {
                             if (mm < 9)
                             {
-                                return `${yyyy}-0${mm + 1}-${dd}`;
+                                devuelve = `${yyyy}-0${mm + 1}-${dd}`;
                             }
                             else 
                             {
-                                return `${yyyy}-${mm + 1}-${dd}`;
+                                devuelve = `${yyyy}-${mm + 1}-${dd}`;
                             }
-                        }                        
-                    }                                                            
+                        }  
+                        break;                      
+                    }                                                                                
                 case "mes":
                     {
                         if (mm < 9)
                         {
-                            return `${yyyy}-0${mm + 1}`;
+                            devuelve = `${yyyy}-0${mm + 1}`;
                         }
                         else
                         {
-                            return `${yyyy}-${mm + 1}`;
+                            devuelve =`${yyyy}-${mm + 1}`;
                         }
                     }
+                    break;
                 case "anyo":
-                    return `${yyyy}`;
+                    devuelve = `${yyyy}`;
+                    break;
                 default:
-                    return 'Error';
-            }  
+                    devuelve = 'Error';
+            }
+            return devuelve;  
         }       
     };
     return gasto;
@@ -354,23 +358,26 @@ function agruparGastos(periodo = 'mes', etiquetas = [], fDesde, fHasta)
     let dd = String(now.getDate()).padStart(2, '0');
     let mm = String(now.getMonth()+1).padStart(2, '0');
     let yyyy = String(now.getFullYear());
+    let filtrar = new Object;
     
-    if (isNaN(Date.parse(fDesde)))
+    if (!isNaN(Date.parse(fDesde)))
     {
-        fDesde = undefined;
+        filtrar.fechaDesde = fDesde;
     }
 
     if (isNaN(Date.parse(fHasta)))
     {
-        fHasta = `${yyyy}-${mm}-${dd}`;
-    }    
+        filtrar.fHasta = `${yyyy}-${mm}-${dd}`;
+    }  
+    else
+    {
+        filtrar.fechaHasta = fHasta;
+    }  
 
-    let filtrar = 
-    { 
-        etiquetasTiene: etiquetas,
-        fechaDesde: fDesde,
-        fechaHasta: fHasta
-    }
+    if (etiquetas.length>0)
+    {
+        filtrar.etiquetasTiene = [...etiquetas];
+    }    
 
     for (let k of gastos)
     {
@@ -380,11 +387,15 @@ function agruparGastos(periodo = 'mes', etiquetas = [], fDesde, fHasta)
     console.log("objeto de filtrado:" + JSON.stringify(filtrar));
 
     let filtrarGast = filtrarGastos(filtrar);
+
+    console.log("\nDatos filtrados: \n");
     for (let i of filtrarGast)
     {
         console.log(JSON.stringify(i));
     }
-    let agruparReduce = filtrarGast.reduce(function (acum, item) {
+
+    let agruparReduce = filtrarGast.reduce(function (acum, item)
+    {
         
         let periodi = item.obtenerPeriodoAgrupacion(periodo);
         
@@ -392,6 +403,10 @@ function agruparGastos(periodo = 'mes', etiquetas = [], fDesde, fHasta)
         {
            if (isNaN(acum[periodi]))
            acum[periodi] = 0;
+        }
+        else
+        {
+            acum[periodi] = 0;
         }
       
         acum[periodi] = acum[periodi] + item.valor;
