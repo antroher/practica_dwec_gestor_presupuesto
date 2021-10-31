@@ -163,10 +163,6 @@ function calcularBalance() {
     return balance;
 }
 
-function agruparGastos() {
-    
-}
-
 function filtrarGastos(filtros) {
     let resul = gastos.filter(item => item.descrip == filtros.descripContiene);
 
