@@ -178,10 +178,103 @@ function filtrarGastos(filtros) {
     for (let i = 0; i < filtros.etiquetasTiene.length; i++) {
         for (let j = 0; j < gastos.length; j++) {
             if (gastos[i].etiquetas.includes(filtros.etiquetasTiene[j])) {
-                resuls.push(gastos[i])
+                resul.push(gastos[i])
             }
         }
     }
+}
+
+function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}) {
+    let gastosFiltrados = gastos;  
+
+    gastosFiltrados = gastosFiltrados.filter(function (gasto) {
+        let encontrado = true;
+
+        if (fechaDesde)
+        {
+            if (gasto.fecha < Date.parse(fechaDesde))
+            {
+                encontrado = false;
+            }
+        }
+
+        if (fechaHasta)
+        {
+            if (gasto.fecha > Date.parse(fechaHasta))
+            {
+                encontrado = false;
+            }
+        }
+
+        if (valorMinimo)
+        {
+            if (gasto.valor < valorMinimo)
+            {
+                encontrado = false;
+            }
+        }
+
+        if (valorMaximo)
+        {
+            if (gasto.valor > valorMaximo)
+            {
+                encontrado = false;
+            }
+        }
+        
+        if (descripcionContiene)
+        {
+            if (!gasto.descripcion.includes(descripcionContiene))
+            {
+                encontrado = false;
+            }
+        }
+
+        if (etiquetasTiene)
+        {
+            let tiene = false
+            for (let i = 0; i < gasto.etiquetas.length; i++)
+            {
+                for (let j = 0; j < etiquetasTiene.length; j++)
+                {
+                    if (gasto.etiquetas[i] == etiquetasTiene[j])
+                    {
+                        tiene = true;
+                    }
+                }
+            }
+
+            if (tiene == false)
+            {
+                encontrado = false;
+            }
+        }
+        return encontrado;
+    })
+    return gastosFiltrados;
+}
+
+function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta) {
+    let etiquetasTiene = etiquetas;
+
+    if (!fechaDesde)
+    {
+        fechaDesde = "2000-01-01";
+    }
+
+    if (!fechaHasta)
+    {
+        fechaHasta = new Date(Date.now()).toISOString().substr(0,10);
+    }
+
+    let grupoGastos = filtrarGastos({fechaDesde, fechaHasta, etiquetasTiene})
+    let resul = grupoGastos.reduce((acc, grupo) => { 
+        
+        acc[grupo.obtenerPeriodoAgrupacion(periodo)] = (acc[grupo.obtenerPeriodoAgrupacion(periodo)] || 0) + grupo.valor; 
+        return acc;
+    
+    } , {});
+    return resul;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
