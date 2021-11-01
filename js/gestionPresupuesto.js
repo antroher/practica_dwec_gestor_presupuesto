@@ -227,7 +227,7 @@ function filtrarGastos(objetoFiltrante){
     let listaFiltrada = gastos.filter(function(item){
         let devuelve = false;
         
-        if(typeof fechaD !== 'undefined' && typeof fechaH === 'undefined'){
+        if(listEtiq === undefined && typeof fechaD !== 'undefined' && typeof fechaH === 'undefined'){
             if(item.fecha >= fechaD){
                 devuelve = true;
             }
@@ -268,8 +268,7 @@ function filtrarGastos(objetoFiltrante){
         } 
 
         if(listEtiq !== undefined){
-            console.log("etiqueta");
-            if(valorMax !== undefined){
+            if(valorMax !== undefined && fechaH === undefined){
                 if(item.valor <= valorMax){
                     for(let i = 0; i < listEtiq.length; i++){
                         if(item.etiquetas.includes(listEtiq[i])){
@@ -278,16 +277,25 @@ function filtrarGastos(objetoFiltrante){
                     }        
                 }
             }
-            // if(fechaD !== undefined){
-            //     if(item.fecha >= fecaD){
-            //         for(let i = 0; i < listEtiq.length; i++){
-            //             if(item.etiquetas.includes(listEtiq[i])){
-            //                 devuelve = true;
-            //             }
-            //         }
-            //     }
-            // }
-            else{
+            if(fechaD !== undefined){
+                for(let i = 0; i < listEtiq.length; i++){
+                    if(item.etiquetas.includes(listEtiq[i])){
+                        if(item.fecha >= fechaD){
+                            devuelve = true;
+                        }
+                    }
+                }
+            }
+            if(fechaH !== undefined && valorMax !== undefined){
+                for(let i = 0; i < listEtiq.length; i++){
+                    if(item.etiquetas.includes(listEtiq[i])){
+                        if(item.fecha <= fechaH && item.valor <= valorMax){
+                            devuelve = true;
+                        }
+                    }
+                }
+            }
+            if (valorMax === undefined && fechaD === undefined){
                 for(let i = 0; i < listEtiq.length; i++){
                     if(item.etiquetas.includes(listEtiq[i])){
                         devuelve = true;
@@ -295,21 +303,14 @@ function filtrarGastos(objetoFiltrante){
                 }
     
             }
+
         }
-
-
-
-        console.log(objetoFiltrante.length);
-        console.log(devuelve);
         return devuelve;
     })
 
     if(listaFiltrada.length === 0){
         listaFiltrada = [...gastos]
     }
-
-    console.log(listaFiltrada.length);
-    console.log("---------------------------------");
     return listaFiltrada;
 }
 //*****Practica 3*****
