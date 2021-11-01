@@ -1,5 +1,5 @@
-import * as gP from './gestionPresupuesto';
-import * as gPW from './gestionPresupuestoWeb';
+import * as gP from './gestionPresupuesto.js'
+import * as gPW from './gestionPresupuestoWeb.js';
 
 //Actualizar el presupuesto a 1500.
 gP.actualizarPresupuesto(1500);
@@ -33,7 +33,7 @@ gPW.mostrarDatoEnId("balance-total", gP.calcularBalance());
 gPW.mostrarGastoWeb("listado-gastos-completo", gP.listarGastos());
 
 //Mostrar el listado de gastos realizados en Septiembre de 2021 en div#listado-gastos-filtrado-1.
-gPW.mostrarGastoWeb("listado-gasto-filtrado-1", gP.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"}));
+gPW.mostrarGastoWeb("listado-gastos-filtrado-1", gP.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"}));
 
 //Mostrar el listado de gastos de mas de 50€ en div#listado-gastos-filtrado-2.
 gPW.mostrarGastoWeb("listado-gastos-filtrado-2", gP.filtrarGastos({valorMinimo: 50}));
@@ -44,5 +44,13 @@ gPW.mostrarGastoWeb("listado-gastos-filtrado-3", gP.filtrarGastos({valorMinimo: 
 //Mostrar el listado de gastos que tengan las etiquetas comida o transporte de menos de 50€ en div#listado-gastos-filtrado-4.
 gPW.mostrarGastoWeb("listado-gastos-filtrado-4", gP.filtrarGastos({valorMaximo: 50, etiquetasTiene:["comida","transporte"]}));
 
+//Mostrar el total de gastos agrupados por día en div#agrupacion-dia.
+gPW.mostrarGastosAgrupadosWeb("agrupacion-dia", gP.agruparGastos("dia"), "dia");
+
+//Mostrar el total de gastos agrupados por día en div#agrupacion-mes.
+gPW.mostrarGastosAgrupadosWeb("agrupacion-mes", gP.agruparGastos("mes"), "mes");
+
+//Mostrar el total de gastos agrupados por día en div#agrupacion-anyo.
+gPW.mostrarGastosAgrupadosWeb("agrupacion-anyo", gP.agruparGastos("anyo"), "anyo");
 
 
