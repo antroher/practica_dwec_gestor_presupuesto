@@ -171,8 +171,13 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
             }
         };
 
+    
+
     return gasto;
 }
+
+
+
 
 function listarGastos()
 {
