@@ -194,15 +194,18 @@ function filtrarGastos(objeto){
         return gastos;
 }
 
-function agruparGastos(periodo='mes',etiquetas=[],fechaDesde = '',fechaHasta= ''){
-    let ResultadoFiltros = filtrarGastos({fechaDesde: fechaD, fechaHasta:fechaH, etiquetasTiene: etiquetas});
+function agruparGastos(periodo = 'mes' ,etiquetas = [],fechaD,fechaH=Date.now()) {
+    let objeto={fechaDesde: fechaD, 
+                fechaHasta:fechaH, 
+                etiquetasTiene: etiquetas};
+    let ResultadoFiltros = filtrarGastos(objeto);
     let gastosAgrupados = ResultadoFiltros.reduce(function(acumulador, item)
     {
         let periodoAgrup = item.obtenerPeriodoAgrupacion(periodo);
 
-        if ((acumulador.hasOwnProperty(periodoA))) 
+        if ((acumulador.hasOwnProperty(periodoAgrup))) 
         {
-            if (!isNaN(acumulador[periodoA]))
+            if (!isNaN(acumulador[periodoAgrup]))
                 acumulador[periodoAgrup] = acumulador[periodoAgrup] + item.valor;
         }
         else     
@@ -211,6 +214,8 @@ function agruparGastos(periodo='mes',etiquetas=[],fechaDesde = '',fechaHasta= ''
         return acumulador;
     }, 
     {});
+
+    return gastosAgrupados;
         
 }
 // Acciones con la variable global Gastos
