@@ -12,9 +12,9 @@ function mostrarGastoWeb(idElemento, gastos) {
         let etiquetas = "";
         gasto.etiquetas.forEach((etiqueta) => {
             etiquetas += 
-                `<div class="gasto-etiquetas-etiqueta">
+                `<span class="gasto-etiquetas-etiqueta">
                     ${etiqueta}
-                </div>`;
+                </span>`;
         });    
 
         element.innerHTML +=
