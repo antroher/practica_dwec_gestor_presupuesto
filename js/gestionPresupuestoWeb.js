@@ -1,12 +1,10 @@
 'use strict'
 
-
-function mostrarDatoEnId(valor1, idElemento1)
+function mostrarDatoEnId(valor, idElemento)
 {
-    if (typeof valor1 === 'string')
-    {
-        valor1 = valor;
-    }
+    let elemento = document.getElementById('idElemento');
+    
+
 }
 
 function mostrarGastoWeb()
