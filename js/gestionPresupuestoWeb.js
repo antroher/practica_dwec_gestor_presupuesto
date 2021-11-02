@@ -56,7 +56,59 @@ element.innerHTML+="<div class='gasto'>\n"
 }
 
 function mostrarGastosAgrupadosWeb(idElemento,agroup,periodo){
-/** */
+/**<div class="agrupacion">
+  <!-- PERIODO será "mes", "día" o "año" en función de si el parámetro
+       de la función es "mes", "dia" o "anyo" respectivamente -->
+  <h1>Gastos agrupados por PERIODO</h1>
+
+  <!-- Se deberá crear un div.agrupacion-dato para cada propiedad del objeto agrup:
+       https://es.javascript.info/keys-values-entries#object-keys-values-entries -->
+  <div class="agrupacion-dato">
+    <span class="agrupacion-dato-clave">NOMBRE_PROPIEDAD_OBJETO_AGRUP</span>
+    <span class="agrupacion-dato-valor">VALOR_PROPIEDAD_OBJETO_AGRUP</span>
+  </div>
+
+  <div class="agrupacion-dato">
+    <span class="agrupacion-dato-clave">NOMBRE_PROPIEDAD_OBJETO_AGRUP</span>
+    <span class="agrupacion-dato-valor">VALOR_PROPIEDAD_OBJETO_AGRUP</span>
+  </div>
+
+  <!-- Etcétera -->
+
+</div>
+Así, para el ejemplo de agrup dado antes se deberá generar un código como el siguiente:
+
+<div class="agrupacion">
+  <h1>Gastos agrupados por mes</h1>
+  <div class="agrupacion-dato">
+    <span class="agrupacion-dato-clave">2021-09</span>
+    <span class="agrupacion-dato-valor">5</span>
+  </div>
+
+  <div class="agrupacion-dato">
+    <span class="agrupacion-dato-clave">2021-10</span>
+    <span class="agrupacion-dato-valor">39</span>
+  </div>
+</div> */
+let agroupText="";
+if(idElemento!=undefined)
+{
+for(let obj in agroup)
+{
+agroupText+="<div class='agrupacion-dato'>\n"
+        + "<span class='agrupacion-dato-clave'>"+obj+"</span>\n"
+        +"<span class='agrupacion-dato-valor'>"+agroup[prop]+"</span>\n"
+        +"</div>\n";
+}
+
+  let element=document.getElementById(idElemento);
+  element.innerHTML+="<div class='agrupacion'>\n"
+                 +"<h1>Gastos agrupados por "+periodo+"</h1>\n"
+                 +agroupText
+                 +"<div class='gasto-etiquetas'>\n"
+                 +cadenaEtiquetas
+                 +"</div>\n</div>\n";
+}
 
 }
 
