@@ -34,20 +34,9 @@ function mostrarPresupuesto() {
 
 function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
     {
-
-            let devuelve="";
-            let fecha = new Date(this.fecha);
-            let gastosfiltrados = gastos.filter;
-            
-
-            let dd = String (fecha.getDate()).(2,0);
-            let mm = String (fecha.getMonth()+1).(2,0);
-            let yyy = String(fecha.getFullYear());
-
-    if (valor1 < 0 || isNaN(valor1)) {
-
-        valor1 = 0;
-    }
+        if(valor1 < 0 || isNaN(valor1)){
+            valor1 = 0;
+        }
 
     let gasto = {
 
@@ -138,12 +127,49 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
         
         
         obtenerPeriodoAgrupacion(periodo)
-        {
-            
-            
-        }
+            {
+               
+                //El +1 en el mes porque enero empieza en 0
 
-    };
+                let MostrarFecha = new Date(this.fecha);
+                let resultado="";
+                //let dd = String (MostrarFecha.getDate()).padstart(2,'0'); ----- agregame un 0 al principio si no tiene 2 caracters
+                switch(periodo) {
+                    case "dia":
+                        if (MostrarFecha.getDate() < 10) 
+                        {
+                            if (MostrarFecha.getMonth() < 9)
+                                resultado =`${MostrarFecha.getFullYear()}-0${MostrarFecha.getMonth() + 1}-0${MostrarFecha.getDate()}`;
+                            else
+                                resultado=`${MostrarFecha.getFullYear()}-${MostrarFecha.getMonth() + 1}-0${MostrarFecha.getDate()}`;        
+                        }
+                        else
+                        {
+                            if (MostrarFecha.getMonth() <9)
+                                resultado =`${MostrarFecha.getFullYear()}-0${MostrarFecha.getMonth() + 1}-${MostrarFecha.getDate()}`;
+                            else
+                                resultado=`${MostrarFecha.getFullYear()}-${MostrarFecha.getMonth() + 1}-${MostrarFecha.getDate()}`;
+                        }
+                        return resultado;
+
+                    case "mes":
+
+                        if (MostrarFecha.getMonth() < 9)
+                            resultado =`${MostrarFecha.getFullYear()}-0${MostrarFecha.getMonth() + 1}`;
+                        else
+                            resultado=`${MostrarFecha.getFullYear()}-${MostrarFecha.getMonth() + 1}`;
+
+                        return resultado;
+
+                    case "anyo":
+                        return `${MostrarFecha.getFullYear()}`;
+
+                    default:
+                        return `Has Introducido un error`;
+
+                };
+            }
+        };
 
     return gasto;
 }
@@ -198,23 +224,118 @@ function calcularBalance()
 
 function filtrarGastos(objeto)
 {
-    let fd
-    objeto = 
-    {
-        fechaDesde: 'YYYY-MM-DD',
-        fechaHasta: 'YYYY-MM-DD',
-        valorMinimo:
-        valorMáximo:
-        descripcionContiene:
-        etiquetasTiene:
-    };
-    if(objeto.('fechaDesde'))
-    {
-        fd = objeto.fechaDesde;
-        if(isNaN(Date.parse(fd)))
-            fd = Date.parse(fd)
+    let fechaDesde1, fecha_desde;
+    let fechaHasta1, fecha_hasta;
+    let valorMin;
+    let valorMax;
+    let descripcion;
+    let etiqueta;
+    let result = [];
 
+
+    if (objeto.hasOwnProperty('fechaDesde')) 
+    {
+        fecha_desde = Date.parse(objeto.fechaDesde);
+        if (typeof objeto.fechaDesde === 'string') 
+        {
+            if (!isNaN(fecha_desde)) 
+                fechaDesde1 = fecha_desde;
+            else
+                fechaDesde1 = undefined;
+        }
     }
+
+    if (objeto.hasOwnProperty('fechaHasta')) 
+    {
+        fecha_hasta = Date.parse(objeto.fechaHasta);
+        if (typeof objeto.fechaHasta === 'string') 
+        {
+            if (!isNaN(fecha_hasta)) 
+                fechaHasta1 = fecha_hasta;
+            else
+                fechaDesde1 = undefined;
+        }
+    }
+
+    if (objeto.hasOwnProperty('valorMinimo')) 
+    {
+        valorMin = objeto.valorMinimo;
+    }
+
+    if (objeto.hasOwnProperty('valorMaximo')) 
+    {
+        valorMax = objeto.valorMaximo;
+    }
+
+    if (objeto.hasOwnProperty('descripcionContiene')) 
+    {
+        descripcion = objeto.descripcionContiene;
+    }
+
+    if (objeto.hasOwnProperty('etiquetasTiene')) 
+    {
+        etiqueta = [...objeto.etiquetasTiene];
+    }
+
+    result = gastos.filter(function (item) 
+    {
+        let devuelve = true;
+        let devuelve2 = false;
+
+        if (typeof fechaDesde1 !== 'undefined') 
+        {
+            if (item.fecha < fechaDesde1)
+                devuelve = false;
+        }
+
+        if (typeof fechaHasta1 !== 'undefined') 
+        {
+            if (item.fecha > fechaHasta1) 
+                devuelve = false;
+        }
+
+        if (typeof valorMin !== 'undefined')
+        {
+            if (item.valor < valorMin)
+                devuelve = false;
+        }
+
+        if (typeof valorMax !== 'undefined')
+        {
+            if(item.valor > valorMax)
+                devuelve = false;
+        }
+
+        if (typeof descripcion !== 'undefined')  
+        {
+            if (!item.descripcion.includes(descripcion))
+                devuelve = false;
+        }
+
+        if ((typeof etiqueta !== 'undefined') && (etiqueta.length > 0))
+        {          
+            for (let i of etiqueta)
+            {
+                for (let j of item.etiquetas)
+                {
+                    if (i === j)
+                    {
+                        devuelve2 = true;
+                    }
+                }                    
+            }                      
+        }
+        else 
+        {
+            devuelve2 = true;
+        }
+
+        return devuelve && devuelve2; 
+
+    }); 
+         return result;
+
+    
 }
 
 function agruparGastos(){
