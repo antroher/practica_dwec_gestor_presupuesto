@@ -2,9 +2,9 @@
 
 function mostrarDatoEnId(valor, idElemento)
 {
-    let elemento = document.getElementById('idElemento');
+    let elemento = document.getElementById(idElemento);
     
-
+    elemento.innerHTML += `<p>${valor}</p>`;
 }
 
 function mostrarGastoWeb()
