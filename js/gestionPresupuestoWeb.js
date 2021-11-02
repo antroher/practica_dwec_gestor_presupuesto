@@ -1,5 +1,5 @@
 
-function mostrarDatoEnId () {
+function mostrarDatoEnId (valor, idElemento) {
 
 }
 
