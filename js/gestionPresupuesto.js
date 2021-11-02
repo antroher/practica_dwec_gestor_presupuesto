@@ -304,7 +304,7 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
             acc[filtroreducido] += item.valor;
         }
         return acc;
-    });
+    }, {});
     return grupos;
 }
 
