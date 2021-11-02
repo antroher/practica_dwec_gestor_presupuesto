@@ -221,13 +221,13 @@ function calcularBalance() {
 function filtrarGastos(filtro) {
     let gastosB = Object.assign(gastos);
 
-    if(typeof filtro === 'object' && filtro != null) {
+    if(typeof filtro === 'object' && filtro != null && Object.entries(filtro).length > 0) {
 
         //fechaDesde
         if(Object.hasOwn(filtro, 'fechaDesde') && typeof filtro.fechaDesde === 'string') { 
-
+          
             gastosB = gastosB.filter((y) => {
-                return y.fecha <= (Date.parse(filtro.fechaDesde))
+                return y.fecha >= (Date.parse(filtro.fechaDesde));
             })
 
         }
@@ -244,15 +244,15 @@ function filtrarGastos(filtro) {
         if(Object.hasOwn(filtro, 'valorMinimo') && typeof filtro.valorMinimo === 'number') {
 
             gastosB = gastosB.filter((y) => {
-                return y.valor <= filtro.valorMinimo
+                return y.valor >= filtro.valorMinimo;
             })
         }
 
         //valorMaximo
-        if(Object.hasOwn(filtro, 'valorMaximo') && typeof filtro.valorMaximo === 'string') {
+        if(Object.hasOwn(filtro, 'valorMaximo') && typeof filtro.valorMaximo === 'number') {
 
             gastosB = gastosB.filter((y) => {
-                return y.valor <= filtro.valorMaximo
+                return y.valor <= filtro.valorMaximo;
             })
 
         }
@@ -277,13 +277,14 @@ function filtrarGastos(filtro) {
 
             gastosB = gastosB.filter((y) => {
                 for(let i = 0; i < filtro.etiquetasTiene.length; i++) {
-                    if(filtro.etiquetasTiene.includes(y.etiquetas[i])){
+                    if(filtro.etiquetasTiene.includes(y.etiquetas[i])) {
                         return true;
                     }
                 }
             })
 
         }
+        return gastosB;
     }
 
     return gastos;
@@ -293,16 +294,17 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
 
     let filtro = {etiquetasTiene : etiquetas, fechaDesde : fechaDesde, fechaHasta : fechaHasta};
     let filtrarGastosA = filtrarGastos(filtro);
+    
     let grupos = filtrarGastosA.reduce((acc, item) => {
         let filtroreducido = item.obtenerPeriodoAgrupacion(periodo);
-        if(acc[filtroreducido] == null){
+        if(acc[filtroreducido] == null) {
             acc[filtroreducido] = item.valor;
         }
-        else{
+        else {
             acc[filtroreducido] += item.valor;
         }
         return acc;
-    })
+    });
     return grupos;
 }
 
