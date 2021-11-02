@@ -342,11 +342,7 @@ function filtrarGastos(objeto)
         
         return DevolverBool && existe; 
 
-    }); 
-    for (let j of ArrayGastos)
-    {
-        console.log("FILTRADO" + JSON.stringify(ArrayGastos));
-    }
+    });    
 
     return ArrayGastos;
 
@@ -377,22 +373,9 @@ function agruparGastos(periodo = 'mes', etiquetas = [], fDesde, fHasta)
     if (etiquetas.length>0)
     {
         filtrar.etiquetasTiene = [...etiquetas];
-    }    
-
-    for (let k of gastos)
-    {
-        console.log(JSON.stringify(k))
-    }
-
-    console.log("objeto de filtrado:" + JSON.stringify(filtrar));
+    } 
 
     let filtrarGast = filtrarGastos(filtrar);
-
-    console.log("\nDatos filtrados: \n");
-    for (let i of filtrarGast)
-    {
-        console.log(JSON.stringify(i));
-    }
 
     let agruparReduce = filtrarGast.reduce(function (acum, item)
     {
@@ -413,9 +396,7 @@ function agruparGastos(periodo = 'mes', etiquetas = [], fDesde, fHasta)
        
         return acum;
 
-    }, {});
-
-    console.log(JSON.stringify(agruparReduce));
+    }, {});    
 
     return agruparReduce;
 }
