@@ -39,7 +39,7 @@ function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
                 "<span class='agrupacion-dato-valor'>"+agrup[prop]+"</span>\n"+
                 "</div>\n";
         }  
-    
+        cad+="</div>\n";
         elem.innerHTML+=cad;
     }
 }
