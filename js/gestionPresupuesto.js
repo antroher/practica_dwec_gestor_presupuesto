@@ -1,6 +1,7 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
+"use strict";
 var presupuesto = 0;
 var gastos = [];
 var idGasto = 0;
@@ -63,6 +64,156 @@ function calcularBalance()
     return (presupuesto - calcularTotalGastos());
 }
 
+function filtrarGastos(objeto)
+{
+    let fd;
+    let fh;
+    let valormin;
+    let valormax;
+    let descContiene;
+    let etiTiene;
+    if(objeto.hasOwnProperty("fechaDesde"))
+    {
+        if(typeof objeto.fechaDesde === "string")
+        {
+            if(!isNan(Date.parse(objeto.fechaDesde)))
+            {
+                fd = Date.parse(objeto.fechaDesde);
+            }
+            else
+            {
+                fd = undefined;
+            }
+        }
+    }
+    if(objeto.hasOwnProperty("fechaHasta"))
+    {
+        if(typeof objeto.fechaHasta === "string")
+        {
+            if(!isNan(Date.parse(objeto.fechaHasta)))
+            {
+                fh = Date.parse(objeto.fechaHasta);
+            }
+            else
+            {
+                fh = undefined;
+            }
+        }
+    }
+    if(objeto.hasOwnProperty("valorMinimo"))
+    {
+        if(typeof objeto.valorMinimo === "number")
+        {
+           
+                valormin = objeto.valorMinimo;
+        }
+            else
+            {
+                valormin = undefined;
+            }
+    }
+    
+    if(objeto.hasOwnProperty("valorMaximo"))
+    {
+        if(typeof objeto.valorMaximo === "number")
+        {
+           
+                valormax = objeto.valorMaximo;
+        }
+            else
+            {
+                valormax = undefined;
+            }
+    }
+    if(objeto.hasOwnProperty("descripcionContiene"))
+    {
+        if(typeof objeto.descripcionContiene === "string")
+        {
+           
+                descContiene = objeto.descripcionContiene;
+        }
+            else
+            {
+                descContiene = undefined;
+            }
+    }
+    if(objeto.hasOwnProperty("etiquetasTiene"))
+    {
+        if(objeto.etiquetasTiene.length > 0)
+        {
+        for(let i = 0; i < objeto.etiquetasTiene.length; i++)
+        {
+            if(typeof objeto.etiquetasTiene[i] === "string"){
+                etiTiene.push(objeto.etiquetasTiene[i]);
+            }
+        }
+        }
+        else
+        {
+            etiTiene = "undefined"
+        }
+    }
+
+    let results = gastos.filter(function(item){
+        let devuelve = true;
+        if(typeof fd !== "undefined")
+        {
+            if(item.fecha < fd)
+            {
+                devuelve = false;
+            }
+        }
+
+        if(typeof fh !== "undefined")
+        {
+            if(item.fecha > fh)
+            {
+                devuelve = false;
+            }
+        }
+        if(typeof valormin !== "undefined")
+        {
+            if(item.valor < valormin)
+            {
+                devuelve = false;
+            }
+        }
+        if(typeof valormax !== "undefined")
+        {
+            if(item.valor > valormax)
+            {
+                devuelve = false;
+            }
+        }
+        if(typeof descripcionContiene !== "undefined")
+        {
+            if(item.descripcionContiene.includes(descContiene) == false)
+            {
+                devuelve = false;
+            }
+        }
+        if(typeof etiTiene !== "undefined")
+        {
+            for(let i = 0; i < etiTiene.length; i++)
+            {
+                if(item.etiquetasTiene.includes(etiTiene[i]))
+                {
+                    devuelve = false;
+                }
+            }
+        }
+
+
+        console.log(devuelve);
+        return devuelve;
+    });
+    return results;
+}
+
+function agruparGastos(){
+
+}
+
 function CrearGasto(midescripcion, mivalor, mifecha = Date.now(), ...misetiquetas) {
     if(mivalor < 0 || isNaN(mivalor))
     {
@@ -107,10 +258,14 @@ function CrearGasto(midescripcion, mivalor, mifecha = Date.now(), ...misetiqueta
     },
     actualizarFecha(lafecha){
 
-        if(isNan(Date.parse(lafecha)) == false)
+        if (typeof lafecha !== "string")
+        return;
+        if(isNan(Date.parse(lafecha)))
         {
-            fecha = Date.parse(lafecha)
+           return; 
         }
+        
+        fecha = Date.parse(lafecha)
     },
     anyadirEtiquetas(...lasetiquetas)
     {
@@ -136,7 +291,7 @@ function CrearGasto(midescripcion, mivalor, mifecha = Date.now(), ...misetiqueta
         }
        
     },
-    MostrarGastoCompleto(){
+    mostrarGastoCompleto(){
         let final = "";
         let lafecha = new Date(this.fecha);
          final = ("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor + " €");
@@ -149,7 +304,7 @@ function CrearGasto(midescripcion, mivalor, mifecha = Date.now(), ...misetiqueta
          return final;
 
     },
-    borrarEtiquetas(PAgrup)
+    obtenerPeriodoAgrupacion(PAgrup)
     {
         let fec = new Date(this.fecha);
         let dd = String(fec.getDate()).padstart(2,'0');
@@ -180,6 +335,7 @@ function CrearGasto(midescripcion, mivalor, mifecha = Date.now(), ...misetiqueta
 
 }
 
+
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
@@ -187,9 +343,12 @@ export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
     CrearGasto,
+    listarGastos,
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 
 }
