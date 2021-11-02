@@ -1,5 +1,7 @@
 function mostrarDatoEnId(idElemento, valor) {
-    document.getElementById(idElemento).innerHTML += valor;
+    document.createElement("p");
+    p.textContent = valor;
+    idElemento.appendChild(p);
 }
 
 /*function mostrarGastoWeb(idElemento, gasto) {
