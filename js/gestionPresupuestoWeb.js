@@ -1,5 +1,10 @@
 "use strict";
 
+import * as gP from './gestionPresupuesto.js';
+
+document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb());
+document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb());
+
 function mostrarDatoEnId(idElemento, valor) {
     let element = document.getElementById(idElemento);
     element.innerHTML += `<p>${valor}</p>` 
@@ -63,9 +68,44 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
         </div>`;
 }
 
+function repintar () {
+    //Mostrar los datos en el div correspondiente.
+    mostrarDatoEnId("presupuesto", gP.mostrarPresupuesto());
+    mostrarDatoEnId("gastos-totales", gP.calcularTotalGastos());
+    mostrarDatoEnId("balance-total", gP.calcularBalance());
+
+    //Borrado de elementos en el div#listado-gastos-completo y su impresion de nuevo.
+    document.getElementById("listado-gastos-completo").innerHTML = "";
+    mostrarGastoWeb("listado-gastos-completo", gP.listarGastos());
+}
+
+function actualizarPresupuestoWeb() {
+    //Actualizar el presupuesto.
+    gP.actualizarPresupuesto(parseFloat(prompt("Introduce un nuevo presupuesto:")));
+
+    //Volver a imprimir los datos con el nuevo presupuesto.
+    repintar();
+} 
+
+function nuevoGastoWeb() {
+    //Pedida de datos para la creación del gasto.
+    let descripcion = prompt("Introduzca la descripción del nuevo gasto: ");
+    let valor = parseFloat(prompt("Introduzca el valor del nuevo gasto: "));
+    let fecha = Date.parse(prompt("Introduzca la fecha del nuevo gasto: "));
+    let etiquetas = prompt("Introduzca las etiquetas del nuevo gasto separadas por , : ").split(', ')
+
+    //Creación y adición del gasto creado a la lista de gastos.
+    gP.anyadirGasto(gP.CrearGasto(descripcion,valor,fecha,etiquetas));
+
+    //Volver a imprimir los datos con el nuevo objeto.
+    repintar();
+
+}
+
 //Funciones a exportar para el test.
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb, 
+    repintar
 }

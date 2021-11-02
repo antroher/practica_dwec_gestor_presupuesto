@@ -409,7 +409,7 @@ function filtrarGastos(filtroEntrante) {
     return arrayDevolver;
 }
 
-function agruparGastos(periodo = "mes", etiquetasEntrante = [], fechaDesdeEntrante = "", fechaHastaEntrante = "") {
+function agruparGastos(periodo = "mes", etiquetasEntrante = [], fechaDesdeEntrante = "", fechaHastaEntrante = Date.now()) {
     //Creación de objeto gasto.
     let gasto = {
         etiquetasTiene: etiquetasEntrante,
