@@ -195,39 +195,22 @@ function filtrarGastos(objeto){
 }
 
 function agruparGastos(periodo='mes',etiquetas=[],fechaDesde = '',fechaHasta= ''){
-        let fecH;
-        if (fechaHasta === ''){
-            let g1 = new CrearGasto();
-            fecH=g1.obtenerPeriodoAgrupacion('dia');
-            console.log(fecH);
+    let ResultadoFiltros = filtrarGastos({fechaDesde: fechaD, fechaHasta:fechaH, etiquetasTiene: etiquetas});
+    let gastosAgrupados = ResultadoFiltros.reduce(function(acumulador, item)
+    {
+        let periodoAgrup = item.obtenerPeriodoAgrupacion(periodo);
+
+        if ((acumulador.hasOwnProperty(periodoA))) 
+        {
+            if (!isNaN(acumulador[periodoA]))
+                acumulador[periodoAgrup] = acumulador[periodoAgrup] + item.valor;
         }
+        else     
+            acumulador[periodoAgrup] = item.valor;
 
-        let obj={fechaDesde: fechaDesde, fechaHasta: fecH,etiquetasTiene: etiquetas};
-
-
-        console.log(JSON.stringify(obj));
-
-        let resultFiltros= filtrarGastos(obj);
-
-        let valorAgrupado = resultFiltros.reduce(function (acumulador,posicion){
-
-           let per = posicion.obtenerPeriodoAgrupacion(periodo);
-           console.log(JSON.stringify(acumulador));
-            if(!acumulador.hasOwnProperty(per)){
-              
-            acumulador[per]=0;
-            }
-            else{
-              if (isNaN(acumulador[per]))
-                     acumulador[per]=posicion.valor;
-            }
-              
-            acumulador[per]=acumulador[per] + posicion.valor;
-            
-            return acumulador;
-            },
-            {});
-                return valorAgrupado;
+        return acumulador;
+    }, 
+    {});
         
 }
 // Acciones con la variable global Gastos
