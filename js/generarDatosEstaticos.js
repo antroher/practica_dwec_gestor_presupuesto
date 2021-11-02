@@ -30,9 +30,9 @@ gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3", gasfilt3);
 let filter4 = {valorMaximo : 50, etiquetasTiene : ["comida", "transporte"]}
 let gasfilt4 = gestionPresupuesto.filtrarGastos(filter4);
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gasfilt4);
-let gastosAgrupados1 = gestionPresupuesto.agruparGastos("dia");
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", gastosAgrupados1, "día")
-let gastosAgrupados2 = gestionPresupuesto.agruparGastos("mes");
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", gastosAgrupados2, "mes")
-let gastosAgrupados3 = gestionPresupuesto.agruparGastos("anyo");
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAgrupados3, "año")
+let gasgrouped1 = gestionPresupuesto.agruparGastos("dia");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", gasgrouped1, "día")
+let gasgrouped2 = gestionPresupuesto.agruparGastos("mes");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", gasgrouped2, "mes")
+let gasgrouped3 = gestionPresupuesto.agruparGastos("anyo");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", gasgrouped3, "año")
