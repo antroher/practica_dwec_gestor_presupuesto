@@ -99,24 +99,24 @@ function nuevoGastoWeb() {
     repintar();
 }
 
-function EditarHandle() {
-    let gasto = {
-        handleEvent(event) {
-            let descripcion1 = prompt("Introduzca la nueva descripción: ");
-            let valor1 = parseFloat(prompt("Introduzca el nuevo valor: "));
-            let fecha1 = formatearFecha(Date.parse(prompt("Introduzca la nueva fecha: ")));
-            let etiquetas1 = prompt("Introduce las etiquetas: ").split(",");
-            this.gasto.actualizarValor(valor1);
-            this.gasto.actualizarDescripcion(descripcion1);
-            this.gasto.actualizarFecha(fecha1);
-            this.gasto.actualizarEtiquetas(etiquetas1);
-            repintar();
-        }
+function EditarHandle(gasto1) {
+    handleEvent(event) {
+        let gasto = Object.create(gasto1);
+        let descripcion1 = prompt("Introduzca la nueva descripción: ");
+        let valor1 = parseFloat(prompt("Introduzca el nuevo valor: "));
+        let fecha1 = formatearFecha(Date.parse(prompt("Introduzca la nueva fecha: ")));
+        let etiquetas1 = prompt("Introduce las etiquetas: ").split(",");
+        this.gasto.actualizarValor(valor1);
+        this.gasto.actualizarDescripcion(descripcion1);
+        this.gasto.actualizarFecha(fecha1);
+        this.gasto.actualizarEtiquetas(etiquetas1);
+        repintar();
     }
 }
 
-function BorrarHandle() {
-    let gasto = {
+function BorrarHandle(gasto1) {
+    let gasto = Object.create(gasto1);
+    gasto = {
         handleEvent(event) {
             this.gasto.gasto = this.gasto;
         }
