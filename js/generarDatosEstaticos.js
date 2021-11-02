@@ -40,6 +40,7 @@ gastosFiltrados.forEach(gf => {
     metodosGastosWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gf);
 });
 
+
 metodosGastosWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", metodosGastos.agruparGastos("dia"), "día");
 metodosGastosWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", metodosGastos.agruparGastos("mes"), "mes");
 metodosGastosWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", metodosGastos.agruparGastos("anyo"), "año");
