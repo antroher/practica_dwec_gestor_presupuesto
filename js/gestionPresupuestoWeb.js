@@ -11,11 +11,11 @@ function mostrarGastoWeb(idElemento, gasto){
     "<div class='gasto-descripcion'>" + gasto.descripcion + "</div>\n" +
     "<div class='gasto-fecha'>" + new Date(gasto.fecha).toLocaleDateString() + "</div>\n" + 
     "<div class='gasto-valor'>" + gasto.valor + "</div>\n" + 
-    "<div class='gasto-etiquetas'> \n";
+    "<div class='gasto-etiquetas'>\n";
     gasto.etiquetas.forEach(e => {
         elemento.innerHTML += "<span class='gasto-etiquetas-etiqueta'>\n" + e + "\n</span>\n"
     });
-    elemento.innerHTML += "</div>\n </div>\n"
+    elemento.innerHTML += "</div>\n</div>\n"
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -30,7 +30,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
         "<span class='agrupacion-dato-valor'>" + agrup[prop] + "</span>\n"+
         "</div>\n";
     }
-    elemento.innerHTML += "</div>\n";
+    //elemento.innerHTML += "</div>\n";
 }
 
 export {
