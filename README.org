@@ -28,3 +28,4 @@
   - [[./enunciados/fundamentos_js_II.org][Fundamentos de JS II]]
   - [[./enunciados/fundamentos_js_III.org][Fundamentos de JS III]]
   - [[./enunciados/interaccionHTML.org][Interacción con HTML]]
+  - [[./enunciados/eventos.org][Eventos en JavaScript]]
