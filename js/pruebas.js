@@ -1,4 +1,4 @@
-function creacionObjeto(objeto){
+/*function creacionObjeto(objeto){
     console.log(objeto.fechaDesde);
     console.log(objeto.fechaHasta);
     console.log(objeto.hasOwnProperty("fechaDesde"));
@@ -24,3 +24,10 @@ let arrayfiltrado = array.filter((item) => {
 });
 
 console.log(arrayfiltrado);
+*/
+
+import * as GastosGen from "./gestionPresupuesto";
+import * as GastosGenWeb from "./gestionPresupuestoWeb";
+
+GastosGen.actualizarPresupuesto(1500);
+GastosGenWeb.mostrarDatoEnId("presupuesto",GastosGen.mostrarPresupuesto());
