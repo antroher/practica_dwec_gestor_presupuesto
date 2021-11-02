@@ -1,11 +1,8 @@
 "use strict"
-
-// TODO: Crear las funciones, objetos y variables indicadas en el enunciado
-
 //Variable global
-let presupuesto = 0;
-let gastos = [];
-let idGasto = 0;
+var presupuesto = 0;
+var gastos = [];
+var idGasto = 0;
 
 function actualizarPresupuesto(x) {
 
@@ -22,16 +19,13 @@ function actualizarPresupuesto(x) {
 }
 
 function mostrarPresupuesto() {
-    // TODO
+    
     let x = presupuesto;
     return `Tu presupuesto actual es de ${x} €`;
 }
 
 function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
-    // TODO
-
-
-    
+   
     this.descripcion = descripcion;
 
     if (valor >= 0)
@@ -135,7 +129,6 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
 function listarGastos() {
         return gastos;
 }
-
 function anyadirGasto(nuevogasto) {
     nuevogasto.id = idGasto;
 
