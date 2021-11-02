@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 function mostrarDatoEnId(valor, idElemento){
     let idElemento2 = document.getElementById(idElemento);

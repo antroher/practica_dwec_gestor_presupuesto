@@ -1,7 +1,5 @@
-
-function test(){
-import * as gestionPresupuestoWeb from "gestionPresupuestoWeb.js"
-import * as gestionPresupuesto from "gestionPresupuesto.js"
+import * as gestionPresupuestoWeb from "./gestionPresupuestoWeb.js"
+import * as gestionPresupuesto from "./gestionPresupuesto.js"
 
 gestionPresupuesto.actualizarPresupuesto(1500);
 let variable = gestionPresupuesto.mostrarPresupuesto();
@@ -51,4 +49,3 @@ gestionPresupuestoWeb.mostrarGastosAgrupadosWeb(variable10,"agrupacion-mes","mes
 
 let variable11 = gestionPresupuesto.agruparGastos("anyo");
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb(variable11,"agrupacion-anyo","año");
-}
