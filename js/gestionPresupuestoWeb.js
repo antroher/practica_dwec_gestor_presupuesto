@@ -29,22 +29,22 @@ function mostrarDatoEnId(idElemento,valor){
     }
     
         function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
-            let elemento = document.getElementById(idElemento);
-            elemento.innerHTML += 
-            "<div class='agrupacion'>\n" + 
-            "<h1>Gastos agrupados por " + periodo + "</h1>\n"
-            for(let prop in agrup){
-                elemento.innerHTML += 
-                "<div class='agrupacion-dato'>\n" +
-                "<span class='agrupacion-dato-clave'>" + prop + ": </span>\n" +
-                "<span class='agrupacion-dato-valor'>" + agrup[prop] + "</span>\n"+
-                "</div>\n";
-            }
-            elemento.innerHTML += "</div>\n";
+            // let elemento = document.getElementById(idElemento);
+            // elemento.innerHTML += 
+            // "<div class='agrupacion'>\n" + 
+            // "<h1>Gastos agrupados por " + periodo + "</h1>\n"
+            // for(let prop in agrup){
+            //     elemento.innerHTML += 
+            //     "<div class='agrupacion-dato'>\n" +
+            //     "<span class='agrupacion-dato-clave'>" + prop + ": </span>\n" +
+            //     "<span class='agrupacion-dato-valor'>" + agrup[prop] + "</span>\n"+
+            //     "</div>\n";
+            // }
+            // elemento.innerHTML += "</div>\n";
         }
 
 
-
+//El export de las funciones
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
