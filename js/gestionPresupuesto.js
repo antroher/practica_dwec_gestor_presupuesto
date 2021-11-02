@@ -222,8 +222,16 @@ function calcularBalance()
 
 }
 
-function filtrarGastos(objeto){
-
+function filtrarGastos(objeto)
+{
+    let fechaDesde1, fecha_desde;
+    let fechaHasta1, fecha_hasta;
+    let valorMin;
+    let valorMax;
+    let descripcion;
+    let etiqueta;
+    let result = []; 
+    
     if (objeto.hasOwnProperty('fechaDesde')) 
     {
         fecha_desde = Date.parse(objeto.fechaDesde);
@@ -325,13 +333,72 @@ function filtrarGastos(objeto){
 
     });    
     return result;
-{
-   
 
-    
 }
+   
+   
+function agruparGastos (periodo = "mes", etiquetas1=[], fechaDesde1="", fechaHasta1="")
+{
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); 
+    let yyyy = today.getFullYear();
 
-function agruparGastos(){
+     //creación del objeto filtrar
+    let filtrar = {};
+
+    if ((typeof fechaDesde1 !== 'string') || isNaN((Date.parse(fechaDesde1))) || (typeof fechaDesde1 === 'undefined')) 
+    {
+        fechaDesde1 = '';
+    }
+    else
+    {
+        filtrar.fechaDesde = fechaDesde1;
+    }
+
+    if ((typeof fechaHasta1 !== 'string') || (isNaN(Date.parse(fechaHasta1))) || (typeof fechaHasta1 === 'undefined')) 
+    {
+        fechaHasta1 = `${yyyy}-${mm}-${dd}`;
+        filtrar.fechaHasta = fechaHasta1;
+    }
+    else
+    {
+        filtrar.fechaHasta = fechaHasta1;
+    }
+
+    if (typeof etiquetas1 === 'undefined') 
+    {
+        etiquetas1 = [];
+        filtrar.etiquetasTiene = [];
+    }
+    else
+    {
+        filtrar.etiquetasTiene = etiquetas1;
+    }
+
+    let filtrarGastos2 = filtrarGastos(filtrar);
+
+    let result = filtrarGastos2.reduce(function (acumulador, item)
+    {
+        let periodo1 = item.obtenerPeriodoAgrupacion(periodo);
+
+        if (!acumulador.hasOwnProperty(periodo1))
+        {
+            acumulador[periodo1] = 0;
+        }
+        else 
+        {
+            if (isNaN(acumulador[periodo1]))
+            {
+                acumulador[periodo1] = 0;
+            }
+        }
+        acumulador[periodo1] = acumulador[periodo1] + item.valor;
+
+        return acumulador;
+    }, {});
+
+    return result;
 
 }
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -348,5 +415,4 @@ export   {
     calcularBalance,
     filtrarGastos,
     agruparGastos
-  
 }
