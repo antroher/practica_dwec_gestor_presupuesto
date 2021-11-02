@@ -222,16 +222,7 @@ function calcularBalance()
 
 }
 
-function filtrarGastos(objeto)
-{
-    let fechaDesde1, fecha_desde;
-    let fechaHasta1, fecha_hasta;
-    let valorMin;
-    let valorMax;
-    let descripcion;
-    let etiqueta;
-    let result = [];
-
+function filtrarGastos(objeto){
 
     if (objeto.hasOwnProperty('fechaDesde')) 
     {
@@ -332,8 +323,10 @@ function filtrarGastos(objeto)
 
         return devuelve && devuelve2; 
 
-    }); 
-         return result;
+    });    
+    return result;
+{
+   
 
     
 }
