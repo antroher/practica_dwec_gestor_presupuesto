@@ -1,20 +1,34 @@
 'use strict'
 
-function mostrarDatoEnId(valor, idElemento)
+function mostrarDatoEnId(idElemento, valor)
 {
     let elemento = document.getElementById(idElemento);
     
     elemento.innerHTML += `<p>${valor}</p>`;
+    /*
+    for (elemento of parrafo)
+    {
+        elemento.innerHTML = `<p>${valor}</p>`;
+    }
+    */
+    
 }
 
-function mostrarGastoWeb()
+function mostrarGastoWeb(idElemento, gastos)
 {
+    let elemento = document.getElementById(idElemento);
+
+    for (let lista of arrayGastos)
+    {
+        let div = '';
+
+    }
 
 }
 
-function mostrarGastosAgrupadosWeb()
+function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
 {
-
+    let elemento = document.getElementById(idElemento);
 }
 
 
