@@ -139,23 +139,12 @@ function filtrarGastos(objeto)
     }
     if(objeto.hasOwnProperty("etiquetasTiene"))
     {
-        if(objeto.etiquetasTiene.length > 0)
-        {
-        for(let i = 0; i < objeto.etiquetasTiene.length; i++)
-        {
-            if(typeof objeto.etiquetasTiene[i] === "string"){
-                etiTiene.push(objeto.etiquetasTiene[i]);
-            }
-        }
-        }
-        else
-        {
-            etiTiene = "undefined"
-        }
+        etiTiene = [...gasto.etiquetasTiene];
     }
 
     let results = gastos.filter(function(item){
         let devuelve = true;
+        let latiene = false;
         if(typeof fd !== "undefined")
         {
             if(item.fecha < fd)
@@ -210,7 +199,8 @@ function filtrarGastos(objeto)
     return results;
 }
 
-function agruparGastos(){
+function agruparGastos(periodo = "mes", etiquetas = [],fechaDesde, fechaHasta){
+    
 
 }
 
@@ -256,16 +246,11 @@ function CrearGasto(midescripcion, mivalor, mifecha = Date.now(), ...misetiqueta
          this.valor = elvalor;
         }
     },
-    actualizarFecha(lafecha){
-
-        if (typeof lafecha !== "string")
-        return;
-        if(isNan(Date.parse(lafecha)))
-        {
-           return; 
+    actualizarFecha: function (lafecha) {
+        let isValidDate = Date.parse(lafecha);
+        if (!isNaN(isValidDate)) {
+            this.fecha = Date.parse(lafecha);
         }
-        
-        fecha = Date.parse(lafecha)
     },
     anyadirEtiquetas(...lasetiquetas)
     {
@@ -311,7 +296,7 @@ function CrearGasto(midescripcion, mivalor, mifecha = Date.now(), ...misetiqueta
         let mm = String(fec.getMonth()+1).padstart(2,'0');
         let yyyy = String(fec.getFullYear());
         let resultado = "";
-       if(PAgrup == "anyo")
+       if(PAgrup == "año")
        {
             resultado = yyyy;
             
