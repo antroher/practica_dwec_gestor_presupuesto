@@ -4,25 +4,31 @@ function mostrarDatoEnId(idElemento, valor)
 {
     let elemento = document.getElementById(idElemento);
     
-    elemento.innerHTML += `<p>${valor}</p>`;
-    /*
-    for (elemento of parrafo)
-    {
-        elemento.innerHTML = `<p>${valor}</p>`;
-    }
-    */
-    
+    elemento.innerHTML += `<p>${valor}</p>`;      
 }
 
 function mostrarGastoWeb(idElemento, gastos)
 {
     let elemento = document.getElementById(idElemento);
 
-    for (let lista of arrayGastos)
+    for (let arrayGasto of gastos)
     {
-        let div = '';
+        let lista = "";
+        for (let texto of arrayGasto.etiquetas) 
+        {
+            lista += `<span class="gasto-etiquetas-etiqueta"> ${texto} </span>`
+        }
 
-    }
+        elemento.innerHTML +=
+            `<div class="gasto">
+                <div class="gasto-descripcion"> ${arrayGasto.descripcion} </div>
+                <div class="gasto-fecha">${arrayGasto.fecha}</div> 
+                <div class="gasto-valor">${arrayGasto.valor}</div> 
+                <div class="gasto-etiquetas">
+                    ${lista}
+                </div>
+            </div>`;
+    }    
 
 }
 
