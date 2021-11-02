@@ -37,7 +37,7 @@ gastosF.forEach(gf => {
     gpw.mostrarGastoWeb("listado-gastos-filtrado-4",gf);
 });
 
-gpw.mostrarGastosAgrupadosWeb("agrupacion-dia",gp.agruparGastos("dia"),"dia");
+gpw.mostrarGastosAgrupadosWeb("agrupacion-dia",gp.agruparGastos("dia"),"día");
 
 gpw.mostrarGastosAgrupadosWeb("agrupacion-mes",gp.agruparGastos("mes"),"mes");
 
