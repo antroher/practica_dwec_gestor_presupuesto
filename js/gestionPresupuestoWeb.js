@@ -15,12 +15,11 @@ function mostrarDatoEnId(texto,idElemento)
 
 }
 
-fuction mostrarGastoWeb()
+function mostrarGastoWeb(idElemento,gasto)
 {
     /*Función de dos parámetros que se encargará de añadir dentro del elemento HTML con id idElemento indicado una estructura HTML para el gasto que se pase como parámetro:
-
-idElemento - Hará referencia al id del elemento HTML donde se insertará el conjunto de estructuras HTML que se crearán para cada gasto.
-gasto - Objeto gasto
+    idElemento - Hará referencia al id del elemento HTML donde se insertará el conjunto de estructuras HTML que se crearán para cada gasto.
+    gasto - Objeto gasto
 
 <div class="gasto">
   <div class="gasto-descripcion">DESCRIPCIÓN DEL GASTO</div>
@@ -36,11 +35,35 @@ gasto - Objeto gasto
     <!-- Etcétera -->
   </div> 
 </div>*/ 
+let cadenaEtiquetas;
+gasto.etiquetas.forEach(element => {
+  cadenaEtiquetas+="<span class='gasto-etiquetas-etiqueta'>\n"+element+"</span>\n";
+  
+});
+
+let element=document.getElementById(idElemento);
+element.innerHTML+="<div class='gasto'>\n"
+                 +"<div class='gasto-descripcion'>"+gasto.descripcion+"</div>\n"
+                 +"<div class='gasto-fecha'>"+new Date(gasto.fecha).toLocaleDateString()+"</div>\n"
+                 +"<div class='gasto-etiquetas'>\n"
+                 +cadenaEtiquetas
+                 +"</div>\n</div>\n";
+                 
 
 
 
 
 }
+
+function mostrarGastosAgrupadosWeb(idElemento,agroup,periodo){
+/** */
+
+}
+
+
+
+
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,

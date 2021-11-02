@@ -1,7 +1,7 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
-'use strict'
+'use strict';
 var presupuesto=0;
 var gastos = new Array();
 var idGasto=0;
