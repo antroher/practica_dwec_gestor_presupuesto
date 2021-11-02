@@ -1,10 +1,13 @@
-/*Función de dos parámetros que se encargará de escribir el valor (texto) en el elemento HTML con id idElemento indicado:
-
-idElemento - Hará referencia al id del elemento HTML donde se insertará el resultado en formato texto.
-valor - El valor a mostrar.*/ 
+"use strict";
 function mostrarDatoEnId (idElemento, valor)
 {
-
+  let elemento = document.getElementById(idElemento);
+  //Creo el elemento p para guardar lo que hay dentro de idElement.
+  let parrafo = document.createElement("p");
+  // Le pongo el valor de idElemente a párrafo
+  parrafo.document.textContent(valor);
+  //añade el valor el contenido de parrafo al Elemento, es decir, al HTML
+  elemento.appenChild(parrafo);
 }
 /*Función de dos parámetros que se encargará de añadir dentro del elemento HTML con id idElemento indicado una estructura HTML para el gasto que se pase como parámetro:
 
@@ -27,7 +30,7 @@ Así, para un determinado gasto se creará una estructura como la siguiente:
   </div> 
 </div>
 Donde se sustituirán los textos por los datos del gasto correspondiente.*/ 
-function mostrarGastoWeb()
+function mostrarGastoWeb(idElemento, )/*HAY Q PASARLE UN ARRAY DE GASTO*/ 
 {
 
 }
@@ -90,7 +93,7 @@ function mostrarGastosAgrupadosWeb()
 
 
 export{
-    mostrarDatoEnId,
-    mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb 
+  mostrarDatoEnId,
+  mostrarGastoWeb,
+  mostrarGastosAgrupadosWeb 
 }
