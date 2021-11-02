@@ -9,9 +9,9 @@ function mostrarGastoWeb(idElemento, gasto){
     elemento.innerHTML += 
     "<div class='gasto'>\n" +
     "<div class='gasto-descripcion'>Descripción: " + gasto.descripcion + "</div>\n" +
-    "<div class='gasto-fecha'>Fecha: " + new Date(gasto.fecha).toLocaleDateString() + "</div>\n" + 
-    "<div class='gasto-valor'>Valor: " + gasto.valor + "</div>\n" + 
-    "<div class='gasto-etiquetas'>Etiquetas: \n";
+    "<div class='gasto-fecha'>" + new Date(gasto.fecha).toLocaleDateString() + "</div>\n" + 
+    "<div class='gasto-valor'>" + gasto.valor + "</div>\n" + 
+    "<div class='gasto-etiquetas'> \n";
     gasto.etiquetas.forEach(e => {
         elemento.innerHTML += "<span class='gasto-etiquetas-etiqueta'>\n" + e + "\n</span><br>\n"
     });

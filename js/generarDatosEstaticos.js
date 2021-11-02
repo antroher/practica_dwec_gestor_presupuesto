@@ -20,7 +20,7 @@ let gastos = metodosGastos.listarGastos();
 gastos.forEach(g => {
     metodosGastosWeb.mostrarGastoWeb("listado-gastos-completo", g);
 });
-let gastosFiltrados =  metodosGastos.filtrarGastos({fechaDesde: "01-2021", fechaHasta: "30-2021"});
+let gastosFiltrados =  metodosGastos.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"});
 gastosFiltrados.forEach(gf => {
     metodosGastosWeb.mostrarGastoWeb("listado-gastos-filtrado-1",gf);
 });
