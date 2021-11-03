@@ -11,10 +11,23 @@ function mostrarDatoEnId(idElemento, valor) {
 }
 
 function mostrarGastoWeb(idElemento,gasto) {
+    let strGasto = `<div class="gasto">
+                    <div class="gasto-descripcion">${gasto.descripcion}</div>
+                    <div class="gasto-fecha">${gasto.fecha}</div> 
+                    <div class="gasto-valor">${gasto.valor}</div> 
+                    <div class="gasto-etiquetas">`;
 
+    for (let eti of gasto.etiquetas){
+        strGasto += `<span class="gasto-etiquetas-etiqueta">${eti}</span>`;
+    }
+
+    strGasto += `</div></div>`;
+
+    document.getElementById(idElemento).innerHTML += strGasto;
 }
 
-function mostrarGastosAgrupadosWeb() {
+function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo) {
+    
 
 }
 
