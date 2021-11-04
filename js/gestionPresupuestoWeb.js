@@ -7,8 +7,8 @@ function mostrarDatoEnId (idElemento, valor) {
     }
 }
 
-function mostrarGastoWeb () {
-
+function mostrarGastoWeb (idElemento, gasto) {
+    let elemento = document.getElementById(idElemento)
 }
 
 function mostrarGastosAgrupadosWeb () {
