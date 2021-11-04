@@ -6,20 +6,24 @@ function mostrarDatoEnId(idElemento, valor) {
     div.appendChild(p);
 }
 
-function mostrarGastoWeb(idElemento, gasto) {
+function mostrarGastoWeb(idElemento, gastos) {
     let div = document.getElementById(idElemento);
-
-    div.innerHTML += 
-    `<div class="gasto">
-        <div class="gasto-descripcion">${gasto.descripcion}</div>
-        <div class="gasto-fecha">${gasto.fecha}</div> 
-        <div class="gasto-valor">${gasto.valor}</div> 
-        <div class="gasto-etiquetas">
-            <span class="gasto-etiquetas-etiqueta">
-            ETIQUETA 1
-            </span>
-        </div> 
-    </div>`
+    for (let gasto of gastos) {
+        for (let eti of gasto.etiquetas) {
+            let 
+        }
+        div.innerHTML += 
+            `<div class="gasto">
+                <div class="gasto-descripcion">${gasto.descripcion}</div>
+                <div class="gasto-fecha">${gasto.fecha}</div> 
+                <div class="gasto-valor">${gasto.valor}</div> 
+                <div class="gasto-etiquetas">
+                    <span class="gasto-etiquetas-etiqueta">
+                    
+                    </span>
+                </div> 
+            </div>`
+    }
 
 
 /*    let eti;
