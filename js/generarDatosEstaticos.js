@@ -33,5 +33,11 @@ let GastoFiltrado3 = GestPres.filtrarGastos(vgasto2);
 GestPresWeb.mostrarGastoWeb('listado-gastos-filtrado-3', GastoFiltrado3);
 
 let vgasto3 = {etiquetasTiene: ['comida', 'transporte'], valorMaximo: '50'};
+let GastoFiltrados4 = GestPres.filtrarGastos(vgasto3);
+
+GestPresWeb.mostrarGastoWeb('listado-gastos-filtrado-4', GastoFiltrados4);
+
+let dia1 = GestPres.agruparGastos("dia");
+
 
 
