@@ -7,26 +7,26 @@ function mostrarDatoEnId(idElemento,valor){
 
 function mostrarGastoWeb(idElemento, gastos)
 {
-    // let elemento = document.getElementById(idElemento);
+    let elemento = document.getElementById(idElemento);
 
-    // for (let arrayGasto of gastos)
-    // {
-    //     let lista = "";
-    //     for (let texto of arrayGasto.etiquetas) 
-    //     {
-    //         lista += `<span class="gasto-etiquetas-etiqueta"> ${texto} </span>`
-    //     }
+    for (let arrayGasto of gastos)
+    {
+        let lista = "";
+        for (let texto of arrayGasto.etiquetas) 
+        {
+            lista += `<span class="gasto-etiquetas-etiqueta"> ${texto} </span>`
+        }
 
-    //     elemento.innerHTML +=
-    //         `<div class="gasto">
-    //             <div class="gasto-descripcion"> ${arrayGasto.descripcion} </div>
-    //             <div class="gasto-fecha">${arrayGasto.fecha}</div> 
-    //             <div class="gasto-valor">${arrayGasto.valor}</div> 
-    //             <div class="gasto-etiquetas">
-    //                 ${lista}
-    //             </div>
-    //         </div>`;
-    // }    
+        elemento.innerHTML +=
+            `<div class="gasto">
+                <div class="gasto-descripcion"> ${arrayGasto.descripcion} </div>
+                <div class="gasto-fecha">${arrayGasto.fecha}</div> 
+                <div class="gasto-valor">${arrayGasto.valor}</div> 
+                <div class="gasto-etiquetas">
+                    ${lista}
+                </div>
+            </div>`;
+    }    
 
 }
 

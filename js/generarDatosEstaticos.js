@@ -32,45 +32,45 @@ gestionPresupuestoWeb.mostrarDatoEnId('gastos-totales', gestionPresupuesto.calcu
 //Mostrar el balance total en div#balance-total
 gestionPresupuestoWeb.mostrarDatoEnId('balance-total', gestionPresupuesto.calcularBalance());
 
-// //Mostrar el listado completo de gastos en div#listado-gastos-completo
-// gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-completo', gestionPresupuesto.listarGastos());
+//Mostrar el listado completo de gastos en div#listado-gastos-completo
+gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-completo', gestionPresupuesto.listarGastos());
 
-// //Mostrar el listado de gastos realizados en septiembre de 2021 en div#listado-gastos-filtrado-1
-// let septiembre2021 = 
-// {
-//     fechaDesde: '2021-09-01', 
-//     fechaHasta: '2021-09-30'
-// }
-// gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-1', gestionPresupuesto.filtrarGastos(septiembre2021));
+//Mostrar el listado de gastos realizados en septiembre de 2021 en div#listado-gastos-filtrado-1
+let septiembre2021 = 
+{
+    fechaDesde: '2021-09-01', 
+    fechaHasta: '2021-09-30'
+}
+gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-1', gestionPresupuesto.filtrarGastos(septiembre2021));
 
-// //Mostrar el listado de gastos de más de 50€ en div#listado-gastos-filtrado-2
-// let mas50 =
-// {
-//     valorMinimo: 50
-// }
-// gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-2', gestionPresupuesto.filtrarGastos(mas50));
+//Mostrar el listado de gastos de más de 50€ en div#listado-gastos-filtrado-2
+let mas50 =
+{
+    valorMinimo: 50
+}
+gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-2', gestionPresupuesto.filtrarGastos(mas50));
 
-// //Mostrar el listado de gastos de más de 200€ con etiqueta seguros en div#listado-gastos-filtrado-3
-// mas200conseguros =
-// {
-//     valorMinimo: 200,
-//     etiquetaTiene: ['seguros']
-// }
-// gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-3', gestionPresupuesto.filtrarGastos(mas200conseguros));
+//Mostrar el listado de gastos de más de 200€ con etiqueta seguros en div#listado-gastos-filtrado-3
+let mas200conSeguros =
+{
+    valorMinimo: 200,
+    etiquetaTiene: ['seguros']
+}
+gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-3', gestionPresupuesto.filtrarGastos(mas200conSeguros));
 
-// //Mostrar el listado de gastos que tengan las etiquetas comida o transporte de menos de 50€ en div#listado-gastos-filtrado-4
-// menos50conetiquetas =
-// {
-//     valorMaximo: 50,
-//     etiquetaTiene: ['comida', 'transporte']
-// }
-// gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-4', gestionPresupuesto.filtrarGastos(menos50conetiquetas));
+//Mostrar el listado de gastos que tengan las etiquetas comida o transporte de menos de 50€ en div#listado-gastos-filtrado-4
+let menos50conetiquetas =
+{
+    valorMaximo: 50,
+    etiquetaTiene: ['comida', 'transporte']
+}
+gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-4', gestionPresupuesto.filtrarGastos(menos50conetiquetas));
 
-// //Mostrar el total de gastos agrupados por día en div#agrupacion-dia
-
-
-// //Mostrar el total de gastos agrupados por mes en div#agrupacion-mes
+//Mostrar el total de gastos agrupados por día en div#agrupacion-dia
 
 
-// //Mostrar el total de gastos agrupados por año en div#agrupacion-anyo
+//Mostrar el total de gastos agrupados por mes en div#agrupacion-mes
+
+
+//Mostrar el total de gastos agrupados por año en div#agrupacion-anyo
 
