@@ -46,3 +46,24 @@ let gastoSept = gestionPresupuesto.filtrarGastos({fechaDesde: "2021-09-01", fech
 for (let gasto of gastoSept){
     gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1",gasto);
 }
+    /* gastoSept = objeto con diferentes propiedades
+        tengo que recorrer esas propiedades para mostrarGastoWeb
+    */
+
+// Mostrar gastos superiores a 50€
+let gasto50 = gestionPresupuesto.filtrarGastos({valorMinimo: 50});
+for (let g of gasto50){
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2",g);
+}
+
+// Mostrar gastos superiores a 200€ con etiqueta "seguros"
+let gastofilt3 = gestionPresupuesto.filtrarGastos({valorMinimo: 200, etiquetasTiene: ["seguros"]});
+for (let g of gastofilt3) {
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3",g);
+}
+
+// Mostrar gastos que contengan las etiquetas "comida" "transporte" e inferiores a 50€
+let gastofilt4 = gestionPresupuesto.filtrarGastos({valorMaximo: 50, etiquetasTiene: ["comida","transporte"]});
+for (let g of gastofilt4){
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4",g);
+}
