@@ -42,12 +42,7 @@ for (let list of gestionPresupuesto.listarGastos()) {
 }
 
 // Mostrar gastos filtrados sept2021
+/*
 let gastoSept = gestionPresupuesto.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"});
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1",gastoSept);
-
-/* con esta función petan los test
-1) Generación de datos estáticos
-Función mostrarDatoEnId:
-TypeError: The following error originated from your application code, not from Cypress.
-
-> gasto.etiquetas is not iterable */
+*/
