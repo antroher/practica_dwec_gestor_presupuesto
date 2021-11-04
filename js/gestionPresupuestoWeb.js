@@ -34,16 +34,16 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
     let elemento = document.getElementById(idElemento);
     
     let lista = ""
-    for (let [name, valor] of Object.entries(agrup))
+    for (let [nombre, valor] of Object.entries(agrup))
     {
         lista +=    `<div class="agrupacion-dato">
-                        <span class="agrupacion-dato-clave">${name}</span>
-                        <span class="agrupacion-dato-valor">${valor}</span>
+                        <span class="agrupacion-dato-clave"> ${nombre} </span>
+                        <span class="agrupacion-dato-valor"> ${valor} </span>
                     </div>`
     };
 
     elemento.innerHTML +=   `<div class="agrupacion">
-                                <h1>Gastos agrupados por ${periodo}</h1>
+                                <h1> Gastos agrupados por ${periodo} </h1>
 
                             ${lista}`
 }

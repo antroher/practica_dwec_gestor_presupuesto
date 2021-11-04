@@ -67,10 +67,10 @@ let menos50conetiquetas =
 gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-4', gestionPresupuesto.filtrarGastos(menos50conetiquetas));
 
 //Mostrar el total de gastos agrupados por día en div#agrupacion-dia
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-dia',gestionPresupuesto.agruparGastos(), 'dia')
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-dia', gestionPresupuesto.agruparGastos('dia'), 'día');
 
 //Mostrar el total de gastos agrupados por mes en div#agrupacion-mes
-
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-mes', gestionPresupuesto.agruparGastos('mes'), 'mes');
 
 //Mostrar el total de gastos agrupados por año en div#agrupacion-anyo
-
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-anyo', gestionPresupuesto.agruparGastos('anyo'), 'año');
