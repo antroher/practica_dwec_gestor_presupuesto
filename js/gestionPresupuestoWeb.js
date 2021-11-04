@@ -2,9 +2,8 @@
 function mostrarDatoEnId (idElemento, valor) {
     let elemento = document.getElementById(idElemento);
     let parrafo = document.createElement("p");
-    if(id == elemento) {
-        parrafo.textContent(valor)
-    }
+    parrafo.textContent = valor;
+    elemento.appendChild("p");
 }
 
 function mostrarGastoWeb (idElemento, gasto) {
