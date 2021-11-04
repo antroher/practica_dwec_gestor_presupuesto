@@ -4,7 +4,7 @@
   El uso de eventos nos permitirá dotar de *interactividad* a la aplicación que estamos desarrollando: el usuario podrá interactuar con dicha aplicación para introducir datos y realizar modificaciones en su estado.
   
 ** Repositorio de la práctica
-   El *repositorio base* de la práctica está disponible en: https://github.com/pedroprieto/practica_dwec_gestor_presupuesto
+   El *repositorio base* de la práctica está disponible en: https://github.com/antroher/practica_dwec_gestor_presupuesto
 
    Se supone que ya está configurado el *repositorio personal* y el *remoto secundario* (~profesor~). Si no es así, revisa las instrucciones de las prácticas anteriores. En el apartado de *Preparación* se indica cómo proceder.
    
@@ -203,5 +203,5 @@ El repositorio se ha configurado para que se *ejecuten los tests automáticament
 - Cada persona trabajará en su *repositorio personal* que habrá creado tras realizar el /fork/ del repositorio base.
 - Todos los archivos de la práctica se guardarán en el repositorio y se subirán a GitHub periódicamente. Es conveniente ir subiendo los cambios aunque no sean definitivos. *No se admitirán entregas de tareas que tengan un solo commit*.
 - *Como mínimo* se debe realizar *un commit* por *cada elemento de la lista de tareas* a realizar (si es que estas exigen crear código, claro está).
-- Para cualquier tipo de *duda o consulta* se pueden abrir ~Issues~ haciendo referencia al profesor mediante el texto ~@pedroprieto~ dentro del texto del ~Issue~.
+- Para cualquier tipo de *duda o consulta* se pueden abrir ~Issues~ haciendo referencia al profesor mediante el texto ~@antroher~ dentro del texto del ~Issue~.
 - Una vez *finalizada* la tarea se debe realizar una ~Pull Request~ al repositorio base indicando tu *nombre y apellidos* en el mensaje.
