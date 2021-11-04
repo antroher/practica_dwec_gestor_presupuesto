@@ -1,7 +1,6 @@
 'use strict'
 
 
-
 function mostrarDatoEnId(idElemento ,valor){
 
     let elem = document.getElementById(idElemento);
@@ -43,7 +42,7 @@ function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
                         </div> `
     }
     string1 += `</div>`
-    
+
     document.getElementById(idElemento).innerHTML += string1;
                  
 }

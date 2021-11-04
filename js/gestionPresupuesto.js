@@ -22,7 +22,7 @@ var IDGasto = 0;
 
     function mostrarPresupuesto() {
         // TODO
-        return`Tu presupuesto actual es de ${presupuesto} €`;
+        return `Tu presupuesto actual es de ${presupuesto} €`;
     }
 
     function CrearGasto(desc,numIntroducido,fecha = Date.now(),...etiq) {
