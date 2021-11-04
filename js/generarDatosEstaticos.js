@@ -42,7 +42,7 @@ for (let list of gestionPresupuesto.listarGastos()) {
 }
 
 // Mostrar gastos filtrados sept2021
-/*
 let gastoSept = gestionPresupuesto.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"});
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1",gastoSept);
-*/
+for (let gasto of gastoSept){
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1",gasto);
+}
