@@ -27,8 +27,11 @@ function mostrarGastoWeb(idElemento, gastos) {
             <div class="gasto-fecha">${gasto.fecha}</div> 
             <div class="gasto-valor">${gasto.valor}</div> 
             <div class="gasto-etiquetas">
-            ${data}`;
-        // elemento.innerHTML += span.innerHTML + "</div>";
+            ${data}
+            </div>
+            <button class="gasto-editar" type="button">Editar</button>
+            <button class="gasto-borrar" type="button">Borrar</button>
+            `;
     }
 }
 
@@ -53,20 +56,20 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
 function repintar() {
     //Presupuesto
     let mostPresupuesto = gestionPresupuesto.mostrarPresupuesto();
-    gestionPresupuestoWeb.mostrarDatoEnId('presupuesto', mostPresupuesto);
+    mostrarDatoEnId('presupuesto', mostPresupuesto);
 
     //Total de gastos
     let calcularTotalGastos = gestionPresupuesto.calcularTotalGastos();
-    gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales", calcularTotalGastos);
+    mostrarDatoEnId("gastos-totales", calcularTotalGastos);
 
     //Balance actual
     let calcularBalance = gestionPresupuesto.calcularBalance();
-    gestionPresupuestoWeb.mostrarDatoEnId("balance-total", calcularBalance);
+    mostrarDatoEnId("balance-total", calcularBalance);
 
     //Borrar div#listado-gastos-completo | Listado con los gastos y sus datos
     document.getElementById("listado-gastos-completo").innerHTML = "";
     let listaGastos = gestionPresupuesto.listarGastos();
-    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", listaGastos);
+    mostrarGastoWeb("listado-gastos-completo", listaGastos);
 }
 
 function formatearFecha(date) {
@@ -99,26 +102,32 @@ function nuevoGastoWeb() {
     repintar();
 }
 
-function EditarHandle(gasto1) {
-    handleEvent(event) {
-        let gasto = Object.create(gasto1);
-        let descripcion1 = prompt("Introduzca la nueva descripción: ");
-        let valor1 = parseFloat(prompt("Introduzca el nuevo valor: "));
-        let fecha1 = formatearFecha(Date.parse(prompt("Introduzca la nueva fecha: ")));
-        let etiquetas1 = prompt("Introduce las etiquetas: ").split(",");
-        this.gasto.actualizarValor(valor1);
-        this.gasto.actualizarDescripcion(descripcion1);
-        this.gasto.actualizarFecha(fecha1);
-        this.gasto.actualizarEtiquetas(etiquetas1);
-        repintar();
-    }
+/* https://stackoverflow.com/questions/2230992/javascript-creating-objects-based-on-a-prototype-without-using-new-constructo*/
+function EditarHandle() {
+        let editGasto = Object.create(this.gasto);
+            editGasto.handleEvent = function(event) {
+            let descripcion1 = prompt("Introduzca la nueva descripción: ");
+            let valor1 = parseFloat(prompt("Introduzca el nuevo valor: "));
+            let fecha1 = formatearFecha(Date.parse(prompt("Introduzca la nueva fecha: ")));
+            let etiquetas1 = prompt("Introduce las etiquetas: ").split(",");
+            // editGasto.gasto.actualizarValor(valor1);
+            // editGasto.gasto.actualizarDescripcion(descripcion1);
+            // editGasto.gasto.actualizarFecha(fecha1);
+            // editGasto.gasto.actualizarEtiquetas(etiquetas1);
+            this.gasto.actualizarValor(valor1);
+            this.gasto.actualizarDescripcion(descripcion1);
+            this.gasto.actualizarFecha(fecha1);
+            this.gasto.actualizarEtiquetas(etiquetas1);
+            repintar();
+        }
+    
 }
 
-function BorrarHandle(gasto1) {
-    let gasto = Object.create(gasto1);
+function BorrarHandle() {
+    let gasto = Object.create(this.gasto);
     gasto = {
         handleEvent(event) {
-            this.gasto.gasto = this.gasto;
+            gestionPresupuesto.borrarGasto(this.gasto);
         }
     }
 }
@@ -126,6 +135,8 @@ function BorrarHandle(gasto1) {
 //Botones
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
+const gastoEditar = document.getElementById("gasto-editar");
+const gastoBorrar = document.getElementById("gasto-borrar");
 
 //Eventos
 actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
