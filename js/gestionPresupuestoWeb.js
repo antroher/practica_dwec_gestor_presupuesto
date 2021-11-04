@@ -2,9 +2,9 @@
 
 
 function mostrarDatoEnId(idElemento ,valor){
-
+    
     let elem = document.getElementById(idElemento);
-    let parrafo = document.createElement("p");
+    let parrafo = document.createElement('p');
     parrafo.textContent = valor;
     elem.appendChild(parrafo);
             
@@ -12,18 +12,18 @@ function mostrarDatoEnId(idElemento ,valor){
 
 function mostrarGastoWeb(idElemento ,gastos){
 
-    /* Coloco el primer bloque de código html ya que este no va a variar .*/
+    /* Coloco el primer bloque de código html ya que este no va a variar ----------------------------------------------------------------------------.*/
     let string1 = `<div class="gasto">
                             <div class="gasto-descripcion"> ${gasto.descripcion} </div>
                             <div class="gasto-fecha"> ${gasto.fecha} </div>
                             <div class="gasto-valor"> ${gasto.valor} </div>
-                            <div class="gasto-etiquetas">`
+                            <div class="gasto-etiquetas">`;
 
-    for(let etiq of gastos.etiquetas)
-        {
-            string1 += ` <span class="gasto-etiquetas-etiqueta"> ${etiq} </span> `
-        }
-    string1 += `</div></div>`
+    /*Recorro el array de etiquetas de cada gasto y las voy añadiendo mientras queden. Ayuda de antonio clase. -------------------------------------------*/                        
+    for(let etiq of gastos.etiquetas)       
+            string1 += ` <span class="gasto-etiquetas-etiqueta"> ${etiq} </span> `;
+        
+    string1 += `</div></div>`;
 
     document.getElementById(idElemento).innerHTML += string1;
 
@@ -34,14 +34,14 @@ function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
     let string1 = `<div class="agrupacion">
                         <h1>Gastos agrupados por ${periodo}</h1>`
     
-    for(let elem of agrup)
+    for(let elem in agrup)
     {
         string1 += `<div class="agrupacion-dato">
                         <span class="agrupacion-dato-clave">${elem} </span>
                         <span class="agrupacion-dato-valor">${agrup[elem]}</span
-                        </div> `
+                        </div> `;
     }
-    string1 += `</div>`
+    string1 += `</div>`;
 
     document.getElementById(idElemento).innerHTML += string1;
                  
@@ -50,7 +50,7 @@ function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
 
 
 /*Exportar las funciones necesarias.*/ 
-export{
+export {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb

@@ -1,3 +1,4 @@
+
 /*1.-Importar js necesarios.-----------------------------*/
 import * as gestionPresupuesto from "./gestionPresupuesto.js";
 import * as gestionPresupuestoWeb from "./gestionPresupuestoWeb.js";
@@ -30,11 +31,20 @@ gestionPresupuesto.anyadirGasto(gasto6);
 
 /*6.-Mostrar los gastos totales en div#gastos-totales (funciones calcularTotalGastos y mostrarDatoEnId)----------------------*/
 let gastosTotales = gestionPresupuesto.calcularTotalGastos();
-gestionPresupuesto.mostrarDatoEnId("gastos-totales",gastosTotales);
+gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales",gastosTotales);
 
 /*7.- Mostrar el balance total en div#balance-total (funciones calcularBalance y mostrarDatoEnId)----------------------*/
 let balanceTotal = gestionPresupuesto.calcularBalance();
-gestionPresupuesto.mostrarDatoEnId("balance-total", balanceTotal);
+gestionPresupuestoWeb.mostrarDatoEnId("balance-total", balanceTotal); 
 
 /*8.- Mostrar el listado ---completo de gastos en div#listado-gastos-completo (funciones listarGastos y mostrarGastoWeb)-----------------*/
+let listaGastos = gestionPresupuesto.listarGastos();
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo",listaGastos)
+
+/*9.- Mostrar el listado de gastos realizados en septiembre de 2021 en div#listado-gastos-filtrado-1 (funciones filtrarGastos y mostrarGastoWeb)--------------------------------- */
+let objetoGasto = {fechaDesde : "01-09-2021",fechaHasta : "31-09-2021"};
+let gastosFiltrados = gestionPresupuesto.filtrarGastos(objetoGasto);
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1",gastosFiltrados);
+
+/*10.- Mostrar el listado de gastos de más de 50€ en div#listado-gastos-filtrado-2 (funciones filtrarGastos y mostrarGastoWeb)-------------------------------------- */
 
