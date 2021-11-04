@@ -67,3 +67,17 @@ let gastofilt4 = gestionPresupuesto.filtrarGastos({valorMaximo: 50, etiquetasTie
 for (let g of gastofilt4){
     gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4",g);
 }
+
+// Mostrar gastos agrupados por dia
+let agrupDia = gestionPresupuesto.agruparGastos("dia");
+
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia",agrupDia,dia);
+
+// Mostrar gastos agrupados por mes
+let agrupMes = gestionPresupuesto.agruparGastos("mes");
+
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes",agrupMes,mes);
+// Mostrar gastos agrupados por año
+let agrupAnyo = gestionPresupuesto.agruparGastos("anyo");
+
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo",agrupAnyo,anyo);
