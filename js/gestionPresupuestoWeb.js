@@ -1,4 +1,4 @@
-"use strict";
+/*"use strict";
 function mostrarDatoEnId (idElemento, valor)
 {
   let elemento = document.getElementById(idElemento);
@@ -7,9 +7,15 @@ function mostrarDatoEnId (idElemento, valor)
   // Le pongo el valor de idElemente a párrafo
   parrafo.document.textContent(valor);
   //añade el valor el contenido de parrafo al Elemento, es decir, al HTML
-  elemento.appenChild(parrafo);
+  elemento.innerHTML(parrafo);
 }
-
+*/
+"use strict"
+function mostrarDatoEnId(idElemento,valor){
+    let datId = document.getElementById(idElemento);
+    datId.innerHTML += `<p>${valor}</p>`
+    
+}
 function mostrarGastoWeb(idElemento, gastos )/*HAY Q PASARLE UN ARRAY DE GASTO*/ 
 {
   let elemento = document.getElementById(idElemento);
@@ -17,10 +23,10 @@ function mostrarGastoWeb(idElemento, gastos )/*HAY Q PASARLE UN ARRAY DE GASTO*/
 
   for (let i of gastos.etiquetas)
   { 
-    //guardamos enuna variable todas las etiquetas 
+    //guardamos en una variable todas las etiquetas 
     divEtiquetas += `
     <span class="gasto-etiquetas-etiqueta">
-        ${i}
+        ${i.valor}
     </span>
     `
   }
@@ -87,7 +93,7 @@ Así, para el ejemplo de agrup dado antes se deberá generar un código como el 
     <span class="agrupacion-dato-valor">39</span>
   </div>
 </div>*/
-function mostrarGastosAgrupadosWeb()
+function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
 {
 
 }
@@ -95,9 +101,8 @@ function mostrarGastosAgrupadosWeb()
 
 
 
-
 export{
   mostrarDatoEnId,
   mostrarGastoWeb,
-  mostrarGastosAgrupadosWeb 
+  mostrarGastosAgrupadosWeb
 }
