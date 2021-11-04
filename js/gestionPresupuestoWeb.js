@@ -1,11 +1,28 @@
+
 function mostrarDatoEnId(idElemento, valor) {
-    document.createElement("p");
+    let div = document.getElementById(idElemento);
+    let p = document.createElement('p');
     p.textContent = valor;
-    idElemento.appendChild(p);
+    div.appendChild(p);
 }
 
-/*function mostrarGastoWeb(idElemento, gasto) {
-    let eti;
+function mostrarGastoWeb(idElemento, gasto) {
+    let div = document.getElementById(idElemento);
+
+    div.innerHTML += 
+    `<div class="gasto">
+        <div class="gasto-descripcion">${gasto.descripcion}</div>
+        <div class="gasto-fecha">${gasto.fecha}</div> 
+        <div class="gasto-valor">${gasto.valor}</div> 
+        <div class="gasto-etiquetas">
+            <span class="gasto-etiquetas-etiqueta">
+            ETIQUETA 1
+            </span>
+        </div> 
+    </div>`
+
+
+/*    let eti;
     for (let i = 0; i < gasto.etiquetas.length; i++) {
         if (i === gasto.etiquetas.length - 1) {
             eti += '<span class="gasto-etiquetas-etiqueta">${gasto.etiquetas[i]}</span><br/>';
@@ -19,12 +36,6 @@ function mostrarDatoEnId(idElemento, valor) {
                                     <div class="gasto-valor">`${gasto.valor}`</div><br/>
 
 }*/
-    
-
-    
-        
-    
-
     /*foreach (gasto) {
         let div = document.createElement('div');
         div.className = gasto;
@@ -52,7 +63,8 @@ function mostrarDatoEnId(idElemento, valor) {
             
         // </div>
         // `
-   
+}
+
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
 
 }
