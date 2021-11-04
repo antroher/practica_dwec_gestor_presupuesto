@@ -10,6 +10,10 @@ function mostrarGastoWeb (idElemento, gasto) {
     let elemento = document.getElementById(idElemento);
     for (let gasto of gastos) {
         let data = "";
+
+        for(let etiqueta of gasto.etiquetas) {
+            data += `<span class="gasto-etiquetas-etiqueta">${etiqueta}</span>
+        }
     }
 
 }
