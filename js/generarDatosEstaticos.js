@@ -40,7 +40,14 @@ gestionPresupuestoWeb.mostrarDatoEnId("balance-total",balanceTotal);
 for (let list of gestionPresupuesto.listarGastos()) {
     gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo",list);
 }
-/*
+
 // Mostrar gastos filtrados sept2021
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1",gestionPresupuesto.filtrarGastos({fechaDesde: "2021-09", fechaHasta: "2021-09"}));
-*/
+let gastoSept = gestionPresupuesto.filtrarGastos({fechaDesde: "2021-09", fechaHasta: "2021-09"});
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1",gastoSept);
+
+/* con esta función petan los test
+1) Generación de datos estáticos
+Función mostrarDatoEnId:
+TypeError: The following error originated from your application code, not from Cypress.
+
+> gasto.etiquetas is not iterable */
