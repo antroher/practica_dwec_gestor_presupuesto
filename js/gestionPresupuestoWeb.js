@@ -1,46 +1,45 @@
-/*"use strict";
+"use strict";
 function mostrarDatoEnId (idElemento, valor)
 {
   let elemento = document.getElementById(idElemento);
   //Creo el elemento p para guardar lo que hay dentro de idElement.
   let parrafo = document.createElement("p");
   // Le pongo el valor de idElemente a párrafo
-  parrafo.document.textContent(valor);
+  parrafo.textContent = valor;
   //añade el valor el contenido de parrafo al Elemento, es decir, al HTML
-  elemento.innerHTML(parrafo);
+  elemento.appendChild(parrafo);
 }
-*/
-"use strict"
-function mostrarDatoEnId(idElemento,valor){
-    let datId = document.getElementById(idElemento);
-    datId.innerHTML += `<p>${valor}</p>`
-    
-}
+
+
 function mostrarGastoWeb(idElemento, gastos )/*HAY Q PASARLE UN ARRAY DE GASTO*/ 
 {
   let elemento = document.getElementById(idElemento);
-  let divEtiquetas = "";
-
-  for (let i of gastos.etiquetas)
+  
+  for (let i of gastos)
   { 
+    let divEtiquetas = "";
+      for(let j of i.etiquetas)
+      {
+        divEtiquetas += `
+        <span class="gasto-etiquetas-etiqueta">
+            ${j}
+        </span>
+        `
+      }
     //guardamos en una variable todas las etiquetas 
-    divEtiquetas += `
-    <span class="gasto-etiquetas-etiqueta">
-        ${i.valor}
-    </span>
-    `
+   //modificamos el elemento html
+    elemento.innerHTML += `
+    <div class="gasto">
+    <div class="gasto-descripcion">${i.descripcion}</div>
+    <div class="gasto-fecha">${i.fecha}</div>
+    <div class="gasto-valor">${i.valor}</div>
+    <div class="gasto-etiquetas">
+    ${divEtiquetas}
+    </div>
+    </div>
+    `;
   }
-  //modificamos el elemento html
-  elemento.innerHTML += `
-  <div class="gasto">
-  <div class="gasto-descripcion">${gastos.descripcion}</div>
-  <div class="gasto-fecha">${gastos.fecha}</div>
-  <div class="gasto-valor">${gastos.valor}</div>
-  <div class="gasto-etiquetas">
-  ${divEtiquetas}
-  </div>
-  </div>
-  `;
+  
 }
 
 
@@ -93,9 +92,23 @@ Así, para el ejemplo de agrup dado antes se deberá generar un código como el 
     <span class="agrupacion-dato-valor">39</span>
   </div>
 </div>*/
-function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
-{
 
+
+function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
+  const Elemen = document.getElementById(idElemento);
+  let datos = ""
+  for (let [llave, val] of Object.entries(agrup)) {
+      datos += 
+      `<div class="agrupacion-dato">
+          <span class="agrupacion-dato-clave">${llave}</span>
+          <span class="agrupacion-dato-valor">${val}</span>
+      </div>`
+  };
+  Elemen.innerHTML += 
+  `<div class="agrupacion">
+      <h1>Gastos agrupados por ${periodo}</h1>
+      ${datos}
+  `
 }
 
 

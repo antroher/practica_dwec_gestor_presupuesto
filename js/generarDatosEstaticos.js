@@ -1,34 +1,37 @@
 //Importar los programas 
-import * as say from './gestionPresupuesto.js';
-import * as say from './gestionPresupuestoWeb.js';
+import * as gestionPresupuesto from './gestionPresupuesto.js';
+import * as gestionPresupuestoWeb from './gestionPresupuestoWeb.js';
 
 //Actualizar el presupuesto a 1500€ 
 gestionPresupuesto.actualizarPresupuesto(1500);
 
-//Mostrar el presupuesto en el div#presupuesto (funciones mostrarPresupuesto y mostrarDatoEnId)
-gestionPresupuesto.actualizarPresupuesto
+//Mostrar el presupuesto en el div#presupuesto (funciones mostrarPresupuesto y mostrarDatoEnId
+gestionPresupuestoWeb.mostrarDatoEnId("presupuesto",gestionPresupuesto.mostrarPresupuesto());
 
-GastosGenWeb.mostrarDatoEnId("presupuesto",GastosGen.mostrarPresupuesto());
+ gestionPresupuesto.anyadirGasto(gestionPresupuesto.CrearGasto("Compra carne",23.44, "2021-10-06", "casa", "comida"));
+ gestionPresupuesto.anyadirGasto(gestionPresupuesto.CrearGasto("Compra fruta y verdura", 14.25, "2021-09-06", "supermercado", "comida"));
+ gestionPresupuesto.anyadirGasto(gestionPresupuesto.CrearGasto("Bonobús", 18.60, "2020-05-26", "transporte"));
+ gestionPresupuesto.anyadirGasto(gestionPresupuesto.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina"));
+ gestionPresupuesto.anyadirGasto(gestionPresupuesto.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros"));
+ gestionPresupuesto.anyadirGasto(gestionPresupuesto.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros"));
 
- GastosGen.anyadirGasto(GastosGen.CrearGasto("Compra carne",23.44, "2021-10-06", "casa", "comida"));
- GastosGen.anyadirGasto(GastosGen.CrearGasto("Compra fruta y verdura", 14.25, "2021-09-06", "supermercado", "comida"));
- GastosGen.anyadirGasto(GastosGen.CrearGasto("Bonobús", 18.60, "2020-05-26", "transporte"));
- GastosGen.anyadirGasto(GastosGen.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina"));
- GastosGen.anyadirGasto(GastosGen.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros"));
- GastosGen.anyadirGasto(GastosGen.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros"));
-
-GastosGenWeb.mostrarDatoEnId("gastos-totales", GastosGen.calcularTotalGastos());
-GastosGenWeb.mostrarDatoEnId("balance-total",GastosGen.calcularBalance());
+gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales", gestionPresupuesto.calcularTotalGastos());
+gestionPresupuestoWeb.mostrarDatoEnId("balance-total",gestionPresupuesto.calcularBalance());
 
 //Listado de Gastos
-GastosGenWeb.mostrarGastoWeb("listado-gastos-completo", GastosGen.listarGastos())
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", gestionPresupuesto.listarGastos());
 
 //Listado de gastos filtrados
-GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-1",GastosGen.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"}))
-GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-2",GastosGen.filtrarGastos({valorMinimo:50}))
-GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-3",GastosGen.filtrarGastos({valorMinimo: 200, etiquetasTiene:["seguros"]}))
-GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-4", GastosGen.filtrarGastos({valorMaximo: 50, etiquetasTiene:["comida","transporte"]}));
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1",gestionPresupuesto.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"}))
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2",gestionPresupuesto.filtrarGastos({valorMinimo:50}))
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3",gestionPresupuesto.filtrarGastos({valorMinimo: 200, etiquetasTiene:["seguros"]}))
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gestionPresupuesto.filtrarGastos({valorMaximo: 50, etiquetasTiene:["comida","transporte"]}));
+/*
 //Listado de gastos por año,mes,dia
-GastosGen.agruparGastos("agrupacion-dia",GastosGenWeb.mostrarGastosAgrupadosWeb("dia"))
-GastosGen.agruparGastos("agrupacion-mes",GastosGenWeb.mostrarGastosAgrupadosWeb("mes"))
-GastosGen.agruparGastos("agrupacion-mes",GastosGenWeb.mostrarGastosAgrupadosWeb("anyo"))
+gestionPresupuesto.agruparGastos("agrupacion-dia");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("dia");
+gestionPresupuesto.agruparGastos("agrupacion-mes");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("mes");
+gestionPresupuesto.agruparGastos("agrupacion-mes");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("anyo");
+*/
