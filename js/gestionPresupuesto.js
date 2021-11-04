@@ -145,7 +145,7 @@ function filtrarGastos(objetoDelGasto){
                         return;
     
             }
-            if(objetoDelGasto.hasOwnProperty("etiquetasTiene")){
+            if(objetoDelGasto.hasOwnProperty("etiquetasTiene") && Array.isArray(objetoDelGasto.etiquetasTiene)){
                 if(objetoDelGasto.etiquetasTiene.length != 0){
                     let devu =false;
 

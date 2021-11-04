@@ -25,6 +25,14 @@ GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-2",GastosGen.filtrarGastos
 GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-3",GastosGen.filtrarGastos({valorMinimo: 200, etiquetasTiene:["seguros"]}))
 GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-4", GastosGen.filtrarGastos({valorMaximo: 50, etiquetasTiene:["comida","transporte"]}));
 //Listado de gastos por año,mes,dia
-GastosGen.agruparGastos("agrupacion-dia",GastosGenWeb.mostrarGastosAgrupadosWeb("dia"))
-GastosGen.agruparGastos("agrupacion-mes",GastosGenWeb.mostrarGastosAgrupadosWeb("mes"))
-GastosGen.agruparGastos("agrupacion-mes",GastosGenWeb.mostrarGastosAgrupadosWeb("anyo"))
+
+let gastoAgrupado1 = GastosGen.agruparGastos("dia")
+GastosGen.agruparGastos("agrupacion-dia",gastoAgrupado1,"dia")
+
+//=============================
+let gastoAgrupado2 = GastosGen.agruparGastos("mes")
+GastosGen.agruparGastos("agrupacion-mes",gastoAgrupado2,"mes")
+//=============================
+let gastoAgrupado3 = GastosGen.agruparGastos("anyo")
+
+GastosGen.agruparGastos("agrupacion-mes",gastoAgrupado3,"anyo")
