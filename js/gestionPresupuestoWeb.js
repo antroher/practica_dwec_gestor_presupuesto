@@ -2,18 +2,32 @@ import * as gestionPresupuesto from './gestionPresupuesto.js';
 
 function mostrarDatoEnId(idElemento, valor) {
 
-    let div = document.createElement("div");
+    let p = document.createElement("p");
     let elemento = document.getElementById(idElemento);
 
     div.textContent = valor;
-    elemento.appendChild(div);
+    elemento.appendChild(p);
 
 }
 
-function mostrarGastoWeb() {
+function mostrarGastoWeb(idElemento, valor) {
+    
+    let elemento = document.getElementById(idElemento);
 
+    for(){
+
+    }
+    
 }
 
 function mostrarGastoAgrupadosWeb() {
 
+}
+
+
+
+export {
+    mostrarDatoEnId,
+    mostrarGastoAgrupadosWeb,
+    mostrarGastoWeb
 }
