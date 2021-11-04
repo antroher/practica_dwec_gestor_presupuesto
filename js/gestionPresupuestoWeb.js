@@ -29,18 +29,22 @@ function mostrarDatoEnId(idElemento,valor){
     }
     
         function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
-            // let elemento = document.getElementById(idElemento);
-            // elemento.innerHTML += 
-            // "<div class='agrupacion'>\n" + 
-            // "<h1>Gastos agrupados por " + periodo + "</h1>\n"
-            // for(let prop in agrup){
-            //     elemento.innerHTML += 
-            //     "<div class='agrupacion-dato'>\n" +
-            //     "<span class='agrupacion-dato-clave'>" + prop + ": </span>\n" +
-            //     "<span class='agrupacion-dato-valor'>" + agrup[prop] + "</span>\n"+
-            //     "</div>\n";
-            // }
-            // elemento.innerHTML += "</div>\n";
+            let elemento = document.getElementById(idElemento);
+
+            //bucle tocho
+          let loco ="";
+            for(let prop in agrup){
+                loco +=
+                "<div class='agrupacion-dato'>" +
+                "<span class='agrupacion-dato-clave'>" + prop + ": </span>" +
+                "<span class='agrupacion-dato-valor'>" + agrup[prop] + "</span>"+
+                "</div>";
+            }
+
+            elemento.innerHTML += 
+            `<div class='agrupacion'> 
+            <h1>Gastos agrupados por ${periodo} </h1>
+            ${loco}`;
         }
 
 

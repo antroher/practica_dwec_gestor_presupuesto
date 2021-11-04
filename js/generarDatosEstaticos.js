@@ -27,12 +27,12 @@ GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-4", GastosGen.filtrarGasto
 //Listado de gastos por año,mes,dia
 
 let gastoAgrupado1 = GastosGen.agruparGastos("dia")
-GastosGen.agruparGastos("agrupacion-dia",gastoAgrupado1,"dia")
+GastosGenWeb.mostrarGastosAgrupadosWeb("agrupacion-dia",gastoAgrupado1,"día")
 
 //=============================
 let gastoAgrupado2 = GastosGen.agruparGastos("mes")
-GastosGen.agruparGastos("agrupacion-mes",gastoAgrupado2,"mes")
+GastosGenWeb.mostrarGastosAgrupadosWeb("agrupacion-mes",gastoAgrupado2,"mes")
 //=============================
 let gastoAgrupado3 = GastosGen.agruparGastos("anyo")
 
-GastosGen.agruparGastos("agrupacion-mes",gastoAgrupado3,"anyo")
+GastosGenWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo",gastoAgrupado3,"año")
