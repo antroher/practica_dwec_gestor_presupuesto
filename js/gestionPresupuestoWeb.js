@@ -1,21 +1,35 @@
+import { calcularTotalGastos } from "./gestionPresupuesto";
+
+/*Importar las funciones necesarias de otros js */
+
+
+
 function mostrarDatoEnId(idElemento ,valor){
 
-        let idhtml = document.getElementsByClassName(idElemento);
-
-        if(idthml)           
-            idhtml.document.write(`${valor}`);
+    let elem = document.getElementById(idElemento);
+    let parrafo = document.createElement("p");
+    parrafo.textContent = valor;
+    elem.appendChild(parrafo);
             
 }
 
-function mostrarGastoWeb(idElemento ,gasto){
+function mostrarGastoWeb(idElemento ,gastos){
 
-    let gastoID = document.getElementsByClassName(idElemento);
+    /* Coloco el primer bloque de código html ya que este no va a variar .*/
+    let string1 = `<div class="gasto">
+                            <div class="gasto-descripcion"> ${gasto.descripcion} </div>
+                            <div class="gasto-fecha"> ${gasto.fecha} </div>
+                            <div class="gasto-valor"> ${gasto.valor} </div>
+                            <div class="gasto-etiquetas">`
 
-    let hijosGasto = gastoId.childNodes;
-    console.log(hijosGasto);
+    for(let etiq of gastos.etiquetas)
+        {
+            let acumulaEtiquetas = "";
+            string1 += ` <span class="gasto-etiquetas-etiqueta"> ${etiq} </span> `
+        }
+    string1 += `</div></div>`
 
-    if(gastoDesc)
-        gastoDesc.document.write(`${gasto.descipcion}`);
+    document.getElementById(idElemento).innerHTML += string1;
 
 }
 

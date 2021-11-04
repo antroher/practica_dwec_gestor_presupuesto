@@ -152,7 +152,9 @@ var IDGasto = 0;
 
         return gasto;
     }*/
-    /*------------------------------COMPROBACIÓN */ 
+    /*------------------------------COMPROBACIÓN */
+
+    
 let gasto1 = new CrearGasto("Gasto 1", 23.55, "2021-09-06", "casa", "supermercado" );
 let gasto2 = new CrearGasto("Gasto 2", 27.55, "2021-11-24", "casa", "supermercado", "comida" );
 
