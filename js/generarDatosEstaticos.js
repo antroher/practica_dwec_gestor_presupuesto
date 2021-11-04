@@ -1,4 +1,6 @@
-import * as gP from './gestionPresupuesto.js'
+"use strict";
+
+import * as gP from './gestionPresupuesto.js';
 import * as gPW from './gestionPresupuestoWeb.js';
 
 //Actualizar el presupuesto a 1500.

@@ -2,8 +2,9 @@
 
 import * as gP from './gestionPresupuesto.js';
 
-document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb());
-document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb());
+document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb);
+document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb);
+
 
 function mostrarDatoEnId(idElemento, valor) {
     let element = document.getElementById(idElemento);
@@ -99,6 +100,9 @@ function nuevoGastoWeb() {
 
     //Volver a imprimir los datos con el nuevo objeto.
     repintar();
+}
+
+function EditarHandle () {
 
 }
 
