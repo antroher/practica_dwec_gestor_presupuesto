@@ -34,5 +34,5 @@ gestionPresupuesto.mostrarDatoEnId("gastos-totales",gastosTotales);
 let balanceTotal = gestionPresupuesto.calcularBalance();
 gestionPresupuesto.mostrarDatoEnId("balance-total", balanceTotal);
 
-/*8.- Mostrar el listado completo de gastos en div#listado-gastos-completo (funciones listarGastos y mostrarGastoWeb)-----------------*/
+/*8.- Mostrar el listado ---completo de gastos en div#listado-gastos-completo (funciones listarGastos y mostrarGastoWeb)-----------------*/
 
