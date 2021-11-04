@@ -150,7 +150,7 @@ function filtrarGastos(objeto) {
             if (!item.descripcion.includes(objeto.descripcionContiene))
                 return;
             }
-            if (objeto.hasOwnProperty("etiquetasTiene")) 
+            if (objeto.hasOwnProperty("etiquetasTiene") && Array.isArray(objeto.etiquetasTiene)) 
             {
                 if (objeto.etiquetasTiene.length != 0)
                 {

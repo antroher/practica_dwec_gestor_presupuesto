@@ -1,5 +1,5 @@
 import * as GesPresu from "./gestionPresupuesto.js";
-import * as GesPresuWeb from "./gestionPresupuestoWeb.js;"
+import * as GesPresuWeb from "./gestionPresupuestoWeb.js";
 //actualizar presu
 GesPresu.actualizarPresupuesto(1500);
 //mostrar presu
@@ -21,7 +21,7 @@ GesPresu.anyadirGasto(gasto6);
 //mostrar gastos totales
 GesPresuWeb.mostrarDatoEnId("gastos-totales",GesPresu.calcularTotalGastos());
 //mostrar balance total
-GesPresuWeb.mostrarDatoEnId("balance-total",GesPresu.calcularTotalGastos());
+GesPresuWeb.mostrarDatoEnId("balance-total",GesPresu.calcularBalance());
 //mostrar listado gastos
 /*
 GesPresuWeb.mostrarGastoWeb("listado-gastos-completo",GesPresu.listarGastos());

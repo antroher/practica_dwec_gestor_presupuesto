@@ -1,8 +1,8 @@
 
 
-function mostrarDatoEnId(valor,idElemento){
+function mostrarDatoEnId(idElemento,valor){
     let elemento = document.getElementById(idElemento);
-    elemento.innerHTML += `<p>{$valor}</p>`   
+    elemento.innerHTML += `<p>${valor}</p>`;  
 }
 
 function mostrarGastoWeb(idElemento,gasto){
