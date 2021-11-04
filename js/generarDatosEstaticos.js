@@ -40,7 +40,7 @@ gestionPresupuestoWeb.mostrarDatoEnId("balance-total",balanceTotal);
 for (let list of gestionPresupuesto.listarGastos()) {
     gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo",list);
 }
-
+/*
 // Mostrar gastos filtrados sept2021
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1",gestionPresupuesto.filtrarGastos({fechaDesde: "2021-09", fechaHasta: "2021-09"}));
-
+*/
