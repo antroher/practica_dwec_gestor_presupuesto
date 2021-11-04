@@ -23,74 +23,25 @@ function mostrarGastoWeb(idElemento, gastos) {
                 <div class="gasto-etiquetas">
                 ${aux}`;
     }
+}
 
-    function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
-        const elemento = document.querySelector("#"+idElemento);
-        let data = ""
-        for (let [key, value] of Object.entries(agrup)) {
-            data += `
-            <div class="agrupacion-dato">
-                <span class="agrupacion-dato-clave">${key}</span>
-                <span class="agrupacion-dato-valor">${value}</span>
-            </div>`
-        };
-        elemento.innerHTML += 
-        `
-        <div class="agrupacion">
-            <h1>Gastos agrupados por ${periodo}</h1>
-            ${data}
-        `
-    }
+function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
+    const Elemen = document.getElementById(idElemento);
+    let datos = ""
+    for (let [llave, val] of Object.entries(agrup)) {
+        datos += 
+        `<div class="agrupacion-dato">
+            <span class="agrupacion-dato-clave">${llave}</span>
+            <span class="agrupacion-dato-valor">${val}</span>
+        </div>`
+    };
+    Elemen.innerHTML += 
+    `<div class="agrupacion">
+        <h1>Gastos agrupados por ${periodo}</h1>
+        ${datos}
+    `
     
-
-
-/*    let eti;
-    for (let i = 0; i < gasto.etiquetas.length; i++) {
-        if (i === gasto.etiquetas.length - 1) {
-            eti += '<span class="gasto-etiquetas-etiqueta">${gasto.etiquetas[i]}</span><br/>';
-        } else {
-            eti += '<span class="gasto-etiquetas-etiqueta">${gasto.etiquetas[i]}</span>';
-        }
-        
-    }
-    Element.idElemento.innerHTML =  <div class="gasto-descripcion">`${gasto.descripcion}`</div><br/>
-                                    <div class="gasto-fecha">`${gasto.fecha}`</div><br/>
-                                    <div class="gasto-valor">`${gasto.valor}`</div><br/>
-
-}*/
-    /*foreach (gasto) {
-        let div = document.createElement('div');
-        div.className = gasto;
-        div.innerHTML = <div class="gasto-descripcion">`${gasto.descripcion}`</div><br/>
-                        <div class="gasto-fecha">`${gasto.fecha}`</div><br/>
-                        <div class="gasto-valor">`${gasto.valor}`</div><br/>
-                        <div class="gasto-etiquetas">
-                            `for (let i = 0; i < gasto.etiquetas.length; i++)` {
-                                <span class="gasto-etiquetas-etiqueta">${gasto.etiquetas[i]}</span>
-                            }
-                        </div>      */ 
-        // `
-        // <div class="gasto">
-        //     <div class="gasto-descripcion">`${gasto.descripcion}`</div>
-        //     <div class="gasto-fecha">`${gasto.fecha}`</div> 
-        //     <div class="gasto-valor">`${gasto.valor}`</div>
-        //     <div class="gasto-etiquetas">
-        //         `for (let i = 0; i < ${gasto.etiquetas.length}; i++)` {
-        //             <span class="gasto-etiquetas-etiqueta">
-        //                 `${gasto.etiquetas[i]}`
-        //             </span>
-        //         }
-        //     </div> 
-            
-            
-        // </div>
-        // `
 }
-
-function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
-
-}
-
 
 export {
     mostrarDatoEnId,
