@@ -1,6 +1,4 @@
-import { calcularTotalGastos } from "./gestionPresupuesto";
-
-/*Importar las funciones necesarias de otros js */
+'use strict'
 
 
 
@@ -24,7 +22,6 @@ function mostrarGastoWeb(idElemento ,gastos){
 
     for(let etiq of gastos.etiquetas)
         {
-            let acumulaEtiquetas = "";
             string1 += ` <span class="gasto-etiquetas-etiqueta"> ${etiq} </span> `
         }
     string1 += `</div></div>`
@@ -34,7 +31,21 @@ function mostrarGastoWeb(idElemento ,gastos){
 }
 
 function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
-
+    /*Hago el primer bloque de html que no va a cambiar ------------------*/
+    let string1 = `<div class="agrupacion">
+                        <h1>Gastos agrupados por ${periodo}</h1>`
+    
+    for(let elem of agrup)
+    {
+        string1 += `<div class="agrupacion-dato">
+                        <span class="agrupacion-dato-clave">${elem} </span>
+                        <span class="agrupacion-dato-valor">${agrup[elem]}</span
+                        </div> `
+    }
+    string1 += `</div>`
+    
+    document.getElementById(idElemento).innerHTML += string1;
+                 
 }
 
 

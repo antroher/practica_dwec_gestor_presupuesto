@@ -2,6 +2,8 @@
 import * as gestionPresupuesto from "./gestionPresupuesto.js";
 import * as gestionPresupuestoWeb from "./gestionPresupuestoWeb.js";
 
+'use strict'
+
 /* 2.-Actualizar el presupuesto a 1500€ (función actualizarPresupuesto)-----------------------*/
 gestionPresupuesto.actualizarPresupuesto(1500);
 
