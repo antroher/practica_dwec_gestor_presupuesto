@@ -56,8 +56,6 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
             ${valueStorage}
         </div>`
     
-    
-    
 }
 
 export {
