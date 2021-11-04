@@ -1,8 +1,10 @@
+import * as gestionPresupuesto from './gestionPresupuesto.js';
+ 
  function mostrarDatoEnId(idElemento, valor) {
-    let elemento = document.getElementById(idElemento);
+    let elem = document.getElementById(idElemento);
     let p = document.createElement("p");
     p.textContent = valor;
-    elemento.appendChild(p);
+    elem.appendChild(p);
  }
 
 function mostrarGastoWeb(idElemento, gasto) {
