@@ -33,7 +33,9 @@ function mostrarGastoWeb(idElemento, gastos) {
             <button class="gasto-borrar" type="button">Borrar</button>
             `;
         let newObj = EditarHandle();
+        gasto.gasto = newObj.gasto;
         const gastoEditar = document.getElementById("gasto-editar");
+        gastoEditar.addEventListener('click', newObj)
     }
 }
 
@@ -106,22 +108,20 @@ function nuevoGastoWeb() {
 
 /* https://stackoverflow.com/questions/2230992/javascript-creating-objects-based-on-a-prototype-without-using-new-constructo*/
 function EditarHandle() {
-            editGasto.handleEvent = function(event) {
+    let obj = {
+        handleEvent(event) {
+            gasto : gestionPresupuesto.CrearGasto()
             let descripcion1 = prompt("Introduzca la nueva descripción: ");
             let valor1 = parseFloat(prompt("Introduzca el nuevo valor: "));
             let fecha1 = formatearFecha(Date.parse(prompt("Introduzca la nueva fecha: ")));
-            let etiquetas1 = prompt("Introduce las etiquetas: ").split(",");
-            // editGasto.gasto.actualizarValor(valor1);
-            // editGasto.gasto.actualizarDescripcion(descripcion1);
-            // editGasto.gasto.actualizarFecha(fecha1);
-            // editGasto.gasto.actualizarEtiquetas(etiquetas1);
+            let etiquetas1 = prompt("Introduce las nuevas etiquetas: ").split(",");
             this.gasto.actualizarValor(valor1);
             this.gasto.actualizarDescripcion(descripcion1);
             this.gasto.actualizarFecha(fecha1);
             this.gasto.actualizarEtiquetas(etiquetas1);
             repintar();
         }
-    
+    }
 }
 
 function BorrarHandle() {
