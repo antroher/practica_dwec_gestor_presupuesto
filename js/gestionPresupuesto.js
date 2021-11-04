@@ -26,6 +26,7 @@ return valorDevolver;
 
 function mostrarPresupuesto() {
     // TODO
+    console.log("hola")
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
@@ -341,7 +342,7 @@ function filtrarGastos(objetoDelGasto){
                         return;
 
             }
-            if(objetoDelGasto.hasOwnProperty("etiquetasTiene")){
+            if(objetoDelGasto.hasOwnProperty("etiquetasTiene") && Array.isArray(objetoDelGasto.etiquetasTiene)){
                 if(objetoDelGasto.etiquetasTiene.length != 0){
                     let devu =false;
 
