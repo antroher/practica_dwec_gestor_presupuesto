@@ -37,14 +37,15 @@ gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales",gastosTotales);
 let balanceTotal = gestionPresupuesto.calcularBalance();
 gestionPresupuestoWeb.mostrarDatoEnId("balance-total", balanceTotal); 
 
-/*8.- Mostrar el listado ---completo de gastos en div#listado-gastos-completo (funciones listarGastos y mostrarGastoWeb)-----------------*/
-let listaGastos = gestionPresupuesto.listarGastos();
+/*8.- Mostrar el listado completo de gastos en div#listado-gastos-completo (funciones listarGastos y mostrarGastoWeb)-----------------
+let listaGastos=[];
+listaGastos = gestionPresupuesto.listarGastos();
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo",listaGastos)
 
-/*9.- Mostrar el listado de gastos realizados en septiembre de 2021 en div#listado-gastos-filtrado-1 (funciones filtrarGastos y mostrarGastoWeb)--------------------------------- */
+/*9.- Mostrar el listado de gastos realizados en septiembre de 2021 en div#listado-gastos-filtrado-1 (funciones filtrarGastos y mostrarGastoWeb)--------------------------------- 
 let objetoGasto = {fechaDesde : "01-09-2021",fechaHasta : "31-09-2021"};
 let gastosFiltrados = gestionPresupuesto.filtrarGastos(objetoGasto);
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1",gastosFiltrados);
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1",gastosFiltrados); */
 
 /*10.- Mostrar el listado de gastos de más de 50€ en div#listado-gastos-filtrado-2 (funciones filtrarGastos y mostrarGastoWeb)-------------------------------------- */
 
