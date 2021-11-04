@@ -71,7 +71,7 @@ for (let g of gastofilt4){
 // Mostrar gastos agrupados por dia
 let agrupDia = gestionPresupuesto.agruparGastos("dia");
 
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia",agrupDia,"dia");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia",agrupDia,"día");
 
 // Mostrar gastos agrupados por mes
 let agrupMes = gestionPresupuesto.agruparGastos("mes");
@@ -80,4 +80,4 @@ gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes",agrupMes,"mes")
 // Mostrar gastos agrupados por año
 let agrupAnyo = gestionPresupuesto.agruparGastos("anyo");
 
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo",agrupAnyo,"anyo"); 
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo",agrupAnyo,"año"); 
