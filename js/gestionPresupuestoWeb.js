@@ -7,7 +7,11 @@ function mostrarDatoEnId (idElemento, valor) {
 }
 
 function mostrarGastoWeb (idElemento, gasto) {
-    let elemento = document.getElementById(idElemento)
+    let elemento = document.getElementById(idElemento);
+    for (let gasto of gastos) {
+        let data = "";
+    }
+
 }
 
 function mostrarGastosAgrupadosWeb () {
