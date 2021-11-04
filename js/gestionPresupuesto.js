@@ -162,8 +162,8 @@ function calcularBalance() {
 
     return balance;
 }
-function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}) {
-
+function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}) 
+{
     let gastosFiltrados = gastos;  
 
     gastosFiltrados = gastosFiltrados.filter(function (gasto) {
