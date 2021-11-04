@@ -18,5 +18,8 @@
         "chai": "^4.3.4",
         "cypress": "^8.7.0",
         "mocha": "^9.1.2"
+    },
+    "dependencies": {
+        "assert":"2.0.0"
     }
 }
