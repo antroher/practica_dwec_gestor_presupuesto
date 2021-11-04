@@ -269,7 +269,7 @@ function filtrarGastos(objeto)
     }
 
     let etiqTiene;
-    if (objeto.hasOwnProperty('etiquetasTiene'))
+    if (objeto.hasOwnProperty('etiquetasTiene')&& Array.isArray(objeto.etiquetasTiene))
     {
         etiqTiene = [...objeto.etiquetasTiene];
     }
