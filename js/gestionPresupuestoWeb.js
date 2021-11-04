@@ -7,22 +7,23 @@ function mostrarDatoEnId(idElemento, valor){
 
 function mostrarGastoWeb(idElemento, gasto){
     var elem = document.getElementById(idElemento);
+    var data = "";
+
+    for(let i of gasto.etiquetas){
+        data += 
+        `<span class="gasto-etiquetas-etiqueta">
+                 ${i}
+        </span>`
+    }
 
     elem.innerHTML = `<div class="gasto">
         <div class="gasto-descripcion">${gasto.descripcion}</div>
         <div class="gasto-fecha">${gasto.fecha}</div> 
         <div class="gasto-valor">${gasto.valor}</div> 
         <div class="gasto-etiquetas">
-            <span class="gasto-etiquetas-etiqueta">
-                 
-            </span>
-            <span class="gasto-etiquetas-etiqueta">
-                ETIQUETA 2
-            </span>
-      <!-- Etcétera -->
+           ${data};
         </div> 
-    </div>"`
-
+    </div>`
 }
 
 function mostrarGastosAgrupadosWeb(){
