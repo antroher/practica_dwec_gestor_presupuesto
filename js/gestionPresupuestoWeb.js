@@ -7,7 +7,7 @@ function mostrarDatoEnId(idElemento, valor){
 
 function mostrarGastoWeb(idElemento, gasto){
     var elem = document.getElementById(idElemento);
-    var data = "";
+    var data = " ";
 
     for(let i of gasto.etiquetas){
         data += 
@@ -26,8 +26,9 @@ function mostrarGastoWeb(idElemento, gasto){
     </div>`
 }
 
-function mostrarGastosAgrupadosWeb(){
-
+function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
+    var elem = document.getElementById(idElemento);
+    agrup = agruparGastos
 }
 
 export   {
