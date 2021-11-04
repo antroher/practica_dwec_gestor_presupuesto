@@ -12,8 +12,17 @@ function mostrarGastoWeb (idElemento, gasto) {
         let data = "";
 
         for(let etiqueta of gasto.etiquetas) {
-            data += `<span class="gasto-etiquetas-etiqueta">${etiqueta}</span>
+            data += `<span class="gasto-etiquetas-etiqueta">${etiqueta}</span>`
         }
+        elmento.innerHTML += 
+        `<div class="gasto">
+            <div class="gasto-descripcion">DESCRIPCIÓN DEL GASTO</div>
+            <div class="gasto-fecha">FECHA DEL GASTO</div> 
+            <div class="gasto-valor">VALOR DEL GASTO</div> 
+            <div class="gasto-etiquetas">
+                ${data}
+            </div> 
+        </div>`
     }
 
 }
