@@ -5,9 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script>src="gestionPresupuesto.js"</script>
+    <script>src="gestionPresupuestoWeb.js"</script>
 </head>
 <body>
-    
+    <!--<div class="gasto">
+        <div class="gasto-descripcion">DESCRIPCIÓN DEL GASTO</div>
+        <div class="gasto-fecha">FECHA DEL GASTO</div> 
+        <div class="gasto-valor">VALOR DEL GASTO</div> 
+        <div class="gasto-etiquetas">
+          <span class="gasto-etiquetas-etiqueta">
+            ETIQUETA 1
+          </span>
+          <span class="gasto-etiquetas-etiqueta">
+            ETIQUETA 2
+          </span>
+          Etcétera -->
+        </div> 
+      </div>
+    <script>
+        /*let div2 = document.createElement('div');
+        //et div1 = div.className = "gasto";
+        let div2 = div.className = "gasto-descripcion"; //le asigno al div la clase agrupación
+        div2.innerHTML='<p>DESCRIPCIÓN DEL GASTO</p>';
+        document.body.appendChild(div2);*/
+
+        let divUno = document.createElement('div');
+        let div = document.createElement('div');
+        divUno.className = "gasto";
+        div.className = "gasto-descripcion"; //le asigno al div la clase agrupación
+        div.innerHTML='<p>DESCRIPCIÓN DEL GASTO</p>';
+        document.body.appendChild(div);
+        document.body.appendChild(divUno);
+    </script>
 </body>
 </html>

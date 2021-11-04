@@ -7,23 +7,41 @@ function mostrarDatoEnId(idElemento, valor) {
     Elemento.appendChild(parrafo);//añade el contenido del texto al párrafo (lo añade al html)
 }
 
-function mostrarGastoWeb(idElemento, gasto = []) {
-    let element = document.getElementById(idElemento);//obtengo ese elemento
-    let div = document.createElement('div');
-    div.className = "agrupacion"; //le asigno al div la clase agrupación
-    let texto1 = "DESCRIPCIÓN DEL GASTO";
-    let textoDiv1 = documnt.createTextNode(texto1);
-
-    for (const descripcion of gasto) {
-        div.className = "gasto-descripcion";
+function mostrarGastoWeb(idElemento, gastos) {
+    let elemento = document.getElementById(idElemento);
+    let gastoEtiquetas ="";  
+    for (const etiqueta of gastos.etiquetas) {
+        gastoEtiquetas += `
+        <span class="gasto-etiquetas-etiqueta">
+            ${etiqueta}
+        </span>`
     }
-    for (const fecha of gasto) {
-        
-    }
+    elemento.innerHTML += `
+  <div class="gasto">
+  <div class="gasto-descripcion">${gastos.descripcion}</div>
+  <div class="gasto-fecha">${gastos.fecha}</div>
+  <div class="gasto-valor">${gastos.valor}</div>
+  <div class="gasto-etiquetas">
+  ${gastoEtiquetas}
+  </div>
+  </div>
+  `;
 }
 
-function mostrarGastosAgrupadosWeb(idElemento, agrup, periodos) {
-
+function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
+    let element = document.getElementById(idElemento);
+    let agrupacion = "";
+    for (const [param,value] of agrup) {
+        agrupacion += `
+        <div class="agrupacion-dato">
+        <span class="agrupacion-dato-clave">${param}</span>
+        <span class="agrupacion-dato-valor">${value}</span>
+        </div>`
+    }
+    element.innerHTML += `
+    <div class="agrupacion">
+    <h1>Gastos agrupados por ${periodo}</h1>
+    `
 }
 
 export {
@@ -43,8 +61,6 @@ para cada gasto se crea un div con cada gaso y dentro de mismo
 
 fecha del gasto = gasto.fecha
 añadir estructura completa
-
-append(); //colgar un elemento del dom de otro elemento del dom
 */
 /*agrup devuelve un objeto por agrupacion de periodos
 periodo = preiodo por el que se agrupa
