@@ -3,8 +3,8 @@
 //variables globales con VAR
 // TODO: Variable global
 var presupuesto = 0;
-let gastos = [];
-let idGasto = 0;
+var gastos = [];
+var idGasto = 0;
 
 "use strict";
 
@@ -24,8 +24,7 @@ function actualizarPresupuesto(NewValu) {
 
 function mostrarPresupuesto() {
     // TODO
-    console.log ("Tu presupuesto actual es de" + presupuesto + "€, siendo" +
-    presupuesto + "el Numero de la variable global presupuesto");
+    return (`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
 
@@ -40,8 +39,7 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         etiquetas: [...etiq],
         fecha: (typeof fec === 'string') ? Date.parse(fec) : fec,
         mostrarGasto(){
-            console.log(`Gasto correspondiente a  ${descripcion} 
-            con valor  ${Numero} €`);
+            return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
         },
         actualizarDescripcion(newDescription){
             this.descripcion = newDescription;
