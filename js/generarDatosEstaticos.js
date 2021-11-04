@@ -56,11 +56,6 @@ let filtrador4 = {valorMaximo : 50, etiquetasTiene : ["comida", "transporte"]}
 let gastosFiltrados4 = gestionPresupuesto.filtrarGastos(filtrador4);
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gastosFiltrados4);    
 
-// //Mostrar el total de gastos agrupados por día en div#agrupacion-dia (funciones agruparGastos y mostrarGastosAgrupadosWeb)
-// let filtrador5 = {valorMaximo : 50, etiquetasTiene : ["comida", "transporte"]}
-// let gastosFiltrados5 = gestionPresupuesto.filtrarGastos(filtrador5);
-// gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gastosFiltrados5);   
-
 //Mostrar el total de gastos agrupados por día en div#agrupacion-dia (funciones agruparGastos y mostrarGastosAgrupadosWeb)
 let gastosAgrupados1 = gestionPresupuesto.agruparGastos("dia");
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", gastosAgrupados1, "día")
@@ -71,4 +66,4 @@ gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", gastosAgrupado
 
 //Mostrar el total de gastos agrupados por año en div#agrupacion-anyo (funciones agruparGastos y mostrarGastosAgrupadosWeb)
 let gastosAgrupados3 = gestionPresupuesto.agruparGastos("anyo");
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAgrupados3, "año") 
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAgrupados3, "año")
