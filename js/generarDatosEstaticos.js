@@ -23,6 +23,7 @@ GesPresuWeb.mostrarDatoEnId("gastos-totales",GesPresu.calcularTotalGastos());
 //mostrar balance total
 GesPresuWeb.mostrarDatoEnId("balance-total",GesPresu.calcularTotalGastos());
 //mostrar listado gastos
+/*
 GesPresuWeb.mostrarGastoWeb("listado-gastos-completo",GesPresu.listarGastos());
 //listado de gasto en septiembre
 GesPresuWeb.mostrarGastoWeb("listado-gastos-filtrado-1",GesPresu.filtrarGastos({fechaDesde:"01-09-2021",fechaHasta:"30-09-2021"}))
@@ -38,3 +39,4 @@ GesPresuWeb.mostrarGastosAgrupadosWeb("agrupacion-dia",GesPresu.agruparGastos("d
 GesPresuWeb.mostrarGastosAgrupadosWeb("agrupacion-mes",GesPresu.agruparGastos("mes"),"mes");
 //gasto agrupados por año
 GesPresuWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo",GesPresu.agruparGastos("anyo","año"));
+*/
