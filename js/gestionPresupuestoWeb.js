@@ -1,28 +1,30 @@
 
 
 function mostrarDatoEnId(idElemento, valor){
-    let elem = document.getElementById(idElemento);
-    let parrafo = document.createElement('p')
-    parrafo.textContent = valor;
-    elem.appendChild(p);
+    document.getElementById(idElemento).innerHTML= `<p>${valor}</p>`;
+
 }
 
-function mostrarGastoWeb(idElemento, valor){
-    if (IdElemento !== undefined) {
-        let texto1 = `<div class="gasto">
-        <div class="gasto-descripcion">${gasto.descrpcion} </div>   
-        <div class="gasto-fecha">${gasto.fecha}</div>
-        <div class="gasto-valor">${gasto.valor}</div> 
-        <div class="gasto-etiquetas">"`
-        for (let i = 0; i < gasto.etiquetas.length; i++) {
-            texto1 +=`<span class="gasto-etiquetas-etiqueta">
-            ${gasto.etiquetas[i]}
-        </span>   
-        </div> 
-        </div>`
-        }
+function mostrarGastoWeb(idElemento, gasto){
+    let elem = document.getElementById(idElemento);    
+    let texto = "<div class='gasto'>" +
+    "<div class= 'gasto-descripcion'>" + gasto.descripcion + "</div>" +  
+    "<div class='gasto-fecha'>" + gasto.fecha + "</div>" +
+    "<div class='gasto-valor'>" + gasto.valor + "</div>" +    
+    "<div class= 'gasto-etiquetas'>";
+
+        gasto.etiquetas.forEach(etiqueta => {
+            texto +="<span class='gasto-etiquetas-etiqueta'>";
+            texto += etiqueta;
+            texto += "</span>";             
+        });
+        texto+= "</div> </div>";
+        
+        elem.innerHTML += texto; 
     }
-}
+        
+    
+
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     let elem = document.getElementById(idElemento);
