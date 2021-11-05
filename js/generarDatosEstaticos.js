@@ -38,6 +38,13 @@ let GastoFiltrados4 = GestPres.filtrarGastos(vgasto3);
 GestPresWeb.mostrarGastoWeb('listado-gastos-filtrado-4', GastoFiltrados4);
 
 let dia1 = GestPres.agruparGastos("dia");
+GestPresWeb.mostrarGastosAgrupadosWeb('agrupacion-dia', dia1, "dia");
+
+let mes1 = GestPres.agruparGastos("mes");
+GestPresWeb.mostrarGastosAgrupadosWeb('agrupacion-mes', mes1, "mes");
+
+let anyo1 = GestPres.agruparGastos("anyo");
+GestPresWeb.mostrarGastosAgrupadosWeb('agrupacion-anyo', anyo1, "anyo");
 
 
 
