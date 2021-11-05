@@ -28,9 +28,8 @@ gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3",gestionPresupu
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gestionPresupuesto.filtrarGastos({valorMaximo: 50, etiquetasTiene:["comida","transporte"]}));
 
 //Listado de gastos por año,mes,dia
-gestionPresupuesto.agruparGastos("agrupacion-dia");
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("dia");
-gestionPresupuesto.agruparGastos("agrupacion-mes");
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("mes");
-gestionPresupuesto.agruparGastos("agrupacion-mes");
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("anyo");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia",gestionPresupuesto.agruparGastos("dia") ,"día");
+let xMes = gestionPresupuesto.agruparGastos("mes");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", xMes, "mes");
+let xAnyo = gestionPresupuesto.agruparGastos("anyo");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", xAnyo, "año");
