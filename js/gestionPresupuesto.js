@@ -1,5 +1,3 @@
-import { strict } from "assert";
-
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
