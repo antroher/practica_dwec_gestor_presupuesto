@@ -59,13 +59,15 @@ let obj,gastoFiltrado,etiq;
     gastoFiltrado = gestionPresupuesto.filtrarGastos(obj);
     for( let key of gastoFiltrado){
         gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-2',key);
-    }    //mostrar los gastos mas de 200 con etiq seguros id=listado-gastos-filtrado-3
+    }    
+    //mostrar los gastos mas de 200 con etiq seguros id=listado-gastos-filtrado-3
     etiq = ["seguros"];
     obj = {valorMinimo : 200, etiquetasTiene:etiq};
     gastoFiltrado = gestionPresupuesto.filtrarGastos(obj);
     for( let key of gastoFiltrado){
         gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-3',key);
-    }    //mostrar los gastos menos de 50 con etiq comida o transporte id=listado-gastos-filtrado-4
+    }    
+    //mostrar los gastos menos de 50 con etiq comida o transporte id=listado-gastos-filtrado-4
     etiq = ["comida", "transporte"];
     obj = {valorMaximo : 50, etiquetasTiene:etiq};
     gastoFiltrado = gestionPresupuesto.filtrarGastos(obj);

@@ -7,8 +7,21 @@ function mostrarDatoEnID(idElemento, valor){
     elem.append(p);
 
 }
-
 function mostrarGastoWeb(idElemento, gasto){
+    let elem = document.getElementById(idElemento);
+    let cad = "<div class='gasto'>\n" +
+                "<div class='gasto-descripcion'>" + gasto.descripcion + "</div>\n" +
+                "<div class='gasto-fecha'>" + new Date(gasto.fecha).toLocaleDateString() + "</div>\n" + 
+                "<div class='gasto-valor'>" + gasto.valor + "</div>\n" + 
+                "<div class='gasto-etiquetas'>\n";
+    
+    gasto.etiquetas.forEach(item => {
+        cad += "<span class='gasto-etiquetas-etiqueta'>\n" + item + "\n</span>\n"
+    });
+    cad += "</div>\n</div>\n";
+    elem.innerHTML += cad;
+}
+/*function mostrarGastoWeb(idElemento, gasto){
     let elem = document.getElementById(idElemento);
 
     //div class=gasto
@@ -25,7 +38,7 @@ function mostrarGastoWeb(idElemento, gasto){
         //div class=gasto-fecha
 
         divg2.className="gasto-fecha";
-        divg2.textContent=gasto.fecha;
+        divg2.textContent=new Date(gasto.fecha).toLocaleDateString();
         divg.append(divg2);
 
         //div class=gasto-valor
@@ -38,20 +51,14 @@ function mostrarGastoWeb(idElemento, gasto){
         span.className="gasto-etiquetas-etiqueta";
         divg2.className="gasto-etiqueta";
             //span
-            
             gasto.etiquetas.forEach(etiq => {
                 span.textContent=etiq;
                 divg2.append(span);
             });
-
-           /* for(let i=0;i<gasto.etiquetas.length;i++)
-            {
-                span.textContent=gasto.etiquetas[i];
-                divg2.append(span);
-            }*/
     
     elem.append(divg);
-}
+}*/
+
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     let elem = document.getElementById(idElemento);
 
