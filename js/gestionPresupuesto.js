@@ -1,268 +1,231 @@
-"use strict";
+'use strict'
 
 var presupuesto = 0;
-var gastos = [];
 var idGasto = 0;
+var gastos = new Array();
 
-function actualizarPresupuesto(x) {
+function actualizarPresupuesto(valor) {
 
-    if (x >= 0)
-    { 
-        presupuesto = x;
-        return x;
-    }
-    else
-    {
-        x = -1
-        return x;
+    if(parseFloat(valor) > 0){
+        presupuesto = valor;
+        return presupuesto;
+    }else {
+        console.log("Error. Número negativo");
+        return -1;
     }
 }
 
 function mostrarPresupuesto() {
+
+    return "Tu presupuesto actual es de "+ presupuesto +" €";
+}
+
+function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
     
-    let x = presupuesto;
-    return `Tu presupuesto actual es de ${x} €`;
-}
-
-function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
-   
-    this.descripcion = descripcion;
-
-    if (valor >= 0)
-    {
-        this.valor = valor;
-    } 
-    else
-    {
-        this.valor = 0;
+    let gasto={
+        descripcion : desc,
+        etiquetas : new Array(),
+        valor : null,
+        fecha : null
     }
 
-    if (fecha)
-    {
-        fecha = Date.parse(fecha);
-        this.fecha = fecha;
-    }
-    else
-    {
-        fecha = Date.now(fecha);
-        this.fecha = fecha;
+    if(parseFloat(valor) > 0){
+        gasto.valor = valor;
+    }else{
+        gasto.valor = 0;
     }
 
-    this.etiquetas = (etiquetas.length === 0) ? etiquetas = [] : etiquetas;
-
-    this.mostrarGasto = function() {
-        return `Gasto correspondiente a ${descripcion} con valor ${valor} €`
-    };
-
-    this.mostrarGastoCompleto = function() {
-        let fecha2 = new Date(fecha)
-
-        let texto= `Gasto correspondiente a ${descripcion} con valor ${valor} €.\nFecha: ${fecha2.toLocaleString()}\nEtiquetas:\n- ${etiquetas.join("\n- ")}\n`;
-
-        return texto;
-    };
-
-    this.actualizarDescripcion = function(nuevadesc) {
-        this.descripcion = nuevadesc;
+    if(fechaCreacion === undefined || isNaN(Date.parse(fechaCreacion))){  
+        gasto.fecha = new Date(Date.now()).toISOString().substring(0,16); 
+    }else{
+        gasto.fecha = Date.parse(fechaCreacion);
     }
 
-    this.actualizarValor = function(nuevovalor) {
-        if (nuevovalor >= 0)
-        {
-            this.valor = nuevovalor;
+    if(etiqueta !== undefined){
+        gasto.etiquetas = etiqueta;
+    }
+
+
+
+    gasto.mostrarGastoCompleto = function(){
+        let respuesta = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${new Date(this.fecha).toLocaleString()}\nEtiquetas:\n`;
+        
+        for(let i = 0; i < this.etiquetas.length; i++){  
+            respuesta += "- " + this.etiquetas[i]+`\n`
+        }
+
+        return respuesta;
+    }
+
+    gasto.mostrarGasto = function() {
+        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
+    }
+
+    gasto.actualizarDescripcion = function(nuevaDesc){
+        this.descripcion = nuevaDesc;
+    }
+
+    gasto.actualizarValor = function(nuevoValor){
+        if(parseFloat(nuevoValor) > 0){
+            this.valor = nuevoValor;
         }
     }
-    this.actualizarFecha = function(nuevafecha) {
-        if (Date.parse(nuevafecha))
-        {
-            fecha = Date.parse(nuevafecha)
-            this.fecha = fecha;
+
+    gasto.actualizarFecha = function(nuevaFecha){
+        if(!isNaN(Date.parse(nuevaFecha))){
+            this.fecha = Date.parse(nuevaFecha);
         }
     }
-    this.anyadirEtiquetas = function(...nuevaetiqueta) {
 
-        for (let i = 0; i < nuevaetiqueta.length; i++)
-        {
-            let encontrado = this.etiquetas.includes(nuevaetiqueta[i]) 
+    gasto.anyadirEtiquetas = function(...nuevasEtiquetas){
 
-            if(encontrado == false)
-            {
-                this.etiquetas.push(nuevaetiqueta[i]);
+        for(let elem of nuevasEtiquetas){
+            if(!this.etiquetas.includes(elem)){
+               this.etiquetas.push(elem);
             }
         }
     }
-    this.borrarEtiquetas = function(...borraretiqueta)
-    {
-        for (let i = 0; i < borraretiqueta.length; i++)
-        {
-            let pos = this.etiquetas.indexOf(borraretiqueta[i])
-            
-            if (pos >= 0) 
-            {
-                this.etiquetas.splice(pos, 1)
+    
+    gasto.borrarEtiquetas = function(...etiquetasBorrar){
+        
+        for (let e of etiquetasBorrar){
+            if(this.etiquetas.includes(e)){
+                this.etiquetas.splice(this.etiquetas.indexOf(e),1)
             }
         }
     }
-    this.obtenerPeriodoAgrupacion = function(periodo)
-    {
-        let periodofecha = new Date(fecha)
-        periodofecha = periodofecha.toISOString();
-
-        if (periodo == "mes")
-        {
-           periodofecha = periodofecha.slice(0,7);
+    
+    gasto.obtenerPeriodoAgrupacion = function (periodo) {
+        let resultado = "0";
+        let fechObj = new Date(this.fecha);
+        switch (periodo) {
+          case "dia":
+            return fechObj.toISOString().substring(0, 10);
+          case "mes":
+            return fechObj.toISOString().substring(0, 7);
+          case "anyo":
+            return fechObj.toISOString().substring(0, 4);
+          default:
+            console.log("Periodo erroneo.");
+            break;
         }
-
-        else if (periodo == "anyo")
-        {
-            periodofecha = periodofecha.slice(0,4)
-        }
-
-        else if (periodo == "dia")
-        {
-            periodofecha = periodofecha.slice(0,10)
-        }
-
-        return periodofecha;
+    
+        return resultado;
+      };
+    
+      return gasto;
     }
-}
+
+
+
 function listarGastos() {
-        return gastos;
+    return gastos;   
 }
-function anyadirGasto(nuevogasto) {
-    nuevogasto.id = idGasto;
 
-    idGasto = idGasto + 1;
-
-    gastos.push(nuevogasto);
-}
-function borrarGasto(id) {
-
-    let pos = gastos.findIndex(gasto => gasto.id == id)
-    
-    if (pos >= 0)
-    {
-        gastos.splice(pos, 1)
+function anyadirGasto(gastoAnyadir){
+    if(gastoAnyadir !== undefined && gastoAnyadir !== null){
+        gastoAnyadir.id = idGasto;
+        gastos.push(gastoAnyadir);
+        idGasto++;
     }
 }
+
+function borrarGasto(idBorrar){
+    for(let elem of gastos){
+        if(elem.id == idBorrar){
+            gastos.splice(gastos.indexOf(elem),1);
+        }
+    }
+}
+
 function calcularTotalGastos() {
-    let totalgastos = 0;
-    
-    for (let i = 0; i < gastos.length; i++)
-    {
-        totalgastos = totalgastos + gastos[i].valor;
+    let totalGasto = 0;
+    for (let i = 0; i < gastos.length; i++){
+        totalGasto += gastos[i].valor
     }
-
-    return totalgastos;
+    return totalGasto;
 }
-function calcularBalance() {
-    let balance;
 
-    balance = presupuesto - calcularTotalGastos();
+function calcularBalance() {
+    let totalGasto = calcularTotalGastos();
+
+    let balance = presupuesto - totalGasto;
 
     return balance;
-}
-function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}) 
-{
-    let gastosFiltrados = gastos;  
-
-    gastosFiltrados = gastosFiltrados.filter(function (gasto) {
-
-        let encontrado = true;
-
-        if (fechaDesde)
-        {
-            if (gasto.fecha < Date.parse(fechaDesde))
-            {
-                encontrado = false;
-            }
+}   
+function filtrarGastos(objetoFiltro) {
+    if (
+      objetoFiltro != undefined &&
+      objetoFiltro != null &&
+      Object.entries(objetoFiltro).length != 0
+    ) {
+      let resultado = gastos.filter((gast) => {
+        if (objetoFiltro.hasOwnProperty("fechaDesde")) {
+          if (gast.fecha < Date.parse(objetoFiltro.fechaDesde)) {
+            return;
+          }
         }
-
-        if (fechaHasta)
-        {
-            if (gasto.fecha > Date.parse(fechaHasta))
-            {
-                encontrado = false;
-            }
+  
+        if (objetoFiltro.hasOwnProperty("fechaHasta")) {
+          if (gast.fecha > Date.parse(objetoFiltro.fechaHasta) ) {
+            return;
+          }
         }
-
-        if (valorMinimo)
-        {
-            if (gasto.valor < valorMinimo)
-            {
-                encontrado = false;
-            }
+  
+        if (objetoFiltro.hasOwnProperty("valorMinimo")) {
+          if (gast.valor < objetoFiltro.valorMinimo) {
+            return;
+          }
         }
-
-        if (valorMaximo)
-        {
-            if (gasto.valor > valorMaximo)
-            {
-                encontrado = false;
-            }
+  
+        if (objetoFiltro.hasOwnProperty("valorMaximo")) {
+          if (gast.valor > objetoFiltro.valorMaximo) {
+            return;
+          }
         }
-        
-        if (descripcionContiene)
-        {
-            if (!gasto.descripcion.includes(descripcionContiene))
-            {
-                encontrado = false;
-            }
+  
+        if (objetoFiltro.hasOwnProperty("descripcionContiene")) {
+          if (!gast.descripcion.includes(objetoFiltro.descripcionContiene)) {
+            return;
+          }
         }
-
-        if (etiquetasTiene)
-        {
-            let tiene = false
-            for (let i = 0; i < gasto.etiquetas.length; i++)
-            {
-                for (let j = 0; j < etiquetasTiene.length; j++)
-                {
-                    if (gasto.etiquetas[i] == etiquetasTiene[j])
-                    {
-                        tiene = true;
-                    }
-                }
+        if (objetoFiltro.hasOwnProperty("etiquetasTiene")) {
+          if ( objetoFiltro.etiquetasTiene.length != 0){
+          let check = false;
+          for (let des of objetoFiltro.etiquetasTiene) {
+            if (gast.etiquetas.includes(des)) {
+              check = true;
             }
-
-            if (tiene == false)
-            {
-                encontrado = false;
-            }
+          }
+          if (!check) {
+            return;
+          }
         }
-        return encontrado;
-    })
-
-    return gastosFiltrados;
-}
-function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta) {
-
-    let etiquetasTiene = etiquetas;
-
-    if (!fechaDesde)
-    {
-        fechaDesde = "2000-01-01";
+      }
+        return gast;
+      });
+  
+      return resultado;
+  
+    } else {
+      return gastos;
     }
-
-    if (!fechaHasta)
-    {
-        fechaHasta = new Date(Date.now()).toISOString().substr(0,10);
+  }
+  
+function agruparGastos(periodo = "mes", etiquetas = [], fechDesd, fechaHas = Date.now()) {
+  
+  let listaResultadoFiltros = filtrarGastos({fechaDesde: fechDesd, fechaHasta:fechaHas, etiquetasTiene: etiquetas});
+  let gastosAgrupados = listaResultadoFiltros.reduce(function(acumulador, gast){
+    let perAgrup = gast.obtenerPeriodoAgrupacion(periodo);
+    if (acumulador.hasOwnProperty(perAgrup)){
+      acumulador[perAgrup] = acumulador[perAgrup] + gast.valor;
+    } else {     
+      acumulador[perAgrup] = gast.valor;
     }
-
-    let grupoGastos = filtrarGastos({fechaDesde, fechaHasta, etiquetasTiene})
-
-
-    let resultado = grupoGastos.reduce((acc, grupo) => { 
-        
-        acc[grupo.obtenerPeriodoAgrupacion(periodo)] = (acc[grupo.obtenerPeriodoAgrupacion(periodo)] || 0) + grupo.valor; 
-        
-        return acc;
-    
-    } , {});
-        
-    
-    return resultado;
+    return acumulador
+  }, {});
+  return gastosAgrupados;
 }
-
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
@@ -275,6 +238,6 @@ export   {
     borrarGasto,
     calcularTotalGastos,
     calcularBalance,
-    filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    filtrarGastos
 }
