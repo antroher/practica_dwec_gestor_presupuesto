@@ -239,11 +239,16 @@ function filtrarGastos(gastoF){
             if(gastoF.hasOwnProperty('etiquetasTiene') && Array.isArray(gastoF.etiquetasTiene)){
                 res = res.filter((aux) => {
                     for(let i = 0; i < gastoF.etiquetasTiene.length; i++){
-
-                        if(gastoF.etiquetasTiene.includes(aux.etiquetas[i]))
+                        
+                        if(aux.etiquetas.includes(gastoF.etiquetasTiene[i]))
                             return true;
                     }
                 })
+                //TEN CUIDADO CUANDO COMPRUEBES QUE TIENE QUE, LO TENIAS AL REVES "gastoF.etiquetasTiene.inclues(aux.etiquetas[i])"
+                        //ESTO GENERABA QUE COMPROBARA LAS ETIQUETAS DEL OBJETO Y LUEGO LAS COMPARABA CON LAS DE aux
+                        //AL HACER ESTO NOS GENERABA QUE LAS ETIQUETAS A FILTRAR NO FUERAN LAS COMPROBADAS, SI NO QUE FUERAN LAS ETIQUETAS DEL OBJETO LAS QUE SE COMPROBABAN
+                        //ESTA SITUACION AUNQUE PASABA LOS TEST GENERABA PROBLEMAS SI NO CAMBIAMOS EL ORDEN DE LAS ETIQUETAS DEL OBJETO
+                        //ESTAR ATENTO PARA FUTURAS SITUACIONES SIMILARES
             }
 
             return res;

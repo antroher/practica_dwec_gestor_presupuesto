@@ -28,7 +28,7 @@ gastosG.anyadirGasto(gasto6);
 gastosGW.mostrarDatoEnId("gastos-totales", gastosG.calcularTotalGastos());
 
 //Balance total en div#balance-total.
-gastosGW.mostrarDatoEnId("balance_total", gastosG.calcularBalance());
+gastosGW.mostrarDatoEnId("balance-total", gastosG.calcularBalance());
 
 //Listado completo de gastos en div#listado-gastos-completo
 gastosGW.mostrarGastoWeb("listado-gastos-completo", gastosG.listarGastos());
@@ -36,11 +36,13 @@ gastosGW.mostrarGastoWeb("listado-gastos-completo", gastosG.listarGastos());
 //Listados segun filtros en div#listado-gastos-filtrado*.
 gastosGW.mostrarGastoWeb("listado-gastos-filtrado-1", gastosG.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"}));
 gastosGW.mostrarGastoWeb("listado-gastos-filtrado-2", gastosG.filtrarGastos({valorMinimo:50}));
+console.log(gastosG.filtrarGastos({valorMinimo: 200, etiquetasTiene:["seguros"]}));
 gastosGW.mostrarGastoWeb("listado-gastos-filtrado-3", gastosG.filtrarGastos({valorMinimo: 200, etiquetasTiene:["seguros"]}));
 gastosGW.mostrarGastoWeb("listado-gastos-filtrado-4", gastosG.filtrarGastos({valorMaximo: 50, etiquetasTiene:["comida","transporte"]}));
 
 //listados segun agrupacion por periodo en div#agrupacion-****.
-gastosGW.mostrarGastosAgrupadosWeb("agrupacion-dia", gastosG.agruparGastos("dia"), "dia");
+//ATENTO CON EL ENUNCIADO, TE AVISABA DE COMO PONER día, mes y año Y TU HAS UTILIZADO EL COMO SE LLAMABAN ANTES
+gastosGW.mostrarGastosAgrupadosWeb("agrupacion-dia", gastosG.agruparGastos("dia"), "día");
 gastosGW.mostrarGastosAgrupadosWeb("agrupacion-mes", gastosG.agruparGastos("mes"), "mes");
-gastosGW.mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosG.agruparGastos("anyo"), "anyo");
+gastosGW.mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosG.agruparGastos("anyo"), "año");
 

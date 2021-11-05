@@ -47,21 +47,21 @@
     for(let [key, value] of Object.entries(agrup)){
         gastos +=
 
-            `<div class='agrupacion-dato'>
+            `<div class="agrupacion-dato">
 
-                <span class='agrupacion-dato-clave'>${key}</span>
-                <span class='agrupacion-dato-valor'>" ${value}</span>
+                <span class="agrupacion-dato-clave">${key}</span>
+                <span class="agrupacion-dato-valor">${value}</span>
 
             </div>`;
 
-
-        dataId.innerHTML += 
-            `< class='agrupacion'>
-
-                <h1>Gastos agrupados por ${periodo} </h1>
-                ${gastos}`
-                
     }
+    //CUIDADO CON LOS DIVS --- PETABA PORQUE HABIAS PUESTO SOLO CLASS, SIN EL DIV DELANTE!!
+        dataId.innerHTML += 
+            `<div class="agrupacion">
+
+                <h1>Gastos agrupados por ${periodo}</h1>
+                ${gastos}
+            `
  }
 
  export{
