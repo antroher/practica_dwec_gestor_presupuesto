@@ -33,3 +33,25 @@ let filtrado1 = {fechaDesde : "2021-09-01", fechaHasta : "2021-09-30"}
 gastoFiltrado1 = gestionPresupuesto.filtrarGastos(filtrado1);
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1", gastoFiltrado1);
 
+let filtrado2 = {valorMinimo : 50}
+gastoFiltrado2 = gestionPresupuesto.filtrarGastos(filtrado2);
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2", gastoFiltrado2);
+
+let filtrado3 = {valorMinimo : 200, etiquetasTiene : ["seguros"]}
+gastoFiltrado3 = gestionPresupuesto.filtrarGastos(filtrado3);
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3", gastoFiltrado3);
+
+let filtrado4 = {valorMaximo : 50, etiquetasTiene : ["comida", "transporte"]}
+gastoFiltrado4 = gestionPresupuesto.filtrarGastos(filtrado4);
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gastoFiltrado4);
+
+let agrupDia = gestionPresupuesto.agruparGastos("dia");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", agrupDia, "dia");
+
+
+let agrupMes = gestionPresupuesto.agruparGastos("mes");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", agrupMes, "mes");
+
+
+let agrupAnyo = gestionPresupuesto.agruparGastos("anyo");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", agrupAnyo, "anyo");
