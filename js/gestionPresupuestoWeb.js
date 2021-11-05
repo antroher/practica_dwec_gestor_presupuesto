@@ -1,11 +1,8 @@
-
-import * as gestionPresupuesto from './gestionPresupuesto.js';
-
 function mostrarDatoEnId (idElemento, valor) {
     let elemento = document.getElementById(idElemento);
     let parrafo = document.createElement("p");
     parrafo.textContent = valor;
-    elemento.appendChild("p");
+    elemento.appendChild(parrafo);
 }
 
 function mostrarGastoWeb (idElemento, gastos) {
@@ -14,7 +11,10 @@ function mostrarGastoWeb (idElemento, gastos) {
         let data = "";
 
         for(let etiqueta of gasto.etiquetas) {
-            data += `<span class="gasto-etiquetas-etiqueta">${etiqueta}</span>`
+            data +=
+            `<span class="gasto-etiquetas-etiqueta">
+            ${etiqueta}
+            </span>`
         }
         elemento.innerHTML += 
         `<div class="gasto">
@@ -22,16 +22,14 @@ function mostrarGastoWeb (idElemento, gastos) {
             <div class="gasto-fecha">${gasto.fecha}</div> 
             <div class="gasto-valor">${gasto.valor}</div> 
             <div class="gasto-etiquetas">
-                ${data}
-            </div> 
-        </div>`;
+                ${data}`;
     }
 
 }
 
 function mostrarGastosAgrupadosWeb (idElemento, agrup, periodo) {
     const elemento = document.getElementById(idElemento);
-    let data = ""
+    let datos = ""
     for (let [clave, valor] of Object.entries(agrup)) {
         datos += 
         `<div class="agrupacion-dato">
@@ -49,5 +47,5 @@ function mostrarGastosAgrupadosWeb (idElemento, agrup, periodo) {
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb,
+    mostrarGastosAgrupadosWeb
 }
