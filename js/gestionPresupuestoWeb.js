@@ -14,7 +14,8 @@ function mostrarDatoEnId(idElemento, valor) {
 function mostrarGastoWeb(idElemento, gastos) {
     let elemento = document.getElementById(idElemento);
     for (let gasto of gastos) {
-        let GUID = crypto.randomUUID();
+        //let GUID = crypto.randomUUID();
+        let randomNumber = Math.floor((Math.random() * 1000) + 1);
         let data = "";
         for (let i of gasto.etiquetas) {
             data += `
@@ -30,13 +31,13 @@ function mostrarGastoWeb(idElemento, gastos) {
             <div class="gasto-etiquetas">
             ${data}
             </div>
-            <button id="edit${GUID}" class="gasto-editar" type="button">Editar</button>
-            <button id="delete${GUID}" class="gasto-borrar" type="button">Borrar</button>
+            <button id="edit${randomNumber}" class="gasto-editar" type="button">Editar</button>
+            <button id="delete${randomNumber}" class="gasto-borrar" type="button">Borrar</button>
             `;
             let objEdit = new EditarHandle(gasto);
             let objDelete = new BorrarHandle(gasto);
-            let buttonEditar = document.getElementById(`edit${GUID}`);
-            let buttonBorrar = document.getElementById(`delete${GUID}`);
+            let buttonEditar = document.getElementById(`edit${randomNumber}`);
+            let buttonBorrar = document.getElementById(`delete${randomNumber}`);
 
             buttonEditar.addEventListener('click', objEdit);
             buttonBorrar.addEventListener('click', objDelete);
@@ -114,19 +115,20 @@ function nuevoGastoWeb() {
 
 /* https://stackoverflow.com/questions/2230992/javascript-creating-objects-based-on-a-prototype-without-using-new-constructo*/
 
-function EditarHandle(gasto) {
+function EditarHandle(gasto, GUID) {
     let obj = {
+        gasto : gasto,
         handleEvent(event) {
-            gasto : Object.create(gasto);
+            
             let descripcion1 = prompt("Introduzca la nueva descripción: ");
             let valor1 = parseFloat(prompt("Introduzca el nuevo valor: "));
             let fecha1 = formatearFecha(Date.parse(prompt("Introduzca la nueva fecha: ")));
             let etiquetas1 = prompt("Introduce las nuevas etiquetas: ").split(",");
-            obj.gasto.actualizarValor(valor1);
-            obj.gasto.actualizarDescripcion(descripcion1);
-            obj.gasto.actualizarFecha(fecha1);
-            obj.gasto.actualizarEtiquetas(etiquetas1);
-            repintar();
+            gastoRef.actualizarValor(valor1);
+            gastoRef.actualizarDescripcion(descripcion1);
+            gastoRef.actualizarFecha(fecha1);
+            gastoRef.actualizarEtiquetas(etiquetas1, + [""]);
+            repintar();   
         }
     }
     return obj;
