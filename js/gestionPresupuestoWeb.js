@@ -70,8 +70,8 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     }
 }
 
-export {
-    mostrarDatoEnId,
-    mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
-}
+// export {
+//     mostrarDatoEnId,
+//     mostrarGastoWeb,
+//     mostrarGastosAgrupadosWeb
+// }
