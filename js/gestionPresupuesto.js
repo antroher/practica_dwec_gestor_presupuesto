@@ -61,7 +61,7 @@ function CrearGasto(descrip, valor = 0, fecha = Date.now(), ...etiquetas) {
                 aux = aux + `- ${etiqueta}\n`;
             };
             let fecha2 = new Date(fecha1);
-            let texto = `Gasto correspondiente a ${this.descrip} con valor ${this.valor} €.\nFecha: ${(fecha2.toLocaleString())}\nEtiquetas:\n`;
+            let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fecha2.toLocaleString())}\nEtiquetas:\n`;
             return texto + aux;
         },
         actualizarFecha: function (newFecha) {
