@@ -33,3 +33,7 @@ GastosGenWeb.mostrarGastosAgrupadosWeb("agrupacion-mes",gastoAgrupado2,"mes");
 let gastoAgrupado3 = GastosGen.agruparGastos("anyo");
 GastosGen.agruparGastos("agrupacion-mes",gastoAgrupado3,"anyo");
 GastosGenWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo",gastoAgrupado3,"año");
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+    return false
+})

@@ -47,6 +47,10 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
         ${data}`
 }
 
+Cypress.on('uncaught:exception', (err, runnable) => {
+    return false
+})
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
