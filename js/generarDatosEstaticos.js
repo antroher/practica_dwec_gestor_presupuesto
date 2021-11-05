@@ -47,17 +47,22 @@ let objeto4 = {
     valorMaximo : 50
 }
 let lista_gastos = gestionPresupuesto.filtrarGastos(objeto1)
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1",lista_gastos)
+for (let gasto of lista_gastos){
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1",gasto);
+}
 
 let lista_gastos2 = gestionPresupuesto.filtrarGastos(objeto2)
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2",lista_gastos2)
-
+for (let gasto of lista_gastos2){
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2",gasto);
+}
 let lista_gastos3 = gestionPresupuesto.filtrarGastos(objeto3)
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3",lista_gastos3)
-
+for (let gasto of lista_gastos3) {
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3",gasto);
+}
 let lista_gastos4 = gestionPresupuesto.filtrarGastos(objeto4)
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4",lista_gastos4)
-
+for (let gasto of lista_gastos4){
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4",gasto);
+}
 let total_gastos_dia = gestionPresupuesto.agruparGastos("dia")
 gestionPresupuestoWeb.mostrarGastoWeb("agrupacion-dia", total_gastos_dia, "dia")
 
