@@ -28,9 +28,14 @@ function mostrarGastoWeb(idElemento, gasto){
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     let elem = document.getElementById(idElemento);
-    let html = `<div class="agrupacion">` 
-
-
+    let texto = "";
+    for (let [clave, valor] of Object.entries(agrup)) {
+        texto += "<div class='agrupacion-dato'> <span class='agrupacion-dato-clave'>" + clave + "</span>" +
+            "<span class='agrupacion-dato-valor'>" + valor + "</span></div>";
+        
+    };
+    elem.innerHTML += "<div class='agrupacion'><h1>Gastos agrupados por " + periodo + "</h1>" + texto;
+    
 }
 
 

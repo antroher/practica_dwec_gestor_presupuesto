@@ -241,7 +241,7 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta)
     let rtnFiltrarGastos = filtrarGastos(filtrar);
 
     let res =
-            rtnFiltrarGastos.reduce((acc, item, index, rtnFiltrarGastos) => 
+            rtnFiltrarGastos.reduce((acc, item) => 
             {
                 let key = item.obtenerPeriodoAgrupacion(periodo);
 
