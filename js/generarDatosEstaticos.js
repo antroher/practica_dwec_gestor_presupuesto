@@ -16,10 +16,10 @@ GastosGen.anyadirGasto(GastosGen.crearGasto("Seguro coche", 195.78, "2021-10-06"
 
 GastosGenWeb.mostrarDatoEnId("gastos-totales", GastosGen.calcularTotalGastos());
 GastosGenWeb.mostrarDatoEnId("balance-total", GastosGen.calcularBalance());
-GastosGenWeb.mostrarGastoWeb("listado-gastos-completo", GastosGen.listarGastos())
-GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-1", GastosGen.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"}))
-GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-2", GastosGen.filtrarGastos({valorMinimo:50}))
-GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-3", GastosGen.filtrarGastos({valorMinimo: 200, etiquetasTiene:["seguros"]}))
+GastosGenWeb.mostrarGastoWeb("listado-gastos-completo", GastosGen.listarGastos());
+GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-1", GastosGen.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"}));
+GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-2", GastosGen.filtrarGastos({valorMinimo:50}));
+GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-3", GastosGen.filtrarGastos({valorMinimo: 200, etiquetasTiene:["seguros"]}));
 GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-4", GastosGen.filtrarGastos({valorMaximo: 50, etiquetasTiene:["comida","transporte"]}));
 
 let gastoAgrupado1 = GastosGen.agruparGastos("día");
