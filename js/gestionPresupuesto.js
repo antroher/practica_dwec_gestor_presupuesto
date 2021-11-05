@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 //Variables global
 var presupuesto=0, idGasto=0;
 var gastos=[];
