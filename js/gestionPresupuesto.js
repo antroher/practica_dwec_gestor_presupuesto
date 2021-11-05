@@ -8,11 +8,12 @@ function CrearGasto(des, v, fec=Date.now(), ...etiq){
     if((parseFloat(v)<0) || isNaN(v))
         v=0;
 
+
     let gasto = {
         descripcion:des,
         valor:v,
         fecha:(typeof fec==='string') ? Date.parse(fec) : fec,
-        etiquetas:[...etiq],
+        etiquetas:etiq,
 
         mostrarGasto(){
             return 'Gasto correspondiente a '+this.descripcion+' con valor '+this.valor+' €';
