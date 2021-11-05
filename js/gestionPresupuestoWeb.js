@@ -33,12 +33,12 @@ function mostrarGastoWeb(idElemento, gastos) {
             <button id="edit${GUID}" class="gasto-editar" type="button">Editar</button>
             <button id="delete${GUID}" class="gasto-borrar" type="button">Borrar</button>
             `;
-            let objEdit = new EditarHandle(this.gasto);
-            let objDelete = new BorrarHandle(this.gasto);
+            let objEdit = new EditarHandle(gasto);
+            let objDelete = new BorrarHandle(gasto);
             let buttonEditar = document.getElementById(`edit${GUID}`);
             let buttonBorrar = document.getElementById(`delete${GUID}`);
 
-            buttonEditar.addEventListener('click', function() {Console.log("Pulsado Editar")});
+            buttonEditar.addEventListener('click', objEdit);
             buttonBorrar.addEventListener('click', objDelete);
     }
     elemento.innerHTML += "================================================"
@@ -114,18 +114,18 @@ function nuevoGastoWeb() {
 
 /* https://stackoverflow.com/questions/2230992/javascript-creating-objects-based-on-a-prototype-without-using-new-constructo*/
 
-function EditarHandle() {
+function EditarHandle(gasto) {
     let obj = {
         handleEvent(event) {
-            gasto : gestionPresupuesto.CrearGasto()
+            gasto : Object.create(gasto);
             let descripcion1 = prompt("Introduzca la nueva descripción: ");
             let valor1 = parseFloat(prompt("Introduzca el nuevo valor: "));
             let fecha1 = formatearFecha(Date.parse(prompt("Introduzca la nueva fecha: ")));
             let etiquetas1 = prompt("Introduce las nuevas etiquetas: ").split(",");
-            this.gasto.actualizarValor(valor1);
-            this.gasto.actualizarDescripcion(descripcion1);
-            this.gasto.actualizarFecha(fecha1);
-            this.gasto.actualizarEtiquetas(etiquetas1);
+            obj.gasto.actualizarValor(valor1);
+            obj.gasto.actualizarDescripcion(descripcion1);
+            obj.gasto.actualizarFecha(fecha1);
+            obj.gasto.actualizarEtiquetas(etiquetas1);
             repintar();
         }
     }
