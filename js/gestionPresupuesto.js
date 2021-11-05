@@ -193,7 +193,7 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta)
 
         return previousValue;
     },  {}
-    );
+    );   
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
