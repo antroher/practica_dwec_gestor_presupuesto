@@ -26,7 +26,7 @@ gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1",gestionPresupu
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2",gestionPresupuesto.filtrarGastos({valorMinimo:50}))
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3",gestionPresupuesto.filtrarGastos({valorMinimo: 200, etiquetasTiene:["seguros"]}))
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gestionPresupuesto.filtrarGastos({valorMaximo: 50, etiquetasTiene:["comida","transporte"]}));
-/*
+
 //Listado de gastos por año,mes,dia
 gestionPresupuesto.agruparGastos("agrupacion-dia");
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("dia");
@@ -34,4 +34,3 @@ gestionPresupuesto.agruparGastos("agrupacion-mes");
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("mes");
 gestionPresupuesto.agruparGastos("agrupacion-mes");
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("anyo");
-*/
