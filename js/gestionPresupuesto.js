@@ -1,6 +1,6 @@
 "use strict"
 
-import { type } from "os";
+//import { type } from "os";
 
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
@@ -26,7 +26,6 @@ return valorDevolver;
 
 function mostrarPresupuesto() {
     // TODO
-    console.log("hola")
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
