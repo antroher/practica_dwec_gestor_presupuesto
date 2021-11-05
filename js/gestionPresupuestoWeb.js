@@ -14,6 +14,7 @@ function mostrarDatoEnId(idElemento, valor) {
 function mostrarGastoWeb(idElemento, gastos) {
     let elemento = document.getElementById(idElemento);
     for (let gasto of gastos) {
+        let GUID = crypto.randomUUID();
         let data = "";
         for (let i of gasto.etiquetas) {
             data += `
@@ -27,9 +28,20 @@ function mostrarGastoWeb(idElemento, gastos) {
             <div class="gasto-fecha">${gasto.fecha}</div> 
             <div class="gasto-valor">${gasto.valor}</div> 
             <div class="gasto-etiquetas">
-            ${data}`;
-        // elemento.innerHTML += span.innerHTML + "</div>";
+            ${data}
+            </div>
+            <button id="edit${GUID}" class="gasto-editar" type="button">Editar</button>
+            <button id="delete${GUID}" class="gasto-borrar" type="button">Borrar</button>
+            `;
+            let objEdit = new EditarHandle(this.gasto);
+            let objDelete = new BorrarHandle(this.gasto);
+            let buttonEditar = document.getElementById(`edit${GUID}`);
+            let buttonBorrar = document.getElementById(`delete${GUID}`);
+
+            buttonEditar.addEventListener('click', function() {Console.log("Pulsado Editar")});
+            buttonBorrar.addEventListener('click', objDelete);
     }
+    elemento.innerHTML += "================================================"
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
@@ -53,20 +65,20 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
 function repintar() {
     //Presupuesto
     let mostPresupuesto = gestionPresupuesto.mostrarPresupuesto();
-    gestionPresupuestoWeb.mostrarDatoEnId('presupuesto', mostPresupuesto);
+    mostrarDatoEnId('presupuesto', mostPresupuesto);
 
     //Total de gastos
     let calcularTotalGastos = gestionPresupuesto.calcularTotalGastos();
-    gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales", calcularTotalGastos);
+    mostrarDatoEnId("gastos-totales", calcularTotalGastos);
 
     //Balance actual
     let calcularBalance = gestionPresupuesto.calcularBalance();
-    gestionPresupuestoWeb.mostrarDatoEnId("balance-total", calcularBalance);
+    mostrarDatoEnId("balance-total", calcularBalance);
 
     //Borrar div#listado-gastos-completo | Listado con los gastos y sus datos
     document.getElementById("listado-gastos-completo").innerHTML = "";
     let listaGastos = gestionPresupuesto.listarGastos();
-    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", listaGastos);
+    mostrarGastoWeb("listado-gastos-completo", listaGastos);
 }
 
 function formatearFecha(date) {
@@ -99,28 +111,32 @@ function nuevoGastoWeb() {
     repintar();
 }
 
-function EditarHandle(gasto1) {
-    handleEvent(event) {
-        let gasto = Object.create(gasto1);
-        let descripcion1 = prompt("Introduzca la nueva descripción: ");
-        let valor1 = parseFloat(prompt("Introduzca el nuevo valor: "));
-        let fecha1 = formatearFecha(Date.parse(prompt("Introduzca la nueva fecha: ")));
-        let etiquetas1 = prompt("Introduce las etiquetas: ").split(",");
-        this.gasto.actualizarValor(valor1);
-        this.gasto.actualizarDescripcion(descripcion1);
-        this.gasto.actualizarFecha(fecha1);
-        this.gasto.actualizarEtiquetas(etiquetas1);
-        repintar();
-    }
-}
-
-function BorrarHandle(gasto1) {
-    let gasto = Object.create(gasto1);
-    gasto = {
-        handleEvent(event) {
-            this.gasto.gasto = this.gasto;
+function EditarHandle(gasto) {
+     let obj = {
+         handleEvent() {
+            // obj.gasto = Object.create(gasto);
+            let descripcion1 = prompt("Introduzca la nueva descripción: ");
+            let valor1 = parseFloat(prompt("Introduzca el nuevo valor: "));
+            let fecha1 = formatearFecha(Date.parse(prompt("Introduzca la nueva fecha: ")));
+            let etiquetas1 = prompt("Introduce las etiquetas: ").split(",");
+            obj.gasto.actualizarValor(valor1);
+            obj.gasto.actualizarDescripcion(descripcion1);
+            obj.gasto.actualizarFecha(fecha1);
+            obj.gasto.actualizarEtiquetas(etiquetas1);
+            repintar();
         }
     }
+    return obj;
+}
+
+function BorrarHandle(gasto) {
+    let obj = {
+        handleEvent() {
+            gestionPresupuesto.borrarGasto(gasto);
+            repintar();
+       }
+   }
+   return obj;
 }
 
 //Botones
