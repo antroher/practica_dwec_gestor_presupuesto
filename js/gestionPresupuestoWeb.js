@@ -1,66 +1,71 @@
  "use strict";
 
+ //Función que recibe id y valor y lo muestra en un elemento <p> de HTML
  function mostrarDatoEnId(idElemento, valor){
 
     let dataId = document.getElementById(idElemento);
-    dataId.innerHTML += `<p>${valor}<p>`;
+    dataId.innerHTML += `<p>${valor}<p>`
 
  }
 
+ //Función que recibe un id y un gasto y despues muestra eses gasto con sus propiedades. 
+ //Especial atención a los bucles para poder recorrer el array de etiquetas y mostrarlas. Tambien lo utilizamos para mostrar los datos filtrados.
  function mostrarGastoWeb(idElemento, gastos){
-    let elmnt = document.getElementById(idElemento);
+    let dataId = document.getElementById(idElemento);
 
     gastos.forEach((gasto) => {
         let etiquetas = "";
 
         gasto.etiquetas.forEach((etiqueta) => {
-            etiquetas += (
+            etiquetas += 
 
                 `<span class="gasto-etiquetas-etiqueta"> 
-                                ${etiqueta}
-                </span>`
-            );
+                    ${etiqueta}
+                </span>`;
         });
 
-        elmnt.innerHTML += (
+        dataId.innerHTML += 
+
             `<div class="gasto">
 
                 <div class="gasto-descripcion">${gasto.descripcion}</div>
                 <div class="gasto-fecha">${gasto.fecha}</div> 
                 <div class="gasto-valor">${gasto.valor}</div> 
-                <div class="gasto-etiquetas">${etiquetas}</div> 
+                <div class="gasto-etiquetas">
+                    ${etiquetas}
+                </div> 
 
-            </div>`
-        )
+            </div>`;
     });
  }
 
+ //Función que recibe un id, una forma de agruparse y un periodo y que mostrara los gastos agrupados segun ese periodo determinado.
  function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
-    let elmnt = document.getElementById(idElemento);
-    let gastos ={};
+    let dataId = document.getElementById(idElemento);
+    let gastos ="";
 
-    for(let propertie in agrup){
-        gastos +=(
+    for(let [key, value] of Object.entries(agrup)){
+        gastos +=
+
             `<div class='agrupacion-dato'>
 
-                <span class='agrupacion-dato-clave'>${propertie}</span>
-                <span class='agrupacion-dato-valor'>" ${propertie[agrup]}</span>
+                <span class='agrupacion-dato-clave'>${key}</span>
+                <span class='agrupacion-dato-valor'>" ${value}</span>
 
-            </div>`
-        )
+            </div>`;
 
-        elmnt.innerHTML += (
-            `<div class='agrupacion'>
+
+        dataId.innerHTML += 
+            `< class='agrupacion'>
 
                 <h1>Gastos agrupados por ${periodo} </h1>
-                ${gastos}
+                ${gastos}`
                 
-            </div>`
-        );
     }
  }
 
  export{
+
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb
