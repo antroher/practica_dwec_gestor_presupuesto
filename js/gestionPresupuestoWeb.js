@@ -39,6 +39,11 @@ function mostrarGastosAgrupadosWeb (idElemento, agrup, periodo) {
             <span class="agrupacion-dato-valor">${valor}</span>
         </div>`
     };
+    elemento.innerHTML += 
+    `<div class="agrupacion">
+        <h1>Gastos agrupados por ${periodo}</h1>
+        ${datos}
+    `
 }
 
 export {
