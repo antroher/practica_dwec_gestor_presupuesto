@@ -184,6 +184,7 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechaDes, fechaHas=Date.
 
     return gastosAgrupados;
 }
+
     
     //Acciones con la variable global "presupuesto"
 function actualizarPresupuesto(pre){
