@@ -7,13 +7,27 @@ import * as gestionPresupuesto from './gestionPresupuesto.js';
     elem.appendChild(p);
  }
 
-function mostrarGastoWeb(idElemento, gasto) {
-  
+function mostrarGastoWeb(idElemento, gastos) {
+    let div = document.getElementById(idElemento);
+    for (let gasto of gastos) {
+        let aux = "";
+        for (let etiq of gasto.etiquetas) {
+            aux += `
+            <span class="gasto-etiquetas-etiqueta">
+                ${etiq}
+            </span>`
+        }
+        div.innerHTML += 
+            `<div class="gasto">
+                <div class="gasto-descripcion">${gasto.descripcion}</div>
+                <div class="gasto-fecha">${gasto.fecha}</div> 
+                <div class="gasto-valor">${gasto.valor}</div> 
+                <div class="gasto-etiquetas">
+                ${aux}`;
+    }
 }
 
-function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
 
-}
 
 
 export {
