@@ -1,6 +1,12 @@
 import * as gp from './gestionPresupuesto.js'
 import * as gpw from './gestionPresupuestoWeb.js'
 
+//añadir controladores
+let boton=document.getElementById("actualizarpresupuesto");
+boton.onclick=gpw.actualizarPresupuestoWeb;
+let boton2=document.getElementById("anyadirgasto");
+boton2.onclick=gpw.nuevoGastoWeb;
+
 gp.actualizarPresupuesto(1500);
 gpw.mostrarDatoEnId(gp.mostrarPresupuesto(),"presupuesto");
 gp.anyadirGasto(gp.CrearGasto("Compra carne", 23.44, "2021-10-06", "casa", "comida"));
