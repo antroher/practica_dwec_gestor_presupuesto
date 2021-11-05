@@ -6,10 +6,10 @@ function mostrarDatoEnId (idElemento, valor){
     
 }
 
-function mostrarGastoWeb(idElemento,gastos){
+function mostrarGastoWeb(idElemento,listaGasto){
     let element = document.getElementById(idElemento);
 
-    gastos.forEach((gasto) => {
+    listaGasto.forEach((gasto) => {
         let etiquetas = "";
         gasto.etiquetas.forEach((etiqueta) => {
             etiquetas += 
@@ -29,6 +29,25 @@ function mostrarGastoWeb(idElemento,gastos){
             </div>`;
     });
 }
+
+    function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
+        let elemento = document.getElementById(idElemento);
+
+        //bucle tocho
+      let listaGasto ="";
+        for(let prop in agrup){
+            listaGasto +=
+            "<div class='agrupacion-dato'>" +
+            "<span class='agrupacion-dato-clave'>" + prop + ": </span>" +
+            "<span class='agrupacion-dato-valor'>" + agrup[prop] + "</span>"+
+            "</div>";
+        }
+
+        elemento.innerHTML += 
+        `<div class='agrupacion'> 
+        <h1>Gastos agrupados por ${periodo} </h1>
+        ${listaGasto}`;
+    }
 
 function mostrarGastosAgrupadosWeb (idElemento, agrup, periodo){
 
