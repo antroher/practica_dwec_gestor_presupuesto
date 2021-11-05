@@ -111,18 +111,21 @@ function nuevoGastoWeb() {
     repintar();
 }
 
-function EditarHandle(gasto) {
-     let obj = {
-         handleEvent() {
-            // obj.gasto = Object.create(gasto);
+
+/* https://stackoverflow.com/questions/2230992/javascript-creating-objects-based-on-a-prototype-without-using-new-constructo*/
+
+function EditarHandle() {
+    let obj = {
+        handleEvent(event) {
+            gasto : gestionPresupuesto.CrearGasto()
             let descripcion1 = prompt("Introduzca la nueva descripción: ");
             let valor1 = parseFloat(prompt("Introduzca el nuevo valor: "));
             let fecha1 = formatearFecha(Date.parse(prompt("Introduzca la nueva fecha: ")));
-            let etiquetas1 = prompt("Introduce las etiquetas: ").split(",");
-            obj.gasto.actualizarValor(valor1);
-            obj.gasto.actualizarDescripcion(descripcion1);
-            obj.gasto.actualizarFecha(fecha1);
-            obj.gasto.actualizarEtiquetas(etiquetas1);
+            let etiquetas1 = prompt("Introduce las nuevas etiquetas: ").split(",");
+            this.gasto.actualizarValor(valor1);
+            this.gasto.actualizarDescripcion(descripcion1);
+            this.gasto.actualizarFecha(fecha1);
+            this.gasto.actualizarEtiquetas(etiquetas1);
             repintar();
         }
     }
@@ -143,9 +146,11 @@ function BorrarHandle(gasto) {
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
 
+const gastoBorrar = document.getElementById("gasto-borrar");
+
 //Eventos
 actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
-anyadirgasto.addEventListener('click', nuevoGastoWeb)
+anyadirgasto.addEventListener('click', nuevoGastoWeb);
 
 
 export   {
