@@ -26,7 +26,7 @@ function mostrarPresupuesto() {
     return (`Presupuesto actual: ${x} €`);
 }
 
-function crearGasto(descrip, valor = 0, fecha = Date.now(), ...etiquetas) {
+function CrearGasto(descrip, valor = 0, fecha = Date.now(), ...etiquetas) {
     valor = parseFloat(valor);
 
     if (isNaN(valor) || valor < 0) {
@@ -279,7 +279,7 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta) {
 export {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    crearGasto,
+    CrearGasto,
     listarGastos,
     anyadirGasto,
     borrarGasto,
