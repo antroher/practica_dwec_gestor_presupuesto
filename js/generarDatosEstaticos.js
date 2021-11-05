@@ -24,7 +24,9 @@ gastosGW.mostrarGastoWeb("listado-gastos-filtrado-2", gastosG.filtrarGastos());
 gastosGW.mostrarGastoWeb("listado-gastos-filtrado-3", gastosG.filtrarGastos());
 gastosGW.mostrarGastoWeb("listado-gastos-filtrado-4", gastosG.filtrarGastos());
 
-gastosGW.mostrarGastosAgrupadosWeb("agrupacion-dia", gastosG.agruparGastos());
-gastosGW.mostrarGastosAgrupadosWeb("agrupacion-mes", gastosG.agruparGastos());
-gastosGW.mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosG.agruparGastos());
+gastosGW.mostrarGastosAgrupadosWeb("agrupacion-dia", gastosG.agruparGastos("dia"));
+
+gastosGW.mostrarGastosAgrupadosWeb("agrupacion-mes", gastosG.agruparGastos("mes"));
+
+gastosGW.mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosG.agruparGastos("anyo"));
 
