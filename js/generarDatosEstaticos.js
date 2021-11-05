@@ -35,32 +35,40 @@ gestionPresupuestoWeb.mostrarDatoEnId('balance-total',valor);
 
 //Mostrar el listado completo de gastos en div#listado-gastos-completo
 let listaGastos = gestionPresupuesto.listarGastos();
-gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-completo',listaGastos);
+for (let k of listaGastos)
+gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-completo',k);
 
 //Mostrar el listado de gastos realizados en septiembre de 2021 en div#listado-gastos-filtrado-1
 let gastosfiltrados1 = gestionPresupuesto.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"});
-gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-1',gastosfiltrados1);
+for (let j of gastosfiltrados1)
+gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-1',j);
 
 //Mostrar el listado de gastos de más de 50€ en div#listado-gastos-filtrado-2
+
 let gastosfiltrados2 = gestionPresupuesto.filtrarGastos({valorMinimo: 50});
-gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-2',gastosfiltrados2);
+for (let h of gastosfiltrados2)
+gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-2',h);
 
 //Mostrar el listado de gastos de más de 200€ con etiqueta seguros en div#listado-gastos-filtrado-3
 let gastosfiltrados3 = gestionPresupuesto.filtrarGastos({valorMinimo: 200, etiquetasTiene:["seguros"]});
-gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-3',gastosfiltrados3);
+
+for (let w of gastosfiltrados3)
+gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-3',w);
 
 //Mostrar el listado de gastos que tengan las etiquetas comida o transporte de menos de 50€ en div#listado-gastos-filtrado-4
-let gastosfiltrados4 = gestionPresupuesto.filtrarGastos({etiquetasTiene:["comida","transporte"],valorMinimo: 50});
-gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-4',gastosfiltrados4);
+let gastosfiltrados4 = gestionPresupuesto.filtrarGastos({etiquetasTiene:["comida","transporte"],valorMaximo: 50});
+
+for(let t of gastosfiltrados4)
+gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-4',t);
 
 //Mostrar el total de gastos agrupados por día en div#agrupacion-dia
 let agrupar = gestionPresupuesto.agruparGastos('dia');
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-dia',agrupar,'dia');
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-dia',agrupar,'día');
 
 //Mostrar el total de gastos agrupados por mes en div#agrupacion-mes
-let agrupar = gestionPresupuesto.agruparGastos('mes');
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-mes',agrupar,'mes');
+let agrupar1 = gestionPresupuesto.agruparGastos('mes');
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-mes',agrupar1,'mes');
 
 //Mostrar el total de gastos agrupados por año en div#agrupacion-anyo
-let agrupar = gestionPresupuesto.agruparGastos('anyo');
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-anyo',agrupar,'anyo');
+let agrupar2 = gestionPresupuesto.agruparGastos('anyo');
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-anyo',agrupar2,'año');

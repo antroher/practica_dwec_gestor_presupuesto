@@ -3,14 +3,14 @@
 function mostrarDatoEnId(idElemento, valor) {
     let Elemento = document.getElementById(idElemento); //selecciona el elemento
     let parrafo = document.createElement("p");//crea el elemento
-    parrafo.textContent(valor);//modifica el contenido del elemento p
+    parrafo.textContent = valor;//modifica el contenido del elemento p
     Elemento.appendChild(parrafo);//añade el contenido del texto al párrafo (lo añade al html)
 }
 
 function mostrarGastoWeb(idElemento, gastos) {
     let elemento = document.getElementById(idElemento);
     let gastoEtiquetas ="";  
-    for (const etiqueta of gastos.etiquetas) {
+    for (let etiqueta of gastos.etiquetas) {
         gastoEtiquetas += `
         <span class="gasto-etiquetas-etiqueta">
             ${etiqueta}
@@ -29,18 +29,24 @@ function mostrarGastoWeb(idElemento, gastos) {
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
+    
+    let agrupacion = '';
+
     let element = document.getElementById(idElemento);
-    let agrupacion = "";
-    for (const [param,value] of agrup) {
+
+
+    for (let [param,value] of Object.entries(agrup)) {
         agrupacion += `
         <div class="agrupacion-dato">
         <span class="agrupacion-dato-clave">${param}</span>
         <span class="agrupacion-dato-valor">${value}</span>
         </div>`
     }
+
     element.innerHTML += `
     <div class="agrupacion">
     <h1>Gastos agrupados por ${periodo}</h1>
+    ${agrupacion}
     `
 }
 
