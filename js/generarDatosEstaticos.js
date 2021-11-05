@@ -20,5 +20,16 @@ gestionPresupuesto.anyadirGasto(gasto4);
 gestionPresupuesto.anyadirGasto(gasto5);
 gestionPresupuesto.anyadirGasto(gasto6);
 
-let calcularGastosTotales = gestionPresupuesto.calcularTotalGastos();
-gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales", calcularGastosTotales);
+let GastosTotales = gestionPresupuesto.calcularTotalGastos();
+gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales", GastosTotales);
+
+let balance = gestionPresupuesto.calcularBalance();
+gestionPresupuestoWeb.mostrarDatoEnId("balance-total", balance);
+
+let listadoGastoCompleto = gestionPresupuesto.listarGastos();
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", listadoGastoCompleto);
+
+let filtrado1 = {fechaDesde : "2021-09-01", fechaHasta : "2021-09-30"}
+gastoFiltrado1 = gestionPresupuesto.filtrarGastos(filtrado1);
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1", gastoFiltrado1);
+
