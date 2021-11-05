@@ -35,26 +35,20 @@ function mostrarGastoWeb(idElemento, gastos) {
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     let div = document.getElementById(idElemento);
 
-    let keyStorage = "";
-    for(let key of Object.keys(agrup)) {
-        keyStorage = ` 
-        <span class="agrupacion-dato-clave">${key}</span>`
-    }
-    let valueStorage = "";
-    for(let value of Object.values(agrup)) {
-        valueStorage = `
-        <span class="agrupacion-dato-valor">${value}</span>`
-    }
+    let storage = "";
+    for (let [clave, valor] of Object.entries(agrup)) {
+        storage += 
+        `<div class="agrupacion-dato">
+            <span class="agrupacion-dato-clave">${clave}</span>
+            <span class="agrupacion-dato-valor">${valor}</span>
+        </div>`
+    };
         div.innerHTML += ` 
     <div class="agrupacion">
     
         <h1>Gastos agrupados por ${periodo}</h1>
-    
-        <div class="agrupacion-dato">
-            ${keyStorage}
-
-            ${valueStorage}
-        </div>`
+        ${storage}
+        `
     
 }
 
