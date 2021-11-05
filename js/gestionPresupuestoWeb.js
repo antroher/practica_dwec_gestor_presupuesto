@@ -1,3 +1,5 @@
+import * as metodosGastos from "./gestionPresupuesto.js"
+
 
 function mostrarDatoEnId(idElemento, valor){
     let elemento = document.getElementById(idElemento);
@@ -35,8 +37,44 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     elemento.innerHTML += html;
 }
 
+function repintar(){
+    mostrarDatoEnId("presupuesto", metodosGastos.mostrarPresupuesto());
+    mostrarDatoEnId("gastos-totales", metodosGastos.calcularTotalGastos());
+    mostrarDatoEnId("balance-total", metodosGastos.calcularBalance());
+    let elemento = document.getElementById("listado-gastos-completo");
+    elemento.innerHTML = "";
+    metodosGastos.listarGastos().forEach(g => {
+        mostrarGastoWeb(elemento.id, g);
+    });
+}
+
+function actualizarPresupuestoWeb(){
+    let respuesta = prompt ("Introdue un nuevo presupuesto:");
+    metodosGastos.actualizarPresupuesto(parseInt(respuesta));
+    repintar();
+}
+
+function nuevoGastoWeb(){
+    let descr = prompt("Introduce la descripción del gasto:");
+    let val = prompt("Introdue el valor del gasto: ");
+    let fech = prompt ("Introduce la fecha del asto (yyyy-mm-dd): ");
+    let etiq = prompt ("Introduce las etiquetas del asto separadas por ',': ");
+    let gasto = metodosGastos.CrearGasto(descr, val, fech, new Array());
+    let etiquetas = new Array();
+    etiquetas = etiq.split(",");
+    etiquetas.forEach(e => {
+        gasto.anyadirEtiquetas(e);
+    });
+    repintar();
+}
+
+
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar,
+    actualizarPresupuestoWeb,
+    nuevoGastoWeb
 }

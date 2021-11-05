@@ -1,5 +1,12 @@
 import * as metodosGastos from "./gestionPresupuesto.js"
 import * as metodosGastosWeb from "./gestionPresupuestoWeb.js"
+
+let botonPresupuesto = document.getElementById("actualizarpresupuesto");
+botonPresupuesto.onclick = metodosGastosWeb.actualizarPresupuestoWeb;
+
+let botonAnyadirGasto = document.getElementById("anyadirgasto");
+botonAnyadirGasto.onclick = metodosGastosWeb.nuevoGastoWeb;
+
 metodosGastos.actualizarPresupuesto(1500);
 metodosGastosWeb.mostrarDatoEnId("presupuesto", metodosGastos.mostrarPresupuesto());
 let g1 = metodosGastos.CrearGasto("Compra carne", 23.44, "2021-10-06", "casa", "comida");
