@@ -22,9 +22,9 @@ GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-2", GastosGen.filtrarGasto
 GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-3", GastosGen.filtrarGastos({valorMinimo: 200, etiquetasTiene:["seguros"]}));
 GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-4", GastosGen.filtrarGastos({valorMaximo: 50, etiquetasTiene:["comida","transporte"]}));
 
-let gastoAgrupado1 = GastosGen.agruparGastos("día");
-GastosGen.agruparGastos("agrupacion-dia",gastoAgrupado1,"día");
-GastosGenWeb.mostrarGastosAgrupadosWeb("agrupacion-dia",gastoAgrupado1,"día");
+let gastoAgrupado1 = GastosGen.agruparGastos("dia");
+GastosGen.agruparGastos("agrupacion-dia",gastoAgrupado1,"dia");
+GastosGenWeb.mostrarGastosAgrupadosWeb("agrupacion-dia",gastoAgrupado1,"dia");
 
 let gastoAgrupado2 = GastosGen.agruparGastos("mes");
 GastosGen.agruparGastos("agrupacion-mes",gastoAgrupado2,"mes");
