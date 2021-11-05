@@ -1,22 +1,16 @@
 function mostrarDatoEnId(idElemento, valor) {
-
     let div = document.getElementById(idElemento);
 
-    let p = document.createElement('p');
-
-    p.textContent = valor;
-    
-    div.appendChild(p);
+    div.textContent = valor;
 }
 
 function mostrarGastoWeb(idElemento, gastos) {
     const div = document.getElementById(idElemento);
 
     for(let gasto of gastos) {
-        
         let storage = "";
         for(let i = 0; gasto.etiquetas.length > i; i++) {
-            storage =  `
+            storage +=  `
             <span class="gasto-etiquetas-etiqueta">
             ${gasto.etiquetas[i]}
           </span>`
@@ -28,12 +22,13 @@ function mostrarGastoWeb(idElemento, gastos) {
             <div class="gasto-fecha">${gasto.fecha}</div> 
             <div class="gasto-valor">${gasto.valor}</div>
             <div class="gasto-etiquetas">
-                ${storage}`
+                ${storage}
+            `
     }
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
-    let div = document.getElementById(idElemento);
+    const div = document.getElementById(idElemento);
 
     let storage = "";
     for (let [clave, valor] of Object.entries(agrup)) {
@@ -45,11 +40,9 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     };
         div.innerHTML += ` 
     <div class="agrupacion">
-    
         <h1>Gastos agrupados por ${periodo}</h1>
         ${storage}
-        `
-    
+    `
 }
 
 export {
