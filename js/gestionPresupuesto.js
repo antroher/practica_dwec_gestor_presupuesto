@@ -23,7 +23,7 @@ function actualizarPresupuesto(cant) {
 function mostrarPresupuesto() {
 
     let x = presupuesto;
-    return (`Presupuesto actual: ${x} €`);
+    return (`Tu presupuesto actual es de ${x} €`);
 }
 
 function CrearGasto(descrip, valor = 0, fecha = Date.now(), ...etiquetas) {
@@ -34,14 +34,14 @@ function CrearGasto(descrip, valor = 0, fecha = Date.now(), ...etiquetas) {
     }
     const gasto = {
         valor: valor,
-        descrip: descrip,
+        descripcion: descrip,
         etiquetas: [...etiquetas],
         fecha: (typeof fecha === 'string') ? Date.parse(fecha) : fecha,
         mostrarGasto: function () {
-            return (`Este gasto corresponde a ${this.descrip} con valor ${this.valor} €`);
+            return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
         },
-        actualizardescrip: function (newDescrip) {
-            this.descrip = newDescrip;
+        actualizarDescripcion: function (newDescrip) {
+            this.descripcion = newDescrip;
         },
         actualizarValor: function (newValor) {
             if (newValor >= 0) {
@@ -61,7 +61,7 @@ function CrearGasto(descrip, valor = 0, fecha = Date.now(), ...etiquetas) {
                 aux = aux + `- ${etiqueta}\n`;
             };
             let fecha2 = new Date(fecha1);
-            let texto = `Este gasto corresponde a ${this.descrip} con valor ${this.valor} €.\nFecha: ${(fecha2.toLocaleString())}\nEtiquetas:\n`;
+            let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fecha2.toLocaleString())}\nEtiquetas:\n`;
             return texto + aux;
         },
         actualizarFecha: function (newFecha) {
@@ -71,12 +71,12 @@ function CrearGasto(descrip, valor = 0, fecha = Date.now(), ...etiquetas) {
             }
         },
         anyadirEtiquetas: function (...etiquetas) {
-            const valoresUnicos = etiquetas.filter((x) => {
+            const valoresulUnicos = etiquetas.filter((x) => {
                 if (!this.etiquetas.includes(x)) {
                     return x;
                 }
             });
-            this.etiquetas.push(...valoresUnicos);
+            this.etiquetas.push(...valoresulUnicos);
         },
         borrarEtiquetas: function (...etiquetas) {
             etiquetas.forEach((x) => {
@@ -127,7 +127,7 @@ function CrearGasto(descrip, valor = 0, fecha = Date.now(), ...etiquetas) {
                 }
             }
         }
-    }
+    };
     return gasto;
 }
 
@@ -150,79 +150,63 @@ function borrarGasto(id) {
 }
 
 function calcularTotalGastos() {
-    let resul = 0;
+    let resulul = 0;
     gastos.forEach((x) => {
-        resul = resul + x.valor;
+        resulul = resulul + x.valor;
     })
-    return resul;
+    return resulul;
 }
 
 function calcularBalance() {
-    let resul = calcularTotalGastos();
-    let balance = presupuesto - resul;
+    let resulul = calcularTotalGastos();
+    let balance = presupuesto - resulul;
     return balance;
 }
+<<<<<<< HEAD
 function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}) {
     let gastosFiltrados = gastos;  
 
     gastosFiltrados = gastosFiltrados.filter(function (gasto) {
+=======
+>>>>>>> bc15a5a331ae1d51bf8171e397a26e7f3c8d5d40
 
-        let encontrado = true;
+function filtrarGastos(gastoFiltrad) {
+    let resul = Object.assign(gastos);
 
-        if (fechaDesde)
-        {
-            if (gasto.fecha < Date.parse(fechaDesde))
-            {
-                encontrado = false;
-            }
+    if (typeof gastoFiltrad === 'object' && gastoFiltrad !== null && gastoFiltrad !== undefined && Object.entries(gastoFiltrad).length > 0) {
+        if (gastoFiltrad.hasOwnProperty('fechaDesde') && typeof gastoFiltrad.fechaDesde === 'string') {
+            resul = resul.filter((aux) => {
+                return aux.fecha >= (Date.parse(gastoFiltrad.fechaDesde));
+            })
+        }
+        if (gastoFiltrad.hasOwnProperty('fechaHasta') && typeof gastoFiltrad.fechaHasta === 'string') {
+            resul = resul.filter((aux) => {
+                return aux.fecha <= (Date.parse(gastoFiltrad.fechaHasta));
+            })
+        }
+        if (gastoFiltrad.hasOwnProperty('valorMinimo') && typeof gastoFiltrad.valorMinimo === 'number') {
+            resul = resul.filter((aux) => {
+                return aux.valor >= gastoFiltrad.valorMinimo;
+            })
+        }
+        if (gastoFiltrad.hasOwnProperty('valorMaximo') && typeof gastoFiltrad.valorMaximo === 'number') {
+            resul = resul.filter((aux) => {
+
+                return aux.valor <= gastoFiltrad.valorMaximo;
+            })
+        }
+        if (gastoFiltrad.hasOwnProperty('descripcionContiene') && typeof gastoFiltrad.descripcionContiene === 'string') {
+            resul = resul.filter((aux) => {
+                if (aux.descripcion.includes(gastoFiltrad.descripcionContiene))
+                    return true;
+            })
         }
 
-        if (fechaHasta)
-        {
-            if (gasto.fecha > Date.parse(fechaHasta))
-            {
-                encontrado = false;
-            }
-        }
+        if (gastoFiltrad.hasOwnProperty('etiquetasTiene') && Array.isArray(gastoFiltrad.etiquetasTiene)) {
+            resul = resul.filter((aux) => {
+                for (let i = 0; i < gastoFiltrad.etiquetasTiene.length; i++) {
 
-        if (valorMinimo)
-        {
-            if (gasto.valor < valorMinimo)
-            {
-                encontrado = false;
-            }
-        }
-
-        if (valorMaximo)
-        {
-            if (gasto.valor > valorMaximo)
-            {
-                encontrado = false;
-            }
-        }
-        
-        if (descripcionContiene)
-        {
-            if (!gasto.descripcion.includes(descripcionContiene))
-            {
-                encontrado = false;
-            }
-        }
-
-        if (etiquetasTiene)
-        {
-            let tiene = false
-            for (let i = 0; i < gasto.etiquetas.length; i++)
-            {
-                for (let j = 0; j < etiquetasTiene.length; j++)
-                {
-                    if (gasto.etiquetas[i] == etiquetasTiene[j])
-                    {
-                        tiene = true;
-                    }
-                }
-            }
-
+<<<<<<< HEAD
             if (tiene == false)
             {
                 encontrado = false;
@@ -231,7 +215,91 @@ function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descri
         return encontrado;
     })
     return gastosFiltrados;
+=======
+                    if (gastoFiltrad.etiquetasTiene.includes(aux.etiquetas[i]))
+
+                        if (aux.etiquetas.includes(gastoFiltrad.etiquetasTiene[i]))
+                            return true;
+                }
+            })
+        }
+        return resul;
+    }
+    return gastos;
+>>>>>>> bc15a5a331ae1d51bf8171e397a26e7f3c8d5d40
 }
+// function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}) {
+
+//     let gastosFiltrados = gastos;  
+
+//     gastosFiltrados = gastosFiltrados.filter(function (gasto) {
+
+//         let encontrado = true;
+
+//         if (fechaDesde)
+//         {
+//             if (gasto.fecha < Date.parse(fechaDesde))
+//             {
+//                 encontrado = false;
+//             }
+//         }
+
+//         if (fechaHasta)
+//         {
+//             if (gasto.fecha > Date.parse(fechaHasta))
+//             {
+//                 encontrado = false;
+//             }
+//         }
+
+//         if (valorMinimo)
+//         {
+//             if (gasto.valor < valorMinimo)
+//             {
+//                 encontrado = false;
+//             }
+//         }
+
+//         if (valorMaximo)
+//         {
+//             if (gasto.valor > valorMaximo)
+//             {
+//                 encontrado = false;
+//             }
+//         }
+        
+//         if (descripcionContiene)
+//         {
+//             if (!gasto.descripcion.includes(descripcionContiene))
+//             {
+//                 encontrado = false;
+//             }
+//         }
+
+//         if (etiquetasTiene)
+//         {
+//             let tiene = false
+//             for (let i = 0; i < gasto.etiquetas.length; i++)
+//             {
+//                 for (let j = 0; j < etiquetasTiene.length; j++)
+//                 {
+//                     if (gasto.etiquetas[i] == etiquetasTiene[j])
+//                     {
+//                         tiene = true;
+//                     }
+//                 }
+//             }
+
+//             if (tiene == false)
+//             {
+//                 encontrado = false;
+//             }
+//         }
+//         return encontrado;
+//     })
+
+//     return gastosFiltrados;
+// }
 
 function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta) {
     let etiquetasTiene = etiquetas;
@@ -247,17 +315,17 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta) {
     }
 
     let grupoGastos = filtrarGastos({fechaDesde, fechaHasta, etiquetasTiene})
-    let resul = grupoGastos.reduce((acc, grupo) => { 
+    let resulul = grupoGastos.reduce((acc, grupo) => { 
         
         acc[grupo.obtenerPeriodoAgrupacion(periodo)] = (acc[grupo.obtenerPeriodoAgrupacion(periodo)] || 0) + grupo.valor; 
         return acc;
     
     } , {});
-    return resul;
+    return resulul;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
-// Las funciones y objetos deben tener los nombres que se indican en el enunciado
+// Las funciones y objetos deben tener los nombresul que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
 export {
     mostrarPresupuesto,
