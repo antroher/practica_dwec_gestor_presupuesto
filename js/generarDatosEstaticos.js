@@ -50,3 +50,9 @@ mostrarGastoWeb('listado-gastos-filtrado-3',filtrarGastos({valorMaximo:200,etiqu
 
 mostrarGastoWeb('listado-gastos-filtrado-4',filtrarGastos({valorMaximo:50, etiquetasTiene:["comida","transporte"]}));
 
+mostrarGastosAgrupadosWeb('agrupacion-dia',agruparGastos("dia"),"día");
+
+mostrarGastosAgrupadosWeb('agrupacion-mes',agruparGastos("mes"),"mes");
+
+mostrarGastosAgrupadosWeb('agrupacion-anyo',agruparGastos("anyo"),"año");
+
