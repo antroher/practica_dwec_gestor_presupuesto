@@ -26,19 +26,12 @@ function mostrarGastoWeb(idElemento, gasto){
             document.getElementById("gasto-etiquetas-etiqueta").onclick=borrarEtiquetasHandle.handleEvent;
           */  
         });
-        etiq+="</div>\n"+
-            "</div>\n";
+        etiq+="</div>\n";
         etiq+="<button class='gasto-editar' type='button'>Editar</button>\n";
         etiq+="<button class='gasto-borrar' type='button'>Borrar</button>\n";
 
-        /*let editarHandle=EditarHandle(gasto);
-        let borrarHandle=BorrarHandle(gasto);
-*/
+        etiq+="</div>\n";
         elem.innerHTML+=etiq;
-/*
-        document.getElementById("gasto-editar").onclick=editarHandle.handleEvent;
-        document.getElementById("gasto-borrar").onclick=borrarHandle.handleEvent;
-*/
                         
     }
 
