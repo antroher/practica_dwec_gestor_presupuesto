@@ -11,7 +11,7 @@ function mostrarDatoEnId(texto,idElemento)
     idElemento - Hará referencia al id del elemento HTML donde se insertará el resultado en formato texto.
     valor - El valor a mostrar */
     
-    document.getElementById(idElemento).innerHTML = texto.toString();
+    document.getElementById(idElemento).innerHTML += texto;
 
 }
 
