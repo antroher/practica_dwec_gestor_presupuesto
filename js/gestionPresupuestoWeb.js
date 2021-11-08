@@ -17,7 +17,10 @@ function mostrarGastoWeb(idElemento, gasto){
     gasto.etiquetas.forEach(e => {
         html += "<span class='gasto-etiquetas-etiqueta'>\n" + e + "\n</span>\n"
     });
-    html += "</div>\n</div>\n";
+    html += "</div>\n" + 
+    "<button type='button' class='gasto-editar'>Editar</button>" +
+    "<button type='button' class='gasto-borrar'>Borrar</button>" +
+    "</div>\n";
     elemento.innerHTML += html;
 }
 
@@ -61,7 +64,7 @@ function nuevoGastoWeb(){
     let val = prompt("Introdue el valor del gasto: ");
     let fech = prompt ("Introduce la fecha del asto (yyyy-mm-dd): ");
     let etiq = prompt ("Introduce las etiquetas del asto separadas por ',': ");
-    let gasto = metodosGastos.CrearGasto(descr, val, fech);
+    let gasto = metodosGastos.CrearGasto(descr,parseFloat(val), fech);
     let etiquetas = new Array();
     etiquetas = etiq.split(",");
     etiquetas.forEach(e => {
@@ -71,6 +74,52 @@ function nuevoGastoWeb(){
     repintar();
 }
 
+function EditarHandle(gastoEditar){
+    let handler = {
+        gasto : gastoEditar
+    }
+
+    handler.handleEvent = function(){
+        let descr = prompt("Introduce la descripción del gasto:", handler.gasto.descripcion);
+        let val = prompt("Introdue el valor del gasto: ", handler.gasto.valor);
+        let fech = prompt ("Introduce la fecha del asto (yyyy-mm-dd): ", handler.gasto.fecha);
+        let etiq = prompt ("Introduce las etiquetas del asto separadas por ',': ");
+        handler.gasto.actualizarDescripcion(descr);
+        handler.gasto.actualizarValor(parseFloat(val));
+        handler.gasto.actualizarFecha(fech);
+        let etiquetas = new Array();
+            etiquetas = etiq.split(",");
+            etiquetas.forEach(e => {
+                handler.gasto.anyadirEtiquetas(e);
+            });
+        repintar();
+    }
+    return handler;
+
+}
+
+function BorrarHandle(gastoBorrar){
+    let handler={
+        gasto : gastoBorrar
+    }
+    handler.handleEvent = function(){
+        metodosGastos.borrarGasto(handler.gasto.id);
+        repintar();
+    }
+    return handler;
+}
+
+function BorrarEtiquetasHandle(gastoEtiquetas, etiquetaEditar){
+    let handler={
+        gasto : gastoEtiquetas,
+        etiqueta : etiquetaEditar
+    }
+    handler.handleEvent = function(){
+        handler.gasto.borrarEtiquetas(handler.etiqueta);
+        repintar();
+    }
+    return handler;
+}
 
 
 export {
@@ -79,5 +128,8 @@ export {
     mostrarGastosAgrupadosWeb,
     repintar,
     actualizarPresupuestoWeb,
-    nuevoGastoWeb
+    nuevoGastoWeb,
+    EditarHandle,
+    BorrarHandle,
+    BorrarEtiquetasHandle
 }
