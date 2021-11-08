@@ -1,3 +1,5 @@
+//https://www.youtube.com/watch?v=DMawWBwHnBU
+
 function mostrarDatoEnId(idElemento, valor) {
     let elem = document.getElementById(idElemento);
     let p = document.createElement("p");
@@ -26,16 +28,16 @@ function mostrarGastoWeb(idElemento, gastos) {
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
-    const Elemen = document.getElementById(idElemento);
+    const elem = document.getElementById(idElemento);
     let datos = ""
-    for (let [llave, val] of Object.entries(agrup)) {
+    for (let [key, val] of Object.entries(agrup)) {
         datos += 
         `<div class="agrupacion-dato">
-            <span class="agrupacion-dato-clave">${llave}</span>
+            <span class="agrupacion-dato-clave">${key}</span>
             <span class="agrupacion-dato-valor">${val}</span>
         </div>`
     };
-    Elemen.innerHTML += 
+    elem.innerHTML += 
     `<div class="agrupacion">
         <h1>Gastos agrupados por ${periodo}</h1>
         ${datos}
@@ -43,8 +45,13 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     
 }
 
+function repintar() {
+    location.reload();
+}
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar
 }
