@@ -43,7 +43,7 @@ function mostrarPresupuesto() {
     return texto;
 }
 
-    function CrearGasto(des, v, fec = Date.now(), ...etiq) {
+function CrearGasto(des, v, fec = Date.now(), ...etiq) {
     // TODO
 
     if (comprobarNumNegativo(v)){

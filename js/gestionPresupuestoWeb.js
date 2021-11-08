@@ -41,6 +41,36 @@ function mostrarGastoWeb(idElemento, gasto){
     }
 }
 
+function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
+    let elem = document.getElementById(idElemento);
+
+    let divAgrupacion = document.createElement('div');
+    divAgrupacion.classList.add('agrupacion');
+    elem.append(divAgrupacion);
+
+    let hacheUno = document.createElement('h1');
+    hacheUno.innerHTML = 'Gastos agrupados por ' + periodo;
+    divAgrupacion.append(hacheUno);
+
+    for (let propiedad in agrup){
+
+        let divAgrupDato = document.createElement('div');
+        divAgrupDato.classList.add('agrupacion-dato');
+        divAgrupacion.append(divAgrupDato);
+
+        let spanClave = document.createElement('span');
+        spanClave.classList.add('agrupacion-dato-clave');
+        spanClave.innerHTML = `${propiedad}`;
+        divAgrupDato.append(spanClave);
+
+        let spanValor = document.createElement('span');
+        spanValor.classList.add('agrupacion-dato-valor');
+        spanValor.innerHTML = `${object[propiedad]}`;
+        divAgrupDato.append(spanValor);
+
+    }
+}
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
