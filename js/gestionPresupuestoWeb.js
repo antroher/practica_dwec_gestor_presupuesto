@@ -38,13 +38,15 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 }
 
 function repintar(){
+    document.getElementById("presupuesto").innerHTML="";
+    document.getElementById("gastos-totales").innerHTML="";
+    document.getElementById("balance-total").innerHTML="";
     mostrarDatoEnId("presupuesto", metodosGastos.mostrarPresupuesto());
     mostrarDatoEnId("gastos-totales", metodosGastos.calcularTotalGastos());
     mostrarDatoEnId("balance-total", metodosGastos.calcularBalance());
-    let elemento = document.getElementById("listado-gastos-completo");
-    elemento.innerHTML = "";
+    document.getElementById("listado-gastos-completo").innerHTML = "";
     metodosGastos.listarGastos().forEach(g => {
-        mostrarGastoWeb(elemento.id, g);
+        mostrarGastoWeb("listado-gastos-completo", g);
     });
 }
 
@@ -59,12 +61,13 @@ function nuevoGastoWeb(){
     let val = prompt("Introdue el valor del gasto: ");
     let fech = prompt ("Introduce la fecha del asto (yyyy-mm-dd): ");
     let etiq = prompt ("Introduce las etiquetas del asto separadas por ',': ");
-    let gasto = metodosGastos.CrearGasto(descr, val, fech, new Array());
+    let gasto = metodosGastos.CrearGasto(descr, val, fech);
     let etiquetas = new Array();
     etiquetas = etiq.split(",");
     etiquetas.forEach(e => {
         gasto.anyadirEtiquetas(e);
     });
+    metodosGastos.anyadirGasto(gasto);
     repintar();
 }
 
