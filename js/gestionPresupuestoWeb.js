@@ -20,10 +20,25 @@ function mostrarGastoWeb(idElemento, gasto){
             etiq+="<span class='gasto-etiquetas-etiqueta'>\n";
             etiq+=e+"\n";
             etiq+="</span>\n";
+            /*elem.innerHTML+=etiq;
+            etiq="";
+            let borrarEtiquetasHandle=BorrarEtiquetasHandle(gasto,e);
+            document.getElementById("gasto-etiquetas-etiqueta").onclick=borrarEtiquetasHandle.handleEvent;
+          */  
         });
         etiq+="</div>\n"+
             "</div>\n";
+        etiq+="<button class='gasto-editar' type='button'>Editar</button>\n";
+        etiq+="<button class='gasto-borrar' type='button'>Borrar</button>\n";
+
+        /*let editarHandle=EditarHandle(gasto);
+        let borrarHandle=BorrarHandle(gasto);
+*/
         elem.innerHTML+=etiq;
+/*
+        document.getElementById("gasto-editar").onclick=editarHandle.handleEvent;
+        document.getElementById("gasto-borrar").onclick=borrarHandle.handleEvent;
+*/
                         
     }
 
@@ -81,8 +96,49 @@ function nuevoGastoWeb(){
     repintar();
 }
 
-function EditarHandle(){
-    let handleEvent=function(){};
+function EditarHandle(g){
+    let editarHandle={
+        gasto:g,
+        handleEvent:function(){
+            let etiquetas=[];
+            let desc=prompt("Introduce la descripción:");
+            let valor=parseFloat(prompt("Introduce el valor:"));
+            let fecha=prompt("Introduce una fecha con este formato(aaaa-mm-dd):");
+            let etiq=prompt("Introduce las etiquetas(etiqueta1,etiqueta2,etiqueta3):");
+            if(typeof etiq !== 'undefined'){
+                etiquetas=etiq.split(",");
+            }
+            if(desc!=="") editarHandle.gasto.actualizarDescripcion(desc);
+            if(valor>=0)editarHandle.gasto.actualizarValor(valor);
+            if(fecha!=="")editarHandle.gasto.actualizarFecha(fecha);
+            editarHandle.gasto.etiquetas=etiquetas;
+            repintar();
+        }
+    }  
+    return editarHandle; 
+}
+
+function BorrarHandle(g){
+    let borrarHandle={
+        gasto:g,
+        handleEvent:function(){
+            gp.borrarGasto(borrarHandle.gasto.id);
+            repintar();
+        }
+    }  
+    return borrarHandle; 
+}
+
+function BorrarEtiquetasHandle(g,etiq){
+    let borrarEtiquetasHandle={
+        gasto:g,
+        etiqueta:etiq,
+        handleEvent:function(){
+            this.gasto.borrarEtiquetas(borrarEtiquetasHandle.etiqueta);
+            repintar();
+        }
+    }  
+    return borrarEtiquetasHandle; 
 }
 
 export   {
@@ -92,6 +148,8 @@ export   {
     repintar,
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
-    EditarHandle
+    EditarHandle,
+    BorrarHandle,
+    BorrarEtiquetasHandle
     
 }
