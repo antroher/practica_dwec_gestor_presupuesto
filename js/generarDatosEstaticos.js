@@ -3,12 +3,12 @@ import * as gestionPresupuestoWeb from './gestionPresupuestoWeb.js'
 
 gestionPresupuesto.actualizarPresupuesto(1500);
 gestionPresupuestoWeb.mostrarDatoEnId("presupuesto", gestionPresupuesto.mostrarPresupuesto());
-let gasto1= gestionPresupuesto.CrearGasto("Comprar carne", 23.44,"2021-10-06", "supermercado", "casa");
-let gasto2= gestionPresupuesto.CrearGasto("Comprar fruta y verdura", 14.25,"2021-09-06", "supermercado", "comida");
-let gasto3= gestionPresupuesto.CrearGasto("Bonobús", 18.60,"2020-05-26", "supermercado");
-let gasto4= gestionPresupuesto.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina");
-let gasto5= gestionPresupuesto.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros");
-let gasto6= gestionPresupuesto.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros");
+let gasto1= new gestionPresupuesto.CrearGasto("Comprar carne", 23.44,"2021-10-06", "supermercado", "casa");
+let gasto2= new gestionPresupuesto.CrearGasto("Comprar fruta y verdura", 14.25,"2021-09-06", "supermercado", "comida");
+let gasto3= new gestionPresupuesto.CrearGasto("Bonobús", 18.60,"2020-05-26", "supermercado");
+let gasto4= new gestionPresupuesto.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina");
+let gasto5= new gestionPresupuesto.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros");
+let gasto6= new gestionPresupuesto.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros");
 
 gestionPresupuesto.anyadirGasto(gasto1);
 gestionPresupuesto.anyadirGasto(gasto2);
@@ -49,6 +49,6 @@ gastosFiltrados.forEach(element =>{
 });
 
 
-gestionWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", gestionPresupuesto.agruparGastos("dia"), "día");
-gestionWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", gestionPresupuesto.agruparGastos("mes"), "mes");
-gestionWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", gestionPresupuesto.agruparGastos("anyo"), "año");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", gestionPresupuesto.agruparGastos("dia"), "día");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", gestionPresupuesto.agruparGastos("mes"), "mes");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", gestionPresupuesto.agruparGastos("anyo"), "año");

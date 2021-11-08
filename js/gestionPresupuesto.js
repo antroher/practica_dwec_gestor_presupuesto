@@ -242,7 +242,7 @@ function filtrarGastos(objfil)
             res = res.filter((aux) => {
                 for (let i = 0; i < objfil.etiquetasTiene.length; i++) 
                 {
-                    if (objfil.etiquetasTiene.includes(aux.etiquetas[i])) 
+                    if (aux.etiquetas.includes(objfil.etiquetasTiene[i])) 
                     {
                         return true;
                     }

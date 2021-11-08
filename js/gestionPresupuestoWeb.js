@@ -17,7 +17,7 @@ function mostrarGastoWeb(idElemento, gasto)
                             <div class="gasto-valor"> ${gasto.valor} </div>
                             <div class="gasto-etiquetas">`;
 
-    for(let gast of gastos.etiquetas)       
+    for(let gast of gasto.etiquetas)       
             div += ` <span class="gasto-etiquetas-etiqueta"> ${gast} </span> `;
         
     div += `</div></div>`;
@@ -42,7 +42,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
         "</div>\n";
     }
     mensaje += "</div>\n";
-    elemento.innerHTML += html;
+    elemento.innerHTML += mensaje;
     
 }
 
