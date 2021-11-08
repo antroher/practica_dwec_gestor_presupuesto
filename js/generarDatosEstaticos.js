@@ -1,17 +1,19 @@
-import {mostrarDatoEnId} from './generarDatosEstaticos.js';
-import {mostrarPresupuesto} from './generarDatosEstaticos.js';
-import {CrearGasto} from './generarDatosEstaticos.js';
-import {anyadirGasto} from './generarDatosEstaticos.js';
-import {actualizarPresupuesto} from './generarDatosEstaticos.js';
-import {calcularTotalGastos} from './generarDatosEstaticos.js';
-import {calcularBalance} from './generarDatosEstaticos.js';
-import {listarGastos} from './generarDatosEstaticos.js';
-import {mostrarGastoWeb} from './generarDatosEstaticos.js';
-import {filtrarGastos} from './generarDatosEstaticos.js';
-import {gastos} from './generarDatosEstaticos.js';
-import {mostrarGastosAgrupadosWeb} from './generarDatosEstaticos.js';
-import {agruparGastos} from '.generarDatosEstaticos.js';
 import {mostrarDatoEnId, mostrarGastoWeb,mostrarGastosAgrupadosWeb} from './gestionPresupuestoWeb.js';
+import {mostrarPresupuesto}    from './gestionPresupuesto.js';
+import {CrearGasto} from './gestionPresupuesto.js';
+import {listarGastos} from './gestionPresupuesto.js';
+import {anyadirGasto} from './gestionPresupuesto.js';
+import {borrarGasto} from './gestionPresupuesto.js';
+import {calcularTotalGastos} from './gestionPresupuesto.js';
+import {calcularBalance} from './gestionPresupuesto.js';
+import {filtrarGastos} from './gestionPresupuesto.js';
+import {agruparGastos} from './gestionPresupuesto.js';
+import {actualizarPresupuesto} from './gestionPresupuesto.js';
+
+
+
+actualizarPresupuesto(1500);
+mostrarDatoEnId("presupuesto",mostrarPresupuesto());
 
 
 let valor1 = 23.44,
@@ -34,4 +36,17 @@ anyadirGasto(gasto4);
 anyadirGasto(gasto5);
 anyadirGasto(gasto6);
 
-actualizarPresupuesto(1500);
+mostrarDatoEnId("gastos-totales", calcularTotalGastos());
+
+mostrarDatoEnId("balance-total", calcularBalance());
+
+mostrarGastoWeb('listado-gastos-completo',listarGastos());
+
+mostrarGastoWeb('listado-gastos-filtrado-1',filtrarGastos({fechaDesde:"2021-09-01",fechaHasta:"2021-09-30"}));
+
+mostrarGastoWeb('listado-gastos-filtrado-2',filtrarGastos({valorMinimo:50}));
+
+mostrarGastoWeb('listado-gastos-filtrado-3',filtrarGastos({valorMaximo:200,etiquetasTiene:["seguros"]}));
+
+mostrarGastoWeb('listado-gastos-filtrado-4',filtrarGastos({valorMaximo:50, etiquetasTiene:["comida","transporte"]}));
+

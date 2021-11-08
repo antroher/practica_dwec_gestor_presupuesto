@@ -50,40 +50,46 @@ function mostrarPresupuesto() {
 function CrearGasto(descripcion, valor,fecha,...etiquetas) 
 {
     // TODO
-    this.descripcion=descripcion;
+    
     if(valor > 0)
     {
-       this.valor=valor;
+       valor=valor;
     }
     else
     {
-        this.valor = 0;
+        valor = 0;
     }
     
     if (etiquetas.length === 0)
     {
-            this.etiquetas = new Array();
+            etiquetas = new Array();
     }
     else
     {
-            this.etiquetas = etiquetas;
+            etiquetas = etiquetas;
     }
     if (fecha)
     {
-        this.fecha = Date.parse(fecha)
+        fecha = Date.parse(fecha)
     }
     else
     {
-        this.fecha = Date.now(fecha);
+        fecha = Date.now(fecha);
     }
+    const gastos = {
+        valor : valor,
+        descripcion : descripcion,
+        etiquetas : etiquetas,
+        fecha : fecha,
+    
     
 
        
-       this.mostrarGasto = function(){
+       mostrarGasto : function(){
         return 'Gasto correspondiente a ' + this.descripcion + ' con valor ' + this.valor + ' €' ;
-       }
+       },
 
-       this.mostrarGastoCompleto = function()
+       mostrarGastoCompleto : function()
         {
             let fecha2 = new Date(this.fecha).toLocaleString();
             let almacen_etiquetas = "";
@@ -96,13 +102,13 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas)
             'Etiquetas:\n' + almacen_etiquetas;
 
 
-        }    
+        },    
        
-       this.actualizarDescripcion = function(descripcion){
+       actualizarDescripcion : function(descripcion){
         this.descripcion = descripcion;
         return this.descripcion;
-       }
-       this.actualizarValor = function(valor)
+       },
+       actualizarValor : function(valor)
        {
         if (isNaN(valor)){
             return this.valor;
@@ -118,17 +124,17 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas)
             return this.valor;
            }
 
-       }
-       this.actualizarFecha = function(fecha_nueva) 
+       },
+       actualizarFecha : function(fecha_nueva) 
     {
         if (Date.parse(fecha_nueva))
         {
             fecha = Date.parse(fecha_nueva)
             this.fecha = fecha;
         }
-    }
+    },
 
-       this.anyadirEtiquetas = function(...nuevaetiqueta) 
+       anyadirEtiquetas : function(...nuevaetiqueta) 
     {
 
         for (let i = 0; i < nuevaetiqueta.length; i++)
@@ -140,9 +146,9 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas)
                 this.etiquetas.push(nuevaetiqueta[i]);
             }
         }
-    }
+    },
 
-        this.borrarEtiquetas = function(...borraretiqueta)
+        borrarEtiquetas : function(...borraretiqueta)
         {
             for (let i = 0; i < borraretiqueta.length; i++)
             {
@@ -153,9 +159,9 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas)
                     this.etiquetas.splice(pos, 1)
                 }
             }
-        }
+        },
         
-        this.obtenerPeriodoAgrupacion = function(Periodo){
+        obtenerPeriodoAgrupacion : function(Periodo){
 
             let  nueva_fecha= new Date(fecha).toISOString();
             let fecha_agrupada = "";
@@ -174,6 +180,9 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas)
             }
             return fecha_agrupada;
         }
+
+        }
+        return gastos;
     }
         
         
