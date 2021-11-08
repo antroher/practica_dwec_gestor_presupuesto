@@ -35,7 +35,7 @@ var IDGasto = 0;
                 descripcion:desc,
                 valor:numIntroducido,
                 fecha : (typeof fecha === "string") ? Date.parse(fecha) : fecha,
-                etiquetas : [...etiq],
+                etiquetas : etiq,
             mostrarGasto(){
                 return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`
             },
