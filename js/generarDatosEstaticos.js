@@ -6,7 +6,7 @@ import * as gestionPresupuestoWeb from './gestionPresupuestoWeb.js'
 gestionPresupuesto.actualizarPresupuesto(1500);
 
 //mostramos la cadena en el documento id=presupuesto
-gestionPresupuestoWeb.mostrarDatoEnID('presupuesto',gestionPresupuesto.mostrarPresupuesto());
+gestionPresupuestoWeb.mostrarDatoEnId('presupuesto',gestionPresupuesto.mostrarPresupuesto());
 
 //creamos gastos
 let gasto;
@@ -30,11 +30,11 @@ let gasto;
 
 //mostramos los gastos totales en el documetos id=gastos-totales
 let gastosTotales = gestionPresupuesto.calcularTotalGastos();
-gestionPresupuestoWeb.mostrarDatoEnID('gastos-totales',gastosTotales);
+gestionPresupuestoWeb.mostrarDatoEnId('gastos-totales',gastosTotales);
 
 //mostramos el balance total en el documento id=balance-total
 let balanceTotal = gestionPresupuesto.calcularBalance();
-gestionPresupuestoWeb.mostrarDatoEnID('balance-total',balanceTotal);
+gestionPresupuestoWeb.mostrarDatoEnId('balance-total',balanceTotal);
 
 //mostrar el listado completo de los gastos en le documento id=listado-gastos-completo
 let listadoGastoCompletos = gestionPresupuesto.listarGastos();
@@ -75,13 +75,9 @@ let obj,gastoFiltrado,etiq;
         gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-4',key);
     }
 //mostrar total de gastos agrupados
-let gastosAgrupados;
     //dia div=agrupacion-dia
-    gastosAgrupados=gestionPresupuesto.agruparGastos("dia");
-    gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-dia',gastosAgrupados,"día");
+    gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-dia',gestionPresupuesto.agruparGastos("dia"),"día");
     //mes div=agrupacion-mes
-    gastosAgrupados=gestionPresupuesto.agruparGastos("mes");
-    gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-mes',gastosAgrupados,"mes");
+    gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-mes',gestionPresupuesto.agruparGastos("mes"),"mes");
     //año div=agrupacion-año
-    gastosAgrupados=gestionPresupuesto.agruparGastos("anyo");
-    gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-año',gastosAgrupados,"año");
+    gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-año',gestionPresupuesto.agruparGastos("anyo"),"año");
