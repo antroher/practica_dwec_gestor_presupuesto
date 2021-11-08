@@ -1,4 +1,4 @@
-
+'use strict'
 import * as gpw from "./gestionPresupuestoWeb";
 import * as gp from "./gestionPresupuesto";
 
