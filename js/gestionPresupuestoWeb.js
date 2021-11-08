@@ -15,7 +15,7 @@ function mostrarGastoWeb(idElemento, gastos) {
     let elemento = document.getElementById(idElemento);
     for (let gasto of gastos) {
         //let GUID = crypto.randomUUID();
-        let randomNumber = Math.floor((Math.random() * 1000) + 1);
+        //let randomNumber = Math.floor((Math.random() * 1000) + 1);
         let data = "";
         for (let i of gasto.etiquetas) {
             data += `
@@ -31,16 +31,27 @@ function mostrarGastoWeb(idElemento, gastos) {
             <div class="gasto-etiquetas">
             ${data}
             </div>
-            <button id="edit${randomNumber}" class="gasto-editar" type="button">Editar</button>
-            <button id="delete${randomNumber}" class="gasto-borrar" type="button">Borrar</button>
             `;
-            let objEdit = new EditarHandle(gasto);
-            let objDelete = new BorrarHandle(gasto);
-            let buttonEditar = document.getElementById(`edit${randomNumber}`);
-            let buttonBorrar = document.getElementById(`delete${randomNumber}`);
+            let buttonEdit = document.createElement("button");
+                             buttonEdit.className += 'gasto-editar'
+                             buttonEdit.textContent = "Editar";
+                             buttonEdit.type = 'button';
 
-            buttonEditar.addEventListener('click', objEdit);
-            buttonBorrar.addEventListener('click', objDelete);
+            let buttonBorr = document.createElement("button");
+                             buttonBorr.className += 'gasto-borrar'
+                             buttonBorr.textContent = "Borrar";
+                             buttonBorr.type = 'button';
+
+            let nM = new EditarHandle(gasto);
+            let nB = new BorrarHandle(gasto);
+            
+            
+            buttonEdit.addEventListener('click', nM);
+            buttonBorr.addEventListener('click', nB);
+            
+            elemento.append(buttonEdit);
+            elemento.append(buttonBorr);
+
     }
     elemento.innerHTML += "================================================"
 }
@@ -115,23 +126,27 @@ function nuevoGastoWeb() {
 
 /* https://stackoverflow.com/questions/2230992/javascript-creating-objects-based-on-a-prototype-without-using-new-constructo*/
 
-function EditarHandle(gasto, GUID) {
-    let obj = {
-        gasto : gasto,
-        handleEvent(event) {
-            
-            let descripcion1 = prompt("Introduzca la nueva descripción: ");
-            let valor1 = parseFloat(prompt("Introduzca el nuevo valor: "));
-            let fecha1 = formatearFecha(Date.parse(prompt("Introduzca la nueva fecha: ")));
-            let etiquetas1 = prompt("Introduce las nuevas etiquetas: ").split(",");
-            gastoRef.actualizarValor(valor1);
-            gastoRef.actualizarDescripcion(descripcion1);
-            gastoRef.actualizarFecha(fecha1);
-            gastoRef.actualizarEtiquetas(etiquetas1, + [""]);
-            repintar();   
+function EditarHandle(gastoR) {
+    this.gasto = gastoR;
+    this.handleEvent = function(event) {
+        let descripcion1 = prompt("Introduzca la nueva descripción: ");
+        let valor1 = parseFloat(prompt("Introduzca el nuevo valor: "));
+        let fecha1 = formatearFecha(Date.parse(prompt("Introduzca la nueva fecha: ")));
+        let etiquetas1 = prompt("Introduce las nuevas etiquetas: ");
+
+        if (typeof etiquetas1 != undefined) {
+            etiquetas1.split(',');
+            this.gasto.etiquetas = [...etiquetas1];
+        } else {
+            this.gasto.etiquetas = [];
         }
+
+        this.gasto.actualizarValor(valor1);
+        this.gasto.actualizarDescripcion(descripcion1);
+        this.gasto.actualizarFecha(fecha1);
+        repintar();   
+        
     }
-    return obj;
 }
 
 function BorrarHandle(gasto) {
