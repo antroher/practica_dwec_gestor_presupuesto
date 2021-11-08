@@ -1,3 +1,4 @@
+
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
@@ -197,14 +198,14 @@ function filtrarGastos(objeto) {
         }
         if (objeto.hasOwnProperty('valorMinimo') && typeof objeto.valorMinimo === 'number') {
             resultado = resultado.filter(function(item)  {
-                if(item.valor >= objeto.valorMinimo){
+                if(item.valor > objeto.valorMinimo){
                     return true
                 }               
             })
         }
         if (objeto.hasOwnProperty('valorMaximo') && typeof objeto.valorMaximo === 'number') {
             resultado = resultado.filter(function(item)  {   
-                if(item.valor <= objeto.valorMaximo){             
+                if(item.valor < objeto.valorMaximo){             
                 return true
                 }
             })
@@ -220,7 +221,7 @@ function filtrarGastos(objeto) {
         if (objeto.hasOwnProperty('etiquetasTiene') && Array.isArray(objeto.etiquetasTiene)) {
             resultado = resultado.filter(function(item)  {
                 for (let i = 0; i < objeto.etiquetasTiene.length; i++) {
-                    if (objeto.etiquetasTiene.includes(item.etiquetas[i])) {
+                    if (item.etiquetas.includes(objeto.etiquetasTiene[i])) {
                         return true;
                     }
                 }

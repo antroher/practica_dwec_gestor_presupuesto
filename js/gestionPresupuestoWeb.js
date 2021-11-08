@@ -1,3 +1,4 @@
+
 function mostrarDatoEnId(idElemento, valor){
 
     let elemento = document.getElementById(idElemento);
@@ -8,13 +9,14 @@ function mostrarDatoEnId(idElemento, valor){
 }
 
 function mostrarGastoWeb(idElemento, gasto){
+    console.log(idElemento + "||" + gasto)
     let bloque = `<div class="gasto">
                             <div class="gasto-descripcion"> ${gasto.descripcion} </div>
                             <div class="gasto-fecha"> ${gasto.fecha} </div>
                             <div class="gasto-valor"> ${gasto.valor} </div>
                             <div class="gasto-etiquetas">`;
     for(let etiqueta of gasto.etiquetas) 
-    {     
+    {     console.log(idElemento + "||" + etiqueta)
         bloque += `<span class="gasto-etiquetas-etiqueta"> ${etiqueta} </span>` 
     } 
     bloque += `</div>
@@ -30,11 +32,11 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     {
         bloque += `<div class="agrupacion-dato">
                         <span class="agrupacion-dato-clave">${elemento} </span>
-                        <span class="agrupacion-dato-valor">${agrup[elemento]}</span
+                        <span class="agrupacion-dato-valor">${agrup[elemento]}</span>
                         </div> `;
     }
     bloque += `</div>`;
-    document.getElementById(idElemento).innerHTML = bloque;
+    document.getElementById(idElemento).innerHTML += bloque;
 }
 
 export   {
