@@ -1,6 +1,6 @@
 'use strict'
-import * as gpw from "./gestionPresupuestoWeb";
-import * as gp from "./gestionPresupuesto";
+import * as gpw from "./gestionPresupuestoWeb.js";
+import * as gp from "./gestionPresupuesto.js";
 
 gp.actualizarPresupuesto(1500);
 gpw.mostrarDatoEnId(gp.mostrarPresupuesto(),"presupuesto");
