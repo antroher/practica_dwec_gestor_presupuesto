@@ -80,4 +80,4 @@ let obj,gastoFiltrado,etiq;
     //mes div=agrupacion-mes
     gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-mes',gestionPresupuesto.agruparGastos("mes"),"mes");
     //año div=agrupacion-año
-    gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-año',gestionPresupuesto.agruparGastos("anyo"),"año");
+    gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-anyo',gestionPresupuesto.agruparGastos("anyo"),"año");

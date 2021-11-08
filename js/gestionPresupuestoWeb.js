@@ -1,11 +1,7 @@
 'use strict';
-
 function mostrarDatoEnId(idElemento, valor){
     let elem = document.getElementById(idElemento);
-    let p=document.createElement('p');
-    p.textContent=valor;
-    elem.append(p);
-
+    elem.innerHTML += valor;
 }
 function mostrarGastoWeb(idElemento, gasto){
     let elem = document.getElementById(idElemento);
@@ -21,40 +17,35 @@ function mostrarGastoWeb(idElemento, gasto){
     cad += "</div>\n</div>\n";
     elem.innerHTML += cad;
 }
+
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     let elem = document.getElementById(idElemento);
-
-    //div class="agrupacion"
-    let div=document.createElement('div');
-    div.className="agrupacion";
-
-        //h1 Gastos agrupados por PERIODO
-        let h1=document.createElement('h1');
-        h1.textContent=`Gastos agrupados por ${periodo}`;
-    div.append(h1);
-
-    for (let i in agrup){
+    let cad = "<div class='agrupacion'>\n" + 
+    "<h1>Gastos agrupados por " + periodo + "</h1>\n";
+    
+    for (let res in agrup){
       
-            //div class="agrupacion-dato"
-            let divAD=document.createElement('div'),span=document.createElement('span');
-            divAD.className="agrupacion-dato";
-                //span class="agrupacion-dato-clave"
-                span.className="agrupacion-dato-clave";
-                span.textContent=i;
-                divAD.append(span);
-                //span class="agrupacion-dato-valor"
-                span.className="agrupacion-dato-valor";
-                span.textContent=agrup[i];
-                divAD.append(span);
-            div.append(divAD);
-    }
+        cad += 
+        "<div class='agrupacion-dato'>\n" +
+        "<span class='agrupacion-dato-clave'>" + res + "</span>\n" +
+        "<span class='agrupacion-dato-valor'>" + agrup[res] + "</span>\n"+
+        "</div>\n";
+}
+
+    cad += "</div>\n";
+    elem.innerHTML += cad;
+    
 }
 
     
 
-/*function mostrarDatoEnId(idElemento, valor){
+/*
+function mostrarDatoEnId(idElemento, valor){
     let elem = document.getElementById(idElemento);
-    elem.innerHTML += valor;
+    let p=document.createElement('p');
+    p.textContent=valor;
+    elem.append(p);
+
 }*/
 /*function mostrarGastoWeb(idElemento, gasto){
     let elem = document.getElementById(idElemento);
@@ -65,9 +56,8 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     divg.className="gasto";
 
         //div class=gasto-descripcion
-        console.log(gasto.descripcion)
         divg2.className="gasto-descripcion";
-        divg2.textContent=gasto.descripcion ;
+        divg2.textContent=gasto.descripcion;
         divg.append(divg2);
 
         //div class=gasto-fecha
@@ -95,26 +85,35 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 }*/
 
 
-/*
-function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
+/*function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     let elem = document.getElementById(idElemento);
-    let cad = "<div class='agrupacion'>\n" + 
-    "<h1>Gastos agrupados por " + periodo + "</h1>\n";
 
-    for (let res in agrup){
+    //div class="agrupacion"
+    let div=document.createElement('div');
+    div.className="agrupacion";
+
+        //h1 Gastos agrupados por PERIODO
+        let h1=document.createElement('h1');
+        h1.textContent=`Gastos agrupados por ${periodo}`;
+    div.append(h1);
+
+    for (let i in agrup){
       
-        cad += 
-        "<div class='agrupacion-dato'>\n" +
-        "<span class='agrupacion-dato-clave'>" + res + "</span>\n" +
-        "<span class='agrupacion-dato-valor'>" + agrup[res] + "</span>\n"+
-        "</div>\n";
+            //div class="agrupacion-dato"
+            let divAD=document.createElement('div'),span=document.createElement('span');
+            divAD.className="agrupacion-dato";
+                //span class="agrupacion-dato-clave"
+                span.className="agrupacion-dato-clave";
+                span.textContent=i;
+                divAD.append(span);
+                //span class="agrupacion-dato-valor"
+                span.className="agrupacion-dato-valor";
+                span.textContent=agrup[i];
+                divAD.append(span);
+            div.append(divAD);
+    }
 }
-
-    cad += "</div>\n";
-    elem.innerHTML += cad;
-    
-}
-}*/
+*/
 
 export {
     mostrarDatoEnId,
