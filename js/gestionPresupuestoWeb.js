@@ -127,26 +127,28 @@ function nuevoGastoWeb() {
 /* https://stackoverflow.com/questions/2230992/javascript-creating-objects-based-on-a-prototype-without-using-new-constructo*/
 
 function EditarHandle(gastoR) {
-    this.gasto = gastoR;
-    this.handleEvent = function(event) {
-        let descripcion1 = prompt("Introduzca la nueva descripción: ");
-        let valor1 = parseFloat(prompt("Introduzca el nuevo valor: "));
-        let fecha1 = formatearFecha(Date.parse(prompt("Introduzca la nueva fecha: ")));
-        let etiquetas1 = prompt("Introduce las nuevas etiquetas: ");
-
-        if (typeof etiquetas1 != undefined) {
-            etiquetas1.split(',');
-            this.gasto.etiquetas = [...etiquetas1];
-        } else {
-            this.gasto.etiquetas = [];
-        }
-
-        this.gasto.actualizarValor(valor1);
-        this.gasto.actualizarDescripcion(descripcion1);
-        this.gasto.actualizarFecha(fecha1);
-        repintar();   
+    let obj = {
+        handleEvent(event) {
+            this.gasto = gastoR;
+            let descripcion1 = prompt("Introduzca la nueva descripción: ");
+            let valor1 = parseFloat(prompt("Introduzca el nuevo valor: "));
+            let fecha1 = formatearFecha(Date.parse(prompt("Introduzca la nueva fecha: ")));
+            let etiquetas1 = prompt("Introduce las nuevas etiquetas: ");
         
+            if (typeof etiquetas1 != undefined) {
+                etiquetas1.split(',');
+                this.gasto.etiquetas = [...etiquetas1];
+            } else {
+                this.gasto.etiquetas = [];
+            }
+        
+            this.gasto.actualizarValor(valor1);
+            this.gasto.actualizarDescripcion(descripcion1);
+            this.gasto.actualizarFecha(fecha1);
+            repintar();   
+        }
     }
+    return obj;
 }
 
 function BorrarHandle(gasto) {
