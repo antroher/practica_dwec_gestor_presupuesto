@@ -1,6 +1,7 @@
 "use strict";
 
 import { throws } from "assert";
+import { PromptOptionsMap } from "listr2";
 
 function mostrarDatoEnId (idElemento, valor)
 {
@@ -62,10 +63,17 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
   `
 }
 function EditarHandle (){
-  this.EditarHandle = function(0){
-    
+
+  this.handleEvent = function(e){
+    //pedir al usuario datos del gasto, etc
+    var desc = Prompt("Introduce la descripción");
+    this.gastos.actualizarDescripcion(desc)
   }
 }
+//CREA UN NUEVO OBJETO A RAIZ DE LA FUNCION CONTRUCTORA
+let e1 = new EditarHandle();
+e1.gastos= e;
+e1.handleEvent();
 
 export{
   mostrarDatoEnId,
