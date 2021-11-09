@@ -16,11 +16,18 @@ function mostrarGastoWeb(idElemento, gastos) {
     
     gastos.forEach((gasto) => {
         let etiquetas = "";
-        gasto.etiquetas.forEach((etiqueta) => {
+        let gastoCopia = gasto;
+        gasto.etiquetas.forEach((etiqueta, index) => {
             etiquetas += 
-                `<span class="gasto-etiquetas-etiqueta">
+                `<span class="gasto-etiquetas-etiqueta" id="etiqueta-${gasto.id}-${index}">
                     ${etiqueta}
                 </span>`;
+            //Creación del objeto manejador de evento de borrar etiquetas.
+            let tagsHandler = BorrarEtiquetasHandle();
+            tagsHandler.gasto = gastoCopia;
+            tagsHandler.etiqueta = etiqueta;
+            console.log(tagsHandler)
+            document.getElementById(`etiqueta-${gasto.id}-${index}`).addEventListener('click', tagsHandler);
         });    
 
         element.innerHTML +=
@@ -36,42 +43,12 @@ function mostrarGastoWeb(idElemento, gastos) {
             </div>`;
 
             //Asignación del objeto manejador al boton de editar. 
-            let editHandler = {
-                handleEvent(event) {
-                        //Pedir al usuario la información necesaria para editar el gasto y su posterior actualización.
-                    this.gasto.descripcion = 
-                        prompt("Introduzca la descripción nueva: ");
-                
-                    this.gasto.valor = 
-                        parseFloat(prompt("Introduzca el valor nuevo: "));
-                
-                    this.gasto.fecha = 
-                        Date.parse(prompt("Introduzca la fecha nueva: "));
-                
-                    let etiquetas = 
-                        prompt("Introduzca las nuevas etiquetas separadas por , : ").split(', ');
-
-                    this.gasto.etiquetas = etiquetas;
-                
-                        //Llamada a la función repintar
-                    repintar();
-                }
-            }
-
+            let editHandler = EditarHandle();
             editHandler.gasto = gasto;
             document.getElementById(`gasto-editar-${gasto.id}`).addEventListener('click', editHandler);
 
             // Asignación del objeto manejador al boton de borrado.
-            let deleteHandler = {
-                handleEvent(event) {
-                    //Borrado de gasto.
-                    gP.borrarGasto(this.gasto.id);
-        
-                    //Llamada a la función repintar.
-                    repintar();
-                }
-            }
-            // borrarGastoObjeto = BorrarHandle();
+            let deleteHandler = BorrarHandle();
             deleteHandler.gasto = gasto;
             document.getElementById(`gasto-borrar-${gasto.id}`).addEventListener('click', deleteHandler);
 
@@ -148,24 +125,27 @@ function nuevoGastoWeb() {
 
 function EditarHandle () {
     let editHandler = {
-        eventHandle(event) {
-                //Pedir al usuario la información necesaria para editar el gasto y su posterior actualización.
-            this.gasto.actualizarDescripcion(
+        handleEvent(event) {
+            //Pedir al usuario la información necesaria para editar el gasto y su posterior actualización.
+            this.gasto.actualizarDescripcion( 
                 prompt("Introduzca la descripción nueva: ", this.gasto.descripcion));
         
-            this.gasto.actualizarValor(
+            this.gasto.actualizarValor( 
                 parseFloat(prompt("Introduzca el valor nuevo: ", this.gasto.valor)));
         
-            this.gasto.actualizarFecha(
+            this.gasto.actualizarFecha( 
                 Date.parse(prompt("Introduzca la fecha nueva: ", this.gasto.fecha)));
+
+            let etiquetas = prompt("Introduzca las nuevas etiquetas separadas por , : ");
+            
+            if(typeof etiquetas != "undefined" ) {
+                this.gasto.etiquetas = etiquetas.split(',');
+            }
         
-            this.gasto.etiquetas = 
-                prompt("Introduzca las nuevas etiquetas separadas por , : ", this.gasto.etiquetas).split(', ');
-        
-                //Llamada a la función repintar
+            //Llamada a la función repintar
             repintar();
         }
-    };
+    }
 
     return editHandler;
 }
@@ -174,7 +154,7 @@ function BorrarHandle() {
     let deleteHandler = {
         handleEvent(event) {
             //Borrado de gasto.
-            this.gasto.borrarGasto(this.gasto.id);
+            gP.borrarGasto(this.gasto.id);
 
             //Llamada a la función repintar.
             repintar();
