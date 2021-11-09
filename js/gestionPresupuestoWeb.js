@@ -69,8 +69,8 @@ function actualizarPresupuestoWeb()  {
     repintar();
 }
 
-let btnAddGas = document.getElementById("actualizarpresupuesto");
-btnAddGas.addEventListener("click", actualizarPresupuestoWeb);
+let btnActPres = document.getElementById("actualizarpresupuesto");
+btnActPres.addEventListener("click", actualizarPresupuestoWeb);
 
 function nuevoGastoWeb() {
     let des = prompt(`Hola buenas, indica la descripción del gasto`);
@@ -86,7 +86,26 @@ function nuevoGastoWeb() {
 let btnAddGas = document.getElementById("anyadirgasto");
 btnAddGas.addEventListener("click", nuevoGastoWeb);
 
+function EditarHandle() {
+    
+    this.handleEvent = function (e){
+    
+    let descripcion = prompt("Escribe la nueva descripción del gasto");
+    let valor = parseFloat(prompt("Escribe la nueva valor del gasto"));
+    let fecha = prompt("Escribe la fecha del gasto en formato yyyy-mm-dd");
+    let etiquetas = prompt("Escribe las etiquetas del gasto separadas por ,");
+    
+    let arrEditar = etiquetas.split(',');
 
+    this.gasto.actualizarValor(valor);
+    this.gasto.actualizarDescripcion(descripcion);
+    this.gasto.actualizarFecha(fecha);
+    this.gasto.anyadirEtiquetas(...arrEditar);
+    
+    repintar();
+   }
+
+  }
 
 
 //oaoaoaotiritioaoaoaotiritoaoaoaoaooooooooooooooo
