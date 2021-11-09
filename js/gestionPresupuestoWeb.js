@@ -111,6 +111,15 @@ function repintar(){
         mostrarGastoWeb("listado-gastos-filtrado-4", gf);
     });
 
+    document.getElementById("agrupacion-dia").innerHTML="";
+    mostrarGastosAgrupadosWeb("agrupacion-dia", metodosGastos.agruparGastos("dia"), "día");
+
+    document.getElementById("agrupacion-mes").innerHTML = "";
+    mostrarGastosAgrupadosWeb("agrupacion-mes", metodosGastos.agruparGastos("mes"), "mes");
+
+    document.getElementById("agrupacion-anyo").innerHTML = "";
+    mostrarGastosAgrupadosWeb("agrupacion-anyo", metodosGastos.agruparGastos("anyo"), "año");
+
 }
 
 function actualizarPresupuestoWeb(){
