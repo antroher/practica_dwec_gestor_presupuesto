@@ -18,7 +18,7 @@ function mostrarGastoWeb(idElemento, gastos) {
         let etiquetas = "";
         let tagIdStrings = [];
         let arrayEtiquetas = [];
-        
+
         gasto.etiquetas.forEach((etiqueta, index) => {
             etiquetas += 
                 `<span class="gasto-etiquetas-etiqueta" id="${gasto.id}-${etiqueta}">
@@ -83,7 +83,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
 
     keys.forEach((key, index) => {
         agrupDato += 
-            `<div class="agrupacion-dalo">
+            `<div class="agrupacion-dato">
                 <span class="agrupacion-dato-clave">${key}</span>
                 <span class="agrupacion-dato-valor">${values[index]}</span>
              </div>`;
