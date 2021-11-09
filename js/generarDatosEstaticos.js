@@ -6,7 +6,7 @@ import * as gestionPresupuestoWeb from './js/gestionPresupuestoWeb.js';
 //Actualizar el presupuesto a 1500€ 
 gestionPresupuesto.actualizarPresupuesto(1500);
 
-//Mostrar el presupuesto en el div#presupuesto (funciones mostrarPresupuesto y mostrarDatoEnId
+//Mostrar el presupuesto en el div #presupuesto (funciones mostrarPresupuesto y mostrarDatoEnId
 gestionPresupuestoWeb.mostrarDatoEnId("presupuesto",gestionPresupuesto.mostrarPresupuesto());
 
  gestionPresupuesto.anyadirGasto(gestionPresupuesto.CrearGasto("Compra carne",23.44, "2021-10-06", "casa", "comida"));
@@ -17,7 +17,7 @@ gestionPresupuestoWeb.mostrarDatoEnId("presupuesto",gestionPresupuesto.mostrarPr
  gestionPresupuesto.anyadirGasto(gestionPresupuesto.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros"));
 
 gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales", gestionPresupuesto.calcularTotalGastos());
-gestionPresupuestoWeb.mostrarDatoEnId("balance-total",gestionPresupuesto.calcularBalance());
+gestionPresupuestoWeb.mostrarDatoEnId("balance-total", gestionPresupuesto.calcularBalance());
 
 //Listado de Gastos
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", gestionPresupuesto.listarGastos());

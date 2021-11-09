@@ -96,8 +96,6 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
             {
                 acumulador = acumulador + `- ${this.etiquetas[i]}\n`;
             }
-
-            
             return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechanueva.toLocaleString()}\nEtiquetas:\n${acumulador}`;
               
         },
@@ -128,9 +126,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
         
         obtenerPeriodoAgrupacion(periodo)
             {
-               
                 //El +1 en el mes porque enero empieza en 0
-
                 let MostrarFecha = new Date(this.fecha);
                 let resultado="";
                 //let dd = String (MostrarFecha.getDate()).padstart(2,'0'); ----- agregame un 0 al principio si no tiene 2 caracters
@@ -166,13 +162,9 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
 
                     default:
                         return `Has Introducido un error`;
-
                 };
             }
         };
-
-    
-
     return gasto;
 }
 
@@ -200,12 +192,10 @@ function borrarGasto(id)
             gastos.splice(i, 1);
         }
     }
-
 }
 
 function calcularTotalGastos()
 {
-    
     let suma = 0;
     for (let i = 0; i < gastos.length; i++)
     {
@@ -340,7 +330,6 @@ function filtrarGastos(objeto)
     return result;
 
 }
-   
    
 function agruparGastos (periodo = "mes", etiquetas1=[], fechaDesde1="", fechaHasta1="")
 {

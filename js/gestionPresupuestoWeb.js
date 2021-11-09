@@ -1,4 +1,5 @@
 "use strict";
+
 function mostrarDatoEnId (idElemento, valor)
 {
   let elemento = document.getElementById(idElemento);
@@ -11,7 +12,7 @@ function mostrarDatoEnId (idElemento, valor)
 }
 
 
-function mostrarGastoWeb(idElemento, gastos )/*HAY Q PASARLE UN ARRAY DE GASTO*/ 
+function mostrarGastoWeb(idElemento, gastos )
 {
   let elemento = document.getElementById(idElemento);
 
@@ -27,7 +28,7 @@ function mostrarGastoWeb(idElemento, gastos )/*HAY Q PASARLE UN ARRAY DE GASTO*/
         `
       }
 
-      
+
     //guardamos en una variable todas las etiquetas 
     //modificamos el elemento html
 
@@ -62,7 +63,6 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
       ${datos}
   `
 }
-
 
 export{
   mostrarDatoEnId,
