@@ -69,6 +69,22 @@ function actualizarPresupuestoWeb()  {
     repintar();
 }
 
+let btnActPres = document.getElementById("actualizarpresupuesto");
+btnActPres.addEventListener("click",actualizarPresupuestoWeb);
+
+function nuevoGastoWeb() {
+    let des = prompt(`Hola buenas, indica la descripción del gasto`);
+    let val = parseFloat(prompt(`¿Ya estás gastando dinero? ¿Cuánto ha sido esta vez?`));
+    let fec = prompt(`¿Y cuándo fue eso? Dímelo siguiendo el formato yyyy-mm-dd que si no no te entiendo, figura`);
+    let eti = prompt(`Etiqueta ese rico gasto tuyo con todas las etiquetas que quieras, pero sepáralas con comas (,) para poder yo distinguir entre una y otra`);
+    let etiArray = eti.split(',');
+    let gasto = new datosPresupuesto.CrearGasto(des, val, fec, ...etiArray);
+    datosPresupuesto.anyadirGasto(gasto);
+    repintar();
+}
+
+let btnActPres = document.getElementById("anyadirgasto");
+btnActPres.addEventListener("click",nuevoGastoWeb);
 
 //oaoaoaotiritioaoaoaotiritoaoaoaoaooooooooooooooo
 export {
