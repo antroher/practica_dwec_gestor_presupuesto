@@ -35,7 +35,7 @@ function mostrarGastoWeb(idElemento,gasto)
     <!-- Etcétera -->
   </div> 
 </div>*/ 
-let cadenaEtiquetas;
+var cadenaEtiquetas="";
 gasto.etiquetas.forEach(element => {
   cadenaEtiquetas+="<span class='gasto-etiquetas-etiqueta'>\n"+element+"</span>\n";
   
