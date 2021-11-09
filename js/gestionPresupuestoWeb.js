@@ -36,9 +36,9 @@ function mostrarDatoEnId(idElemento,valor){
             let elemento = document.getElementById(idElemento);
 
             //bucle tocho
-          let loco ="";
+          let gastos ="";
             for(let prop in agrup){
-                loco +=
+                gastos +=
                 "<div class='agrupacion-dato'>" +
                 "<span class='agrupacion-dato-clave'>" + prop + ": </span>" +
                 "<span class='agrupacion-dato-valor'>" + agrup[prop] + "</span>"+
@@ -48,7 +48,7 @@ function mostrarDatoEnId(idElemento,valor){
             elemento.innerHTML += 
             `<div class='agrupacion'> 
             <h1>Gastos agrupados por ${periodo} </h1>
-            ${loco}`;
+            ${gastos}`;
         }
 
 
