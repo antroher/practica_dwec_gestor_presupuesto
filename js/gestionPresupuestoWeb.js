@@ -1,7 +1,9 @@
 import * as gestionPresupuesto from './gestionPresupuesto.js';
 
 //Para iterar sobre un collection del node usar for...of
-
+/*
+! Hola caracola
+*/
 
 function mostrarDatoEnId(idElemento, valor) {
     let elemento = document.getElementById(idElemento);
@@ -11,50 +13,129 @@ function mostrarDatoEnId(idElemento, valor) {
 }
 
 //aqui gasto es un array, con lo que habria que cambiarlo y meterlo todo dentro de una iteracción
-function mostrarGastoWeb(idElemento, gastos) {
-    let elemento = document.getElementById(idElemento);
-    for (let gasto of gastos) {
-        //let GUID = crypto.randomUUID();
-        //let randomNumber = Math.floor((Math.random() * 1000) + 1);
-        let data = "";
-        for (let i of gasto.etiquetas) {
-            data += `
-            <span class="gasto-etiquetas-etiqueta">
-                ${i}
-            </span>`
-        }
-        elemento.innerHTML += 
-        `<div class="gasto">
-            <div class="gasto-descripcion">${gasto.descripcion}</div>
-            <div class="gasto-fecha">${gasto.fecha}</div> 
-            <div class="gasto-valor">${gasto.valor}</div> 
-            <div class="gasto-etiquetas">
-            ${data}
-            </div>
-            `;
-            let buttonEdit = document.createElement("button");
-                             buttonEdit.className += 'gasto-editar'
-                             buttonEdit.textContent = "Editar";
-                             buttonEdit.type = 'button';
+// function mostrarGastoWeb(idElemento, gastos) {
+//     let elemento = document.getElementById(idElemento);
+//     for (let gasto of gastos) {
+//         // let data = "";
+//         // for (let i of gasto.etiquetas) {
+//         //     data += `
+//         //     <span class="gasto-etiquetas-etiqueta">
+//         //         ${i}
+//         //     </span>`
+//         // }
+//         elemento.innerHTML += 
+//         `<div class="gasto">
+//             <div class="gasto-descripcion">${gasto.descripcion}</div>
+//             <div class="gasto-fecha">${gasto.fecha}</div> 
+//             <div class="gasto-valor">${gasto.valor}</div> 
+//             <div class="gasto-etiquetas">
+//             `;
 
-            let buttonBorr = document.createElement("button");
-                             buttonBorr.className += 'gasto-borrar'
-                             buttonBorr.textContent = "Borrar";
-                             buttonBorr.type = 'button';
+//             let gastoEtiquetas = document.createElement("div");
+//             gastoEtiquetas.className = "gasto-etiquetas";
+//             elemento.append(gastoEtiquetas);
 
-            let nM = new EditarHandle(gasto);
-            let nB = new BorrarHandle(gasto);
-            
-            
-            buttonEdit.addEventListener('click', nM);
-            buttonBorr.addEventListener('click', nB);
-            
-            elemento.append(buttonEdit);
-            elemento.append(buttonBorr);
+//             let nuevoObjEtiqueta = new BorrarEtiquetasHandle(); 
+//             nuevoObjEtiqueta.gasto = gasto;
 
+//             for (let x of gasto.etiquetas) {
+//                 let gastoEtiqueta = document.createElement("span");
+//                 gastoEtiqueta.className = "gasto-etiquetas-etiqueta";
+//                 gastoEtiqueta.innerHTML = x + "<br>";
+//                 nuevoObjEtiqueta.etiqueta = x;
+//                 gastoEtiquetas.append(gastoEtiqueta);
+//             }
+
+//             gastoEtiquetas.addEventListener('click',nuevoObjEtiqueta);
+            
+//             let nuevoObj = new EditarHandle(); 
+//             nuevoObj.gasto = gasto;
+//             let button = document.createElement('button'); 
+//             button.type = 'button'; 
+//             button.innerText = 'Editar';
+//             button.className = "gasto-editar";
+//             button.addEventListener('click',nuevoObj);
+//             elemento.append(button);
+          
+
+//             let nuevoObjBorrar = new BorrarHandle(); 
+//             nuevoObjBorrar.gasto = gasto;
+//             let buttonBorrar = document.createElement('button'); 
+//             buttonBorrar.type = 'button'; 
+//             buttonBorrar.innerText = 'Borrar';
+//             buttonBorrar.className = "gasto-borrar";
+//             buttonBorrar.addEventListener('click',nuevoObjBorrar);
+//             elemento.append(buttonBorrar);
+
+//     }
+// }
+function mostrarGastoWeb(idElemento, gasto) {
+    let identificador = document.getElementById(idElemento);
+  
+    let divGasto = document.createElement("div");
+    divGasto.className = "gasto";
+    identificador.append(divGasto);
+  
+    let gastoDescripcion = document.createElement("div");
+    gastoDescripcion.className = "gasto-descripcion";
+    gastoDescripcion.innerHTML = gasto.descripcion;
+    divGasto.append(gastoDescripcion);
+  
+    let gastoFecha = document.createElement("div");
+    gastoFecha.className = "gasto-fecha";
+    let fechaNueva = new Date(gasto.fecha);
+    gastoFecha.innerHTML = fechaNueva.toLocaleString();
+    divGasto.append(gastoFecha);
+  
+    let gastoValor = document.createElement("div");
+    gastoValor.className = "gasto-valor";
+    gastoValor.innerHTML = gasto.valor;
+    divGasto.append(gastoValor);
+  
+    let gastoEtiquetas = document.createElement("div");
+    gastoEtiquetas.className = "gasto-etiquetas";
+    divGasto.append(gastoEtiquetas);
+  
+    let nuevoObjEtiqueta = new BorrarEtiquetasHandle(); 
+    nuevoObjEtiqueta.gasto = gasto;
+  
+    for (let x of gasto.etiquetas) {
+      let gastoEtiqueta = document.createElement("span");
+      gastoEtiqueta.className = "gasto-etiquetas-etiqueta";
+      gastoEtiqueta.innerHTML = x + "<br>";
+      nuevoObjEtiqueta.etiqueta = x;
+      gastoEtiquetas.append(gastoEtiqueta);
+  
     }
-    elemento.innerHTML += "================================================"
-}
+  
+    gastoEtiquetas.addEventListener('click',nuevoObjEtiqueta);
+    
+    let nuevoObj = new EditarHandle(); 
+    nuevoObj.gasto = gasto;
+    
+    
+    let button = document.createElement('button'); 
+    button.type = 'button'; 
+    button.innerText = 'Editar';
+    button.className = "gasto-editar";
+    button.addEventListener('click',nuevoObj);
+    divGasto.append(button);
+  
+  
+    let nuevoObjBorrar = new BorrarHandle(); 
+    nuevoObjBorrar.gasto = gasto;
+    
+    let buttonBorrar = document.createElement('button'); 
+    buttonBorrar.type = 'button'; 
+    buttonBorrar.innerText = 'Borrar';
+    buttonBorrar.className = "gasto-borrar";
+    buttonBorrar.addEventListener('click',nuevoObjBorrar);
+    divGasto.append(buttonBorrar);
+  
+    
+  
+   }
+  
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     const elemento = document.getElementById(idElemento);
@@ -117,48 +198,44 @@ function nuevoGastoWeb() {
     let descripcion = prompt("Introduzca la descripción: ");
     let valor = parseFloat(prompt("Introduzca el valor: "));
     let fecha = formatearFecha(Date.parse(prompt("Introduzca la fecha: ")));
-    let etiquetas = prompt("Introduce las etiquetas: ").split(",");
-    let newGasto = gestionPresupuesto.CrearGasto(descripcion, valor, fecha, etiquetas);
+    let etiquetas = prompt("Introduce las etiquetas: ");
+    let etiquetasArray = etiquetas.split(',');
+    let newGasto = gestionPresupuesto.CrearGasto(descripcion, valor, fecha, etiquetasArray);
     gestionPresupuesto.anyadirGasto(newGasto);
     repintar();
 }
 
 
 /* https://stackoverflow.com/questions/2230992/javascript-creating-objects-based-on-a-prototype-without-using-new-constructo*/
+function EditarHandle() {
+    this.handleEvent = function(event){
+        let descripcion1 = prompt("Introduzca la nueva descripción: ");
+        let valor1 = parseFloat(prompt("Introduzca el nuevo valor: "));
+        let fecha1 = formatearFecha(Date.parse(prompt("Introduzca la nueva fecha: ")));
+        let etiquetas1 = prompt("Introduce las nuevas etiquetas: ");
+        let etiquetas1Array = etiquetas1.split(',');
+        this.gasto.actualizarValor(valor1);
+        this.gasto.actualizarDescripcion(descripcion1);
+        this.gasto.actualizarFecha(fecha1);
+        this.gasto.anyadirEtiquetas(...etiquetas1Array);
 
-function EditarHandle(gastoR) {
-    let obj = {
-        handleEvent(event) {
-            this.gasto = gastoR;
-            let descripcion1 = prompt("Introduzca la nueva descripción: ");
-            let valor1 = parseFloat(prompt("Introduzca el nuevo valor: "));
-            let fecha1 = formatearFecha(Date.parse(prompt("Introduzca la nueva fecha: ")));
-            let etiquetas1 = prompt("Introduce las nuevas etiquetas: ");
-        
-            if (typeof etiquetas1 != undefined) {
-                etiquetas1.split(',');
-                this.gasto.etiquetas = [...etiquetas1];
-            } else {
-                this.gasto.etiquetas = [];
-            }
-        
-            this.gasto.actualizarValor(valor1);
-            this.gasto.actualizarDescripcion(descripcion1);
-            this.gasto.actualizarFecha(fecha1);
-            repintar();   
-        }
-    }
-    return obj;
+    repintar();
+   }
 }
 
-function BorrarHandle(gasto) {
-    let obj = {
-        handleEvent() {
-            gestionPresupuesto.borrarGasto(gasto);
-            repintar();
-       }
+function BorrarHandle() {
+    this.handleEvent = function (event){
+      let number = this.gasto.id;
+      datosPresupuesto.borrarGasto(number);
+      repintar();
+    }
+}
+
+function BorrarEtiquetasHandle() {
+    this.handleEvent = function (event){
+    this.gasto.borrarEtiquetas(this.etiqueta);
+    repintar();
    }
-   return obj;
 }
 
 //Botones
