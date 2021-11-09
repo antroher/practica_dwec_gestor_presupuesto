@@ -6,6 +6,7 @@ function mostrarDatoEnId(idElemento, valor)
     p.textContent=valor;
     elem.appendChild(p);
 }
+
 function mostrarGastoWeb(idElemento, gasto)
 {
     let cadenaGasto= `<div class="gasto">
@@ -39,7 +40,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
 
     cadenaGAgrup+=`</div>`
     document.getElementById(idElemento).innerHTML+= cadenaGAgrup;
-    
+
 }
 
 export{ mostrarDatoEnId,
