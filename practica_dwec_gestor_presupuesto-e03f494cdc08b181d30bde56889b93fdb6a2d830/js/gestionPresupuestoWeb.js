@@ -1,8 +1,6 @@
 import * as gestionPresupuesto from './gestionPresupuesto.js';
 
 //Para iterar sobre un collection del node usar for...of
-
-
 function mostrarDatoEnId(idElemento, valor) {
     let elemento = document.getElementById(idElemento);
     let p = document.createElement("p");
@@ -142,6 +140,7 @@ function EditarHandle() {
         this.gasto.actualizarFecha(fecha);
         this.gasto.anyadirEtiquetas(...etiquetasArray);
         repintar();
+    }
 }
 
 function BorrarHandle() {
