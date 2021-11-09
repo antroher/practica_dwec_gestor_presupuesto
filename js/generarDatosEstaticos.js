@@ -69,7 +69,6 @@ for(let i=0;i<gastoEditar.length;i++){
 
 let gastoBorrar=document.querySelectorAll(".gasto-borrar");
 for(let i=0;i<gastoBorrar.length;i++){
-    console.log(arrayBorrarHandle[i].gasto.id)
     gastoBorrar[i].addEventListener("click",arrayBorrarHandle[i].handleEvent);
 }
 
