@@ -48,6 +48,20 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
                             ${lista}`
 }
 
+function EditarHandle ()
+{
+    this.handleEvent = function(e) 
+    {
+        //Pedir al usuario datos del gasto, etc
+        var desc = prompt('Por favor, introduce la descripción');
+        this.gasto.actualizarDescripcion(desc);
+    }
+}
+
+let el = new EditarHandle();
+
+el.handleEvent(); //1:08:43
+
 
 //********** NO TOCAR **************
 export   {
