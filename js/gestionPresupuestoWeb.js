@@ -16,18 +16,18 @@ function mostrarGastoWeb(idElemento, gastos) {
     
     gastos.forEach((gasto) => {
         let etiquetas = "";
-        let gastoCopia = gasto;
+        let tagIdStrings = [];
+        let arrayEtiquetas = [];
+        
         gasto.etiquetas.forEach((etiqueta, index) => {
             etiquetas += 
-                `<span class="gasto-etiquetas-etiqueta" id="etiqueta-${gasto.id}-${index}">
+                `<span class="gasto-etiquetas-etiqueta" id="${gasto.id}-${etiqueta}">
                     ${etiqueta}
                 </span>`;
-            //Creación del objeto manejador de evento de borrar etiquetas.
-            let tagsHandler = BorrarEtiquetasHandle();
-            tagsHandler.gasto = gastoCopia;
-            tagsHandler.etiqueta = etiqueta;
-            console.log(tagsHandler)
-            document.getElementById(`etiqueta-${gasto.id}-${index}`).addEventListener('click', tagsHandler);
+
+            //Recogida de id del elemento y de la etiqueta a borrar en arrays para su posterior utilización.
+            tagIdStrings.push(`${gasto.id}-${etiqueta}`);
+            arrayEtiquetas.push(`${etiqueta}`);
         });    
 
         element.innerHTML +=
@@ -47,12 +47,18 @@ function mostrarGastoWeb(idElemento, gastos) {
             editHandler.gasto = gasto;
             document.getElementById(`gasto-editar-${gasto.id}`).addEventListener('click', editHandler);
 
-            // Asignación del objeto manejador al boton de borrado.
+            //Asignación del objeto manejador al boton de borrado.
             let deleteHandler = BorrarHandle();
             deleteHandler.gasto = gasto;
             document.getElementById(`gasto-borrar-${gasto.id}`).addEventListener('click', deleteHandler);
 
-            
+            //Asignación del objeto manejador a los span de las etiquetas.
+            tagIdStrings.forEach((tagId, index) => {
+                let tagsHandler = BorrarEtiquetasHandle();
+                tagsHandler.gasto = gasto;
+                tagsHandler.etiqueta = arrayEtiquetas[index];
+                document.getElementById(tagId).addEventListener('click', tagsHandler);
+            });
     });
 }
 
@@ -168,6 +174,7 @@ function BorrarEtiquetasHandle() {
     let tagsHandler = {
         handleEvent(event) {
             //Borrado de etiqueta.
+            console.log("vamosa ver")
             this.gasto.borrarEtiquetas(this.etiqueta);
 
             //Llamada a la función repintar.
