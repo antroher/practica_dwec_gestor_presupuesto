@@ -1,11 +1,9 @@
-import * as gestionPresupuesto from './gestionPresupuesto.js';
 
-function mostrarDatoEnId(idElemento, valor){
-    let elemento = document.getElementById(idElemento);
-    let parrafo = document.createElement('p');
-    if(id == elemento){
-        parrafo.textContent(valor)
-    }
+
+function mostrarDatoEnId(idElemento, valor) {
+    let div = document.getElementById(idElemento);
+
+    div.textContent = valor;
 }
 
 function mostrarGastoWeb(idElemento, gastos){
@@ -19,12 +17,13 @@ function mostrarGastoWeb(idElemento, gastos){
             <div class="gasto-descripcion">${gasto.descripcion}</div>
             <div class="gasto-fecha">${gasto.fecha}</div>
             <div class="gasto-valor">${gasto.valor}</div> 
-            <div class="gasto-etiquetas">${grpetiquetas}</div>`;
+            <div class="gasto-etiquetas">
+            ${grpetiquetas}`;
     }
 }
 
 
-function mostraGastosAgrupadosWeb(){
+function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     const elemento = document.getElementById(idElemento);
     let data = ""
     for (let [key, value] of Object.entries(agrup)){
@@ -33,7 +32,8 @@ function mostraGastosAgrupadosWeb(){
                     <span class="agrupacion-dato-valor">${value}</span>
                 </div>`
     };
-    elemento.innerHTML +=`<div class="agrupacion"><h1>Gastos agrupados por ${periodo}</h1>${data}`
+    elemento.innerHTML += 
+    `<div class="agrupacion"><h1>Gastos agrupados por ${periodo}</h1>${data}`
 }
 
 
@@ -45,5 +45,5 @@ function mostraGastosAgrupadosWeb(){
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostraGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb
 }
