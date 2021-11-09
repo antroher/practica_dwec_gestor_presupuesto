@@ -1,3 +1,6 @@
+import * as gestionPresupuesto from 'js/gestionPresupuesto.js';
+import { getSystemErrorMap } from 'util';
+
 function mostrarDatoEnId(idElemento, valor) {
     let div = document.getElementById(idElemento);
 
@@ -43,6 +46,22 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
         <h1>Gastos agrupados por ${periodo}</h1>
         ${storage}
     `
+}
+
+function repintar() {
+    let presupuesto = gestionPresupuesto.mostrarPresupuesto();
+    mostrarDatoEnId('presupuesto', presupuesto);
+
+    let gastosTotales = gestionPresupuesto.calcularTotalGastos();
+    mostrarDatoEnId('gastos-totales', gastosTotales);
+
+    let balanceTotal = gestionPresupuesto.calcularBalance();
+    mostrarDatoEnId('balance-total', balanceTotal);
+
+    let borrarContenido = document.getElementById('listado-gastos-completo').innerHTML("");
+
+    let listarGastos = gestionPresupuesto.listarGastos();
+    mostrarGastoWeb('listado-gastos-completo', listarGastos);
 }
 
 export {
