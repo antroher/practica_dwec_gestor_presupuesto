@@ -9,53 +9,53 @@ function mostrarDatoEnId(idElemento, valor) {
 }
 
 //aqui gasto es un array, con lo que habria que cambiarlo y meterlo todo dentro de una iteracción
-function mostrarGastoWeb(idElemento, gasto) {
+function mostrarGastoWeb(idElemento, gastos) {
     let elemento = document.getElementById(idElemento);
+    for (let gasto of gastos) {
         //let GUID = crypto.randomUUID();
         //let randomNumber = Math.floor((Math.random() * 1000) + 1);
-    elemento.innerHTML = 
-    `<div class="gasto">
-        <div class="gasto-descripcion">${gasto.descripcion}</div>
-        <div class="gasto-fecha">${gasto.fecha}</div> 
-        <div class="gasto-valor">${gasto.valor}</div> 
-    `;
+        let data = "";
+        for (let i of gasto.etiquetas) {
+            data += `
+            <span class="gasto-etiquetas-etiqueta">
+                ${i}
+            </span>`
+        }
+        elemento.innerHTML += 
+        `<div class="gasto">
+            <div class="gasto-descripcion">${gasto.descripcion}</div>
+            <div class="gasto-fecha">${gasto.fecha}</div> 
+            <div class="gasto-valor">${gasto.valor}</div> 
+            <div class="gasto-etiquetas">
+            ${data}
+            </div>
+            `;
+        let divGasto = document.querySelector(".gasto");
 
-                        
-    let gastoEtiquetas = document.createElement("div");
-    gastoEtiquetas.className = "gasto-etiquetas";
-    elemento.append(gastoEtiquetas);
-    let nuevoObjEtiqueta = new BorrarEtiquetasHandle(); 
-    nuevoObjEtiqueta.gasto = gasto;
+        let buttonEdit = document.createElement("button");
+                            buttonEdit.className += 'gasto-editar'
+                            buttonEdit.textContent = "Editar";
+                            buttonEdit.type = 'button';
 
-    for (let etiq of gasto.etiquetas) {
-        let gastoEtiqueta = document.createElement("span");
-        gastoEtiqueta.className = "gasto-etiquetas-etiqueta";
-        gastoEtiqueta.innerHTML = etiq + "<br>";
-        nuevoObjEtiqueta.etiqueta = etiq;
-        gastoEtiquetas.append(gastoEtiqueta);
+        let buttonBorr = document.createElement("button");
+                            buttonBorr.className += 'gasto-borrar'
+                            buttonBorr.textContent = "Borrar";
+                            buttonBorr.type = 'button';
+
+        let nM = new EditarHandle();
+        let nB = new BorrarHandle();
+        nM.gasto = gasto;
+        nB.gasto = gasto;
+        
+        
+        buttonEdit.addEventListener('click', nM);
+        buttonBorr.addEventListener('click', nB);
+        
+        divGasto.append(buttonEdit);
+        divGasto.append(buttonBorr);
+
     }
-
-    let buttonEdit = document.createElement("button");
-                        buttonEdit.className += 'gasto-editar'
-                        buttonEdit.textContent = "Editar";
-                        buttonEdit.type = 'button';
-
-    let buttonBorr = document.createElement("button");
-                        buttonBorr.className += 'gasto-borrar'
-                        buttonBorr.textContent = "Borrar";
-                        buttonBorr.type = 'button';
-
-    let edit = new EditarHandle();
-    let delet = new BorrarHandle();
-    edit.gasto = gasto;
-    delet.gasto = gasto;
-    
-    buttonEdit.addEventListener('click', edit);
-    buttonBorr.addEventListener('click', delet);
-    gastoEtiquetas.addEventListener('click',nuevoObjEtiqueta);
-    
-    elemento.append(buttonEdit);
-    elemento.append(buttonBorr);
+    elemento.innerHTML += "================================================"
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
@@ -162,6 +162,8 @@ function BorrarEtiquetasHandle() {
 //Botones
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
+
+const gastoBorrar = document.getElementById("gasto-borrar");
 
 //Eventos
 actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);

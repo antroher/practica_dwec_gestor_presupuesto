@@ -34,22 +34,22 @@ for (const x of matrizGasto) {
 
 let filtro1 = gestionPresupuesto.filtrarGastos({fechaDesde: "2021-09-01",fechaHasta: "2021-09-30"});
 
-for (const x of filtro1) {
-  gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1", x);
+for (const gasto of filtro1) {
+  gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1", gasto);
 }
 let filtro2 = gestionPresupuesto.filtrarGastos({ valorMinimo: 50,  });
-for (const x of filtro2) {
-  gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2", x);
+for (const gasto of filtro2) {
+  gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2", gasto);
 }
 
 let filtro3 = gestionPresupuesto.filtrarGastos({etiquetasTiene: ["seguros"],valorMinimo: 200});
-for (const x of filtro3) {
-  gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3", x);
+for (const gasto of filtro3) {
+  gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3", gasto);
 }
 
 let filtro4 = gestionPresupuesto.filtrarGastos({etiquetasTiene: ["comida", "transporte"],valorMaximo: 50});
-for (const x of filtro4) {
-  gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", x);
+for (const gasto of filtro4) {
+  gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gasto);
 }
 
 let agrupacion1 = gestionPresupuesto.agruparGastos("dia");
