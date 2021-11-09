@@ -85,8 +85,12 @@ estese diríge a la función actualizarPresupuestoWeb()*/
 let btnActualizarPres = document.getElementById('actualizarpresupuesto')
 btnActualizarPres.addEventListener('click',actualizarPresupuestoWeb);
 
-function nuevoGastoWeb(params) {
-    
+function nuevoGastoWeb() {
+    EtiquetaGasto = [...etiq];
+    let Descripcion = prompt('Inserta la descripción del gasto');
+    let valueGasto = parseFloat(prompt('Inserta el valor correspondiente al gasto'));
+    let fechaGato =  Date.parse(prompt('Inserta la descripción del gasto'));
+    let EtiquetaGasto = prompt('Inserta la etiqueta correspondiente al gasto');
 }
 let btnAnyadirgasto = document.getElementById('anyadirgasto');
 btnAnyadirgasto = addEventListener('click',nuevoGastoWeb);
@@ -99,3 +103,4 @@ export {
     actualizarPresupuestoWeb
 }
 import * as gestionPresupuesto from "./gestionPresupuesto.js";
+import { prependOnceListener } from "cluster";
