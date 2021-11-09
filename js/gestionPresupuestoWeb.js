@@ -11,19 +11,20 @@ function mostrarDatoEnId(idElemento, valor) {
 //aqui gasto es un array, con lo que habria que cambiarlo y meterlo todo dentro de una iteracción
 function mostrarGastoWeb(idElemento, gasto) {
     let elemento = document.getElementById(idElemento);
-        //let GUID = crypto.randomUUID();
-        //let randomNumber = Math.floor((Math.random() * 1000) + 1);
-    elemento.innerHTML = 
-    `<div class="gasto">
+    let divGasto = document.createElement("div");
+    divGasto.className = "gasto";
+    elemento.append(divGasto);
+        
+    divGasto.innerHTML += 
+    `
         <div class="gasto-descripcion">${gasto.descripcion}</div>
         <div class="gasto-fecha">${gasto.fecha}</div> 
         <div class="gasto-valor">${gasto.valor}</div> 
     `;
-
                         
     let gastoEtiquetas = document.createElement("div");
     gastoEtiquetas.className = "gasto-etiquetas";
-    elemento.append(gastoEtiquetas);
+    divGasto.append(gastoEtiquetas);
     let nuevoObjEtiqueta = new BorrarEtiquetasHandle(); 
     nuevoObjEtiqueta.gasto = gasto;
 
@@ -54,8 +55,8 @@ function mostrarGastoWeb(idElemento, gasto) {
     buttonBorr.addEventListener('click', delet);
     gastoEtiquetas.addEventListener('click',nuevoObjEtiqueta);
     
-    elemento.append(buttonEdit);
-    elemento.append(buttonBorr);
+    divGasto.append(buttonEdit);
+    divGasto.append(buttonBorr);
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
@@ -77,22 +78,21 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
 }
 
 function repintar() {
-    //Presupuesto
-    let mostPresupuesto = gestionPresupuesto.mostrarPresupuesto();
-    mostrarDatoEnId('presupuesto', mostPresupuesto);
-
-    //Total de gastos
-    let calcularTotalGastos = gestionPresupuesto.calcularTotalGastos();
-    mostrarDatoEnId("gastos-totales", calcularTotalGastos);
-
-    //Balance actual
-    let calcularBalance = gestionPresupuesto.calcularBalance();
-    mostrarDatoEnId("balance-total", calcularBalance);
-
-    //Borrar div#listado-gastos-completo | Listado con los gastos y sus datos
-    document.getElementById("listado-gastos-completo").innerHTML = "";
-    let listaGastos = gestionPresupuesto.listarGastos();
-    mostrarGastoWeb("listado-gastos-completo", listaGastos);
+    let mostrar = gestionPresupuesto.mostrarPresupuesto();
+    mostrarDatoEnId( "presupuesto",mostrar);
+    
+    let gastoTotal = gestionPresupuesto.calcularTotalGastos().toFixed(2);
+    mostrarDatoEnId( "gastos-totales",gastoTotal);
+    
+    let balanceTotal = gestionPresupuesto.calcularBalance().toFixed(2);
+    mostrarDatoEnId("balance-total",balanceTotal);
+    
+    let borrarDatos = document.getElementById("listado-gastos-completo").innerHTML = "";
+    
+    let listaGasto = gestionPresupuesto.listarGastos();
+    for (const gasto of listaGasto) {
+        mostrarGastoWeb("listado-gastos-completo", gasto);
+    }
 }
 
 function formatearFecha(date) {
