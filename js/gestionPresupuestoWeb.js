@@ -1,4 +1,6 @@
 'use strict';
+import * as gestionPresupuesto from './gestionPresupuesto.js'
+
 function mostrarDatoEnId(idElemento, valor){
     let elem = document.getElementById(idElemento);
     elem.innerHTML += valor;
@@ -15,9 +17,12 @@ function mostrarGastoWeb(idElemento, gasto){
         cad += "<span class='gasto-etiquetas-etiqueta'>\n" + item + "\n</span>\n"
     });
     cad += "</div>\n</div>\n";
+
+    cad += '<div><button class="gasto-editar" type="button">Editar</button>' + 
+    '<button class="gasto-borrar" type="button">Borrar</button></div>'
+    
     elem.innerHTML += cad;
 }
-
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     let elem = document.getElementById(idElemento);
     let cad = "<div class='agrupacion'>\n" + 
@@ -37,6 +42,40 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     
 }
 
+function repintar(){
+    mostrarDatoEnId('presupuesto',gestionPresupuesto.mostrarPresupuesto());
+    mostrarDatoEnId('gastos-totales',gestionPresupuesto.calcularTotalGastos());
+    mostrarDatoEnId('balance-total',gestionPresupuesto.calcularBalance());
+    document.getElementById('listado-gastos-completo').innerHTML="";
+
+    let listadoGastoCompletos = gestionPresupuesto.listarGastos();
+    for (let elem of listadoGastoCompletos){
+    gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-completo',elem);
+    }
+}
+function actualizarPresupuestoWeb(){
+    let presu = parseInt(prompt('Introduce un presupuesto nuevo.'));
+    gestionPresupuesto.actualizarPresupuesto(presu);
+    repintar();
+    document.getElementById('actualizarpresupuesto').addEventListener("click",);//aun no esta terminado
+}
+function nuevoGastoWeb(){
+    let desc = prompt('Escriba la descripción del nuevo gasto');
+    let val = prompt('Escriba el valor del nuevo gasto');
+    let fech = new Date(prompt('Escriba la fecha del nuevo gasto')).toLocaleDateString();//arreglar?
+    let etiq = prompt('Escriba las etiquetas (seguidas por coma) del nuevo gasto');
+    etiq = etiq.split(', ');
+    let gasto = gestionPresupuesto.CrearGasto(desc, val, fech, etiq);
+    gestionPresupuesto.anyadirGasto(gasto);
+    repintar();
+    document.getElementById('anyadirgasto').addEventListener("click",);//aun no esta terminado
+}
+function EditarHandle (){
+
+}
+function BorrarHandle (){
+
+}
     
 
 /*
