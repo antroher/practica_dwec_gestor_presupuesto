@@ -34,10 +34,10 @@ function mostrarGastoWeb(idElemento,gasto)
     </span>
     <!-- Etcétera -->
   </div> 
-</div> 
+</div> */
 let cadenaEtiquetas;
 gasto.etiquetas.forEach(element => {
-  cadenaEtiquetas+="<span class='gasto-etiquetas-etiqueta'>\n"+element+"</span>\n";
+  cadenaEtiquetas+="<span class='gasto-etiquetas-etiqueta'>\n"+element+"\n</span>\n";
   
 });
 
@@ -45,37 +45,11 @@ let element=document.getElementById(idElemento);
 element.innerHTML+="<div class='gasto'>\n"
                  +"<div class='gasto-descripcion'>"+gasto.descripcion+"</div>\n"
                  +"<div class='gasto-fecha'>"+new Date(gasto.fecha).toLocaleDateString()+"</div>\n"
+                 +"<div class='gasto-valor'>"+gasto.valor+"</div>\n"+
                  +"<div class='gasto-etiquetas'>\n"
                  +cadenaEtiquetas
-                 +"</div>\n</div>\n";*/
-                 
-
-                 if(idElemento!==undefined){
-                  let elem = document.getElementById(idElemento);
-                  let etiq="<div class='gasto'>\n"+
-                          "<div class='gasto-descripcion'>"+gasto.descripcion+"</div>\n"+
-                          "<div class='gasto-fecha'>"+new Date(gasto.fecha).toLocaleDateString()+"</div>\n"+
-                          "<div class='gasto-valor'>"+gasto.valor+"</div>\n"+
-                          "<div class='gasto-etiquetas'>\n";
-                  gasto.etiquetas.forEach(e => {
-                      etiq+="<span class='gasto-etiquetas-etiqueta'>\n";
-                      etiq+=e+"\n";
-                      etiq+="</span>\n";
-                      /*elem.innerHTML+=etiq;
-                      etiq="";
-                      let borrarEtiquetasHandle=BorrarEtiquetasHandle(gasto,e);
-                      document.getElementById("gasto-etiquetas-etiqueta").onclick=borrarEtiquetasHandle.handleEvent;
-                    */  
-                  });
-                  etiq+="</div>\n";
-                  etiq+="<button class='gasto-editar' type='button'>Editar</button>\n";
-                  etiq+="<button class='gasto-borrar' type='button'>Borrar</button>\n";
-            
-                  etiq+="</div>\n";
-                  elem.innerHTML+=etiq;
-                                  
-              }
-
+                 +"</div>\n</div>\n";
+                  
 
 }
 
