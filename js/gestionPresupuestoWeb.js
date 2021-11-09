@@ -35,7 +35,7 @@ function mostrarGastoWeb(idElemento,gasto)
     <!-- Etcétera -->
   </div> 
 </div>*/ 
-var cadenaEtiquetas="";
+let cadenaEtiquetas;
 gasto.etiquetas.forEach(element => {
   cadenaEtiquetas+="<span class='gasto-etiquetas-etiqueta'>\n"+element+"</span>\n";
   
@@ -105,8 +105,6 @@ agroupText+="<div class='agrupacion-dato'>\n"
   element.innerHTML+="<div class='agrupacion'>\n"
                  +"<h1>Gastos agrupados por "+periodo+"</h1>\n"
                  +agroupText
-                 +"<div class='gasto-etiquetas'>\n"
-                 +cadenaEtiquetas
                  +"</div>\n</div>\n";
 }
 
