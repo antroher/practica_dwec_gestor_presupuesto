@@ -3,8 +3,9 @@
 mostrarDatoEnId
 mostrarGastoWeb
 mostrarGastosAgrupadosWeb*/ 
-'use strict'
 
+'use strict'
+import * as gp from "./gestionPresupuesto.js";
 function mostrarDatoEnId(idElemento,valor)
 {
     /**Función de dos parámetros que se encargará de escribir el valor (texto) en el elemento HTML con id idElemento indicado:
