@@ -1,4 +1,7 @@
 "use strict"
+
+import * as GesPresu from "./gestionPresupuesto.js";
+
 function mostrarDatoEnId(idElemento,valor){
     let datId = document.getElementById(idElemento);
     datId.innerHTML += `<p>${valor}</p>`
@@ -47,6 +50,20 @@ function mostrarDatoEnId(idElemento,valor){
             ${loco}`;
         }
 
+
+        //Funcion repintar pàra actualizar la pagina
+            function repintar(){
+                GesPresu.mostrarPresupuesto("presupuesto",GesPresu.mostrarDatoEnId());
+                GesPresu.mostrarDatoEnId("gastos-totales",GesPresu.calcularTotalGastos());
+                GesPresu.mostrarDatoEnId("balance-total",GesPresu.calcularBalance());
+                GesPresu.mostrarGastoWeb("listado-gastos-completo",GesPresu.listarGastos());
+
+                document.getElementById("listado-gastos-completo").innerHTML = " ";      //Bora el contenido sustituyendolo por un string ("")
+            }
+        //Funcion que actualiza el presupuesto WEB
+        function actualizarPresupuestoWeb(){
+            GesPresu.actualizarPresupuesto(parseFloat(prompt("Introduce un presupuesto:")));
+        }
 
 //El export de las funciones
 export{
