@@ -55,7 +55,7 @@ gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3", gastosFiltrad
 let filtrador4 = {valorMaximo : 50, etiquetasTiene : ["comida", "transporte"]}
 let gastosFiltrados4 = gestionPresupuesto.filtrarGastos(filtrador4);
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gastosFiltrados4);    
-
+//https://www.google.es/maps/@43.3352095,-4.5964557,3a,75y,347.75h,64.61t/data=!3m6!1e1!3m4!1s5nAjwN_uFIEf7cBStuShRQ!2e0!7i13312!8i6656?hl=es
 //Mostrar el total de gastos agrupados por día en div#agrupacion-dia (funciones agruparGastos y mostrarGastosAgrupadosWeb)
 let gastosAgrupados1 = gestionPresupuesto.agruparGastos("dia");
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", gastosAgrupados1, "día")

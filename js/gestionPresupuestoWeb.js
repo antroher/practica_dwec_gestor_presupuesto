@@ -1,6 +1,6 @@
-//https://www.youtube.com/watch?v=DMawWBwHnBU
+import * as datosPresupuesto from "./gestionPresupuesto.js";
 
-function mostrarDatoEnId(idElemento, valor) {
+function mostrarDatoEnId(idElemento, valor) {//https://www.youtube.com/watch?v=DMawWBwHnBU
     let elem = document.getElementById(idElemento);
     let p = document.createElement("p");
     p.textContent = valor;
@@ -46,9 +46,31 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 }
 
 function repintar() {
-    location.reload();
+    let pres = datosPresupuesto.mostrarPresupuesto();
+    mostrarDatoEnId( "presupuesto",pres);
+    
+    let gasTot = datosPresupuesto.calcularTotalGastos().toFixed(2);
+    mostrarDatoEnId( "gastos-totales",gasTot);
+    
+    let balTot = datosPresupuesto.calcularBalance().toFixed(2);
+    mostrarDatoEnId("balance-total",balTot);
+    
+    let borrarDatos = document.getElementById("listado-gastos-completo").innerHTML = "";
+    
+    let matrizGasto = datosPresupuesto.listarGastos();
+    for (const x of matrizGasto) {
+        mostrarGastoWeb("listado-gastos-completo", x);
+    }
 }
 
+function actualizarPresupuestoWeb()  {
+    let pres = parseFloat(prompt(`Hey amigo, introduce tu presupuesto`));
+    datosPresupuesto.actualizarPresupuesto(pres);
+    repintar();
+}
+
+
+//oaoaoaotiritioaoaoaotiritoaoaoaoaooooooooooooooo
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
