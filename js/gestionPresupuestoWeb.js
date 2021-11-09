@@ -69,8 +69,8 @@ function actualizarPresupuestoWeb()  {
     repintar();
 }
 
-let btnActPres = document.getElementById("actualizarpresupuesto");
-btnActPres.addEventListener("click",actualizarPresupuestoWeb);
+let btnAddGas = document.getElementById("actualizarpresupuesto");
+btnAddGas.addEventListener("click", actualizarPresupuestoWeb);
 
 function nuevoGastoWeb() {
     let des = prompt(`Hola buenas, indica la descripción del gasto`);
@@ -83,8 +83,11 @@ function nuevoGastoWeb() {
     repintar();
 }
 
-let btnActPres = document.getElementById("anyadirgasto");
-btnActPres.addEventListener("click",nuevoGastoWeb);
+let btnAddGas = document.getElementById("anyadirgasto");
+btnAddGas.addEventListener("click", nuevoGastoWeb);
+
+
+
 
 //oaoaoaotiritioaoaoaotiritoaoaoaoaooooooooooooooo
 export {
