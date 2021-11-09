@@ -97,7 +97,7 @@ for(let obj in agroup)
 {
 agroupText+="<div class='agrupacion-dato'>\n"
         + "<span class='agrupacion-dato-clave'>"+obj+"</span>\n"
-        +"<span class='agrupacion-dato-valor'>"+agroup[prop]+"</span>\n"
+        +"<span class='agrupacion-dato-valor'>"+agroup[obj]+"</span>\n"
         +"</div>\n";
 }
 
