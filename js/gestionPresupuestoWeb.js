@@ -8,20 +8,59 @@ function mostrarDatoEnId(idElemento, valor){
 
 function mostrarGastoWeb(idElemento, gasto){
     let elemento = document.getElementById(idElemento);
-    let html = 
-    "<div class='gasto'>\n" +
-    "<div class='gasto-descripcion'>" + gasto.descripcion + "</div>\n" +
-    "<div class='gasto-fecha'>" + new Date(gasto.fecha).toLocaleDateString() + "</div>\n" + 
-    "<div class='gasto-valor'>" + gasto.valor + "</div>\n" + 
-    "<div class='gasto-etiquetas'>\n";
+
+    let divGasto = document.createElement("div");
+    divGasto.className += "gasto";
+
+    let divGastoDesc = document.createElement("div");
+    divGastoDesc.className += "gasto-descripcion";
+    divGastoDesc.textContent = gasto.descripcion;
+
+    let divGastoFecha = document.createElement("div");
+    divGastoFecha.className += "gasto-fecha";
+    divGastoFecha.textContent = new Date(gasto.fecha).toLocaleDateString();
+
+    let divGastoValor = document.createElement("div");
+    divGastoValor.className += "gasto-valor";
+    divGastoValor.textContent = gasto.valor;
+
+    let divGastoEtiquetas = document.createElement("div");
+    divGastoEtiquetas.className += "gasto-etiquetas";
+
+    elemento.append(divGasto);
+    divGasto.append(divGastoDesc);
+    divGasto.append(divGastoFecha);
+    divGasto.append(divGastoValor);
+    
+
     gasto.etiquetas.forEach(e => {
-        html += "<span class='gasto-etiquetas-etiqueta'>\n" + e + "\n</span>\n"
-    });
-    html += "</div>\n" + 
-    "<button type='button' class='gasto-editar'>Editar</button>" +
-    "<button type='button' class='gasto-borrar'>Borrar</button>" +
-    "</div>\n";
-    elemento.innerHTML += html;
+        let divEtiqueta = document.createElement("span");
+        divEtiqueta.className += "gasto-etiquetas-etiqueta";
+        divEtiqueta.textContent = e + " ";
+        if(idElemento == "listado-gastos-completo"){
+            divEtiqueta.addEventListener("click", BorrarEtiquetasHandle(gasto, e).handleEvent);
+        }
+        divGastoEtiquetas.append(divEtiqueta);
+    });  
+
+    divGasto.append(divGastoEtiquetas);
+
+    let btnEditar = document.createElement("button");
+    btnEditar.className = "gasto-editar";
+    btnEditar.textContent = "Editar";
+    btnEditar.addEventListener("click", EditarHandle(gasto).handleEvent);
+    
+    let btnBorrar = document.createElement("button");
+    btnBorrar.className = "gasto-borrar";
+    btnBorrar.textContent = "Borrar";
+    btnBorrar.addEventListener("click", BorrarHandle(gasto).handleEvent);
+
+    if(idElemento == "listado-gastos-completo"){
+        divGasto.append(btnEditar);
+        divGasto.append(btnBorrar);
+    }
+    
+    
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -51,6 +90,27 @@ function repintar(){
     metodosGastos.listarGastos().forEach(g => {
         mostrarGastoWeb("listado-gastos-completo", g);
     });
+
+    document.getElementById("listado-gastos-filtrado-1").innerHTML="";
+    metodosGastos.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"}).forEach(gf => {
+        mostrarGastoWeb("listado-gastos-filtrado-1",gf);
+    });
+
+    document.getElementById("listado-gastos-filtrado-2").innerHTML = "";
+    metodosGastos.filtrarGastos({valorMinimo: 50}).forEach(gf => {
+        mostrarGastoWeb("listado-gastos-filtrado-2", gf);
+    });
+
+    document.getElementById("listado-gastos-filtrado-3").innerHTML = "";
+    metodosGastos.filtrarGastos({valorMinimo: 200, etiquetasTiene: ["seguros"]}).forEach(gf => {
+        mostrarGastoWeb("listado-gastos-filtrado-3", gf);
+    });
+
+    document.getElementById("listado-gastos-filtrado-4").innerHTML = "";
+    metodosGastos.filtrarGastos({valorMaximo: 50, etiquetasTiene: ["comida" , "transporte"]}).forEach(gf => {
+        mostrarGastoWeb("listado-gastos-filtrado-4", gf);
+    });
+
 }
 
 function actualizarPresupuestoWeb(){
