@@ -58,7 +58,7 @@ function filtrarGastos(gastosFilter) {
     //Deep clone
     //let gastosFiltrados = JSON.parse(JSON.stringify(gastos));
     let gastosFiltrados = Object.assign(gastos);
-    if (typeof gastosFilter === 'object' && gastosFilter != null && Object.entries(gastosFilter).length >= 0) {
+    if (typeof gastosFilter === 'object' && gastosFilter != null && Object.entries(gastosFilter).length > 0) {
         if (Object.hasOwn(gastosFilter, 'fechaDesde') && typeof gastosFilter.fechaDesde === 'string') {
             gastosFiltrados = gastosFiltrados.filter((x) => {
                 return x.fecha >= (Date.parse(gastosFilter.fechaDesde))

@@ -174,3 +174,4 @@ let botonActualizarPresupuesto = document.getElementById("actualizarpresupuesto"
 botonActualizarPresupuesto.addEventListener("click",actualizarPresupuestoWeb);
 
 export { mostrarDatoEnId, mostrarGastoWeb, mostrarGastosAgrupadosWeb };
+

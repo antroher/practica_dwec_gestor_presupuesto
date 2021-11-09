@@ -1,0 +1,144 @@
+* Introducción a JavaScript
+  
+  El objetivo de esta práctica es conocer la historia y los fundamentos de JavaScript, así como instalar las herramientas necesarias para comenzar a trabajar con dicho lenguaje.
+  
+** Repositorio de la práctica
+   El *repositorio base* de la práctica está disponible en: https://github.com/antroher/practica_dwec_gestor_presupuesto
+
+   En esta primera práctica se deberá realizar un /fork/ del repositorio base. Al realizar dicho /fork/, se creará un repositorio copia del original en tu cuenta de usuario. *Será sobre este repositorio personal sobre el que deberás trabajar*.
+
+   Dicho repositorio personal se utilizará para sucesivas prácticas. El profesor irá añadiendo nuevas tareas cada semana. En cada nueva práctica se darán las instrucciones de cómo proceder para incorporar las nuevas tareas a realizar.
+
+   En el repositorio se incluyen un conjunto de archivos que se utilizarán como base para realizar las prácticas. También se incluirá un conjunto de archivos que se utilizarán para realizar *tests*. Dichos tests se podrán utilizar para comprobar si la práctica se ha realizado correctamente. Los tests se podrán ejecutar el número de veces que sea necesario.
+
+** Requisitos de software
+Para poder realizar esta práctica y que funcione adecuadamente el entorno de test será necesario *instalar el siguiente software* en el equipo:
+- Navegador [[https://www.google.com/intl/es/chrome/][Chrome]].
+- Entorno de ejecución [[https://nodejs.org/es/][NodeJS]].
+
+** Desarrollo guiado por test
+   Esta primera práctica no contiene ningún test debido a su carácter teórico y su sencillez.
+
+** Preparación
+1. Instalar los requisitos de software indicados
+2. Hacer un /fork/ del repositorio base https://github.com/antroher/practica_dwec_gestor_presupuesto.git en tu cuenta de GitHub
+3. Abrir un terminal
+4. Clonar *tu repositorio* (el que se ha creado en tu cuenta al hacer el /fork/, no el repositorio base) al equipo local mediante ~git clone~
+5. Acceder a la carpeta del repositorio
+
+** Tareas a realizar
+*** Lectura
+    Lee atentamente los siguientes artículos y sus correspondientes subsecciones en caso de que las tengan:
+    - https://es.javascript.info/getting-started
+    - https://es.javascript.info/hello-world
+    - https://es.javascript.info/structure
+ 
+*** Instalación de un editor
+    Instala un editor de los recomendados en el [[https://es.javascript.info/code-editors][artículo sobre editores]]. Puedes elegir el que desees, pero te recomiendo [[https://code.visualstudio.com/][Visual Studio Code]] (recuerda que es distinto de Visual Studio).
+
+*** Familiarización con el editor
+    Dedica un tiempo a familiarizarte con el editor si no lo conoces. En el caso de Visual Studio Code, aquí tienes algunos puntos de partida:
+    
+    - [[https://code.visualstudio.com/docs/getstarted/introvideos][Documentación]]
+    - [[https://code.visualstudio.com/docs/getstarted/introvideos][Vídeos introductorios]]
+    - [[https://code.visualstudio.com/docs/editor/extension-marketplace][Extensiones]]
+   
+    Presta especial atención a la instalación de *extensiones* en el editor que elijas. También debes familiarizarte con los *atajos de teclado*.
+
+*** Extensión Emmet para editores
+    [[https://www.emmet.io/][Emmet]] es una extensión especialmente útil para el Desarrollo Web. Utiliza *sintaxis CSS* para generar etiquetas HTML de manera rápida y sencilla. Viene instalado por defecto en Visual Studio Code, aunque puede instalarse en cualquier editor adicional.
+
+    *Dedica un tiempo a familiarizarte con Emmet* en el editor que hayas elegido. Para ello, crea un archivo HTML de prueba y haz algunas pruebas de creación de código sobre él utilizando Emmet. Prueba a pulsar el *tabulador* después de crear las etiquetas y verás que puedes navegar directamente al contenido de las etiquetas y los atributos que se hayan creado.
+
+*** Instalación de NodeJS
+    NodeJS es un *entorno de ejecución* de JavaScript. Nos permite ejecutar código JavaScript sin necesidad de utilizar un navegador. De esta manera podemos usar JavaScript como un lenguaje de programación genérico para diseñar todo tipo de aplicaciones y servicios, independientemente del navegador.
+
+    Es importante dejar claro que NodeJS es solo el motor de JavaScript. No dispone por tanto de acceso a las [[https://developer.mozilla.org/es/docs/Web/API][APIs del navegador]]. Por ello, las aplicaciones JavaScript que necesiten acceder a las APIs del navegador *no funcionarán correctamente en NodeJS*. Algunos ejemplos de APIs del navegador son las siguientes:
+
+    - [[https://developer.mozilla.org/es/docs/Web/API/Window][Objeto window]] - Hace referencia a la ventana del navegador. La popular función ~window.alert~ o simplemente ~alert~ es un ejemplo de código que no funciona en NodeJS. Todas las funciones que hagan referencia al DOM también entran en esta categoría.
+    - [[https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API][APIs AJAX]] - Son las llamadas a funciones para realizar peticiones asíncronas.
+    - [[https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API][APIs para manipular gráficos]] - Se utilizan para crear gráficos vectoriales.
+    - [[https://developer.mozilla.org/en-US/docs/Web/API/Vibration_API][APIs de dispositivos]] - Se utilizan para acceder a las capacidades de los dispositivos: webcams, vibración, GPS, etc.
+    - [[https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API][APIs de almacenamiento local]] - Se utilizan para almacenar información en los navegadores
+
+    Dicho esto, es posible utilizar *librerías* de NodeJS para emular o acceder a algunas de dichas funcionalidades o sus equivalentes. 
+    
+    *Instala el entorno [[https://nodejs.org/es/][NodeJS]] en tu ordenador*. Puedes utilizar la versión actual para tener acceso a las últimas características.
+
+*** El REPL de JavaScript
+    JavaScript ofrece un entorno *REPL* (acrónimo que significa /Read Evaluate Print Loop/ o Bucle de Lectura, Evaluación e Impresión). Este entorno no es más que una consola que nos permite escribir cualquier código JavaScript como código de entrada y devolver el resultado a la consola después de la ejecución.
+
+    El REPL es muy útil a la hora de hacer pruebas rápidas o pequeños prototipos. Podemos acceder al REPL de JavaScript en el *navegador* y en *NodeJS*.
+    
+**** El REPL en el navegador
+     Para acceder al REPL en el navegador, accede a las [[https://antroher.github.io/post/herramientas-desarrollo/#herramientas-de-desarrollo-de-navegadores][herramientas de desarrollo]] (en la mayoría de los casos se accede pulsando ~F12~). Una vez ahí, selecciona *consola*.
+
+     Si estás en una pestaña vacía (sin ninguna web cargada) no habrá ningún código JavaScript cargado; si por el contrario no lo está, seguramente haya algún código JavaScript cargado con el que podrías interactuar.
+
+     Para empezar, escribe el siguiente código en la consola y comprueba su ejecución:
+
+     #+begin_src js
+       var a = 4;
+       var b = 5;
+       var c = a + b;
+       alert(c);
+     #+end_src
+
+     Verás que el código se ejecuta y que por pantalla se muestra un cuadro de alerta con el resultado.
+
+     También verás que tras ejecutar cada línea (o tras ejecutar la última, si las has copiado juntas) aparece el resultado ~undefined~. Esto se debe a que en entornos REPL todo se considera una función que devuelve un valor. Como todas las líneas de nuestro primer programa no devuelven valores (~var~ es una declaración de variables y ~alert~ no devuelve ningún valor en la consola, sino que solo muestra el texto en el cuadro de alerta), el resultado de cada ejecución es ~undefined~.
+
+     Puedes hacer alguna prueba más con algún código sencillo y ver cómo funciona.
+
+     Por último, *lee el siguiente artículo* sobre la [[https://developer.mozilla.org/es/docs/Tools/Web_Console/The_command_line_interpreter][consola de JavaScript en el navegador]] y familiarízate con los comandos de *autocompletar*, *historial* y *modo multilínea*.
+     
+**** El REPL en NodeJS
+     Para acceder al REPL en NodeJS abre una consola en el sistema operativo (~CMD~ en Windows o un ~terminal~ en Linux o Mac) y ejecuta el comando ~node~. Si lo has instalado correctamente, verás que aparece un intérprete de comandos de JavaScript.
+
+     Para salir de la consola de Node puedes ejecutar ~CTRL + D~ pulsar ~CTRL + C~ dos veces. También puedes escribir ~.help~ para obtener información.
+
+     Para empezar, escribe el siguiente código en la consola y comprueba su ejecución:
+
+     #+begin_src js
+       var a = 4;
+       var b = 5;
+       var c = a + b;
+       alert(c);
+     #+end_src
+
+     Verás que en este caso las tres primeras líneas se ejecutan sin problemas pero la llamada a la función ~alert~ produce un error. Esto es debido a lo que hemos comentado antes sobre las APIs web: NodeJS solo es intérprete de JavaScript y no tiene acceso a las APIs de navegador, entre las que se encuentra la función ~window.alert~.
+
+     Por el contrario, si ejecutas el siguiente código verás que funciona correctamente:
+
+     #+begin_src js
+       var a = 4;
+       var b = 5;
+       var c = a + b;
+       console.log(c);
+     #+end_src
+
+     En este último caso, el programa no hace referencia a ninguna API de navegador.
+     
+     Como en el caso del navegador, puedes hacer alguna prueba más con algún código sencillo y ver cómo funciona. Comprueba también que puedes utilizar teclas de *autocompletar*.
+
+*** Ejecución de código en archivos externos
+**** Navegador
+     Tal como se indica en el artículo [[https://es.javascript.info/hello-world#scripts-externos][Hola Mundo]], lo habitual es que los scripts de una mínima complejidad se ejecuten en archivos independientes.
+
+     Crea en la raíz del repositorio un fichero denominado ~presentacion.html~. Dicho archivo deberá contener un [[https://www.freecodecamp.org/news/basic-html5-template-boilerplate-code-example/][esqueleto de página HTML]] que cargue un script llamado ~presentacionNavegador.js~, que deberá estar almacenado en la carpeta ~js~ del repositorio.
+
+     El script deberá mostrar una *alerta* por pantalla con tu *nombre y apellidos*.
+    
+**** NodeJS
+
+      Por último, Node también permite ejecutar programas JavaScript que estén almacenados en ficheros. Para ello, *crea un archivo* llamado ~presentacionNode.js~ dentro de la carpeta ~js~ que *muestre en la consola tu nombre y apellidos*. Una vez guardado, puedes ejecutarlo mediante el comando ~node presentacionNode.js~ (recuerda acceder a la ruta donde esté almacenado el fichero si en la consola no estás en la misma carpeta que él).
+      
+** Formato de la entrega
+- Cada persona trabajará en su *repositorio personal* que habrá creado tras realizar el /fork/ del repositorio base.
+- Todos los archivos de la práctica se guardarán en el repositorio y se subirán a GitHub periódicamente. Es conveniente ir subiendo los cambios aunque no sean definitivos. *No se admitirán entregas de tareas que tengan un solo commit*.
+- *Como mínimo* se debe realizar *un commit* por *cada elemento de la lista de tareas* a realizar (si es que estas exigen crear código, claro está).
+- Para cualquier tipo de *duda o consulta* se pueden abrir ~Issues~ haciendo referencia al profesor mediante el texto ~@antroher~ dentro del texto del ~Issue~.
+- Una vez *finalizada* la tarea se debe realizar una ~Pull Request~ al repositorio base indicando tu *nombre y apellidos* en el mensaje.
+
+
+  
