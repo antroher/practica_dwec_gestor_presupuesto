@@ -1,6 +1,7 @@
 "use strict"
 
 import * as GesPresu from "./gestionPresupuesto.js";
+document.getElementById("actualizarpresupuesto").addEventListener("click",actualizarPresupuestoWeb);
 
 function mostrarDatoEnId(idElemento,valor){
     let datId = document.getElementById(idElemento);
@@ -53,21 +54,43 @@ function mostrarDatoEnId(idElemento,valor){
 
         //Funcion repintar pàra actualizar la pagina
             function repintar(){
-                GesPresu.mostrarPresupuesto("presupuesto",GesPresu.mostrarDatoEnId());
-                GesPresu.mostrarDatoEnId("gastos-totales",GesPresu.calcularTotalGastos());
-                GesPresu.mostrarDatoEnId("balance-total",GesPresu.calcularBalance());
-                GesPresu.mostrarGastoWeb("listado-gastos-completo",GesPresu.listarGastos());
+                mostrarDatoEnId("presupuesto",GesPresu.mostrarPresupuesto());
+                mostrarDatoEnId("gastos-totales",GesPresu.calcularTotalGastos());
+                mostrarDatoEnId("balance-total",GesPresu.calcularBalance());
 
                 document.getElementById("listado-gastos-completo").innerHTML = " ";      //Bora el contenido sustituyendolo por un string ("")
+
+                mostrarGastoWeb("listado-gastos-completo",GesPresu.listarGastos());
+
             }
         //Funcion que actualiza el presupuesto WEB
         function actualizarPresupuestoWeb(){
             GesPresu.actualizarPresupuesto(parseFloat(prompt("Introduce un presupuesto:")));
+
+            repintar();
         }
+
+        //Funcion nuevo gasto WEB
+
+        function nuevoGastoWeb(){
+            //datos del gasto
+            let descripcion = prompt("Introduce la descripcion del gasto:");
+            let valor = parseFloat(prompt("Introduce el valor del gasto:"));
+            let fecha = Date.parse(prompt("Introduce el valor del gasto:"));
+            let etiquetas = prompt("Introduce las etiquetas:");
+
+                //Creamos y añadimos el gasto
+            GesPresu.anyadirGasto(GesPresu.CrearGasto(descripcion,valor,fecha,etiquetas))
+
+            //Actualizamos los datos
+            repintar();
+        }
+        
 
 //El export de las funciones
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar
 }
