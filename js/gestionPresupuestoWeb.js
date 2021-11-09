@@ -41,17 +41,18 @@ gasto.etiquetas.forEach(element => {
   
 });
 
-let element=document.getElementById(idElemento);
-element.innerHTML+="<div class='gasto'>\n"
-                 +"<div class='gasto-descripcion'>"+gasto.descripcion+"</div>\n"
-                 +"<div class='gasto-fecha'>"+new Date(gasto.fecha).toLocaleDateString()+"</div>\n"
-                 +"<div class='gasto-valor'>"+gasto.valor+"</div>\n"+
-                 +"<div class='gasto-etiquetas'>\n"
+let element = document.getElementById(idElemento);
+element.innerHTML+="<div class='gasto'>"
+                 +"<div class='gasto-descripcion'>"+gasto.descripcion+"</div>"
+                 +"<div class='gasto-fecha'>"+new Date(gasto.fecha).toLocaleDateString()+"</div>"
+                 +"<div class='gasto-valor'>"+gasto.valor+"</div>"
+                 +"<div class='gasto-etiquetas'>"
                  +cadenaEtiquetas
-                 +"</div>\n</div>\n";
+                 +"</div></div>";
                   
 
 }
+
 
 
 
