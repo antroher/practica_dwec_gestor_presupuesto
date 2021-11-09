@@ -3,7 +3,7 @@ import * as gpw from "./gestionPresupuestoWeb.js";
 import * as gp from "./gestionPresupuesto.js";
 
 gp.actualizarPresupuesto(1500);
-gpw.mostrarDatoEnId(gp.mostrarPresupuesto(),"presupuesto");
+gpw.mostrarDatoEnId('presupuesto',gp.mostrarPresupuesto());
 /*~”Compra carne”, 23.44, “2021-10-06”, “casa”, “comida”~
 ~”Compra fruta y verdura”, 14.25, “2021-09-06”, “supermercado”, “comida”~
 ~”Bonobús”, 18.60, “2020-05-26”, “transporte”~
