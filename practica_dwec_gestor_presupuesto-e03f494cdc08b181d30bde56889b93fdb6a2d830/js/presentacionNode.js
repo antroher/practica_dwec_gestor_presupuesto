@@ -1,1 +1,0 @@
-console.log("Senén Ródenas Valverde");
