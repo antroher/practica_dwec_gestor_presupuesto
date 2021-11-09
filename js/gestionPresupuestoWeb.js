@@ -50,30 +50,52 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     `
 }
 
+function repintar() {
+    //Mostrar el presupuesto 
+    let presupuesto = gestionPresupuesto.mostrarPresupuesto();
+    mostrarDatoEnId('presupuesto',presupuesto);
+
+    //Mostrar los gastos totales
+    let Calculogastos = gestionPresupuesto.calcularTotalGastos();
+    mostrarDatoEnId(gastos-totales,Calculogastos);
+
+    //Mostrar el balance total
+    let BalancePresupuesto = gestionPresupuesto.calcularBalance();
+    mostrarDatoEnId('balance-total',BalancePresupuesto);
+
+    //Borrar el contenido de div#listado-gastos-completo --> innerHTML para borrar el contenido de dicha capa
+    document.getElementById("listado-gastos-completo").innerHTML = "";
+    let listaGastos = gestionPresupuesto.listarGastos();
+    mostrarGastoWeb("listado-gastos-completo", listaGastos);
+
+    //Mostrar el listado completo de gastos
+    let Listagastos = gestionPresupuesto.listarGastos();
+    mostrarGastoWeb('listado-gastos-completo',Listagastos);
+}
+
+//manejadora de eventos del botón actualizarpresupuesto del código HTML
+function actualizarPresupuestoWeb() {
+    let solicitudPresupuesto = parseFloat(prompt('introduzca un presupuesto'));
+    gestionPresupuesto.actualizarPresupuesto(solicitudPresupuesto);
+    repintar();
+    let click = getElementById();
+}
+/*cuando el usuario haga clcik en el boton de actualizarpresupuesto, 
+estese diríge a la función actualizarPresupuestoWeb()*/
+let btnActualizarPres = document.getElementById('actualizarpresupuesto')
+btnActualizarPres.addEventListener('click',actualizarPresupuestoWeb);
+
+function nuevoGastoWeb(params) {
+    
+}
+let btnAnyadirgasto = document.getElementById('anyadirgasto');
+btnAnyadirgasto = addEventListener('click',nuevoGastoWeb);
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar,
+    actualizarPresupuestoWeb
 }
-/*se le paso un array de gastos
-crear gasto y lo filtra y llames a mostrar gasto web pasando el id que te dice en el archivo y pasandole 
-el array de gasto ndra que
-recorrer todas las etiquetas del array de gastos y dentro te recorrerrer sus etiquetras
-con innerhtm para meterlo dento 
-modificar los 
-
-
-para cada gasto se crea un div con cada gaso y dentro de mismo 
-
-fecha del gasto = gasto.fecha
-añadir estructura completa
-*/
-/*agrup devuelve un objeto por agrupacion de periodos
-periodo = preiodo por el que se agrupa
-seleccionar elemento con su id y crear una estrucutura para ese objeto en el documento
-parecido al anterior
-pero muestra la agrupacion por mes, dia o año. la estructura creada de html tendra que mostrr el parametro que se le pasa*/
-
-/*for of recorrer el listado de mostrarGastosAgrupadosWeb, gasto descripcio = gasto.descripcion
-    for of para etiquetas de cada gasto y las meto en un string concatenado para poner los daos en el código html
-    */
+import * as gestionPresupuesto from "./gestionPresupuesto.js";
