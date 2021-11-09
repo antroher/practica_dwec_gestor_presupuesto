@@ -5,13 +5,13 @@ mostrarGastoWeb
 mostrarGastosAgrupadosWeb*/ 
 'use strict'
 
-function mostrarDatoEnId(texto,idElemento)
+function mostrarDatoEnId(idElemento,valor)
 {
     /**Función de dos parámetros que se encargará de escribir el valor (texto) en el elemento HTML con id idElemento indicado:
     idElemento - Hará referencia al id del elemento HTML donde se insertará el resultado en formato texto.
     valor - El valor a mostrar */
     
-    document.getElementById(idElemento).innerHTML += texto;
+    document.getElementById(idElemento).innerHTML += valor;
 
 }
 
