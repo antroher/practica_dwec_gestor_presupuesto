@@ -1,4 +1,7 @@
 "use strict";
+
+import { throws } from "assert";
+
 function mostrarDatoEnId (idElemento, valor)
 {
   let elemento = document.getElementById(idElemento);
@@ -58,10 +61,15 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
       ${datos}
   `
 }
-
+function EditarHandle (){
+  this.EditarHandle = function(0){
+    
+  }
+}
 
 export{
   mostrarDatoEnId,
   mostrarGastoWeb,
-  mostrarGastosAgrupadosWeb
+  mostrarGastosAgrupadosWeb,
+  EditarHandle
 }
