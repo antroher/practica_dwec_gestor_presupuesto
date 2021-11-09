@@ -132,7 +132,7 @@ El repositorio se ha configurado para que se *ejecuten los tests automáticament
      - Pedir al usuario *la información necesaria para editar el gasto* mediante sucesivas preguntas con [[https://es.javascript.info/alert-prompt-confirm][prompt]]. Por simplicidad, de momento *no se comprobará la validez de dichos datos*. La fecha vendrá dada en formato internacional (~yyyy-mm-dd~) y las *etiquetas* se introducirán en un único cuadro de texto como una *lista separada por comas* (por ejemplo, ~etiqueta1,etiqueta2,etiqueta3~). Recuerda que ~prompt~ admite como segundo parámetro el valor por defecto del cuadro de diálogo, por lo que puedes proporcionar el valor actual de cada propiedad del gasto.
      - Convertir el valor a número (recuerda que ~prompt~ siempre devuelve un ~string~).
      - Convertir la cadena de texto de etiquetas devuelta por ~prompt~ [[https://es.javascript.info/array-methods#split-y-join][a un array]].
-     - Actualizar las propiedades del gasto (disponible mediante ~this.gasto~), mediante las funciones ~actualizarValor~, ~actualizarDescripcion~, ~actualizarFecha~ y ~actualizarEtiquetas~.
+     - Actualizar las propiedades del gasto (disponible mediante ~this.gasto~), mediante las funciones ~actualizarValor~, ~actualizarDescripcion~, ~actualizarFecha~ y ~anyadirEtiquetas~.
      - Llamar a la función ~repintar~ para que se muestre la lista de gastos con los datos actualizados de la edición.
      
 **** Función ~BorrarHandle~
@@ -203,5 +203,5 @@ El repositorio se ha configurado para que se *ejecuten los tests automáticament
 - Cada persona trabajará en su *repositorio personal* que habrá creado tras realizar el /fork/ del repositorio base.
 - Todos los archivos de la práctica se guardarán en el repositorio y se subirán a GitHub periódicamente. Es conveniente ir subiendo los cambios aunque no sean definitivos. *No se admitirán entregas de tareas que tengan un solo commit*.
 - *Como mínimo* se debe realizar *un commit* por *cada elemento de la lista de tareas* a realizar (si es que estas exigen crear código, claro está).
-- Para cualquier tipo de *duda o consulta* se pueden abrir ~Issues~ haciendo referencia al profesor mediante el texto ~@antroher~ dentro del texto del ~Issue~.
+- Para cualquier tipo de *duda o consulta* se pueden abrir ~Issues~ haciendo referencia al profesor mediante el texto ~@antroher~ dentro del texto del ~Issue~. Los ~issues~ deben crearse en *tu repositorio*: si no se muestra la pestaña de ~Issues~ puedes activarla en los ~Settings~ de tu repositorio.
 - Una vez *finalizada* la tarea se debe realizar una ~Pull Request~ al repositorio base indicando tu *nombre y apellidos* en el mensaje.
