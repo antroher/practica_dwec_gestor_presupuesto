@@ -43,6 +43,9 @@ function mostrarGastoWeb(idElemento, gastos )/*HAY Q PASARLE UN ARRAY DE GASTO*/
     </div>
     `;
   }
+  let evEditar = new EditarHandle();
+  evEditar.gasto = gastos;
+  editar.addEventListener('click', evEditar);
 }
 
 
@@ -75,6 +78,10 @@ let e1 = new EditarHandle();
 e1.gastos= e;
 e1.handleEvent();
 
+let gastos = gesPres.listarGastos();
+for (let g of gastos){
+  gesPresWeb.mostrarGastoWeb(g);
+}
 export{
   mostrarDatoEnId,
   mostrarGastoWeb,
