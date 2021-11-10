@@ -2,6 +2,9 @@
 import * as gpw from "./gestionPresupuestoWeb.js";
 import * as gp from "./gestionPresupuesto.js";
 
+
+document.getElementById("actualizarpresupuesto").addEventListener("click", gpw.actualizarPresupuesto);
+
 gp.actualizarPresupuesto(1500);
 gpw.mostrarDatoEnId('presupuesto',gp.mostrarPresupuesto());
 /*~”Compra carne”, 23.44, “2021-10-06”, “casa”, “comida”~
