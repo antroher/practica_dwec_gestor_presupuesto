@@ -133,12 +133,9 @@ function nuevoGastoWeb(){
     let val = prompt("Introdue el valor del gasto: ");
     let fech = prompt ("Introduce la fecha del asto (yyyy-mm-dd): ");
     let etiq = prompt ("Introduce las etiquetas del asto separadas por ',': ");
-    let gasto = metodosGastos.CrearGasto(descr,parseFloat(val), fech);
     let etiquetas = new Array();
     etiquetas = etiq.split(",");
-    etiquetas.forEach(e => {
-        gasto.anyadirEtiquetas(e);
-    });
+    let gasto = metodosGastos.CrearGasto(descr,parseFloat(val), fech, ...etiquetas);
     metodosGastos.anyadirGasto(gasto);
     repintar();
 }
