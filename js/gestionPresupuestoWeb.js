@@ -2,10 +2,16 @@
 
 import * as gesPre from "./gestionPresupuesto.js";
 
+//EVENTO BOTON ACTUALIZAR GASTO
+let botonActualizar = document.getElementById("actualizarpresupuesto");
+botonActualizar.addEventListener('click', actualizarPresupuestoWeb)
+//EVENTO BOTON AÑADIR GASTO
+let botonAnyadir = document.getElementById("anyadirgasto");
+botonAnyadir.addEventListener('click', nuevoGastoWeb);
 
 function mostrarDatoEnId(idElemento,valor){
     let elemento = document.getElementById(idElemento);
-    elemento.innerHTML += `<p>${valor}</p>`
+    elemento.innerHTML = `<p>${valor}</p>`
     
 }
     function mostrarGastoWeb(idElemento,gastos){
@@ -56,12 +62,37 @@ function repintar(){
     mostrarDatoEnId("presupuesto",gesPre.mostrarPresupuesto());
     mostrarDatoEnId("gastos-totales", gesPre.calcularTotalGastos());
     mostrarDatoEnId("balance-total",gesPre.calcularBalance());
+
+    let elemento = document.getElementById("listado-gastos-completo");
+    elemento.innerHTML = "";
+    mostrarGastoWeb("listado-gastos-completo", gesPre.listarGastos());
 }
 
+function actualizarPresupuestoWeb (){
+    let nuevoValor = parseFloat(prompt("Introduce un presupuesto."));
+    gesPre.actualizarPresupuesto(nuevoValor);
+    repintar();
+}
+
+function nuevoGastoWeb (){
+    let descripcion = prompt("Descripción.");
+    let valor = parseFloat(prompt("Valor."));
+    let fecha = Date.parse(prompt("Fecha."));
+    let etiquetas = prompt("Etiquetas.");
+
+    let listaEtiquetas = etiquetas.split(',');
+
+    let gasto = gesPre.CrearGasto(descripcion, valor, fecha, listaEtiquetas);
+
+    gesPre.anyadirGasto(gasto);
+
+    repintar();
+}
 
 //El export de las funciones
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar,
 }
