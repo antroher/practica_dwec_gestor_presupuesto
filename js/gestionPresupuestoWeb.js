@@ -8,7 +8,7 @@ document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb)
 
 function mostrarDatoEnId(idElemento, valor) {
     let element = document.getElementById(idElemento);
-    element.innerHTML += `<p>${valor}</p>` 
+    element.innerHTML = `<p>${valor}</p>` 
 }
 
 function mostrarGastoWeb(idElemento, gastos) {
@@ -120,13 +120,17 @@ function nuevoGastoWeb() {
     let descripcion = prompt("Introduzca la descripción del nuevo gasto: ");
     let valor = parseFloat(prompt("Introduzca el valor del nuevo gasto: "));
     let fecha = Date.parse(prompt("Introduzca la fecha del nuevo gasto: "));
-    let etiquetas = prompt("Introduzca las etiquetas del nuevo gasto separadas por , : ").split(', ');
+    let etiquetas = prompt("Introduzca las etiquetas del nuevo gasto separadas por , : ").split(',');
 
     //Creación y adición del gasto creado a la lista de gastos.
     gP.anyadirGasto(gP.CrearGasto(descripcion,valor,fecha,etiquetas));
 
     //Volver a imprimir los datos con el nuevo objeto.
     repintar();
+}
+
+function nuevoGastoWebFormulario() {
+    let gridForm = document.getElementById("formulario-template").content.cloneNode(true);
 }
 
 function EditarHandle () {
@@ -174,7 +178,6 @@ function BorrarEtiquetasHandle() {
     let tagsHandler = {
         handleEvent(event) {
             //Borrado de etiqueta.
-            console.log("vamosa ver")
             this.gasto.borrarEtiquetas(this.etiqueta);
 
             //Llamada a la función repintar.
