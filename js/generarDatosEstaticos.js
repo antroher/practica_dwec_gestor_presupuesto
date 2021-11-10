@@ -1,7 +1,7 @@
 'use strict'
 
 import * as gP from './gestionPresupuesto.js';
-import * as gPW from './gestionPresupuestoWeb';
+import * as gPW from './gestionPresupuestoWeb.js';
 
 gP.actualizarPresupuesto(1500);
 
@@ -10,7 +10,7 @@ gPW.mostrarDatoEnId('presupuesto', texto);
 
 let gasto1 = gP.CrearGasto('Compra carne', 23.44, '2021-10-06', 'casa', 'comida');
 let gasto2 = gP.CrearGasto('Compra fruta y verdura', 14.25, '2021-09-06', 'supermercado', 'comida');
-let gasto3 = gP.CrearGasto('Bonobús', 18.60, '2020-05-26', 'transporte', 'comida');
+let gasto3 = gP.CrearGasto('Bonobús', 18.60, '2020-05-26', 'transporte');
 let gasto4 = gP.CrearGasto('Gasolina', 60.42, '2021-10-08', 'transporte', 'gasolina');
 let gasto5 = gP.CrearGasto('Seguro hogar', 206.45, '2021-09-26', 'casa', 'seguros');
 let gasto6 = gP.CrearGasto('Seguro coche', 195.78, '2021-10-06', 'transporte', 'seguros');
@@ -53,11 +53,11 @@ for (let filt of gastoFiltrado4){
     gPW.mostrarGastoWeb('listado-gastos-filtrado-4', filt);
 }
 
-let agrup1 = agruparGastos('dia');
-gPW.mostrarGastosAgrupadosWeb('agrupacion-dia', agrup1, 'dia');
+let agrup1 = gP.agruparGastos('dia');
+gPW.mostrarGastosAgrupadosWeb('agrupacion-dia', agrup1, 'día');
 
-let agrup2 = agruparGastos('mes');
+let agrup2 = gP.agruparGastos('mes');
 gPW.mostrarGastosAgrupadosWeb('agrupacion-mes', agrup2, 'mes');
 
-let agrup3 = agruparGastos('anyo');
+let agrup3 = gP.agruparGastos('anyo');
 gPW.mostrarGastosAgrupadosWeb('agrupacion-anyo', agrup3, 'año');
