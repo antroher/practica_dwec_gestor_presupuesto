@@ -3,9 +3,9 @@
 mostrarDatoEnId
 mostrarGastoWeb
 mostrarGastosAgrupadosWeb*/ 
-
-'use strict'
 import * as gp from "./gestionPresupuesto.js";
+'use strict'
+
 function mostrarDatoEnId(idElemento,valor)
 {
     /**Función de dos parámetros que se encargará de escribir el valor (texto) en el elemento HTML con id idElemento indicado:
@@ -13,6 +13,7 @@ function mostrarDatoEnId(idElemento,valor)
     valor - El valor a mostrar */
     
     document.getElementById(idElemento).innerHTML += valor;
+    
 
 }
 
@@ -36,9 +37,12 @@ function mostrarGastoWeb(idElemento,gasto)
     <!-- Etcétera -->
   </div> 
 </div> */
-let cadenaEtiquetas;
-gasto.etiquetas.forEach(element => {
-  cadenaEtiquetas+="<span class='gasto-etiquetas-etiqueta'>\n"+element+"\n</span>\n";
+let cadenaEtiquetas="";
+gasto.etiquetas.forEach(etiq => {
+ 
+    cadenaEtiquetas+="<span class='gasto-etiquetas-etiqueta'>\n"+etiq+"\n</span>\n";
+  
+  
   
 });
 
@@ -54,6 +58,35 @@ element.innerHTML+="<div class='gasto'>"
 
 }
 
+function repintar()
+{
+  /*Por tanto, es necesario disponer de una función que vuelva a crear toda la estructura HTML que refleje los cambios realizados en el modelo de datos. 
+  Esta función se denominará repintar, y realizará las siguientes tareas:
+
+  Mostrar el presupuesto en div#presupuesto (funciones mostrarPresupuesto y mostrarDatoEnId)
+Mostrar los gastos totales en div#gastos-totales (funciones calcularTotalGastos y mostrarDatoEnId)
+Mostrar el balance total en div#balance-total (funciones calcularBalance y mostrarDatoEnId)
+Borrar el contenido de div#listado-gastos-completo, para que el paso siguiente no duplique la información. Puedes utilizar innerHTML para borrar el contenido de dicha capa.
+Mostrar el listado completo de gastos en div#listado-gastos-completo (funciones listarGastos y mostrarGastoWeb)
+La función repintar no actualizará el resto de capas (filtrados y agrupaciones) de la práctica anterior (lo haremos así por simplicidad).*/
+let gastos = gp.listarGastos();
+document.getElementById("presupuesto").innerHTML=mostrarDatoEnId(gp.mostrarPresupuesto(),"presupuesto");
+document.getElementById("balance-total").innerHTML=mostrarDatoEnId(gp.calcularTotalGastos(),"gastos-totales");
+document.getElementById("gastos-totales").innerHTML=mostrarDatoEnId(gp.calcularBalance(),"balance-total");
+document.getElementById("listado-gastos-completo").innerHTML=
+gastos.forEach(item => {
+  mostrarGastoWeb("listado-gastos-completo",item);
+});
+}
+
+
+function actualizarPresupuestoWeb()
+{
+  let presupuesto=prompt("Introduce presupuesto");
+    gp.actualizarPresupuesto(parseFloat(presupuesto));
+    repintar();
+
+}
 
 
 
@@ -121,5 +154,7 @@ agroupText+="<div class='agrupacion-dato'>\n"
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb  
+    mostrarGastosAgrupadosWeb,
+    repintar,
+    actualizarPresupuestoWeb
 }
