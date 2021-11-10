@@ -1,3 +1,5 @@
+import * as gestionPresupuesto from './gestionPresupuesto.js';
+import { parse } from 'querystring';
 
 function mostrarDatoEnId(idElemento, valor){
 
@@ -9,14 +11,13 @@ function mostrarDatoEnId(idElemento, valor){
 }
 
 function mostrarGastoWeb(idElemento, gasto){
-    console.log(idElemento + "||" + gasto)
     let bloque = `<div class="gasto">
                             <div class="gasto-descripcion"> ${gasto.descripcion} </div>
                             <div class="gasto-fecha"> ${gasto.fecha} </div>
                             <div class="gasto-valor"> ${gasto.valor} </div>
                             <div class="gasto-etiquetas">`;
     for(let etiqueta of gasto.etiquetas) 
-    {     console.log(idElemento + "||" + etiqueta)
+    {    
         bloque += `<span class="gasto-etiquetas-etiqueta"> ${etiqueta} </span>` 
     } 
     bloque += `</div>
@@ -39,8 +40,33 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     document.getElementById(idElemento).innerHTML += bloque;
 }
 
+function repintar(){
+let presupuesto = gestionPresupuesto.mostrarPresupuesto();
+mostrarDatoEnId("presupuesto", presupuesto);
+
+let gastos_totales = gestionPresupuesto.calcularTotalGastos();
+mostrarDatoEnId("gastos-totales", gastos_totales) ;
+
+let balance_total = gestionPresupuesto.calcularBalance()
+mostrarDatoEnId("balance-total", balance_total)
+
+document.getElementById("listado-gastos-completo").innerHTML = "";
+let listado_gastos_completo = gestionPresupuesto.listarGastos()
+for(let gasto of listado_gastos_completo){
+    mostrarGastoWeb("listado-gastos-completo", gasto)
+}
+}
+
+function actualizarPresupuestoWeb(){
+    let presupuesto = parseFloat(prompt("Introduce un presupuesto"))
+    gestionPresupuesto.actualizarPresupuesto(presupuesto)
+    repintar()
+}
+
 export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar,
+    actualizarPresupuestoWeb
 }

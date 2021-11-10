@@ -198,14 +198,14 @@ function filtrarGastos(objeto) {
         }
         if (objeto.hasOwnProperty('valorMinimo') && typeof objeto.valorMinimo === 'number') {
             resultado = resultado.filter(function(item)  {
-                if(item.valor > objeto.valorMinimo){
+                if(item.valor >= objeto.valorMinimo){
                     return true
                 }               
             })
         }
         if (objeto.hasOwnProperty('valorMaximo') && typeof objeto.valorMaximo === 'number') {
             resultado = resultado.filter(function(item)  {   
-                if(item.valor < objeto.valorMaximo){             
+                if(item.valor <= objeto.valorMaximo){             
                 return true
                 }
             })
