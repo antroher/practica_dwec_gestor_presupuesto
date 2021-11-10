@@ -1,3 +1,4 @@
+import * as gestionPresupuesto from './gestionPresupuesto.js';
 'use strict'
 
 function mostrarDatoEnId(idElemento, valor) {
@@ -45,8 +46,46 @@ function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo) {  // agrup = { "20
     document.getElementById(idElemento).innerHTML = textoHTML;
 }
 
+function repintar() {
+    // Mostrar presupuesto
+    mostrarDatoEnId('presupuesto',gestionPresupuesto.mostrarPresupuesto());
+    // Mostrar gastos totales
+    mostrarDatoEnId('gastos-totales',gestionPresupuesto.calcularTotalGastos());
+    // Mostrar balance total
+    mostrarDatoEnId('balance-total',gestionPresupuesto.calcularBalance());
+    // Borrar el contenito de #listado-gastos-completo
+    document.getElementById('listado-gastos-completo').innerHTML = " ";
+    // Mostrar listado de gastos
+    for (let list of gestionPresupuesto.listarGastos()) {
+        mostrarGastoWeb("listado-gastos-completo",list);
+    }
+}
+// función manejadora de evento click de #actualizarpresupuesto
+function actualizarPresupuestoWeb(){
+    let nuevoPre = parseFloat(prompt("Introduce un presupuesto"));
+    gestionPresupuesto.actualizarPresupuesto(nuevoPre);
+    
+    repintar();
+    // obtener en elemento del botón actualizar
+    let botonActualizar = document.getElementById('actualizarpresupuesto');
+    // addEventListener para que sea función manejadora de eventos --> se llama sin ();
+    botonActualizar.addEventListener('click', actualizarPresupuestoWeb);
+}
+// manejadora del evento click del boton anyadirgasto
+function nuevoGastoWeb() {
+    let descN = prompt('Introduce descripción del gasto');
+    let valorN = parseFloat(prompt('Introduce valor del gasto'));
+    let fechaN = new Date (prompt('Introduce fecha en formato AAAA-MM-DD'));
+    let etiqN = prompt('Introduce etiquetas separadas por comas');
+
+    // todo convertir cadena de etiquetas separadas por comas a un array
+}
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar,
+    actualizarPresupuestoWeb,
+    nuevoGastoWeb
 }
