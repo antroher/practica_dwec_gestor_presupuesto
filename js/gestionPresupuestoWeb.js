@@ -1,6 +1,6 @@
 "use strict";
 
-iimport * as datosPresupuesto from "./gestionPresupuesto.js";
+import * as datosPresupuesto from '/gestionPresupuesto.js';
 
 function mostrarDatoEnId (idElemento, valor)
 {
@@ -16,15 +16,29 @@ function mostrarDatoEnId (idElemento, valor)
 
 function mostrarGastoWeb(idElemento, gastos )/*HAY Q PASARLE UN ARRAY DE GASTO*/ 
 {
-  
   let elemento = document.getElementById(idElemento);
+  //ESTO OK
+  let buttomE = document.createElement("buttom");
+  buttomE.className += "gasto-editar";
+  buttomE.textContent = 'editar';
+  buttomE.type ='buttom';
+
+  let buttomB = document.createElement("buttom");
+  buttomB.className += "gasto-borrar";
+  buttomB.textContent = 'borrar';
+  buttomB.type ='buttom';
+
    //Botón editar gasto
-   let evEditar = new EditarHandle();
-   evEditar.gasto = gasto;
+  let evEditar = new EditarHandle();
+  evEditar.gasto = gastos;
 
    //Botón borrar gasto
-   let evBorrar = new BorrarHandle();
-   evBorrar.gasto = gasto;
+  let evBorrar = new BorrarHandle();
+  evBorrar.gasto = gasto;
+
+  buttomB.addEventListener('click', evBorrar);
+  buttomE.addEventListener('click', evEditar);
+  //HASTA AQUI
 
   for (let i of gastos)
   { 
@@ -50,9 +64,6 @@ function mostrarGastoWeb(idElemento, gastos )/*HAY Q PASARLE UN ARRAY DE GASTO*/
     </div>
     `;
   }
-  let evEditar = new EditarHandle();
-  evEditar.gasto = gastos;
-  editar.addEventListener('click', evEditar);
 }
 
 
@@ -110,18 +121,25 @@ function EditarHandle() {
     let fecha = prompt("Escribe la fecha del gasto en formato yyyy-mm-dd");
     let etiquetas = prompt("Escribe las etiquetas del gasto separadas por ,");
     
-    let arrEditar = etiquetas.split(',');
+    if (etiquetas !== null)
+    {
+      this.gasto.etiquetas=etiquetas.split(',');
+    }
+    else
+    {
+      this.gasto.etiquetas=[];
+    }
 
     this.gasto.actualizarValor(valor);
     this.gasto.actualizarDescripcion(descripcion);
     this.gasto.actualizarFecha(fecha);
-    this.gasto.anyadirEtiquetas(...arrEditar);
+    this.gasto.anyadirEtiquetas(...etiquetas);
     
     repintar();
   }
 }
 
-
+//bien
 function BorrarHandle() {
   
   this.handleEvent = function (e){
@@ -134,7 +152,7 @@ function BorrarHandle() {
     
   }
 }
-
+//bien
 function BorrarEtiquetasHandle() {
   
   this.handleEvent = function (e){
