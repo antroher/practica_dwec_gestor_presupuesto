@@ -2,7 +2,6 @@ import * as gestionPresupuesto from "./gestionPresupuesto.js";
 import * as gestionPresupuestoWeb from "./gestionPresupuestoWeb.js";
 
 
-
 let number = gestionPresupuesto.actualizarPresupuesto(1500);
 let mostrar = gestionPresupuesto.mostrarPresupuesto();
 let datoPresupuesto = gestionPresupuestoWeb.mostrarDatoEnId("presupuesto",mostrar);

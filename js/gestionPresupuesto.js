@@ -127,113 +127,113 @@ function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
         valor = 0;
     }
     // if (etiquetas.length == 0) { etiquetas = [] };
-        this.valor = valor
-        this.descripcion = descripcion
-        this.etiquetas = [...etiquetas]
-        this.fecha = (typeof fecha === 'string') ? Date.parse(fecha) : fecha
+    this.valor = valor
+    this.descripcion = descripcion
+    this.etiquetas = [...etiquetas]
+    this.fecha = (typeof fecha === 'string') ? Date.parse(fecha) : fecha
 
-        this.mostrarGasto = function() {
-            return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+    this.mostrarGasto = function() {
+        return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+    }
+
+    this.actualizarDescripcion = function(newDescripcion) {
+        this.descripcion = newDescripcion;
+    }
+
+    this.actualizarValor = function(newValor) {
+        if (newValor >= 0) {
+            this.valor = newValor;
         }
+    }
 
-        this.actualizarDescripcion = function(newDescripcion) {
-            this.descripcion = newDescripcion;
+    //Falta probar si funciona
+    this.mostrarGastoCompleto = function() {
+        let fecha1;
+        if(typeof this.fecha === 'string')
+        {
+            fecha1 = Date.parse(this.fecha);
         }
+        else{
+            fecha1 = this.fecha;
+        }
+        let aux = "";
+        for(let etiqueta of this.etiquetas) {
+            aux = aux + `- ${etiqueta}\n`;
+        };
 
-        this.actualizarValor = function(newValor) {
-            if (newValor >= 0) {
-                this.valor = newValor;
+        let fecha2 = new Date(fecha1);
+
+        let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fecha2.toLocaleString())}\nEtiquetas:\n`;
+        return texto + aux;
+    }
+
+    this.actualizarFecha = function(newFecha) {
+        let isValidDate = Date.parse(newFecha);
+        if (!isNaN(isValidDate)) {
+            this.fecha = Date.parse(newFecha);
+        } 
+    }
+
+    this.anyadirEtiquetas = function(...etiquetas) {
+        const valoresUnicos = etiquetas.filter((x) => {
+            if (!this.etiquetas.includes(x)) {
+                return x;
             }
-        }
+        });
+        this.etiquetas.push(...valoresUnicos);
+    }
 
-        //Falta probar si funciona
-        this.mostrarGastoCompleto = function() {
-            let fecha1;
-            if(typeof this.fecha === 'string')
-            {
-                fecha1 = Date.parse(this.fecha);
-            }
-            else{
-                fecha1 = this.fecha;
-            }
-            let aux = "";
-            for(let etiqueta of this.etiquetas) {
-                aux = aux + `- ${etiqueta}\n`;
-            };
-
-            let fecha2 = new Date(fecha1);
-
-            let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fecha2.toLocaleString())}\nEtiquetas:\n`;
-            return texto + aux;
-        }
-
-        this.actualizarFecha = function(newFecha) {
-            let isValidDate = Date.parse(newFecha);
-            if (!isNaN(isValidDate)) {
-                this.fecha = Date.parse(newFecha);
-            } 
-        }
-
-        this.anyadirEtiquetas = function(...etiquetas) {
-            const valoresUnicos = etiquetas.filter((x) => {
-                if (!this.etiquetas.includes(x)) {
-                    return x;
+    this.borrarEtiquetas = function(...etiquetas) {
+        etiquetas.forEach((x) => {
+            for (let i = 0; i < this.etiquetas.length; i++) {
+                if (this.etiquetas[i] === x) {
+                    this.etiquetas.splice(i, 1);
                 }
-            });
-            this.etiquetas.push(...valoresUnicos);
-        }
+            }
+        })
+    }
 
-        this.borrarEtiquetas = function(...etiquetas) {
-            etiquetas.forEach((x) => {
-                for (let i = 0; i < this.etiquetas.length; i++) {
-                    if (this.etiquetas[i] === x) {
-                        this.etiquetas.splice(i, 1);
-                    }
-                }
-            })
-        }
-
-        this.obtenerPeriodoAgrupacion = function(periodo) {
-            let validarFecha = new Date(this.fecha);
-            switch(periodo) {
-                case "dia": { 
-                    if (validarFecha.getDate() < 10) {
-                        if (validarFecha.getMonth() < 9) {
-                            return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
-                        }
-                        else {
-                            return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
-                        }
+    this.obtenerPeriodoAgrupacion = function(periodo) {
+        let validarFecha = new Date(this.fecha);
+        switch(periodo) {
+            case "dia": { 
+                if (validarFecha.getDate() < 10) {
+                    if (validarFecha.getMonth() < 9) {
+                        return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
                     }
                     else {
-                        if (validarFecha.getMonth() < 9) {
-                            return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-${validarFecha.getDate()}`;    
-                        }
-                        else {
-                            return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-${validarFecha.getDate()}`;
-                        }
+                        return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
                     }
-                    break;
                 }
-                case "mes": {
-                    if(validarFecha.getMonth() < 9) {
-                        return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}`;
+                else {
+                    if (validarFecha.getMonth() < 9) {
+                        return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-${validarFecha.getDate()}`;    
                     }
                     else {
-                        return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}`;
+                        return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-${validarFecha.getDate()}`;
                     }
-                    break;
                 }
-                case "anyo": {
-                    return `${validarFecha.getFullYear()}`
-                    break;
+                break;
+            }
+            case "mes": {
+                if(validarFecha.getMonth() < 9) {
+                    return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}`;
                 }
-                default:{
-                    return `Periodo no válido`;
+                else {
+                    return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}`;
                 }
+                break;
+            }
+            case "anyo": {
+                return `${validarFecha.getFullYear()}`
+                break;
+            }
+            default:{
+                return `Periodo no válido`;
             }
         }
     }
+}
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.

@@ -25,15 +25,23 @@ function mostrarGastoWeb(idElemento, gasto) {
     let gastoEtiquetas = document.createElement("div");
     gastoEtiquetas.className = "gasto-etiquetas";
     divGasto.append(gastoEtiquetas);
-    let nuevoObjEtiqueta = new BorrarEtiquetasHandle(); 
-    nuevoObjEtiqueta.gasto = gasto;
 
     for (let etiq of gasto.etiquetas) {
+        //Creación del objeto para Borrar Etiquetas
+        let nuevoObjEtiqueta = new BorrarEtiquetasHandle(); 
+        nuevoObjEtiqueta.gasto = gasto;
+
+        //Creación de la etiqueta
         let gastoEtiqueta = document.createElement("span");
         gastoEtiqueta.className = "gasto-etiquetas-etiqueta";
         gastoEtiqueta.innerHTML = etiq + "<br>";
         nuevoObjEtiqueta.etiqueta = etiq;
+
+        //Adjuntamos la etiqueta al div gasto-etiquetas
         gastoEtiquetas.append(gastoEtiqueta);
+
+        //Creamos el manador para la etiqueta
+        gastoEtiqueta.addEventListener('click',nuevoObjEtiqueta);
     }
 
     let buttonEdit = document.createElement("button");
@@ -53,7 +61,7 @@ function mostrarGastoWeb(idElemento, gasto) {
     
     buttonEdit.addEventListener('click', edit);
     buttonBorr.addEventListener('click', delet);
-    gastoEtiquetas.addEventListener('click',nuevoObjEtiqueta);
+  
     
     divGasto.append(buttonEdit);
     divGasto.append(buttonBorr);
