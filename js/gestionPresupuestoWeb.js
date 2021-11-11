@@ -2,7 +2,8 @@
 
 import * as gesPre from "./gestionPresupuesto.js";
 
-//EVENTO BOTON ACTUALIZAR GASTO
+//EVENTO BOTON ACTUALIZAR PRESUPUESTO
+
 let botonActualizar = document.getElementById("actualizarpresupuesto");
 botonActualizar.addEventListener('click', actualizarPresupuestoWeb)
 //EVENTO BOTON AÑADIR GASTO
@@ -34,7 +35,15 @@ function mostrarDatoEnId(idElemento,valor){
                 <div class="gasto-etiquetas">
                     ${etiquetas}
                 </div>
+                
+                <button id="gasto-editar-${gasto.id}" type="button">
+                    gasto-editar
+                </button>
             </div>`;
+        //EVENTO BOTON EDITAR GASTO
+        let botonEditar = document.getElementById(`gasto-${gasto.id}`);
+        botonEditar.addEventListener('click', EditarHandle);
+
     });
 }
     
@@ -82,11 +91,31 @@ function nuevoGastoWeb (){
 
     let listaEtiquetas = etiquetas.split(',');
 
-    let gasto = gesPre.CrearGasto(descripcion, valor, fecha, listaEtiquetas);
+    let gasto = new gesPre.CrearGasto(descripcion, valor, fecha, listaEtiquetas);
 
     gesPre.anyadirGasto(gasto);
 
     repintar();
+}
+
+function EditarHandle (){
+    this.handleEvent = function(evento){
+        let descripcion = prompt("Descripción.");
+        let valor = parseFloat(prompt("Valor."));
+        let fecha = Date.parse(prompt("Fecha."));
+        let etiquetas = prompt("Etiquetas.");
+        let listaEtiquetas = etiquetas.split(',');
+
+        this.gasto.actualizarDescripcion(descripcion);
+        this.gasto.actualizarValor(valor);
+        this.gasto.actualizarFecha (fecha);
+        
+        if(listaEtiquetas != undefined){
+            this.gasto.anyadirEtiquetas(listaEtiquetas); 
+        }
+
+        repintar();
+    }
 }
 
 //El export de las funciones
