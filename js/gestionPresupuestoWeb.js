@@ -90,10 +90,10 @@ function EditarHandle() {
     
     this.handleEvent = function (e){
     
-    let descripcion = prompt("Escribe la nueva descripción del gasto");
-    let valor = parseFloat(prompt("Escribe la nueva valor del gasto"));
-    let fecha = prompt("Escribe la fecha del gasto en formato yyyy-mm-dd");
-    let etiquetas = prompt("Escribe las etiquetas del gasto separadas por ,");
+    let descripcion = prompt("¿Cuál va a ser la nueva descripción del gasto?");
+    let valor = parseFloat(prompt("¿Y de cuánto dices que es?"));
+    let fecha = prompt("Dime cuándo hiciste ese gasto anda, recuerda que sólo entiendo el formato yyyy-mm-dd");
+    let etiquetas = prompt("Etiqueta el gasto como te vena en gana, pero separa cada etiqueta con una coma (,)");
     
     let arrEditar = etiquetas.split(',');
 
