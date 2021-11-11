@@ -48,6 +48,8 @@ describe("Función CrearGasto y funcionamiento de objeto gasto", function() {
         var valor = 50;
         var descripcion = "Ejemplo de gasto 1";
         var gasto1 = new CrearGasto(descripcion, valor);
+        // Comprobar que se ha utilizado una función constructora
+        assert.equal(CrearGasto.prototype.isPrototypeOf(gasto1), true, "No has utilizado una función constructora para crear el objeto");
         assert.equal(gasto1.valor, valor);
         assert.equal(gasto1.descripcion, descripcion);
         valor = 43.4;
