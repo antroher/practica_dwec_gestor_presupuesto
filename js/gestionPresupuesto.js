@@ -38,21 +38,21 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         etiquetas = [];
     }
 
-    let gasto = {
-        descripcion: descripcion,
-        valor: valor,
-        fecha: (typeof fecha === "string") ? Date.parse(fecha) : fecha,
-        etiquetas: [...etiquetas],
+    // let gasto = {
+        this.descripcion = descripcion,
+        this.valor = valor,
+        this.fecha = (typeof fecha === "string") ? Date.parse(fecha) : fecha,
+        this.etiquetas = [...etiquetas],
 
-        mostrarGasto : function(){
+        this.mostrarGasto = function(){
             return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
         },
 
-        actualizarDescripcion : function(nuevaDescripcion){
+        this.actualizarDescripcion = function(nuevaDescripcion){
             this.descripcion = nuevaDescripcion;
         },
 
-        actualizarValor : function(nuevoValor){
+        this.actualizarValor = function(nuevoValor){
             let valorDevuelto
 
             if(nuevoValor >= 0){
@@ -60,7 +60,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
             }
         },
 
-        mostrarGastoCompleto : function(){
+        this.mostrarGastoCompleto = function(){
             let listaEtiquetas = "";
             let fechaLocal = new Date(this.fecha);
 
@@ -74,7 +74,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
             return texto;
         },
         
-        actualizarFecha : function(nuevaFecha){
+        this.actualizarFecha = function(nuevaFecha){
             if (typeof nuevaFecha !== "string") return;
 
             let okFecha = Date.parse(nuevaFecha) ;
@@ -83,7 +83,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
             this.fecha = Date.parse(nuevaFecha);
         },
 
-        anyadirEtiquetas : function(...introEtiquetas){
+        this.anyadirEtiquetas = function(...introEtiquetas){
             introEtiquetas.forEach((i) =>{
                 if(this.etiquetas.includes(i)) return;
 
@@ -91,7 +91,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
             })
         },
 
-        borrarEtiquetas : function(...etiquetas){
+        this.borrarEtiquetas = function(...etiquetas){
             etiquetas.forEach((i) =>{
                 this.etiquetas.forEach((j, posi) =>{
                     if(j.includes(i)) this.etiquetas.splice(posi, 1)
@@ -100,7 +100,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         },
 
         //*****Práctica 3*****/
-        obtenerPeriodoAgrupacion : function(periodo){
+        this.obtenerPeriodoAgrupacion = function(periodo){
             let formatoFecha = new Date(this.fecha)
             switch(periodo){
                 case "anyo":
@@ -114,10 +114,10 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
                 default:
                     break;
             }
-        },
-    };
+        }
+    // };
 
-    return gasto;
+    // return gasto;
 }
 
 function listarGastos(){
