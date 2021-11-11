@@ -68,17 +68,17 @@ function CrearGasto(des, val = 0, fec = Date.now(), ...eti) {
         this.etiquetas.push(...aux);
     }
 
-    this.borrarEtiquetas >= function(...eti) {
+    this.borrarEtiquetas = function(...eti) {
         eti.forEach((x) => {
             for (let i = 0; i < this.etiquetas.length; i++) {
                 if (this.etiquetas[i] === x) {
                     this.etiquetas.splice(i, 1);
                 }
             }
-        })
+        });
     }
 
-    this.mostrarGastoCompleto = funcion() {
+    this.mostrarGastoCompleto = function() {
         let fec1;
         if(typeof this.fecha === 'string') {
             fec1 = Date.parse(this.fecha);
@@ -92,7 +92,7 @@ function CrearGasto(des, val = 0, fec = Date.now(), ...eti) {
         let fec2 = new Date(fec1);
         let aux2 = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fec2.toLocaleString())}\nEtiquetas:\n`;
         return aux2 + aux;
-        }
+    }
 
     this.obtenerPeriodoAgrupacion = function(per) {
         let date = new Date(this.fecha);
