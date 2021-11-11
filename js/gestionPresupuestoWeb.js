@@ -87,25 +87,30 @@ let btnAddGas = document.getElementById("anyadirgasto");
 btnAddGas.addEventListener("click", nuevoGastoWeb);
 
 function EditarHandle() {
-    
-    this.handleEvent = function (e){
-    
-    let descripcion = prompt("¿Cuál va a ser la nueva descripción del gasto?");
-    let valor = parseFloat(prompt("¿Y de cuánto dices que es?"));
-    let fecha = prompt("Dime cuándo hiciste ese gasto anda, recuerda que sólo entiendo el formato yyyy-mm-dd");
-    let etiquetas = prompt("Etiqueta el gasto como te vena en gana, pero separa cada etiqueta con una coma (,)");
-    
-    let arrEditar = etiquetas.split(',');
-
-    this.gasto.actualizarValor(valor);
-    this.gasto.actualizarDescripcion(descripcion);
-    this.gasto.actualizarFecha(fecha);
-    this.gasto.anyadirEtiquetas(...arrEditar);
-    
-    repintar();
+    this.handleEvent = function (e){    
+        let des = prompt("¿Cuál va a ser la nueva descripción del gasto?");
+        let val = parseFloat(prompt("¿Y de cuánto dices que es?"));
+        let fec = prompt("Dime cuándo hiciste ese gasto anda, recuerda que sólo entiendo el formato yyyy-mm-dd");
+        let etiquetas = prompt("Etiqueta el gasto como te venga en gana, pero separa cada etiqueta con una coma (,)");
+        let etiArray = etiquetas.split(',');
+        let gasto = new datosPresupuesto.CrearGasto(des, val, fec, ...etiArray);
+        datosPresupuesto.anyadirGasto(gasto);
+        repintar();
    }
+}
 
-  }
+function BorrarHandle() {
+    this.handleEvent = function (e) {
+        datosPresupuesto.borrarGasto(this.gasto.id);
+        repintar();
+    }        
+}
+function BorrarEtiquetasHandle() {
+    this.handleEvent = function (e){
+        this.gasto.borrarEtiquetas(this.etiqueta);
+        repintar();
+    }
+}
 
 
 //oaoaoaotiritioaoaoaotiritoaoaoaoaooooooooooooooo
