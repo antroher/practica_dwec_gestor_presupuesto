@@ -19,7 +19,7 @@ function mostrarGastoWeb(idElemento, gastos) {
         let tagIdStrings = [];
         let arrayEtiquetas = [];
 
-        gasto.etiquetas.forEach((etiqueta, index) => {
+        gasto.etiquetas.forEach((etiqueta) => {
             etiquetas += 
                 `<span class="gasto-etiquetas-etiqueta" id="${gasto.id}-${etiqueta}">
                     ${etiqueta}
@@ -43,18 +43,18 @@ function mostrarGastoWeb(idElemento, gastos) {
             </div>`;
 
             //Asignación del objeto manejador al boton de editar. 
-            let editHandler = EditarHandle();
+            let editHandler = new EditarHandle();
             editHandler.gasto = gasto;
             document.getElementById(`gasto-editar-${gasto.id}`).addEventListener('click', editHandler);
 
             //Asignación del objeto manejador al boton de borrado.
-            let deleteHandler = BorrarHandle();
+            let deleteHandler = new BorrarHandle();
             deleteHandler.gasto = gasto;
             document.getElementById(`gasto-borrar-${gasto.id}`).addEventListener('click', deleteHandler);
 
             //Asignación del objeto manejador a los span de las etiquetas.
             tagIdStrings.forEach((tagId, index) => {
-                let tagsHandler = BorrarEtiquetasHandle();
+                let tagsHandler = new BorrarEtiquetasHandle();
                 tagsHandler.gasto = gasto;
                 tagsHandler.etiqueta = arrayEtiquetas[index];
                 document.getElementById(tagId).addEventListener('click', tagsHandler);
@@ -123,69 +123,62 @@ function nuevoGastoWeb() {
     let etiquetas = prompt("Introduzca las etiquetas del nuevo gasto separadas por , : ").split(',');
 
     //Creación y adición del gasto creado a la lista de gastos.
-    gP.anyadirGasto(gP.CrearGasto(descripcion,valor,fecha,etiquetas));
+    gP.anyadirGasto(new gP.CrearGasto(descripcion,valor,fecha,etiquetas));
 
     //Volver a imprimir los datos con el nuevo objeto.
     repintar();
 }
 
-function nuevoGastoWebFormulario() {
-    let gridForm = document.getElementById("formulario-template").content.cloneNode(true);
-}
-
 function EditarHandle () {
-    let editHandler = {
-        handleEvent(event) {
-            //Pedir al usuario la información necesaria para editar el gasto y su posterior actualización.
-            this.gasto.actualizarDescripcion( 
-                prompt("Introduzca la descripción nueva: ", this.gasto.descripcion));
+    this.handleEvent = function(event) {
+        //Pedir al usuario la información necesaria para editar el gasto y su posterior actualización.
+        this.gasto.actualizarDescripcion( 
+            prompt("Introduzca la descripción nueva: ", this.gasto.descripcion));
         
-            this.gasto.actualizarValor( 
-                parseFloat(prompt("Introduzca el valor nuevo: ", this.gasto.valor)));
+        this.gasto.actualizarValor( 
+            parseFloat(prompt("Introduzca el valor nuevo: ", this.gasto.valor)));
         
-            this.gasto.actualizarFecha( 
-                Date.parse(prompt("Introduzca la fecha nueva: ", this.gasto.fecha)));
+        this.gasto.actualizarFecha( 
+            Date.parse(prompt("Introduzca la fecha nueva: ", this.gasto.fecha)));
 
-            let etiquetas = prompt("Introduzca las nuevas etiquetas separadas por , : ");
+        let etiquetas = prompt("Introduzca las nuevas etiquetas separadas por , : ");
             
-            if(typeof etiquetas != "undefined" ) {
-                this.gasto.etiquetas = etiquetas.split(',');
-            }
-        
-            //Llamada a la función repintar
-            repintar();
+        if(typeof etiquetas != "undefined" ) {
+            this.gasto.etiquetas = etiquetas.split(',');
         }
+    
+        //Llamada a la función repintar
+        repintar();
     }
-
-    return editHandler;
 }
 
 function BorrarHandle() {
-    let deleteHandler = {
-        handleEvent(event) {
-            //Borrado de gasto.
-            gP.borrarGasto(this.gasto.id);
-
-            //Llamada a la función repintar.
-            repintar();
-        }
+    this.handleEvent = function(event) {
+        //Borrado de gasto.
+        gP.borrarGasto(this.gasto.id);
+        
+        //Llamada a la función repintar.
+        repintar();
     }
-
-    return deleteHandler;
  }
 
 function BorrarEtiquetasHandle() {
-    let tagsHandler = {
-        handleEvent(event) {
-            //Borrado de etiqueta.
-            this.gasto.borrarEtiquetas(this.etiqueta);
-
-            //Llamada a la función repintar.
-            repintar();
-        }
-    }
+    this.handleEvent = function(event) {
+        //Borrado de etiqueta.
+        this.gasto.borrarEtiquetas(this.etiqueta);
     
-    return tagsHandler;
+        //Llamada a la función repintar.
+        repintar();
+    }
+}
+
+function nuevoGastoWebFormulario() {
+    let gridForm = document.getElementById("formulario-template").content.cloneNode(true);
+
+}
+
+function submitHandle(event) {
+    this.handleEvent(event)
 }
 
 //Funciones a exportar para el test.
