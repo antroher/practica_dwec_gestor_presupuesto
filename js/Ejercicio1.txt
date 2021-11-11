@@ -1,0 +1,24 @@
+<html>
+    <head></head>
+
+    <body>
+        <form>
+                <div>Nombre: <input type="text" /></div>
+                <div>Apellidos: <input type="text" /></div>
+                    <div>
+                        Sexo:
+                        <input type="radio" id="hombre" name ="sexo">
+                        <label>Hombre</label>                        
+                        <input type="radio" id="mujer" name ="sexo">
+                        <label>Mujer</label>
+                    </div>
+                
+                <div>Correo: <input type="text" /></div>
+                <div><input type="checkbox" id="recibir"/>Deseo recibir información sobre novedades y ofertas</div>
+                <div><input type="checkbox" id="condiciones"/>Declaro haber leído y aceptar las condiciones generales del programa y la normativa sobre protección de datos</div>
+                <div><input type="submit" /></div>
+            </form>
+        
+    </body>
+
+</html>

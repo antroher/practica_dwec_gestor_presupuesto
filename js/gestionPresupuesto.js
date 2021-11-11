@@ -30,30 +30,28 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas){
         valor = 0;
     }
     
-    if(etiquetas == null){
-        etiquetas = new Array();
-    }
-    let gasto = {
-        valor : valor,
-        descripcion : descripcion,
-        etiquetas : [...etiquetas],
-        fecha : (typeof fecha == `string`) ? Date.parse(fecha) : fecha,
+    //if(etiquetas == null){
+        this.valor = valor
+        this.descripcion = descripcion
+        this.etiquetas = [...etiquetas];
+        this.fecha = (typeof fecha === `string`) ? Date.parse(fecha):fecha 
 
-        mostrarGasto : function() {
+        
+        this.mostrarGasto = function() {
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
-        },
+        }
 
-        actualizarDescripcion : function(descripcion) {
+        this.actualizarDescripcion = function(descripcion) {
             this.descripcion = descripcion;
-        },
+        }
 
-        actualizarValor : function(valor) {
+        this.actualizarValor = function(valor) {
             if(valor > 0) {
                 this.valor = valor;
             }
-        },
+        }
 
-        mostrarGastoCompleto : function() {
+        this.mostrarGastoCompleto = function() {
             let controlFecha;
 
             if (typeof this.fecha == 'string') {
@@ -71,16 +69,16 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas){
 
             let aux = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fechabien.toLocaleString())}\nEtiquetas:\n`;
             return aux + space;
-        },
+        }
 
-        actualizarFecha : function (fecha) {
+        this.actualizarFecha = function (fecha) {
             if(!isNaN(Date.parse(fecha)))
             {
                 this.fecha = Date.parse(fecha);
             }            
-        },
+        }
 
-        anyadirEtiquetas(...etiquetas)
+        this.anyadirEtiquetas = function(...etiquetas)
         {
             let aux = etiquetas.filter((x) => {
                 if (!this.etiquetas.includes(x)) {
@@ -88,9 +86,9 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas){
                 }
             });
             this.etiquetas.push(...aux);
-        },
+        }
 
-        borrarEtiquetas(...etiquetas) {
+        this.borrarEtiquetas = function(...etiquetas) {
             etiquetas.forEach((x) => {
                 for(let i = 0; i < this.etiquetas.length; i++) {
                     if (this.etiquetas[i] === x) {
@@ -98,7 +96,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas){
                     }
                 }
             })
-        },
+        }
 
         /*obtenerPeriodoAgrupacion(periodo){
             let fecha = new Date(this.fecha);
@@ -108,7 +106,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas){
 
         }*/
 
-        obtenerPeriodoAgrupacion : function(periodo) {
+        this.obtenerPeriodoAgrupacion = function(periodo) {
             let validarFecha = new Date(this.fecha);
             switch(periodo) {
                 case "dia": { 
@@ -148,12 +146,6 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas){
                 }
             }
         }
-
-
-
-    }
-
-    return gasto;
 }
 
 
