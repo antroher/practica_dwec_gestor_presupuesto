@@ -1,5 +1,5 @@
 import * as gestionPresupuesto from 'js/gestionPresupuesto.js';
-import { getSystemErrorMap } from 'util';
+
 
 function mostrarDatoEnId(idElemento, valor) {
     let div = document.getElementById(idElemento);
@@ -62,6 +62,10 @@ function repintar() {
 
     let listarGastos = gestionPresupuesto.listarGastos();
     mostrarGastoWeb('listado-gastos-completo', listarGastos);
+}
+
+function actualizarPresupuestoWeb() {
+    
 }
 
 export {
