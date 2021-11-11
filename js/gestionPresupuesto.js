@@ -26,107 +26,105 @@ function CrearGasto(descripcion, valor = 0, fecha = new (Date), ...etiquetas) {
     if(valor < 0 || isNaN(valor)){
        valor = 0;
     }   
-    let gasto = {
-        valor : valor,
-        descripcion : descripcion,
-        fecha : (typeof fecha === "string") ? Date.parse(fecha) : fecha,
-        etiquetas : [...etiquetas],
+    
+    this.valor = valor,
+    this.descripcion = descripcion,
+    this.fecha = (typeof fecha === "string") ? Date.parse(fecha) : fecha,
+    this.etiquetas = [...etiquetas],
 
-        mostrarGasto : function() {
-            return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
-        },
-        actualizarDescripcion : function(descripcion) {
-            this.descripcion  = descripcion;
-        },
-        actualizarValor : function(valor) {
-            if(valor > 0){
-                this.valor = valor;
-            }            
-        },
-        mostrarGastoCompleto : function() {
-            let fech1;
+    this.mostrarGasto = function() {
+        return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+    }
+    this.actualizarDescripcion = function(descripcion) {
+        this.descripcion  = descripcion;
+    }
+    this.actualizarValor = function(valor) {
+        if(valor > 0){
+            this.valor = valor;
+        }            
+    }
+    this.mostrarGastoCompleto = function() {
+        let fech1;
 
-            if (typeof this.fecha === 'string') {
-                fech1 = Date.parse(this.fecha);
+        if (typeof this.fecha === 'string') {
+            fech1 = Date.parse(this.fecha);
+        }
+        else {
+            fech1 = this.fecha;
+        }
+        let espacio = "";
+
+        for(let etiq1 of this.etiquetas) {
+            espacio += `- ${etiq1}\n`;
+        }
+        let fech2 = new Date(fech1);
+
+        let aux = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fech2.toLocaleString())}\nEtiquetas:\n`;
+        return aux + espacio;
+    }
+    this.actualizarFecha = function(fecha) {
+        if(!isNaN(Date.parse(fecha))){
+            this.fecha =Date.parse(fecha);
+        }                
+    }
+    this.anyadirEtiquetas = function(...etiquetas) {
+        const aux = etiquetas.filter((x) => {
+            if (!this.etiquetas.includes(x)) {
+                return x;
             }
-            else {
-                fech1 = this.fecha;
-            }
-            let espacio = "";
+        });
+        this.etiquetas.push(...aux);
 
-            for(let etiq1 of this.etiquetas) {
-                espacio += `- ${etiq1}\n`;
-            }
-            let fech2 = new Date(fech1);
-
-            let aux = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fech2.toLocaleString())}\nEtiquetas:\n`;
-            return aux + espacio;
-        },
-        actualizarFecha : function(fecha) {
-            if(!isNaN(Date.parse(fecha))){
-                this.fecha =Date.parse(fecha);
-            }                
-        },
-        anyadirEtiquetas(...etiquetas) {
-            const aux = etiquetas.filter((x) => {
-                if (!this.etiquetas.includes(x)) {
-                    return x;
+    }
+    this.borrarEtiquetas = function (...etiquetas) {
+        etiquetas.forEach((x) => {
+            for(let i = 0; i < this.etiquetas.length; i++) {
+                if (this.etiquetas[i] === x) {
+                    this.etiquetas.splice(i, 1);
                 }
-            });
-            this.etiquetas.push(...aux);
-
-        },
-        borrarEtiquetas : function (...etiquetas) {
-            etiquetas.forEach((x) => {
-                for(let i = 0; i < this.etiquetas.length; i++) {
-                    if (this.etiquetas[i] === x) {
-                        this.etiquetas.splice(i, 1);
-                    }
-                }
-            })
-        },
-        obtenerPeriodoAgrupacion : function (periodo) {
-            let obtenerFecha = new Date(this.fecha);
-            switch(periodo) {
-                case "dia": { 
-                    if (obtenerFecha.getDate() < 10) {
-                        if (obtenerFecha.getMonth() < 9) {
-                            return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}-0${obtenerFecha.getDate()}`;
-                        }
-                        else {
-                            return `${obtenerFecha.getFullYear()}-${obtenerFecha.getMonth()+1}-0${obtenerFecha.getDate()}`;
-                        }
+            }
+        })
+    }
+    this.obtenerPeriodoAgrupacion = function (periodo) {
+        let obtenerFecha = new Date(this.fecha);
+        switch(periodo) {
+            case "dia": { 
+                if (obtenerFecha.getDate() < 10) {
+                    if (obtenerFecha.getMonth() < 9) {
+                        return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}-0${obtenerFecha.getDate()}`;
                     }
                     else {
-                        if (obtenerFecha.getMonth() < 9) {
-                            return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}-${obtenerFecha.getDate()}`;    
-                        }
-                        else {
-                            return `${obtenerFecha.getFullYear()}-${obtenerFecha.getMonth()+1}-${obtenerFecha.getDate()}`;
-                        }
+                        return `${obtenerFecha.getFullYear()}-${obtenerFecha.getMonth()+1}-0${obtenerFecha.getDate()}`;
                     }
-                    break;
                 }
-                case "mes": {
-                    if(obtenerFecha.getMonth() < 9) {
-                        return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}`;
+                else {
+                    if (obtenerFecha.getMonth() < 9) {
+                        return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}-${obtenerFecha.getDate()}`;    
                     }
                     else {
-                        return `${obtenerFecha.getFullYear()}-${obtenerFecha.getMonth()+1}`;
+                        return `${obtenerFecha.getFullYear()}-${obtenerFecha.getMonth()+1}-${obtenerFecha.getDate()}`;
                     }
-                    break;
                 }
-                case "anyo": {
-                    return `${obtenerFecha.getFullYear()}`
-                    break;
+                break;
+            }
+            case "mes": {
+                if(obtenerFecha.getMonth() < 9) {
+                    return `${obtenerFecha.getFullYear()}-0${obtenerFecha.getMonth()+1}`;
                 }
-                default:{
-                    return `Valor no valido`;
+                else {
+                    return `${obtenerFecha.getFullYear()}-${obtenerFecha.getMonth()+1}`;
                 }
+                break;
+            }
+            case "anyo": {
+                return `${obtenerFecha.getFullYear()}`
+                break;
+            }
+            default:{
+                return `Valor no valido`;
             }
         }
     }
-    return gasto;
 }
 
 function listarGastos(){
