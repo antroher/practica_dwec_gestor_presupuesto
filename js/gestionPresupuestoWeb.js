@@ -81,7 +81,7 @@ function mostrarDatoEnId(idElemento,valor){
             let etiquetas = prompt("Introduce las etiquetas:");
 
                 //Creamos y añadimos el gasto
-            GesPresu.anyadirGasto(GesPresu.CrearGasto(descripcion,valor,fecha,etiquetas))
+            GesPresu.anyadirGasto(new GesPresu.CrearGasto(descripcion,valor,fecha,etiquetas))
 
             //Actualizamos los datos
             repintar();
