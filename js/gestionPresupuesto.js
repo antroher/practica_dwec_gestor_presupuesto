@@ -37,21 +37,21 @@ function CrearGasto(descripcion1, valor1 = 0, fechaIn = new Date(), ...etiquetas
         valor1 = 0;
     }
 
-    let gasto = { //Valor1 = a lo que introduce la funcion, y lo asigna a valor, para que forme parte del objeto(pq si no salen errores en el nmp)
-        descripcion: descripcion1,
-        valor: valor1,
-        etiquetas: [...etiquetas],// el [] es porque si no tienes ninguna etiquetas creas el array  como por defecto
-        fecha: (typeof fechaIn === "string") ? Date.parse(fechaIn) : fechaIn,//si es un string lo converte en fecha en milisegundos
+     //Valor1 = a lo que introduce la funcion, y lo asigna a valor, para que forme parte del objeto(pq si no salen errores en el nmp)
+        this.descripcion = descripcion1,
+        this.valor = valor1,
+        this.etiquetas = [...etiquetas],// el [] es porque si no tienes ninguna etiquetas creas el array  como por defecto
+        this.fecha = (typeof fechaIn === "string") ? Date.parse(fechaIn) : fechaIn,//si es un string lo converte en fecha en milisegundos
 
-        mostrarGasto(){
+        this.mostrarGasto = function(){
             console.log("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €")
             return("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €");
         
         },
-        actualizarDescripcion(newdescripcion){
+        this.actualizarDescripcion = function(newdescripcion){
             this.descripcion = newdescripcion;
         },
-        actualizarValor(newvalor){
+        this.actualizarValor = function(newvalor){
             if(newvalor < 0 || isNaN(newvalor))
             {
                 console.log("El valor que has metido no es correcto, ponga un número positivo")
@@ -61,7 +61,7 @@ function CrearGasto(descripcion1, valor1 = 0, fechaIn = new Date(), ...etiquetas
                 this.valor = newvalor;
             }
         },
-        mostrarGastoCompleto (){
+        this.mostrarGastoCompleto = function(){
             let cadenavacia = "";
             let fecha = new Date(this.fecha);
             cadenavacia += `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fecha.toLocaleString()}\nEtiquetas:\n`
@@ -71,14 +71,14 @@ function CrearGasto(descripcion1, valor1 = 0, fechaIn = new Date(), ...etiquetas
             console.log(cadenavacia);
             return cadenavacia;            
         },
-        actualizarFecha(fechaEntrada){
+        this.actualizarFecha = function(fechaEntrada){
             if(typeof fechaEntrada === "string" && !isNaN(Date.parse(fechaEntrada)))
             {
                 let fechaStamp = Date.parse(fechaEntrada);
                 this.fecha = fechaStamp;
             }
         },
-        anyadirEtiquetas(...nuevaEtiquetas){
+        this.anyadirEtiquetas = function(...nuevaEtiquetas){
 
             for(let i = 0; i < nuevaEtiquetas.length; i++)
             {
@@ -88,7 +88,7 @@ function CrearGasto(descripcion1, valor1 = 0, fechaIn = new Date(), ...etiquetas
                 }
             }
         },
-        borrarEtiquetas(...borradorEtiquetas){
+       this.borrarEtiquetas = function(...borradorEtiquetas){
             borradorEtiquetas.forEach((DelEtiqueta) => {
                 this.etiquetas.forEach((PropiaEtiqueta, index) => {
                     if (DelEtiqueta === PropiaEtiqueta) {
@@ -97,7 +97,7 @@ function CrearGasto(descripcion1, valor1 = 0, fechaIn = new Date(), ...etiquetas
                 })
             })
         },
-        obtenerPeriodoAgrupacion(periodo){
+        this.obtenerPeriodoAgrupacion = function(periodo){
             let devuelve = "";
             let fecha = new Date(this.fecha);
             let dd = String(fecha.getDate()).padStart(2,"0");//longitud de dos sino un cero
@@ -116,11 +116,9 @@ function CrearGasto(descripcion1, valor1 = 0, fechaIn = new Date(), ...etiquetas
                 default:
                     console.log( " Ponga dia , mes , año" );
             }
-        }  
-
-    } 
-    return gasto;
-}  
+        }   
+    
+};  
 function filtrarGastos(objeto) {
     if (objeto != undefined || objeto != null) 
     {
