@@ -41,8 +41,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     `<div class="agrupacion">
         <h1>Gastos agrupados por ${periodo}</h1>
         ${datos}
-    `
-    
+    `    
 }
 
 function repintar() {
