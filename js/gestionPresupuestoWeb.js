@@ -89,8 +89,15 @@ function nuevoGastoWeb() {
     EtiquetaGasto = [...etiq];
     let Descripcion = prompt('Inserta la descripción del gasto');
     let valueGasto = parseFloat(prompt('Inserta el valor correspondiente al gasto'));
-    let fechaGato =  Date.parse(prompt('Inserta la descripción del gasto'));
+    let fechaGato =  prompt('Inserta la fecha del gasto');
     let EtiquetaGasto = prompt('Inserta la etiqueta correspondiente al gasto');
+    EtiquetaGasto.split(', ');
+    let valueGasto = parseFloat(prompt('Inserta el valor correspondiente al gasto'));
+    //Crear un nuevo gasto
+    let NewGasto = gestionPresupuesto.CrearGasto(Descripcion,valueGasto,fechaGato,EtiquetaGasto);
+    //Añadir el gasto a la lista
+    gestionPresupuesto.anyadirGasto(NewGasto);
+    repintar();
 }
 let btnAnyadirgasto = document.getElementById('anyadirgasto');
 btnAnyadirgasto = addEventListener('click',nuevoGastoWeb);
@@ -103,4 +110,3 @@ export {
     actualizarPresupuestoWeb
 }
 import * as gestionPresupuesto from "./gestionPresupuesto.js";
-import { prependOnceListener } from "cluster";
