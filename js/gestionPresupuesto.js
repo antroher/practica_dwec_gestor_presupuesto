@@ -34,7 +34,7 @@ function anyadirGasto(gasto) {
     gastos.push(gasto);
 }
 
-function borrarGasto(id) {
+function borrarGasto(id) {  
     for (let i = 0; i < gastos.length; i++) {
         if (gastos[i].id === id) {
             gastos.splice(i, 1);
@@ -127,29 +127,27 @@ function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
         valor = 0;
     }
     // if (etiquetas.length == 0) { etiquetas = [] };
+        this.valor = valor
+        this.descripcion = descripcion
+        this.etiquetas = [...etiquetas]
+        this.fecha = (typeof fecha === 'string') ? Date.parse(fecha) : fecha
 
-    const gasto = {
-        valor : valor,
-        descripcion : descripcion,
-        etiquetas : [...etiquetas],
-        fecha : (typeof fecha === 'string') ? Date.parse(fecha) : fecha,
-
-        mostrarGasto : function() {
+        this.mostrarGasto = function() {
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
-        },
+        }
 
-        actualizarDescripcion : function(newDescripcion) {
+        this.actualizarDescripcion = function(newDescripcion) {
             this.descripcion = newDescripcion;
-        },
+        }
 
-        actualizarValor : function(newValor) {
+        this.actualizarValor = function(newValor) {
             if (newValor >= 0) {
                 this.valor = newValor;
             }
-        },
+        }
 
         //Falta probar si funciona
-        mostrarGastoCompleto : function() {
+        this.mostrarGastoCompleto = function() {
             let fecha1;
             if(typeof this.fecha === 'string')
             {
@@ -167,25 +165,25 @@ function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
 
             let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fecha2.toLocaleString())}\nEtiquetas:\n`;
             return texto + aux;
-        },
+        }
 
-        actualizarFecha : function(newFecha) {
+        this.actualizarFecha = function(newFecha) {
             let isValidDate = Date.parse(newFecha);
             if (!isNaN(isValidDate)) {
                 this.fecha = Date.parse(newFecha);
             } 
-        },
+        }
 
-        anyadirEtiquetas : function(...etiquetas) {
+        this.anyadirEtiquetas = function(...etiquetas) {
             const valoresUnicos = etiquetas.filter((x) => {
                 if (!this.etiquetas.includes(x)) {
                     return x;
                 }
             });
             this.etiquetas.push(...valoresUnicos);
-        }, 
+        }
 
-        borrarEtiquetas : function(...etiquetas) {
+        this.borrarEtiquetas = function(...etiquetas) {
             etiquetas.forEach((x) => {
                 for (let i = 0; i < this.etiquetas.length; i++) {
                     if (this.etiquetas[i] === x) {
@@ -193,9 +191,9 @@ function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
                     }
                 }
             })
-        },
+        }
 
-        obtenerPeriodoAgrupacion : function(periodo) {
+        this.obtenerPeriodoAgrupacion = function(periodo) {
             let validarFecha = new Date(this.fecha);
             switch(periodo) {
                 case "dia": { 
@@ -236,8 +234,7 @@ function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
             }
         }
     }
-    return gasto;
-}
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
