@@ -34,96 +34,92 @@ function CrearGasto(des, val = 0, fec = Date.now(), ...eti) {
         this.fecha = getDate();
     }
 
-    const gasto = {
-        descripcion: des,
-        valor: val,        
-        etiquetas: [...eti],
-        fecha: (typeof fec === 'string') ? Date.parse(fec) : fec,
+    this.descripcion = des;
+    this.valor = val;   
+    this.etiquetas = [...eti];
+    this.fecha = (typeof fec === 'string') ? Date.parse(fec) : fec;
+    this.mostrarGasto = function() {
+        return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+    }
 
-        mostrarGasto() {
-            return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
-        } ,
+    this.actualizarDescripcion = function(des) {
+        this.descripcion = des;
+    }
 
-        actualizarDescripcion(des) {
-            this.descripcion = des;
-        } ,
+    this.actualizarValor = function(val) {
+        if (parseFloat(val) >= 0) {
+            this.valor = parseFloat(val);
+        }
+    }
 
-        actualizarValor(val) {
-            if (parseFloat(val) >= 0) {
-                this.valor = parseFloat(val);
-            }
-        } ,
-
-        actualizarFecha(fec) {
-            if (!isNaN(Date.parse(fec))) {
-                this.fecha = Date.parse(fec);
-            }
+    this.actualizarFecha = function(fec) {
+        if (!isNaN(Date.parse(fec))) {
+            this.fecha = Date.parse(fec);
+        }
             
-        } ,
+    }
 
-        anyadirEtiquetas(...eti) {
-            const aux = eti.filter((x) => {
-                if (!this.etiquetas.includes(x)) {
-                    return x;
+    this.anyadirEtiquetas = function(...eti) {
+        const aux = eti.filter((x) => {
+            if (!this.etiquetas.includes(x)) {
+                return x;
+            }
+        });
+        this.etiquetas.push(...aux);
+    }
+
+    this.borrarEtiquetas >= function(...eti) {
+        eti.forEach((x) => {
+            for (let i = 0; i < this.etiquetas.length; i++) {
+                if (this.etiquetas[i] === x) {
+                    this.etiquetas.splice(i, 1);
                 }
-            });
-            this.etiquetas.push(...aux);
-        }, 
+            }
+        })
+    }
 
-        borrarEtiquetas(...eti) {
-            eti.forEach((x) => {
-                for (let i = 0; i < this.etiquetas.length; i++) {
-                    if (this.etiquetas[i] === x) {
-                        this.etiquetas.splice(i, 1);
-                    }
-                }
-            })
-        } ,
+    this.mostrarGastoCompleto = funcion() {
+        let fec1;
+        if(typeof this.fecha === 'string') {
+            fec1 = Date.parse(this.fecha);
+        } else {
+            fec1 = this.fecha;
+        }
+        let aux = "";
+        for(let eti of this.etiquetas) {
+            aux = aux + `- ${eti}\n`;
+        };
+        let fec2 = new Date(fec1);
+        let aux2 = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fec2.toLocaleString())}\nEtiquetas:\n`;
+        return aux2 + aux;
+        }
 
-        mostrarGastoCompleto() {
-            let fec1;
-            if(typeof this.fecha === 'string') {
-                fec1 = Date.parse(this.fecha);
+    this.obtenerPeriodoAgrupacion = function(per) {
+        let date = new Date(this.fecha);
+        if (per === "dia") {
+            if (date.getMonth() + 1 < 10) {
+                if (date.getDate() < 10) {
+                    return `${date.getFullYear()}-0${date.getMonth() + 1}-0${date.getDate()}`;
+                } else {
+                    return `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`;
+                }                    
+            } else if (date.getDate() < 10) {
+                return `${date.getFullYear()}-${date.getMonth() + 1}-0${date.getDate()}`;
             } else {
-                fec1 = this.fecha;
-            }
-            let aux = "";
-            for(let eti of this.etiquetas) {
-                aux = aux + `- ${eti}\n`;
-            };
-            let fec2 = new Date(fec1);
-            let aux2 = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fec2.toLocaleString())}\nEtiquetas:\n`;
-            return aux2 + aux;
-        },
-
-        obtenerPeriodoAgrupacion(per) {
-            let date = new Date(this.fecha);
-            if (per === "dia") {
-                if (date.getMonth() + 1 < 10) {
-                    if (date.getDate() < 10) {
-                        return `${date.getFullYear()}-0${date.getMonth() + 1}-0${date.getDate()}`;
-                    } else {
-                        return `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`;
-                    }                    
-                } else if (date.getDate() < 10) {
-                    return `${date.getFullYear()}-${date.getMonth() + 1}-0${date.getDate()}`;
-                } else {
-                    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-                }             
-            }
-            if (per === "mes") {
-                if (date.getMonth() + 1 < 10) {
-                    return `${date.getFullYear()}-0${date.getMonth() + 1}`;
-                } else {
-                    return `${date.getFullYear()}-${date.getMonth() + 1}`;
-                }
-            }
-            if (per === "anyo") {
-                return date.getFullYear();
+                return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+            }             
+        }
+        if (per === "mes") {
+            if (date.getMonth() + 1 < 10) {
+                return `${date.getFullYear()}-0${date.getMonth() + 1}`;
+            } else {
+                return `${date.getFullYear()}-${date.getMonth() + 1}`;
             }
         }
-    };
-    return gasto;
+        if (per === "anyo") {
+            return date.getFullYear();
+        }
+    }
 }
 
 
