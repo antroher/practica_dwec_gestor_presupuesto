@@ -1,3 +1,8 @@
+//Importar los programas
+
+import * as GestPresWeb from './gestionPresupuestoWeb.js';
+import { actualizarPresupuesto } from './gestionPresupuesto.js';
+
 //Función mostrarDatoenId
 
 function mostrarDatoEnId(idElemento, valor){
@@ -49,6 +54,25 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     </div>
     `
 }
+
+//Función repintar
+function repintar(){
+    let gastosTotales = document.getElementById('gastos-totales');
+    let balanceTotal = document.getElementById('balance-total');
+    let listarGastComp = document.getElementById('listado-gastos-completo');
+    //Me quede aquí :)
+    
+}
+
+//Función actualizarPresupuestoWeb y botón actualizarpresupuesto
+
+function actualizarPresupuestoWeb(){
+    let nuevoPres = prompt('Inserta el nuevo presupuesto');
+    let numberPres = parseInt(nuevoPres);
+    GestPresWeb.actualizarPresupuesto(numberPres); 
+    repintar();
+}
+
 
 //Los exports 
 export   {
