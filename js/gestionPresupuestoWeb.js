@@ -2,6 +2,7 @@
 
 import * as GesPresu from "./gestionPresupuesto.js";
 document.getElementById("actualizarpresupuesto").addEventListener("click",actualizarPresupuestoWeb);
+document.getElementById("anyadirgasto").addEventListener("click",nuevoGastoWeb);
 
 function mostrarDatoEnId(idElemento,valor){
     let datId = document.getElementById(idElemento);

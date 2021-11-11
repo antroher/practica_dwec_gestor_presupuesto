@@ -33,26 +33,26 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
             valorIn = 0;
         }
 
-    let gasto = {
-        descripcion:descripcionIn,
-        valor:parseFloat(valorIn),
-        etiquetas: [...etiqueta], //El [] ES PARA CREAR EL ARRAY POR DEFECTO
-        fecha: (typeof fech === "string") ? Date.parse(fech) : fech,
+       
+       this.descripcion = descripcionIn,
+        this.valor=parseFloat(valorIn),
+        this.etiquetas= [...etiqueta], //El [] ES PARA CREAR EL ARRAY POR DEFECTO
+        this.fecha= (typeof fech === "string") ? Date.parse(fech) : fech,
 
-         mostrarGasto() {
+        this.mostrarGasto = function() {
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
         },
 
-        actualizarDescripcion(NewDescripcion){
-            gasto.descripcion = NewDescripcion;
+        this.actualizarDescripcion = function(NewDescripcion){
+            this.descripcion = NewDescripcion;
         },
-        actualizarValor(NewValor){
+        this.actualizarValor = function(NewValor){
             if(NewValor >= 0)
             {
-                gasto.valor= NewValor;
+                this.valor= NewValor;
             }
         },
-        mostrarGastoCompleto: function(){
+        this.mostrarGastoCompleto = function(){
             let espacioGasto = "";
             let FechNow = new Date(this.fecha);
 
@@ -65,14 +65,14 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
             console.log(txtGasto);
             return txtGasto;
         },
-            actualizarFecha:function(inFecha){
+            this.actualizarFecha = function(inFecha){
                 if(typeof inFecha !== "string" || isNaN(Date.parse(inFecha))){
                     return;
                 }
 
                     this.fecha = Date.parse(inFecha);
             },
-                anyadirEtiquetas(...NewEtiqueta){
+                this.anyadirEtiquetas = function(...NewEtiqueta){
                     for (let f = 0; f < NewEtiqueta.length; f++) {
                         if(this.etiquetas.includes(NewEtiqueta[f])) {
                             continue;
@@ -80,7 +80,7 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
                         this.etiquetas.push(NewEtiqueta[f]);
                     }
                 },
-                    borrarEtiquetas(...DelEtiqueta){
+                    this.borrarEtiquetas = function(...DelEtiqueta){
                         for(let f = 0; f < DelEtiqueta.length; f++){
                             for(let i = 0; i < this.etiquetas.length;i ++){
                                 if(DelEtiqueta[f] === this.etiquetas[i])
@@ -90,7 +90,7 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
                             }
                         }
                     },
-                    obtenerPeriodoAgrupacion(periodo){
+                    this.obtenerPeriodoAgrupacion = function(periodo){
                         let devuelve = "";
                         let mostrarFecha = new Date(this.fecha);
                         let d = String(mostrarFecha.getDate()).padStart(2,'0')
@@ -110,8 +110,6 @@ function CrearGasto(descripcionIn,valorIn, fech = Date.now(), ...etiqueta) {
                                 return `Error`;
                         }
                     }
-    }
-    return gasto;
 }
 
 
