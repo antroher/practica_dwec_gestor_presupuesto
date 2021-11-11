@@ -35,44 +35,43 @@ function CrearGasto(desc, val = 0, fec = Date.now(), ...eti) {
         this.fecha = getDate();
     }
 
-    let gasto = {
-	    descripcion: desc,
-        valor : val,
-        fecha : (typeof fec === 'string') ? Date.parse(fec) : fec,
-        etiquetas : [...eti],
+	    this.descripcion = desc,
+        this.valor = val,
+        this.fecha = (typeof fec === 'string') ? Date.parse(fec) : fec,
+        this.etiquetas = [...eti],
          
-        mostrarGasto : function (){
+        this.mostrarGasto = function (){
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
             
-        },
+        }
 
-        actualizarDescripcion : function(descr) {
+        this.actualizarDescripcion = function(descr) {
             this.descripcion = descr;
-        },
+        }
 
-        actualizarValor : function(vall) {
+        this.actualizarValor = function(vall) {
             if (parseFloat(vall) >= 0)
             {
                 this.valor = parseFloat(vall);
             }
-        },
+        }
 
-        actualizarFecha : function(fech) {
+        this.actualizarFecha = function(fech) {
             if (!isNaN(Date.parse(fech))) {
             this.fecha = Date.parse(fech);
             }
-        },
+        }
 
-        anyadirEtiquetas : function(...etiq) {
+        this.anyadirEtiquetas = function(...etiq) {
             const aux = etiq.filter((x) => {
                 if (!this.etiquetas.includes(x)) {
                     return x;
                 }
             });
             this.etiquetas.push(...aux);
-        },
+        }
 
-        borrarEtiquetas(...etiquetas) {
+        this.borrarEtiquetas = function(...etiquetas) {
             etiquetas.forEach((x) => {
                 for (let i = 0; i < this.etiquetas.length; i++) {
                     if (this.etiquetas[i] === x) {
@@ -80,9 +79,9 @@ function CrearGasto(desc, val = 0, fec = Date.now(), ...eti) {
                     }
                 }
             })
-        },
+        }
 
-        mostrarGastoCompleto : function() {
+        this.mostrarGastoCompleto = function() {
             let fech1;
             if(typeof this.fecha === 'string') {
                 fech1 = Date.parse(this.fecha);
@@ -98,7 +97,7 @@ function CrearGasto(desc, val = 0, fec = Date.now(), ...eti) {
             return aux2 + aux;
         },
 
-        obtenerPeriodoAgrupacion : function(periodo){
+        this.obtenerPeriodoAgrupacion = function(periodo){
             let  fech = new Date(this.fecha);
             let dd = String(fech.getDate()).padStart(2, 0);
             let mm = String(fech.getMonth()+1).padStart(2, 0);
@@ -141,9 +140,6 @@ function CrearGasto(desc, val = 0, fec = Date.now(), ...eti) {
                 }
             }
         }
-        
-    }
-    return gasto;
 }
 
 function listarGastos() {
