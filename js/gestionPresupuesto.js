@@ -33,32 +33,32 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         valor1 = 0;
     }
 
-    let gasto = {
-	    descripcion: descripcion,
-        valor : valor1,
-        etiquetas : [...etiquetas],
-        fecha : (typeof fecha === 'string') ? Date.parse(fecha) : fecha,
+    
+    this.descripcion= descripcion,
+    this.valor = valor1,
+    this.etiquetas = [...etiquetas],
+    this.fecha = (typeof fecha === 'string') ? Date.parse(fecha) : fecha,
         
 
-        mostrarGasto() {
+        this.mostrarGasto = function() {
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
-        },
+        }
 
-        actualizarDescripcion(newDescripcion) {
+        this.actualizarDescripcion = function(newDescripcion) {
 
             this.descripcion = newDescripcion;
-        },
+        }
 
-        actualizarValor(newValor) {
+        this.actualizarValor = function(newValor) {
 
             let value = parseFloat(newValor);
 
             if (value >= 0) {
                 this.valor = value;
             }
-        },
+        }
 
-        mostrarGastoCompleto() {
+        this.mostrarGastoCompleto = function() {
             let controlFecha1;
 
             if (typeof this.fecha === 'string') {
@@ -78,13 +78,13 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
             return aux + espacio;
         },
 
-        actualizarFecha(fecha) {
+        this.actualizarFecha = function(fecha) {
             if(!isNaN(Date.parse(fecha))) {
                 this.fecha = Date.parse(fecha);
             }
         },
 
-        anyadirEtiquetas(...etiquetas) {
+        this.anyadirEtiquetas = function(...etiquetas) {
             const aux = etiquetas.filter((x) => {
                 if (!this.etiquetas.includes(x)) {
                     return x;
@@ -94,7 +94,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
 
         },
 
-        borrarEtiquetas(...etiquetas) {
+        this.borrarEtiquetas = function(...etiquetas) {
             etiquetas.forEach((x) => {
                 for(let i = 0; i < this.etiquetas.length; i++) {
                     if (this.etiquetas[i] === x) {
@@ -104,7 +104,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
             })
         },
 
-        obtenerPeriodoAgrupacion(periodo) {
+        this.obtenerPeriodoAgrupacion = function(periodo) {
             let validarFecha = new Date(this.fecha);
                 switch(periodo) {
                     case "dia": { 
@@ -143,10 +143,10 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
                         return `Periodo no válido`;
                     }
                 }
-        }
+        
     };
 
-    return gasto;
+    
 }
 
 function listarGastos() {
