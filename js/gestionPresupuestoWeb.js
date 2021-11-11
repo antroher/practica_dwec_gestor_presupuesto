@@ -46,8 +46,13 @@ function mostrarGastosAgrupadosWeb (idElemento, agrup, periodo) {
     `
 }
 
+function reprintar (mostrarPresupuesto) {
+
+}
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    reprintar
 }
