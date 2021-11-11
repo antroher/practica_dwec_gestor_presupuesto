@@ -1,6 +1,6 @@
 'use strict'
 
-import { EOF } from "dns";
+import * as gestionPresupuesto from './gestionPresupuesto.js';
 
 function mostrarDatoEnId(idElemento,valor){
     let elemento = document.getElementById(idElemento);
@@ -50,9 +50,29 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
                             ${lista}`
 }
 
+//let a = document.querySelector();
+// console.log(a);
+function repintar ()
+{
+    mostrarDatoEnId('presupuesto', gestionPresupuesto.mostrarPresupuesto());
+
+    mostrarDatoEnId('gastos-totales', gestionPresupuesto.calcularTotalGastos());
+
+    mostrarDatoEnId('balance-total', gestionPresupuesto.calcularBalance())
+
+    let borrarGasto = document.getElementById('listado-gastos-completo').innerHTML = '';
+
+    let listaGasto = gestionPresupuesto.listarGastos();
+    for (let g of listaGasto)
+    {
+        mostrarGastoWeb('listado-gastos-completo', g);
+    }
+}
+
+/*
 function EditarHandle ()
 {
-    this.handleEvent = function(e) 
+    this.handleEvent = function(event) 
     {
         //Pedir al usuario datos del gasto, etc
         var desc = prompt('Por favor, introduce la descripción');
@@ -60,11 +80,11 @@ function EditarHandle ()
     }
 }
 
-let e = new CrearGasto("a", 24);
+let event = new CrearGasto("a", 24);
 
 let el = new EditarHandle();
 
-el.gasto = e;
+el.gasto = event();
 
 el.handleEvent(); 
 
@@ -94,6 +114,7 @@ function mostrarGastoWeb(gasto)
         //Añadir manejador de eventos de borrar etiqueta
     }
 }
+*/
 
 
 //********** NO TOCAR **************
