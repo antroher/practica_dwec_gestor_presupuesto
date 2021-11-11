@@ -1,6 +1,7 @@
 "use strict"
 
 import * as GesPresu from "./gestionPresupuesto.js";
+//Botones
 document.getElementById("actualizarpresupuesto").addEventListener("click",actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener("click",nuevoGastoWeb);
 
@@ -29,8 +30,25 @@ function mostrarDatoEnId(idElemento,valor){
                     <div class="gasto-etiquetas">
                         ${etiquetas}
                     </div>
-                </div>`;
+                </div>
+                <!--Creamos boton-->
+                <button type="button" class="gasto-editar" id="editar-${gasto.id}">
+                <button type="button" class="gasto-borrar" id="borrar-${gasto.id}">`;
+
+                let objetoDel = new EditarHandle()
+
+                objetoDel.gasto = gasto;
+                document.getElementById(`borrar-${gasto.id}`).addEventListener("click",objetoDel);//boton que edita
+
+                let objetoEdit = new EditarHandle()
+
+                objetoEdit.gasto = gasto;
+                document.getElementById(`editar-${gasto.id}`).addEventListener("click",objetoEdit);//boton que edita
+
+
+
         });
+        
     }
     
         function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
@@ -87,6 +105,17 @@ function mostrarDatoEnId(idElemento,valor){
             repintar();
         }
         
+        function EditarHandle(){
+                
+                this.handleEvent = function(){
+                    let fecha = Date.parse(prompt("Introduce el valor del gasto:"));
+                    let etiquetas = prompt("Introduce las etiquetas:").split(",");            
+
+                }
+
+                
+                repintar();
+        }
 
 //El export de las funciones
 export{
