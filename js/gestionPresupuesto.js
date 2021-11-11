@@ -27,13 +27,13 @@ function mostrarPresupuesto() {
     return (`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-
+let gasto = new CrearGasto(); //constructor que hace referencia a una funcion
 function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     if(NewValu < 0 || isNaN(NewValu)){
         NewValu = 0;
     }
     //if (etiquetas.length == 0) { etiquetas = [] };
-    let gasto = {
+        gasto = {
         descripcion: NewDescriptio,
         valor: NewValu,
         etiquetas: [...etiq],
