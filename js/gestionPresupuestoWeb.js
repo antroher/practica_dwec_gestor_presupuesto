@@ -36,13 +36,17 @@ function mostrarDatoEnId(idElemento,valor){
                     ${etiquetas}
                 </div>
                 
-                <button id="gasto-editar-${gasto.id}" type="button">
-                    gasto-editar
+                <button class="gasto-editar" id="gasto-editar-${gasto.id}" type="button">
+                    Editar
                 </button>
             </div>`;
+
         //EVENTO BOTON EDITAR GASTO
-        let botonEditar = document.getElementById(`gasto-${gasto.id}`);
-        botonEditar.addEventListener('click', EditarHandle);
+        
+        let EventoEditarHandle = new EditarHandle();
+        EventoEditarHandle.gasto = gasto;
+        let botonEditar = document.getElementById(`gasto-editar-${gasto.id}`);
+        botonEditar.addEventListener('click', EventoEditarHandle);
 
     });
 }
@@ -104,13 +108,13 @@ function EditarHandle (){
         let valor = parseFloat(prompt("Valor."));
         let fecha = Date.parse(prompt("Fecha."));
         let etiquetas = prompt("Etiquetas.");
-        let listaEtiquetas = etiquetas.split(',');
 
         this.gasto.actualizarDescripcion(descripcion);
         this.gasto.actualizarValor(valor);
         this.gasto.actualizarFecha (fecha);
         
-        if(listaEtiquetas != undefined){
+        if(etiquetas != undefined){
+            let listaEtiquetas = etiquetas.split(',');
             this.gasto.anyadirEtiquetas(listaEtiquetas); 
         }
 
