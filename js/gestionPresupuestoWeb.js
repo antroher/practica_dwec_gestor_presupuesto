@@ -1,4 +1,4 @@
-
+import * as gestPres from './gestionPresupuesto.js'
 "use strict";
 
 function mostrarDatoEnId (idElemento, valor)
@@ -16,18 +16,17 @@ function mostrarDatoEnId (idElemento, valor)
 function mostrarGastoWeb(idElemento, gasto )
 {
   let elemento = document.getElementById(idElemento);
-
  
     let divEtiquetas = "";
-      for(let j of gasto.etiquetas)
-      {
-        divEtiquetas += `
-        <span class="gasto-etiquetas-etiqueta">
-            ${j}
-        </span>
-        `
-      }
 
+    for(let j of gasto.etiquetas)
+    {
+      divEtiquetas += `
+      <span class="gasto-etiquetas-etiqueta">
+          ${j}
+      </span>
+      `
+    }
 
     //guardamos en una variable todas las etiquetas 
     //modificamos el elemento html
@@ -39,11 +38,7 @@ function mostrarGastoWeb(idElemento, gasto )
     <div class="gasto-valor">${gasto.valor}</div>
     <div class="gasto-etiquetas">
     ${divEtiquetas}
-    </div>
-    </div>
-    `;
-
-  
+    `;  
 }
 
 

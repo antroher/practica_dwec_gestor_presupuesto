@@ -36,15 +36,12 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
     {
         if(valor1 < 0 || isNaN(valor1)){
             valor1 = 0;
-        }
-
-    
+        }    
 
 	    this.descripcion = descripcion1;
-        this.valor=valor1;
-        this.fecha= (typeof fecha1 === "string") ? Date.parse(fecha1) : fecha1;
-        this.etiquetas=[...etiquetas1];
-       
+        this.valor = valor1;
+        this.fecha = (typeof fecha1 === "string") ? Date.parse(fecha1) : fecha1;
+        this.etiquetas = [...etiquetas1];      
 
 
         this.mostrarGasto = function() {
@@ -200,8 +197,6 @@ function calcularTotalGastos()
         suma += gastos[i].valor;
     }
     return suma;
-    
-
 }
 
 function calcularBalance()
@@ -264,7 +259,7 @@ function filtrarGastos(objeto)
         descripcion = objeto.descripcionContiene;
     }
 
-    if (objeto.hasOwnProperty('etiquetasTiene')) 
+    if (objeto.hasOwnProperty('etiquetasTiene') && Array.isArray(objeto.etiquetasTiene)) 
     {
         etiqueta = [...objeto.etiquetasTiene];
     }
