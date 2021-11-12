@@ -73,8 +73,12 @@ function repintar() {
 }
 
 function actualizarPresupuestoWeb () {
-    
+    let presp = parseFloat(prompt(`Introduce el presupuesto gastado`));
+    gestionPresupuesto.actualizarPresupuesto(presp);
+    repintar();
 }
+
+
 
 
 export {
