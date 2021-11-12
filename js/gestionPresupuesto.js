@@ -1,6 +1,6 @@
 'use strict'
 
-import { functionsIn } from "lodash";
+//import { functionsIn } from "lodash";
 
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
@@ -21,10 +21,11 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq)
       this.descripcion=desc;
       this.valor= val;
       this.etiquetas= [...etiq];
-      this.fecha= (typeof fec === 'string') ? Date.parse(fec) : fec,
+      this.fecha= (typeof fec === 'string') ? Date.parse(fec) : fec;
+
     this.mostrarGasto=function()
       {
-          return(`Gasto correspondiente a ${gasto.descripcion} con valor ${gasto.valor} €`);
+          return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
       };
 
     this.mostrarGastoCompleto=function()
@@ -118,6 +119,7 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq)
             return texto;
         }
     }
+
 //Acciones con el Array de gastos
 function listarGastos(){
     return gastos;

@@ -48,5 +48,9 @@ for(let g of listaGastos)
 let filtraGast= gestionPresupuesto.filtrarGastos({fechaDesde:"2021-09-01", fechaHasta:"2021-09-30"});
 
 
+//Mostrar el listado de gastos de más de 50€ 
 
-//FOR OF PARA ARRAYS - FOR IN PARA EL RESTO.
+
+
+
+//               (IMPORTANTE) ---->                FOR OF PARA ARRAYS - FOR IN PARA EL RESTO.
