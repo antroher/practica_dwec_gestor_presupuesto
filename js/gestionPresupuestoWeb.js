@@ -33,12 +33,13 @@ function mostrarGastoWeb(idElemento ,gasto){
     });
       
     string1 += `</div></div>
-    <button class="gasto-editar" id="gasto-editar" type="button">Editar</button> 
-    <button class="gasto-borrar" id="gasto-borrar" type="button">Borrar</button>`;//Añadir el botón al DOM a continuación de las etiquetas(btnEditar), Añadir el botón al DOM a continuación del botón Editar(btnBorrar).
+    <button class="gasto-editar" id=${gasto.id} type="button">Editar</button> 
+    <button class="gasto-borrar" id=${gasto.id} type="button">Borrar</button>`;//Añadir el botón al DOM a continuación de las etiquetas(btnEditar), Añadir el botón al DOM a continuación del botón Editar(btnBorrar).
 
 
     document.getElementById(idElemento).innerHTML += string1;
     
+
     /*
     //----BOTON EDITAR---------//
     //Crear un nuevo objeto a partir de la función constructora EditarHandle.
@@ -60,10 +61,15 @@ function mostrarGastoWeb(idElemento ,gasto){
     borrar.addEventListener('click',objborHandle);
 
     //-----EVENTOS PARA LOS SPAN DE ETIQUETAS------/
+    for(let et of gasto.etiquetas)
+    {
+    let borrarEtiq = document.getElementsById(gasto.id);
     let objboretiqHandle = new BorrarEtiquetasHandle();
     objboretiqHandle.gasto = gasto;
-    let borrarEtiq = document.getElementsById("gasto-etiquetas-etiqueta");
-    borrarEtiq.addEventListener('click',objboretiqHandle); */
+    objboretiqHandle.etiqueta = et;
+    borrarEtiq.addEventListener('click',objboretiqHandle);
+    }
+ */
 
 
 }
@@ -185,7 +191,7 @@ function EditarHandle(){
 }
 
 function BorrarHandle(){
-    this.handleEvent = function(e){
+    this.handleEvent = function(){
         //Borrar el gasto asociado. Para ello utilizará la función borrarGasto y como parámetro utilizará el id del gasto seleccionado, disponible en this.gasto.
         gestionPresupuesto.borrarGasto(this.gasto.id);
         //Llamar a la función repintar para que se muestre la lista actualizada de gastos.
@@ -195,9 +201,9 @@ function BorrarHandle(){
 
 function BorrarEtiquetasHandle()
 {
-    this.handleEvent = function(e){
+    this.handleEvent = function(){
         //Borrar la etiqueta seleccionada del gasto asociado. Para ello utilizará la función borrarEtiquetas del gasto asociado (this.gasto) y como parámetro
-        //utilizará la etiqueta seleccionada, disponible en this.etiqueta.
+        //utilizará la etiqueta seleccionada, disponible en this.etiqueta.  
         this.gasto.borrarEtiquetas(this.etiqueta);
 
         //Llamar a la función repintar para que se muestre la lista actualizada de gastos.
