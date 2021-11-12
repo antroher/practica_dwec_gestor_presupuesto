@@ -72,6 +72,35 @@ function actualizarPresupuestoWeb(){
     repintar();
 }
 
+//EditarHandle
+function EditarHandle() {
+    this.handleEvent = function(event){
+        let descripcion = this.prompt('Escribe una nueva descripción');
+        let valor = parseFloat(this.prompt('Escribe un nuevo valor'));
+        let fecha = this.prompt('Escribe una fecha nueva');
+        let etiquetas = this.prompt('Escribe nuevas etiquetas');
+        let etiquetasNuevas = etiquetas.split(',');
+        this.gasto.actualizarValor(valor);
+        this.gasto.actualizarDescripcion(descripcion);
+        this.gasto.actualizarFecha(fecha);
+        this.gasto.anyadirEtiquetas(...etiquetasNuevas);
+    
+        repintar();
+    }
+}
+
+//borrarHandle
+
+function BorrarHandle() {
+    this.handleEvent = function(event){
+        let numero = this.gasto.id;
+        GestPres.borrarGasto(numero);
+
+        repintar();
+    }
+}
+
+
 
 //Los exports 
 export   {
