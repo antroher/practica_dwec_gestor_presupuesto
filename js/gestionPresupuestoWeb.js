@@ -1,4 +1,5 @@
 'use strict';
+import * as gestionPresupuesto from './gestionPresupuesto.js';
 
 
 function mostrarDatoEnId(idElemento ,valor){
@@ -33,7 +34,9 @@ function mostrarGastoWeb(idElemento ,gasto){
     });
 
         
-    string1 += `</div></div>`;
+    string1 += `</div></div>
+    <button class="gasto-editar" type="button">Editar</button>
+    <button class="gasto-borrar" type="button">Borrar</button>`;
 
     document.getElementById(idElemento).innerHTML += string1;
 
@@ -56,11 +59,133 @@ function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
     document.getElementById(idElemento).innerHTML += string1;
                  
 }
+function repintar()
+{
+    //1.- Mostrar el presupuesto en div#presupuesto (funciones mostrarPresupuesto y mostrarDatoEnId)------------------
+    mostrarDatoEnId("presupuesto",gestionPresupuesto.mostrarPresupuesto());
 
+    //2.-Mostrar los gastos totales en div#gastos-totales (funciones calcularTotalGastos y mostrarDatoEnId)
+    mostrarDatoEnId("gastos-totales",gestionPresupuesto.calcularTotalGastos());
+
+    //3.-Mostrar el balance total en div#balance-total (funciones calcularBalance y mostrarDatoEnId)
+    mostrarDatoEnId("balance-total", gestionPresupuesto.calcularBalance());
+
+    //4.-Borrar el contenido de div#listado-gastos-completo, para que el paso siguiente no duplique la información. Puedes utilizar innerHTML para borrar el contenido de dicha capa.
+    document.getElementById("listado-gastos-completo").innerHTML = "";
+
+    //5.-Mostrar el listado completo de gastos en div#listado-gastos-completo (funciones listarGastos y mostrarGastoWeb)
+    let gastos = gestionPresupuesto.listarGastos();
+    for(let gast of gastos)   
+        mostrarGastoWeb("listado-gastos-completo",gast);
+
+    
+}
+
+function actualizarPresupuestoWeb()
+{
+    //Pedir al usuario un valor con prompt y convertirlo a número.
+    let valorPedido = parseFloat(prompt("Introduce un presupuesto : "));
+
+    //Actualizar presupuesto con el valor introducido convertido.
+    gestionPresupuesto.actualizarPresupuesto(valorPedido);
+
+    //Borramos lo que había antes de actualizarlo
+    document.getElementById("presupuesto").innerHTML = "";
+    document.getElementById("gastos-totales").innerHTML = "";
+    document.getElementById("balance-total").innerHTML = "";
+
+    //Llamar a la función repintar.
+    repintar();
+
+    
+}
+    //Una vez definida la función, se añadirá como manejadora del evento click del botón actualizarpresupuesto mediante addEventListener.
+    //Para ello habrá que obtener el elemento botón correspondiente previamente.
+    let elementoActu = document.getElementById("actualizarpresupuesto");
+    elementoActu.addEventListener('click',actualizarPresupuestoWeb);
+
+function nuevoGastoWeb ()
+{
+    //Pedir al usuario la información necesaria para crear un nuevo gasto mediante sucesivas preguntas con prompt (por orden: descripción, valor, fecha y etiquetas). 
+    
+    //Descirpción del gasto.
+    let gastoDesc = prompt('Introduce la descripción del gasto :');
+
+    //Convertir el valor a número (recuerda que prompt siempre devuelve un string).
+    let gastoValor = parseFloat(prompt('Introduce el valor del gasto :'));
+
+    //Fecha del gasto.
+    let gastoFecha =Date.parse(prompt('Introduce la fecha del gasto :'));
+
+    //Etiquetas del gasto.
+    let gastoEtiquetas = prompt('Introduce las etiquetas del gasto separadas por comas :');
+    //Convertimos la cadena de texto con las etiquetas a un array para poder pasárselo a la función constructora crearGasto.
+    let arrayEtiquetas = gastoEtiquetas.split(',');
+
+    //Crear un nuevo gasto (función crearGasto). ¡Ojo con la manera de pasar el parámetro ~etiquetas~!
+    let gastoWeb = gestionPresupuesto.CrearGasto(gastoDesc,gastoValor,gastoFecha,arrayEtiquetas);
+
+    //Añadir el gasto a la lista (función anyadirGasto).
+    gestionPresupuesto.anyadirGasto(gastoWeb);
+
+    //Llamar a la función repintar para que se muestre la lista con el nuevo gasto.
+    repintar();
+}
+
+    //Una vez definida la función, se añadirá como manejadora del evento click del botón anyadirgasto mediante addEventListener. 
+    //Para ello habrá que obtener el elemento botón correspondiente previamente.
+    let elementoAnyadir = document.getElementById("anyadirgasto");
+    elementoAnyadir.addEventListener('click',nuevoGastoWeb);
+
+
+function EditarHandle(){
+    this.handleEvent = function(e) {
+        //Pedimos datos al usuario.
+        let gastoDesc = prompt('Introduce la descripción del gasto :');
+        let gastoValor = parseFloat(prompt('Introduce el valor del gasto :'));
+        let gastoFecha =Date.parse(prompt('Introduce la fecha del gasto :'));
+        let gastoEtiquetas = prompt('Introduce las etiquetas del gasto separadas por comas :');
+        //Convertimos la cadena de texto con las etiquetas a un array para poder pasárselo a la función constructora crearGasto.
+        let arrayEtiquetas = gastoEtiquetas.split(',');
+
+        //Actualizar las propiedades del gasto (disponible mediante this.gasto), mediante las funciones actualizarValor, actualizarDescripcion, actualizarFecha y actualizarEtiquetas.
+        this.gasto.actualizarDescripcion(gastoDesc);
+        this.gasto.actualizarValor(gastoValor);
+        this.gasto.actualizarFecha(gastoFecha);
+        this.gasto.anyadirEtiquetas(arrayEtiquetas);
+        
+    }
+}
+
+function BorrarHandle(){
+    this.handleEvent = function(e){
+        //Borrar el gasto asociado. Para ello utilizará la función borrarGasto y como parámetro utilizará el id del gasto seleccionado, disponible en this.gasto.
+        gestionPresupuesto.borrarGasto(this.gasto.id);
+        //Llamar a la función repintar para que se muestre la lista actualizada de gastos.
+        repintar();
+    }
+}
+
+function BorrarEtiquetasHandle()
+{
+    this.handleEvent = function(e){
+        //Borrar la etiqueta seleccionada del gasto asociado. Para ello utilizará la función borrarEtiquetas del gasto asociado (this.gasto) y como parámetro
+        //utilizará la etiqueta seleccionada, disponible en this.etiqueta.
+        this.gasto.borrarEtiquetas(this.etiqueta);
+
+        //Llamar a la función repintar para que se muestre la lista actualizada de gastos.
+        repintar();
+    }
+}
 
 /*Exportar las funciones necesarias.*/ 
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    actualizarPresupuestoWeb,
+    EditarHandle,
+    nuevoGastoWeb,
+    repintar,
+    BorrarHandle
 }
