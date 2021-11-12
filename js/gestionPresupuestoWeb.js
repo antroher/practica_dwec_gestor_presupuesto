@@ -1,20 +1,23 @@
+import * as gestionPresupuesto from './gestionPresupuesto.js'
 'use strict';
+
 
 
 function mostrarDatoEnId(idElemento ,valor){
     
-    
+    let p = document.createElement('p');
     let elem = document.getElementById(idElemento);
-    elem.innerHTML += valor;
+    p.textContent += valor;
+    elem.appendChild(p);
+    console.log(elem);
 
-            
 }
 
-function mostrarGastoWeb(idElemento ,gasto){
-    let string1 = `<div class="gasto">
+ function mostrarGastoWeb(idElemento ,gasto){
+     let string1 = `<div class="gasto">
                             <div class="gasto-descripcion"> ${gasto.descripcion} </div>
                             <div class="gasto-fecha"> ${new Date(gasto.fecha).toLocaleDateString()} </div>
-                            <div class="gasto-valor"> ${gasto.valor} </div>
+                             <div class="gasto-valor"> ${gasto.valor} </div>
                             <div class="gasto-etiquetas">`;
 
 
