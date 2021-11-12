@@ -46,7 +46,7 @@ function mostrarGastosAgrupadosWeb (idElemento, agrup, periodo) {
     `
 }
 
-function reprintar () {
+function repintar () {
 
 }
 
@@ -57,14 +57,22 @@ function actualizarPresupuestoWeb () {
 }
 
 function nuevoGastoWeb (){
-    
+    let descripcion = promt();
+    let valor = parseFloat(promt());
+    let fecha = promt();
+    let etiquetas =  promt();
+
+    let ArrayEtiquetas = etiquetas.split(',');
+
+    gestionPresupuesto.CrearGasto(descripcion, valor, fecha, ArrayEtiquetas);
 }
 
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    reprintar,
+    repintar,
     actualizarPresupuestoWeb,
-    nuevoGastoWeb
+    nuevoGastoWeb,
+    editarHandle
 }
