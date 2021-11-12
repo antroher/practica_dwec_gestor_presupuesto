@@ -25,6 +25,16 @@ function mostrarGastoWeb(idElemento, gastos) {
                 <div class="gasto-etiquetas">
                 ${aux}`;
     }
+
+    let btnEditar = document.createElement("button");
+    btnEditar.className = 'gasto-editar';
+    btnEditar.textContent = "Editar";
+    btnEditar.type = "button";
+
+    let btnBorrar = document.createElement("button");
+    btnBorrar.className = 'gasto-borrar';
+    btnBorrar.textContent = "Borrar";
+    btnBorrar.type = "button"
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
