@@ -43,7 +43,7 @@ function mostrarGastoWeb(idElemento, gasto){
             let span=document.createElement("span");
             span.className="gasto-etiquetas-etiqueta";
             span.textContent=e+" ";
-            span.addEventListener("click",BorrarEtiquetasHandle(gasto,e).handleEvent);
+            span.addEventListener("click",new BorrarEtiquetasHandle(gasto,e).handleEvent);
             divGastoEtiquetas.append(span);
             /*
             etiq+="<span class='gasto-etiquetas-etiqueta'>\n";
@@ -63,14 +63,14 @@ function mostrarGastoWeb(idElemento, gasto){
             botonEditar.className="gasto-editar";
             botonEditar.type="button";
             botonEditar.textContent="Editar";
-            botonEditar.addEventListener("click",EditarHandle(gasto).handleEvent);
+            botonEditar.addEventListener("click",new EditarHandle(gasto).handleEvent);
             divgasto.append(botonEditar);
 
             let botonBorrar=document.createElement("button");
             botonBorrar.className="gasto-borrar";
             botonBorrar.type="button";
             botonBorrar.textContent="Borrar";
-            botonBorrar.addEventListener("click",BorrarHandle(gasto).handleEvent);
+            botonBorrar.addEventListener("click",new BorrarHandle(gasto).handleEvent);
             divgasto.append(botonBorrar);
 
             /*etiq+="<button class='gasto-editar' type='button'>Editar</button>\n";
@@ -163,9 +163,8 @@ function nuevoGastoWeb(){
 }
 
 function EditarHandle(g){
-    let editarHandle={
-        gasto:g,
-        handleEvent:function(){
+        this.gasto=g;
+        this.handleEvent=function(){
             let etiquetas=[];
             let desc=prompt("Introduce la descripción:");
             let valor=parseFloat(prompt("Introduce el valor:"));
@@ -174,37 +173,29 @@ function EditarHandle(g){
             if(typeof etiq !== 'undefined'){
                 etiquetas=etiq.split(",");
             }
-            if(desc!=="") editarHandle.gasto.actualizarDescripcion(desc);
-            if(valor>=0)editarHandle.gasto.actualizarValor(valor);
-            if(fecha!=="")editarHandle.gasto.actualizarFecha(fecha);
-            editarHandle.gasto.etiquetas=etiquetas;
+            if(desc!=="") this.gasto.actualizarDescripcion(desc);
+            if(valor>=0)this.gasto.actualizarValor(valor);
+            if(fecha!=="")this.gasto.actualizarFecha(fecha);
+            this.gasto.etiquetas=etiquetas;
             repintar();
-        }
-    }  
-    return editarHandle; 
+        };
 }
 
 function BorrarHandle(g){
-    let borrarHandle={
-        gasto:g,
-        handleEvent:function(){
-            gp.borrarGasto(borrarHandle.gasto.id);
+        this.gasto=g;
+        this.handleEvent=function(){
+            gp.borrarGasto(this.gasto.id);
             repintar();
-        }
-    }  
-    return borrarHandle; 
+        };
 }
 
 function BorrarEtiquetasHandle(g,etiq){
-    let borrarEtiquetasHandle={
-        gasto:g,
-        etiqueta:etiq,
-        handleEvent:function(){
-            borrarEtiquetasHandle.gasto.borrarEtiquetas(borrarEtiquetasHandle.etiqueta);
+        this.gasto=g;
+        this.etiqueta=etiq;
+        this.handleEvent=function(){
+            borrarEtiquetasHandle.gasto.borrarEtiquetas(this.etiqueta);
             repintar();
-        }
-    }  
-    return borrarEtiquetasHandle; 
+        };
 }
 
 export   {
