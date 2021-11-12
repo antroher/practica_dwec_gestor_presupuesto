@@ -46,13 +46,18 @@ function mostrarGastosAgrupadosWeb (idElemento, agrup, periodo) {
     `
 }
 
-function reprintar (mostrarPresupuesto) {
+function reprintar () {
 
 }
 
 function actualizarPresupuestoWeb () {
     let valor = parseFloat ( promt ("Introduzaca un presupuesto: "));
     gestionPresupuesto.actualizarPresupuesto(valor);
+    reprintar();
+}
+
+function nuevoGastoWeb (){
+    
 }
 
 export {
@@ -61,4 +66,5 @@ export {
     mostrarGastosAgrupadosWeb,
     reprintar,
     actualizarPresupuestoWeb,
+    nuevoGastoWeb
 }
