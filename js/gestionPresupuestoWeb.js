@@ -37,13 +37,56 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 }
 
 
+function gestionPresupuesto(){
+
+}
+
+function repintar(){
+
+}
 
 
+function actualizarPresupuestoWeb(){
+
+}
+
+
+function nuevoGastoWeb(){
+
+}
+
+
+function EditarHandle(){
+
+}
+
+function BorrarHandle(){
+
+}
+
+
+function BorrarEtiquetasHandle(){
+
+}
+
+
+function mostrarGastoWeb(){
+
+}
 
 
 
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    gestionPresupuesto,
+    repintar,
+    actualizarPresupuestoWeb,
+    actualizarPresupuesto,
+    nuevoGastoWeb,
+    EditarHandle,
+    BorrarHandle,
+    BorrarEtiquetasHandle,
+    mostrarGastoWeb
 }

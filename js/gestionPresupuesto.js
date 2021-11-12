@@ -25,6 +25,7 @@ function listarGastos(){
     return gastos;
 }
 
+
 function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas){    
     if(valor < 0 || isNaN(valor)){
         valor = 0;
@@ -35,7 +36,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas){
         this.descripcion = descripcion
         this.etiquetas = [...etiquetas];
         this.fecha = (typeof fecha === `string`) ? Date.parse(fecha):fecha 
-
+           
         
         this.mostrarGasto = function() {
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
@@ -78,7 +79,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas){
             }            
         }
 
-        this.anyadirEtiquetas = function(...etiquetas)
+        this.anyadirEtiquetas(...etiquetas)
         {
             let aux = etiquetas.filter((x) => {
                 if (!this.etiquetas.includes(x)) {
@@ -88,7 +89,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas){
             this.etiquetas.push(...aux);
         }
 
-        this.borrarEtiquetas = function(...etiquetas) {
+        this.borrarEtiquetas(...etiquetas) {
             etiquetas.forEach((x) => {
                 for(let i = 0; i < this.etiquetas.length; i++) {
                     if (this.etiquetas[i] === x) {
