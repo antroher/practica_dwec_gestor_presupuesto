@@ -25,7 +25,11 @@ function mostrarGastoWeb(idElemento, gastos) {
             <div class="gasto-fecha">${gasto.fecha}</div> 
             <div class="gasto-valor">${gasto.valor}</div> 
             <div class="gasto-etiquetas">
-            ${data}`
+            ${data}
+            <div>
+            <button type="button" class="gasto-editar">Editar</button>
+            <button type="button" class="gasto-borrar">Borrar</button>
+            <div>`
 
     }
     
@@ -51,6 +55,14 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
 
 function repintar() {
 
+    let presupuesto = gestionPresupuesto.mostrarPresupuesto;
+
+    let totalgastos = gestionPresupuesto.calcularTotalGastos;
+
+    let balance = gestionPresupuesto.calcularBalance;
+
+    //let borrar =
+    
 
 
 }
@@ -67,7 +79,27 @@ function actualizarPresupuestoWeb() {
 
 function nuevoGastoWeb() {
 
+    let descripcion = prompt("Introducir la descripcion");
+    let valor = parseFloat(prompt("Introducir valor"));
+    let fecha = prompt("Introduce la fecha (yyyy-mm-dd)");
+    const etiquetas = new Array();
+    
+    /*
+    let control = true;
+    let etiqueta = "";
+    etiquetas.push(etiqueta);
+    while(control == true){
 
+
+
+    }
+    */    
+
+    const gasto = gestionPresupuesto.CrearGasto(descripcion, valor, fecha, etiquetas);
+
+    gestionPresupuesto.anyadirGasto(gasto);
+
+    repintar();
 
 }
 
