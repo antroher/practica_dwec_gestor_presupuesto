@@ -1,3 +1,4 @@
+
 "use strict";
 
 function mostrarDatoEnId (idElemento, valor)
@@ -12,14 +13,13 @@ function mostrarDatoEnId (idElemento, valor)
 }
 
 
-function mostrarGastoWeb(idElemento, gastos )
+function mostrarGastoWeb(idElemento, gasto )
 {
   let elemento = document.getElementById(idElemento);
 
-  for (let i of gastos)
-  { 
+ 
     let divEtiquetas = "";
-      for(let j of i.etiquetas)
+      for(let j of gasto.etiquetas)
       {
         divEtiquetas += `
         <span class="gasto-etiquetas-etiqueta">
@@ -34,15 +34,16 @@ function mostrarGastoWeb(idElemento, gastos )
 
     elemento.innerHTML += `
     <div class="gasto">
-    <div class="gasto-descripcion">${i.descripcion}</div>
-    <div class="gasto-fecha">${i.fecha}</div>
-    <div class="gasto-valor">${i.valor}</div>
+    <div class="gasto-descripcion">${gasto.descripcion}</div>
+    <div class="gasto-fecha">${gasto.fecha}</div>
+    <div class="gasto-valor">${gasto.valor}</div>
     <div class="gasto-etiquetas">
     ${divEtiquetas}
     </div>
     </div>
     `;
-  }
+
+  
 }
 
 

@@ -38,28 +38,28 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
             valor1 = 0;
         }
 
-    let gasto = {
+    
 
-	    descripcion: descripcion1,
-        valor: valor1,
-        fecha: (typeof fecha1 === "string") ? Date.parse(fecha1) : fecha1,
-        etiquetas:[...etiquetas1],
+	    this.descripcion = descripcion1;
+        this.valor=valor1;
+        this.fecha= (typeof fecha1 === "string") ? Date.parse(fecha1) : fecha1;
+        this.etiquetas=[...etiquetas1];
        
 
 
-        mostrarGasto() {
+        this.mostrarGasto = function() {
 
             return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
         
-        },
+        };
 
-        actualizarDescripcion(newDes) {
+        this.actualizarDescripcion = function(newDes) {
 
             this.descripcion = newDes;
 
-        },
+        };
 
-        actualizarValor(newValor) {
+        this.actualizarValor = function (newValor) {
 
             let value = parseFloat(newValor);
 
@@ -68,9 +68,9 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
                 this.valor = value;
             }
 
-        },
+        };
 
-        anyadirEtiquetas (...etiquetas3)
+        this.anyadirEtiquetas = function (...etiquetas3)
         {
             
             let nuevaEtiqueta = 0;
@@ -84,9 +84,9 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
             }
             
 
-        },
+        };
 
-        mostrarGastoCompleto(){
+        this.mostrarGastoCompleto = function (){
             
             let acumulador = "";
             var fechanueva = new Date(this.fecha);
@@ -98,9 +98,9 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
             }
             return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechanueva.toLocaleString()}\nEtiquetas:\n${acumulador}`;
               
-        },
+        };
       
-        actualizarFecha(nuevaFecha)
+        this.actualizarFecha = function (nuevaFecha)
         {
             let BuenaFecha = Date.parse(nuevaFecha);
 
@@ -108,9 +108,9 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
             {
                 this.fecha = Date.parse(nuevaFecha);
             }
-        },
+        };
 
-        borrarEtiquetas(...etiquetas2)
+        this.borrarEtiquetas = function(...etiquetas2)
         {
             let eliminarEtiqueta = 0;
             for (let i = 0; i < etiquetas2.length; i++)
@@ -121,10 +121,10 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
                     this.etiquetas.splice(eliminarEtiqueta, 1);
                 }
             } 
-        },
+        };
         
         
-        obtenerPeriodoAgrupacion(periodo)
+        this.obtenerPeriodoAgrupacion = function (periodo)
             {
                 //El +1 en el mes porque enero empieza en 0
                 let MostrarFecha = new Date(this.fecha);
@@ -163,11 +163,9 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
                     default:
                         return `Has Introducido un error`;
                 };
-            }
-        };
-    return gasto;
-}
+            };
 
+}
 
 
 
