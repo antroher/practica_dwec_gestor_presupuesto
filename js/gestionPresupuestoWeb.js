@@ -193,7 +193,7 @@ function BorrarEtiquetasHandle(g,etiq){
         this.gasto=g;
         this.etiqueta=etiq;
         this.handleEvent=function(){
-            borrarEtiquetasHandle.gasto.borrarEtiquetas(this.etiqueta);
+            this.gasto.borrarEtiquetas(this.etiqueta);
             repintar();
         };
 }
