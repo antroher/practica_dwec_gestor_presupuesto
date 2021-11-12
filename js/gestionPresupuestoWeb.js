@@ -165,6 +165,16 @@ function BorrarEtiquetasHandle() {
     repintar();
    }
 }
+
+function nuevoGastoWebFormulario() {
+    //Copia del formulario/template
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+    var formulario = plantillaFormulario.querySelector("form");
+    //let buttonForm = document.querySelector("#anyadirgasto-formulario");
+    formulario.addEventListener('submit', this.handleEvent = function(event) {
+        event.preventDefault()
+    });
+}
  
 
 //Botones
