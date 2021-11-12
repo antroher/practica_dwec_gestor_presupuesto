@@ -1,4 +1,4 @@
-import * as datosPresupuesto from "./gestionPresupuesto.js";
+import * as gesPres from "./gestionPresupuesto.js";
 
 function mostrarDatoEnId(idElemento, valor) {//https://www.youtube.com/watch?v=DMawWBwHnBU
     let elem = document.getElementById(idElemento);
@@ -54,18 +54,18 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 }
 
 function repintar() {
-    let pres = datosPresupuesto.mostrarPresupuesto();
+    let pres = gesPres.mostrarPresupuesto();
     mostrarDatoEnId( "presupuesto",pres);
     
-    let gasTot = datosPresupuesto.calcularTotalGastos().toFixed(2);
+    let gasTot = gesPres.calcularTotalGastos().toFixed(2);
     mostrarDatoEnId( "gastos-totales",gasTot);
     
-    let balTot = datosPresupuesto.calcularBalance().toFixed(2);
+    let balTot = gesPres.calcularBalance().toFixed(2);
     mostrarDatoEnId("balance-total",balTot);
     
     let borrarDatos = document.getElementById("listado-gastos-completo").innerHTML = "";
     
-    let matrizGasto = datosPresupuesto.listarGastos();
+    let matrizGasto = gesPres.listarGastos();
     for (const x of matrizGasto) {
         mostrarGastoWeb("listado-gastos-completo", x);
     }
@@ -73,7 +73,7 @@ function repintar() {
 
 function actualizarPresupuestoWeb()  {
     let pres = parseFloat(prompt(`Hey amigo, introduce tu presupuesto`));
-    datosPresupuesto.actualizarPresupuesto(pres);
+    gesPres.actualizarPresupuesto(pres);
     repintar();
 }
 
@@ -81,13 +81,13 @@ let btnActPres = document.getElementById("actualizarpresupuesto");
 btnActPres.addEventListener("click", actualizarPresupuestoWeb);
 
 function nuevoGastoWeb() {
-    let des = prompt(`Hola buenas, indica la descripción del gasto`);
-    let val = parseFloat(prompt(`¿Ya estás gastando dinero? ¿Cuánto ha sido esta vez?`));
+    let des = prompt(`¿Ya estás gastando dinero? ¿En qué te lo has gastado, trozo de mierda?`);
+    let val = parseFloat(prompt(`¿Cuánto ha sido esta vez?`));
     let fec = prompt(`¿Y cuándo fue eso? Dímelo siguiendo el formato yyyy-mm-dd que si no no te entiendo, figura`);
     let eti = prompt(`Etiqueta ese rico gasto tuyo con todas las etiquetas que quieras, pero sepáralas con comas (,) para poder yo distinguir entre una y otra`);
     let etiArray = eti.split(',');
-    let gasto = new datosPresupuesto.CrearGasto(des, val, fec, ...etiArray);
-    datosPresupuesto.anyadirGasto(gasto);
+    let gasto = new gesPres.CrearGasto(des, val, fec, ...etiArray);
+    gesPres.anyadirGasto(gasto);
     repintar();
 }
 
@@ -101,15 +101,15 @@ function EditarHandle() {
         let fec = prompt("Dime cuándo hiciste ese gasto anda, recuerda que sólo entiendo el formato yyyy-mm-dd");
         let etiquetas = prompt("Etiqueta el gasto como te venga en gana, pero separa cada etiqueta con una coma (,)");
         let etiArray = etiquetas.split(',');
-        let gasto = new datosPresupuesto.CrearGasto(des, val, fec, ...etiArray);
-        datosPresupuesto.anyadirGasto(gasto);
+        let gasto = new gesPres.CrearGasto(des, val, fec, ...etiArray);
+        gesPres.anyadirGasto(gasto);
         repintar();
    }
 }
 
 function BorrarHandle() {
     this.handleEvent = function (e) {
-        datosPresupuesto.borrarGasto(this.gasto.id);
+        gesPres.borrarGasto(this.gasto.id);
         repintar();
     }        
 }
