@@ -21,33 +21,29 @@ function mostrarPresupuesto() {
 }
 
 function CrearGasto(desc, val, fechaCreacion , ...etiqueta) {
-    let gasto={
-        descripcion : desc,
-        etiquetas : new Array(),
-        valor : null,
-        fecha : null
-    }
+
+    this.descripcion = desc;
 
     if(parseFloat(val) > 0){
-        gasto.valor = val;
+        this.valor = val;
 
     }else{
-        gasto.valor = 0;
+        this.valor = 0;
 
     }
 
     if(fechaCreacion === undefined || isNaN(Date.parse(fechaCreacion))){
-        gasto.fecha = new Date(Date.now()).toISOString().substring(0,16);
+        this.fecha = new Date(Date.now()).toISOString().substring(0,16);
     }else{
-        gasto.fecha = Date.parse(fechaCreacion);
+        this.fecha = Date.parse(fechaCreacion);
     }
 
 
     if(etiqueta !== undefined){
-        gasto.etiquetas = etiqueta;
+        this.etiquetas = etiqueta;
     }
 
-    gasto.mostrarGastoCompleto = function(){
+    this.mostrarGastoCompleto = function(){
         let respuesta = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
 Fecha: ${new Date(this.fecha).toLocaleString()}
 Etiquetas:\n`
@@ -56,59 +52,58 @@ Etiquetas:\n`
         }
 
         return respuesta;
-    }
+    };
 
-    gasto.mostrarGasto = function() {
+    this.mostrarGasto = function() {
         return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
-    }
+    };
 
-    gasto.actualizarDescripcion = function(nuevaDesc){
+    this.actualizarDescripcion = function(nuevaDesc){
         this.descripcion = nuevaDesc;
-    }
+    };
 
-    gasto.actualizarValor = function(nuevoValor){
+    this.actualizarValor = function(nuevoValor){
         if(parseFloat(nuevoValor) > 0){
             this.valor = nuevoValor;
         }
-    }
+    };
 
-    gasto.actualizarFecha = function(nuevaFecha){
+    this.actualizarFecha = function(nuevaFecha){
         if(!isNaN(Date.parse(nuevaFecha))){
             this.fecha = Date.parse(nuevaFecha);
         }
-    }
+    };
 
-    gasto.anyadirEtiquetas = function(...nuevasEtiquetas){
+    this.anyadirEtiquetas = function(...nuevasEtiquetas){
         nuevasEtiquetas.forEach(e => {
             if(!this.etiquetas.includes(e)){
                 this.etiquetas.push(e);
             }
         });
-    }
+    };
 
-    gasto.borrarEtiquetas = function(...etiquetasABorrar){
+    this.borrarEtiquetas = function(...etiquetasABorrar){
         etiquetasABorrar.forEach(b => {
             if(this.etiquetas.includes(b)){
                 this.etiquetas.splice(this.etiquetas.indexOf(b),1)
             }
         });
-    }
+    };
 
-    gasto.obtenerPeriodoAgrupacion = function(periodo){
+    this.obtenerPeriodoAgrupacion = function(periodo){
         if(periodo !== undefined){
             switch(periodo){
                 case "dia":
-                    return new Date(gasto.fecha).toISOString().substring(0, 10);
+                    return new Date(this.fecha).toISOString().substring(0, 10);
                 case "mes":
-                    return new Date(gasto.fecha).toISOString().substring(0, 7);
+                    return new Date(this.fecha).toISOString().substring(0, 7);
                 case "anyo":
-                    return new Date(gasto.fecha).toISOString().substring(0, 4);
+                    return new Date(this.fecha).toISOString().substring(0, 4);
             }
             
         }
-    }
+    };
 
-    return gasto;
     
 }
 

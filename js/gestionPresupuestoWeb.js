@@ -34,26 +34,35 @@ function mostrarGastoWeb(idElemento, gasto){
     
 
     gasto.etiquetas.forEach(e => {
+        let borrarEtiquetas = new BorrarEtiquetasHandle();
+        borrarEtiquetas.gasto = gasto;
+        borrarEtiquetas.etiqueta = e;
+
         let divEtiqueta = document.createElement("span");
         divEtiqueta.className += "gasto-etiquetas-etiqueta";
         divEtiqueta.textContent = e + " ";
         if(idElemento == "listado-gastos-completo"){
-            divEtiqueta.addEventListener("click", BorrarEtiquetasHandle(gasto, e).handleEvent);
+            divEtiqueta.addEventListener("click", borrarEtiquetas);
         }
         divGastoEtiquetas.append(divEtiqueta);
     });  
 
     divGasto.append(divGastoEtiquetas);
+    let editarHandler = new EditarHandle();
+    editarHandler.gasto = gasto;
 
     let btnEditar = document.createElement("button");
     btnEditar.className = "gasto-editar";
     btnEditar.textContent = "Editar";
-    btnEditar.addEventListener("click", EditarHandle(gasto).handleEvent);
+    btnEditar.addEventListener("click", editarHandler);
     
+    let borrarHandler = new BorrarHandle();
+    borrarHandler.gasto = gasto;
+
     let btnBorrar = document.createElement("button");
     btnBorrar.className = "gasto-borrar";
     btnBorrar.textContent = "Borrar";
-    btnBorrar.addEventListener("click", BorrarHandle(gasto).handleEvent);
+    btnBorrar.addEventListener("click", borrarHandler);
 
     if(idElemento == "listado-gastos-completo"){
         divGasto.append(btnEditar);
@@ -135,56 +144,47 @@ function nuevoGastoWeb(){
     let etiq = prompt ("Introduce las etiquetas del asto separadas por ',': ");
     let etiquetas = new Array();
     etiquetas = etiq.split(",");
-    let gasto = metodosGastos.CrearGasto(descr,parseFloat(val), fech, ...etiquetas);
+    let gasto = new metodosGastos.CrearGasto(descr,parseFloat(val), fech, ...etiquetas);
     metodosGastos.anyadirGasto(gasto);
     repintar();
 }
 
-function EditarHandle(gastoEditar){
-    let handler = {
-        gasto : gastoEditar
-    }
+function EditarHandle(){
 
-    handler.handleEvent = function(){
-        let descr = prompt("Introduce la descripción del gasto:", handler.gasto.descripcion);
-        let val = prompt("Introdue el valor del gasto: ", handler.gasto.valor);
-        let fech = prompt ("Introduce la fecha del asto (yyyy-mm-dd): ", handler.gasto.fecha);
+    this.handleEvent = function(){
+        let descr = prompt("Introduce la descripción del gasto:", this.gasto.descripcion);
+        let val = prompt("Introdue el valor del gasto: ", this.gasto.valor);
+        let fech = prompt ("Introduce la fecha del asto (yyyy-mm-dd): ", this.gasto.fecha);
         let etiq = prompt ("Introduce las etiquetas del asto separadas por ',': ");
-        handler.gasto.actualizarDescripcion(descr);
-        handler.gasto.actualizarValor(parseFloat(val));
-        handler.gasto.actualizarFecha(fech);
+        this.gasto.actualizarDescripcion(descr);
+        this.gasto.actualizarValor(parseFloat(val));
+        this.gasto.actualizarFecha(fech);
         let etiquetas = new Array();
             etiquetas = etiq.split(",");
             etiquetas.forEach(e => {
-                handler.gasto.anyadirEtiquetas(e);
+                this.gasto.anyadirEtiquetas(e);
             });
         repintar();
-    }
-    return handler;
+    };
 
 }
 
-function BorrarHandle(gastoBorrar){
-    let handler={
-        gasto : gastoBorrar
-    }
-    handler.handleEvent = function(){
-        metodosGastos.borrarGasto(handler.gasto.id);
+
+function BorrarHandle(){
+    
+    this.handleEvent = function(){
+        metodosGastos.borrarGasto(this.gasto.id);
         repintar();
-    }
-    return handler;
+    };
+    
 }
 
-function BorrarEtiquetasHandle(gastoEtiquetas, etiquetaEditar){
-    let handler={
-        gasto : gastoEtiquetas,
-        etiqueta : etiquetaEditar
-    }
-    handler.handleEvent = function(){
-        handler.gasto.borrarEtiquetas(handler.etiqueta);
+function BorrarEtiquetasHandle(){
+    
+    this.handleEvent = function(){
+        this.gasto.borrarEtiquetas(this.etiqueta);
         repintar();
-    }
-    return handler;
+    };
 }
 
 
