@@ -1,4 +1,5 @@
 import * as gestionPresupuesto from './gestionPresupuesto.js';
+import { prependListener } from 'cluster';
  
  function mostrarDatoEnId(idElemento, valor) {
     let elem = document.getElementById(idElemento);
@@ -78,7 +79,14 @@ function actualizarPresupuestoWeb () {
     repintar();
 }
 
-
+function nuevoGastoWeb () {
+    let descr = prompt(`Escribe la descripcion del nuevo gasto`);
+    let vlr = parseFloat(prompt(`Escribe el valor`));
+    let fecha = prompt(`Escriba la fecha del gastos (yyyy-mm-dd)`);
+    let etiq = prompt(`Introduce una etiqueta y si son varias añade una coma detras`);
+    let etiqArray = etiq.split(`,`);
+    
+}
 
 
 export {
