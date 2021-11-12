@@ -3,11 +3,7 @@
 
 function mostrarDatoEnId(idElemento ,valor){
     
-    /*
-    let parrafo = document.createElement('p');
-    parrafo.textContent = valor;
-    elem.appendChild(parrafo); */
-
+    
     let elem = document.getElementById(idElemento);
     elem.innerHTML += valor;
 
@@ -15,7 +11,6 @@ function mostrarDatoEnId(idElemento ,valor){
 }
 
 function mostrarGastoWeb(idElemento ,gasto){
-    /* Coloco el primer bloque de código html ya que este no va a variar ----------------------------------------------------------------------------.*/
     let string1 = `<div class="gasto">
                             <div class="gasto-descripcion"> ${gasto.descripcion} </div>
                             <div class="gasto-fecha"> ${new Date(gasto.fecha).toLocaleDateString()} </div>
@@ -24,7 +19,6 @@ function mostrarGastoWeb(idElemento ,gasto){
 
 
                         
-    /*Recorro el array de etiquetas de cada gasto y las voy añadiendo mientras queden. -------------------------------------------*/
     
     console.log(gasto.etiquetas);
     gasto.etiquetas.forEach(etiq => {
@@ -40,7 +34,6 @@ function mostrarGastoWeb(idElemento ,gasto){
 }
 
 function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
-    /*Hago el primer bloque de html que no va a cambiar ------------------*/
     let string1 = `<div class="agrupacion">
                         <h1>Gastos agrupados por ${periodo}</h1>`
     
@@ -58,7 +51,6 @@ function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
 }
 
 
-/*Exportar las funciones necesarias.*/ 
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
