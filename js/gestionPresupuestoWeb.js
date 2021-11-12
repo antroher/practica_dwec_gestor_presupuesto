@@ -50,9 +50,15 @@ function reprintar (mostrarPresupuesto) {
 
 }
 
+function actualizarPresupuestoWeb () {
+    let valor = parseFloat ( promt ("Introduzaca un presupuesto: "));
+    
+}
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    reprintar
+    reprintar,
+    actualizarPresupuestoWeb,
 }
