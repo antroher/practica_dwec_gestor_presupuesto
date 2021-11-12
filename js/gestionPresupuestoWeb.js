@@ -54,6 +54,28 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     `
 }
 
+function repintar() {
+    let presp = gestionPresupuesto.mostrarPresupuesto();
+    mostrarDatoEnId("Presupuesto", presp);
+
+    let gstoTotal = gestionPresupuesto.calcularTotalGastos().toFixed(2);
+    mostrarDatoEnI("Gastos-Totales", gstoTotal);
+
+    let balanceTotal = gestionPresupuesto.calcularBalance().toFixed(2);
+    mostrarDatoEnId("Balance-Total", balanceTotal);
+
+    let borrarDatos = document.getElementById("listadoGastosCompleto").innerHTML = "";
+
+    let matrizGastos = gestionPresupuesto.listarGastos();
+    for (const x of matrizGastos) {
+        mostrarGastoWeb("gastosCompletos", x);
+    }
+}
+
+function actualizarPresupuestoWeb () {
+    
+}
+
 
 export {
     mostrarDatoEnId,
