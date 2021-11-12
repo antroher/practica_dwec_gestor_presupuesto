@@ -27,107 +27,113 @@ function mostrarPresupuesto() {
     return (`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-let gasto = new CrearGasto(); //constructor que hace referencia a una funcion
+
 function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     if(NewValu < 0 || isNaN(NewValu)){
         NewValu = 0;
     }
     //if (etiquetas.length == 0) { etiquetas = [] };
-        gasto = {
-        descripcion: NewDescriptio,
-        valor: NewValu,
-        etiquetas: [...etiq],
-        fecha: (typeof fec === 'string') ? Date.parse(fec) : fec,
-        mostrarGasto(){
-            return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
-        },
-        actualizarDescripcion(newDescription){
-            this.descripcion = newDescription;
-        },
-        actualizarValor(newValue){
-            let RetournValue
+        this.descripcion = NewDescriptio;
+        this.valor = NewValu;
+        this.etiquetas = [...etiq];
+        this.fecha = (typeof fec === 'string') ? Date.parse(fec) : fec;
 
-            if(newValue >= 0)
-            {
-                this.valor = newValue;
-            console.log("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor +" €");
-            return ("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor +" €")
-            }
-        },
-        actualizarDescripcion(NewDescript){
-            this.descripcion = NewDescript;
-        },
-        actualizarValor(NewVal){
+        //this.msotrarGato => (){} - funcion flecha para codigo corto
+    this.mostrarGasto = function() { //metodo de gestion constructua
+        return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+    };
 
-            if(NewVal >= 0)
-            {
-                this.valor = NewVal;
-            }
-        },
-        mostrarGastoCompleto(){
-            let acumulador = "";
-            var fechanueva = new Date(this.fecha);
-            for (var i = 0; i < this.etiquetas.length; i++)
-            {
-                acumulador += `- ${this.etiquetas[i]}\n`;
-            }
-            
-            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechanueva.toLocaleString()}\nEtiquetas:\n${acumulador}`;s
-        },
-        actualizarFecha(NewDate){
-            //si la fecha es válida se comprueba al comienzo del objeto
-            if(!isNaN(Date.parse(NewDate))){
-                this.fecha = Date.parse(NewDate);
-            } //si no se define la fecha
-        },
-        anyadirEtiquetas(...etiq){
+    this.actualizarDescripcion = function(newDescription) {
+        this.descripcion = newDescription;
+    };
 
-            let etiquetaComparada;
-            for (var i = 0; i < etiq.length; i++){
-                etiquetaComparada = this.etiquetas.includes(etiq[i],1);
-                if(!(etiquetaComparada == true)) { //si la etiqueta introducida no esta en el array
-                    this.etiquetas.push(etiq[i]); //insertal el elemento al final
-                }
-            }
-        },
-        borrarEtiquetas(...etiq){
-            let buscar = 0;
-            for(var i = 0; i < etiq.length; i++){
-                buscar = this.etiquetas.indexOf(etiq[i]);
-                if(buscar != -1){
-                    this.etiquetas.splice(buscar,1);    
-                }
-            }
-        },
-        obtenerPeriodoAgrupacion(periodo){
-            let nuevaFecha = new Date(this.fecha);
-            let mes = nuevaFecha.getMonth();
-            let dia = nuevaFecha.getDate();
-            let anyo = nuevaFecha.getFullYear();
-            switch (periodo){
-                case "mes":
-                    if( mes < 9){return (`${anyo}-0${mes+1}` );}
-                    else {return (`${anyo}-${mes+1}` );}
-                case "dia":
-                    let result;
-                    if( dia < 10){
-                        if (mes < 9)
-                            result = (`${anyo}-0${mes+1}-0${dia}`);
-                        else result = (`${anyo}-${mes+1}-0${dia}`);
-                    }
-                    else{
-                        if(mes < 9){result = `${anyo}-0${mes+1}-${dia}`}
-                        else{result = `${anyo}-${mes+1}-${dia}`}
-                    }
-                    return result;
-                case "anyo":
-                    return (`${anyo}`);
-                default:
-                   return `valor no válido`;
+    this.actualizarValor = function(newValue){
+        let RetournValue
+
+        if(newValue >= 0)
+        {
+            this.valor = newValue;
+        console.log("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor +" €");
+        return ("Gasto correspondiente a "+ this.descripcion + " con valor " + this.valor +" €")
+        }
+    };
+
+    this.actualizarDescripcion = function(NewDescript){
+        this.descripcion = NewDescript;
+    };
+
+    this.actualizarValor = function(NewVal){
+
+        if(NewVal >= 0)
+        {
+            this.valor = NewVal;
+        }
+    };
+
+    this.mostrarGastoCompleto = function(){
+        let acumulador = "";
+        var fechanueva = new Date(this.fecha);
+        for (var i = 0; i < this.etiquetas.length; i++)
+        {
+            acumulador += `- ${this.etiquetas[i]}\n`;
+        }
+        
+        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechanueva.toLocaleString()}\nEtiquetas:\n${acumulador}`;s
+    };
+
+    this.actualizarFecha = function(NewDate){
+        //si la fecha es válida se comprueba al comienzo del objeto
+        if(!isNaN(Date.parse(NewDate))){
+            this.fecha = Date.parse(NewDate);
+        } //si no se define la fecha
+    };
+
+    this.anyadirEtiquetas = function(...etiq){
+
+        let etiquetaComparada;
+        for (var i = 0; i < etiq.length; i++){
+            etiquetaComparada = this.etiquetas.includes(etiq[i],1);
+            if(!(etiquetaComparada == true)) { //si la etiqueta introducida no esta en el array
+                this.etiquetas.push(etiq[i]); //insertal el elemento al final
             }
         }
     };
-    return gasto;
+    this.borrarEtiquetas = function(...etiq){
+        let buscar = 0;
+        for(var i = 0; i < etiq.length; i++){
+            buscar = this.etiquetas.indexOf(etiq[i]);
+            if(buscar != -1){
+                this.etiquetas.splice(buscar,1);    
+            }
+        }
+    },
+    this.obtenerPeriodoAgrupacion = function(periodo){
+        let nuevaFecha = new Date(this.fecha);
+        let mes = nuevaFecha.getMonth();
+        let dia = nuevaFecha.getDate();
+        let anyo = nuevaFecha.getFullYear();
+        switch (periodo){
+            case "mes":
+                if( mes < 9){return (`${anyo}-0${mes+1}` );}
+                else {return (`${anyo}-${mes+1}` );}
+            case "dia":
+                let result;
+                if( dia < 10){
+                    if (mes < 9)
+                        result = (`${anyo}-0${mes+1}-0${dia}`);
+                    else result = (`${anyo}-${mes+1}-0${dia}`);
+                }
+                else{
+                    if(mes < 9){result = `${anyo}-0${mes+1}-${dia}`}
+                    else{result = `${anyo}-${mes+1}-${dia}`}
+                }
+                return result;
+            case "anyo":
+                return (`${anyo}`);
+            default:
+                return `valor no válido`;
+        }
+    }
 } 
 
     //práctica 2

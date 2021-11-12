@@ -1,5 +1,6 @@
 /*utilidades necesarias para mostrar los datos de la aplicación*/
 "use strict";
+
 function mostrarDatoEnId(idElemento, valor) {
     let Elemento = document.getElementById(idElemento); //selecciona el elemento
     let parrafo = document.createElement("p");//crea el elemento
@@ -94,19 +95,27 @@ function nuevoGastoWeb() {
     EtiquetaGasto.split(', ');
     let valueGasto = parseFloat(prompt('Inserta el valor correspondiente al gasto'));
     //Crear un nuevo gasto
-    let NewGasto = gestionPresupuesto.CrearGasto(Descripcion,valueGasto,fechaGato,EtiquetaGasto);
-    //Añadir el gasto a la lista
+    let NewGasto = new gestionPresupuesto.CrearGasto(Descripcion,valueGasto,fechaGato,EtiquetaGasto);
+    //Añadir el gasto a la lista de gastos
     gestionPresupuesto.anyadirGasto(NewGasto);
     repintar();
 }
 let btnAnyadirgasto = document.getElementById('anyadirgasto');
 btnAnyadirgasto = addEventListener('click',nuevoGastoWeb);
 
+let gastico = new gestionPresupuesto.CrearGasto();
+function EditarHandle(gasto) {
+    
+    for (const botonGato of gastico) {
+        
+    }
+}
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     repintar,
-    actualizarPresupuestoWeb
+    actualizarPresupuestoWeb,
+    nuevoGastoWeb
 }
 import * as gestionPresupuesto from "./gestionPresupuesto.js";
