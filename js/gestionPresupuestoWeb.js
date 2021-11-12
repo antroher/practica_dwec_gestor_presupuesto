@@ -26,19 +26,45 @@ function mostrarGastoWeb(idElemento ,gasto){
 
                         
     /*Recorro el array de etiquetas de cada gasto y las voy añadiendo mientras queden. -------------------------------------------*/
-    
     console.log(gasto.etiquetas);
     gasto.etiquetas.forEach(etiq => {
             string1 += ` <span class="gasto-etiquetas-etiqueta"> ${etiq} </span> `;
 
     });
-
-        
+      
     string1 += `</div></div>
-    <button class="gasto-editar" type="button">Editar</button>
-    <button class="gasto-borrar" type="button">Borrar</button>`;
+    <button class="gasto-editar" type="button">Editar</button> 
+    <button class="gasto-borrar" type="button">Borrar</button>`;//Añadir el botón al DOM a continuación de las etiquetas(btnEditar), Añadir el botón al DOM a continuación del botón Editar(btnBorrar).
+
 
     document.getElementById(idElemento).innerHTML += string1;
+    
+
+    //----BOTON EDITAR---------//
+    //Crear un nuevo objeto a partir de la función constructora EditarHandle.
+    let objedHandle = new EditarHandle();
+    //Establecer la propiedad gasto del objeto creado al objeto gasto (recuerda que el objeto gasto es un parámetro pasado a la función mostrarGastoWeb).
+    objedHandle.gasto = gasto;
+    //Añadir el objeto recién creado como objeto manejador del evento click al botón Editar recién creado.
+    let editar = document.getElementsByClassName("gasto-editar");
+    editar.addEventListener('click',objedHandle);
+
+
+    //------BOTON BORRAR--------//
+    //Crear un nuevo objeto a partir de la función constructora BorrarHandle.
+    let objborHandle = new BorrarHandle();
+    //Establecer la propiedad gasto del objeto creado al objeto gasto (recuerda que el objeto gasto es un parámetro pasado a la función mostrarGastoWeb).
+    objborHandle.gasto = gasto;
+    //Añadir el objeto recién creado como objeto manejador del evento click al botón Borrar recién creado.
+    let borrar = document.getElementsByClassName("gasto-borrar");
+    borrar.addEventListener('click',objborHandle);
+
+    //-----EVENTOS PARA LOS SPAN DE ETIQUETAS------/
+    let objboretiqHandle = new BorrarEtiquetasHandle();
+    objboretiqHandle.gasto = gasto;
+    let borrarEtiq = document.getElementsByClassName("gasto-etiquetas-etiqueta");
+    borrarEtiq.addEventListener('click',objboretiqHandle);
+
 
 }
 
@@ -59,6 +85,7 @@ function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
     document.getElementById(idElemento).innerHTML += string1;
                  
 }
+
 function repintar()
 {
     //1.- Mostrar el presupuesto en div#presupuesto (funciones mostrarPresupuesto y mostrarDatoEnId)------------------
@@ -187,5 +214,6 @@ export {
     EditarHandle,
     nuevoGastoWeb,
     repintar,
-    BorrarHandle
+    BorrarHandle,
+    BorrarEtiquetasHandle
 }
