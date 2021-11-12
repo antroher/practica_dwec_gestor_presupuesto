@@ -79,8 +79,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas){
             }            
         }
 
-        this.anyadirEtiquetas(...etiquetas)
-        {
+        this.anyadirEtiquetas = function (...etiquetas){
             let aux = etiquetas.filter((x) => {
                 if (!this.etiquetas.includes(x)) {
                     return x;
@@ -89,7 +88,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas){
             this.etiquetas.push(...aux);
         }
 
-        this.borrarEtiquetas(...etiquetas) {
+        this.borrarEtiquetas = function (...etiquetas) {
             etiquetas.forEach((x) => {
                 for(let i = 0; i < this.etiquetas.length; i++) {
                     if (this.etiquetas[i] === x) {
@@ -98,6 +97,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas){
                 }
             })
         }
+
 
         /*obtenerPeriodoAgrupacion(periodo){
             let fecha = new Date(this.fecha);

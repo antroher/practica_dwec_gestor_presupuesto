@@ -37,9 +37,6 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 }
 
 
-function gestionPresupuesto(){
-
-}
 
 function repintar(){
 
@@ -80,13 +77,10 @@ export{
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    gestionPresupuesto,
     repintar,
     actualizarPresupuestoWeb,
-    actualizarPresupuesto,
     nuevoGastoWeb,
     EditarHandle,
     BorrarHandle,
     BorrarEtiquetasHandle,
-    mostrarGastoWeb
 }
