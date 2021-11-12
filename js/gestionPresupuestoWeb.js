@@ -43,7 +43,10 @@ function mostrarGastoWeb(idElemento, gasto){
             let span=document.createElement("span");
             span.className="gasto-etiquetas-etiqueta";
             span.textContent=e+" ";
-            span.addEventListener("click",new BorrarEtiquetasHandle(gasto,e).handleEvent);
+            let borraEt=new BorrarEtiquetasHandle();
+            borraEt.gasto = gasto;
+            borraEt.etiqueta = e;
+            span.addEventListener("click",borraEt);
             divGastoEtiquetas.append(span);
             /*
             etiq+="<span class='gasto-etiquetas-etiqueta'>\n";
@@ -63,14 +66,18 @@ function mostrarGastoWeb(idElemento, gasto){
             botonEditar.className="gasto-editar";
             botonEditar.type="button";
             botonEditar.textContent="Editar";
-            botonEditar.addEventListener("click",new EditarHandle(gasto).handleEvent);
+            let editarHa= new EditarHandle();
+            editarHa.gasto=gasto;
+            botonEditar.addEventListener("click",editarHa);
             divgasto.append(botonEditar);
 
             let botonBorrar=document.createElement("button");
             botonBorrar.className="gasto-borrar";
             botonBorrar.type="button";
             botonBorrar.textContent="Borrar";
-            botonBorrar.addEventListener("click",new BorrarHandle(gasto).handleEvent);
+            let borrarHa = new BorrarHandle();
+            borrarHa.gasto=gasto;
+            botonBorrar.addEventListener("click",borrarHa);
             divgasto.append(botonBorrar);
 
             /*etiq+="<button class='gasto-editar' type='button'>Editar</button>\n";
@@ -162,8 +169,7 @@ function nuevoGastoWeb(){
     repintar();
 }
 
-function EditarHandle(g){
-        this.gasto=g;
+function EditarHandle(){
         this.handleEvent=function(){
             let etiquetas=[];
             let desc=prompt("Introduce la descripción:");
@@ -181,17 +187,15 @@ function EditarHandle(g){
         };
 }
 
-function BorrarHandle(g){
-        this.gasto=g;
+function BorrarHandle(){
+        
         this.handleEvent=function(){
             gp.borrarGasto(this.gasto.id);
             repintar();
         };
 }
 
-function BorrarEtiquetasHandle(g,etiq){
-        this.gasto=g;
-        this.etiqueta=etiq;
+function BorrarEtiquetasHandle(){
         this.handleEvent=function(){
             this.gasto.borrarEtiquetas(this.etiqueta);
             repintar();
