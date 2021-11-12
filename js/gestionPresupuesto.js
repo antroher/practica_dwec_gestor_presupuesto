@@ -31,26 +31,30 @@ var IDGasto = 0;
         if(numIntroducido <= 0 || isNaN(numIntroducido)){
             numIntroducido = 0;
         }
-            let gasto = {
-                descripcion:desc,
-                valor:numIntroducido,
-                fecha : (typeof fecha === "string") ? Date.parse(fecha) : fecha,
-                etiquetas : etiq,
-            mostrarGasto(){
+            this.descripcion = desc;
+            this.valor = numIntroducido;
+            this.fecha = fecha;
+            this.etiquetas = (etiq);
+
+            this.mostrarGasto = function(){
                 return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`
-            },
-            actualizarDescripcion(desc){
+            };
+
+            this.actualizarDescripcion = function(desc){
                 this.descripcion = desc;
-            },
-            actualizarValor(numIntroducido){
+            };
+
+            this.actualizarValor = function(numIntroducido){
                 if(numIntroducido >= 0)
                     this.valor = parseFloat(numIntroducido); 
-            },
-            actualizarFecha(stringFecha){
+            };
+            
+            this.actualizarFecha = function(stringFecha){
                 if(!isNaN(Date.parse(stringFecha)))              
                     this.fecha = Date.parse(stringFecha);           
-            },
-            anyadirEtiquetas (...etiquetas) {
+            };
+
+            this.anyadirEtiquetas = function(...etiquetas) {
                // let valoresUnicos = etiquetas.filter((x) => { // el .filter lo vamos a usar para generar un nuevo array con todos los elementos que cumplan con la condición que le hemos puesto.
                //     if (!this.etiquetas.includes(x))  // el . includes nos dice si el elemento (x) se encuentra dentro del array devolviendo true o false según corresponda.
                //         return x;                   
@@ -61,9 +65,9 @@ var IDGasto = 0;
                    if(!this.etiquetas.includes(elem))
                    this.etiquetas.push(elem);
                }
-            }, 
+            }; 
             
-            borrarEtiquetas (...etiquetas) {
+            this.borrarEtiquetas = function (...etiquetas) {
                 //etiquetas.forEach((x) => { // x es por cada etiqueta dentro del array etiquetas que le aplique la lógica utilizada.
                 //    for (let i = 0; i < this.etiquetas.length; i++) {
                  //       if (this.etiquetas[i] === x) 
@@ -77,8 +81,9 @@ var IDGasto = 0;
                     if(this.etiquetas.includes(elem))
                         this.etiquetas.splice(this.etiquetas.indexOf(elem),1);
                     }
-                },
-            mostrarGastoCompleto() {
+                };
+
+            this.mostrarGastoCompleto = function() {
                 let fec1;
                     if(typeof this.fecha === 'string')                
                         fec1 = Date.parse(this.fecha);                  
@@ -93,7 +98,7 @@ var IDGasto = 0;
                 return texto + aux;
             }}
 
-            gasto.obtenerPeriodoAgrupacion= function (periodo) { //AYUDA DE COMPAÑERO YA QUE CON MI FUNCIÓN NO ME HACÍA LA CONVERSIÓN CORRECTAMENTE AL STRING NECESARIO.
+            this.obtenerPeriodoAgrupacion= function (periodo) { //AYUDA DE COMPAÑERO YA QUE CON MI FUNCIÓN NO ME HACÍA LA CONVERSIÓN CORRECTAMENTE AL STRING NECESARIO.
                 let resultado = "0";
                 let fechObj = new Date(this.fecha);
                 switch (periodo) {
@@ -109,10 +114,10 @@ var IDGasto = 0;
                 }
             
                 return resultado;
-              };
-            
+
+              };            
               return gasto;
-            }
+            
                
                
                

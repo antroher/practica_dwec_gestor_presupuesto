@@ -33,20 +33,20 @@ function mostrarGastoWeb(idElemento ,gasto){
     });
       
     string1 += `</div></div>
-    <button class="gasto-editar" type="button">Editar</button> 
-    <button class="gasto-borrar" type="button">Borrar</button>`;//Añadir el botón al DOM a continuación de las etiquetas(btnEditar), Añadir el botón al DOM a continuación del botón Editar(btnBorrar).
+    <button class="gasto-editar" id="gasto-editar" type="button">Editar</button> 
+    <button class="gasto-borrar" id="gasto-borrar" type="button">Borrar</button>`;//Añadir el botón al DOM a continuación de las etiquetas(btnEditar), Añadir el botón al DOM a continuación del botón Editar(btnBorrar).
 
 
     document.getElementById(idElemento).innerHTML += string1;
     
-
+    /*
     //----BOTON EDITAR---------//
     //Crear un nuevo objeto a partir de la función constructora EditarHandle.
     let objedHandle = new EditarHandle();
     //Establecer la propiedad gasto del objeto creado al objeto gasto (recuerda que el objeto gasto es un parámetro pasado a la función mostrarGastoWeb).
     objedHandle.gasto = gasto;
     //Añadir el objeto recién creado como objeto manejador del evento click al botón Editar recién creado.
-    let editar = document.getElementsByClassName("gasto-editar");
+    let editar = document.getElementsById("gasto-editar");
     editar.addEventListener('click',objedHandle);
 
 
@@ -56,14 +56,14 @@ function mostrarGastoWeb(idElemento ,gasto){
     //Establecer la propiedad gasto del objeto creado al objeto gasto (recuerda que el objeto gasto es un parámetro pasado a la función mostrarGastoWeb).
     objborHandle.gasto = gasto;
     //Añadir el objeto recién creado como objeto manejador del evento click al botón Borrar recién creado.
-    let borrar = document.getElementsByClassName("gasto-borrar");
+    let borrar = document.getElementsById("gasto-borrar");
     borrar.addEventListener('click',objborHandle);
 
     //-----EVENTOS PARA LOS SPAN DE ETIQUETAS------/
     let objboretiqHandle = new BorrarEtiquetasHandle();
     objboretiqHandle.gasto = gasto;
-    let borrarEtiq = document.getElementsByClassName("gasto-etiquetas-etiqueta");
-    borrarEtiq.addEventListener('click',objboretiqHandle);
+    let borrarEtiq = document.getElementsById("gasto-etiquetas-etiqueta");
+    borrarEtiq.addEventListener('click',objboretiqHandle); */
 
 
 }
