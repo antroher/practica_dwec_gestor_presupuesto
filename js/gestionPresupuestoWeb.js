@@ -1,5 +1,4 @@
 import * as gestionPresupuesto from './gestionPresupuesto.js';
-
 //Para iterar sobre un collection del node usar for...of
 
 
@@ -50,10 +49,80 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     `
 }
 
+function repintar() {
 
+
+
+}
+
+function actualizarPresupuestoWeb() {
+
+    let valor = parseFloat(prompt ("Introduce un nuevo presupuesto"));
+
+    gestionPresupuesto.actualizarPresupuesto(valor);
+
+    repintar();
+
+}
+
+function nuevoGastoWeb() {
+
+
+
+}
+
+function EditarHandle() {
+
+
+
+}
+
+function BorrarHandle() {
+
+
+
+}
+
+function BorrarEtiquetasHandle() {
+
+
+
+}
+
+/*
+    estructura HTML final
+
+<div class="gasto">
+  <div class="gasto-descripcion">DESCRIPCIÓN DEL GASTO</div>
+  <div class="gasto-fecha">FECHA DEL GASTO</div> 
+  <div class="gasto-valor">VALOR DEL GASTO</div> 
+  <div class="gasto-etiquetas">
+    <!-- Este elemento span tendrá un manejador de eventos -->
+    <span class="gasto-etiquetas-etiqueta">
+      ETIQUETA 1
+    </span>
+    <!-- Este elemento span tendrá un manejador de eventos -->
+    <span class="gasto-etiquetas-etiqueta">
+      ETIQUETA 2
+    </span>
+    <!-- Etcétera -->
+  </div> 
+  <!-- Este botón tendrá un manejador de eventos -->
+  <button class="gasto-editar" type="button">Editar</button>
+  <!-- Este botón tendrá un manejador de eventos -->
+  <button class="gasto-borrar" type="button">Borrar</button>
+</div>
+
+*/
 
 export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar,
+    actualizarPresupuestoWeb,
+    nuevoGastoWeb,
+    EditarHandle,
+    BorrarHandle,
+    BorrarEtiquetasHandle
 }
