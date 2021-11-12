@@ -1,5 +1,4 @@
 import * as gestionPresupuesto from './gestionPresupuesto.js';
-import { parse } from 'querystring';
 
 function mostrarDatoEnId(idElemento, valor){
 
@@ -21,7 +20,9 @@ function mostrarGastoWeb(idElemento, gasto){
         bloque += `<span class="gasto-etiquetas-etiqueta"> ${etiqueta} </span>` 
     } 
     bloque += `</div>
-                </div>`;
+                </div>;
+                <button class="gasto-editar" id=${gasto.id} type="button">Editar</button> 
+                <button class="gasto-borrar" id=${gasto.id} type="button">Borrar</button>`;
     document.getElementById(idElemento).innerHTML += bloque;
 }
 
@@ -35,6 +36,8 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
                         <span class="agrupacion-dato-clave">${elemento} </span>
                         <span class="agrupacion-dato-valor">${agrup[elemento]}</span>
                         </div> `;
+
+
     }
     bloque += `</div>`;
     document.getElementById(idElemento).innerHTML += bloque;
@@ -62,11 +65,28 @@ function actualizarPresupuestoWeb(){
     gestionPresupuesto.actualizarPresupuesto(presupuesto)
     repintar()
 }
+let actualizarPre = document.getElementById("actualizarpresupuesto");
+actualizarPre.addEventListener('click',actualizarPresupuestoWeb);
+
+function nuevoGastoWeb(){
+let descripcion = prompt("dime la descripcion del gasto");
+let valor = parseFloat(prompt("dime el valor del gasto"));
+let fecha = Date.parse(prompt("dime la fecha del gasto"));
+let etiquetas = prompt("dime las etiquetas del gasto separadas por comas");
+let arrayEtiquetas = etiquetas.split(',')
+
+let nuevoGasto = gestionPresupuesto.CrearGasto(descripcion,valor,fecha,arrayEtiquetas)
+gestionPresupuesto.anyadirGasto(nuevoGasto)
+repintar()
+}
+let agregarGasto = document.getElementById("anyadirgasto");
+agregarGasto.addEventListener('click',nuevoGastoWeb);
 
 export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     repintar,
-    actualizarPresupuestoWeb
+    actualizarPresupuestoWeb,
+    nuevoGastoWeb
 }

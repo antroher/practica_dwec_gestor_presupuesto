@@ -52,46 +52,46 @@ function CrearGasto(description, valor1, fecha1 = Date.now(), ...etiquetasPasada
 	}
 	fecha1 = Date.parse(fecha_temp);
 
-    const gasto = {
-        descripcion: description,
-        valor: valor1,        
-        etiquetas: [...etiquetasPasadas],
-        fecha: fecha1,
+    
+        this.descripcion = description;
+        this.valor =  valor1;
+        this.etiquetas = [...etiquetasPasadas];
+        this.fecha = fecha1;
 
-        mostrarGasto(){
+        this.mostrarGasto = function(){
 			let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
 			return texto;
-		},
+		};
 
-		actualizarDescripcion(descr){
+		this.actualizarDescripcion= function(descr){
 			this.descripcion = descr;
 		
-		},
+		};
 
-		actualizarValor(val2){
+		this.actualizarValor= function(val2){
 			if(val2 >= 0)
 			{
 				this.valor = val2;
 			}
-		},
+		};
 
-		mostrarGastoCompleto()
+		this.mostrarGastoCompleto= function()
 		{
 			let fechModificada = new Date(this.fecha);
 			let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechModificada.toLocaleString()}\nEtiquetas:\n- ${this.etiquetas.join('\n- ')}\n`
 			return texto;
-		},
+		};
 		
-		actualizarFecha(valor)
+		this.actualizarFecha= function(valor)
 		{ 
 			let fechaModificada = Date.parse(valor); 
 			if(!isNaN(fechaModificada))
 			{
 				this.fecha = fechaModificada; 
 			}                     
-		},
+		};
 
-		anyadirEtiquetas(...etiquetasNuevas)
+		this.anyadirEtiquetas= function(...etiquetasNuevas)
 		{
 			for (let i = 0; i < etiquetasNuevas.length; i++) 
 			{
@@ -101,9 +101,9 @@ function CrearGasto(description, valor1, fecha1 = Date.now(), ...etiquetasPasada
 					this.etiquetas.push(etiqueta);
 				}
 			}
-		},
+		};
 
-		borrarEtiquetas(...etiquetasBorrar)
+		this.borrarEtiquetas= function(...etiquetasBorrar)
 		{
 			for (let i = 0; i < etiquetasBorrar.length; i++) 
 			{
@@ -114,9 +114,9 @@ function CrearGasto(description, valor1, fecha1 = Date.now(), ...etiquetasPasada
 					this.etiquetas.splice(indice,1);
 				}
 			}
-		},
+		};
 
-        obtenerPeriodoAgrupacion(per) {
+        this.obtenerPeriodoAgrupacion= function(per) {
             let date = new Date(this.fecha);
             if (per === "dia") {
                 if (date.getMonth() + 1 < 10) {
@@ -143,8 +143,8 @@ function CrearGasto(description, valor1, fecha1 = Date.now(), ...etiquetasPasada
             }
         }
     };
-    return gasto;
-}
+
+
 
 
 function listarGastos() {
