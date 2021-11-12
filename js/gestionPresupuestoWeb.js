@@ -130,21 +130,21 @@ function nuevoGastoWeb() {
 }
 
 function EditarHandle () {
-    this.handleEvent = function(event) {
+    this.handleEvent = function() {
         //Pedir al usuario la información necesaria para editar el gasto y su posterior actualización.
         this.gasto.actualizarDescripcion( 
-            prompt("Introduzca la descripción nueva: ", this.gasto.descripcion));
+            prompt("Introduzca la descripción nueva: "));
         
         this.gasto.actualizarValor( 
-            parseFloat(prompt("Introduzca el valor nuevo: ", this.gasto.valor)));
+            parseFloat(prompt("Introduzca el valor nuevo: ")));
         
         this.gasto.actualizarFecha( 
-            Date.parse(prompt("Introduzca la fecha nueva: ", this.gasto.fecha)));
+            Date.parse(prompt("Introduzca la fecha nueva: ")));
 
         let etiquetas = prompt("Introduzca las nuevas etiquetas separadas por , : ");
             
         if(typeof etiquetas != "undefined" ) {
-            this.gasto.etiquetas = etiquetas.split(',');
+            this.gasto.anyadirEtiquetas(etiquetas.split(','))
         }
     
         //Llamada a la función repintar
@@ -174,11 +174,13 @@ function BorrarEtiquetasHandle() {
 
 function nuevoGastoWebFormulario() {
     let gridForm = document.getElementById("formulario-template").content.cloneNode(true);
-
+    var form = gridForm.querySelector("form");
 }
 
 function submitHandle(event) {
-    this.handleEvent(event)
+    event.preventDefault();
+
+    repintar();
 }
 
 //Funciones a exportar para el test.
