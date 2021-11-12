@@ -27,25 +27,25 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         valor = 0;
     }   
 
-    let gasto = {
-        valor: valor,
-        descripcion: descripcion,
-        etiquetas: [...etiquetas],
-        fecha: (typeof fecha === 'string') ? Date.parse(fecha) : fecha,
-        mostrarGasto() {
+    
+        this.valor = valor,
+        this.descripcion = descripcion,
+        this.etiquetas = [...etiquetas],
+        this.fecha = (typeof fecha === 'string') ? Date.parse(fecha) : fecha,
+        this.mostrarGasto = function() {
             return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
         },
 
-        actualizarDescripcion(NDescripcion) {
+        this.actualizarDescripcion = function(NDescripcion) {
             this.descripcion = NDescripcion;
         },
 
-        actualizarValor(NValor) {
+        this.actualizarValor = function(NValor) {
             if(NValor > 0)
                 this.valor = NValor;
         },
 
-        anyadirEtiquetas(...Netiquetas){
+        this.anyadirEtiquetas = function(...Netiquetas){
             var contador = 0;
             for(var i = 0; i < Netiquetas.length; i++)
             {
@@ -57,7 +57,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
             }
         },
 
-        borrarEtiquetas(...Netiquetas){
+        this.borrarEtiquetas = function(...Netiquetas){
             var contador = 0;
             for(var i = 0; i < Netiquetas.length; i++)
             {
@@ -69,18 +69,18 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
             }
         },
 
-        mostrarGastoCompleto(){
+        this.mostrarGastoCompleto = function(){
             var fechaT = new Date(this.fecha);
             fechaT = fechaT.toLocaleString();
             return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechaT}\nEtiquetas:\n- ${this.etiquetas[0]}\n- ${this.etiquetas[1]}\n- ${this.etiquetas[2]}\n`;
         },
 
-        actualizarFecha(Newfecha = this.fecha){ 
+        this.actualizarFecha = function(Newfecha = this.fecha){ 
             var Newfecha2 = Date.parse(Newfecha);
             if((typeof Newfecha === 'string') && Newfecha2)
                 this.fecha = Newfecha2;
         },
-        obtenerPeriodoAgrupacion(periodo){
+        this.obtenerPeriodoAgrupacion = function(periodo){
             let fechaT = new Date(this.fecha);
 
             switch(periodo){
@@ -116,10 +116,9 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
                     return `Periodo no valido`;
                 }                  
             }
-        }
+        
     }
 
-    return gasto;
 }
 
     function listarGastos(){
