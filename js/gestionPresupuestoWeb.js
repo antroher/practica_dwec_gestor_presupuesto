@@ -52,7 +52,7 @@ function reprintar (mostrarPresupuesto) {
 
 function actualizarPresupuestoWeb () {
     let valor = parseFloat ( promt ("Introduzaca un presupuesto: "));
-    
+    gestionPresupuesto.actualizarPresupuesto(valor);
 }
 
 export {
