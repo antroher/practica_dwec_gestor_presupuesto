@@ -7,7 +7,7 @@ document.getElementById("anyadirgasto").addEventListener("click",nuevoGastoWeb);
 
 function mostrarDatoEnId(idElemento,valor){
     let datId = document.getElementById(idElemento);
-    datId.innerHTML += `<p>${valor}</p>`
+    datId.innerHTML = `<p>${valor}</p>`
     
 }
     function mostrarGastoWeb(idElemento,gastos){
@@ -21,7 +21,9 @@ function mostrarDatoEnId(idElemento,valor){
                         ${etiqueta}
                     </span>`;
             });    
-    
+            
+
+
             element.innerHTML +=
                 `<div class="gasto">
                     <div class="gasto-descripcion">${gasto.descripcion}</div>
@@ -30,23 +32,20 @@ function mostrarDatoEnId(idElemento,valor){
                     <div class="gasto-etiquetas">
                         ${etiquetas}
                     </div>
-                </div>
+              
                 <!--Creamos boton-->
-                <button type="button" class="gasto-editar" id="editar-${gasto.id}">
-                <button type="button" class="gasto-borrar" id="borrar-${gasto.id}">`;
+                <button type="button" class="gasto-editar" id="editar-${gasto.id}">Editar</button>
+                <button type="button" class="gasto-borrar" id="borrar-${gasto.id}">Eliminar</button>`;
 
-                let objetoDel = new EditarHandle()
+                // let objetoDel = new BorrarHandle()
 
-                objetoDel.gasto = gasto;
-                document.getElementById(`borrar-${gasto.id}`).addEventListener("click",objetoDel);//boton que edita
+                // objetoDel.gasto = gasto;
+                // document.getElementById(`borrar-${gasto.id}`).addEventListener("click",objetoDel);//boton que borra
 
                 let objetoEdit = new EditarHandle()
 
                 objetoEdit.gasto = gasto;
                 document.getElementById(`editar-${gasto.id}`).addEventListener("click",objetoEdit);//boton que edita
-
-
-
         });
         
     }
@@ -105,17 +104,39 @@ function mostrarDatoEnId(idElemento,valor){
             repintar();
         }
         
+        //Funcion editar Handle
         function EditarHandle(){
-                
-                this.handleEvent = function(){
-                    let fecha = Date.parse(prompt("Introduce el valor del gasto:"));
-                    let etiquetas = prompt("Introduce las etiquetas:").split(",");            
 
+                this.handleEvent = function(event){
+
+                    this.gasto.actualizarDescripcion(prompt("Introduce la nueva descripcion"));
+
+                    this.gasto.actualizarFecha(Date.parse(prompt("Introduce la nueva fecha")));
+
+                    this.gasto.actualizarValor(parseFloat(prompt("Introduce el nuevo valor")));
+                    
+
+
+                        let etiqueta = prompt("Introduce las etiquetas:");
+                        if(typeof etiqueta != "undefined"){
+                            this.gasto.anyadirEtiquetas(etiqueta.split(","))
+                        }
+                        repintar();
                 }
-
-                
-                repintar();
         }
+
+        //Borrar Handle
+
+        // function BorrarHandle(){
+
+        // }
+
+
+        // //Borrar etiquetas del handle
+
+        // function BorrarEtiquetasHandle(){
+
+        // }
 
 //El export de las funciones
 export{
