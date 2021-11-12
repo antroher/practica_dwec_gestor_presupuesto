@@ -34,19 +34,19 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
     }
 
     
-    this.descripcion= descripcion,
-    this.valor = valor1,
-    this.etiquetas = [...etiquetas],
-    this.fecha = (typeof fecha === 'string') ? Date.parse(fecha) : fecha,
+    this.descripcion= descripcion;
+    this.valor = valor1;
+    this.etiquetas = [...etiquetas];
+    this.fecha = (typeof fecha === 'string') ? Date.parse(fecha) : fecha;
         
 
     this.mostrarGasto = function() {
         return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
-    }
+    };
 
     this.actualizarDescripcion = function(newDescripcion) {
         this.descripcion = newDescripcion;
-    }
+    };
 
     this.actualizarValor = function(newValor) {
         let value = parseFloat(newValor);
@@ -54,7 +54,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         if (value >= 0) {
             this.valor = value;
         }
-    }
+    };
 
     this.mostrarGastoCompleto = function() {
         let controlFecha1;
@@ -74,13 +74,13 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
 
         let aux = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fecha1.toLocaleString())}\nEtiquetas:\n`;
         return aux + espacio;
-    }
+    };
 
     this.actualizarFecha = function(fecha) {
         if(!isNaN(Date.parse(fecha))) {
             this.fecha = Date.parse(fecha);
         }
-    }
+    };
 
     this.anyadirEtiquetas = function(...etiquetas) {
         const aux = etiquetas.filter((x) => {
@@ -89,7 +89,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
             }
         });
         this.etiquetas.push(...aux);
-    }
+    };
 
     this.borrarEtiquetas = function(...etiquetas) {
         etiquetas.forEach((x) => {
@@ -98,8 +98,8 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
                     this.etiquetas.splice(i, 1);
                 }
             }
-        })
-    }
+        });
+    };
 
     this.obtenerPeriodoAgrupacion = function(periodo) {
         let validarFecha = new Date(this.fecha);
