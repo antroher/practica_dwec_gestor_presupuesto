@@ -8,24 +8,22 @@ function CrearGasto(des, v, fec=Date.now(), ...etiq){
     if((parseFloat(v)<0) || isNaN(v))
         v=0;
 
+        this.descripcion=des;
+        this.valor=v;
+        this.fecha=(typeof fec==='string') ? Date.parse(fec) : fec;
+        this.etiquetas=etiq;
 
-    let gasto = {
-        descripcion:des,
-        valor:v,
-        fecha:(typeof fec==='string') ? Date.parse(fec) : fec,
-        etiquetas:etiq,
-
-        mostrarGasto(){
+        this.mostrarGasto=function(){
             return 'Gasto correspondiente a '+this.descripcion+' con valor '+this.valor+' €';
-        },
-        actualizarDescripcion(des){
+        };
+        this.actualizarDescripcion=function(des){
             this.descripcion=des;
         },
-        actualizarValor(val){
+        this.actualizarValor=function(val){
             if(parseFloat(val)>0)
             this.valor=val;  
-        },
-        mostrarGastoCompleto() {
+        };
+        this.mostrarGastoCompleto=function(){
             let fec;
                 if(typeof this.fecha === 'string')                
                     fec = Date.parse(this.fecha);                  
@@ -38,22 +36,20 @@ function CrearGasto(des, v, fec=Date.now(), ...etiq){
             let fecN = new Date(fec);   
             let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fecN.toLocaleString())}\nEtiquetas:\n`;
             return texto + aux;
-        },
-        actualizarFecha(fec)
-        {
+        };
+        this.actualizarFecha=function(fec){
             fec=Date.parse(fec);
             if(!isNaN(fec))
             this.fecha=fec;
-        },
-        anyadirEtiquetas(...etiq)
-        {
+        };
+        this.anyadirEtiquetas=function(...etiq){
             for(let elem of etiq)
             {
                 if(!this.etiquetas.includes(elem))
                 this.etiquetas.push(elem);
             }
-        },
-        borrarEtiquetas(...etiq){
+        };
+        this.borrarEtiquetas=function(...etiq){
             for(let elem of etiq)
             {
                 if(this.etiquetas.includes(elem))
@@ -61,8 +57,8 @@ function CrearGasto(des, v, fec=Date.now(), ...etiq){
                     this.etiquetas.splice(this.etiquetas.indexOf(elem),1);
                 }
             }
-        },
-        obtenerPeriodoAgrupacion(periodo){
+        };
+        this.obtenerPeriodoAgrupacion=function(periodo){
             let a = new Date(this.fecha), texto="";
             switch(periodo){
                 case "dia":{
@@ -85,9 +81,8 @@ function CrearGasto(des, v, fec=Date.now(), ...etiq){
                 }
             }
             return texto;
-        }
-      };
-    return gasto;
+        };
+
 }
 //Funciones
     //Acciones con el array "gastos"

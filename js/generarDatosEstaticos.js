@@ -3,6 +3,7 @@
 import * as gestionPresupuesto from './gestionPresupuesto.js'
 import * as gestionPresupuestoWeb from './gestionPresupuestoWeb.js'
 
+
 //actualizar presupuesto
 gestionPresupuesto.actualizarPresupuesto(1500);
 
@@ -11,22 +12,22 @@ gestionPresupuestoWeb.mostrarDatoEnId('presupuesto',gestionPresupuesto.mostrarPr
 
 //creamos gastos
 let gasto;
-    gasto=gestionPresupuesto.CrearGasto("Compra carne", 23.44, "2021-10-06", "casa", "comida");
+    gasto= new gestionPresupuesto.CrearGasto("Compra carne", 23.44, "2021-10-06", "casa", "comida");
     gestionPresupuesto.anyadirGasto(gasto);
     
-    gasto=gestionPresupuesto.CrearGasto("Compra fruta y verdura", 14.25, "2021-09-06", "supermercado", "comida");
+    gasto= new gestionPresupuesto.CrearGasto("Compra fruta y verdura", 14.25, "2021-09-06", "supermercado", "comida");
     gestionPresupuesto.anyadirGasto(gasto);
 
-    gasto=gestionPresupuesto.CrearGasto("Bonobús", 18.60, "2020-05-26", "transporte");
+    gasto= new gestionPresupuesto.CrearGasto("Bonobús", 18.60, "2020-05-26", "transporte");
     gestionPresupuesto.anyadirGasto(gasto);
 
-    gasto=gestionPresupuesto.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina");
+    gasto= new gestionPresupuesto.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina");
     gestionPresupuesto.anyadirGasto(gasto);
 
-    gasto=gestionPresupuesto.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros");
+    gasto= new gestionPresupuesto.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros");
     gestionPresupuesto.anyadirGasto(gasto);
 
-    gasto=gestionPresupuesto.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros");
+    gasto= new gestionPresupuesto.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros");
     gestionPresupuesto.anyadirGasto(gasto);
 
 //mostramos los gastos totales en el documetos id=gastos-totales
@@ -44,8 +45,6 @@ for (let elem of listadoGastoCompletos)
 {
     gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-completo',elem);
 }
-
-
 
 //gastos filtrados
 let obj,gastoFiltrado,etiq;

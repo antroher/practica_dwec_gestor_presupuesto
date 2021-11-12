@@ -1,6 +1,7 @@
 'use strict';
 import * as gestionPresupuesto from './gestionPresupuesto.js'
 
+//Funciones para mostrar los datos
 function mostrarDatoEnId(idElemento, valor){
     let elem = document.getElementById(idElemento);
     elem.innerHTML += valor;
@@ -18,10 +19,31 @@ function mostrarGastoWeb(idElemento, gasto){
     });
     cad += "</div>\n</div>\n";
 
-    cad += '<div><button class="gasto-editar" type="button">Editar</button>' + 
-    '<button class="gasto-borrar" type="button">Borrar</button></div>'
+    cad += `<button class="gasto-editar" id=${gasto.id} type="button">Editar</button>` + 
+    `<button class="gasto-borrar" id=${gasto.id} type="button">Borrar</button>`;
     
     elem.innerHTML += cad;
+
+    //eventos
+        //borrar
+    let btnBorrar = document.getElementById(gasto.id);
+    let objBorrar = new BorrarHandle();
+    objBorrar.gasto=gasto;
+    btnBorrar.addEventListener("click",objBorrar);
+        //editar
+    let btnEditar = document.getElementById(gasto.id);
+    let objEditar = new EditarHandle();
+    objEditar.gasto=gasto;
+    btnEditar.addEventListener("click",objEditar);
+        //span
+    for (let elem of gasto.etiquetas){
+        let btnBorrarEtiq = document.getElementById(gasto.id);
+        let objBorrarEtiq = new EditarHandle();
+        objBorrarEtiq.gasto=gasto;
+        objBorrarEtiq.etiquetas=elem;
+        btnBorrarEtiq.addEventListener("click",objBorrarEtiq);
+    }
+    
 }
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     let elem = document.getElementById(idElemento);
@@ -50,109 +72,65 @@ function repintar(){
 
     let listadoGastoCompletos = gestionPresupuesto.listarGastos();
     for (let elem of listadoGastoCompletos){
-    gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-completo',elem);
+        mostrarGastoWeb('listado-gastos-completo',elem);
     }
 }
+//Funcion boton de actulizar
 function actualizarPresupuestoWeb(){
     let presu = parseInt(prompt('Introduce un presupuesto nuevo.'));
     gestionPresupuesto.actualizarPresupuesto(presu);
+    document.getElementById('presupuesto').innerHTML="";
+    document.getElementById('gastos-totales').innerHTML="";
+    document.getElementById('balance-total').innerHTML="";
     repintar();
-    document.getElementById('actualizarpresupuesto').addEventListener("click",);//aun no esta terminado
 }
+    //Evento
+document.getElementById('actualizarpresupuesto').addEventListener('click', actualizarPresupuestoWeb)
+
+//Funcion boton de editar
 function nuevoGastoWeb(){
     let desc = prompt('Escriba la descripción del nuevo gasto');
-    let val = prompt('Escriba el valor del nuevo gasto');
+    let val = parseInt(prompt('Escriba el valor del nuevo gasto'));
     let fech = new Date(prompt('Escriba la fecha del nuevo gasto')).toLocaleDateString();//arreglar?
     let etiq = prompt('Escriba las etiquetas (seguidas por coma) del nuevo gasto');
     etiq = etiq.split(', ');
-    let gasto = gestionPresupuesto.CrearGasto(desc, val, fech, etiq);
+    let gasto = new gestionPresupuesto.CrearGasto(desc, val, fech, etiq);
     gestionPresupuesto.anyadirGasto(gasto);
     repintar();
-    document.getElementById('anyadirgasto').addEventListener("click",);//aun no esta terminado
 }
+    //Evento
+document.getElementById('anyadirgasto').addEventListener('click', nuevoGastoWeb);
+
+//Funciones handle
 function EditarHandle (){
+    this.handleEvent = function(){
+        let desc = prompt('Escriba la descripción del nuevo gasto');
+        let val = parseInt(prompt('Escriba el valor del nuevo gasto'));
+        let fech = new Date(prompt('Escriba la fecha del nuevo gasto')).toLocaleDateString();
+        let etiq = prompt('Escriba las etiquetas (seguidas por coma) del nuevo gasto');
+            etiq = etiq.split(', ');
+        
+        this.gasto.actualizarValor(val);
+        this.gasto.actualizarDescripcion(desc);
+        this.gasto.actualizarFecha(fech);
+        this.gasto.anyadirEtiquetas(etiq);
 
-}
-function BorrarHandle (){
-
-}
-    
-
-/*
-function mostrarDatoEnId(idElemento, valor){
-    let elem = document.getElementById(idElemento);
-    let p=document.createElement('p');
-    p.textContent=valor;
-    elem.append(p);
-
-}*/
-/*function mostrarGastoWeb(idElemento, gasto){
-    let elem = document.getElementById(idElemento);
-
-    //div class=gasto
-    let divg = document.createElement('div'), 
-    divg2 = document.createElement('div');
-    divg.className="gasto";
-
-        //div class=gasto-descripcion
-        divg2.className="gasto-descripcion";
-        divg2.textContent=gasto.descripcion;
-        divg.append(divg2);
-
-        //div class=gasto-fecha
-
-        divg2.className="gasto-fecha";
-        divg2.textContent=new Date(gasto.fecha).toLocaleDateString();
-        divg.append(divg2);
-
-        //div class=gasto-valor
-        divg2.className="gasto-valor";
-        divg2.textContent=gasto.valor;
-        divg.append(divg2);
-
-        //div class=gasto-etiquetas
-        let span=document.createElement('span');
-        span.className="gasto-etiquetas-etiqueta";
-        divg2.className="gasto-etiqueta";
-            //span
-            gasto.etiquetas.forEach(etiq => {
-                span.textContent=etiq;
-                divg2.append(span);
-            });
-    
-    elem.append(divg);
-}*/
-
-
-/*function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
-    let elem = document.getElementById(idElemento);
-
-    //div class="agrupacion"
-    let div=document.createElement('div');
-    div.className="agrupacion";
-
-        //h1 Gastos agrupados por PERIODO
-        let h1=document.createElement('h1');
-        h1.textContent=`Gastos agrupados por ${periodo}`;
-    div.append(h1);
-
-    for (let i in agrup){
-      
-            //div class="agrupacion-dato"
-            let divAD=document.createElement('div'),span=document.createElement('span');
-            divAD.className="agrupacion-dato";
-                //span class="agrupacion-dato-clave"
-                span.className="agrupacion-dato-clave";
-                span.textContent=i;
-                divAD.append(span);
-                //span class="agrupacion-dato-valor"
-                span.className="agrupacion-dato-valor";
-                span.textContent=agrup[i];
-                divAD.append(span);
-            div.append(divAD);
+        repintar();
     }
 }
-*/
+function BorrarHandle (){
+    this.handleEvent = function(){
+        gestionPresupuesto.borrarGasto(this.gasto.id);
+        repintar();
+    }
+}
+function BorrarEtiquetasHandle(){
+    this.handleEvent = function(){
+        this.gasto.borrarEtiquetas(this.etiquetas);
+        repintar();
+    }
+}
+
 
 export {
     mostrarDatoEnId,
