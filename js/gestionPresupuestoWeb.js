@@ -154,7 +154,7 @@ function nuevoGastoWeb(){
     let fecha=prompt("Introduce una fecha para el nuevo gasto con este formato(aaaa-mm-dd):");
     let etiq=prompt("Introduce las etiquetas(etiqueta1,etiqueta2,etiqueta3):");
     let etiquetas=etiq.split(",");
-    let gasto = gp.CrearGasto(desc,valor,fecha);
+    let gasto =new gp.CrearGasto(desc,valor,fecha);
     etiquetas.forEach(e => {
         gasto.anyadirEtiquetas(e);
     });
