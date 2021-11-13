@@ -25,31 +25,30 @@ function mostrarGastoWeb(idElemento, gastos) {
             <div class="gasto-fecha">${gasto.fecha}</div> 
             <div class="gasto-valor">${gasto.valor}</div> 
             <div class="gasto-etiquetas">
-            ${data}`;
+            ${data}
+            </div>`;
     }
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
-    const elemento = document.getElementById(idElemento);
-    let data = ""
-    for (let [key, value] of Object.entries(agrup)) {
-        data += 
-        `<div class="agrupacion-dato">
-            <div class="agrupacion-dato-clave">${key}</div>
-            <div class="agrupacion-dato-valor">${value}</div>
-            <span class="agrupacion-dato-clave">${key}</span>
-            <span class="agrupacion-dato-valor">${value}</span>
-        </div>`
-    };
-    elemento.innerHTML += 
-    `<div class="agrupacion">
-        <h1>Gastos agrupados por ${periodo}</h1>
-        ${data}`
-}
 
-Cypress.on('uncaught:exception', (err, runnable) => {
-    return false
-})
+    let agrupacion = '';
+    let elemento = document.getElementById(idElemento);
+
+    for (let [param,value] of Object.entries(agrup)) {
+        agrupacion += `
+        <div class="agrupacion-dato">
+        <span class="agrupacion-dato-clave">${param}</span>
+        <span class="agrupacion-dato-valor">${value}</span>
+        </div>`
+    }
+
+    elemento.innerHTML += `
+    <div class="agrupacion">
+    <h1>Gastos agrupados por ${periodo}</h1>
+    ${agrupacion}
+    `
+}
 
 export {
     mostrarDatoEnId,
