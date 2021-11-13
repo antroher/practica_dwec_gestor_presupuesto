@@ -7,12 +7,12 @@ GastosGen.actualizarPresupuesto(1500);
 
 GastosGenWeb.mostrarDatoEnId("presupuesto", GastosGen.mostrarPresupuesto());
 
-GastosGen.anyadirGasto(GastosGen.CrearGasto("Compra carne", 23.44, "2021-10-06", "casa", "comida"));
-GastosGen.anyadirGasto(GastosGen.CrearGasto("Compra fruta y verdura", 14.25, "2021-09-06", "supermercado", "comida"));
-GastosGen.anyadirGasto(GastosGen.CrearGasto("Bonobús", 18.60, "2020-05-26", "transporte"));
-GastosGen.anyadirGasto(GastosGen.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina"));
-GastosGen.anyadirGasto(GastosGen.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros"));
-GastosGen.anyadirGasto(GastosGen.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros"));
+GastosGen.anyadirGasto(new GastosGen.CrearGasto("Compra carne", 23.44, "2021-10-06", "casa", "comida"));
+GastosGen.anyadirGasto(new GastosGen.newCrearGasto("Compra fruta y verdura", 14.25, "2021-09-06", "supermercado", "comida"));
+GastosGen.anyadirGasto(new GastosGen.newCrearGasto("Bonobús", 18.60, "2020-05-26", "transporte"));
+GastosGen.anyadirGasto(new GastosGen.newCrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina"));
+GastosGen.anyadirGasto(new GastosGen.newCrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros"));
+GastosGen.anyadirGasto(new GastosGen.newCrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros"));
 
 GastosGenWeb.mostrarDatoEnId("gastos-totales", GastosGen.calcularTotalGastos());
 GastosGenWeb.mostrarDatoEnId("balance-total", GastosGen.calcularBalance());

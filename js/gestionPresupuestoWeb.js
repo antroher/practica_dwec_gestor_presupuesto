@@ -13,10 +13,8 @@ function mostrarGastoWeb(idElemento, gastos) {
         let data = "";
         for (let i of gasto.etiquetas) {
             data +=
-            `<div class="gasto-etiquetas-etiqueta">
-            <span class="gasto-etiquetas-etiqueta">
+            `<span class="gasto-etiquetas-etiqueta">
                 ${i}
-            </div>
             </span>`
         }
         elemento.innerHTML += 
@@ -41,7 +39,19 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
         <span class="agrupacion-dato-clave">${param}</span>
         <span class="agrupacion-dato-valor">${value}</span>
         </div>`
+<<<<<<< HEAD
     }
+=======
+    };
+    elemento.innerHTML += 
+    `<div class="agrupacion">
+      if (${periodo}==='dia')
+      <h1>Gastos agrupados por día</h1>
+        else
+        <h1>Gastos agrupados por ${periodo}</h1>
+        ${data}`
+}
+>>>>>>> 4fdd94ad1baa8588b782717f9cec7a9b4d19f8a0
 
     elemento.innerHTML += `
     <div class="agrupacion">
