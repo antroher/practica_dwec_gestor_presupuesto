@@ -164,7 +164,8 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     }
 
     //práctica 3
-    function filtrarGastos(miObjeto){
+    function 
+    filtrarGastos(miObjeto){
         let fechDesde,Fd;
         let fechHasta,Fh;
         let minimo;
