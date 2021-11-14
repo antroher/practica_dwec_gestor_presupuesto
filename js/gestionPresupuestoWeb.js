@@ -7,28 +7,53 @@ function mostrarDatoEnId(idElemento,valor){
     elemento.innerHTML += `<p>${valor}</p>`;
 }
 
-function mostrarGastoWeb(idElemento, gastos)
+function mostrarGastoWeb(idElemento, gasto)
 {
     let elemento = document.getElementById(idElemento);
 
-    for (let arrayGasto of gastos)
-    {
-        let lista = "";
-        for (let texto of arrayGasto.etiquetas) 
-        {
-            lista += `<span class="gasto-etiquetas-etiqueta"> ${texto} </span>`
-        }
+    let divElemento = document.createElement('div');
+    divElemento.className = 'gasto';
+    elemento.append(divElemento);
 
-        elemento.innerHTML +=
-            `<div class="gasto">
-                <div class="gasto-descripcion"> ${arrayGasto.descripcion} </div>
-                <div class="gasto-fecha">${arrayGasto.fecha}</div> 
-                <div class="gasto-valor">${arrayGasto.valor}</div> 
-                <div class="gasto-etiquetas">
-                    ${lista}
-                </div>
-            </div>`;
-    }    
+    let divEtiquetas = document.createElement('div');
+    divEtiquetas.className = 'gasto-etiquetas';
+    divElemento.append(divEtiquetas);
+
+    divElemento.innerHTML +=
+    ` 
+    <div class="gasto-descripcion">${gasto.descripcion}</div>
+    <div class="gasto-fecha">${gasto.fecha}</div> 
+    <div class="gasto-valor">${gasto.valor}</div>
+    `;
+
+    //TO BE CONTINUED
+
+    
+    //boton editar
+    let botonEditar = document.createElement('button');
+    botonEditar.className += 'gasto-editar';
+    botonEditar.textContent = 'Editar';
+    botonEditar.type = 'button';
+
+    let editarNew = new EditarHandle();
+    editarNew.gasto = gasto;
+
+    botonEditar.addEventListener('click', editarNew);
+    divElemento.append(botonEditar);
+
+    //boton borrar
+    let botonBorrar = document.document.createElement('button');
+    botonBorrar.className += 'gasto-borrar';
+    botonBorrar.textContent = 'Borrar';
+    botonBorrar.type = 'button';
+
+    let borrarNew = new BorrarHandle();
+    borrarNew.gasto = gasto;
+
+    botonBorrar.addEventListener('click', borrarNew);
+    divElemento.append(botonBorrar);
+
+
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
@@ -121,6 +146,15 @@ function BorrarHandle()
     {
         let listaGasto = this.gasto.id;
         gestionPresupuesto.borrarGasto(listaGasto);
+        repintar();
+    }
+}
+
+function BorrarEtiquetasHandle()
+{
+    this.handleEvent = function(event)
+    {
+        this.gasto.borrarEtiquetas(this.etiqueta);        
         repintar();
     }
 }
