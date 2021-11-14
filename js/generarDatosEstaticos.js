@@ -19,13 +19,38 @@ gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales", gestionPresupuesto.calcu
 gestionPresupuestoWeb.mostrarDatoEnId("balance-total",gestionPresupuesto.calcularBalance());
 
 //Listado de Gastos
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", gestionPresupuesto.listarGastos());
-
+let gastos = gestionPresupuesto.listarGastos();
+for(let gasto of gastos){
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", gasto);
+}
 //Listado de gastos filtrados
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1",gestionPresupuesto.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"}))
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2",gestionPresupuesto.filtrarGastos({valorMinimo:50}))
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3",gestionPresupuesto.filtrarGastos({valorMinimo: 200, etiquetasTiene:["seguros"]}))
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gestionPresupuesto.filtrarGastos({valorMaximo: 50, etiquetasTiene:["comida","transporte"]}));
+let gastosFiltro = gestionPresupuesto.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"});
+
+for(let gasto of gastosFiltro){
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1", gasto);
+}
+
+gastosFiltro = gestionPresupuesto.filtrarGastos({valorMinimo: 50});
+
+for(let gasto of gastosFiltro){
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2", gasto);
+}
+
+gastosFiltro = gestionPresupuesto.filtrarGastos({valorMinimo: 200, etiquetas: "seguros"});
+
+for(let gasto of gastosFiltro){
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3", gasto);
+}
+
+gastosFiltro = gestionPresupuesto.filtrarGastos({valorMaximo: 50, etiquetas: "comida, transporte"});
+
+for(let gasto of gastosFiltro){
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gasto);
+}
+//gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1",gestionPresupuesto.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"}))
+//gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2",gestionPresupuesto.filtrarGastos({valorMinimo:50}))
+//gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3",gestionPresupuesto.filtrarGastos({valorMinimo: 200, etiquetasTiene:["seguros"]}))
+//gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gestionPresupuesto.filtrarGastos({valorMaximo: 50, etiquetasTiene:["comida","transporte"]}));
 
 //Listado de gastos por año,mes,dia
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia",gestionPresupuesto.agruparGastos("dia") ,"día");

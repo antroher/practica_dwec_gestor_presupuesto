@@ -17,26 +17,24 @@ function mostrarDatoEnId (idElemento, valor)
 
 function mostrarGastoWeb(idElemento, gastos )/*HAY Q PASARLE UN ARRAY DE GASTO*/ 
 {
+  function mostrarGastoWeb(idElemento, gastos )/*HAY Q PASARLE UN ARRAY DE GASTO*/ 
+{
   let elemento = document.getElementById(idElemento);
   /*ESTO OK
   let buttomE = document.createElement("buttom");
   buttomE.className += "gasto-editar";
   buttomE.textContent = 'editar';
   buttomE.type ='buttom';
-
   let buttomB = document.createElement("buttom");
   buttomB.className += "gasto-borrar";
   buttomB.textContent = 'borrar';
   buttomB.type ='buttom';
-
    //Botón editar gasto
   let evEditar = new EditarHandle();
   evEditar.gasto = gastos;
-
    //Botón borrar gasto
   let evBorrar = new BorrarHandle();
   evBorrar.gasto = gasto;
-
   buttomB.addEventListener('click', evBorrar);
   buttomE.addEventListener('click', evEditar);
   //HASTA AQUI
@@ -68,76 +66,22 @@ function mostrarGastoWeb(idElemento, gastos )/*HAY Q PASARLE UN ARRAY DE GASTO*/
   }
 }
 
-
-function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
-  let Element = document.getElementById(idElemento);
-  let datos = ""
-  for (let [llave, val] of Object.entries(agrup)) {
-      datos += 
-      `<div class="agrupacion-dato">
-          <span class="agrupacion-dato-clave">${llave}</span>
-          <span class="agrupacion-dato-valor">${val}</span>
-      </div>`
-  };
-  Element.innerHTML += 
-  `<div class="agrupacion">
-      <h1>Gastos agrupados por ${periodo}</h1>
-      ${datos}
-  `
 }
-
-/*
-function actualizarPresupuestoWeb (){
-  let cambioPresupuesto = parseInt(prompt("Cual es el valor del presupuesto actualmente"));
-  datosPresupuesto.actualizarPresupuesto(cambioPresupuesto);
-  repintar();
-}
-
-let botonActualizarPresupuesto = document.getElementById("actualizarpresupuesto");
-botonActualizarPresupuesto.addEventListener("click",actualizarPresupuestoWeb);
-
-
-function repintar(){
-  let mostrar = datosPresupuesto.mostrarPresupuesto();
-  mostrarDatoEnId( "presupuesto",mostrar);
-  
-  let gastoTotal = datosPresupuesto.calcularTotalGastos().toFixed(2);
-  mostrarDatoEnId( "gastos-totales",gastoTotal);
-  
-  let balanceTotal = datosPresupuesto.calcularBalance().toFixed(2);
-  mostrarDatoEnId("balance-total",balanceTotal);
-  
-  let borrarDatos = document.getElementById("listado-gastos-completo").innerHTML = "";
-  
-  let matrizGasto = datosPresupuesto.listarGastos();
-  for (const x of matrizGasto) {
-    mostrarGastoWeb("listado-gastos-completo", x);
-  }
-  
-}
-
+//ok
 function EditarHandle() {
-    
+  
   this.handleEvent = function (e){
   
     let descripcion = prompt("Escribe la nueva descripción del gasto");
     let valor = parseFloat(prompt("Escribe la nueva valor del gasto"));
     let fecha = prompt("Escribe la fecha del gasto en formato yyyy-mm-dd");
     let etiquetas = prompt("Escribe las etiquetas del gasto separadas por ,");
-    
-    if (etiquetas !== null)
-    {
-      this.gasto.etiquetas=etiquetas.split(',');
-    }
-    else
-    {
-      this.gasto.etiquetas=[];
-    }
+    let etiquetas2 = etiquetas.split(',');
 
     this.gasto.actualizarValor(valor);
     this.gasto.actualizarDescripcion(descripcion);
     this.gasto.actualizarFecha(fecha);
-    this.gasto.anyadirEtiquetas(...etiquetas);
+    this.gasto.anyadirEtiquetas(...etiquetas2);
     
     repintar();
   }
@@ -166,17 +110,16 @@ function BorrarEtiquetasHandle() {
     repintar();
   }
 }
-*/
+
 
 export{
   mostrarDatoEnId,
   mostrarGastoWeb,
   mostrarGastosAgrupadosWeb,
-  /*
   EditarHandle,
   BorrarHandle,
   BorrarEtiquetasHandle,
   repintar,
   actualizarPresupuestoWeb
-  */
+
 }
