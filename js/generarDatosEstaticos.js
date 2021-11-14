@@ -36,6 +36,7 @@ gestionPresupuestoWeb.mostrarDatoEnId('balance-total',valor);
 
 //Mostrar el listado completo de gastos en div#listado-gastos-completo
 let listaGastos = gestionPresupuesto.listarGastos();
+
 for (let k of listaGastos)
 gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-completo',k);
 
