@@ -75,14 +75,11 @@ function actualizarPresupuestoWeb()
     gestionPresupuesto.actualizarPresupuesto(presupuesto);
     repintar();
 }
-/*
-function actualizarPresupuestoWeb()
-{
-    let pre = parseFloat(prompt("Introduzca un presupuesto: "))
-    gestionPresupuesto.actualizarPresupuesto(presupuesto);
-    repintar();
-}
-*/
+
+//BOTON actualizarpresupuesto
+let actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
+actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
+
 /*
 function EditarHandle ()
 {
