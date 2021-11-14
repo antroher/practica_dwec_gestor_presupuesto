@@ -17,54 +17,125 @@ function mostrarDatoEnId (idElemento, valor)
 
 function mostrarGastoWeb(idElemento, gastos )/*HAY Q PASARLE UN ARRAY DE GASTO*/ 
 {
-  function mostrarGastoWeb(idElemento, gastos )/*HAY Q PASARLE UN ARRAY DE GASTO*/ 
-{
   let elemento = document.getElementById(idElemento);
-  /*ESTO OK
+
+  let divGasto = document.createElement("div");
+  divGasto.className = "gasto";
+  elemento.append(divGasto);
+
+  let gastoDescripcion = document.createElement("div");
+  gastoDescripcion.className = "gasto-descripcion";
+  gastoDescripcion.innerHTML = gasto.descripcion;
+  divGasto.append(gastoDescripcion);
+
+  let gastoFecha = document.createElement("div");
+  gastoFecha.className = "gasto-fecha";
+  let fechaNueva = new Date(gasto.fecha);
+  gastoFecha.innerHTML = fechaNueva.toLocaleString();
+  divGasto.append(gastoFecha);
+
+  let gastoValor = document.createElement("div");
+  gastoValor.className = "gasto-valor";
+  gastoValor.innerHTML = gasto.valor;
+  divGasto.append(gastoValor);
+
+  let gastoEtiquetas = document.createElement("div");
+  gastoEtiquetas.className = "gasto-etiquetas";
+  divGasto.append(gastoEtiquetas);
+
+  let nuevoObjEtiqueta = new BorrarEtiquetasHandle(); 
+  nuevoObjEtiqueta.gasto = gasto;
+
+  for (let x of gasto.etiquetas) {
+    let gastoEtiqueta = document.createElement("span");
+    gastoEtiqueta.className = "gasto-etiquetas-etiqueta";
+    gastoEtiqueta.innerHTML = x + "<br>";
+    nuevoObjEtiqueta.etiqueta = x;
+    gastoEtiquetas.append(gastoEtiqueta);
+
+  }
+
+  gastoEtiquetas.addEventListener('click',nuevoObjEtiqueta);
+
   let buttomE = document.createElement("buttom");
   buttomE.className += "gasto-editar";
   buttomE.textContent = 'editar';
   buttomE.type ='buttom';
+
   let buttomB = document.createElement("buttom");
   buttomB.className += "gasto-borrar";
   buttomB.textContent = 'borrar';
   buttomB.type ='buttom';
+
    //Botón editar gasto
   let evEditar = new EditarHandle();
   evEditar.gasto = gastos;
+
    //Botón borrar gasto
   let evBorrar = new BorrarHandle();
   evBorrar.gasto = gasto;
+
   buttomB.addEventListener('click', evBorrar);
   buttomE.addEventListener('click', evEditar);
-  //HASTA AQUI
-  */
 
-  for (let i of gastos)
-  { 
-    let divEtiquetas = "";
-      for(let j of i.etiquetas)
-      {
-        divEtiquetas += `
-        <span class="gasto-etiquetas-etiqueta">
-            ${j}
-        </span>
-        `
-      }
-    //guardamos en una variable todas las etiquetas 
-   //modificamos el elemento html
-    elemento.innerHTML += `
-    <div class="gasto">
-    <div class="gasto-descripcion">${i.descripcion}</div>
-    <div class="gasto-fecha">${i.fecha}</div>
-    <div class="gasto-valor">${i.valor}</div>
-    <div class="gasto-etiquetas">
-    ${divEtiquetas}
-    </div>
-    </div>
-    `;
-  }
+  divGasto.append(buttomE);
+  divGasto.append(buttomB); 
+
+  elemento.append(divGasto);  
+
 }
+
+//ok
+function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
+  let Element = document.getElementById(idElemento);
+  let datos = ""
+  for (let [llave, val] of Object.entries(agrup)) {
+      datos += 
+      `<div class="agrupacion-dato">
+          <span class="agrupacion-dato-clave">${llave}</span>
+          <span class="agrupacion-dato-valor">${val}</span>
+      </div>`
+  };
+  Element.innerHTML += 
+  `<div class="agrupacion">
+      <h1>Gastos agrupados por ${periodo}</h1>
+      ${datos}
+  `
+}
+
+//ok
+function actualizarPresupuestoWeb (){
+  let cambioPresupuesto = parseFloat(prompt("¿Cuál es el valor del presupuesto actualmente?"));
+  datosPresupuesto.actualizarPresupuesto(cambioPresupuesto);
+  repintar();
+}
+
+//Botones
+const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
+const anyadirgasto = document.getElementById("anyadirgasto");
+
+/*Eventos
+actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
+anyadirgasto.addEventListener('click', nuevoGastoWeb);*/
+
+
+//ok
+function repintar(){
+  let mostrar = datosPresupuesto.mostrarPresupuesto();
+  mostrarDatoEnId("presupuesto",mostrar);
+  
+  let gastoTotal = datosPresupuesto.calcularTotalGastos().toFixed(2);
+  mostrarDatoEnId("gastos-totales",gastoTotal);
+  
+  let balanceTotal = datosPresupuesto.calcularBalance().toFixed(2);
+  mostrarDatoEnId("balance-total",balanceTotal);
+  
+  let borrarDatos= document.getElementById("listado-gastos-completo").innerHTML = "";
+  
+  let listGasto = datosPresupuesto.listarGastos();
+  for (const gasto of listGasto) {
+    mostrarGastoWeb("listado-gastos-completo", gasto);
+  }
 
 }
 //ok
