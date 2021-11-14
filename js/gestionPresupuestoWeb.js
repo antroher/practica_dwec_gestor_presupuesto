@@ -96,18 +96,26 @@ function nuevoGastoWeb()
 let anyadirgasto = document.getElementById("anyadirgasto");
 anyadirgasto.addEventListener('click', nuevoGastoWeb);
 
-
-/*
-function EditarHandle ()
+function EditarHandle()
 {
     this.handleEvent = function(event) 
     {
         //Pedir al usuario datos del gasto, etc
-        var desc = prompt('Por favor, introduce la descripción');
+        let desc = prompt('Introduzca la descripción del gasto');
+        let val = parseFloat(prompt('Introduzca el valor del gasto'));
+        let fec = prompt('Introduzca una fecha del gasto en formato yyyy-mm-dd');
+        let etiq = prompt('Introduzca las etiquetas del gasto (lista separada por comas)');
+        let separador = ',';
+        let arrayEtiq = etiq.split(separador);
+        this.gasto.actualizarValor(val);
         this.gasto.actualizarDescripcion(desc);
+        this.gasto.actualizarFecha(fec);
+        this.gasto.anyadirEtiquetas(...arrayEtiq);
+        repintar();
     }
 }
 
+/*
 let event = new CrearGasto("a", 24);
 
 let el = new EditarHandle();
