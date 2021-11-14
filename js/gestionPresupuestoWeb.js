@@ -1,6 +1,7 @@
+import * as datosPresupuesto from './gestionPresupuesto.js';
+
 "use strict";
 
-import * as datosPresupuesto from '/gestionPresupuesto.js';
 
 function mostrarDatoEnId (idElemento, valor)
 {
@@ -17,7 +18,7 @@ function mostrarDatoEnId (idElemento, valor)
 function mostrarGastoWeb(idElemento, gastos )/*HAY Q PASARLE UN ARRAY DE GASTO*/ 
 {
   let elemento = document.getElementById(idElemento);
-  //ESTO OK
+  /*ESTO OK
   let buttomE = document.createElement("buttom");
   buttomE.className += "gasto-editar";
   buttomE.textContent = 'editar';
@@ -39,6 +40,7 @@ function mostrarGastoWeb(idElemento, gastos )/*HAY Q PASARLE UN ARRAY DE GASTO*/
   buttomB.addEventListener('click', evBorrar);
   buttomE.addEventListener('click', evEditar);
   //HASTA AQUI
+  */
 
   for (let i of gastos)
   { 
@@ -83,6 +85,8 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
       ${datos}
   `
 }
+
+/*
 function actualizarPresupuestoWeb (){
   let cambioPresupuesto = parseInt(prompt("Cual es el valor del presupuesto actualmente"));
   datosPresupuesto.actualizarPresupuesto(cambioPresupuesto);
@@ -162,14 +166,17 @@ function BorrarEtiquetasHandle() {
     repintar();
   }
 }
+*/
 
 export{
   mostrarDatoEnId,
   mostrarGastoWeb,
   mostrarGastosAgrupadosWeb,
+  /*
   EditarHandle,
   BorrarHandle,
   BorrarEtiquetasHandle,
   repintar,
   actualizarPresupuestoWeb
+  */
 }

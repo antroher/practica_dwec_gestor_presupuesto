@@ -25,7 +25,6 @@ function actualizarPresupuesto(actualizar) {
 }
 
 function mostrarPresupuesto() {
-    console.log(`Tu presupuesto actual es de ${presupuesto} €`);
     return (`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
@@ -35,143 +34,140 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1) {
         valor1 = 0;
     }
 
-    let gasto = {
-            descripcion: descripcion1,
-            valor: valor1,
-            fecha: (typeof fecha1 === "string") ? Date.parse(fecha1) : fecha1,
-            etiquetas:[...etiquetas1],
+    this.descripcion = descripcion1;
+    this.valor = valor1;
+    this.fecha = (typeof fecha1 === "string") ? Date.parse(fecha1) : fecha1;
+    this.etiquetas = [...etiquetas1];
 
-            mostrarGasto(){
-                console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
-                return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
-            },
+    this.mostrarGasto = function (){
+        console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+        return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+    };
 
-            actualizarDescripcion(nuevaDescripcion)
+    this.actualizarDescripcion= function(nuevaDescripcion)
+    {
+        this.descripcion = nuevaDescripcion; 
+    };
+
+    this.actualizarValor= function(nuevoValor){
+
+        if (nuevoValor >= 0){
+            this.valor = nuevoValor;
+        }
+    };
+
+    this.anyadirEtiquetas = function (...etiquetas3)
+    {
+        let nuevaEtiqueta = 0;
+        for(let i = 0; i < etiquetas3.length; i++)
+        {
+            nuevaEtiqueta = this.etiquetas.indexOf(etiquetas3[i]);
+            if (nuevaEtiqueta == -1)
             {
-                this.descripcion = nuevaDescripcion; 
-            },
-
-            actualizarValor(nuevoValor){
-
-                if (nuevoValor >= 0){
-                    this.valor = nuevoValor;
-                }
-            },
-
-            anyadirEtiquetas (...etiquetas3)
-            {
-                let nuevaEtiqueta = 0;
-                for(let i = 0; i < etiquetas3.length; i++)
-                {
-                    nuevaEtiqueta = this.etiquetas.indexOf(etiquetas3[i]);
-                    if (nuevaEtiqueta == -1)
-                    {
-                        this.etiquetas.push(etiquetas3[i]);
-                    }
-                }      
-            },
-
-            mostrarGastoCompleto(){
-
-                let acumulador = "";
-                var fechanueva = new Date(this.fecha);
-                fechanueva = fechanueva.toLocaleString();
-
-                for (var i = 0; i < this.etiquetas.length; i++)
-                {
-                    acumulador = acumulador + `- ${this.etiquetas[i]}\n`;
-                } 
-                return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechanueva.toLocaleString()}\nEtiquetas:\n${acumulador}`;
-            },
-
-            actualizarFecha(nuevaFecha)
-            {
-                let BuenaFecha = Date.parse(nuevaFecha);
-
-                if (!isNaN(BuenaFecha)) 
-                {
-                    this.fecha = Date.parse(nuevaFecha);
-                }
-            },
-    
-            borrarEtiquetas(...etiquetas2)
-            {
-                let eliminarEtiqueta = 0;
-                for (let i = 0; i < etiquetas2.length; i++)
-                {
-                    eliminarEtiqueta = this.etiquetas.indexOf(etiquetas2[i]);
-                    if(eliminarEtiqueta != -1)
-                    {
-                        this.etiquetas.splice(eliminarEtiqueta, 1);
-                    }
-                } 
-            },
-
-            obtenerPeriodoAgrupacion(periodo)
-            {
-                /*let MostrarFecha = new Date(this.fecha);
-                let resultado="";
-                let dd = String (MostrarFecha.getDate()).padstart(2,'0');  //----- agregame un 0 al principio si no tiene 2 caracters
-                let mm = String (MostrarFecha.getMonth() + 1).padstart(2,'0'); 
-                let yyyy = String (MostrarFecha.getFullYear()); 
-                switch (periodo) {
-                    case "dia":
-                            resultado = `${yyyy}-${mm}-${dd}`;
-                        return resultado;
-
-                    case "mes":
-                                resultado = `${yyyy}-${mm}`;
-                            return resultado;
-
-                    case "anyo":
-                        return `${yyyy}`;
-
-                    default:
-                        return `Has Introducido un error`;
-                };*/
-
-
-                //El +1 en el mes porque enero empieza en 0
-                let MostarFecha = new Date(this.fecha);
-                let resultado="";
-                //let dd = String (MostrarFecha.getDate()).padstart(2,'0'); ----- agregame un 0 al principio si no tiene 2 caracters
-                switch(periodo) {
-                    case "dia":
-                        if (MostarFecha.getDate() < 10) 
-                        {
-                            if (MostarFecha.getMonth() < 9)
-                                resultado =`${MostarFecha.getFullYear()}-0${MostarFecha.getMonth() + 1}-0${MostarFecha.getDate()}`;
-                            else
-                                resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}-0${MostarFecha.getDate()}`;        
-                        }
-                        else
-                        {
-                            if (MostarFecha.getMonth() <9)
-                                resultado =`${MostarFecha.getFullYear()}-0${MostarFecha.getMonth() + 1}-${MostarFecha.getDate()}`;
-                            else
-                                resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}-${MostarFecha.getDate()}`;
-                        }
-                        return resultado;
-
-                    case "mes":
-                        
-                        if (MostarFecha.getMonth() < 9)
-                            resultado =`${MostarFecha.getFullYear()}-0${MostarFecha.getMonth() + 1}`;
-                        else
-                            resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}`;
-
-                        return resultado;
-
-                    case "anyo":
-                        return `${MostarFecha.getFullYear()}`;
-
-                    default:
-                        return `Has Introducido un error`;
-
-                };
+                this.etiquetas.push(etiquetas3[i]);
             }
+        }      
+    };
+
+    this.mostrarGastoCompleto = function(){
+
+        let acumulador = "";
+        var fechanueva = new Date(this.fecha);
+        fechanueva = fechanueva.toLocaleString();
+
+        for (var i = 0; i < this.etiquetas.length; i++)
+        {
+            acumulador = acumulador + `- ${this.etiquetas[i]}\n`;
+        } 
+        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechanueva.toLocaleString()}\nEtiquetas:\n${acumulador}`;
+    };
+
+    this.actualizarFecha= function(nuevaFecha)
+    {
+        let BuenaFecha = Date.parse(nuevaFecha);
+
+        if (!isNaN(BuenaFecha)) 
+        {
+            this.fecha = Date.parse(nuevaFecha);
+        }
+    };
+
+    this.borrarEtiquetas= function(...etiquetas2)
+    {
+        let eliminarEtiqueta = 0;
+        for (let i = 0; i < etiquetas2.length; i++)
+        {
+            eliminarEtiqueta = this.etiquetas.indexOf(etiquetas2[i]);
+            if(eliminarEtiqueta != -1)
+            {
+                this.etiquetas.splice(eliminarEtiqueta, 1);
+            }
+        } 
+    };
+
+    this.obtenerPeriodoAgrupacion= function(periodo)
+    {
+        /*let MostrarFecha = new Date(this.fecha);
+        let resultado="";
+        let dd = String (MostrarFecha.getDate()).padstart(2,'0');  //----- agregame un 0 al principio si no tiene 2 caracters
+        let mm = String (MostrarFecha.getMonth() + 1).padstart(2,'0'); 
+        let yyyy = String (MostrarFecha.getFullYear()); 
+        switch (periodo) {
+            case "dia":
+                    resultado = `${yyyy}-${mm}-${dd}`;
+                return resultado;
+
+            case "mes":
+                        resultado = `${yyyy}-${mm}`;
+                    return resultado;
+
+            case "anyo":
+                return `${yyyy}`;
+
+            default:
+                return `Has Introducido un error`;
+        };*/
+
+
+        //El +1 en el mes porque enero empieza en 0
+        let MostarFecha = new Date(this.fecha);
+        let resultado="";
+        //let dd = String (MostrarFecha.getDate()).padstart(2,'0'); ----- agregame un 0 al principio si no tiene 2 caracters
+        switch(periodo) {
+            case "dia":
+                if (MostarFecha.getDate() < 10) 
+                {
+                    if (MostarFecha.getMonth() < 9)
+                        resultado =`${MostarFecha.getFullYear()}-0${MostarFecha.getMonth() + 1}-0${MostarFecha.getDate()}`;
+                    else
+                        resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}-0${MostarFecha.getDate()}`;        
+                }
+                else
+                {
+                    if (MostarFecha.getMonth() <9)
+                        resultado =`${MostarFecha.getFullYear()}-0${MostarFecha.getMonth() + 1}-${MostarFecha.getDate()}`;
+                    else
+                        resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}-${MostarFecha.getDate()}`;
+                }
+                return resultado;
+
+            case "mes":
+                
+                if (MostarFecha.getMonth() < 9)
+                    resultado =`${MostarFecha.getFullYear()}-0${MostarFecha.getMonth() + 1}`;
+                else
+                    resultado=`${MostarFecha.getFullYear()}-${MostarFecha.getMonth() + 1}`;
+
+                return resultado;
+
+            case "anyo":
+                return `${MostarFecha.getFullYear()}`;
+
+            default:
+                return `Has Introducido un error`;
+
         };
-    return gasto;       
+    };
 }
 
 
