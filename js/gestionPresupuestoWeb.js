@@ -115,6 +115,16 @@ function EditarHandle()
     }
 }
 
+function BorrarHandle()
+{
+    this.handleEvent = function(event)
+    {
+        let listaGasto = this.gasto.id;
+        gestionPresupuesto.borrarGasto(listaGasto);
+        repintar();
+    }
+}
+
 /*
 let event = new CrearGasto("a", 24);
 
