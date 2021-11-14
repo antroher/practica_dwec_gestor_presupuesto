@@ -52,7 +52,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
 
 //let a = document.querySelector();
 // console.log(a);
-function repintar ()
+function repintar()
 {
     mostrarDatoEnId('presupuesto', gestionPresupuesto.mostrarPresupuesto());
 
@@ -69,6 +69,20 @@ function repintar ()
     }
 }
 
+function actualizarPresupuestoWeb()
+{
+    let presupuesto = parseFloat(prompt('Introduzca el presupuesto'));
+    gestionPresupuesto.actualizarPresupuesto(presupuesto);
+    repintar();
+}
+/*
+function actualizarPresupuestoWeb()
+{
+    let pre = parseFloat(prompt("Introduzca un presupuesto: "))
+    gestionPresupuesto.actualizarPresupuesto(presupuesto);
+    repintar();
+}
+*/
 /*
 function EditarHandle ()
 {
