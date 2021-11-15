@@ -14,6 +14,33 @@ function mostrarGastoWeb(idElemento, gastos) {
     divGast.className = "gasto";
     divElem.append(divGast);
 
+    divGast.innerHTML += 
+        `<div class="gasto">
+            <div class="gasto-descripcion">${gasto.descripcion}</div>
+            <div class="gasto-fecha">${gasto.fecha}</div> 
+            <div class="gasto-valor">${gasto.valor}</div> 
+            <div class="gasto-etiquetas">
+            ${aux}`
+        ;
+
+    let gastoEtiqs = document.createElement("div");
+    gastoEtiqs.className = "gasto-etiquetas";
+    divGast.append(gastoEtiqs);
+
+    for (let eti of gasto.etiquetas) {
+        let nuevpObjEtiq = new BorrarEtiquetasHandle(); 
+        nuevpObjEtiq.gasto = gasto;
+
+        let gastoEtiq = document.createElement("span");
+        gastoEtiq.className = "gasto-etiquetas-etiqueta";
+        gastoEtiq.innerHTML = eti + "<br>";
+        nuevpObjEtiq.etiqueta = eti;
+
+        gastoEtiqs.append(gastoEtiq);
+
+        gastoEtiq.addEventListener('click',nuevpObjEtiq);
+    }
+
     let btnEditar = document.createElement("button");
     btnEditar.className = 'gasto-editar';
     btnEditar.textContent = "Editar";
@@ -32,13 +59,7 @@ function mostrarGastoWeb(idElemento, gastos) {
                 ${etiq}
             </span>`
         }
-    divElem.innerHTML += 
-        `<div class="gasto">
-            <div class="gasto-descripcion">${gasto.descripcion}</div>
-            <div class="gasto-fecha">${gasto.fecha}</div> 
-            <div class="gasto-valor">${gasto.valor}</div> 
-            <div class="gasto-etiquetas">
-            ${aux}`;
+    
     }
 }
 
