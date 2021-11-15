@@ -3,16 +3,34 @@
 /**** IMPORTS ****/
 import * as gestionPresupuesto from "./gestionPresupuesto.js"
 
+/**** CONSTANTES ****/
+
+//Intento de ENUM
+const BOTON = {
+    EDITAR: "Editar",
+    BORRAR: "Borrar"
+}
+
 /**** CONSTRUCTORES ****/
 
 function EditarHandle() {
     this.handleEvent = function () {
-        console.log(this.gasto )
+        console.log(this.gasto)
 
-        let descrip = prompt("¿Cúal es la nueva descripción?");
-        //console.log(this.gasto.descripcion)
+        let descrip = prompt("¿Cuál es la nueva descripción?");
+        let val = prompt("¿Cuál es el nuevo valor?");
+        let fech = prompt("¿Cuál es la nueva fecha?")
+        let etiq = prompt("¿Cuáles son las nuevas etiquetas? \n (etiqeta1, etiqueta2...)")
 
-        this.gasto. actualizarDescripcion(descrip);
+        if (etiq.includes(",")) {
+            etiq = etiq.split(",");
+        }
+
+        this.gasto.actualizarDescripcion(descrip);
+        this.gasto.actualizarValor(parseFloat(val));
+        this.gasto.actualizarFecha(fech);
+        this.gasto.borrarEtiquetas(...this.gasto.etiquetas);
+        this.gasto.anyadirEtiquetas(etiq);
         repintar();
     }
 }
@@ -23,11 +41,10 @@ function BorrarHandle() {
         repintar();
     };
 }
+
 function BorrarEtiquetasHandle() {
     this.handleEvent = function () {
-        console.log("Entro al botón borrar etiq");
-        console.log(this.etiqueta + " // " );
-        this.etiqueta = "";
+        this.gasto.borrarEtiquetas(this.etiqueta);
         repintar();
     }
 }
@@ -35,98 +52,118 @@ function BorrarEtiquetasHandle() {
 /**** FUNCIONES ****/
 
 //Escribe el valor en el elemento HTML con id indicado
-function mostrarDatoEnId(idElemento, valor) {
-    /*** Varias formas de hacerlo ***/
-    //Forma 1
-    document.getElementById(idElemento).innerHTML = valor;
-    //Forma 2
+/**
+ * Escribe texto en el elemento HTML indicado con un ID.
+ * @param {string} idElemento  - ID del elemento que se le quiere añadir un texto.
+ * @param {string} texto - Texto que mostrará la estiqueta.
+ */
+function mostrarDatoEnId(idElemento, texto) {
 
-    /*let element = document.getElementById(idElemento);
+    //Forma 1
+    document.getElementById(idElemento).innerHTML = texto;
+    //Forma 2
+    /*
+    let element = document.getElementById(idElemento);
     let p = document.createElement("p");
     p.textContent = valor;  
-    element.appendChild(p);*/
+    element.appendChild(p);
+    */
 }
 
-//Función de dos parámetros que se encargará de añadir dentro del elemento HTML con id indicado una estructura HTML para el gasto pasado
-function mostrarGastoWeb(idElemento, gasto) {
-    let elementoHTML = document.getElementById(idElemento);
-    let numBoton = 0;
-    let contadorEtiq = 1;
-    let idEtiquetas = "Etiquetas"+gasto.id;
-    let textoHTML =
-        `
-        <hr/>
-<div class="gasto" id="Gast${gasto.id}">
-  <div class="gasto-descripcion">${gasto.descripcion}</div>
-  <div class="gasto-fecha">${new Date(gasto.fecha).toLocaleString()}</div> 
-  <div class="gasto-valor">${gasto.valor}€</div> 
-  <div class="gasto-etiquetas" id="${idEtiquetas}">
-  //
-  </div></div>
-`;
-elementoHTML.innerHTML += textoHTML;
-    for (let et of gasto.etiquetas) {
-        let etiq = document.createElement("span");
-        etiq.textContent = et + " // ";
-        etiq.className = "gasto-etiquetas-etiqueta";
-        etiq.id = "Etiq" + gasto.id + contadorEtiq;
 
-        let evento = new BorrarEtiquetasHandle();
-        evento.etiqueta = et;
-        etiq.addEventListener("click", evento);
-        document.getElementById(idEtiquetas).appendChild(etiq);
-        contadorEtiq++;
-    }
+/**
+ * Función que crea una etiqueta HTML
+ * @param {strig} etiqueta  - Texto que indica que tipo de etiqueta se va ha crear.
+ * @function @param {document.getElementById} padre - Etiqueta padre de la que se desea crear.
+ * @param {string} clase - Texto que indica la clase de la etiqueta HTML.
+ * @param {string} texto - Texto a mostrar la etiqueta HTML.
+ * @returns {Element} - Referencia al elemento HTML creado.
+ */
+function crearEtiquetaHTML(etiqueta, padre, clase, texto = undefined) {
 
-    if (!idElemento.includes("filtrado")){
-    //Creamos el botón editar
+    let et = document.createElement(etiqueta);
+    et.className = clase;
+    et.textContent = texto
 
-    let boton = document.createElement("button");
-    boton.textContent = "Eliminar";
-    boton.className= "gasto-borrar";
-    boton.type="button";
-    boton.id = "Err" + gasto.id;
-    let evento = new BorrarHandle();
-    evento.gasto = gasto;
-    boton.addEventListener("click", evento);
-    document.getElementById("Gast" +gasto.id).appendChild(boton);
-
-    /*let btnEditar = crearBoton("Editar", gasto, numBoton);
-    numBoton++;
-    //Creamos el botón Borrar
-    let btnBorrar = crearBoton("Borrar", gasto, numBoton)
-    //Añadimos los 2 botones
-    elementoHTML.appendChild(btnEditar);
-    // elementoHTML.appendChild(btnBorrar);*/
-    }
+    padre.appendChild(et)
+    return et;
 }
 
 /**
- * Función que crea un botón HTML
- * @param {string} textoBoton 
- * @param {gasto} gasto 
- * @param {int} numBoton 
- * @returns Botón HTML
+ * Función que  muestra un gasto en una etiqueta HTML.
+ * @param {string} idElemento - ID del elemento HTML que se quiere modificar.
+ * @param {gasto} gasto - Gasto que se quiere mostrar. 
  */
-function crearBoton(textoBoton, gast, numBoton) {
-    let boton = document.createElement("button");
-    boton.type = "button";
-    boton.textContent = textoBoton;
-    let evento;
-    if (numBoton == 0) {
-        boton.id = "Edit" + gast.id;
-        evento = new EditarHandle();
-    } else {
-        
-        boton.id = "Borr" + gast.id;
-        evento = new BorrarHandle();
+function mostrarGastoWeb(idElemento, gasto) {
+    //Guardamos el elemento padre
+    let elementoHTML = document.getElementById(idElemento);
+
+    //Creamos las etiquetas HTML del gasto y las añadimos
+    crearEtiquetaHTML("hr", elementoHTML, "")
+    let divGasto = crearEtiquetaHTML("div", elementoHTML, "gasto")
+    crearEtiquetaHTML("div", divGasto, "gasto-descripcion", gasto.descripcion);
+    crearEtiquetaHTML("div", divGasto, "gasto-fecha", new Date(gasto.fecha).toLocaleString());
+    crearEtiquetaHTML("div", divGasto, "gasto-valor", gasto.valor);
+    let divEtiquetas = crearEtiquetaHTML("div", divGasto, "gasto-etiquetas");
+
+    //Creamos las etiquetas del gasto y le añadimos los eventos
+    for (let et of gasto.etiquetas) {
+        let etiquetaHTML = crearEtiquetaHTML("span", divEtiquetas, "gasto-etiquetas-etiqueta", et + " ");
+        let evento = new BorrarEtiquetasHandle();
+        evento.etiqueta = et;
+        evento.gasto = gasto;
+        etiquetaHTML.addEventListener("click", evento);
     }
 
+    //Creamos los botones
+    if (!idElemento.includes("filtrado")) {
+        //Creamos el botón editar
+        let btnEditar = crearBoton(BOTON.EDITAR, gasto, "gasto-editar");
+        //Creamos el botón Borrar
+        let btnBorrar = crearBoton(BOTON.BORRAR, gasto, "gasto-borrar")
+        //Añadimos los 2 botones
+        divGasto.appendChild(btnEditar);
+        divGasto.appendChild(btnBorrar);
+    }
+}
+
+
+/**
+ * Función que crea un botón HTML
+ * @param {Enumerator BOTON} tipoBoton - Tipo de botón que se creará.
+ * @param {gasto} gasto - Gasto al que le afectará el evento.
+ * @param {string} clase - Clase que se le aplicará al botón.
+ * @returns {Element} - Referencia al botón HTML creado.
+ */
+function crearBoton(tipoBoton, gast, clase) {
+    let boton = document.createElement("button");
+    boton.type = "button";
+    boton.textContent = tipoBoton;
+    boton.className = clase;
+    let evento;
+    switch (tipoBoton) {
+        case BOTON.EDITAR:
+            evento = new EditarHandle();
+            break;
+        case BOTON.BORRAR:
+            evento = new BorrarHandle();
+            break;
+        default:
+            console.log("Crear boton por defecto");
+            break;
+
+    }
     evento.gasto = gast;
     boton.addEventListener("click", evento);
     return boton;
 }
-//Función de tres parámetros que se encargará de crear dentro del elemento HTML con id indicado una estructura HTML para el objeto que se pase como parámetro
+
+/**
+ * Función que mostrará una agrupación de gastos en un elemento HTML indicado.
+ * @param {string} idElemento - ID del elemento que se le quiere añadir un texto.
+ * @function @param {Enumerator} agrup - Objeto con los periodos de agupación y sus valores (Resultado de la función gestionPresupuesto.obtenerPeriodoAgrupacion).
+ * @param {string} periodo - Periodo de agupación que se le añadirá al titulo al mostrar la etiqueta HTML.
+ */
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
 
     let textoHTML =
@@ -150,6 +187,10 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
 
 }
 
+
+/**
+ * Función que vuele a pintar el presupuesto, los gastos totales, el balance total y el listado de gastos.
+ */
 function repintar() {
     mostrarDatoEnId("presupuesto", gestionPresupuesto.mostrarPresupuesto());
     mostrarDatoEnId("gastos-totales", gestionPresupuesto.calcularTotalGastos());
@@ -162,6 +203,9 @@ function repintar() {
 
 /**** EVENTOS DE LOS BOTONES ****/
 
+/**
+ * Función que actualiza el presupuesto desde un botón de la web.
+ */
 function actualizarPresupuestoWeb() {
     let nuevoPresupuesto = prompt("¿Cúal es el nuevo presupuesto?");
     parseFloat(nuevoPresupuesto) ? nuevoPresupuesto = parseFloat(nuevoPresupuesto) : nuevoPresupuesto = 0;
@@ -169,6 +213,9 @@ function actualizarPresupuestoWeb() {
     repintar();
 }
 
+/**
+ * Función que crea un nuevo gasto desde un botón de la web.
+ */
 function nuevoGastoWeb() {
     let descripcion = prompt("Descripción del gasto: ");
     let valor = prompt("Valor del gasto: ");
