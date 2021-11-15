@@ -65,6 +65,18 @@ function mostrarGastoWeb(idElemento, gasto) {
     
     divGasto.append(buttonEdit);
     divGasto.append(buttonBorr);
+
+
+    //Práctica 6:
+    let btnEditGastoForm = document.createElement("button");
+                            btnEditGastoForm.className += 'gasto-editar-formulario';
+                            btnEditGastoForm.textContent = 'Editar (formulario)';
+                            btnEditGastoForm.type = 'button';
+
+    //Creamos el manejador de eventos de editar el formulario
+    btnEditGastoForm.addEventListener('click', editForm);
+    //adjuntamos al botón a la estructura HTML
+    divGasto.append(btnEditGastoForm);  
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
@@ -205,6 +217,13 @@ function CancelarFormHandle() {
         //¿Eliminamos el formulario?
        this.formulario.remove();
        let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+    }
+}
+
+//Manejador del evento editar gasto formulario TODO
+function EditarHandleformulario() {
+    this.handleEvent = function (event){
+
     }
 }
  
