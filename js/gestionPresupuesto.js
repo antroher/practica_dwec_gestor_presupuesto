@@ -40,19 +40,19 @@ function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
     
 
     if(parseFloat(valor) > 0){
-        gasto.valor = valor;
+        this.valor = valor;
     }else{
-        gasto.valor = 0;
+        this.valor = 0;
     }
 
     if(fechaCreacion === undefined || isNaN(Date.parse(fechaCreacion))){  // typeof === "string"
-        gasto.fecha = new Date(Date.now()).toISOString().substring(0,16); // "2021-10-06T13:10" 16-char
+        this.fecha = new Date(Date.now()).toISOString().substring(0,16); // "2021-10-06T13:10" 16-char
     }else{
-        gasto.fecha = Date.parse(fechaCreacion);
+        this.fecha = Date.parse(fechaCreacion);
     }
 
     if(etiqueta !== undefined){
-        gasto.etiquetas = etiqueta;
+        this.etiquetas = etiqueta;
     }
 
     // MÉTODOS del objeto gasto
@@ -81,7 +81,7 @@ function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
         }
     };
 
-    gasto.actualizarFecha = function(nuevaFecha){
+    this.actualizarFecha = function(nuevaFecha){
         if(!isNaN(Date.parse(nuevaFecha))){
             this.fecha = Date.parse(nuevaFecha);
         }
@@ -122,9 +122,7 @@ function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
     
         return resultado;
       };
-    
-      return gasto;
-    };
+};
 
 // FUNCIONES
 

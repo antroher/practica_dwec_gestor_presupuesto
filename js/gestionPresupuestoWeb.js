@@ -48,10 +48,13 @@ function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo) {  // agrup = { "20
 
 function repintar() {
     // Mostrar presupuesto
+    document.getElementById('presupuesto').innerHTML = " ";
     mostrarDatoEnId('presupuesto',gestionPresupuesto.mostrarPresupuesto());
     // Mostrar gastos totales
+    document.getElementById('gastos-totales').innerHTML = " ";
     mostrarDatoEnId('gastos-totales',gestionPresupuesto.calcularTotalGastos());
     // Mostrar balance total
+    document.getElementById('balance-total').innerHTML = " ";
     mostrarDatoEnId('balance-total',gestionPresupuesto.calcularBalance());
     // Borrar el contenito de #listado-gastos-completo
     document.getElementById('listado-gastos-completo').innerHTML = " ";
