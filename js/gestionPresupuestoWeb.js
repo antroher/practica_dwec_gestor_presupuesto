@@ -7,44 +7,56 @@ function mostrarDatoEnId(idElemento,valor){
     elemento.innerHTML += `<p>${valor}</p>`;
 }
 
-function mostrarGastoWeb(idElemento, gastos)
+function mostrarGastoWeb(idElemento, gasto)
 {
     let elemento = document.getElementById(idElemento);
 
-    for (let arrayGasto of gastos)
-    {
-        let lista = "";
-        for (let texto of arrayGasto.etiquetas) 
-        {
-            lista += `<span class="gasto-etiquetas-etiqueta"> ${texto} </span>`
-        }
+    let div = document.createElement('div');
+    div.className = 'gasto';
 
-        elemento.innerHTML +=
-            `<div class="gasto">
-                <div class="gasto-descripcion"> ${arrayGasto.descripcion} </div>
-                <div class="gasto-fecha">${arrayGasto.fecha}</div> 
-                <div class="gasto-valor">${arrayGasto.valor}</div> 
-                <div class="gasto-etiquetas">
-                    ${lista}
-                </div>
-            </div>`;
+    let divDescripcion = document.createElement('div');
+    divDescripcion.className = 'gasto-descripcion';
+    divDescripcion.textContent = `${gasto.descripcion}`;
+
+    let divValor = document.createElement('div');
+    divValor.className = 'gasto-valor';
+    divValor.textContent = `${gasto.valor}`; 
+
+    let divFecha = document.createElement('div');
+    divFecha.className = 'gasto-fecha';
+    divFecha.textContent = `${gasto.fecha}`;
+
+    let divEtiqueta = document.createElement('div');
+    divEtiqueta.className = 'gasto-etiquetas';
+
+    for (let etiqueta of gasto.etiquetas)
+    {
+        let spanEtiquetas = document.createElement('span');
+        spanEtiquetas.className = 'gasto-etiquetas-etiqueta';
+        spanEtiquetas.textContent = `${etiqueta}`;
+        divEtiqueta.append(spanEtiquetas);
+        
+        //Boton solo para Etiquetas
+        let botonBorrarEtiquetas = new BorrarEtiquetasHandle();
+        botonBorrarEtiquetas.gasto = gasto;
+        botonBorrarEtiquetas.etiqueta = etiqueta;
+        spanEtiquetas.addEventListener('click', botonBorrarEtiquetas);        
     }
     
     //boton editar
     let botonEditar = document.createElement('button');
-    botonEditar.className += 'gasto-editar';
+    botonEditar.className = 'gasto-editar';
     botonEditar.textContent = 'Editar';
     botonEditar.type = 'button';
 
     let editarNew = new EditarHandle();
     editarNew.gasto = gasto;
 
-    botonEditar.addEventListener('click', editarNew);
-    //divElemento.append(botonEditar);
+    botonEditar.addEventListener('click', editarNew);    
 
     //boton borrar
-    let botonBorrar = document.document.createElement('button');
-    botonBorrar.className += 'gasto-borrar';
+    let botonBorrar = document.createElement('button');
+    botonBorrar.className = 'gasto-borrar';
     botonBorrar.textContent = 'Borrar';
     botonBorrar.type = 'button';
 
@@ -52,7 +64,15 @@ function mostrarGastoWeb(idElemento, gastos)
     borrarNew.gasto = gasto;
 
     botonBorrar.addEventListener('click', borrarNew);
-    //divElemento.append(botonBorrar);
+    
+    //Append
+    div.append(divDescripcion);
+    div.append(divValor);
+    div.append(divFecha);
+    div.append(divEtiqueta);
+    div.append(botonEditar);
+    div.append(botonBorrar);
+    elemento.append(div);    
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
@@ -74,8 +94,6 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
                             ${lista}`
 }
 
-//let a = document.querySelector();
-// console.log(a);
 function repintar()
 {
     mostrarDatoEnId('presupuesto', gestionPresupuesto.mostrarPresupuesto());
@@ -87,9 +105,10 @@ function repintar()
     let borrarGasto = document.getElementById('listado-gastos-completo').innerHTML = '';
 
     let listaGasto = gestionPresupuesto.listarGastos();
-    for (let g of listaGasto)
+
+    for (let gasto of listaGasto)
     {
-        mostrarGastoWeb('listado-gastos-completo', g);
+        mostrarGastoWeb('listado-gastos-completo', gasto);
     }
 }
 
@@ -130,11 +149,11 @@ function EditarHandle()
         let fec = prompt('Introduzca una fecha del gasto en formato yyyy-mm-dd');
         let etiq = prompt('Introduzca las etiquetas del gasto (lista separada por comas)');
         let separador = ',';
-        let arrayEtiq = etiq.split(separador);
+        let etiq = etiq.split(separador);
         this.gasto.actualizarValor(val);
         this.gasto.actualizarDescripcion(desc);
         this.gasto.actualizarFecha(fec);
-        this.gasto.anyadirEtiquetas(...arrayEtiq);
+        this.gasto.anyadirEtiquetas(...etiq);
         repintar();
     }
 }
@@ -142,9 +161,8 @@ function EditarHandle()
 function BorrarHandle()
 {
     this.handleEvent = function(event)
-    {
-        let listaGasto = this.gasto.id;
-        gestionPresupuesto.borrarGasto(listaGasto);
+    {       
+        gestionPresupuesto.borrarGasto(this.gasto.id);
         repintar();
     }
 }
@@ -153,52 +171,21 @@ function BorrarEtiquetasHandle()
 {
     this.handleEvent = function(event)
     {
-        this.gasto.borrarEtiquetas(this.etiqueta);        
+        this.etiqueta = this.etiqueta.split(',');
+        this.gasto.borrarEtiquetas(...this.etiqueta);        
         repintar();
     }
 }
-
-/*
-let event = new CrearGasto("a", 24);
-
-let el = new EditarHandle();
-
-el.gasto = event();
-
-el.handleEvent(); 
-
-//Ejemplo de funcionamiento del programa
-
-let gastos = gesPres.listarGastos();
-
-for (let g of gastos) 
-{
-    gesPresWeb.mostrarGastoWeb(g);
-}
-
-function mostrarGastoWeb(gasto)
-{
-    //Pintar datos del gasto en html
-    //Crear los botones
-    //Crea botón "editar"
-    //Crea botón "borrar" -> NO USA
-    //Crea objeto manejador de eventos
-    let evEditar = new EditarHandle();
-    evEditar.gasto = g;
-    editar.addEventListener('click', evEditar);
-
-    for (let et of g.etiquetas)
-    {
-        //Pintar etiqueta
-        //Añadir manejador de eventos de borrar etiqueta
-    }
-}
-*/
-
 
 //********** NO TOCAR **************
 export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar, 
+    actualizarPresupuestoWeb, 
+    nuevoGastoWeb, 
+    EditarHandle,
+    BorrarHandle,
+    BorrarEtiquetasHandle
 }
