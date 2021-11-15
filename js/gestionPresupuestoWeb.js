@@ -73,6 +73,8 @@ function mostrarGastoWeb(idElemento, gasto) {
                             btnEditGastoForm.textContent = 'Editar (formulario)';
                             btnEditGastoForm.type = 'button';
 
+    let editForm = new EditarHandleformulario();
+    editForm.gasto = gasto;
     //Creamos el manejador de eventos de editar el formulario
     btnEditGastoForm.addEventListener('click', editForm);
     //adjuntamos al botón a la estructura HTML
@@ -220,10 +222,25 @@ function CancelarFormHandle() {
     }
 }
 
+function EditarFormHandle() {
+    this.handleEvent = function (event){
+
+    }
+}
+
 //Manejador del evento editar gasto formulario TODO
 function EditarHandleformulario() {
     this.handleEvent = function (event){
-
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+        var formulario = plantillaFormulario.querySelector("form");
+        formulario.elements.descripcion.value = this.gasto.descripcion;
+        formulario.elements.valor.value = this.gasto.valor;
+        formulario.elements.fecha.value = this.gasto.fecha;
+        formulario.elements.etiquetas.value = this.gasto.etiquetas;
+        repintar();
+        
+        formulario.addEventListener('submit', )
+        let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
     }
 }
  
