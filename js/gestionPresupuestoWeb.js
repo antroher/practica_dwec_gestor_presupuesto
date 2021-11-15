@@ -37,10 +37,10 @@ function mostrarDatoEnId(idElemento,valor){
                 <button type="button" class="gasto-editar" id="editar-${gasto.id}">Editar</button>
                 <button type="button" class="gasto-borrar" id="borrar-${gasto.id}">Eliminar</button>`;
 
-                // let objetoDel = new BorrarHandle()
+                let objetoDel = new BorrarHandle()
 
-                // objetoDel.gasto = gasto;
-                // document.getElementById(`borrar-${gasto.id}`).addEventListener("click",objetoDel);//boton que borra
+                objetoDel.gasto = gasto;
+                document.getElementById(`borrar-${gasto.id}`).addEventListener("click",objetoDel);//boton que borra
 
                 let objetoEdit = new EditarHandle()
 
@@ -79,8 +79,9 @@ function mostrarDatoEnId(idElemento,valor){
                 document.getElementById("listado-gastos-completo").innerHTML = " ";      //Bora el contenido sustituyendolo por un string ("")
 
                 mostrarGastoWeb("listado-gastos-completo",GesPresu.listarGastos());
-
             }
+
+            
         //Funcion que actualiza el presupuesto WEB
         function actualizarPresupuestoWeb(){
             GesPresu.actualizarPresupuesto(parseFloat(prompt("Introduce un presupuesto:")));
@@ -115,28 +116,26 @@ function mostrarDatoEnId(idElemento,valor){
 
                     this.gasto.actualizarValor(parseFloat(prompt("Introduce el nuevo valor")));
                     
-
-
-                        let etiqueta = prompt("Introduce las etiquetas:");
-                        if(typeof etiqueta != "undefined"){
-                            this.gasto.anyadirEtiquetas(etiqueta.split(","))
-                        }
-                        repintar();
+                    let etiqueta = prompt("Introduce las etiquetas:");
+                    if(typeof etiqueta != "undefined"){
+                        this.gasto.anyadirEtiquetas(etiqueta.split(","))
+                    }
+                    repintar();
                 }
         }
 
-        //Borrar Handle
+        // Borrar Handle
 
-        // function BorrarHandle(){
+        function BorrarHandle(){
 
-        // }
+        }
 
 
-        // //Borrar etiquetas del handle
+        //Borrar etiquetas del handle
 
-        // function BorrarEtiquetasHandle(){
+        function BorrarEtiquetasHandle(){
 
-        // }
+        }
 
 //El export de las funciones
 export{
