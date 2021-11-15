@@ -32,12 +32,12 @@ function mostrarPresupuesto() {
 
 function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
                                                 // parámetro rest: que no sabemos la longitug que va a tener, pueden pasarte muchas etiquetas
-    let gasto={
-        descripcion : desc,
-        etiquetas : new Array(),
-        valor : null,
-        fecha : null
-    }
+    
+    this.descripcion = desc;
+    this.etiquetas = new Array();
+    this.valor = null;
+    this.fecha = null;
+    
 
     if(parseFloat(valor) > 0){
         gasto.valor = valor;
@@ -57,7 +57,7 @@ function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
 
     // MÉTODOS del objeto gasto
 
-    gasto.mostrarGastoCompleto = function(){
+    this.mostrarGastoCompleto = function(){
         let respuesta = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${new Date(this.fecha).toLocaleString()}\nEtiquetas:\n`;
         
         for(let i = 0; i < this.etiquetas.length; i++){  // Recorre y muestra los valores del Array
@@ -65,21 +65,21 @@ function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
         }
 
         return respuesta;
-    }
+    };
 
-    gasto.mostrarGasto = function() {
+    this.mostrarGasto = function() {
         return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
-    }
+    };
 
-    gasto.actualizarDescripcion = function(nuevaDesc){
+    this.actualizarDescripcion = function(nuevaDesc){
         this.descripcion = nuevaDesc;
-    }
+    };
 
-    gasto.actualizarValor = function(nuevoValor){
+    this.actualizarValor = function(nuevoValor){
         if(parseFloat(nuevoValor) > 0){
             this.valor = nuevoValor;
         }
-    }
+    };
 
     gasto.actualizarFecha = function(nuevaFecha){
         if(!isNaN(Date.parse(nuevaFecha))){
@@ -87,25 +87,25 @@ function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
         }
     }
 
-    gasto.anyadirEtiquetas = function(...nuevasEtiquetas){
+    this.anyadirEtiquetas = function(...nuevasEtiquetas){
 
         for(let elem of nuevasEtiquetas){
             if(!this.etiquetas.includes(elem)){
                this.etiquetas.push(elem);
             }
         }
-    }
+    };
     
-    gasto.borrarEtiquetas = function(...etiquetasBorrar){
+    this.borrarEtiquetas = function(...etiquetasBorrar){
         
         for (let e of etiquetasBorrar){
             if(this.etiquetas.includes(e)){
                 this.etiquetas.splice(this.etiquetas.indexOf(e),1)
             }
         }
-    }
+    };
     
-    gasto.obtenerPeriodoAgrupacion = function (periodo) {
+    this.obtenerPeriodoAgrupacion = function (periodo) {
         let resultado = "0";
         let fechObj = new Date(this.fecha);
         switch (periodo) {
@@ -124,7 +124,7 @@ function CrearGasto(desc, valor, fechaCreacion , ...etiqueta) {
       };
     
       return gasto;
-    }
+    };
 
 // FUNCIONES
 
