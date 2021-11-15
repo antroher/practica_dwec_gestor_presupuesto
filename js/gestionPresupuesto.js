@@ -20,12 +20,12 @@ function CrearGasto(desc, value, fechaGasto = Date.now(), ...ArrayLabels)
     if (value < 0 || isNaN(value)) value = 0;
     if (ArrayLabels == undefined) ArrayLabels = new Array();
     if (fechaGasto == undefined || isNaN(Date.parse(fechaGasto))) fechaGasto = new Date(Date.now());
-        
+
     this.descripcion = desc + '';
     this.valor = parseFloat(value);
     this.fecha = Date.parse(fechaGasto);
     this.etiquetas = [...ArrayLabels];
-
+    
     this.mostrarGasto = function()
     {
         return 'Gasto correspondiente a ' + this.descripcion + ' con valor ' + this.valor + ' €';
@@ -40,31 +40,31 @@ function CrearGasto(desc, value, fechaGasto = Date.now(), ...ArrayLabels)
     {
         parseFloat(data) > 0 && (this.valor = data);
     };
-
-    this.mostrarGastoCompleto() = function() // era sin = function
+    
+    this.mostrarGastoCompleto = function()
     {
         let txt = 'Gasto correspondiente a ' + this.descripcion + ' con valor ' + this.valor + ' €.\n' + 'Fecha: ' + new Date(this.fecha).toLocaleString() + '\n' + 'Etiquetas:\n';
         this.etiquetas.length > 0 && this.etiquetas.forEach(show => {txt = txt + '- ' + show + '\n'});
 
-        return txt;
+        return txt;           
     };
 
-    this.actualizarFecha(updateDate)
+    this.actualizarFecha = function(updateDate)
     {
         !isNaN(Date.parse(updateDate)) && (this.fecha = Date.parse(updateDate));
     };
 
-    this.anyadirEtiquetas(...datosEtiquetas)
+    this.anyadirEtiquetas = function(...datosEtiquetas)
     {
         datosEtiquetas.forEach(label => typeof(label) == 'string' && !this.etiquetas.includes(label) && this.etiquetas.push(label));
     };
 
-    this.borrarEtiquetas(...datosEtiquetas)
+    this.borrarEtiquetas = function(...datosEtiquetas)
     {
         datosEtiquetas.forEach(label => {this.etiquetas.includes(label) && this.etiquetas.splice(this.etiquetas.indexOf(label), 1)});
     };
 
-    this.obtenerPeriodoAgrupacion(periodo)
+    this.obtenerPeriodoAgrupacion = function(periodo)
     {
         if (periodo != undefined)
         {
