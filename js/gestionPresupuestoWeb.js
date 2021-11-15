@@ -9,19 +9,17 @@ import { prependListener } from 'cluster';
  }
 
 function mostrarGastoWeb(idElemento, gastos) {
-    let divElem = document.getElementById(idElemento);
+    let elem = document.getElementById(idElemento);
     let divGast = document.createElement("div");
     divGast.className = "gasto";
-    divElem.append(divGast);
+    elem.append(divGast);
 
     divGast.innerHTML += 
-        `<div class="gasto">
+        `
             <div class="gasto-descripcion">${gasto.descripcion}</div>
             <div class="gasto-fecha">${gasto.fecha}</div> 
             <div class="gasto-valor">${gasto.valor}</div> 
-            <div class="gasto-etiquetas">
-            ${aux}`
-        ;
+        `;
 
     let gastoEtiqs = document.createElement("div");
     gastoEtiqs.className = "gasto-etiquetas";
@@ -42,14 +40,14 @@ function mostrarGastoWeb(idElemento, gastos) {
     }
 
     let btnEditar = document.createElement("button");
-    btnEditar.className = 'gasto-editar';
+    btnEditar.className += `gasto-editar`;
     btnEditar.textContent = "Editar";
-    btnEditar.type = "button";
+    btnEditar.type = `button`;
 
     let btnBorrar = document.createElement("button");
-    btnBorrar.className = 'gasto-borrar';
+    btnBorrar.className += 'gasto-borrar';
     btnBorrar.textContent = "Borrar";
-    btnBorrar.type = "button"
+    btnBorrar.type = `button`;
 
     let editar = new EditarHandle();
     let borrar = new BorrarHandle();
