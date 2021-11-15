@@ -8,6 +8,8 @@ let boton=document.getElementById("actualizarpresupuesto");
 boton.onclick=gpw.actualizarPresupuestoWeb;
 let boton2=document.getElementById("anyadirgasto");
 boton2.onclick=gpw.nuevoGastoWeb;
+let botonAnyadirForm=document.getElementById("anyadirgasto-formulario");
+botonAnyadirForm.onclick=gpw.nuevoGastoWebFormulario;
 
 gp.actualizarPresupuesto(1500);
 gpw.mostrarDatoEnId(gp.mostrarPresupuesto(),"presupuesto");

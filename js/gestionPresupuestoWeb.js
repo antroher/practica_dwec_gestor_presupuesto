@@ -202,6 +202,13 @@ function BorrarEtiquetasHandle(){
         };
 }
 
+function nuevoGastoWebFormulario(){
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+    let formulario = plantillaFormulario.querySelector("form");
+    
+    repintar();
+}
+
 export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -211,6 +218,7 @@ export   {
     nuevoGastoWeb,
     EditarHandle,
     BorrarHandle,
-    BorrarEtiquetasHandle
+    BorrarEtiquetasHandle,
+    nuevoGastoWebFormulario
     
 }
