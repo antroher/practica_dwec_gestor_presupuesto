@@ -188,7 +188,7 @@ function filtrarGastos(obj) {
         }
         if (obj.hasOwnProperty('etiquetasTiene') && Array.isArray(obj.etiquetasTiene)) {
             result = result.filter((aux) => {
-                for (let i = 0; i < obj.etiquetasTiene.length; i++) {
+                for (let i = 0; i <= obj.etiquetasTiene.length; i++) {
                     if (obj.etiquetasTiene.includes(aux.etiquetas[i])) {
                         return true;
                     }
