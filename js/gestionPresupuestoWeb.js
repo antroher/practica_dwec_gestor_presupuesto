@@ -60,19 +60,19 @@ function repintar()
 
     document.getElementById("listado-gastos-filtrado-1").innerHTML = "";
     let gastosFilt = gestionPresupuesto.filtrarGastos({fechaDesde:"2021-09-01", fechaHasta:"2021-09-30"});
-    gastosFilt.forEach(gastoFiltrado => {mostrarGastoWeb("listado-gastos-filtrado-1",gastoFiltrado);});
+    gastosFilt.forEach(gastoFiltrado => {mostrarGastoWeb("listado-gastos-filtrado-1", gastoFiltrado);});
 
-    document.getElementById("listado-gastos-filtrado-2").innerHTML="";
+    document.getElementById("listado-gastos-filtrado-2").innerHTML = "";
     gastosFilt = gestionPresupuesto.filtrarGastos({valorMinimo:50});
-    gastosFilt.forEach(gastoFiltrado => {mostrarGastoWeb("listado-gastos-filtrado-2",gastoFiltrado);});
+    gastosFilt.forEach(gastoFiltrado => {mostrarGastoWeb("listado-gastos-filtrado-2", gastoFiltrado);});
 
-    document.getElementById("listado-gastos-filtrado-3").innerHTML="";
+    document.getElementById("listado-gastos-filtrado-3").innerHTML = "";
     gastosFilt = gestionPresupuesto.filtrarGastos({valorMinimo:200,etiquetasTiene:["seguros"]});
-    gastosFilt.forEach(gastoFiltrado => {mostrarGastoWeb("listado-gastos-filtrado-3",gastoFiltrado);});
+    gastosFilt.forEach(gastoFiltrado => {mostrarGastoWeb("listado-gastos-filtrado-3", gastoFiltrado);});
 
-    document.getElementById("listado-gastos-filtrado-4").innerHTML="";
+    document.getElementById("listado-gastos-filtrado-4").innerHTML = "";
     gastosFilt = gestionPresupuesto.filtrarGastos({valorMaximo:50, etiquetasTiene:["comida","transporte"]});
-    gastosFilt.forEach(gastoFiltrado => {mostrarGastoWeb("listado-gastos-filtrado-4",gastoFiltrado);});
+    gastosFilt.forEach(gastoFiltrado => {mostrarGastoWeb("listado-gastos-filtrado-4", gastoFiltrado);});
 }
 
 function actualizarPresupuestoWeb()
