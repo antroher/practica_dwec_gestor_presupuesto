@@ -149,6 +149,28 @@ function nuevoGastoWeb(){
     repintar();
 }
 
+function nuevoGastoWebFormulario(){
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+    var formulario = plantillaFormulario.querySelector("form");
+    let boton = document.getElementById("anyadirgasto-formulario");
+    //boton.disabled = true;
+    formulario.submit = function(){
+        if(!event.defaultPrevented()){
+            let descForm = formulario.elements.descripcion;
+            let valForm = formulario.elements.valor;
+            let fechForm = formulario.elements.fecha;
+            let etForm = formulario.elements.etiquetas;
+            let etiqForm = new Array();
+            etiqForm = etForm.value.split(",");
+            let gastoForm = new metodosGastos.CrearGasto(descForm.value,parseFloat(valForm.value), fechForm.value, ...etiqForm);
+            metodosGastos.anyadirGasto(gastoForm);
+            repintar();
+        }
+        boton.disabled = false;
+    }
+    
+}
+
 function EditarHandle(){
 
     this.handleEvent = function(){
@@ -167,6 +189,13 @@ function EditarHandle(){
         repintar();
     };
 
+}
+
+function EditarHandleFormulario(){
+
+    this.handleEvent = function(){
+
+    }
 }
 
 
@@ -197,5 +226,7 @@ export {
     nuevoGastoWeb,
     EditarHandle,
     BorrarHandle,
-    BorrarEtiquetasHandle
+    BorrarEtiquetasHandle,
+    nuevoGastoWebFormulario,
+    EditarHandleFormulario
 }

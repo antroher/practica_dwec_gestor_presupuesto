@@ -7,6 +7,9 @@ botonPresupuesto.onclick = metodosGastosWeb.actualizarPresupuestoWeb;
 let botonAnyadirGasto = document.getElementById("anyadirgasto");
 botonAnyadirGasto.onclick = metodosGastosWeb.nuevoGastoWeb;
 
+let botonAnyadirGastoFormulario = document.getElementById("anyadirgasto-formulario");
+botonAnyadirGastoFormulario.onclick = metodosGastosWeb.nuevoGastoWebFormulario;
+
 //let arrayEditarHandlers = new Array();
 //let arrayBorrarHandlers = new Array();
 //let arrayBorrarEtiquetasHandlers = new Array();
