@@ -15,17 +15,24 @@ function mostrarDatoEnId(idElemento,valor){
     elemento.innerHTML = `<p>${valor}</p>`
     
 }
-    function mostrarGastoWeb(idElemento,gastos){
+function mostrarGastoWeb(idElemento,gastos){
     let element = document.getElementById(idElemento);
 
     gastos.forEach((gasto) => {
         let etiquetas = "";
-        gasto.etiquetas.forEach((etiqueta) => {
+        let listaIdEtiqueta = [];
+        let listaEtiquetas = [];
+
+        gasto.etiquetas.forEach((etiqueta, posi) => {
             etiquetas += 
-                `<span class="gasto-etiquetas-etiqueta">
+                `<span class="gasto-etiquetas-etiqueta" id="${gasto.id}-${posi}">
                     ${etiqueta}
                 </span>`;
-        });    
+
+            //Recogida de id del elemento y de la etiqueta a borrar en arrays para su posterior utilización.
+            listaIdEtiqueta.push(`${gasto.id}-${posi}`);
+            listaEtiquetas.push(`${etiqueta}`);
+        }); 
 
         element.innerHTML +=
             `<div class="gasto">
@@ -40,21 +47,27 @@ function mostrarDatoEnId(idElemento,valor){
                     Editar
                 </button>
                 <button class="gasto-borrar" id="gasto-borrar-${gasto.id}" type="button">
-                Editar
+                Borrar
             </button>
             </div>`;
 
         //EVENTO BOTON EDITAR GASTO
-        
         let EventoEditarHandle = new EditarHandle();
         EventoEditarHandle.gasto = gasto;
         let botonEditar = document.getElementById(`gasto-editar-${gasto.id}`);
         botonEditar.addEventListener('click', EventoEditarHandle);
-
+        //EVENTO BOTON BORRAR GASTO
         let EventoBorrarHandle = new BorrarHandle();
         EventoBorrarHandle.gasto = gasto;
         let botonBorrar = document.getElementById(`gasto-borrar-${gasto.id}`);
         botonBorrar.addEventListener(`click`, EventoBorrarHandle);
+        //EVENTO BORRAR ETIQUETA
+        listaIdEtiqueta.forEach((tagId, index) => {
+            let tagsHandler = new BorrarEtiquetasHandle();
+            tagsHandler.gasto = gasto;
+            tagsHandler.etiqueta = listaEtiquetas[index];
+            document.getElementById(tagId).addEventListener('click', tagsHandler);
+        });
     });
 }
     
@@ -135,6 +148,14 @@ function BorrarHandle(){
         repintar();
     }
 }
+
+function BorrarEtiquetasHandle() {
+    this.handleEvent = function(evento) {
+        this.gasto.borrarEtiquetas(this.etiqueta);
+        repintar();
+    }
+}
+
 //El export de las funciones
 export{
     mostrarDatoEnId,
