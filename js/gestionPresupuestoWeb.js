@@ -12,7 +12,7 @@ function mostrarGastoWeb(idElemento, gasto)
     let elemento = document.getElementById(idElemento);
 
     let div = document.createElement('div');
-    div.className = 'gasto';
+    div.className += 'gasto';
     elemento.append(div); 
 
     let divDescripcion = document.createElement('div');
@@ -46,7 +46,7 @@ function mostrarGastoWeb(idElemento, gasto)
     
     //boton editar
     let botonEditar = document.createElement('button');
-    botonEditar.className = 'gasto-editar';
+    botonEditar.className += 'gasto-editar';
     botonEditar.textContent = 'Editar';
     botonEditar.type = 'button';
 
@@ -57,7 +57,7 @@ function mostrarGastoWeb(idElemento, gasto)
 
     //boton borrar
     let botonBorrar = document.createElement('button');
-    botonBorrar.className = 'gasto-borrar';
+    botonBorrar.className += 'gasto-borrar';
     botonBorrar.textContent = 'Borrar';
     botonBorrar.type = 'button';
 
@@ -130,7 +130,7 @@ function nuevoGastoWeb()
     let etiquetasNew = prompt('Introduzca las etiquetas del gasto');
     let separador = ',';
     let Etiquetas = etiquetasNew.split(separador);
-    gestionPresupuesto.anyadirGasto(new gestionPresupuesto.CrearGasto(descripcionNew, valorNew, fechaNew, Etiquetas));
+    gestionPresupuesto.anyadirGasto(new gestionPresupuesto.CrearGasto(descripcionNew, valorNew, fechaNew, ...Etiquetas));
     repintar();
 }
 
@@ -169,9 +169,8 @@ function BorrarHandle()
 function BorrarEtiquetasHandle() 
 {
     this.handleEvent = function(event)
-    {
-        this.etiqueta = this.etiqueta.split(',');
-        this.gasto.borrarEtiquetas(...this.etiqueta);        
+    {        
+        this.gasto.borrarEtiquetas(this.etiqueta);        
         repintar();
     }
 }
