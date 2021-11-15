@@ -33,7 +33,11 @@ gestionPresupuestoWeb.mostrarDatoEnId('gastos-totales', gestionPresupuesto.calcu
 gestionPresupuestoWeb.mostrarDatoEnId('balance-total', gestionPresupuesto.calcularBalance());
 
 //Mostrar el listado completo de gastos en div#listado-gastos-completo
-gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-completo', gestionPresupuesto.listarGastos());
+let lstGasto = gestionPresupuesto.listarGastos();
+for (let gasto of lstGasto)
+{
+    gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-completo', gasto);
+}
 
 //Mostrar el listado de gastos realizados en septiembre de 2021 en div#listado-gastos-filtrado-1
 let septiembre2021 = 
@@ -41,14 +45,23 @@ let septiembre2021 =
     fechaDesde: '2021-09-01', 
     fechaHasta: '2021-09-30'
 }
-gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-1', gestionPresupuesto.filtrarGastos(septiembre2021));
+let fltGasto1 = gestionPresupuesto.filtrarGastos(septiembre2021);
+for (let gasto of fltGasto1)
+{
+    gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-1', gasto);
+}
 
 //Mostrar el listado de gastos de más de 50€ en div#listado-gastos-filtrado-2
 let mas50 =
 {
     valorMinimo: 50
 }
-gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-2', gestionPresupuesto.filtrarGastos(mas50));
+let fltGasto2 = gestionPresupuesto.filtrarGastos(mas50);
+for (let gasto of fltGasto2)
+{
+    gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-2', gasto);
+}
+
 
 //Mostrar el listado de gastos de más de 200€ con etiqueta seguros en div#listado-gastos-filtrado-3
 let mas200conSeguros =
@@ -56,7 +69,11 @@ let mas200conSeguros =
     valorMinimo: 200,
     etiquetaTiene: ['seguros']
 }
-gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-3', gestionPresupuesto.filtrarGastos(mas200conSeguros));
+let fltGasto3 = gestionPresupuesto.filtrarGastos(mas200conSeguros);
+for (let gasto of fltGasto3)
+{
+    gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-3', gasto);
+}
 
 //Mostrar el listado de gastos que tengan las etiquetas comida o transporte de menos de 50€ en div#listado-gastos-filtrado-4
 let menos50conetiquetas =
@@ -64,7 +81,9 @@ let menos50conetiquetas =
     valorMaximo: 50,
     etiquetaTiene: ['comida', 'transporte']
 }
-gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-4', gestionPresupuesto.filtrarGastos(menos50conetiquetas));
+let fltGasto4 = gestionPresupuesto.filtrarGastos(menos50conetiquetas);
+for (let gasto of fltGasto4)
+gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-4', gasto);
 
 //Mostrar el total de gastos agrupados por día en div#agrupacion-dia
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-dia', gestionPresupuesto.agruparGastos('dia'), 'día');

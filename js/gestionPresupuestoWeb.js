@@ -29,17 +29,17 @@ function mostrarGastoWeb(idElemento, gasto)
     let divEtiqueta = document.createElement('div');
     divEtiqueta.className = 'gasto-etiquetas';
 
-    for (let etiqueta of gasto.etiquetas)
+    for (let etiq of gasto.etiquetas)
     {
         let spanEtiquetas = document.createElement('span');
         spanEtiquetas.className = 'gasto-etiquetas-etiqueta';
-        spanEtiquetas.textContent = `${etiqueta}`;
+        spanEtiquetas.textContent = `${etiq}`;
         divEtiqueta.append(spanEtiquetas);
         
         //Boton solo para Etiquetas
         let botonBorrarEtiquetas = new BorrarEtiquetasHandle();
         botonBorrarEtiquetas.gasto = gasto;
-        botonBorrarEtiquetas.etiqueta = etiqueta;
+        botonBorrarEtiquetas.etiq = etiq;
         spanEtiquetas.addEventListener('click', botonBorrarEtiquetas);        
     }
     
@@ -71,8 +71,7 @@ function mostrarGastoWeb(idElemento, gasto)
     div.append(divFecha);
     div.append(divEtiqueta);
     div.append(botonEditar);
-    div.append(botonBorrar);
-    elemento.append(div);    
+    div.append(botonBorrar);       
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
@@ -128,10 +127,10 @@ function nuevoGastoWeb()
     let descripcionNew = prompt('Introduzca la descripción del gasto');
     let valorNew = parseFloat(prompt('Introduzca un valor del gasto'));
     let fechaNew = prompt('Introduzca una fecha del gasto en formato yyyy-mm-dd');
-    let etiquetasNew = prompt('Introduzca las etiquetas del gasto (lista separada por comas)');
+    let etiquetasNew = prompt('Introduzca las etiquetas del gasto');
     let separador = ',';
-    let arrayEtiquetas = etiquetasNew.split(separador);
-    gestionPresupuesto.anyadirGasto(new gestionPresupuesto.CrearGasto(descripcionNew, valorNew, fechaNew, ...arrayEtiquetas));
+    let Etiquetas = etiquetasNew.split(separador);
+    gestionPresupuesto.anyadirGasto(new gestionPresupuesto.CrearGasto(descripcionNew, valorNew, fechaNew, Etiquetas));
     repintar();
 }
 
@@ -147,9 +146,9 @@ function EditarHandle()
         let desc = prompt('Introduzca la descripción del gasto');
         let val = parseFloat(prompt('Introduzca el valor del gasto'));
         let fec = prompt('Introduzca una fecha del gasto en formato yyyy-mm-dd');
-        let etiq = prompt('Introduzca las etiquetas del gasto (lista separada por comas)');
+        let etique = prompt('Introduzca las etiquetas del gasto (lista separada por comas)');
         let separador = ',';
-        let etiq = etiq.split(separador);
+        let etiq = etique.split(separador);
         this.gasto.actualizarValor(val);
         this.gasto.actualizarDescripcion(desc);
         this.gasto.actualizarFecha(fec);
@@ -167,7 +166,7 @@ function BorrarHandle()
     }
 }
 
-function BorrarEtiquetasHandle()
+function BorrarEtiquetasHandle() 
 {
     this.handleEvent = function(event)
     {
@@ -181,11 +180,12 @@ function BorrarEtiquetasHandle()
 export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb,
+    mostrarGastosAgrupadosWeb,    
     repintar, 
     actualizarPresupuestoWeb, 
     nuevoGastoWeb, 
     EditarHandle,
     BorrarHandle,
     BorrarEtiquetasHandle
+    
 }
