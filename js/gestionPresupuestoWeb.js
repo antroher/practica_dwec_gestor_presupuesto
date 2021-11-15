@@ -15,7 +15,7 @@ function mostrarDatoEnId (idElemento, valor)
 }
 
 
-function mostrarGastoWeb(idElemento, gastos )/*HAY Q PASARLE UN ARRAY DE GASTO*/ 
+function mostrarGastoWeb(idElemento, gasto )/*HAY Q PASARLE UN ARRAY DE GASTO*/ 
 {
   let elemento = document.getElementById(idElemento);
 
@@ -25,51 +25,49 @@ function mostrarGastoWeb(idElemento, gastos )/*HAY Q PASARLE UN ARRAY DE GASTO*/
 
   let gastoDescripcion = document.createElement("div");
   gastoDescripcion.className = "gasto-descripcion";
-  gastoDescripcion.innerHTML = gasto.descripcion;
+  gastoDescripcion.textContent = `${gasto.descripcion}`;
   divGasto.append(gastoDescripcion);
-
-  let gastoFecha = document.createElement("div");
-  gastoFecha.className = "gasto-fecha";
-  let fechaNueva = new Date(gasto.fecha);
-  gastoFecha.innerHTML = fechaNueva.toLocaleString();
-  divGasto.append(gastoFecha);
 
   let gastoValor = document.createElement("div");
   gastoValor.className = "gasto-valor";
-  gastoValor.innerHTML = gasto.valor;
-  divGasto.append(gastoValor);
+  gastoValor.textContent = `${gasto.valor}`;
+  divGasto.append(gastoValor); 
+
+  let gastoFecha = document.createElement("div");
+  gastoFecha.className = "gasto-fecha";
+  gastoFecha.textContent = `${gasto.fecha}`;
+  divGasto.append(gastoFecha);
 
   let gastoEtiquetas = document.createElement("div");
   gastoEtiquetas.className = "gasto-etiquetas";
   divGasto.append(gastoEtiquetas);
 
-  let nuevoObjEtiqueta = new BorrarEtiquetasHandle(); 
-  nuevoObjEtiqueta.gasto = gasto;
-
   for (let x of gasto.etiquetas) {
+
     let gastoEtiqueta = document.createElement("span");
     gastoEtiqueta.className = "gasto-etiquetas-etiqueta";
-    gastoEtiqueta.innerHTML = x + "<br>";
-    nuevoObjEtiqueta.etiqueta = x;
+    gastoEtiqueta.textContent =`${x}`;
     gastoEtiquetas.append(gastoEtiqueta);
 
+    let nuevoObjEtiqueta = new BorrarEtiquetasHandle(); 
+    nuevoObjEtiqueta.gasto = gasto;
+    nuevoObjEtiqueta.x = x;
+    gastoEtiquetas.addEventListener('click',nuevoObjEtiqueta);
   }
 
-  gastoEtiquetas.addEventListener('click',nuevoObjEtiqueta);
+  let buttomE = document.createElement("button");
+  buttomE.className = "gasto-editar";
+  buttomE.textContent = 'Editar';
+  buttomE.type ='button';
 
-  let buttomE = document.createElement("buttom");
-  buttomE.className += "gasto-editar";
-  buttomE.textContent = 'editar';
-  buttomE.type ='buttom';
-
-  let buttomB = document.createElement("buttom");
-  buttomB.className += "gasto-borrar";
-  buttomB.textContent = 'borrar';
-  buttomB.type ='buttom';
+  let buttomB = document.createElement("button");
+  buttomB.className = "gasto-borrar";
+  buttomB.textContent = 'Borrar';
+  buttomB.type ='button';
 
    //Botón editar gasto
   let evEditar = new EditarHandle();
-  evEditar.gasto = gastos;
+  evEditar.gasto = gasto;
 
    //Botón borrar gasto
   let evBorrar = new BorrarHandle();
@@ -80,8 +78,6 @@ function mostrarGastoWeb(idElemento, gastos )/*HAY Q PASARLE UN ARRAY DE GASTO*/
 
   divGasto.append(buttomE);
   divGasto.append(buttomB); 
-
-  elemento.append(divGasto);  
 
 }
 
@@ -114,10 +110,21 @@ function actualizarPresupuestoWeb (){
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
 
-/*Eventos
+//Eventos
 actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
-anyadirgasto.addEventListener('click', nuevoGastoWeb);*/
+anyadirgasto.addEventListener('click', nuevoGastoWeb);
 
+function nuevoGastoWeb()
+{
+  let descripcionNew = prompt('Introduzca la descripción del gasto');
+  let valorNew = parseFloat(prompt('Introduzca un valor del gasto'));
+  let fechaNew = prompt('Introduzca una fecha del gasto en formato yyyy-mm-dd');
+  let etiquetasNew = prompt('Introduzca las etiquetas del gasto');
+  let separador = ',';
+  let Etiquetas = etiquetasNew.split(separador);
+  datosPresupuesto.anyadirGasto(new datosPresupuesto.CrearGasto(descripcionNew, valorNew, fechaNew, Etiquetas));
+  repintar();
+}
 
 //ok
 function repintar(){
@@ -130,7 +137,7 @@ function repintar(){
   let balanceTotal = datosPresupuesto.calcularBalance().toFixed(2);
   mostrarDatoEnId("balance-total",balanceTotal);
   
-  let borrarDatos= document.getElementById("listado-gastos-completo").innerHTML = "";
+  document.getElementById("listado-gastos-completo").innerHTML = "";
   
   let listGasto = datosPresupuesto.listarGastos();
   for (const gasto of listGasto) {
@@ -147,12 +154,12 @@ function EditarHandle() {
     let valor = parseFloat(prompt("Escribe la nueva valor del gasto"));
     let fecha = prompt("Escribe la fecha del gasto en formato yyyy-mm-dd");
     let etiquetas = prompt("Escribe las etiquetas del gasto separadas por ,");
-    let etiquetas2 = etiquetas.split(',');
+    //let etiquetas2 = etiquetas.split(',');
 
     this.gasto.actualizarValor(valor);
     this.gasto.actualizarDescripcion(descripcion);
     this.gasto.actualizarFecha(fecha);
-    this.gasto.anyadirEtiquetas(...etiquetas2);
+    this.gasto.anyadirEtiquetas(...etiquetas);
     
     repintar();
   }
@@ -192,5 +199,4 @@ export{
   BorrarEtiquetasHandle,
   repintar,
   actualizarPresupuestoWeb
-
 }
