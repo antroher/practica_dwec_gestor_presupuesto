@@ -4,46 +4,81 @@ import * as gestionPresupuesto from './gestionPresupuesto.js';
 function mostrarDatoEnId(idElemento, valor) {
 
     let elem = document.getElementById(idElemento);
-    let p = document.createElement('p');
 
+    let p = document.createElement('p');
     p.textContent = valor; // para modificar parte del texto del Dom, no meter codigo html nuevo
 
-    elem.appendChild(p); // añade un hijo al elemento que han pasado por ID
+    elem.append(p); // añade un hijo al elemento que han pasado por ID
 }
 
 function mostrarGastoWeb(idElemento,gasto) {
-    let strGasto = `<div class="gasto">
-                    <div class="gasto-descripcion">${gasto.descripcion}</div>
-                    <div class="gasto-fecha">${gasto.fecha}</div> 
-                    <div class="gasto-valor">${gasto.valor}</div> 
-                    <div class="gasto-etiquetas">`;
 
+    // creacrión elemento <div class="gasto">
+    let divG = document.createElement('div');
+    divG.className += 'gasto';
+    // <div class="gasto-descripcion">
+    let divGD = document.createElement('div');
+    divGD.className += 'gasto-descripcion';
+    divGD.textContent += `${gasto.descripcion}`; // ==>  <div class="gasto-descripcion"> ${gasto.descripcion} </div>
+    // <div class="gasto-fecha"
+    let divGF = document.createElement('div');
+    divGF.className = 'gasto-fecha';
+    divGF.textContent = `${gasto.fecha}`;
+    // <div class="gasto-valor">
+    let divGV = document.createElement('div');
+    divGV.className = 'gasto-valor';
+    divGV.textContent = `${gasto.valor}`;
+    // <div class="gasto-etiquetas">
+    let divGE = document.createElement('div');
+    divGE.className = 'gasto-etiquetas';
+
+    let span;
     for (let eti of gasto.etiquetas){
-        strGasto += `<span class="gasto-etiquetas-etiqueta">${eti}</span>`;
+        span = document.createElement('span');
+        span.className += 'gasto-etiquetas-etiqueta';
+        span.textContent += `${eti} `;
+        divGE.append(span);
     }
 
-    strGasto += `</div></div>`;
-
-    document.getElementById(idElemento).innerHTML += strGasto;
+    // Insertar en el DOM
+    let elemento = document.getElementById(idElemento);
+    elemento.append(divG);
+    divG.append(divGD,divGF,divGV,divGE);
+    divGE.append(span);
 }
 
 function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo) {  // agrup = { "2021-09": 5, "2021-10": 39}
-    let textoHTML =                                                         
-    `
-    <div class="agrupacion">
-        <h1>Gastos agrupados por ${periodo}</h1>
-    `;
+
+    let elemento = document.getElementById(idElemento);
+
+    let divAg = document.createElement('div');
+    divAg.className += 'agrupacion';
+
+    let h1 = document.createElement('h1');
+    h1.textContent += `Gastos agrupado por ${periodo}`;
+
+    divAg.append(h1);                                                        
+
+    let divAD, span1, span2;
     for (let propiedad in agrup) {
-        textoHTML +=
-         `
-        <div class="agrupacion-dato">
-            <span class="agrupacion-dato-clave">${propiedad}</span>
-            <span class="agrupacion-dato-valor">${agrup[propiedad]}</span>
-        </div>
-        `;
+        divAD = document.createElement('div');
+        divAD.className += 'agrupacion-dato';
+
+        span1 = document.createElement('span');
+        span1.className += 'agrupacion-dato-clave';
+        span1.textContent += `${propiedad}`;
+
+        span2 = document.createElement('span');
+        span2.className += 'agrupacion-dato-valor';
+        span2.textContent += `${agrup[propiedad]}`;
+
+        divAD.append(span1);
+        divAD.append(span2);
+
+        divAg.append(divAD);
     }
-    textoHTML += "</div>"
-    document.getElementById(idElemento).innerHTML = textoHTML;
+
+    elemento.append(divAg);
 }
 
 function repintar() {
