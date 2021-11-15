@@ -110,9 +110,9 @@ function mostrarDatoEnId(idElemento,valor){
 
                     this.gasto.actualizarDescripcion(prompt("Introduce la nueva descripcion"));
 
-                    this.gasto.actualizarFecha(Date.parse(prompt("Introduce la nueva fecha")));
-
                     this.gasto.actualizarValor(parseFloat(prompt("Introduce el nuevo valor")));
+
+                    this.gasto.actualizarFecha(Date.parse(prompt("Introduce la nueva fecha")));
                     
                     let etiqueta = prompt("Introduce las nuevas etiquetas:");
 
