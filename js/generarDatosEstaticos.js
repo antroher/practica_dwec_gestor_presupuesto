@@ -91,5 +91,3 @@ gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", gestionPresup
 
 
 
-//LLamar función actualizarPresupuesto.
-gestionPresupuestoWeb.actualizarPresupuestoWeb();

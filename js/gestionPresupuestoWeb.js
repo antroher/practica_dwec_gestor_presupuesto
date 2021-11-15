@@ -17,7 +17,7 @@ function mostrarDatoEnId(idElemento ,valor){
 
 function mostrarGastoWeb(idElemento ,gasto){
     /* Coloco el primer bloque de código html ya que este no va a variar ----------------------------------------------------------------------------.*/
-    let string1 = `<div class="gasto">
+    let string1 = `<div class="gasto" id=${gasto.id} >
                             <div class="gasto-descripcion"> ${gasto.descripcion} </div>
                             <div class="gasto-fecha"> ${new Date(gasto.fecha).toLocaleDateString()} </div>
                             <div class="gasto-valor"> ${gasto.valor} </div>
@@ -32,45 +32,33 @@ function mostrarGastoWeb(idElemento ,gasto){
 
     });
       
-    string1 += `</div></div>
+    string1 += `</div>
     <button class="gasto-editar" id=${gasto.id} type="button">Editar</button> 
-    <button class="gasto-borrar" id=${gasto.id} type="button">Borrar</button>`;//Añadir el botón al DOM a continuación de las etiquetas(btnEditar), Añadir el botón al DOM a continuación del botón Editar(btnBorrar).
+    <button class="gasto-borrar" id=${gasto.id} type="button">Borrar</button>
+    </div>`;//Añadir el botón al DOM a continuación de las etiquetas(btnEditar), Añadir el botón al DOM a continuación del botón Editar(btnBorrar).
 
 
     document.getElementById(idElemento).innerHTML += string1;
     
-
-    /*
-    //----BOTON EDITAR---------//
-    //Crear un nuevo objeto a partir de la función constructora EditarHandle.
-    let objedHandle = new EditarHandle();
-    //Establecer la propiedad gasto del objeto creado al objeto gasto (recuerda que el objeto gasto es un parámetro pasado a la función mostrarGastoWeb).
-    objedHandle.gasto = gasto;
-    //Añadir el objeto recién creado como objeto manejador del evento click al botón Editar recién creado.
-    let editar = document.getElementsById("gasto-editar");
-    editar.addEventListener('click',objedHandle);
-
-
-    //------BOTON BORRAR--------//
-    //Crear un nuevo objeto a partir de la función constructora BorrarHandle.
-    let objborHandle = new BorrarHandle();
-    //Establecer la propiedad gasto del objeto creado al objeto gasto (recuerda que el objeto gasto es un parámetro pasado a la función mostrarGastoWeb).
-    objborHandle.gasto = gasto;
-    //Añadir el objeto recién creado como objeto manejador del evento click al botón Borrar recién creado.
-    let borrar = document.getElementsById("gasto-borrar");
-    borrar.addEventListener('click',objborHandle);
-
-    //-----EVENTOS PARA LOS SPAN DE ETIQUETAS------/
-    for(let et of gasto.etiquetas)
+    //Botón borrar
+    let btnBorrar = document.getElementById(gasto.id);
+    let objBorrar = new BorrarHandle();
+    objBorrar.gasto=gasto;
+    btnBorrar.addEventListener("click",objBorrar);
+    //Botón editar
+    let btnEditar = document.getElementById(gasto.id);
+    let objEditar = new EditarHandle();
+    objEditar.gasto=gasto;
+    btnEditar.addEventListener("click",objEditar);
+    //---span---
+    for (let elem of gasto.etiquetas)
     {
-    let borrarEtiq = document.getElementsById(gasto.id);
-    let objboretiqHandle = new BorrarEtiquetasHandle();
-    objboretiqHandle.gasto = gasto;
-    objboretiqHandle.etiqueta = et;
-    borrarEtiq.addEventListener('click',objboretiqHandle);
+        let btnBorrarEtiq = document.getElementById(gasto.id);
+        let objBorrarEtiq = new EditarHandle();
+        objBorrarEtiq.gasto=gasto;
+        objBorrarEtiq.etiquetas=elem;
+        btnBorrarEtiq.addEventListener("click",objBorrarEtiq);
     }
- */
-
 
 }
 
@@ -94,6 +82,12 @@ function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
 
 function repintar()
 {
+    //Si no pongo esto de aquí bajo al añadir un gasto se me duplica la info del presupuesto
+    document.getElementById("presupuesto").innerHTML = "";
+    document.getElementById("gastos-totales").innerHTML = "";
+    document.getElementById("balance-total").innerHTML = "";
+
+
     //1.- Mostrar el presupuesto en div#presupuesto (funciones mostrarPresupuesto y mostrarDatoEnId)------------------
     mostrarDatoEnId("presupuesto",gestionPresupuesto.mostrarPresupuesto());
 
@@ -156,7 +150,7 @@ function nuevoGastoWeb ()
     let arrayEtiquetas = gastoEtiquetas.split(',');
 
     //Crear un nuevo gasto (función crearGasto). ¡Ojo con la manera de pasar el parámetro ~etiquetas~!
-    let gastoWeb = gestionPresupuesto.CrearGasto(gastoDesc,gastoValor,gastoFecha,arrayEtiquetas);
+    let gastoWeb = new gestionPresupuesto.CrearGasto(gastoDesc,gastoValor,gastoFecha,arrayEtiquetas);
 
     //Añadir el gasto a la lista (función anyadirGasto).
     gestionPresupuesto.anyadirGasto(gastoWeb);

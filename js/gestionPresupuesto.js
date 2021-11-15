@@ -25,101 +25,86 @@ var IDGasto = 0;
         return `Tu presupuesto actual es de ${presupuesto} €`;
     }
 
-    function CrearGasto(desc,numIntroducido,fecha = Date.now(),...etiq) {
-        
-        // TODO
-        if(numIntroducido <= 0 || isNaN(numIntroducido)){
-            numIntroducido = 0;
-        }
-            this.descripcion = desc;
-            this.valor = numIntroducido;
-            this.fecha = fecha;
-            this.etiquetas = (etiq);
-
-            this.mostrarGasto = function(){
-                return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`
+    function CrearGasto(des, v, fec=Date.now(), ...etiq){
+        if((parseFloat(v)<0) || isNaN(v))
+            v=0;
+    
+            this.descripcion=des;
+            this.valor=v;
+            this.fecha=(typeof fec==='string') ? Date.parse(fec) : fec;
+            this.etiquetas=etiq;
+    
+            this.mostrarGasto=function(){
+                return 'Gasto correspondiente a '+this.descripcion+' con valor '+this.valor+' €';
             };
-
-            this.actualizarDescripcion = function(desc){
-                this.descripcion = desc;
+            this.actualizarDescripcion=function(des){
+                this.descripcion=des;
+            },
+            this.actualizarValor=function(val){
+                if(parseFloat(val)>0)
+                this.valor=val;  
             };
-
-            this.actualizarValor = function(numIntroducido){
-                if(numIntroducido >= 0)
-                    this.valor = parseFloat(numIntroducido); 
+            this.mostrarGastoCompleto=function(){
+                let fec;
+                    if(typeof this.fecha === 'string')                
+                        fec = Date.parse(this.fecha);                  
+                    else
+                        fec = this.fecha;                    
+                let aux = "";
+                    for(let elem of this.etiquetas) { 
+                        aux += `- ${elem}\n`;
+                    };        
+                let fecN = new Date(fec);   
+                let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fecN.toLocaleString())}\nEtiquetas:\n`;
+                return texto + aux;
             };
-            
-            this.actualizarFecha = function(stringFecha){
-                if(!isNaN(Date.parse(stringFecha)))              
-                    this.fecha = Date.parse(stringFecha);           
+            this.actualizarFecha=function(fec){
+                fec=Date.parse(fec);
+                if(!isNaN(fec))
+                this.fecha=fec;
             };
-
-            this.anyadirEtiquetas = function(...etiquetas) {
-               // let valoresUnicos = etiquetas.filter((x) => { // el .filter lo vamos a usar para generar un nuevo array con todos los elementos que cumplan con la condición que le hemos puesto.
-               //     if (!this.etiquetas.includes(x))  // el . includes nos dice si el elemento (x) se encuentra dentro del array devolviendo true o false según corresponda.
-               //         return x;                   
-               // });
-               // this.etiquetas.push(...valoresUnicos);
-
-               for(let elem of etiquetas){  //Añadido y usando la lógica de clase ya que me resulta más simple.
-                   if(!this.etiquetas.includes(elem))
-                   this.etiquetas.push(elem);
-               }
-            }; 
-            
-            this.borrarEtiquetas = function (...etiquetas) {
-                //etiquetas.forEach((x) => { // x es por cada etiqueta dentro del array etiquetas que le aplique la lógica utilizada.
-                //    for (let i = 0; i < this.etiquetas.length; i++) {
-                 //       if (this.etiquetas[i] === x) 
-                //            this.etiquetas.splice(i, 1); // Cambia el contenido del array eliminando elementos existentes y añadimos otros nuevos.
-                //        
-                //    }
-                //})
-                
-                for(let elem of etiquetas) //Lógica sacada en clase, voy a usar esta por comodidad y mejor comprensión.
+            this.anyadirEtiquetas=function(...etiq){
+                for(let elem of etiq)
+                {
+                    if(!this.etiquetas.includes(elem))
+                    this.etiquetas.push(elem);
+                }
+            };
+            this.borrarEtiquetas=function(...etiq){
+                for(let elem of etiq)
                 {
                     if(this.etiquetas.includes(elem))
+                    {
                         this.etiquetas.splice(this.etiquetas.indexOf(elem),1);
                     }
-                };
-
-            this.mostrarGastoCompleto = function() {
-                let fec1;
-                    if(typeof this.fecha === 'string')                
-                        fec1 = Date.parse(this.fecha);                  
-                    else
-                        fec1 = this.fecha;                    
-                let aux = "";
-                    for(let etiqueta of this.etiquetas) { // Sacamos todas las etiquetas con --> for (let ... of...) Iteramos un array con un objecto creado para ir variando su valor en este caso etiqueta va a coger el valor de cada etiqueta en cada repetición.
-                        aux += `- ${etiqueta}\n`;
-                    };        
-                let fec2 = new Date(fec1);   
-                let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fec2.toLocaleString())}\nEtiquetas:\n`;
-                return texto + aux;
-            }}
-
-            this.obtenerPeriodoAgrupacion= function (periodo) { //AYUDA DE COMPAÑERO YA QUE CON MI FUNCIÓN NO ME HACÍA LA CONVERSIÓN CORRECTAMENTE AL STRING NECESARIO.
-                let resultado = "0";
-                let fechObj = new Date(this.fecha);
-                switch (periodo) {
-                  case "dia":
-                    return fechObj.toISOString().substring(0, 10);
-                  case "mes":
-                    return fechObj.toISOString().substring(0, 7);
-                  case "anyo":
-                    return fechObj.toISOString().substring(0, 4);
-                  default:
-                    console.log("Periodo erroneo.");
-                    break;
                 }
-            
-                return resultado;
-
-              };            
-              return gasto;
-            
-               
-               
+            };
+            this.obtenerPeriodoAgrupacion=function(periodo){
+                let a = new Date(this.fecha), texto="";
+                switch(periodo){
+                    case "dia":{
+                        let m=a.getMonth()+1<10 ? `0${a.getMonth()+1}` : `${a.getMonth()+1}`;
+                        let d=a.getDate()<10 ? `0${a.getDate()}` : `${a.getDate()}`;
+                            texto=a.getFullYear() + '-' + m + '-' + d; //aaaa-mm-dd
+                            break;
+                    }
+                    case "mes":{
+                        let m=a.getMonth()+1<10 ? `0${a.getMonth()+1}` : `${a.getMonth()+1}`;
+                            texto=a.getFullYear() + '-' + m; //aaaa-mm
+                            break;
+                    }
+                    case "anyo":{
+                            texto=a.getFullYear(); //aaaa
+                            break;
+                    }
+                    default:{
+                        console.log("Error, el formato de la cadena introducida no es valido.");
+                    }
+                }
+                return texto;
+            };
+    
+    }              
                
                
                 /* let fec; --> ME DA ERRORES ESTA FUNCION obtenerPeriodoAgrupacion
@@ -191,7 +176,7 @@ gasto2.obtenerPeriodoAgrupacion("dia");
     function borrarGasto(IDGasto) {
             gastos.forEach(x => {
                 if(x.id == IDGasto )           
-                gastos.splice(gastos.indexOf(x),1); // El splice es lo que explicó antonio en clase pero tengo que volver a preguntarle el funcionamiento.     
+                gastos.splice(gastos.indexOf(x),1);
             })
           
         
