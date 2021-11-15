@@ -12,12 +12,12 @@ gestionPresupuestoWeb.mostrarDatoEnId("presupuesto", presupuesto);
 
 //Creamos los gastos y los guardamos en un array
 let gastosNuevosCreados = [];
-gastosNuevosCreados.push(gestionPresupuesto.CrearGasto("Comprar Carne", 23.44, "2021-10-06", "casa", "comida"));
-gastosNuevosCreados.push(gestionPresupuesto.CrearGasto("Comprar fruta y verdura", 14.25, "2021-09-06", "supermercado", "comida"));
-gastosNuevosCreados.push(gestionPresupuesto.CrearGasto("Bonobús", 18.60, "2020-05-26", "transporte"));
-gastosNuevosCreados.push(gestionPresupuesto.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina"));
-gastosNuevosCreados.push(gestionPresupuesto.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros"));
-gastosNuevosCreados.push(gestionPresupuesto.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros"));
+gastosNuevosCreados.push(new gestionPresupuesto.CrearGasto("Comprar Carne", 23.44, "2021-10-06", "casa", "comida"));
+gastosNuevosCreados.push(new gestionPresupuesto.CrearGasto("Comprar fruta y verdura", 14.25, "2021-09-06", "supermercado", "comida"));
+gastosNuevosCreados.push(new gestionPresupuesto.CrearGasto("Bonobús", 18.60, "2020-05-26", "transporte"));
+gastosNuevosCreados.push(new gestionPresupuesto.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina"));
+gastosNuevosCreados.push(new gestionPresupuesto.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros"));
+gastosNuevosCreados.push(new gestionPresupuesto.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros"));
 
 //Añadimos los gastos del array gastosNuevosCreados
 for (let key of gastosNuevosCreados){
@@ -77,3 +77,13 @@ gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", agrupacion ,"m
 //Mostrar el total de gastos agrupados por año
 agrupacion = gestionPresupuesto.agruparGastos("anyo");
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", agrupacion ,"año");
+
+/**** EVENTOS DE LOS BOTONES ****/
+
+//Forma 1 --> Creas una función en una variable y la añades al listener del botón deseado.
+let btnActualizarPresupuesto = document.getElementById("actualizarpresupuesto");
+
+btnActualizarPresupuesto.addEventListener("click", () => gestionPresupuestoWeb.actualizarPresupuestoWeb());
+
+let btnAnyadirgasto = document.getElementById("anyadirgasto");
+btnAnyadirgasto.addEventListener("click",gestionPresupuestoWeb.nuevoGastoWeb);
