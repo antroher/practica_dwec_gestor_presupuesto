@@ -67,6 +67,8 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
         mostrarDatoEnId("gastos-totales", calcularTotalGastos());
         mostrarDatoEnId("balance-total", calcularBalance());
 
+
+        
         let listagastos = listarGastos();
     for (let lista of listagastos)
         {
@@ -92,11 +94,12 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
         let nuevaetiqueta = prompt("Introduce una o varias etiquetas nuevas etiquetas");
 
         nuevovalor = parseFloat(nuevovalor);
-        let arrEtiquetas = nuevaetiqueta.split(', ');
+        var arrEtiquetas= nuevaetiqueta.split(', ');
+        
 
-        let gasto = new CrearGasto(nuevadesc, nuevovalor, nuevafecha, ...arrEtiquetas);
+        let gasto = new CrearGasto(nuevadesc,nuevovalor,nuevafecha,...arrEtiquetas);
         anyadirGasto(gasto);
-
+       
         repintar();
     }
     let botAnaydir = document.getElementById("anyadirgasto");
@@ -104,17 +107,45 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
 
     function EditarHandle()
     {
+        this.handleEvent = function(event){
 
+            let nuevadesc = prompt("Introduce nueva descripción");
+            this.gasto.actualizarDescripcion(nuevadesc);
+    
+            let nuevovalor = prompt("Introduce nuevo valor");
+            nuevovalor = parseFloat(nuevovalor);
+            this.gasto.actualizarValor(nuevovalor);
+    
+            let nuevafecha = prompt("Introduce nueva fecha");
+            nuevafecha = Date.parse(nuevafecha);
+            this.gasto.actualizarFecha(nuevafecha);
+    
+            let nuevaetiqueta = prompt("Introduce nuevas etiquetas");
+            nuevaetiqueta = nuevaetiqueta.split(', ');
+            this.gasto.anyadirEtiquetas(nuevaetiqueta);
+    
+            repintar();
+        }
     }
 
     function BorrarHandle()
     {
+        this.handleEvent = function(event){
 
+            borrarGasto(this.gasto.id);
+    
+            repintar()
+        }
     }
 
     function BorrarEtiquetasHandle()
     {
-
+        this.handleEvent = function(event){
+       
+            this.gasto.borrarEtiquetas(this.gasto.etiquetas);
+    
+            repintar();
+        }
     }
 
 
