@@ -116,6 +116,20 @@ function nuevoGastoWeb () {
     repintar();
 }
 
+function formatearFecha(date) {
+    let d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
 function EditarHandle() {
     this.handleEvent = function (event){
         let descripcion = prompt("Escribe la nueva descripción del gasto");
@@ -129,6 +143,21 @@ function EditarHandle() {
         this.gasto.anyadirEtiquetas(...etiquetasArray);
         repintar();
     }
+}
+
+function BorrarHandle() {
+    this.handleEvent = function (event){
+      let number = this.gasto.id;
+      gestionPresupuesto.borrarGasto(number);
+      repintar();
+    }
+}
+
+function BorrarEtiquetasHandle() {
+    this.handleEvent = function (event){
+    this.gasto.borrarEtiquetas(this.etiqueta);
+    repintar();
+   }
 }
 
 export {
