@@ -178,9 +178,44 @@ function nuevoGastoWebFormulario() {
     let gridForm = document.getElementById("formulario-template").content.cloneNode(true);
     var form = gridForm.querySelector("form");
     
-    let cancelarEvent = new cancelarHandle();
-    cancelarEvent.formulario = form;
-    form.button.cancelar.addEventListener('click', cancelarEvent);
+    
+//     let cancelarEvent = new cancelarHandle();
+//     cancelarEvent.formulario = form;
+//     form.getElementById('cancelar').addEventListener('click', cancelarEvent);
+
+//     let submitEvent = new submitHandle();
+//     form.addEventListener('submit', submitEvent);
+// }
+}
+
+function submitHandle() {
+    this.handleEvent = function(event) {
+        //Prevenir el efecto por defecto del formulario.
+        event.preventDefault();
+
+        //Recogida de datos del propio formulario.
+        let descripcion = event.currentTarget.descripcion;
+        let valor = event.currentTarget.valor;
+        let fecha = event.currentTarget.fecha;
+        let etiquetas = event.currentTarget.etiquetas;
+
+        if (typeof etiquetas !== 'undefined') {
+            etiquetas = etiquetas.split(",");
+        }
+
+        //Creación de gasto con los datos recogidos.
+        let gasto = gP.CrearGasto(descripcion, valor, fecha, etiquetas);
+
+        //Adición del gasto a la lista.
+        gP.anyadirGasto(gasto);
+
+        //Llamar a la función repintar.
+        repintar();
+
+        document.getElementById('anyadirgasto-formulario').disabled = false;
+
+
+    }
 }
 
 function cancelarHandle () {
