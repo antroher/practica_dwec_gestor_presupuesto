@@ -50,7 +50,37 @@ let filtraGast= gestionPresupuesto.filtrarGastos({fechaDesde:"2021-09-01", fecha
 
 //Mostrar el listado de gastos de más de 50€ 
 
+let listaGastos= gestionPresupuesto.listarGastos();
+for(let gast of listaGastos)
+{
+    gestionPresupuesto.mostrarGastoWeb('listado-gastos-filtrado-2', gast);
+}
 
+let filtGastCinc= gestionPresupuesto.filtrarGastos({valorMinimo: 50});
 
+//Mostrar el listado de gastos de más de 200€ con etiqueta seguros
+
+let listaGastos= gestionPresupuesto.listarGastos();
+for(let gas of listaGastos)
+{
+    gestionPresupuesto.mostrarGastoWeb('listado-gastos-filtrado-3', gas);
+}
+
+let filtGastDosc= gestionPresupuesto.filtrarGastos({valorMinimo: 200, etiquetasTiene: 'seguros'});
+
+//Mostrar el listado de gastos que tengan las etiquetas comida o transporte de menos de 50€ 
+let listaGastos= gestionPresupuesto.listarGastos();
+for(let ga of listaGastos)
+{
+    gestionPresupuesto.mostrarGastoWeb('listado-gastos-filtrado-4', ga);
+}
+
+let filtGastDosc= gestionPresupuesto.filtrarGastos({valorMaximo: 50, etiquetasTiene: 'transporte', etiquetasTiene:'comida'});
+
+//Mostrar el total de gastos agrupados por día
+
+//Mostrar el total de gastos agrupados por mes
+
+//Mostrar el total de gastos agrupados por año
 
 //               (IMPORTANTE) ---->                FOR OF PARA ARRAYS - FOR IN PARA EL RESTO.
