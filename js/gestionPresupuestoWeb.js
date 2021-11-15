@@ -58,6 +58,7 @@ element.innerHTML+="<div class='gasto'>"
 
 }
 
+//Eventos !
 function repintar()
 {
   /*Por tanto, es necesario disponer de una función que vuelva a crear toda la estructura HTML que refleje los cambios realizados en el modelo de datos. 
@@ -69,13 +70,29 @@ Mostrar el balance total en div#balance-total (funciones calcularBalance y mostr
 Borrar el contenido de div#listado-gastos-completo, para que el paso siguiente no duplique la información. Puedes utilizar innerHTML para borrar el contenido de dicha capa.
 Mostrar el listado completo de gastos en div#listado-gastos-completo (funciones listarGastos y mostrarGastoWeb)
 La función repintar no actualizará el resto de capas (filtrados y agrupaciones) de la práctica anterior (lo haremos así por simplicidad).*/
+let gastocompleto= new Array();
 let gastos = gp.listarGastos();
 document.getElementById("presupuesto").innerHTML=mostrarDatoEnId(gp.mostrarPresupuesto(),"presupuesto");
 document.getElementById("balance-total").innerHTML=mostrarDatoEnId(gp.calcularTotalGastos(),"gastos-totales");
 document.getElementById("gastos-totales").innerHTML=mostrarDatoEnId(gp.calcularBalance(),"balance-total");
 document.getElementById("listado-gastos-completo").innerHTML=
 gastos.forEach(item => {
-  mostrarGastoWeb("listado-gastos-completo",item);
+  mostrarGastoWeb("presupuesto",item);
+});
+
+gastos.forEach(item => {
+  mostrarGastoWeb("balance-total",item);
+});
+gastos.forEach(item => {
+  mostrarGastoWeb("gastos-totales",item);
+});
+
+gastos.forEach(item => {
+  gastocompleto.push(item);
+});
+
+gastocompleto.forEach(item=>{
+  mostrarGastoWeb("listado-gastos-completo", item)
 });
 }
 
@@ -88,6 +105,55 @@ function actualizarPresupuestoWeb()
 
 }
 
+function nuevoGastoWeb()
+{
+  /*Pedir al usuario la información necesaria para crear un nuevo gasto mediante sucesivas preguntas con prompt (por orden: descripción, valor, fecha y etiquetas). Por simplicidad, de momento no se comprobará la validez de dichos datos. La fecha vendrá dada en formato internacional (yyyy-mm-dd) y las etiquetas se introducirán en un único cuadro de texto como una lista separada por comas (por ejemplo, etiqueta1,etiqueta2,etiqueta3).
+Convertir el valor a número (recuerda que prompt siempre devuelve un string).
+Convertir la cadena de texto de etiquetas devuelta por prompt a un array.
+Crear un nuevo gasto (función crearGasto). ¡Ojo con la manera de pasar el parámetro ~etiquetas~!
+Añadir el gasto a la lista (función anyadirGasto).
+Llamar a la función repintar para que se muestre la lista con el nuevo gasto.*/
+  let descricion=prompt("Introduce descripcion gasto");
+  let valor=parseFloat(prompt("Introduce valor gasto"));
+  let fecha=prompt("Introduce fecha gasto");
+  let etiquetas=prompt("Introduce etiquetas gasto").split(",");
+
+ 
+
+
+  let gasto =new gp.CrearGasto(descricion,valor,fecha);
+  etiquetas.forEach(e => {
+      gasto.anyadirEtiquetas(e);
+  });
+
+  gp.anyadirGasto(gasto);
+  repintar();
+}
+
+function EditarHandle()
+{
+
+}
+
+function BorrarHandle()
+{
+  
+}
+function BorrarEtiquetasHandle(){
+  let divGV=document.createElement('div');
+  divGV.className+='gasto-valor';
+  divGV.innerText=gasto.valor;
+
+  let divGE=document.createElement('div');
+  divGE.className+='gasto-etiquetas';
+  divGE.id+=`e${gasto.id}`;
+
+  for(let item of gasto.etiquetas)
+  {
+     
+  }
+  repintar();
+}
 
 
 
@@ -156,5 +222,9 @@ export{
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     repintar,
-    actualizarPresupuestoWeb
+    actualizarPresupuestoWeb,
+    nuevoGastoWeb,
+    EditarHandle,
+    BorrarHandle,
+    BorrarEtiquetasHandle
 }

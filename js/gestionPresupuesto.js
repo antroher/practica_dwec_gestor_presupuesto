@@ -38,75 +38,75 @@ function CrearGasto(descripcionR, gastoR=0, fechaR = Date.now(), ...etiquetasR) 
       gastoR=0;
     }
 
-    let gasto = {
-      descripcion: descripcionR , 
-      valor:parseFloat(gastoR),
-      fecha:fechaR,
-      etiquetas:[...etiquetasR]
+    
+      this.descripcion= descripcionR ;
+      this.valor=parseFloat(gastoR);
+      this.fecha=fechaR;
+      this.etiquetas=[...etiquetasR];
 
-    }
+    
     
     //Metodos del objeto
-    gasto.mostrarGasto = function() {
-      return 'Gasto correspondiente a '+gasto.descripcion+' con valor '+gasto.valor+' €';
+    this.mostrarGasto = function() {
+      return 'Gasto correspondiente a '+this.descripcion+' con valor '+this.valor+' €';
     };
   
-    gasto.actualizarDescripcion=function(parametro)
+    this.actualizarDescripcion=function(parametro)
     {
-          gasto.descripcion=parametro;
+          this.descripcion=parametro;
     };
-    gasto.actualizarValor=function(parametro){
+    this.actualizarValor=function(parametro){
   
       if(parseFloat(parametro)>0)
       {
-        gasto.valor=parametro;
+        this.valor=parametro;
       }
       
   
     }
-    gasto.mostrarGastoCompleto=function()
+    this.mostrarGastoCompleto=function()
     {
-      let string= "Gasto correspondiente a descripción del gasto con valor "+gasto.valor+" €.\nFecha: "+new Date(gasto.fecha).toLocaleString()+"\nEtiquetas:\n";
-      gasto.etiquetas.forEach(etiqueta => {
+      let string= "Gasto correspondiente a descripción del gasto con valor "+this.valor+" €.\nFecha: "+new Date(this.fecha).toLocaleString()+"\nEtiquetas:\n";
+      this.etiquetas.forEach(etiqueta => {
         string +="- "+etiqueta+"\n";
         
       });
       return string;
     }
-    gasto.actualizarFecha=function(fechaR)
+    this.actualizarFecha=function(fechaR)
     {
         if(!isNaN(Date.parse(fechaR)))
         {
-          gasto.fecha=Date.parse(fechaR);
+          this.fecha=Date.parse(fechaR);
         }
     }
-    gasto.borrarEtiquetas=function(...parametros)
+    this.borrarEtiquetas=function(...parametros)
     {
     
       parametros.forEach(et => {
-        if(gasto.etiquetas.includes(et))
+        if(this.etiquetas.includes(et))
         {
-          gasto.etiquetas.splice(gasto.etiquetas.indexOf(et),1);
+          this.etiquetas.splice(this.etiquetas.indexOf(et),1);
         }
       } );
     }
-    gasto.anyadirEtiquetas=function(...parametros)
+    this.anyadirEtiquetas=function(...parametros)
     {
         /*Función de un *número indeterminado de parámetros* que añadirá las etiquetas pasadas como parámetro a la propiedad ~etiquetas~ del objeto.
          *Deberá comprobar que no se creen duplicados*.*/ 
         parametros.forEach(et => {
-          if(!gasto.etiquetas.includes(et))
+          if(!this.etiquetas.includes(et))
           {
-           gasto.etiquetas.push(et);
+           this.etiquetas.push(et);
           }
         } );
 
     }
-    gasto.obtenerPeriodoAgrupacion=function(parametro)
+    this.obtenerPeriodoAgrupacion=function(parametro)
     {
       /*Función de un parámetro que devolverá el período de agrupación correspondiente al parámetro periodo de la función y a la fecha del gasto. Si el período a agrupar es dia,
      el período de agrupación tendrá el formato aaaa-mm-dd; si es mes, tendrá el formato aaaa-mm; y si es anyo, tendrá el formato aaaa*/ 
-        let fecha=new Date(gasto.fecha);
+        let fecha=new Date(this.fecha);
         let dia,mes,año;
         dia=fecha.getDate()<10 ? "0"+(fecha.getDate()):fecha.getDate() ;
         mes=fecha.getMonth()<9 ? "0"+(fecha.getMonth()+1):fecha.getMonth()+1 ;
@@ -128,13 +128,13 @@ function CrearGasto(descripcionR, gastoR=0, fechaR = Date.now(), ...etiquetasR) 
     let aEtiquetas= new Array();
     if(etiquetasR==undefined)
   {
-    gasto.etiquetas=aEtiquetas;
+    this.etiquetas=aEtiquetas;
   }else{
-    gasto.etiquetas=etiquetasR;
+    this.etiquetas=etiquetasR;
   }
   if(fechaR==undefined)
   {
-    gasto.fecha=Date.now().toString();
+    this.fecha=Date.now().toString();
   }else
   {
     if(isNaN(Date.parse(fechaR)))
@@ -142,7 +142,7 @@ function CrearGasto(descripcionR, gastoR=0, fechaR = Date.now(), ...etiquetasR) 
       console.log("error fecha is not a number")
     }else
     {
-      gasto.fecha=Date.parse(fechaR);
+      this.fecha=Date.parse(fechaR);
     }
   }
 
@@ -153,7 +153,7 @@ function CrearGasto(descripcionR, gastoR=0, fechaR = Date.now(), ...etiquetasR) 
     
 
 
-   return gasto;
+   //return gasto;
 
     
 
