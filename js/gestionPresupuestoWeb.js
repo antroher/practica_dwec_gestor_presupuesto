@@ -39,6 +39,9 @@ function mostrarDatoEnId(idElemento,valor){
                 <button class="gasto-editar" id="gasto-editar-${gasto.id}" type="button">
                     Editar
                 </button>
+                <button class="gasto-borrar" id="gasto-borrar-${gasto.id}" type="button">
+                Editar
+            </button>
             </div>`;
 
         //EVENTO BOTON EDITAR GASTO
@@ -48,6 +51,10 @@ function mostrarDatoEnId(idElemento,valor){
         let botonEditar = document.getElementById(`gasto-editar-${gasto.id}`);
         botonEditar.addEventListener('click', EventoEditarHandle);
 
+        let EventoBorrarHandle = new BorrarHandle();
+        EventoBorrarHandle.gasto = gasto;
+        let botonBorrar = document.getElementById(`gasto-borrar-${gasto.id}`);
+        botonBorrar.addEventListener(`click`, EventoBorrarHandle);
     });
 }
     
@@ -122,6 +129,12 @@ function EditarHandle (){
     }
 }
 
+function BorrarHandle(){
+    this.handleEvent = function(evento){
+        gesPre.borrarGasto(this.gasto.id);
+        repintar();
+    }
+}
 //El export de las funciones
 export{
     mostrarDatoEnId,
