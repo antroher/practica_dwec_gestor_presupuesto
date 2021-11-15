@@ -76,7 +76,7 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas)
     {
         fecha = Date.now(fecha);
     }
-    const gastos = {
+    const gasto = {
         valor : valor,
         descripcion : descripcion,
         etiquetas : etiquetas,
@@ -182,7 +182,7 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas)
         }
 
         }
-        return gastos;
+        return gasto;
     }
         
         

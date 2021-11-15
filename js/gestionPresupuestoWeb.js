@@ -38,7 +38,7 @@ function mostrarGastoWeb(idElemento,gastos)
                 ${datos}`;
     }
 
-
+    
 
 }
 
@@ -60,6 +60,64 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
         `
 
 }
+    function repintar()
+    {
+
+        mostrarDatoEnId("presupuesto",mostrarPresupuesto());
+        mostrarDatoEnId("gastos-totales", calcularTotalGastos());
+        mostrarDatoEnId("balance-total", calcularBalance());
+
+        let listagastos = listarGastos();
+    for (let lista of listagastos)
+        {
+            mostrarGastoWeb("listado-gastos-completo", lista);
+        }
+    }
+
+    function actualizarPresupuestoWeb(){
+
+        let nuevoPresupuesto = prompt("Introduzca  un nuevo presupuesto");
+        actualizarPresupuesto(parseFloat(nuevoPresupuesto));
+    
+        repintar();
+    }
+    let botActualizar = document.getElementById("actualizarpresupuesto");
+    botActualizar.addEventListener("click", actualizarPresupuestoWeb());
+
+    function nuevoGastoWeb()
+    {
+        let nuevadesc = prompt("Introduce una nueva descripción");
+        let nuevovalor = prompt("Introduce un  nuevo valor");
+        let nuevafecha = prompt("Introduce una nueva fecha");
+        let nuevaetiqueta = prompt("Introduce una o varias etiquetas nuevas etiquetas");
+
+        nuevovalor = parseFloat(nuevovalor);
+        let arrEtiquetas = nuevaetiqueta.split(', ');
+
+        let gasto = new CrearGasto(nuevadesc, nuevovalor, nuevafecha, ...arrEtiquetas);
+        anyadirGasto(gasto);
+
+        repintar();
+    }
+    let botAnaydir = document.getElementById("anyadirgasto");
+    botAnaydir.addEventListener("click", nuevoGastoWeb);
+
+    function EditarHandle()
+    {
+
+    }
+
+    function BorrarHandle()
+    {
+
+    }
+
+    function BorrarEtiquetasHandle()
+    {
+
+    }
+
+
 export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
