@@ -9,23 +9,10 @@ import { prependListener } from 'cluster';
  }
 
 function mostrarGastoWeb(idElemento, gastos) {
-    let div = document.getElementById(idElemento);
-    for (let gasto of gastos) {
-        let aux = "";
-        for (let etiq of gasto.etiquetas) {
-            aux += `
-            <span class="gasto-etiquetas-etiqueta">
-                ${etiq}
-            </span>`
-        }
-        div.innerHTML += 
-            `<div class="gasto">
-                <div class="gasto-descripcion">${gasto.descripcion}</div>
-                <div class="gasto-fecha">${gasto.fecha}</div> 
-                <div class="gasto-valor">${gasto.valor}</div> 
-                <div class="gasto-etiquetas">
-                ${aux}`;
-    }
+    let divElem = document.getElementById(idElemento);
+    let divGast = document.createElement("div");
+    divGast.className = "gasto";
+    divElem.append(divGast);
 
     let btnEditar = document.createElement("button");
     btnEditar.className = 'gasto-editar';
@@ -36,6 +23,23 @@ function mostrarGastoWeb(idElemento, gastos) {
     btnBorrar.className = 'gasto-borrar';
     btnBorrar.textContent = "Borrar";
     btnBorrar.type = "button"
+
+    for (let gasto of gastos) {
+        let aux = "";
+        for (let etiq of gasto.etiquetas) {
+            aux += `
+            <span class="gasto-etiquetas-etiqueta">
+                ${etiq}
+            </span>`
+        }
+    divElem.innerHTML += 
+        `<div class="gasto">
+            <div class="gasto-descripcion">${gasto.descripcion}</div>
+            <div class="gasto-fecha">${gasto.fecha}</div> 
+            <div class="gasto-valor">${gasto.valor}</div> 
+            <div class="gasto-etiquetas">
+            ${aux}`;
+    }
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
