@@ -15,12 +15,18 @@ function mostrarGastoWeb(idElemento,gastos){
 
     gastos.forEach((gasto) => {
         let etiquetas = "";
+        let IdTag = [];
+        let arrayEti = [];
 
         gasto.etiquetas.forEach((etiqueta) => {
             etiquetas +=
             `<span class="gasto-etiquetas-etiqueta">
                 ${etiqueta}
             </span>`;
+            
+            // recoger el id y la etiqueta que se borra para utilizarla luego
+            IdTag.push(`${gasto.id}-${etiqueta}`);
+            arrayEti.push(`${etiqueta}`);
         });
 
         elemento.innerHTML += 
@@ -31,10 +37,21 @@ function mostrarGastoWeb(idElemento,gastos){
         <div class="gasto-etiquetas">
             ${etiquetas}
         </div> 
-        </div>`
+            <button class="gasto-editar" id="gasto-editar-${gasto.id}" type="button">Editar</button>
+            <button class="gasto-borrar" id="gasto-borrar-${gasto.id}" type="button">Borrar</button>
+        </div>`;
+        
+        let editHandler = new EditarHandle();
+        editHandler.gasto = gasto;
+        document.getElementById(`gasto-editar-${gasto.id}`).addEventListener('click', editHandler);
+
+        //Asignación del objeto manejador al boton de borrado.
+        let deleteHandler = new BorrarHandle();
+        deleteHandler.gasto = gasto;
+        document.getElementById(`gasto-borrar-${gasto.id}`).addEventListener('click', deleteHandler);
     })
 
-}
+};
 
 function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
     let elemento = document.getElementById(idElemento);
@@ -79,6 +96,45 @@ function nuevoGastoWeb()
     let gasto = new GesPresu.CrearGasto(descripcion,valor,fecha,arrayetiquetas);
     GesPresu.anyadirGasto(gasto);
     repintar();
+}
+
+function EditarHandle(){
+    this.handleEvent = function() {
+        //Pedir al usuario que quiere cambiar
+        let descripcion = prompt("Introduzca la descripción nueva: ");
+        let valor = parseFloat(prompt("Introduzca el valor nuevo: "));
+        let fecha = Date.parse(prompt("Introduzca la fecha nueva: "));
+
+        this.gasto.actualizarDescripcion(descripcion);
+        this.gasto.actualizarValor(valor);
+        this.gasto.actualizarFecha(fecha);
+
+        let etiquetas = prompt("Introduzca las nuevas etiquetas separadas por , : ");
+
+        if(typeof etiquetas != "undefined" ) {
+            this.gasto.anyadirEtiquetas(etiquetas.split(','))
+        }
+
+        repintar();
+    }
+}
+
+function BorrarHandle() {
+    this.handleEvent = function(event) {
+        //Borra gasto
+        gP.borrarGasto(this.gasto.id);
+
+        repintar();
+    }
+ }
+
+ function BorrarEtiquetasHandle() {
+    this.handleEvent = function(event) {
+        //Borra etiqueta
+        this.gasto.borrarEtiquetas(this.etiqueta);
+
+        repintar();
+    }
 }
 
 
