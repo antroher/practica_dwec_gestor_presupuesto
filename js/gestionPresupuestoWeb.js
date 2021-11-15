@@ -4,6 +4,7 @@ import * as gP from './gestionPresupuesto.js';
 
 document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb);
+document.getElementById("anyadirgasto-formulario").addEventListener('click', nuevoGastoWebFormulario)
 
 
 function mostrarDatoEnId(idElemento, valor) {
@@ -173,14 +174,22 @@ function BorrarEtiquetasHandle() {
 }
 
 function nuevoGastoWebFormulario() {
+    
     let gridForm = document.getElementById("formulario-template").content.cloneNode(true);
     var form = gridForm.querySelector("form");
+    
+    let cancelarEvent = new cancelarHandle();
+    cancelarEvent.formulario = form;
+    form.button.cancelar.addEventListener('click', cancelarEvent);
 }
 
-function submitHandle(event) {
-    event.preventDefault();
+function cancelarHandle () {
+    this.handleEvent = function(event) {
+        //Eliminar el formulario creado.
+        this.formulario.remove();
 
-    repintar();
+        document.getElementById("anyadirgasto-formulario").disabled = false;
+    }
 }
 
 //Funciones a exportar para el test.
