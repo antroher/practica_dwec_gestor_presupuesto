@@ -170,10 +170,42 @@ function nuevoGastoWebFormulario() {
     //Copia del formulario/template
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
     var formulario = plantillaFormulario.querySelector("form");
-    let buttonSubmit = formulario.getElementsByTagName("button")[0];
-    buttonSubmit.addEventListener('submit', this.handleEvent = function(event) {
-        event.preventDefault()
+    //Recogemos el evento submit
+    //let buttonSubmit = formulario.getElementsByTagName("button")[0];
+
+    //Evento para el submit del formulario
+    formulario.addEventListener('submit', this.handleEvent = function(event) {
+        event.preventDefault();
+        let formularioSubmit = event.currentTarget;
+        let descripcionForm = formularioSubmit.elements.descripcion.value;
+        let valorForm = formularioSubmit.elements.valor.value;
+        let fechaForm = formularioSubmit.elements.fecha.value;
+        let etiquetasForm = formularioSubmit.elements.etiquetas.value;
+        let newGastoForm = new gestionPresupuesto.CrearGasto(descripcionForm, valorForm, fechaForm, etiquetasForm);
+        gestionPresupuesto.anyadirGasto(newGastoForm);
+        repintar();
+        let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
     });
+    //botón cancelar
+    let btnCancelar = formulario.querySelector("button.cancelar");
+    let cancelarObj = new CancelarFormHandle();
+    cancelarObj.formulario = this.formulario;
+    btnCancelar.addEventListener("click", cancelarObj);
+
+    //Desactivar -añadir atributo disabled- al botón anyadirgasto-formulario
+    let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
+
+    //Por último, añadir el fragmento de documento (variable plantillaFormulario) al final del <div id="controlesprincipales"> para que se muestre en la página.
+    let divControlesPrincipales = document.getElementById("controlesprincipales").appendChild(plantillaFormulario);
+}
+
+//Manejador del evento cancelar del formulario
+function CancelarFormHandle() {
+    this.handleEvent = function (event){
+        //¿Eliminamos el formulario?
+       this.formulario.remove();
+       let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+    }
 }
  
 
