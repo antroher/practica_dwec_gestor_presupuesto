@@ -37,17 +37,16 @@ function mostrarDatoEnId(idElemento,valor){
                 <button type="button" class="gasto-editar" id="editar-${gasto.id}">Editar</button>
                 <button type="button" class="gasto-borrar" id="borrar-${gasto.id}">Eliminar</button>`;
 
-                let objetoDel = new BorrarHandle()
+                // let objetoDel = new BorrarHandle()
 
-                objetoDel.gasto = gasto;
-                document.getElementById(`borrar-${gasto.id}`).addEventListener("click",objetoDel);//boton que borra
+                // objetoDel.gasto = gasto;
+                // document.getElementById(`borrar-${gasto.id}`).addEventListener("click",objetoDel);//boton que borra
 
                 let objetoEdit = new EditarHandle()
 
                 objetoEdit.gasto = gasto;
                 document.getElementById(`editar-${gasto.id}`).addEventListener("click",objetoEdit);//boton que edita
         });
-        
     }
     
         function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
@@ -70,7 +69,7 @@ function mostrarDatoEnId(idElemento,valor){
         }
 
 
-        //Funcion repintar pàra actualizar la pagina
+        //Funcion repintar para actualizar la pagina
             function repintar(){
                 mostrarDatoEnId("presupuesto",GesPresu.mostrarPresupuesto());
                 mostrarDatoEnId("gastos-totales",GesPresu.calcularTotalGastos());
@@ -96,7 +95,7 @@ function mostrarDatoEnId(idElemento,valor){
             let descripcion = prompt("Introduce la descripcion del gasto:");
             let valor = parseFloat(prompt("Introduce el valor del gasto:"));
             let fecha = Date.parse(prompt("Introduce el valor del gasto:"));
-            let etiquetas = prompt("Introduce las etiquetas:");
+            let etiquetas = prompt("Introduce las etiquetas:").split(',');
 
                 //Creamos y añadimos el gasto
             GesPresu.anyadirGasto(new GesPresu.CrearGasto(descripcion,valor,fecha,etiquetas))
@@ -107,8 +106,7 @@ function mostrarDatoEnId(idElemento,valor){
         
         //Funcion editar Handle
         function EditarHandle(){
-
-                this.handleEvent = function(event){
+                this.handleEvent = function(){
 
                     this.gasto.actualizarDescripcion(prompt("Introduce la nueva descripcion"));
 
@@ -116,12 +114,13 @@ function mostrarDatoEnId(idElemento,valor){
 
                     this.gasto.actualizarValor(parseFloat(prompt("Introduce el nuevo valor")));
                     
-                    let etiqueta = prompt("Introduce las etiquetas:");
+                    let etiqueta = prompt("Introduce las nuevas etiquetas:");
+
                     if(typeof etiqueta != "undefined"){
-                        this.gasto.anyadirEtiquetas(etiqueta.split(","))
+                        this.gasto.anyadirEtiquetas(etiqueta.split(','))
                     }
                     repintar();
-                }
+                } 
         }
 
         // Borrar Handle
