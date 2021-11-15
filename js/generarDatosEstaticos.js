@@ -1,16 +1,21 @@
 import * as gestionPresupuesto from './gestionPresupuesto.js';
 import * as gestionPresupuestoWeb from './gestionPresupuestoWeb.js';
 
-gestionPresupuesto.actualizarPresupuesto(1500);
+let boton = document.getElementById("actualizarpresupuesto");
+boton.onclick = gestionPresupuestoWeb.actualizarPresupuestoWeb;
 
+let boton2 = document.getElementById("anyadirgasto");
+boton2.onclick = gestionPresupuestoWeb.nuevoGastoWeb;
+
+gestionPresupuesto.actualizarPresupuesto(1500);
 gestionPresupuestoWeb.mostrarDatoEnId('presupuesto', gestionPresupuesto.mostrarPresupuesto());
 
-gestionPresupuesto.anyadirGasto(gestionPresupuesto.CrearGasto('Compra carne', 23.44, '2021-10-06', 'casa', 'comida'));
-gestionPresupuesto.anyadirGasto(gestionPresupuesto.CrearGasto('Compra fruta y verdura', 14.25, '2021-09-06', 'supermercado', 'comida'));
-gestionPresupuesto.anyadirGasto(gestionPresupuesto.CrearGasto('Bonobús', 18.60, '2020-05-26', 'transporte'));
-gestionPresupuesto.anyadirGasto(gestionPresupuesto.CrearGasto('Gasolina', 60.42, '2021-10-08', 'transporte', 'gasolina'));
-gestionPresupuesto.anyadirGasto(gestionPresupuesto.CrearGasto('Seguro hogar', 206.45, '2021-09-26', 'casa', 'seguros'));
-gestionPresupuesto.anyadirGasto(gestionPresupuesto.CrearGasto('Seguro coche', 195.78, '2021-10-06', 'transporte', 'seguros'));
+gestionPresupuesto.anyadirGasto(new gestionPresupuesto('Compra carne', 23.44, '2021-10-06', 'casa', 'comida'));
+gestionPresupuesto.anyadirGasto(new gestionPresupuesto('Compra fruta y verdura', 14.25, '2021-09-06', 'supermercado', 'comida'));
+gestionPresupuesto.anyadirGasto(new gestionPresupuesto.CrearGasto('Bonobús', 18.60, '2020-05-26', 'transporte'));
+gestionPresupuesto.anyadirGasto(new gestionPresupuesto.CrearGasto('Gasolina', 60.42, '2021-10-08', 'transporte', 'gasolina'));
+gestionPresupuesto.anyadirGasto(new gestionPresupuesto.CrearGasto('Seguro hogar', 206.45, '2021-09-26', 'casa', 'seguros'));
+gestionPresupuesto.anyadirGasto(new gestionPresupuesto.CrearGasto('Seguro coche', 195.78, '2021-10-06', 'transporte', 'seguros'));
 
 gestionPresupuestoWeb.mostrarDatoEnId('gastos-totales', gestionPresupuesto.calcularTotalGastos());
 gestionPresupuestoWeb.mostrarDatoEnId('balance-total', gestionPresupuesto.calcularBalance());
@@ -33,3 +38,15 @@ gastosFilt.forEach(gastoFiltrado => {gestionPresupuestoWeb.mostrarGastoWeb('list
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-dia', gestionPresupuesto.agruparGastos('dia'),'día');
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-mes', gestionPresupuesto.agruparGastos('mes'),'mes');
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-anyo', gestionPresupuesto.agruparGastos('anyo'),'año');
+
+for (let i = 0; i < gastoEditar.length; i++)
+{
+    gastoEditar[i].addEventListener("click",arrayEditarHandle[i].handleEvent);
+}
+
+let gastoBorrar = document.querySelectorAll(".gasto-borrar");
+
+for (let i = 0; i < gastoBorrar.length; i++)
+{
+    gastoBorrar[i].addEventListener("click",arrayBorrarHandle[i].handleEvent);
+}

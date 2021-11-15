@@ -20,72 +20,67 @@ function CrearGasto(desc, value, fechaGasto = Date.now(), ...ArrayLabels)
     if (value < 0 || isNaN(value)) value = 0;
     if (ArrayLabels == undefined) ArrayLabels = new Array();
     if (fechaGasto == undefined || isNaN(Date.parse(fechaGasto))) fechaGasto = new Date(Date.now());
-    
-    let expense =
+        
+    this.descripcion = desc + '';
+    this.valor = parseFloat(value);
+    this.fecha = Date.parse(fechaGasto);
+    this.etiquetas = [...ArrayLabels];
+
+    this.mostrarGasto = function()
     {
-        descripcion: desc + '',
-        valor: parseFloat(value),
-        fecha: Date.parse(fechaGasto),
-        etiquetas: [...ArrayLabels],
+        return 'Gasto correspondiente a ' + this.descripcion + ' con valor ' + this.valor + ' €';
+    };
 
-        mostrarGasto: function()
+    this.actualizarDescripcion = function(desc)
+    {
+        desc != null && desc != '' && (this.descripcion = desc);
+    };
+
+    this.actualizarValor = function(data)
+    {
+        parseFloat(data) > 0 && (this.valor = data);
+    };
+
+    this.mostrarGastoCompleto() = function() // era sin = function
+    {
+        let txt = 'Gasto correspondiente a ' + this.descripcion + ' con valor ' + this.valor + ' €.\n' + 'Fecha: ' + new Date(this.fecha).toLocaleString() + '\n' + 'Etiquetas:\n';
+        this.etiquetas.length > 0 && this.etiquetas.forEach(show => {txt = txt + '- ' + show + '\n'});
+
+        return txt;
+    };
+
+    this.actualizarFecha(updateDate)
+    {
+        !isNaN(Date.parse(updateDate)) && (this.fecha = Date.parse(updateDate));
+    };
+
+    this.anyadirEtiquetas(...datosEtiquetas)
+    {
+        datosEtiquetas.forEach(label => typeof(label) == 'string' && !this.etiquetas.includes(label) && this.etiquetas.push(label));
+    };
+
+    this.borrarEtiquetas(...datosEtiquetas)
+    {
+        datosEtiquetas.forEach(label => {this.etiquetas.includes(label) && this.etiquetas.splice(this.etiquetas.indexOf(label), 1)});
+    };
+
+    this.obtenerPeriodoAgrupacion(periodo)
+    {
+        if (periodo != undefined)
         {
-            return 'Gasto correspondiente a ' + this.descripcion + ' con valor ' + this.valor + ' €';
-        },
-
-        actualizarDescripcion: function(desc)
-        {
-            desc != null && desc != '' && (this.descripcion = desc);
-        },
-
-        actualizarValor: function(data)
-        {
-            parseFloat(data) > 0 && (this.valor = data);
-        },
-
-        mostrarGastoCompleto()
-        {
-            let txt = 'Gasto correspondiente a ' + this.descripcion + ' con valor ' + this.valor + ' €.\n' + 'Fecha: ' + new Date(this.fecha).toLocaleString() + '\n' + 'Etiquetas:\n';
-            this.etiquetas.length > 0 && this.etiquetas.forEach(show => {txt = txt + '- ' + show + '\n'});
-
-            return txt;
-        },
-
-        actualizarFecha(updateDate)
-        {
-            !isNaN(Date.parse(updateDate)) && (this.fecha = Date.parse(updateDate));
-        },
-
-        anyadirEtiquetas(...etiquetas)
-        {
-            etiquetas.forEach(label => typeof(label) == 'string' && !this.etiquetas.includes(label) && this.etiquetas.push(label));
-        },
-
-        borrarEtiquetas(...etiquetas)
-        {
-            etiquetas.forEach(label => {this.etiquetas.includes(label) && this.etiquetas.splice(this.etiquetas.indexOf(label), 1)});
-        },
-
-        obtenerPeriodoAgrupacion(periodo)
-        {
-            if (periodo != undefined)
+            switch (periodo)
             {
-                switch (periodo)
-                {
-                    case 'dia':
-                        return new Date(this.fecha).toISOString().substring(0, 10);
+                case 'dia':
+                    return new Date(this.fecha).toISOString().substring(0, 10);
 
-                    case 'mes':
-                        return new Date(this.fecha).toISOString().substring(0, 7);
+                case 'mes':
+                    return new Date(this.fecha).toISOString().substring(0, 7);
 
-                    case 'anyo':
-                        return new Date(this.fecha).toISOString().substring(0, 4);
-                }
+                case 'anyo':
+                    return new Date(this.fecha).toISOString().substring(0, 4);
             }
-        }
+        }        
     }
-
-    return expense;
 }
 
 function listarGastos()
