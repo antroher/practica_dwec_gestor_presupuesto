@@ -13,6 +13,7 @@ function mostrarGastoWeb(idElemento, gasto)
 
     let div = document.createElement('div');
     div.className = 'gasto';
+    elemento.append(div); 
 
     let divDescripcion = document.createElement('div');
     divDescripcion.className = 'gasto-descripcion';
@@ -101,10 +102,9 @@ function repintar()
 
     mostrarDatoEnId('balance-total', gestionPresupuesto.calcularBalance())
 
-    let borrarGasto = document.getElementById('listado-gastos-completo').innerHTML = '';
+    document.getElementById('listado-gastos-completo').innerHTML = '';
 
     let listaGasto = gestionPresupuesto.listarGastos();
-
     for (let gasto of listaGasto)
     {
         mostrarGastoWeb('listado-gastos-completo', gasto);
