@@ -6,7 +6,6 @@ let presupuesto= 0;
 let gastos = [];
 let idGasto= 0;
 
-
 function actualizarPresupuesto(valor) {
     if(valor > 0){
         presupuesto = valor;

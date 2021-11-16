@@ -6,7 +6,6 @@ btnActualizar.onclick = gestionWeb.actualizarPresupuestoWeb;
 let btnAnyadir = document.getElementById('anyadirgasto')
 btnAnyadir.onclick = gestionWeb.nuevoGastoWeb;
 
-
 gestionPresupuesto.actualizarPresupuesto(1500);
 gestionWeb.mostrarDatoEnId("presupuesto", gestionPresupuesto.mostrarPresupuesto());
 let g1= new gestionPresupuesto.CrearGasto("Comprar carne", 23.44,"2021-10-06", "supermercado", "casa");

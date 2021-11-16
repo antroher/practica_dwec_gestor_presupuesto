@@ -84,7 +84,6 @@ function repintar(){
     };
  }
 
-
 function mostrarDatoEnId(idElemento, valor){
     document.getElementById(idElemento).innerHTML= `<br> ${valor} <br>`;
 }
