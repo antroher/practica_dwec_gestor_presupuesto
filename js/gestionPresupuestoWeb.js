@@ -193,7 +193,7 @@ function nuevoGastoWebFormulario() {
         let formularioSubmit = event.currentTarget;
         let descripcionForm = formularioSubmit.elements.descripcion.value;
         let valorForm = formularioSubmit.elements.valor.value;
-        let fechaForm = formularioSubmit.elements.fecha.value;
+        let fechaForm = new Date(formularioSubmit.elements.fecha.value);
         let etiquetasForm = formularioSubmit.elements.etiquetas.value;
         let newGastoForm = new gestionPresupuesto.CrearGasto(descripcionForm, valorForm, fechaForm, etiquetasForm);
         gestionPresupuesto.anyadirGasto(newGastoForm);
@@ -219,9 +219,8 @@ function nuevoGastoWebFormulario() {
 function CancelarFormHandle() {
     this.handleEvent = function (event){
         //¿Eliminamos el formulario?
-    console.log("Dentro de CancelarFormHandle " + this.formulario)
-       this.formulario.remove();
-       let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+        this.formulario.remove();
+        let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
     }
 }
 
@@ -243,8 +242,6 @@ function EditarFormHandle() {
 //Manejador del evento editar gasto formulario TODO
 function EditarHandleformulario() {
     this.handleEvent = function (event){
-        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
-        var formulario = plantillaFormulario.querySelector("form");
 
         formulario.elements.descripcion.value  = this.gasto.descripcion;
         formulario.elements.valor.value = this.gasto.valor;
