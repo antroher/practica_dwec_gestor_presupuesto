@@ -20,7 +20,7 @@ function mostrarGastoWeb(idElemento,gastos){
 
         gasto.etiquetas.forEach((etiqueta) => {
             etiquetas +=
-            `<span class="gasto-etiquetas-etiqueta">
+            `<span class="gasto-etiquetas-etiqueta" id ="${gasto.id}-${etiqueta}">
                 ${etiqueta}
             </span>`;
             
@@ -49,9 +49,15 @@ function mostrarGastoWeb(idElemento,gastos){
         let deleteHandler = new BorrarHandle();
         deleteHandler.gasto = gasto;
         document.getElementById(`gasto-borrar-${gasto.id}`).addEventListener('click', deleteHandler);
-    })
 
-};
+            IdTag.forEach((tagId, index) => {
+            let tagsHandler = new BorrarEtiquetasHandle();
+            tagsHandler.gasto = gasto;
+            tagsHandler.etiqueta = arrayEti[index];
+            document.getElementById(tagId).addEventListener('click', tagsHandler);
+        });
+    });
+}
 
 function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
     let elemento = document.getElementById(idElemento);
@@ -86,7 +92,7 @@ function actualizarPresupuestoWeb()
 }
 
 function nuevoGastoWeb()
-{
+{       
     let descripcion = prompt("Ponga una nueva decripción al objeto");
     let valor = parseFloat(prompt("Ponga un nuevo valor al objeto"));
     let fecha = Date.parse(prompt("Ponga una nueva fecha"));
@@ -120,16 +126,16 @@ function EditarHandle(){
 }
 
 function BorrarHandle() {
-    this.handleEvent = function(event) {
+    this.handleEvent = function() {
         //Borra gasto
-        gP.borrarGasto(this.gasto.id);
+        GesPresu.borrarGasto(this.gasto.id);
 
         repintar();
     }
  }
 
  function BorrarEtiquetasHandle() {
-    this.handleEvent = function(event) {
+    this.handleEvent = function() {
         //Borra etiqueta
         this.gasto.borrarEtiquetas(this.etiqueta);
 
