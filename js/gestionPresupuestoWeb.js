@@ -145,7 +145,7 @@ function editarHandle(){
         let etiqueta = prompt("Introduce las nuevas etiquetas:");
 
         if(typeof etiqueta != "undefined"){
-            
+
             this.gasto.anyadirEtiquetas(etiqueta.split(','))
         }
        repintar();
@@ -156,7 +156,7 @@ function borrarHandle(){
 
     this.handleEvent = function(){
 
-        GesPresu.borrarGasto(this.gasto.id);
+        gastosG.borrarGasto(this.gasto.id);
 
         repintar();
     }
