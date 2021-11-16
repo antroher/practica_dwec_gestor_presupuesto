@@ -7,7 +7,7 @@ import * as gestionPresupuesto from './gestionPresupuesto.js';
     elem.appendChild(p);
  }
 
-function mostrarGastoWeb(idElemento, gastos) {
+function mostrarGastoWeb(idElemento, gasto) {
     let elem = document.getElementById(idElemento);
     let divGast = document.createElement("div");
     divGast.className = "gasto";
@@ -57,8 +57,8 @@ function mostrarGastoWeb(idElemento, gastos) {
     btnBorrar.addEventListener('click', borrar);
   
     
-    divGasto.append(btnEditar);
-    divGasto.append(btnBorrar);
+    divGast.append(btnEditar);
+    divGast.append(btnBorrar);
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {

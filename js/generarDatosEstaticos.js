@@ -25,45 +25,41 @@ gestionPresupuesto.anyadirGasto(gasto5);
 gestionPresupuesto.anyadirGasto(gasto6);
 
 //Mostrar los gastos totales en div#gastos-totales (funciones calcularTotalGastos y mostrarDatoEnId)
-let calcularTotalGastos = gestionPresupuesto.calcularTotalGastos();
-gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales", calcularTotalGastos);
+let calcularTotalGastos = gestionPresupuesto.calcularTotalGastos().toFixed(2);
+let datoTotal = gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales",calcularTotalGastos);
 
-//Mostrar el balance total en div#balance-total (funciones calcularBalance y mostrarDatoEnId)
-let calcularBalance = gestionPresupuesto.calcularBalance();
-gestionPresupuestoWeb.mostrarDatoEnId("balance-total", calcularBalance);
+let calcularBalance = gestionPresupuesto.calcularBalance().toFixed(2);
+let bal = gestionPresupuestoWeb.mostrarDatoEnId("balance-total",calcularBalance);
 
-//Mostrar el listado completo de gastos en div#listado-gastos-completo (funciones listarGastos y mostrarGastoWeb)
 let listaGastos = gestionPresupuesto.listarGastos();
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", listaGastos);
+for (const x of listaGastos) {
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", x);
+  }
 
-//Mostrar el listado de gastos realizados en septiembre de 2021 en div#listado-gastos-filtrado-1 (funciones filtrarGastos y mostrarGastoWeb)
-let filtrador1 = {fechaDesde : "2021-09-01", fechaHasta : "2021-09-30"}
-let gastosFiltrados1 = gestionPresupuesto.filtrarGastos(filtrador1);
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1", gastosFiltrados1);
+let filter1 = gestionPresupuesto.filtrarGastos({fechaDesde: "2021-09-01",fechaHasta: "2021-09-30"});
+for (const gasto of filter1) {
+  gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1", gasto);
+}
+let filter2 = gestionPresupuesto.filtrarGastos({ valorMinimo: 50,  });
+for (const gasto of filter2) {
+  gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2", gasto);
+}
 
-//Mostrar el listado de gastos de más de 50€ en div#listado-gastos-filtrado-2 (funciones filtrarGastos y mostrarGastoWeb)
-let filtrador2 = {valorMinimo : 50}
-let gastosFiltrados2 = gestionPresupuesto.filtrarGastos(filtrador2);
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2", gastosFiltrados2);
+let filter3 = gestionPresupuesto.filtrarGastos({etiquetasTiene: ["seguros"],valorMinimo: 200});
+for (const gasto of filter3) {
+  gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3", gasto);
+}
 
-//Mostrar el listado de gastos de más de 200€ con etiqueta seguros en div#listado-gastos-filtrado-3 (funciones filtrarGastos y mostrarGastoWeb)
-let filtrador3 = {valorMinimo : 200, etiquetasTiene : ["seguros", ""]}
-let gastosFiltrados3 = gestionPresupuesto.filtrarGastos(filtrador3);
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3", gastosFiltrados3);
-
-//Mostrar el listado de gastos que tengan las etiquetas comida o transporte de menos de 50€ en div#listado-gastos-filtrado-4 (funciones filtrarGastos y mostrarGastoWeb)
-let filtrador4 = {valorMaximo : 50, etiquetasTiene : ["comida", "transporte"]}
-let gastosFiltrados4 = gestionPresupuesto.filtrarGastos(filtrador4);
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gastosFiltrados4);    
-
-//Mostrar el total de gastos agrupados por día en div#agrupacion-dia (funciones agruparGastos y mostrarGastosAgrupadosWeb)
+let filter4 = gestionPresupuesto.filtrarGastos({etiquetasTiene: ["comida", "transporte"],valorMaximo: 50});
+for (const gasto of filter4) {
+  gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gasto);
+}   
+//https://www.google.es/maps/@43.3352095,-4.5964557,3a,75y,347.75h,64.61t/data=!3m6!1e1!3m4!1s5nAjwN_uFIEf7cBStuShRQ!2e0!7i13312!8i6656?hl=es
 let gastosAgrupados1 = gestionPresupuesto.agruparGastos("dia");
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", gastosAgrupados1, "día")
 
-//Mostrar el total de gastos agrupados por mes en div#agrupacion-mes (funciones agruparGastos y mostrarGastosAgrupadosWeb)
 let gastosAgrupados2 = gestionPresupuesto.agruparGastos("mes");
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", gastosAgrupados2, "mes")
 
-//Mostrar el total de gastos agrupados por año en div#agrupacion-anyo (funciones agruparGastos y mostrarGastosAgrupadosWeb)
 let gastosAgrupados3 = gestionPresupuesto.agruparGastos("anyo");
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAgrupados3, "año")
