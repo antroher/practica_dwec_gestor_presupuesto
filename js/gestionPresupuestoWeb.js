@@ -92,6 +92,24 @@ function nuevoGastoWeb() {
 let btnAddGasto = document.getElementById("anyadirgasto");
 btnAddGasto.addEventListener("click", nuevoGastoWeb);
 
+function EditarHandle() {
+    this.handleEvent = function (evento) {
+        let descripcion = prompt("Escribe la descripción");
+        let valor1 = parseFloat(prompt("Escribe el valor"));
+        let fecha = prompt("Escribe la fecha. Formato yyyy-mm-dd");
+        let etiquetas = prompt("Escribe las etiquetas del gasto. Sepáralas con comas");
+        let etiquetasArray = etiquetas.split(',');
+
+        this.gasto.actualizarValor(valor1);
+        this.gasto.actualizarDescripcion(descripcion);
+        this.gasto.actualizarFecha(fecha);
+        this.gasto.anyadirEtiquetas(...etiquetasArray);
+        repintar();
+    }
+}
+
+
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
