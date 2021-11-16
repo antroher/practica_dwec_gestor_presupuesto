@@ -159,7 +159,7 @@ const btnFormGas = getElementById("anyadirgasto-formulario");
 
 btnActPres.addEventListener("click", actualizarPresupuestoWeb);
 btnAddGas.addEventListener("click", nuevoGastoWeb);
-btnFormGas.addEventListener("click", nuevoGastoWebFormulario );
+btnFormGas.addEventListener("click", nuevoGastoWebFormulario);
 
 
 
