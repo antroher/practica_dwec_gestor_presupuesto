@@ -22,14 +22,32 @@ function mostrarGastoWeb(idElemento, gastos) {
                 ${i}
             </span>`
         }
-        elemento.innerHTML +=
+        /* elemento.innerHTML +=
             `<div class="gasto">
             <div class="gasto-descripcion">${gasto.descripcion}</div>
             <div class="gasto-fecha">${gasto.fecha}</div> 
             <div class="gasto-valor">${gasto.valor}</div> 
             <div class="gasto-etiquetas">
             ${data}
-            </div>`;
+            </div>`; */
+
+        let divG = document.createElement('div');
+        divG.className += 'gasto';
+
+        let divGD = document.createElement('div');
+        divGD.className += 'gasto-descripcion';
+        divGD.textContent = gasto.descripcion;
+
+        let divGF = document.createElement('div');
+        divGF.className += 'gasto-fecha';
+        divGF.textContent = gasto.fecha;
+
+        let divGV = document.createElement('div');
+        divGV.className += 'gasto-valor';
+        divGF.textContent = gasto.valor;
+
+        let divGE = document.createElement('div');
+        divGE.className += 'gasto-etiquetas';
     }
 }
 
@@ -94,10 +112,10 @@ btnAddGasto.addEventListener("click", nuevoGastoWeb);
 
 function EditarHandle() {
     this.handleEvent = function (evento) {
-        let descripcion = prompt("Escribe la descripción");
-        let valor1 = parseFloat(prompt("Escribe el valor"));
-        let fecha = prompt("Escribe la fecha. Formato yyyy-mm-dd");
-        let etiquetas = prompt("Escribe las etiquetas del gasto. Sepáralas con comas");
+        let descripcion = prompt("Escriba la descripción");
+        let valor1 = parseFloat(prompt("Escriba el valor"));
+        let fecha = prompt("Escriba la fecha. Formato yyyy-mm-dd");
+        let etiquetas = prompt("Escriba las etiquetas del gasto. Sepárelas con comas");
         let etiquetasArray = etiquetas.split(',');
 
         this.gasto.actualizarValor(valor1);
@@ -116,5 +134,6 @@ export {
     mostrarGastosAgrupadosWeb,
     repintar,
     actualizarPresupuestoWeb,
-    nuevoGastoWeb
+    nuevoGastoWeb,
+    EditarHandle
 }
