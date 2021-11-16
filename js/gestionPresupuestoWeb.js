@@ -35,17 +35,18 @@ function mostrarGastoWeb(idElemento, gasto)
             let span = document.createElement('span');
             span.className = 'gasto-etiquetas-etiqueta';
             span.textContent = label + ' ';
-            let borraEt = new BorrarEtiquetasHandle();
-            borraEt.gasto = gasto;
-            borraEt.etiqueta = label;
-            span.addEventListener('click', borraEt);
+
+            let removeLabels = new BorrarEtiquetasHandle();
+            removeLabels.gasto = gasto;
+            removeLabels.etiqueta = label;
+            span.addEventListener('click', removeLabels);
             divGastoEtiquetas.append(span);            
         }
     );
     
     divGasto.append(divGastoEtiquetas);
 
-    if(idElemento == 'listado-gastos-completo')
+    if (idElemento == 'listado-gastos-completo')
     {
         let botonEditar = document.createElement('button');
         botonEditar.className = 'gasto-editar';
@@ -111,18 +112,17 @@ function repintar()
     gastosFilt.forEach(gastoFiltrado => {mostrarGastoWeb('listado-gastos-filtrado-2', gastoFiltrado);});
 
     document.getElementById('listado-gastos-filtrado-3').innerHTML = '';
-    gastosFilt = gestionPresupuesto.filtrarGastos({valorMinimo:200,etiquetasTiene:['seguros']});
+    gastosFilt = gestionPresupuesto.filtrarGastos({valorMinimo:200, etiquetasTiene:['seguros']});
     gastosFilt.forEach(gastoFiltrado => {mostrarGastoWeb('listado-gastos-filtrado-3', gastoFiltrado);});
 
     document.getElementById('listado-gastos-filtrado-4').innerHTML = '';
-    gastosFilt = gestionPresupuesto.filtrarGastos({valorMaximo:50,etiquetasTiene:['comida','transporte']});
+    gastosFilt = gestionPresupuesto.filtrarGastos({valorMaximo:50, etiquetasTiene:['comida', 'transporte']});
     gastosFilt.forEach(gastoFiltrado => {mostrarGastoWeb('listado-gastos-filtrado-4', gastoFiltrado);});
 }
 
 function actualizarPresupuestoWeb()
-{    
-    let presupuesto = parseFloat(prompt('Introduce un nuevo presupuesto'));
-    gestionPresupuesto.actualizarPresupuesto(presupuesto);
+{     
+    gestionPresupuesto.actualizarPresupuesto(parseFloat(prompt('Introduce un nuevo presupuesto: ')));
     repintar();
 }
 
@@ -133,7 +133,8 @@ function nuevoGastoWeb()
     let fecha = prompt('Introduce una fecha para el nuevo gasto con este formato(aaaa-mm-dd):');
     let etiq = prompt('Introduce las etiquetas(etiqueta1, etiqueta2, etiqueta3):');
     let etiquetas = etiq.split(',');
-    let gasto = new gestionPresupuesto.CrearGasto(desc,valor,fecha);
+    let gasto = new gestionPresupuesto.CrearGasto(desc, valor, fecha);
+
     etiquetas.forEach(label => {gasto.anyadirEtiquetas(label);});
     gestionPresupuesto.anyadirGasto(gasto);
 
@@ -147,7 +148,7 @@ function EditarHandle()
         let etiquetas = new Array();
         let desc = prompt('Introduce la descripción:');
         let valor = parseFloat(prompt('Introduce el valor:'));
-        let fecha = prompt('Introduce una fecha con este formato(aaaa-mm-dd):');
+        let fecha = prompt('Introduce una fecha con este formato (aaaa-mm-dd):');
         let etiq = prompt('Introduce las etiquetas(etiqueta1, etiqueta2, etiqueta3):');
         
         etiquetas = etiq.split(',');
