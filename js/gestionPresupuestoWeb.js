@@ -73,7 +73,10 @@ function actualizarPresupuestoWeb() {
     gestionPresupuesto.actualizarPresupuesto(parseFloat(prompt("Introduce un nuevo presupuesto:")));
     
     repintar();
-} 
+}
+
+let btnActPresu = document.getElementById("actualizarpresupuesto");
+btnActPresu.addEventListener("click", actualizarPresupuestoWeb);
 
 function nuevoGastoWeb() {
     let descripcion = prompt("Introduzca la descripción del nuevo gasto: ");
@@ -86,6 +89,8 @@ function nuevoGastoWeb() {
     repintar();
 }
 
+let btnAddGasto = document.getElementById("anyadirgasto");
+btnAddGasto.addEventListener("click", nuevoGastoWeb);
 
 export {
     mostrarDatoEnId,
