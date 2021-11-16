@@ -201,9 +201,11 @@ function nuevoGastoWebFormulario() {
         let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
     });
     //botón cancelar
-    let btnCancelar = formulario.querySelector("button.cancelar");
     let cancelarObj = new CancelarFormHandle();
-    cancelarObj.formulario = this.formulario;
+    console.log("Dentro de nuevoGastoWebFormulario" + formulario)
+    cancelarObj.formulario = formulario;
+
+    let btnCancelar = formulario.querySelector("button.cancelar");
     btnCancelar.addEventListener("click", cancelarObj);
 
     //Desactivar -añadir atributo disabled- al botón anyadirgasto-formulario
@@ -217,6 +219,7 @@ function nuevoGastoWebFormulario() {
 function CancelarFormHandle() {
     this.handleEvent = function (event){
         //¿Eliminamos el formulario?
+    console.log("Dentro de CancelarFormHandle " + this.formulario)
        this.formulario.remove();
        let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
     }
@@ -224,7 +227,16 @@ function CancelarFormHandle() {
 
 function EditarFormHandle() {
     this.handleEvent = function (event){
-
+        event.preventDefault();
+        let formularioSubmit = event.currentTarget;
+        let descripcionForm = formularioSubmit.elements.descripcion.value;
+        let valorForm = formularioSubmit.elements.valor.value;
+        let fechaForm = formularioSubmit.elements.fecha.value;
+        let etiquetasForm = formularioSubmit.elements.etiquetas.value;
+        let newGastoForm = new gestionPresupuesto.CrearGasto(descripcionForm, valorForm, fechaForm, etiquetasForm);
+        gestionPresupuesto.anyadirGasto(newGastoForm);
+        repintar();
+        let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
     }
 }
 
@@ -233,25 +245,39 @@ function EditarHandleformulario() {
     this.handleEvent = function (event){
         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
         var formulario = plantillaFormulario.querySelector("form");
-        formulario.elements.descripcion.value = this.gasto.descripcion;
+
+        formulario.elements.descripcion.value  = this.gasto.descripcion;
         formulario.elements.valor.value = this.gasto.valor;
-        formulario.elements.fecha.value = this.gasto.fecha;
+        formulario.elements.fecha.value = this.gasto.fecha.toLocaleString();
         formulario.elements.etiquetas.value = this.gasto.etiquetas;
-        repintar();
-        
-        formulario.addEventListener('submit', )
-        let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+
+        //Evento para el submit del formulario
+        let EditarFormHandle1 = new EditarFormHandle();
+        EditarFormHandle1.gasto = this.gasto;
+        formulario.addEventListener('submit', EditarFormHandle1);
+        //botón cancelar
+        let btnCancelar = formulario.querySelector("button.cancelar");
+        let cancelarObj = new CancelarFormHandle();
+        cancelarObj.formulario = this.formulario;
+        btnCancelar.addEventListener("click", cancelarObj);
+
+        //Desactivar -añadir atributo disabled- al botón anyadirgasto-formulario
+        let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
+
+        //Por último, añadir el fragmento de documento (variable plantillaFormulario) al final del <div id="controlesprincipales"> para que se muestre en la página.
+        let divControlesPrincipales = document.getElementById("controlesprincipales").appendChild(plantillaFormulario);
     }
 }
- 
 
 //Botones
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
+const anyadirgastoFirmulario = document.getElementById("anyadirgasto-formulario");
 
 //Eventos
 actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
 anyadirgasto.addEventListener('click', nuevoGastoWeb);
+anyadirgastoFirmulario.addEventListener('click', nuevoGastoWebFormulario)
 
 
 export   {
