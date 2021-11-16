@@ -145,8 +145,10 @@ function editarHandle(){
         let etiqueta = prompt("Introduce las nuevas etiquetas:");
 
         if(typeof etiqueta != "undefined"){
-            this.gasto.anyadirEtiquetas(etiqueta.split(','));
+            this.gasto.anyadirEtiquetas(etiqueta.split(','))
         }
+       repintar();
+    } 
 }
 
 function borrarHandle(){
@@ -155,14 +157,17 @@ function borrarHandle(){
 
         GesPresu.borrarGasto(this.gasto.id);
 
+        repintar();
     }
 }
 
 function borrarEtiquetasHandle(){
 
     this.handleEvent = function(){
+        
+        this.gasto.borrarEtiquetas(this.etiqueta)
 
-        this.gasto.borrarEtiquetas(this.etiqueta);
+        repintar();
     }
 }
 
