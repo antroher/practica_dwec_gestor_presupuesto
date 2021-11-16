@@ -72,6 +72,26 @@ function actualizarPresupuestoWeb() {
     repintar();    
 }
 
+const btnActualizarPresupuesto = document.getElementById("actualizar presupuesto");
+btnActualizarPresupuesto.addEventListener("click", actualizarPresupuestoWeb);
+
+function nuevoGastoWeb() {
+    let descripcion = prompt('Describa el objeto que acaba de adquirir');
+    let valor = parseFloat(prompt('¿Cuál ha sido el valor de su adquisición?'));
+    let fecha = prompt('En formato yyyy-mm-dd, indique la fecha');
+    let etiquetas = prompt('Escriba las etiquetas separadas por comas (,)');
+
+    let arrayEtiquetas = etiquetas.split(",");
+
+    let gasto = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, ...arrayEtiquetas);
+
+    gestionPresupuesto.anyadirGasto(gasto);
+    repintar();
+}
+
+const btnNuevoGasto = document.getElementById("nuevo gasto");
+btnNuevoGasto.addEventListener("click", nuevoGastoWeb);
+
 
 export {
     mostrarDatoEnId,
