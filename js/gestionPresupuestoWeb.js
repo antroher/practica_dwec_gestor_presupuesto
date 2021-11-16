@@ -21,14 +21,15 @@ function mostrarDatoEnId(idElemento,valor){
             let listDeEtiqueta = [];
             let etiquetaLista = [];
 
-            gasto.etiquetas.forEach((etiqueta,position) => {
+            gasto.etiquetas.forEach((etiqueta) => {
                 etiquetas += 
-                    `<span class="gasto-etiquetas-etiqueta">
+                    `<span class="gasto-etiquetas-etiqueta" id="${gasto.id}-${etiqueta}">
                         ${etiqueta}
                     </span>`;
 
-                    listDeEtiqueta.push(`${gasto.id}-${position}`);
-                    listDeEtiqueta.push(`${etiqueta}`);
+                        //Hace el push de las etiquetas
+                    listDeEtiqueta.push(`${gasto.id}-${etiqueta}`);
+                    etiquetaLista.push(`${etiqueta}`);
 
             });    
             
@@ -58,11 +59,11 @@ function mostrarDatoEnId(idElemento,valor){
                 document.getElementById(`editar-${gasto.id}`).addEventListener("click",objetoEdit);//boton que edita
 
                     
-                listDeEtiqueta.forEach((tagId, index) => {
+                listDeEtiqueta.forEach((tags, search) => {
                     let etiHandle = new BorrarEtiquetasHandle();
                     etiHandle.gasto = gasto;                                                     //Evento que borra etiquetas
-                    etiHandle.etiqueta = etiquetaLista[index];
-                    document.getElementById(tagId).addEventListener('click', etiHandle);
+                    etiHandle.etiqueta = etiquetaLista[search];
+                    document.getElementById(tags).addEventListener('click', etiHandle);
                 });
         });
     }
@@ -112,7 +113,7 @@ function mostrarDatoEnId(idElemento,valor){
             //datos del gasto
             let descripcion = prompt("Introduce la descripcion del gasto:");
             let valor = parseFloat(prompt("Introduce el valor del gasto:"));
-            let fecha = Date.parse(prompt("Introduce el valor del gasto:"));
+            let fecha = Date.parse(prompt("Introduce la fecha del gasto:"));
             let etiquetas = prompt("Introduce las etiquetas:").split(',');
 
                 //Creamos y añadimos el gasto
