@@ -21,8 +21,8 @@ document.getElementById("anyadirgasto").addEventListener("click",nuevoGastoWeb);
     gastos.forEach((gasto) => {
         let etiquetas = "";
 
-        let listDeEtiqueta = [];
-        let etiquetaLista = [];
+        let tagList = [];
+        let newTagList = [];
 
         gasto.etiquetas.forEach((etiqueta) => {
             etiquetas += 
@@ -30,8 +30,8 @@ document.getElementById("anyadirgasto").addEventListener("click",nuevoGastoWeb);
                     ${etiqueta}
                 </span>`;
 
-                listDeEtiqueta.push(`${gasto.id}-${etiqueta}`);
-                etiquetaLista.push(`${etiqueta}`);
+                tagList.push(`${gasto.id}-${etiqueta}`);
+                newTagList.push(`${etiqueta}`);
 
         });    
 
@@ -47,6 +47,27 @@ document.getElementById("anyadirgasto").addEventListener("click",nuevoGastoWeb);
 
             <button type="button" class="gasto-editar" id="editar-${gasto.id}">Editar</button>
             <button type="button" class="gasto-borrar" id="borrar-${gasto.id}">Eliminar</button>`
+
+            let Edit = new editarHandle()
+            let Del = new borrarHandle()
+
+            Del.gasto = gasto;
+            Edit.gasto = gasto;
+
+            //BOTON EDITAR
+            document.getElementById(`editar-${gasto.id}`).addEventListener("click", Edit);
+            //BOTON BORRAR
+            document.getElementById(`borrar-${gasto.id}`).addEventListener("click", Del);
+
+            tagList.forEach((tags, search) => {
+
+                let tagDel = new borrarEtiquetasHandle();
+                tagDel.gasto = gasto;                                                     //Evento que borra etiquetas
+                tagDel.etiqueta = etiquetaLista[search];
+                //BOTON BORRAR ETIQUETAS
+                document.getElementById(tags).addEventListener('click', tagDel);
+            });
+
     });
  }
 
@@ -90,10 +111,10 @@ document.getElementById("anyadirgasto").addEventListener("click",nuevoGastoWeb);
 function nuevoGastoWeb(){
 
     //Preguntamos al usuario por los datos del nuevo gasto
-    let valor = "";
-    let fecha = "";
-    let etiquetas = "";
-    let descripcion = "";
+    let valor = parseFloat(prompt("Introduce el valor del gasto:"));
+    let fecha = Date.parse(prompt("Introduce la fecha del gasto:"));
+    let etiquetas = prompt("Introduce las etiquetas:").split(',');
+    let descripcion = prompt("Introduce la descripcion del gasto:");
 
     //Creamos y añadimos el nuevo gasto con los datos recogidos
     gastosG.anyadirGasto(new gastosG.CrearGasto(valor, fecha, etiquetas, descripcion));
@@ -110,20 +131,39 @@ function actualizarPresupuestoWeb(){
 }
 
 //Aqui van las funciones ligadas a los "handle" que iran en la funcion "mostrarGastosWeb"
-function anyadirGasto(){
-
-}
-
+//ESTAS FUNCIONES SON CONSTRUCTORES DE OBJETOS, COMO EN gestionPresupuesto.js --- CrearGasto
 function editarHandle(){
 
+    this.handleEvent = function(){
+
+        this.gasto.actualizarDescripcion(prompt("Introduce la nueva descripcion"));
+
+        this.gasto.actualizarValor(parseFloat(prompt("Introduce el nuevo valor")));
+
+        this.gasto.actualizarFecha(Date.parse(prompt("Introduce la nueva fecha")));
+
+        let etiqueta = prompt("Introduce las nuevas etiquetas:");
+
+        if(typeof etiqueta != "undefined"){
+            this.gasto.anyadirEtiquetas(etiqueta.split(','));
+        }
 }
 
 function borrarHandle(){
 
+    this.handleEvent = function(){
+
+        GesPresu.borrarGasto(this.gasto.id);
+
+    }
 }
 
 function borrarEtiquetasHandle(){
 
+    this.handleEvent = function(){
+
+        this.gasto.borrarEtiquetas(this.etiqueta);
+    }
 }
 
  export{
