@@ -12,55 +12,122 @@ function mostrarDatoEnId(idElemento, valor) {
     element.innerHTML = `<p>${valor}</p>` 
 }
 
-function mostrarGastoWeb(idElemento, gastos) {
+function mostrarGastoWeb(idElemento, gasto) {
+    // Obtención del div del HTML.
     let element = document.getElementById(idElemento);
-    
-    gastos.forEach((gasto) => {
-        let etiquetas = "";
-        let tagIdStrings = [];
-        let arrayEtiquetas = [];
 
-        gasto.etiquetas.forEach((etiqueta) => {
-            etiquetas += 
-                `<span class="gasto-etiquetas-etiqueta" id="${gasto.id}-${etiqueta}">
-                    ${etiqueta}
-                </span>`;
+    //Creación de Divs
+    let divGasto = document.createElement("div");
+    divGasto.className = 'gasto';
 
-            //Recogida de id del elemento y de la etiqueta a borrar en arrays para su posterior utilización.
-            tagIdStrings.push(`${gasto.id}-${etiqueta}`);
-            arrayEtiquetas.push(`${etiqueta}`);
-        });    
+    let divGDesc = document.createElement("div");
+    divGDesc.className = 'gasto-descripcion';
+    divGDesc.textContent = gasto.descripcion;
 
-        element.innerHTML +=
-            `<div class="gasto">
-                <div class="gasto-descripcion">${gasto.descripcion}</div>
-                <div class="gasto-fecha">${gasto.fecha}</div> 
-                <div class="gasto-valor">${gasto.valor}</div> 
-                <div class="gasto-etiquetas">
-                    ${etiquetas}
-                </div>
-                <button class="gasto-editar" id="gasto-editar-${gasto.id}" type="button">Editar</button>
-                <button class="gasto-borrar" id="gasto-borrar-${gasto.id}" type="button">Borrar</button>
-            </div>`;
+    let divGFecha = document.createElement("div");
+    divGFecha.className = 'gasto-fecha';
+    divGFecha.textContent = gasto.fecha;
 
-            //Asignación del objeto manejador al boton de editar. 
-            let editHandler = new EditarHandle();
-            editHandler.gasto = gasto;
-            document.getElementById(`gasto-editar-${gasto.id}`).addEventListener('click', editHandler);
+    let divGValor = document.createElement("div");
+    divGValor.className = 'gasto-valor';
+    divGValor.textContent = gasto.valor;
+        
+    let divGEtiq = document.createElement("div"); 
+    divGEtiq.className = 'gasto-etiquetas';
 
-            //Asignación del objeto manejador al boton de borrado.
-            let deleteHandler = new BorrarHandle();
-            deleteHandler.gasto = gasto;
-            document.getElementById(`gasto-borrar-${gasto.id}`).addEventListener('click', deleteHandler);
+    gasto.etiquetas.forEach((etiqueta) => {
+        //Creación del span.
+        let spanEtiq = document.createElement("span");
+        spanEtiq.className = 'gasto-etiquetas-etiqueta';
+        spanEtiq.textContent = etiqueta;
 
-            //Asignación del objeto manejador a los span de las etiquetas.
-            tagIdStrings.forEach((tagId, index) => {
-                let tagsHandler = new BorrarEtiquetasHandle();
-                tagsHandler.gasto = gasto;
-                tagsHandler.etiqueta = arrayEtiquetas[index];
-                document.getElementById(tagId).addEventListener('click', tagsHandler);
-            });
+        //Creación del objeto controlador del evento y asociación al mismo.
+        let tagHandler = new BorrarEtiquetasHandle();
+        tagHandler.gasto = gasto;
+        tagHandler.etiqueta = etiqueta;
+        spanEtiq.addEventListener('click', tagHandler);
+
+        //Ligado al div de etiquetas.
+        divGEtiq.append(spanEtiq);
     });
+
+    //Creado del boton de editar y su objeto manejador de eventos.
+    let buttonEdit = document.createElement("button");
+    buttonEdit.className = 'gasto-editar';
+    buttonEdit.textContent = 'Editar';
+    
+    let editHandler = new EditarHandle();
+    editHandler.gasto = gasto;
+    buttonEdit.addEventListener('click', editHandler);
+
+    //Creado del boton de borrar y su objeto manejador de eventos.
+    let buttonDelete = document.createElement("button");
+    buttonDelete.className = 'gasto-borrar'
+    buttonDelete.textContent = 'Borrar';
+
+    let deleteHandler = new BorrarHandle();
+    deleteHandler.gasto = gasto;
+    buttonDelete.addEventListener('click', deleteHandler);
+
+    //Asignado de divs al div padre('gasto').
+    divGasto.append(divGDesc, divGFecha, divGValor, divGEtiq, buttonEdit, buttonDelete);
+
+    //Asignado del div gasto al div padre ('listado-gastos')
+    element.append(divGasto);
+    
+
+
+    // //FUNCION ANTIGUA
+    // //Recogida del div del html.
+    // let element = document.getElementById(idElemento); 
+    
+    // //Creación de variables para su posterior utilización.
+    // let etiquetas = "";
+    // let tagIdStrings = [];
+    // let arrayEtiquetas = [];
+
+    // //Concatenación de las etiquetas del gasto y su guardado en arrays para su posterior uso.
+    // gasto.etiquetas.forEach((etiqueta) => {
+    //     etiquetas += 
+    //         `<span class="gasto-etiquetas-etiqueta" id="${gasto.id}-${etiqueta}">
+    //             ${etiqueta}
+    //         </span>`;
+
+    //     //Recogida de id del elemento y de la etiqueta a borrar en arrays para su posterior utilización.
+    //     tagIdStrings.push(`${gasto.id}-${etiqueta}`);
+    //     arrayEtiquetas.push(`${etiqueta}`);
+    // });    
+
+    // //Creación de la estructura HTML.
+    // element.innerHTML +=
+    //     `<div class="gasto">
+    //         <div class="gasto-descripcion">${gasto.descripcion}</div>
+    //         <div class="gasto-fecha">${gasto.fecha}</div> 
+    //         <div class="gasto-valor">${gasto.valor}</div> 
+    //         <div class="gasto-etiquetas">
+    //             ${etiquetas}
+    //         </div>
+    //         <button class="gasto-editar" id="gasto-editar-${gasto.id}" type="button">Editar</button>
+    //         <button class="gasto-borrar" id="gasto-borrar-${gasto.id}" type="button">Borrar</button>
+    //     </div>`;
+
+    //     //Asignación del objeto manejador al boton de editar. 
+    // let editHandler = new EditarHandle();
+    // editHandler.gasto = gasto;
+    // document.getElementById(`gasto-editar-${gasto.id}`).addEventListener('click', editHandler);
+    
+    // //Asignación del objeto manejador al boton de borrado.
+    // let deleteHandler = new BorrarHandle();
+    // deleteHandler.gasto = gasto;
+    // document.getElementById(`gasto-borrar-${gasto.id}`).addEventListener('click', deleteHandler);
+
+    // //Asignación del objeto manejador a los span de las etiquetas.
+    // tagIdStrings.forEach((tagId, index) => {
+    //     let tagsHandler = new BorrarEtiquetasHandle();
+    //     tagsHandler.gasto = gasto;
+    //     tagsHandler.etiqueta = arrayEtiquetas[index];
+    //     document.getElementById(tagId).addEventListener('click', tagsHandler);
+    // });
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
@@ -99,13 +166,21 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
 
 function repintar () {
     //Mostrar los datos en el div correspondiente.
+    document.getElementById("presupuesto").innerHTML = "";
     mostrarDatoEnId("presupuesto", gP.mostrarPresupuesto());
+
+    document.getElementById("gastos-totales").innerHTML = "";
     mostrarDatoEnId("gastos-totales", gP.calcularTotalGastos());
+
+    document.getElementById("balance-total").innerHTML = "";
     mostrarDatoEnId("balance-total", gP.calcularBalance());
 
     //Borrado de elementos en el div#listado-gastos-completo y su impresion de nuevo.
     document.getElementById("listado-gastos-completo").innerHTML = "";
-    mostrarGastoWeb("listado-gastos-completo", gP.listarGastos());
+    for (let gasto of gP.listarGastos()) {
+        mostrarGastoWeb('listado-gastos-completo', gasto);
+    }
+    
 }
 
 function actualizarPresupuestoWeb() {
