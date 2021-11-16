@@ -1,5 +1,8 @@
  "use strict";
 
+ import * as gastosG from './gestionPresupuesto.js';
+
+
  //Función que recibe id y valor y lo muestra en un elemento <p> de HTML
  function mostrarDatoEnId(idElemento, valor){
 
@@ -16,26 +19,32 @@
     gastos.forEach((gasto) => {
         let etiquetas = "";
 
+        let listDeEtiqueta = [];
+        let etiquetaLista = [];
+
         gasto.etiquetas.forEach((etiqueta) => {
             etiquetas += 
-
-                `<span class="gasto-etiquetas-etiqueta"> 
+                `<span class="gasto-etiquetas-etiqueta" id="${gasto.id}-${etiqueta}">
                     ${etiqueta}
                 </span>`;
-        });
 
-        dataId.innerHTML += 
+                listDeEtiqueta.push(`${gasto.id}-${etiqueta}`);
+                etiquetaLista.push(`${etiqueta}`);
 
+        });    
+
+        dataId.innerHTML +=
+        
             `<div class="gasto">
-
                 <div class="gasto-descripcion">${gasto.descripcion}</div>
-                <div class="gasto-fecha">${gasto.fecha}</div> 
+                <div class="gasto-fecha">${new Date(gasto.fecha).toLocaleString()}</div> 
                 <div class="gasto-valor">${gasto.valor}</div> 
                 <div class="gasto-etiquetas">
                     ${etiquetas}
-                </div> 
+            </div>
 
-            </div>`;
+            <button type="button" class="gasto-editar" id="editar-${gasto.id}">Editar</button>
+            <button type="button" class="gasto-borrar" id="borrar-${gasto.id}">Eliminar</button>`
     });
  }
 
