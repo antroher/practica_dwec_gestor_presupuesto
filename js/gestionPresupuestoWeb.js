@@ -100,8 +100,7 @@ function actualizarPresupuestoWeb() {
     repintar();    
 }
 
-const btnActualizarPresupuesto = document.getElementById("actualizar presupuesto");
-btnActualizarPresupuesto.addEventListener("click", actualizarPresupuestoWeb);
+
 
 function nuevoGastoWeb() {
     let descripcion = prompt('Describa el objeto que acaba de adquirir');
@@ -116,9 +115,6 @@ function nuevoGastoWeb() {
     gestionPresupuesto.anyadirGasto(gasto);
     repintar();
 }
-
-const btnNuevoGasto = document.getElementById("nuevo gasto");
-btnNuevoGasto.addEventListener("click", nuevoGastoWeb);
 
 function EditarHandle() {
     this.handleEvent = function(e) {
@@ -151,14 +147,12 @@ function BorrarEtiquetasHnadle(){
     }
 }
 
-const btnActualizarPresupuesto = document.getElementById("actualizarpresupuesto");
-const btnAnyadirGasto = document.getElementById("anyadirgasto");
-const btnNuevoGasto = getElementById("anyadirgasto-formulario");
-
+const btnActualizarPresupuesto = document.getElementById("actualizar presupuesto");
 btnActualizarPresupuesto.addEventListener("click", actualizarPresupuestoWeb);
-btnAnyadirGasto.addEventListener("click", nuevoGastoWeb);
-btnNuevoGasto.addEventListener("click", nuevoGastoWebFormulario);
-
+const btnNuevoGasto = document.getElementById("nuevo gasto");
+btnNuevoGasto.addEventListener("click", nuevoGastoWeb);
+const btnFormGas = getElementById("anyadirgasto-formulario");
+btnFormGas.addEventListener("click", nuevoGastoWebFormulario);
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
