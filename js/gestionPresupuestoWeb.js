@@ -55,16 +55,23 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
 
 function repintar() {
 
-    let presupuesto = gestionPresupuesto.mostrarPresupuesto;
+    let presupuesto = gestionPresupuesto.mostrarPresupuesto();
+    mostrarDatoEnId("presupuesto",presupuesto);
 
-    let totalgastos = gestionPresupuesto.calcularTotalGastos;
+    let gasto = gestionPresupuesto.calcularTotalGastos();
+    mostrarDatoEnId("gastos-totales",gasto);
 
-    let balance = gestionPresupuesto.calcularBalance;
+    let balance = gestionPresupuesto.calcularBalance();
+    mostrarDatoEnId("balance-total",balance);
 
-    //let borrar =
-    
+    let borrarDatos = document.getElementById("listado-gastos-completos").innerHTML = "";
 
+    let listaGastos = gestionPresupuesto.listarGastos();
+    for (const gasto of listaGastos) {
 
+        mostrarGastoWeb("listado-gastos-completo")
+
+    }
 }
 
 function actualizarPresupuestoWeb() {
@@ -79,6 +86,8 @@ function actualizarPresupuestoWeb() {
 
 function nuevoGastoWeb() {
 
+    let elem = document.getElementById('anyadirgasto');
+
     let descripcion = prompt("Introducir la descripcion");
     let valor = parseFloat(prompt("Introducir valor"));
     let fecha = prompt("Introduce la fecha (yyyy-mm-dd)");
@@ -87,6 +96,7 @@ function nuevoGastoWeb() {
     
     etiquetas = etiquetasintro.split(",");
 
+    elem.onclick
     /*
     let control = true;
     let etiqueta = "";
@@ -102,7 +112,7 @@ function nuevoGastoWeb() {
 
     gestionPresupuesto.anyadirGasto(gasto);
 
-    repintar();
+    //repintar();
 
 }
 
