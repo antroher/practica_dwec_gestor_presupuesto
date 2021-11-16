@@ -1,5 +1,4 @@
 import * as gestionPresupuesto from './gestionPresupuesto.js';
-import { prependListener } from 'cluster';
  
  function mostrarDatoEnId(idElemento, valor) {
     let elem = document.getElementById(idElemento);
