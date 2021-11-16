@@ -12,7 +12,6 @@ function mostrarGastoWeb(idElemento, gasto) {
     let divGast = document.createElement("div");
     divGast.className = "gasto";
     elem.append(divGast);
-
     divGast.innerHTML += 
         `
             <div class="gasto-descripcion">${gasto.descripcion}</div>
@@ -20,33 +19,31 @@ function mostrarGastoWeb(idElemento, gasto) {
             <div class="gasto-valor">${gasto.valor}</div> 
         `;
 
-    let gastoEtiqs = document.createElement("div");
-    gastoEtiqs.className = "gasto-etiquetas";
-    divGast.append(gastoEtiqs);
+    let gastEtis = document.createElement("div");
+    gastEtis.className = "gasto-etiquetas";
+    divGast.append(gastEtis);
 
     for (let eti of gasto.etiquetas) {
-        let nuevpObjEtiq = new BorrarEtiquetasHandle(); 
-        nuevpObjEtiq.gasto = gasto;
+        let nuevaEti = new BorrarEtiquetasHandle(); 
+        nuevaEti.gasto = gasto;
 
         let gastoEtiq = document.createElement("span");
         gastoEtiq.className = "gasto-etiquetas-etiqueta";
         gastoEtiq.innerHTML = eti + "<br>";
-        nuevpObjEtiq.etiqueta = eti;
-
-        gastoEtiqs.append(gastoEtiq);
-
-        gastoEtiq.addEventListener('click',nuevpObjEtiq);
+        nuevaEti.etiqueta = eti;
+        gastEtis.append(gastoEtiq);
+        gastoEtiq.addEventListener('click',nuevaEti);
     }
 
     let btnEditar = document.createElement("button");
-    btnEditar.className += `gasto-editar`;
-    btnEditar.textContent = "Editar";
-    btnEditar.type = `button`;
+                    btnEditar.className += `gasto-editar`;
+                    btnEditar.textContent = "Editar";
+                    btnEditar.type = `button`;
 
     let btnBorrar = document.createElement("button");
-    btnBorrar.className += 'gasto-borrar';
-    btnBorrar.textContent = "Borrar";
-    btnBorrar.type = `button`;
+                    btnBorrar.className += 'gasto-borrar';
+                    btnBorrar.textContent = "Borrar";
+                    btnBorrar.type = `button`;
 
     let editar = new EditarHandle();
     let borrar = new BorrarHandle();
@@ -168,5 +165,6 @@ anyadirgasto.addEventListener('click', nuevoGastoWeb);
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar
 }
