@@ -29,6 +29,39 @@ function mostrarGastoWeb(idElemento, gastos) {
             <div class="gasto-etiquetas">
                 ${storage}
             `
+            let etiGas = document.createElement("div");
+            etiGas.className = "gasto-etiquetas";
+            div.append(etiGas);
+        
+            for (let eti of gasto.etiquetas) {
+                let newEti = new BorrarEtiquetasHandle(); 
+                newEti.gasto = gasto;
+                let gastoEtiq = document.createElement("span");
+                gastoEtiq.className = "gasto-etiquetas-etiqueta";
+                gastoEtiq.innerHTML = eti + "<br>";
+                newEti.etiqueta = eti;
+                etiGas.append(gastoEtiq);
+                gastoEtiq.addEventListener('click',newEti);
+            }
+        
+            let btnEditar = document.createElement("button");
+                             btnEditar.className += 'gasto-editar'
+                             btnEditar.textContent = "Editar";
+                             btnEditar.type = 'button';
+        
+            let btnBorrar = document.createElement("button");
+                            btnBorrar.className += 'gasto-borrar'
+                            btnBorrar.textContent = "Borrar";
+                            btnBorrar.type = 'button';
+        
+            let edit = new EditarHandle();
+            let dlt = new BorrarHandle();
+            edit.gasto = gasto;
+            dlt.gasto = gasto;    
+            btnEditar.addEventListener('click', edit);
+            btnBorrar.addEventListener('click', dlt);
+            div.append(btnEditar);
+            div.append(btnBorrar);
     }
 }
 
@@ -109,14 +142,14 @@ function EditarHandle() {
     }
 }
 
-function BorarHnadle(){
+function BorrarHnadle(){
     this.handleEvent = function(e) {
         gestionPresupuesto.borrarGasto(this.gasto.id);
         repintar();
     }
 }
 
-function BorarEtiquetasHnadle(){
+function BorrarEtiquetasHnadle(){
     this.handleEvent = function(e) {
         gestionPresupuesto.borrarEtiquetas(this.etiquetas);
         repintar();
