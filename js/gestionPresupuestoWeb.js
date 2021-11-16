@@ -61,7 +61,8 @@
 
                 <h1>Gastos agrupados por ${periodo}</h1>
                 ${gastos}
-            `
+                
+            </div>`
  }
 
  export{

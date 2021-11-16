@@ -3,7 +3,7 @@
 
 // TODO: Variable global
 var presupuesto = 0;
-var gastos = new Array();
+var gastos = [];
 var idGasto = 0;
 //COMENTARIO PARA PRIMER COMMIT Y COMPROBAR VERSIONES
 function actualizarPresupuesto(valor) {
@@ -27,136 +27,139 @@ function mostrarPresupuesto() {
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
-function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
+function CrearGasto(descripcionIn, valorIn, fechaIn = Date.now(), ...etiquetasIn) {
     // TODO
-    if(valor < 0 || isNaN(valor)){
+    if(valorIn < 0 || isNaN(valorIn)){
 
-        valor = 0;
+        valorIn = 0;
     }
     //Con esto comprobamos que value1 no sea negativo ni sea un string
 
-    if(etiquetas.length == 0){
-
-        etiquetas = [];
+    if(typeof fechaIn === "string"){
+        if(isNaN(Date.parse(fechaIn))){
+            fechaIn = Date.now();
+        }
+        else{
+            fechaIn = Date.parse(fechaIn);
+        }
     }
 
-    let gasto = { //ESTAR ATENTO CON LOS = CUANDO SE DECLARAN CONSTRUCTORES
-        valor: parseFloat(valor), 
-        descripcion: descripcion, //Esto hace referencia a las propiedades que tiene el objeto y se le asignan por parametro una vez recurrimos al constructor
-        fecha: (typeof fecha === "string") ? Date.parse(fecha) : fecha,
-        etiquetas: [...etiquetas],
-
+    this.descripcion = descripcionIn,
+    this.valor = parseFloat(valorIn),
+    this.fecha = fechaIn,
+    this.etiquetas = [...etiquetasIn],
 
         //A continuación los métodos que van ligados al constructor
 
-        mostrarGasto(){
+    this.mostrarGasto = function(){
 
-            console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`);
+        console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`);
 
-            return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
-        },
+        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
+    },
 
-        actualizarDescripcion(nuevaDesc){
+    this.mostrarGastoCompleto = function(){
 
-            this.descripcion = nuevaDesc;
-        },
+        let listaEtiquetas = "";
+        let fechaLocal = new Date(this.fecha).toLocaleString();
 
-        actualizarValor(nuevoValor){
-            if(nuevoValor >= 0){
+        this.etiquetas.forEach((i) => {
 
-                this.valor = nuevoValor;
-            }
-        },
+            listaEtiquetas += `- ${i}\n`
+        })
 
-        mostrarGastoCompleto(){
+        let message = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechaLocal}\nEtiquetas:\n${listaEtiquetas}`;
 
-            let listaEtiquetas = "";
-            let fechaLocal = new Date(this.fecha);
+        console.log(message);
+        return(message);
+    },
 
-            this.etiquetas.forEach((i) => {
 
-                listaEtiquetas += `- ${i}\n`
-            })
+    this.actualizarDescripcion = function(nuevaDesc){
 
-            let message = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechaLocal.toLocaleString()}\nEtiquetas:\n${listaEtiquetas}`;
+        this.descripcion = nuevaDesc;
+    },
 
-            console.log(message);
-            return(message);
-        },
+    this.actualizarValor = function(nuevoValor) {
+        if(nuevoValor >= 0){
 
-        actualizarFecha(newDate){
-            if (typeof newDate !== "string" || isNaN(Date.parse(newDate))) {
+            this.valor = nuevoValor;
+        }
+    },
 
-                return;
-            }
+  
+    this.actualizarFecha = function(newDate){
+        if (typeof newDate !== "string" || isNaN(Date.parse(newDate))) {
 
-            this.fecha = Date.parse(newDate);
-        },
+            return;
+        }
 
-        anyadirEtiquetas(...incEtiqueta){
+        this.fecha = Date.parse(newDate);
+    },
+
+    this.anyadirEtiquetas = function(...incEtiqueta){
             
-            incEtiqueta.forEach((i) =>{
-                if(!this.etiquetas.includes(i)){
+        incEtiqueta.forEach((i) =>{
+            if(!this.etiquetas.includes(i)){
 
-                    this.etiquetas.push(i);
-                }
-            })
-        },
+                this.etiquetas.push(i);
+            }
+        })
+    },
       
-        borrarEtiquetas(...etiquetas){
-            etiquetas.forEach((i) =>{
+    this.borrarEtiquetas =function(...etiquetas){
+        etiquetas.forEach((i) =>{
     
-                this.etiquetas.forEach((j, position) =>{
+            this.etiquetas.forEach((j, position) =>{
     
-                    if(j.includes(i)){
+                if(j.includes(i)){
     
-                        this.etiquetas.splice(position, 1);
-                    }
-                })
+                    this.etiquetas.splice(position, 1);
+                }
             })
-        },
+        })
+    },
 
-        obtenerPeriodoAgrupacion(periodo){
+    this.obtenerPeriodoAgrupacion = function(periodo){
             
-            let date = new Date(this.fecha);
+        let date = new Date(this.fecha);
 
-            switch(periodo){
-                case "dia":{
+        switch(periodo){
+            case "dia":{
 
-                    if(date.getMonth() + 1 < 10){
-                        if(date.getDate() < 10){
-                            return `${date.getFullYear()}-0${date.getMonth() + 1}-0${date.getDate()}`;
+                if(date.getMonth() + 1 < 10){
+                    if(date.getDate() < 10){
+                        return `${date.getFullYear()}-0${date.getMonth() + 1}-0${date.getDate()}`;
     
-                        }else{
-                            return `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`;
-                        } 
-
-                    }else if(date.getDate() < 10) {
-                        return `${date.getFullYear()}-${date.getMonth() + 1}-0${date.getDate()}`;
-
                     }else{
-                        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-                    }             
-                }
+                        return `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`;
+                    } 
 
-                case "mes":{
-                    if(date.getMonth() + 1 < 10) {
-                        return `${date.getFullYear()}-0${date.getMonth() + 1}`;
-                    }else{
-                        return `${date.getFullYear()}-${date.getMonth() + 1}`;
-                    }
-                }
+                }else if(date.getDate() < 10) {
+                    return `${date.getFullYear()}-${date.getMonth() + 1}-0${date.getDate()}`;
 
-                case "anyo":{
-                    if (periodo === "anyo") {
-                        return date.getFullYear();
-                    }
+                }else{
+                    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+                }             
+            }
+
+            case "mes":{
+                if(date.getMonth() + 1 < 10) {
+                    return `${date.getFullYear()}-0${date.getMonth() + 1}`;
+                }else{
+                    return `${date.getFullYear()}-${date.getMonth() + 1}`;
+                }
+            }
+
+            case "anyo":{
+                if (periodo === "anyo") {
+                    return date.getFullYear();
                 }
             }
         }
     }
-    return gasto;
 }
+
 function listarGastos(){
     return gastos;
 }

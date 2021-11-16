@@ -9,12 +9,12 @@ gastosG.actualizarPresupuesto(1500);
 gastosGW.mostrarDatoEnId("presupuesto", gastosG.mostrarPresupuesto());
 
 //Crear los gastos.
-let gasto1 = gastosG.CrearGasto("Compra carne", 23.44, "2021-10-06", "casa", "comida");
-let gasto2 = gastosG.CrearGasto("Compra fruta y verdura", 14.25, "2021-09-06", "supermercado", "comida");
-let gasto3 = gastosG.CrearGasto("Bonobús", 18.60, "2020-05-26", "transporte");
-let gasto4 = gastosG.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina");
-let gasto5 = gastosG.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros");
-let gasto6 = gastosG.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros");
+let gasto1 = new gastosG.CrearGasto("Compra carne", 23.44, "2021-10-06", "casa", "comida");
+let gasto2 = new gastosG.CrearGasto("Compra fruta y verdura", 14.25, "2021-09-06", "supermercado", "comida");
+let gasto3 = new gastosG.CrearGasto("Bonobús", 18.60, "2020-05-26", "transporte");
+let gasto4 = new gastosG.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina");
+let gasto5 = new gastosG.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros");
+let gasto6 = new gastosG.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros");
 
 //Añadir los gastos que se han creado.
 gastosG.anyadirGasto(gasto1);
@@ -36,7 +36,6 @@ gastosGW.mostrarGastoWeb("listado-gastos-completo", gastosG.listarGastos());
 //Listados segun filtros en div#listado-gastos-filtrado*.
 gastosGW.mostrarGastoWeb("listado-gastos-filtrado-1", gastosG.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"}));
 gastosGW.mostrarGastoWeb("listado-gastos-filtrado-2", gastosG.filtrarGastos({valorMinimo:50}));
-console.log(gastosG.filtrarGastos({valorMinimo: 200, etiquetasTiene:["seguros"]}));
 gastosGW.mostrarGastoWeb("listado-gastos-filtrado-3", gastosG.filtrarGastos({valorMinimo: 200, etiquetasTiene:["seguros"]}));
 gastosGW.mostrarGastoWeb("listado-gastos-filtrado-4", gastosG.filtrarGastos({valorMaximo: 50, etiquetasTiene:["comida","transporte"]}));
 
