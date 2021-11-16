@@ -72,6 +72,49 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     }
 }
 
+import * as gP from './gestionPresupuesto.js';
+
+function repintar(){
+    let texto = gP.mostrarPresupuesto();
+    mostrarDatoEnId('presupuesto', texto);
+
+    let total = gP.calcularTotalGastos();
+    mostrarDatoEnId('gastos-totales', total);
+
+    let balance = gP.calcularBalance();
+    mostrarDatoEnId('balance-total', balance);
+
+    let lisGasComp = document.getElementById('listado-gastos-completo');
+    lisGasComp.innerHTML = '';
+
+    let listado = gP.listarGastos();
+    for (let gasto of listado){
+    mostrarGastoWeb('listado-gastos-completo', gasto);
+    }
+}
+
+function actualizarPresupuestoWeb(){
+    let presu = parseFloat(prompt('Introduzca un presupuesto'));
+    gP.actualizarPresupuesto(presu);
+    repintar();
+}
+
+let b1 = document.getElementById('actualizarpresupuesto');
+b1.addEventListener("click",actualizarPresupuestoWeb);
+
+function nuevoGastoWeb(){
+    let des = prompt('Introduzca una descripción');
+    let val = parseFloat(prompt('Introduzca un valor'));
+    let fec = new Date(prompt('Introduzca una fecha')).toLocaleDateString();
+    let eti = prompt('Introduzca una etiqueta(seguida de una coma)'); 
+    eti = eti.split(', ');
+    let gasto1 = new gP.CrearGasto(des, val, fec, eti);
+    gP.anyadirGasto(gasto1);
+    repintar();
+}
+
+let b2 = document.getElementById('anyadirgasto');
+b2.addEventListener("click",nuevoGastoWeb);
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
