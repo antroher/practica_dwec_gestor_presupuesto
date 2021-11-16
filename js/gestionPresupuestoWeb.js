@@ -1,6 +1,6 @@
  "use strict";
 
- import * as gastosG from './gestionPresupuesto.js';
+import * as gastosG from './gestionPresupuesto.js';
 
 document.getElementById("actualizarpresupuesto").addEventListener("click",actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener("click",nuevoGastoWeb);
@@ -63,7 +63,7 @@ document.getElementById("anyadirgasto").addEventListener("click",nuevoGastoWeb);
 
                 let tagDel = new borrarEtiquetasHandle();
                 tagDel.gasto = gasto;                                                     //Evento que borra etiquetas
-                tagDel.etiqueta = etiquetaLista[search];
+                tagDel.etiqueta = newTagList[search];
                 //BOTON BORRAR ETIQUETAS
                 document.getElementById(tags).addEventListener('click', tagDel);
             });
@@ -145,6 +145,7 @@ function editarHandle(){
         let etiqueta = prompt("Introduce las nuevas etiquetas:");
 
         if(typeof etiqueta != "undefined"){
+            
             this.gasto.anyadirEtiquetas(etiqueta.split(','))
         }
        repintar();
