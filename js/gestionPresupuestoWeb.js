@@ -13,7 +13,7 @@ function mostrarDatoEnId(idElemento, valor) {
 }
 
 function mostrarGastoWeb(idElemento, gastos) {
-    let elemento = document.getElementById(idElemento);
+    /* let elemento = document.getElementById(idElemento);
     for (let gasto of gastos) {
         let data = "";
         for (let i of gasto.etiquetas) {
@@ -21,7 +21,7 @@ function mostrarGastoWeb(idElemento, gastos) {
                 `<span class="gasto-etiquetas-etiqueta">
                 ${i}
             </span>`
-        }
+        } */
         /* elemento.innerHTML +=
             `<div class="gasto">
             <div class="gasto-descripcion">${gasto.descripcion}</div>
@@ -31,23 +31,28 @@ function mostrarGastoWeb(idElemento, gastos) {
             ${data}
             </div>`; */
 
-        let divG = document.createElement('div');
-        divG.className += 'gasto';
+    let divG = document.createElement('div');
+    divG.className += 'gasto';
 
-        let divGD = document.createElement('div');
-        divGD.className += 'gasto-descripcion';
-        divGD.textContent = gasto.descripcion;
+    let divGD = document.createElement('div');
+    divGD.className += 'gasto-descripcion';
+    divGD.textContent = gasto.descripcion;
 
-        let divGF = document.createElement('div');
-        divGF.className += 'gasto-fecha';
-        divGF.textContent = gasto.fecha;
+    let divGF = document.createElement('div');
+    divGF.className += 'gasto-fecha';
+    divGF.textContent = gasto.fecha;
 
-        let divGV = document.createElement('div');
-        divGV.className += 'gasto-valor';
-        divGF.textContent = gasto.valor;
+    let divGV = document.createElement('div');
+    divGV.className += 'gasto-valor';
+    divGF.textContent = gasto.valor;
 
-        let divGE = document.createElement('div');
-        divGE.className += 'gasto-etiquetas';
+    let divGE = document.createElement('div');
+    divGE.className += 'gasto-etiquetas';
+
+    for (let gasto of gastos) {
+        let evento = new.BorrarEtiquetasHandle();
+        evento.gasto = gasto;
+        let span = document.createElement('span');
     }
 }
 
