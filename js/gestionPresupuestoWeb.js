@@ -86,7 +86,7 @@ function repintar() {
     }
 }
 
-function formatearFecha(date) {
+/*function formatearFecha(date) {
     let d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
@@ -97,7 +97,7 @@ function formatearFecha(date) {
     if (day.length < 2) 
         day = '0' + day;
     return [year, month, day].join('-');
-}
+}*/
 
 function actualizarPresupuestoWeb()  {
     let pres = parseFloat(prompt(`Hey amigo, introduce tu presupuesto`));
