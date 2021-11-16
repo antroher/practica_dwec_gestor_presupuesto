@@ -49,15 +49,26 @@ function mostrarGastoWeb(idElemento,gasto) {
 
 function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo) {  // agrup = { "2021-09": 5, "2021-10": 39}
 
-    let elemento = document.getElementById(idElemento);
+    let textoHTML =                                                         
+    `<div class="agrupacion">
+        <h1>Gastos agrupados por ${periodo}</h1>`;
+
+    for (let propiedad in agrup) {
+        textoHTML +=`<div class="agrupacion-dato">
+                        <span class="agrupacion-dato-clave">${propiedad}</span>
+                        <span class="agrupacion-dato-valor">${agrup[propiedad]}</span>
+                    </div>`;
+    }
+    textoHTML += "</div>"
+    document.getElementById(idElemento).innerHTML = textoHTML;
+
+/*  let elemento = document.getElementById(idElemento);
 
     let divAg = document.createElement('div');
     divAg.className += 'agrupacion';
 
     let h1 = document.createElement('h1');
     h1.textContent += `Gastos agrupado por ${periodo}`;
-
-    divAg.append(h1);                                                        
 
     let divAD, span1, span2;
     for (let propiedad in agrup) {
@@ -72,13 +83,13 @@ function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo) {  // agrup = { "20
         span2.className += 'agrupacion-dato-valor';
         span2.textContent += `${agrup[propiedad]}`;
 
+        divAg.append(divAD);
         divAD.append(span1);
         divAD.append(span2);
-
-        divAg.append(divAD);
     }
 
     elemento.append(divAg);
+    divAg.append(h1); */
 }
 
 function repintar() {
