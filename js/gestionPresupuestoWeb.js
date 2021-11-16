@@ -83,7 +83,10 @@ function nuevoGastoWeb() {
     let valor = parseFloat(prompt("Introducir valor"));
     let fecha = prompt("Introduce la fecha (yyyy-mm-dd)");
     const etiquetas = new Array();
+    let etiquetasintro = prompt("Introduce las etiquetas separandolas con (,) ");
     
+    etiquetas = etiquetasintro.split(",");
+
     /*
     let control = true;
     let etiqueta = "";
