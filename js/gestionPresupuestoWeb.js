@@ -108,8 +108,8 @@ function nuevoGastoWeb () {
     let fec = prompt(`¿Y cuándo fue eso? Dímelo con el formato yyyy-mm-dd`);
     let eti = prompt(`Etiqueta el gasto con todas las etiquetas que quieras, pero sepáralas con comas (,)`);
     let etiArray = eti.split(',');
-    let gasto = new gesPres.CrearGasto(des, val, fec, ...etiArray);
-    gesPres.anyadirGasto(gasto);
+    let gasto = new gestionPresupuesto.CrearGasto(des, val, fec, ...etiArray);
+    gestionPresupuesto.anyadirGasto(gasto);
     repintar();
 }
 
