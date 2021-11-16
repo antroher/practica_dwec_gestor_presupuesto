@@ -105,9 +105,6 @@ function actualizarPresupuestoWeb()  {
     repintar();
 }
 
-const btnActPres = document.getElementById("actualizarpresupuesto");
-btnActPres.addEventListener("click", actualizarPresupuestoWeb);
-
 function nuevoGastoWeb() {
     let des = prompt(`¿Ya estás gastando dinero? ¿En qué te lo has gastado, trozo de mierda?`);
     let val = parseFloat(prompt(`¿Cuánto ha sido esta vez?`));
@@ -119,8 +116,7 @@ function nuevoGastoWeb() {
     repintar();
 }
 
-const btnAddGas = document.getElementById("anyadirgasto");
-btnAddGas.addEventListener("click", nuevoGastoWeb);
+
 
 function EditarHandle() {
     this.handleEvent = function (e){    
@@ -150,11 +146,26 @@ function BorrarEtiquetasHandle() {
     }
 }
 
+function nuevoGastoWebFormulario() {
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+    var formulario = plantillaFormulario.querySelector("form");
+    
+}
+
+//Botones
+const btnActPres = document.getElementById("actualizarpresupuesto");
+const btnAddGas = document.getElementById("anyadirgasto");
+const btnFormGas = getElementById("anyadirgasto-formulario");
+
+btnActPres.addEventListener("click", actualizarPresupuestoWeb);
+btnAddGas.addEventListener("click", nuevoGastoWeb);
+btnFormGas.addEventListener("click", nuevoGastoWebFormulario );
+
+
 
 //oaoaoaotiritioaoaoaotiritoaoaoaoaooooooooooooooo
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb,
-    repintar
+    mostrarGastosAgrupadosWeb
 }
