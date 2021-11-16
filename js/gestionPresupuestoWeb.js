@@ -93,7 +93,7 @@ const btnNuevoGasto = document.getElementById("nuevo gasto");
 btnNuevoGasto.addEventListener("click", nuevoGastoWeb);
 
 function EditarHandle() {
-    this.handleEvent = function (e){
+    this.handleEvent = function(e) {
         let descripcion = prompt('Nueva descripción del gasto');
         let fecha = prompt('En formato yyyy-mm-dd, actualice la fecha');
         let valor = parseFloat(prompt('Indique el nuevo valor'));
@@ -109,6 +109,19 @@ function EditarHandle() {
     }
 }
 
+function BorarHnadle(){
+    this.handleEvent = function(e) {
+        gestionPresupuesto.borrarGasto(this.gasto.id);
+        repintar();
+    }
+}
+
+function BorarEtiquetasHnadle(){
+    this.handleEvent = function(e) {
+        gestionPresupuesto.borrarEtiquetas(this.etiquetas);
+        repintar();
+    }
+}
 
 export {
     mostrarDatoEnId,
