@@ -12,14 +12,24 @@ function mostrarDatoEnId(idElemento,valor){
 }
     function mostrarGastoWeb(idElemento,gastos){
         let element = document.getElementById(idElemento);
+
+
     
         gastos.forEach((gasto) => {
             let etiquetas = "";
-            gasto.etiquetas.forEach((etiqueta) => {
+
+            let listDeEtiqueta = [];
+            let etiquetaLista = [];
+
+            gasto.etiquetas.forEach((etiqueta,position) => {
                 etiquetas += 
                     `<span class="gasto-etiquetas-etiqueta">
                         ${etiqueta}
                     </span>`;
+
+                    listDeEtiqueta.push(`${gasto.id}-${position}`);
+                    listDeEtiqueta.push(`${etiqueta}`);
+
             });    
             
 
@@ -27,7 +37,7 @@ function mostrarDatoEnId(idElemento,valor){
             element.innerHTML +=
                 `<div class="gasto">
                     <div class="gasto-descripcion">${gasto.descripcion}</div>
-                    <div class="gasto-fecha">${gasto.fecha}</div> 
+                    <div class="gasto-fecha">${new Date(gasto.fecha).toLocaleString()}</div> 
                     <div class="gasto-valor">${gasto.valor}</div> 
                     <div class="gasto-etiquetas">
                         ${etiquetas}
@@ -37,15 +47,23 @@ function mostrarDatoEnId(idElemento,valor){
                 <button type="button" class="gasto-editar" id="editar-${gasto.id}">Editar</button>
                 <button type="button" class="gasto-borrar" id="borrar-${gasto.id}">Eliminar</button>`;
 
-                // let objetoDel = new BorrarHandle()
+                let objetoDel = new BorrarHandle()
 
-                // objetoDel.gasto = gasto;
-                // document.getElementById(`borrar-${gasto.id}`).addEventListener("click",objetoDel);//boton que borra
+                objetoDel.gasto = gasto;
+                document.getElementById(`borrar-${gasto.id}`).addEventListener("click",objetoDel);//boton que borra
 
                 let objetoEdit = new EditarHandle()
 
                 objetoEdit.gasto = gasto;
                 document.getElementById(`editar-${gasto.id}`).addEventListener("click",objetoEdit);//boton que edita
+
+                    
+                listDeEtiqueta.forEach((tagId, index) => {
+                    let etiHandle = new BorrarEtiquetasHandle();
+                    etiHandle.gasto = gasto;                                                     //Evento que borra etiquetas
+                    etiHandle.etiqueta = etiquetaLista[index];
+                    document.getElementById(tagId).addEventListener('click', etiHandle);
+                });
         });
     }
     
@@ -119,21 +137,29 @@ function mostrarDatoEnId(idElemento,valor){
                     if(typeof etiqueta != "undefined"){
                         this.gasto.anyadirEtiquetas(etiqueta.split(','))
                     }
-                    repintar();
+                   repintar();
                 } 
         }
 
         // Borrar Handle
 
         function BorrarHandle(){
+            this.handleEvent = function(){
+                    GesPresu.borrarGasto(this.gasto.id);
 
+                    repintar();
+            }
         }
 
 
         //Borrar etiquetas del handle
 
         function BorrarEtiquetasHandle(){
+            this.handleEvent = function(){
+                this.gasto.borrarEtiquetas(this.etiqueta)
 
+                repintar();
+            }
         }
 
 //El export de las funciones
