@@ -1,9 +1,11 @@
 
 "use strict";
-// Variable global
+// Variables globales   -------------------------------------------------------------------------------
 var presupuesto = 0;
+var gastos = [];
+var idGasto = 0;
 
-
+// Funciones        -----------------------------------------------------------------------------------
 function actualizarPresupuesto(value){
     
     if(isNaN(value) || value < 0){
@@ -38,6 +40,12 @@ function CrearGasto(descripcion, valor){
     
     
 }
+
+function listarGastos(){
+    return gastos;
+}
+
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
