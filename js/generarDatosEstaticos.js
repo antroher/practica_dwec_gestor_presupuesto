@@ -60,7 +60,6 @@ for (let gasto of lista_gastos2){
     gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2",gasto);
 }
 let lista_gastos3 = gestionPresupuesto.filtrarGastos(objeto3)
-console.log(lista_gastos3)
 for (let gasto of lista_gastos3) {
     gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3",gasto);
 }
