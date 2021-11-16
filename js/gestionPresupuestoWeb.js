@@ -2,6 +2,8 @@
 
  import * as gastosG from './gestionPresupuesto.js';
 
+document.getElementById("actualizarpresupuesto").addEventListener("click",actualizarPresupuestoWeb);
+document.getElementById("anyadirgasto").addEventListener("click",nuevoGastoWeb);
 
  //Función que recibe id y valor y lo muestra en un elemento <p> de HTML
  function mostrarDatoEnId(idElemento, valor){
@@ -85,10 +87,29 @@
     mostrarGastoWeb("listado-gastos-completo",gastosG.listarGastos());
 }
 
-function actualizarPresupuestoWeb(){
+function nuevoGastoWeb(){
 
+    //Preguntamos al usuario por los datos del nuevo gasto
+    let valor = "";
+    let fecha = "";
+    let etiquetas = "";
+    let descripcion = "";
+
+    //Creamos y añadimos el nuevo gasto con los datos recogidos
+    gastosG.anyadirGasto(new gastosG.CrearGasto(valor, fecha, etiquetas, descripcion));
+
+    //Actualizamos los datos
+    repintar();
 }
 
+function actualizarPresupuestoWeb(){
+    
+    gastosG.actualizarPresupuesto(parseFloat(prompt("Introduce un presupuesto:")));
+
+    repintar();
+}
+
+//Aqui van las funciones ligadas a los "handle" que iran en la funcion "mostrarGastosWeb"
 function anyadirGasto(){
 
 }
