@@ -99,16 +99,23 @@ function actualizarPresupuestoWeb () {
     repintar();
 }
 
+const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
+actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
+
 function nuevoGastoWeb () {
-    let descr = prompt(`Escribe la descripcion del nuevo gasto`);
-    let vlr = parseFloat(prompt(`Escribe el valor`));
-    let fecha = prompt(`Escriba la fecha del gastos (yyyy-mm-dd)`);
-    let etiq = prompt(`Introduce una etiqueta y si son varias añade una coma detras`);
-    let etiqArray = etiq.split(`,`);
-    let gastoAny = new gestionPresupuesto.CrearGasto(descripcion,valor1,fecha,...etiquetasArray);
-    gestionPresupuesto.anyadirGasto(gastoAnyadido);
+    let des = prompt(`¿En qué te lo has gastado esta vez?`);
+    let val = parseFloat(prompt(`¿Cuánto ha sido?`));
+    let fec = prompt(`¿Y cuándo fue eso? Dímelo con el formato yyyy-mm-dd`);
+    let eti = prompt(`Etiqueta el gasto con todas las etiquetas que quieras, pero sepáralas con comas (,)`);
+    let etiArray = eti.split(',');
+    let gasto = new gesPres.CrearGasto(des, val, fec, ...etiArray);
+    gesPres.anyadirGasto(gasto);
     repintar();
 }
+
+const anyadirgasto = document.getElementById("anyadirgasto");
+anyadirgasto.addEventListener('click', nuevoGastoWeb);
+
 
 function formatearFecha(date) {
     let d = new Date(date),
@@ -155,12 +162,7 @@ function BorrarEtiquetasHandle() {
 }
 
 //Botones
-const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
-const anyadirgasto = document.getElementById("anyadirgasto");
 
-//Eventos
-actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
-anyadirgasto.addEventListener('click', nuevoGastoWeb);
 
 export {
     mostrarDatoEnId,
