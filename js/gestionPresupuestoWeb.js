@@ -111,13 +111,13 @@ document.getElementById("anyadirgasto").addEventListener("click",nuevoGastoWeb);
 function nuevoGastoWeb(){
 
     //Preguntamos al usuario por los datos del nuevo gasto
+    let descripcion = prompt("Introduce la descripcion del gasto:");
     let valor = parseFloat(prompt("Introduce el valor del gasto:"));
     let fecha = Date.parse(prompt("Introduce la fecha del gasto:"));
     let etiquetas = prompt("Introduce las etiquetas:").split(',');
-    let descripcion = prompt("Introduce la descripcion del gasto:");
 
     //Creamos y añadimos el nuevo gasto con los datos recogidos
-    gastosG.anyadirGasto(new gastosG.CrearGasto(valor, fecha, etiquetas, descripcion));
+    gastosG.anyadirGasto(new gastosG.CrearGasto(descripcion, valor, fecha, etiquetas));
 
     //Actualizamos los datos
     repintar();

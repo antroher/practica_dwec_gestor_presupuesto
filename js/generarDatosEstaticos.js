@@ -41,7 +41,11 @@ gastosGW.mostrarGastoWeb("listado-gastos-filtrado-4", gastosG.filtrarGastos({val
 
 //listados segun agrupacion por periodo en div#agrupacion-****.
 //ATENTO CON EL ENUNCIADO, TE AVISABA DE COMO PONER día, mes y año Y TU HAS UTILIZADO EL COMO SE LLAMABAN ANTES
-gastosGW.mostrarGastosAgrupadosWeb("agrupacion-dia", gastosG.agruparGastos("dia"), "día");
-gastosGW.mostrarGastosAgrupadosWeb("agrupacion-mes", gastosG.agruparGastos("mes"), "mes");
-gastosGW.mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosG.agruparGastos("anyo"), "año");
+let agrupDia = gastosG.agruparGastos("dia")
+gastosGW.mostrarGastosAgrupadosWeb("agrupacion-dia",agrupDia,"día")
+let agrupMes = gastosG.agruparGastos("mes")
+gastosGW.mostrarGastosAgrupadosWeb("agrupacion-mes",agrupMes,"mes")
+let agrupAño = gastosG.agruparGastos("anyo")
+gastosGW.mostrarGastosAgrupadosWeb("agrupacion-anyo",agrupAño,"año") 
+
 
