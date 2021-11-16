@@ -49,10 +49,18 @@ function mostrarGastoWeb(idElemento, gastos) {
     let divGE = document.createElement('div');
     divGE.className += 'gasto-etiquetas';
 
-    for (let gasto of gastos) {
-        let evento = new.BorrarEtiquetasHandle();
-        evento.gasto = gasto;
-        let span = document.createElement('span');
+    for (let et of gasto.etiquetas) {
+        let spanE = document.createElement('span');
+        spanE.className += 'gasto-etiqueta-etiquetas';
+        spanE.textContent += et + ' ';
+
+        if (idElemento === 'listado-gastos-completo') {
+            let objBorrarEtiq = new BorrarEtiquetasHandle();
+            objBorrarEtiq.gasto = gasto;
+            objBorrarEtiq.etiqueta = et;
+            spanE.addEventListener('click', objBorrarEtiq)
+        }
+        divGF.append(spanE);
     }
 }
 
