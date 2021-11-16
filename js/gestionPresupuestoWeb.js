@@ -16,64 +16,7 @@ function mostrarDatoEnId(idElemento ,valor){
 }
 
 function mostrarGastoWeb(idElemento ,gasto){
-    /*
-    let elem = document.getElementById(idElemento);
-    let divGasto = document.createElement("div");
-    divGasto.className = "gasto";
-    elem.append(divGasto);
-
-    divGasto.innerHTML += 
-    `
-        <div class="gasto-descripcion">${gasto.descripcion}</div>
-        <div class="gasto-fecha">${gasto.fecha}</div> 
-        <div class="gasto-valor">${gasto.valor}</div> 
-    `;
-
-    let gastoEtiquetas = document.createElement("div");
-    gastoEtiquetas.className = "gasto-etiquetas";
-    divGasto.append(gastoEtiquetas);
-
-    for (let etiq of gasto.etiquetas) {
-        //Creación del objeto para Borrar Etiquetas
-        let nuevoObjEtiqueta = new BorrarEtiquetasHandle(); 
-        nuevoObjEtiqueta.gasto = gasto;
-
-        //Creación de la etiqueta
-        let gastoEtiqueta = document.createElement("span");
-        gastoEtiqueta.className = "gasto-etiquetas-etiqueta";
-        gastoEtiqueta.innerHTML = etiq + "<br>";
-        nuevoObjEtiqueta.etiqueta = etiq;
-
-        //Adjuntamos la etiqueta al div gasto-etiquetas
-        gastoEtiquetas.append(gastoEtiqueta);
-
-        //Creamos el manador para la etiqueta
-        gastoEtiqueta.addEventListener('click',nuevoObjEtiqueta);
-    }
-
-    let buttonEdit = document.createElement("button");
-                        buttonEdit.className += 'gasto-editar'
-                        buttonEdit.textContent = "Editar";
-                        buttonEdit.type = 'button';
-
-    let buttonBorr = document.createElement("button");
-                        buttonBorr.className += 'gasto-borrar'
-                        buttonBorr.textContent = "Borrar";
-                        buttonBorr.type = 'button';
-
-    let edit = new EditarHandle();
-    let delet = new BorrarHandle();
-    edit.gasto = gasto;
-    delet.gasto = gasto;
-
-    buttonEdit.addEventListener('click', edit);
-    buttonBorr.addEventListener('click', delet);
-
-
-    divGasto.append(buttonEdit);
-    divGasto.append(buttonBorr);
-    
-    
+ 
     /* Coloco el primer bloque de código html ya que este no va a variar ----------------------------------------------------------------------------.
     let string1 = `<div class="gasto" id=${gasto.id} >
                             <div class="gasto-descripcion"> ${gasto.descripcion} </div>
@@ -98,17 +41,14 @@ function mostrarGastoWeb(idElemento ,gasto){
 
     document.getElementById(idElemento).innerHTML += string1;
     
-    //Botón borrar
     let btnBorrar = document.getElementById(gasto.id);
     let objBorrar = new BorrarHandle();
     objBorrar.gasto=gasto;
     btnBorrar.addEventListener("click",objBorrar);
-    //Botón editar
     let btnEditar = document.getElementById(gasto.id);
     let objEditar = new EditarHandle();
     objEditar.gasto=gasto;
     btnEditar.addEventListener("click",objEditar);
-    //---span---
     for (let elem of gasto.etiquetas)
     {
         let btnBorrarEtiq = document.getElementById(gasto.id);
@@ -123,6 +63,8 @@ function mostrarGastoWeb(idElemento ,gasto){
     let divGasto = document.createElement("div");
     divGasto.className = "gasto";
     elem.append(divGasto);
+
+    /* Coloco el primer bloque de código html ya que este no va a variar ----------------------------------------------------------------------------.*/
 
     divGasto.innerHTML += 
     `
@@ -143,21 +85,23 @@ function mostrarGastoWeb(idElemento ,gasto){
         //Creación de la etiqueta
         let gastoEtiqueta = document.createElement("span");
         gastoEtiqueta.className = "gasto-etiquetas-etiqueta";
-        gastoEtiqueta.innerHTML = etiq + "<br>";
+        gastoEtiqueta.innerHTML = etiq + " ";
         nuevoObjEtiqueta.etiqueta = etiq;
 
         //Adjuntamos la etiqueta al div gasto-etiquetas
         gastoEtiquetas.append(gastoEtiqueta);
 
-        //Creamos el manador para la etiqueta
+        //Creamos el eventoClick para la etiqueta
         gastoEtiqueta.addEventListener('click',nuevoObjEtiqueta);
     }
 
+    //Botón editar-----------------------------------------------------------------------------------
     let botonEditar = document.createElement("button");
     botonEditar.className += 'gasto-editar'
     botonEditar.textContent = "Editar";
     botonEditar.type = 'button';
 
+    //Botón borrar---------------------------------------------------------------------------
     let botonBorrar = document.createElement("button");
     botonBorrar.className += 'gasto-borrar'
     botonBorrar.textContent = "Borrar";
@@ -171,9 +115,11 @@ function mostrarGastoWeb(idElemento ,gasto){
     botonEditar.addEventListener('click', edit);
     botonBorrar.addEventListener('click', delet);
 
+    if(idElemento === "listado-gastos-completo"){
+        divGasto.append(botonEditar);
+        divGasto.append(botonBorrar);
+    }
 
-    divGasto.append(botonEditar);
-    divGasto.append(botonBorrar);
 
 }
 
