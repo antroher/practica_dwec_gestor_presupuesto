@@ -35,11 +35,18 @@ function mostrarGastoWeb(idElemento, gasto) {
     let divGEtiq = document.createElement("div"); 
     divGEtiq.className = 'gasto-etiquetas';
 
-    gasto.etiquetas.forEach((etiqueta) => {
+    gasto.etiquetas.forEach((etiqueta, index) => {
         //Creación del span.
         let spanEtiq = document.createElement("span");
         spanEtiq.className = 'gasto-etiquetas-etiqueta';
-        spanEtiq.textContent = etiqueta;
+
+        //Decorador dependiendo de si es la ultima etiqueta o no.
+        if (gasto.etiquetas.length - 1 === index) {
+            spanEtiq.textContent = `${etiqueta}`;
+        }
+        else {
+            spanEtiq.textContent = `${etiqueta} | `
+        }
 
         //Creación del objeto controlador del evento y asociación al mismo.
         let tagHandler = new BorrarEtiquetasHandle();
@@ -51,31 +58,34 @@ function mostrarGastoWeb(idElemento, gasto) {
         divGEtiq.append(spanEtiq);
     });
 
-    //Creado del boton de editar y su objeto manejador de eventos.
-    let buttonEdit = document.createElement("button");
-    buttonEdit.className = 'gasto-editar';
-    buttonEdit.textContent = 'Editar';
-    
-    let editHandler = new EditarHandle();
-    editHandler.gasto = gasto;
-    buttonEdit.addEventListener('click', editHandler);
-
-    //Creado del boton de borrar y su objeto manejador de eventos.
-    let buttonDelete = document.createElement("button");
-    buttonDelete.className = 'gasto-borrar'
-    buttonDelete.textContent = 'Borrar';
-
-    let deleteHandler = new BorrarHandle();
-    deleteHandler.gasto = gasto;
-    buttonDelete.addEventListener('click', deleteHandler);
-
     //Asignado de divs al div padre('gasto').
-    divGasto.append(divGDesc, divGFecha, divGValor, divGEtiq, buttonEdit, buttonDelete);
+    divGasto.append(divGDesc, divGFecha, divGValor, divGEtiq);
+
+    //Si el idElemento otro al listado de gastos no debe de añadir los botones.
+    if (idElemento === 'listado-gastos-completo') {
+        //Creado del boton de editar y su objeto manejador de eventos.
+        let buttonEdit = document.createElement("button");
+        buttonEdit.className = 'gasto-editar';
+        buttonEdit.textContent = 'Editar';
+        
+        let editHandler = new EditarHandle();
+        editHandler.gasto = gasto;
+        buttonEdit.addEventListener('click', editHandler);
+
+        //Creado del boton de borrar y su objeto manejador de eventos.
+        let buttonDelete = document.createElement("button");
+        buttonDelete.className = 'gasto-borrar'
+        buttonDelete.textContent = 'Borrar';
+
+        let deleteHandler = new BorrarHandle();
+        deleteHandler.gasto = gasto;
+        buttonDelete.addEventListener('click', deleteHandler);
+
+        divGasto.append(buttonEdit, buttonDelete)
+    }
 
     //Asignado del div gasto al div padre ('listado-gastos')
     element.append(divGasto);
-    
-
 
     // //FUNCION ANTIGUA
     // //Recogida del div del html.
