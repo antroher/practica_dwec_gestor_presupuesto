@@ -163,9 +163,9 @@ function borrarGasto(id) {
 
 function calcularTotalGastos() {
     let total = 0;
-    gastos.forEach((x) => {
-        total = total +x.valor;
-    })
+    for (let i = 0; i < gastos.length; i++) {
+        total += gastos[i].valor;
+    }
     return total;
 }
 
