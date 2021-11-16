@@ -86,8 +86,6 @@ function actualizarPresupuestoWeb() {
 
 function nuevoGastoWeb() {
 
-    let elem = document.getElementById('anyadirgasto');
-
     let descripcion = prompt("Introducir la descripcion");
     let valor = parseFloat(prompt("Introducir valor"));
     let fecha = prompt("Introduce la fecha (yyyy-mm-dd)");
@@ -96,7 +94,7 @@ function nuevoGastoWeb() {
     
     etiquetas = etiquetasintro.split(",");
 
-    elem.onclick
+   
     /*
     let control = true;
     let etiqueta = "";
@@ -108,18 +106,29 @@ function nuevoGastoWeb() {
     }
     */    
 
-    const gasto = gestionPresupuesto.CrearGasto(descripcion, valor, fecha, etiquetas);
+    const gasto = gestionPresupuesto.CrearGasto(descripcion, valor, fecha, ...etiquetas);
 
     gestionPresupuesto.anyadirGasto(gasto);
 
-    //repintar();
+    repintar();
 
 }
 
 function EditarHandle() {
+    
+    this.handle = function (a){
 
+        let descripcion = prompt("Introducir la descripcion");
+        let valor = parseFloat(prompt("Introducir valor"));
+        let fecha = prompt("Introduce la fecha (yyyy-mm-dd)");
+        const etiquetas = new Array();
+        let etiquetasintro = promt("introduce las etiquetas separandolas con (,)");
 
+        etiquetas = etiquetasintro.split(",");
 
+       
+
+    }
 }
 
 function BorrarHandle() {
@@ -160,14 +169,15 @@ function BorrarEtiquetasHandle() {
 
 */
 
+//button
+const botonactulizarpresupuesto = document.getElementById('actualizarpresupuesto')
+
+
+//Event
+botonactulizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
+
 export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    repintar,
-    actualizarPresupuestoWeb,
-    nuevoGastoWeb,
-    EditarHandle,
-    BorrarHandle,
-    BorrarEtiquetasHandle
 }
