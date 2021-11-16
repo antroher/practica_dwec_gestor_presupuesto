@@ -92,6 +92,7 @@ function repintar(){
     document.getElementById("presupuesto").innerHTML="";
     document.getElementById("gastos-totales").innerHTML="";
     document.getElementById("balance-total").innerHTML="";
+    document.getElementById("controlesprincipales").removeChild(formulario);
     mostrarDatoEnId("presupuesto", metodosGastos.mostrarPresupuesto());
     mostrarDatoEnId("gastos-totales", metodosGastos.calcularTotalGastos());
     mostrarDatoEnId("balance-total", metodosGastos.calcularBalance());
@@ -153,8 +154,10 @@ function nuevoGastoWebFormulario(){
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
     var formulario = plantillaFormulario.querySelector("form");
     let boton = document.getElementById("anyadirgasto-formulario");
-    //boton.disabled = true;
-    formulario.submit = function(){
+    boton.disabled = true;
+    document.getElementById("controlesprincipales").append(formulario);
+
+    formulario.addEventListener("submit",this.handleEvent = function(event){
         if(!event.defaultPrevented()){
             let descForm = formulario.elements.descripcion;
             let valForm = formulario.elements.valor;
@@ -164,12 +167,17 @@ function nuevoGastoWebFormulario(){
             etiqForm = etForm.value.split(",");
             let gastoForm = new metodosGastos.CrearGasto(descForm.value,parseFloat(valForm.value), fechForm.value, ...etiqForm);
             metodosGastos.anyadirGasto(gastoForm);
+            boton.disabled = false;
             repintar();
+            
         }
-        boton.disabled = false;
-    }
+       
+        
+    })
+    
     
 }
+
 
 function EditarHandle(){
 
@@ -224,9 +232,6 @@ export {
     repintar,
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
-    EditarHandle,
-    BorrarHandle,
-    BorrarEtiquetasHandle,
     nuevoGastoWebFormulario,
     EditarHandleFormulario
 }
