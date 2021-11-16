@@ -67,8 +67,11 @@ function repintar() {
 }
 
 function actualizarPresupuestoWeb() {
-    
+    let presupuesto = parseFloat(prompt('Introduzca un presupuesto'));
+    gestionPresupuesto.actualizarPresupuesto(presupuesto);
+    repintar();    
 }
+
 
 export {
     mostrarDatoEnId,
