@@ -1,7 +1,8 @@
 import * as gestionPresupuesto from './gestionPresupuesto.js'
 import * as gestionWeb from './gestionPresupuestoWeb.js'
+
 let btnActualizar = document.getElementById('actualizarpresupuesto')
-btnActualizar.onclick = gestionWeb.actualizarPresupuesto;
+btnActualizar.onclick = gestionWeb.actualizarPresupuestoWeb;
 let btnAnyadir = document.getElementById('anyadirgasto')
 btnAnyadir.onclick = gestionWeb.nuevoGastoWeb;
 
