@@ -165,6 +165,5 @@ anyadirgasto.addEventListener('click', nuevoGastoWeb);
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb,
-    repintar
+    mostrarGastosAgrupadosWeb
 }
