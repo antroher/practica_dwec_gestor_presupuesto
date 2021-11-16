@@ -11,7 +11,7 @@ function mostrarDatoEnId(idElemento, valor){
 }
 
 //Función mostrarGastoWeb
-function mostrarGastoWeb(idElemento, gastos){       
+function mostrarGastoWeb(idElemento, gastos){
     let elem = document.getElementById(idElemento);
 
     for(let gasto of gastos){
@@ -61,7 +61,9 @@ function repintar(){
     GestPres.mostrarDatoEnId('gastos-totales', GestPres.calcularTotalGastos());
     GestPres.mostrarDatoEnId('balance-total', GestPres.calcularBalance());
     document.getElementById('listado-gastos-completo').innerHTML = "";
-    GestPres.mostrarGastoWeb('listado-gastos-completo', GestPres.listarGastos());
+    for (const gasto of GestPres.listarGastos()){
+        mostrarGastoWeb('listado-gastos-completo', gasto);
+    }
 }
 
 //Función actualizarPresupuestoWeb y botón actualizarpresupuesto
@@ -70,6 +72,18 @@ function actualizarPresupuestoWeb(){
     let nuevoPres = parseFloat(prompt('Inserta el nuevo presupuesto'));
     GestPresWeb.actualizarPresupuesto(nuevoPres); 
     repintar();
+}
+
+function nuevoGastoWeb(){
+    let descripcion = prompt('Inserta una descripción: ');
+    let valor = parseFloat(prompt('Inserta un nuevo valor: '));
+    let fecha = prompt('Escriba la fecha: (formato yyyy-mm-dd)');
+    let etiqueta = prompt('Escriba las etiquetas: (Separadas con ,)');
+    let etiquetasTotal = etiqueta.split(',');
+    let gastoNuevo = new GestPres.CrearGasto(descripcion, valor, fecha, ...etiquetasTotal);
+    GestPres.anyadirGasto(gastoNuevo);
+    repintar_();
+
 }
 
 //EditarHandle
@@ -100,6 +114,14 @@ function BorrarHandle() {
     }
 }
 
+//Botones
+
+let actualizarPresupuesto = document.getElementById('actualizarpresupuesto');
+let gastoNuevo = document.getElementById('gastoNuevo');
+//Evento
+
+actualizarPresupuesto.addEventListener('click', actualizarPresupuestoWeb);
+gastoNuevo.addEventListener('click', nuevoGastoWeb);
 
 
 //Los exports 
