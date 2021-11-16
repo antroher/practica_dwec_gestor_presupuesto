@@ -3,12 +3,12 @@ import * as gestionWeb from './gestionPresupuestoWeb.js'
 
 gestionPresupuesto.actualizarPresupuesto(1500);
 gestionWeb.mostrarDatoEnId("presupuesto", gestionPresupuesto.mostrarPresupuesto());
-let g1= gestionPresupuesto.CrearGasto("Comprar carne", 23.44,"2021-10-06", "supermercado", "casa");
-let g2= gestionPresupuesto.CrearGasto("Comprar fruta y verdura", 14.25,"2021-09-06", "supermercado", "comida");
-let g3= gestionPresupuesto.CrearGasto("Bonobús", 18.60,"2020-05-26", "supermercado");
-let g4= gestionPresupuesto.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina");
-let g5= gestionPresupuesto.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros");
-let g6= gestionPresupuesto.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros");
+let g1= new gestionPresupuesto.CrearGasto("Comprar carne", 23.44,"2021-10-06", "supermercado", "casa");
+let g2= new gestionPresupuesto.CrearGasto("Comprar fruta y verdura", 14.25,"2021-09-06", "supermercado", "comida");
+let g3= new gestionPresupuesto.CrearGasto("Bonobús", 18.60,"2020-05-26", "supermercado");
+let g4= new gestionPresupuesto.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina");
+let g5= new gestionPresupuesto.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros");
+let g6= new gestionPresupuesto.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros");
 
 gestionPresupuesto.anyadirGasto(g1);
 gestionPresupuesto.anyadirGasto(g2);
@@ -47,9 +47,6 @@ gastosFiltrados = gestionPresupuesto.filtrarGastos({valorMaximo: 50, etiquetasTi
 gastosFiltrados.forEach(element =>{
     gestionWeb.mostrarGastoWeb("listado-gastos-filtrado-4", element);
 });
-
-
-//AQUÍ FALTAN 3 MÉTODOS AÚN. CALMA.
 
 gestionWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", gestionPresupuesto.agruparGastos("dia"), "día");
 gestionWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", gestionPresupuesto.agruparGastos("mes"), "mes");

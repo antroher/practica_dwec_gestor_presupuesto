@@ -1,45 +1,49 @@
+import * as gestionPresupuesto from './gestionPresupuesto.js'
 
+
+function repintar(){
+
+    
+}
+ function actualizarPresupuestoWeb(){
+
+
+ }
 
 function mostrarDatoEnId(idElemento, valor){
-    document.getElementById(idElemento).innerHTML= `<p>${valor}</p>`;
+    document.getElementById(idElemento).innerHTML= `<br> ${valor} <br>`;
 
 }
 
 function mostrarGastoWeb(idElemento, gasto){
     let elem = document.getElementById(idElemento);    
     let texto = "<div class='gasto'>" +
-    "<div class= 'gasto-descripcion'>" + gasto.descripcion + "</div>" +  
-    "<div class='gasto-fecha'>" + gasto.fecha + "</div>" +
-    "<div class='gasto-valor'>" + gasto.valor + "</div>" +    
+    "<div class= 'gasto-descripcion'>" + gasto.descripcion + " </div>" +  
+    "<div class='gasto-fecha'> " + gasto.fecha + " </div>" +
+    "<div class='gasto-valor'> " + gasto.valor + " </div>" +    
     "<div class= 'gasto-etiquetas'>";
 
         gasto.etiquetas.forEach(etiqueta => {
-            texto +="<span class='gasto-etiquetas-etiqueta'>";
+            texto +="<span class='gasto-etiquetas-etiqueta'> ";
             texto += etiqueta;
-            texto += "</span>";             
+            texto += " </span>";             
         });
         texto+= "</div> </div>";
         
         elem.innerHTML += texto; 
-    }
-        
-    
-
+    }      
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     let elem = document.getElementById(idElemento);
     let texto = "";
     for (let [clave, valor] of Object.entries(agrup)) {
-        texto += "<div class='agrupacion-dato'> <span class='agrupacion-dato-clave'>" + clave + "</span>" +
-            "<span class='agrupacion-dato-valor'>" + valor + "</span></div>";
+        texto += "<div class='agrupacion-dato'> <span class='agrupacion-dato-clave'> " + clave + " </span>" +
+            "<span class='agrupacion-dato-valor'> " + valor + "\n </span></div>";
         
     };
-    elem.innerHTML += "<div class='agrupacion'><h1>Gastos agrupados por " + periodo + "</h1>" + texto;
+    elem.innerHTML += "<div class='agrupacion'><h1>Gastos agrupados por " + periodo + " </h1>" + texto;
     
 }
-
-
-
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
