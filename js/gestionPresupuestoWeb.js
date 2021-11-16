@@ -66,9 +66,7 @@ function mostrarGastoWeb(idElemento ,gasto){
 
     /* Coloco el primer bloque de código html ya que este no va a variar ----------------------------------------------------------------------------.*/
 
-    divGasto.innerHTML += 
-    `
-        <div class="gasto-descripcion">${gasto.descripcion}</div>
+    divGasto.innerHTML += `<div class="gasto-descripcion">${gasto.descripcion}</div>
         <div class="gasto-fecha">${gasto.fecha}</div> 
         <div class="gasto-valor">${gasto.valor}</div> 
     `;
@@ -107,14 +105,17 @@ function mostrarGastoWeb(idElemento ,gasto){
     botonBorrar.textContent = "Borrar";
     botonBorrar.type = 'button';
 
+    //Creamos objetos editarHandle y borrarHandle para asignarle un parametro gasto con el valor del gasto actual---------------------------------------.
     let edit = new EditarHandle();
     let delet = new BorrarHandle();
     edit.gasto = gasto;
     delet.gasto = gasto;
 
+    //Añadimos los eventos a los botones--------------------------------------------------------------------
     botonEditar.addEventListener('click', edit);
     botonBorrar.addEventListener('click', delet);
 
+    //Que lo añada
     if(idElemento === "listado-gastos-completo"){
         divGasto.append(botonEditar);
         divGasto.append(botonBorrar);
@@ -128,6 +129,7 @@ function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
     let string1 = `<div class="agrupacion">
                         <h1>Gastos agrupados por ${periodo}</h1>`
     
+    //Sacamos cada gasto agrupado y lo añadimos a la cadena de texto.
     for(let elem in agrup)
     {
         string1 += `<div class="agrupacion-dato">
@@ -226,24 +228,22 @@ function nuevoGastoWeb ()
     elementoAnyadir.addEventListener('click',nuevoGastoWeb);
 
 
-function EditarHandle(){
-    this.handleEvent = function(e) {
-        //Pedimos datos al usuario.
-        let gastoDesc = prompt('Introduce la descripción del gasto :');
-        let gastoValor = parseFloat(prompt('Introduce el valor del gasto :'));
-        let gastoFecha =Date.parse(prompt('Introduce la fecha del gasto :'));
-        let gastoEtiquetas = prompt('Introduce las etiquetas del gasto separadas por comas :');
-        //Convertimos la cadena de texto con las etiquetas a un array para poder pasárselo a la función constructora crearGasto.
-        let arrayEtiquetas = gastoEtiquetas.split(',');
-
-        //Actualizar las propiedades del gasto (disponible mediante this.gasto), mediante las funciones actualizarValor, actualizarDescripcion, actualizarFecha y actualizarEtiquetas.
-        this.gasto.actualizarDescripcion(gastoDesc);
-        this.gasto.actualizarValor(gastoValor);
-        this.gasto.actualizarFecha(gastoFecha);
-        this.gasto.anyadirEtiquetas(arrayEtiquetas);
-        
+    function EditarHandle (){
+        this.handleEvent = function(event){
+            let desc = prompt('Escriba la descripción del nuevo gasto');
+            let val = parseFloat(prompt('Escriba el valor del nuevo gasto'));
+            let fech = new Date(prompt('Escriba la fecha del nuevo gasto')).toLocaleDateString();
+            let etiq = prompt('Escriba las etiquetas separadas por comas del nuevo gasto');
+                etiq = etiq.split(', ');
+            
+            this.gasto.actualizarValor(val);
+            this.gasto.actualizarDescripcion(desc);
+            this.gasto.actualizarFecha(fech);
+            this.gasto.anyadirEtiquetas(etiq);
+    
+            repintar();
+        }
     }
-}
 
 function BorrarHandle(){
     this.handleEvent = function(){
