@@ -15,62 +15,83 @@ function mostrarDatoEnId(idElemento,valor){
     elemento.innerHTML = `<p>${valor}</p>`
     
 }
+
 function mostrarGastoWeb(idElemento,gastos){
     let element = document.getElementById(idElemento);
 
     gastos.forEach((gasto) => {
-        let etiquetas = "";
-        let listaIdEtiqueta = [];
-        let listaEtiquetas = [];
-
-        gasto.etiquetas.forEach((etiqueta, posi) => {
-            etiquetas += 
-                `<span class="gasto-etiquetas-etiqueta" id="${gasto.id}-${posi}">
-                    ${etiqueta}
-                </span>`;
-
-            //Recogida de id del elemento y de la etiqueta a borrar en arrays para su posterior utilización.
-            listaIdEtiqueta.push(`${gasto.id}-${posi}`);
-            listaEtiquetas.push(`${etiqueta}`);
-        }); 
-
-        element.innerHTML +=
-            `<div class="gasto">
-                <div class="gasto-descripcion">${gasto.descripcion}</div>
-                <div class="gasto-fecha">${gasto.fecha}</div> 
-                <div class="gasto-valor">${gasto.valor}</div> 
-                <div class="gasto-etiquetas">
-                    ${etiquetas}
-                </div>
                 
-                <button class="gasto-editar" id="gasto-editar-${gasto.id}" type="button">
-                    Editar
-                </button>
-                <button class="gasto-borrar" id="gasto-borrar-${gasto.id}" type="button">
-                Borrar
-            </button>
-            </div>`;
+        let divG = document.createElement('div')
+        divG.className = 'gasto';
 
-        //EVENTO BOTON EDITAR GASTO
-        let EventoEditarHandle = new EditarHandle();
-        EventoEditarHandle.gasto = gasto;
-        let botonEditar = document.getElementById(`gasto-editar-${gasto.id}`);
-        botonEditar.addEventListener('click', EventoEditarHandle);
-        //EVENTO BOTON BORRAR GASTO
-        let EventoBorrarHandle = new BorrarHandle();
-        EventoBorrarHandle.gasto = gasto;
-        let botonBorrar = document.getElementById(`gasto-borrar-${gasto.id}`);
-        botonBorrar.addEventListener(`click`, EventoBorrarHandle);
-        //EVENTO BORRAR ETIQUETA
-        listaIdEtiqueta.forEach((tagId, index) => {
-            let tagsHandler = new BorrarEtiquetasHandle();
-            tagsHandler.gasto = gasto;
-            tagsHandler.etiqueta = listaEtiquetas[index];
-            document.getElementById(tagId).addEventListener('click', tagsHandler);
-        });
-    });
-}
+        let divGDes = document.createElement('div');
+        divGDes.className = 'gasto-descripcion';
+        divGDes.textContent = gasto.descripcion;
+
+        let divGFecha = document.createElement('div');
+        divGFecha.className = 'gasto-fecha';
+        divGFecha.textContent = gasto.fecha;
+
+        let divGValor = document.createElement('div');
+        divGValor.className = 'gasto-valor';
+        divGValor.textContent = gasto.valor;
+
+        let divGEtiq = document.createElement('div');
+        divGEtiq.className = 'gasto-etiquetas';
+
+        //AÑADIR ETIQUETAS
+        gasto.etiquetas.forEach((etiq, posicion) =>{
+            let spanEtiqueta = document.createElement('span');
+            spanEtiqueta.className = 'gasto-etiquetas-etiqueta';
+            spanEtiqueta.textContent = etiq;
+            if(gasto.etiquetas.length !== posicion+1){
+                spanEtiqueta.textContent += ", ";
+            }
+            else{
+                spanEtiqueta.textContent += ".";
+            }
+
+            let EventoBorrarEtiq = new BorrarEtiquetasHandle();
+            EventoBorrarEtiq.gasto = gasto;
+            EventoBorrarEtiq.etiqueta = etiq;
+            spanEtiqueta.addEventListener('click', EventoBorrarEtiq)
+
+            divGEtiq.append(spanEtiqueta);
+        })
+
+        divG.append(divGDes);
+        divG.append(divGFecha);
+        divG.append(divGValor);
+        divG.append(divGEtiq);
+
+        if(idElemento === 'listado-gastos-completo'){
+            let botonEditar = document.createElement('button');
+            botonEditar.className = 'gasto-editar';
+            botonEditar.textContent = 'Editar'
     
+            let botonBorrar = document.createElement('button');
+            botonBorrar.className = 'gasto-borrar';
+            botonBorrar.textContent = 'Borrar';
+            //ELEMENTO VACIO PARA SEPARAR LOS GASTOS
+            let divVacio = document.createElement('div');
+            divVacio.className = 'salto';
+            divVacio.textContent = "--------------------------------- ";
+
+            //EVENTO BOTON EDITAR GASTO
+            let EventoEditarHandle = new EditarHandle();
+            EventoEditarHandle.gasto = gasto;
+            botonEditar.addEventListener('click', EventoEditarHandle);
+            //EVENTO BOTON BORRAR GASTO
+            let EventoBorrarHandle = new BorrarHandle();
+            EventoBorrarHandle.gasto = gasto;
+            botonBorrar.addEventListener(`click`, EventoBorrarHandle);
+            divG.append(botonEditar);
+            divG.append(botonBorrar);
+            divG.append(divVacio);
+            }
+        element.append(divG);
+    })
+}
 function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
     let elemento = document.getElementById(idElemento);
 
