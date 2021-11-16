@@ -34,7 +34,7 @@
         });    
 
         dataId.innerHTML +=
-        
+
             `<div class="gasto">
                 <div class="gasto-descripcion">${gasto.descripcion}</div>
                 <div class="gasto-fecha">${new Date(gasto.fecha).toLocaleString()}</div> 
@@ -74,9 +74,41 @@
             </div>`
  }
 
+ function repintar(){
+
+    mostrarDatoEnId("presupuesto", gastosG.mostrarPresupuesto());
+    mostrarDatoEnId("gastos-totales", gastosG.calcularTotalGastos());
+    mostrarDatoEnId("balance-total", gastosG.calcularBalance());
+
+    document.getElementById("listado-gastos-completo").innerHTML = "";
+
+    mostrarGastoWeb("listado-gastos-completo",gastosG.listarGastos());
+}
+
+function actualizarPresupuestoWeb(){
+
+}
+
+function anyadirGasto(){
+
+}
+
+function editarHandle(){
+
+}
+
+function borrarHandle(){
+
+}
+
+function borrarEtiquetasHandle(){
+
+}
+
  export{
 
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar
  }
