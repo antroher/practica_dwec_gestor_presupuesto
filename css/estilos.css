@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+#aplicacion {
+    margin: 1em;
+}
+
+form, .gasto {
+    margin: 1em 0;
+    box-shadow: 5px 5px 5px #555555;
+    border: 1px solid #555555;
+    padding: 0.5em;
+}
+
+.form-control {
+    margin: 0.5em 0;
+}
+
+.form-control label {
+    width: 100%;
+}
+
+.form-control input {
+    width: 100%;
+}
+
+button {
+    border: 1px solid #555555;
+    padding: 0.5em 0.7em;
+    margin: 0.1em 0.1em;
+    color: #555555;
+    background-color: white;
+    box-shadow: 2px 2px #e6e6e6;
+}
+
+button:hover {
+    border: 1px solid #888888;
+    color: #888888;
+}
+
+button:active:enabled {
+    box-shadow: none;
+    transform: translateY(2px);
+}
+
+button[type=submit], button.gasto-editar-formulario {
+    background-color: #555555;
+    color: white;
+}
+
+button[type=submit]:hover, button.gasto-editar-formulario:hover {
+    background-color: #888888;
+    color: white;
+}
+
+button:disabled, button:disabled:hover {
+    cursor: not-allowed;
+    border-color: #999999;
+    background-color: #999999;
+    box-shadow: none;
+}
+
+.gasto-etiquetas-etiqueta {
+    font-size: 0.8em;
+    font-variant: small-caps;
+    margin: 0.2em;
+    display: inline-block;
+    border: 1px solid #555555;
+    padding: 0.2em 0.5em;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+}
+
+.gasto-etiquetas-etiqueta:hover {
+    color: red;
+    border: 1px solid red;
+    text-decoration: line-through;
+
+}
+
+.gasto-valor:after {
+    content: "€";
+}
+
+/* Formulario filtrado */
+#formulario-filtrado {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#formulario-filtrado .form-control {
+    flex: 1 1 auto;
+    margin: 0.2em 1em;
+}
+
+#formulario-filtrado #formulario-filtrado-error {
+    flex: 1 1 100%;
+    color: red;
+}
+
+
+/* Pantallas grandes */
+@media screen and (min-width: 600px) {
+    .form-control {
+        display: flex;
+    }
+
+    .form-control label {
+        flex: 0 0 8em;
+    }
+
+    .form-control input {
+        flex: 1;
+    }
+
+    .gasto {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .gasto > div {
+        padding: 0.5em 0.7em;
+    }
+
+    .gasto .gasto-descripcion {
+        flex: 0 0 30%;
+    }
+
+    .gasto .gasto-fecha {
+        flex: 0 0 20%;
+    }
+
+    .gasto .gasto-valor {
+        flex: 0 0 15%;
+    }
+
+    .gasto .gasto-etiquetas {
+        flex: 0 0 15%;
+    }
+
+    .gasto button {
+        flex: 0 0 9%;
+    }
+
+    .gasto form {
+        flex: 1;
+    }
+}
