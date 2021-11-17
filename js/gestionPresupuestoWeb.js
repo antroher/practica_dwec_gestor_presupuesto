@@ -78,7 +78,7 @@ function repintar() {
     mostrarDatoEnId('presupuesto', presupuesto);
 
     let gastosTotales = gestionPresupuesto.calcularTotalGastos().toFixed(2);
-    mostrarDatoEnId('gastos-totales', gastosTotales);
+    mostrarDatoEnId("gastos-totales", gastosTotales);
 
     let balanceTotal = gestionPresupuesto.calcularBalance().toFixed(2);
     mostrarDatoEnId('balance-total', balanceTotal);
@@ -118,7 +118,7 @@ function EditarHandle() {
         let valor = parseFloat(prompt('Indique el nuevo valor'));
         let etiquetas = prompt('Escriba las etiquetas separadas por comas (,)');
         
-        let arrayEtiquetas = etiquetas.split(",");
+        let arrayEtiquetas = etiquetas.split(',');
 
         this.gasto.actualizarDescripcion(descripcion);
         this.gasto.actualizarValor(valor);
