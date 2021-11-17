@@ -1,0 +1,154 @@
+* Expresiones regulares
+  En esta práctica estudiaremos los fundamentos de las expresiones regulares. La práctica no tiene como objetivo hacer un estudio en profundidad, sino solo mostrar una introducción a ellas. Las utilizaremos para realizar sencillas comprobaciones para validar datos introducidos en los formularios por los usuarios.
+
+** Repositorio de la práctica
+   El *repositorio base* de la práctica está disponible en: https://github.com/antroher/practica_dwec_gestor_presupuesto
+
+   Se supone que ya está configurado el *repositorio personal* y el *remoto secundario* (~profesor~). Si no es así, revisa las instrucciones de las prácticas anteriores. En el apartado de *Preparación* se indica cómo proceder.
+   
+** Requisitos de software
+Para poder realizar esta práctica y que funcione adecuadamente el entorno de test será necesario *instalar el siguiente software* en el equipo:
+- Navegador [[https://www.google.com/intl/es/chrome/][Chrome]].
+- Entorno de ejecución [[https://nodejs.org/es/][NodeJS]].
+
+** Desarrollo guiado por test
+Para realizar la práctica se seguirán los principios del [[https://es.wikipedia.org/wiki/Desarrollo_guiado_por_pruebas][Desarrollo Guiado por Test]]. Para ello se proporciona en el repositorio una serie de ficheros que permiten *ejecutar tests*. Dichos tests comprobarán que el programa cumple con algunos de los requisitos de la práctica.
+
+El repositorio se ha configurado para que se *ejecuten los tests automáticamente en la nube de GitHub cuando se realice un push o una pull request*. Para ello se hará uso del servicio [[https://github.com/features/actions][GitHub Actions]].
+
+** Preparación
+1. Instalar los requisitos de software indicados
+2. Abrir un terminal
+3. Situarse en la carpeta del repositorio personal de la práctica
+4. *Incorporar a tu repositorio personal los cambios* realizados por el profesor correspondientes a los archivos de esta práctica. Para ello hay que ejecutar:
+   #+begin_src shell
+     git pull profesor master
+   #+end_src
+5. Este comando *descarga* los cambios que ha realizado el *profesor* en el *repositorio base* y los *integra* en tu repositorio personal. Tras realizar este paso, seguramente git *abra el editor configurado por defecto* para que introduzcas un *mensaje para crear un nuevo commit* que integre tus cambios y los cambios del profesor. Debes introducir el texto y guardar los cambios.
+6. En principio no deben producirse *conflictos*. En caso de que se produzcan (por ejemplo, porque has editado el fichero ~.gitignore~ y yo también porque lo exigía la práctica), *resuélvelos y notifícamelo a través de un Issue*.
+7. Ejecuta el comando ~git push~ para subir los cambios a tu repositorio personal (el remoto principal) en GitHub y que queden guardados ahí también.
+8. Ejecutar el comando ~npm install~. Este comando instalará todas las librerías de Node necesarias para ejecutar los tests. Dichas librerías se guardarán en una carpeta con nombre ~node_modules~ dentro del repositorio. Nótese que dicha carpeta está excluida del repositorio en el archivo ~.gitignore~.
+9. Ejecutar el comando ~npm run test7~ para lanzar los *tests de esta práctica*. Este comando podrá ejecutarse tantas veces como sea necesario. Por pantalla se mostrarán los tests que se pasan y los que no, de manera que se tendrá información sobre las acciones que hay que realizar. Los tests también se ejecutarán automáticamente en GitHub Actions al subir los cambios al repositorio y al realizar la pull request.
+10. Opcionalmente (recomendable), ejecutar el comando ~npm test~ para lanzar *todos los tests presentes en el repositorio*. Se deberá comprobar que se pasan los tests de las prácticas anteriores a la que se esté realizando. Lógicamente, si el repositorio incluye los tests de prácticas *posteriores* a la que se esté realizando, dichos tests no se pasarán (ya que el trabajo está todavía por hacer). Este último caso puede darse si la persona no está realizando la práctica propuesta en la semana actual (va con "retraso", por así decirlo). En *GitHub Actions* se ejecutarán todos los tests en tareas independientes: así se podrá comprobar si el test de la práctica que se está realizando se ha pasado.
+
+    #+begin_quote
+    ¡IMPORTANTE! Esta práctica utiliza la suite de test [[https://www.cypress.io/][Cypress]]. Puedes ejecutar el test en consola de la manera habitual (~npm run test7~) o bien ejecutar el modo *gráfico* mediante el comando ~npx cypress open~. Recuerda ejecutar ~npm install~ antes para instalar el paquete ~cypress~.
+
+   Recuerda que puedes utilizar el navegador para *visualizar el trabajo* que vas haciendo. Como la carga de scripts la realizamos a través de *módulos*, no basta con hacer doble clic en el archivo ~HTML~, sino que es necesario visualizar la página *desde un servidor*. Para ello puedes utilizar la extensión [[https://ritwickdey.github.io/vscode-live-server/][Live Server]] de Vísual Studio Code.
+    #+end_quote
+
+** Tareas a realizar
+*** Lectura
+    Lee atentamente los siguientes artículos y sus correspondientes subsecciones en caso de que las tengan:
+    - https://es.javascript.info/regular-expressions. No es necesario comprender absolutamente todos los detalles de todas las secciones. Como siempre, el objetivo es conocer el recurso y aprender los fundamentos básicos.
+      
+*** Ficheros de la aplicación
+    Vamos a utilizar los ficheros de la práctica anterior realizando modificaciones sobre el archivo ~js/gestionPresupuestoWeb.js~.
+
+    Utilizaremos de nuevo el fichero ~interaccionHTML.html~ para mostrar los datos e interactuar con la aplicación a través del navegador.
+    
+    La aplicación funcionará de la siguiente manera:
+    - El usuario abrirá el archivo ~interaccionHTML.html~ en el navegador (a través de un servidor web, tal como se ha comentado en la sección de *Preparación*).
+    - El archivo ~interaccionHTML.html~ cargará el programa ~js/generarDatosEstaticos.js~. Dicho programa *hará uso de dos programas* (que se utilizarán como librerías):
+      - Librería ~js/gestionPresupuestoWeb.js~, que definirá una serie de *funciones* para interactuar con el [[https://es.javascript.info/dom-nodes][DOM]] de la página y mostrar los datos en HTML. En esta práctica *realizaremos modificaciones* en este fichero para añadir un *formulario de filtrado* y una lógica de *comprobación de datos mediante expresiones regulares*.
+      - Librería ~js/gestionPresupuesto.js~, que contiene la lógica de negocio de la aplicación (funciones para crear, editar, borrar y mostrar gastos).
+
+    El archivo ~js/generarDatosEstaticos.js~ se utilizará para crear unos gastos iniciales para poder hacer *pruebas durante el desarrollo* (para que no aparezca la aplicación vacía). Por tanto, en una aplicación en producción *no sería necesario*: el archivo HTML funcionaría cargando el archivo ~/js/gestionPresupuestoWeb.js~ directamente.
+    
+*** Fichero ~interaccionHTML.html~
+    Vamos a añadir el siguiente código para crear un formulario para filtrar gastos:
+    #+begin_src html
+      <div id="filtrar-gastos">
+        <h2>Filtrar gastos</h2>
+        <form id="formulario-filtrado">
+          <div class="form-control">
+            <label for="formulario-filtrado-descripcion">Descripción</label>
+            <input type="text" name="formulario-filtrado-descripcion" id="formulario-filtrado-descripcion">
+          </div>
+          <div class="form-control">
+            <label for="formulario-filtrado-valor-minimo">Valor mínimo</label>
+            <input type="number" name="formulario-filtrado-valor-minimo" id="formulario-filtrado-valor-minimo" step="0.01">
+          </div>
+          <div class="form-control">
+            <label for="formulario-filtrado-valor-maximo">Valor máximo</label>
+            <input type="number" name="formulario-filtrado-valor-maximo" id="formulario-filtrado-valor-maximo" step="0.01">
+          </div>
+          <div class="form-control">
+            <label for="formulario-filtrado-fecha-desde">Fecha inicial</label>
+            <input type="date" name="formulario-filtrado-fecha-desde" id="formulario-filtrado-fecha-desde">
+          </div>
+          <div class="form-control">
+            <label for="formulario-filtrado-fecha-hasta">Fecha final</label>
+            <input type="date" name="formulario-filtrado-fecha-hasta" id="formulario-filtrado-fecha-hasta">
+          </div>
+          <div class="form-control">
+            <label for="formulario-filtrado-etiquetas-tiene">Etiquetas</label>
+            <input type="text" name="formulario-filtrado-etiquetas-tiene" id="formulario-filtrado-etiquetas-tiene">
+          </div>
+          <div class="form-control">
+            <button type="submit">Enviar</button>
+          </div>
+        </form>
+      
+      </div>
+    #+end_src
+
+    El código puede situarse antes de la capa ~listado-gastos-completo~ para que aparezca arriba de la misma.
+     
+    El objetivo es utilizar el formulario ~formulario-filtrado~ para que el usuario pueda filtrar la lista de gastos.
+
+*** Fichero ~js/gestionPresupuesto.js~ 
+**** Función ~transformarListadoEtiquetas~
+     Vamos a añadir esta función al paquete ~gestionPresupuesto.js~.
+
+     La función se utilizará para transformar el listado de etiquetas que introduzca el usuario en el formulario.
+
+     La función de filtrado que hemos definido en nuestra lógica de aplicación (función ~filtrarGastos~) admite una opción denominada ~etiquetasTiene~ que tiene que ser un *array*. Sin embargo, el campo correspondiente de formulario de filtrado es un *campo de texto*. Podemos utilizar la función ~split~ de JavaScript para transformar una cadena de texto en un array, pero debemos saber qué carácter se utilizará como separador.
+
+     Para dar todas las facilidades a los usuarios, admitiremos varios tipos de separadores: ~,~, ~.~, ~:~, ~;~ y ~espacio~. Así, los usuarios podrán introducir las etiquetas de diferentes maneras: ~eti1, eti2~, ~eti1 eti2~, ~eti1:eti2~, ~eti1;eti2~, ~eti1.eti2~.
+     
+     La función ~transformarListadoEtiquetas~ se encargará de *convertir todos estos formatos* a un *array de palabras*. Para ello se deberán utilizar *expresiones regulares*.
+
+     A continuación se muestran algunos ejemplos de funcionamiento de la función. Ten en cuenta que la función debe manejar también correctamente *combinaciones de separadores* (coma más espacio, espacio más coma, etc.).
+     #+begin_src js
+     a = transformarListadoEtiquetas("eti1,eti2"); // a = ["eti1","eti2"]
+     a = transformarListadoEtiquetas("eti1, eti2"); // a = ["eti1","eti2"]
+     a = transformarListadoEtiquetas("eti1 , eti2"); // a = ["eti1","eti2"]
+     a = transformarListadoEtiquetas("eti1 ,   eti2"); // a = ["eti1","eti2"]
+     a = transformarListadoEtiquetas("eti1.eti2"); // a = ["eti1","eti2"]
+     a = transformarListadoEtiquetas("eti1. eti2"); // a = ["eti1","eti2"]
+     a = transformarListadoEtiquetas("eti1:eti2"); // a = ["eti1","eti2"]
+     a = transformarListadoEtiquetas("eti1;eti2"); // a = ["eti1","eti2"]
+     a = transformarListadoEtiquetas("eti1 eti2"); // a = ["eti1","eti2"]
+     a = transformarListadoEtiquetas("eti1    eti2"); // a = ["eti1","eti2"]
+     a = transformarListadoEtiquetas("eti1 :, ; eti2"); // a = ["eti1","eti2"]
+     #+end_src
+     
+     Existen varias maneras de enfrentar el problema. Pistas:
+     - https://es.javascript.info/regexp-methods#str-match-regexp
+     - https://es.javascript.info/regexp-character-sets-and-ranges#rangos
+     
+     Por último, se deberá [[https://es.javascript.info/import-export#export-separado-de-la-declaracion][exportar]] la función ~transformarListadoEtiquetas~ para poder testearla.
+     
+*** Fichero ~js/gestionPresupuestoWeb.js~ 
+    Vamos a hacer una serie de modificaciones sobre este fichero con respecto a la práctica anterior.
+
+    Añadiremos una *función* para que recoja los datos del *formulario de filtrado* y *actualice* la lista de ~listado-gastos-completo~ en función de los parámetros introducidos.
+    
+**** Función ~filtrarGastosWeb~
+     Esta función se utilizará como [[https://es.javascript.info/introduction-browser-events#addeventlistener][manejadora de eventos]] del formulario ~formulario-filtrado~. Realizará las siguientes tareas:
+     - Prevenir el envío del formulario (comportamiento [[https://es.javascript.info/default-browser-action#evitar-las-acciones-del-navegador][por defecto]]) mediante ~event.preventDefault()~. Ten en cuenta que el evento ~submit~ de un formulario provoca su envío a una URL y por tanto el abandono (o la recarga) de la página: en este caso no queremos enviar nada, sino que queremos ejecutar un código JavaScript sin abandonar la página.
+     - Recoger los datos del formulario ~formulario-filtrado~.
+     - Si el campo ~formulario-filtrado-etiquetas-tiene~ tiene datos, llamar a la función ~transformarListadoEtiquetas~ (recordad que está en el paquete ~gestionpresupuesto.js~) para que devuelva un *array* de etiquetas válidas.
+     - Crear el *objeto necesario* para llamar a la función ~filtrarGastos~ del paquete ~gestionPresupuesto.js~. Recuerda que dicha función admite un solo parámetro que es un objeto con varias propiedades (~valorMinimo~, ~valorMaximo~, ~etiquetasTiene~,...).
+     - Llamar a la función ~filtrarGastos~
+     - Actualizar la lista de gastos filtrados en la capa ~listado-gastos-completo~ mediante la función ~mostrarGastoWeb~.
+
+     Una vez definida la función deberás añadirla como manejadora del evento ~submit~ del formulario ~formulario-filtrado~.
+     
+** Formato de la entrega
+- Cada persona trabajará en su *repositorio personal* que habrá creado tras realizar el /fork/ del repositorio base.
+- Todos los archivos de la práctica se guardarán en el repositorio y se subirán a GitHub periódicamente. Es conveniente ir subiendo los cambios aunque no sean definitivos. *No se admitirán entregas de tareas que tengan un solo commit*.
+- *Como mínimo* se debe realizar *un commit* por *cada elemento de la lista de tareas* a realizar (si es que estas exigen crear código, claro está).
+- Para cualquier tipo de *duda o consulta* se pueden abrir ~Issues~ haciendo referencia al profesor mediante el texto ~@antroher~ dentro del texto del ~Issue~. Los ~issues~ deben crearse en *tu repositorio*: si no se muestra la pestaña de ~Issues~ puedes activarla en los ~Settings~ de tu repositorio.
+- Una vez *finalizada* la tarea se debe realizar una ~Pull Request~ al repositorio base indicando tu *nombre y apellidos* en el mensaje.

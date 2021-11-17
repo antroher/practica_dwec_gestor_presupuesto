@@ -109,7 +109,7 @@ function mostrarGastoWeb(idElemento, gasto){
     let divGastoValor = document.createElement('div');
     divGastoValor.className = 'gasto-valor'; 
     divGastoValor.textContent = gasto.valor + '';
-    divGasto.append(divGastoValor); 
+    divGasto.append(divGastoValor);
 
     
     let divGastoEtiquetas = document.createElement('div');
