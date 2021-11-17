@@ -223,64 +223,65 @@ function CancelarFormHandle() {
     }
 }
 
-function EditarFormHandle() {
-    this.handleEvent = function (event){
-        //Volvemos a clonar el formulario y almacenarlo como fragmento en formulario
-        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
-        var formulario = plantillaFormulario.querySelector("form");
+// function EditarFormHandle() {
+//     this.handleEvent = function (event){
+//         //Volvemos a clonar el formulario y almacenarlo como fragmento en formulario
+//         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+//         var formulario = plantillaFormulario.querySelector("form");
 
-        //recogemos el inicializador del evento y adjuntamos el formulario debajo
-        let btnEditarFormulario = event.currentTarget;
-        btnEditarFormulario.appendChild(formulario);
-        btnEditarFormulario.setAttribute("disabled", );
+//         //recogemos el inicializador del evento y adjuntamos el formulario debajo
+//         let btnEditarFormulario = event.currentTarget;
+//         btnEditarFormulario.appendChild(formulario);
+//         btnEditarFormulario.setAttribute("disabled", );
 
-        formularioSubmit.elements.descripcion.value = this.gasto.descripcion;
-        formularioSubmit.elements.valor.value = this.gasto.valor;
-        formularioSubmit.elements.fecha.value = new Date(this.gasto.fecha).toISOString().substr(0,10);
-        formularioSubmit.elements.etiquetas.value = this.gasto.etiquetas;
+//         formularioSubmit.elements.descripcion.value = this.gasto.descripcion;
+//         formularioSubmit.elements.valor.value = this.gasto.valor;
+//         formularioSubmit.elements.fecha.value = new Date(this.gasto.fecha).toISOString().substr(0,10);
+//         formularioSubmit.elements.etiquetas.value = this.gasto.etiquetas;
         
-        let btnEnviarForm = new EnviarHandle();
-        btnEnviarForm.gasto = this.gasto();
-        formulario.addEventListener('submit', btnEnviarForm);
+//         let btnEnviarForm = new EnviarHandle();
+//         btnEnviarForm.gasto = this.gasto();
+//         formulario.addEventListener('submit', btnEnviarForm);
 
-        let btnCancelarForm = formulario.querySelector("button.cancelar");
-        let cancelarForm = new CancelarFormHandle();
-        btnCancelarForm.addEventListener('click', cancelarForm);
-    }
-}
+//         let btnCancelarForm = formulario.querySelector("button.cancelar");
+//         let cancelarForm = new CancelarFormHandle();
+//         btnCancelarForm.addEventListener('click', cancelarForm);
+//     }
+// }
 
+//Este handle actualizará los valores del gasto que nosotros estemos manejando
 function EnviarHandle(){
-
     this.handleEvent = function(e){
         e.preventDefault();
-        
         let formulario = e.currentTarget;
         let descripcion = formulario.elements.descripcion.value;
         this.gasto.actualizarDescripcion(descripcion);
-
         let valor = parseFloat(formulario.elements.valor.value);
         this.gasto.actualizarValor(valor);
-
         let fecha = formulario.elements.fecha.value;
         this.gasto.actualizarFecha(fecha);
-
         let etiquetas = formulario.elements.etiquetas.value;
         this.gasto.anyadirEtiquetas(etiquetas);
         repintar();
     }
 }
 
-//Manejador del evento editar gasto formulario TODO
+//Manejador del evento editar gasto formulario
 function EditarHandleformulario() {
     this.handleEvent = function (event){
 
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+        var formulario = plantillaFormulario.querySelector("form");
+        let btnEditarFormulario = event.currentTarget;
+        btnEditarFormulario.appendChild(formulario);
+        btnEditarFormulario.setAttribute("disabled", );
         formulario.elements.descripcion.value  = this.gasto.descripcion;
         formulario.elements.valor.value = this.gasto.valor;
-        formulario.elements.fecha.value = this.gasto.fecha.toLocaleString();
+        formulario.elements.fecha.value = new Date(this.gasto.fecha).toISOString().substr(0,10);
         formulario.elements.etiquetas.value = this.gasto.etiquetas;
 
         //Evento para el submit del formulario
-        let EditarFormHandle1 = new EditarFormHandle();
+        let EditarFormHandle1 = new EnviarHandle();
         EditarFormHandle1.gasto = this.gasto;
         formulario.addEventListener('submit', EditarFormHandle1);
         //botón cancelar
