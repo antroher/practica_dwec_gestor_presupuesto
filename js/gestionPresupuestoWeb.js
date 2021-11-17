@@ -23,7 +23,7 @@ function mostrarGastoWeb(idElemento, gasto) {
     `;
             let etiquetaGasto = document.createElement("div");
             etiquetaGasto.className = "gasto-etiquetas";
-            div.append(etiquetaGasto);
+            divGasto.append(etiquetaGasto);
         
             for (let etiqueta of gasto.etiquetas) {
                 let nuevaEtiqueta = new BorrarEtiquetasHandle(); 
@@ -37,9 +37,9 @@ function mostrarGastoWeb(idElemento, gasto) {
             }
         
             let btnEditar = document.createElement("button");
-                             btnEditar.className += 'gasto-editar'
-                             btnEditar.textContent = "Editar";
-                             btnEditar.type = 'button';
+                            btnEditar.className += 'gasto-editar'
+                            btnEditar.textContent = "Editar";
+                            btnEditar.type = 'button';
         
             let btnBorrar = document.createElement("button");
                             btnBorrar.className += 'gasto-borrar'
@@ -52,8 +52,8 @@ function mostrarGastoWeb(idElemento, gasto) {
             borrar.gasto = gasto;    
             btnEditar.addEventListener('click', editar);
             btnBorrar.addEventListener('click', borrar);
-            div.append(btnEditar);
-            div.append(btnBorrar);
+            divGasto.append(btnEditar);
+            divGasto.append(btnBorrar);
 }
 
 
@@ -85,7 +85,7 @@ function repintar() {
     let balanceTotal = gestionPresupuesto.calcularBalance().toFixed(2);
     mostrarDatoEnId('balance-total', balanceTotal);
 
-    let borrarContenido = document.getElementById('listado-gastos-completo').innerHTML = "" ;
+    document.getElementById('listado-gastos-completo').innerHTML = "" ;
 
     let listarGastos = gestionPresupuesto.listarGastos();
     for (const x of listarGastos) {
@@ -96,11 +96,9 @@ function repintar() {
 
 function actualizarPresupuestoWeb() {
     let presupuesto = parseFloat(prompt('Introduzca un presupuesto'));
-    gestionPresupuesto.actualizarPresupuesto(presupuesto);
+    gestionPresupuesto.actualizarPresupuesto(presupuesto);  
     repintar();    
 }
-
-
 
 function nuevoGastoWeb() {
     let descripcion = prompt('Describa el objeto que acaba de adquirir');
@@ -127,32 +125,31 @@ function EditarHandle() {
 
         this.gasto.actualizarDescripcion(descripcion);
         this.gasto.actualizarValor(valor);
-        this.gasto.actualizarfecha(fecha);
-        this.gasto.actualizarEtiquetas(...arrayEtiquetas);  
+        this.gasto.actualizarFecha(fecha);
+        this.gasto.anyadirEtiquetas(...arrayEtiquetas);  
         repintar();
     }
 }
 
-function BorrarHnadle(){
+function BorrarHandle(){
     this.handleEvent = function(e) {
         gestionPresupuesto.borrarGasto(this.gasto.id);
         repintar();
     }
 }
 
-function BorrarEtiquetasHnadle(){
+function BorrarEtiquetasHandle(){
     this.handleEvent = function(e) {
-        gestionPresupuesto.borrarEtiquetas(this.etiquetas);
+        this.gasto.borrarEtiquetas(this.etiquetas);
         repintar();
     }
 }
 
-const btnActualizarPresupuesto = document.getElementById("actualizar presupuesto");
+const btnActualizarPresupuesto = document.getElementById("actualizarpresupuesto");
 btnActualizarPresupuesto.addEventListener("click", actualizarPresupuestoWeb);
-const btnNuevoGasto = document.getElementById("nuevo gasto");
+const btnNuevoGasto = document.getElementById("anyadirgasto");
 btnNuevoGasto.addEventListener("click", nuevoGastoWeb);
-const btnFormGas = getElementById("anyadirgasto-formulario");
-btnFormGas.addEventListener("click", nuevoGastoWebFormulario);
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,

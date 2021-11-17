@@ -28,23 +28,33 @@ let balance = gestionPresupuesto.calcularBalance();
 gestionPresupuestoWeb.mostrarDatoEnId("balance-total", balance);
 
 let listadoGastoCompleto = gestionPresupuesto.listarGastos();
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", listadoGastoCompleto);
+for (const x of listadoGastoCompleto){
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", x);
+}
 
-let filtrado1 = {fechaDesde : "2021-09-01", fechaHasta : "2021-09-30"}
+let filtrado1 = {fechaDesde : "2021-09-01", fechaHasta : "2021-09-30"};
 let gastoFiltrado1 = gestionPresupuesto.filtrarGastos(filtrado1);
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1", gastoFiltrado1);
+for(const x of gastoFiltrado1) {
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1", x);
+}
 
 let filtrado2 = {valorMinimo : 50}
 let gastoFiltrado2 = gestionPresupuesto.filtrarGastos(filtrado2);
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2", gastoFiltrado2);
+for(const x of gastoFiltrado2) {
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2", x);
+}
 
 let filtrado3 = {valorMinimo : 200, etiquetasTiene : ["seguros", " "]}
 let gastoFiltrado3 = gestionPresupuesto.filtrarGastos(filtrado3);
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3", gastoFiltrado3);
+for(const x of gastoFiltrado3) {
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3", x);
+}
 
 let filtrado4 = {valorMaximo : 50, etiquetasTiene : ["comida", "transporte"]}
 let gastoFiltrado4 = gestionPresupuesto.filtrarGastos(filtrado4);
-gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gastoFiltrado4);
+for(const x of gastoFiltrado4){
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", x);
+}
 
 let agrupDia = gestionPresupuesto.agruparGastos("dia");
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", agrupDia, "día");

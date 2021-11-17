@@ -212,7 +212,7 @@ function filtrarGastos(FiltrarGastos) {
         }
         if (Object.hasOwn(FiltrarGastos, 'etiquetasTiene') && Array.isArray(FiltrarGastos.etiquetasTiene)) {
             gastosFiltrados = gastosFiltrados.filter((x) => {
-                for (let i = 0; i < FiltrarGastos.etiquetasTiene.length; i++) {
+                for (let i = 0; i <= FiltrarGastos.etiquetasTiene.length; i++) {
                     if (FiltrarGastos.etiquetasTiene.includes(x.etiquetas[i])) {
                         return true;
                     }
