@@ -164,7 +164,7 @@ document.getElementById('actualizarpresupuesto').addEventListener('click', actua
 //Funcion boton de editar
 function nuevoGastoWeb(){
     let desc = prompt('Escriba la descripción del nuevo gasto');
-    let val = parseInt(prompt('Escriba el valor del nuevo gasto'));
+    let val = parseFloat(prompt('Escriba el valor del nuevo gasto'));
     let fech = new Date(prompt('Escriba la fecha del nuevo gasto')).toLocaleDateString();//arreglar?
     let etiq = prompt('Escriba las etiquetas (seguidas por coma) del nuevo gasto');
     etiq = etiq.split(', ');
