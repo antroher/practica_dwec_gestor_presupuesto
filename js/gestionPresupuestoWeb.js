@@ -1,12 +1,10 @@
 import * as gestionPresupuesto from './gestionPresupuesto.js';
 
-
 function mostrarDatoEnId(idElemento, valor) {
     let div = document.getElementById(idElemento);
     let p = document.createElement('p');
     p.textContent = valor;
     div.append(p);
-    
 }
 
 function mostrarGastoWeb(idElemento, gasto) {
@@ -91,7 +89,6 @@ function repintar() {
     for (const x of listarGastos) {
         mostrarGastoWeb("listado-gastos-completo", x);
     }
-    
 }
 
 function actualizarPresupuestoWeb() {
