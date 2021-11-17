@@ -50,7 +50,7 @@ let filtraGast= gestionPresupuesto.filtrarGastos({fechaDesde:"2021-09-01", fecha
 
 //Mostrar el listado de gastos de más de 50€ 
 
-let listaGastos= gestionPresupuesto.listarGastos();
+let listaGastos= gestionPresupuesto.listarGastos({valorMinimo: 50});
 for(let gast of listaGastos)
 {
     gestionPresupuesto.mostrarGastoWeb('listado-gastos-filtrado-2', gast);
@@ -60,27 +60,34 @@ let filtGastCinc= gestionPresupuesto.filtrarGastos({valorMinimo: 50});
 
 //Mostrar el listado de gastos de más de 200€ con etiqueta seguros
 
-let listaGastos= gestionPresupuesto.listarGastos();
+let listaGastos= gestionPresupuesto.listarGastos({valorMinimo: 200, etiquetasTiene: ['seguros']});
 for(let gas of listaGastos)
 {
     gestionPresupuesto.mostrarGastoWeb('listado-gastos-filtrado-3', gas);
 }
 
-let filtGastDosc= gestionPresupuesto.filtrarGastos({valorMinimo: 200, etiquetasTiene: 'seguros'});
 
 //Mostrar el listado de gastos que tengan las etiquetas comida o transporte de menos de 50€ 
-let listaGastos= gestionPresupuesto.listarGastos();
+let listaGastos= gestionPresupuesto.listarGastos({etiquetasTiene: ['comida', 'transporte'], valorMaximo: 50});
 for(let ga of listaGastos)
 {
     gestionPresupuesto.mostrarGastoWeb('listado-gastos-filtrado-4', ga);
 }
 
-let filtGastDosc= gestionPresupuesto.filtrarGastos({valorMaximo: 50, etiquetasTiene: 'transporte', etiquetasTiene:'comida'});
 
 //Mostrar el total de gastos agrupados por día
 
+let agrup1 = gP.agruparGastos('dia');
+gPW.mostrarGastosAgrupadosWeb('agrupacion-dia', agrup1, 'día');
+
 //Mostrar el total de gastos agrupados por mes
 
+let agrup2 = gP.agruparGastos('mes');
+gPW.mostrarGastosAgrupadosWeb('agrupacion-mes', agrup2, 'mes');
+
 //Mostrar el total de gastos agrupados por año
+
+let agrup3 = gP.agruparGastos('anyo');
+gPW.mostrarGastosAgrupadosWeb('agrupacion-anyo', agrup3, 'año');
 
 //               (IMPORTANTE) ---->                FOR OF PARA ARRAYS - FOR IN PARA EL RESTO.
