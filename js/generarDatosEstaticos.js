@@ -44,7 +44,7 @@ for(const x of gastoFiltrado2) {
     gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2", x);
 }
 
-let filtrado3 = {valorMinimo : 200, etiquetasTiene : ["seguros", " "]}
+let filtrado3 = {valorMinimo : 200, etiquetasTiene : ["seguros"]}
 let gastoFiltrado3 = gestionPresupuesto.filtrarGastos(filtrado3);
 for(const x of gastoFiltrado3) {
     gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3", x);
