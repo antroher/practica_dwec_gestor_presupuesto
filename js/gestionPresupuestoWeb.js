@@ -174,12 +174,13 @@ function nuevoGastoWebFormulario() {
     //Copia del formulario/template
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
     var formulario = plantillaFormulario.querySelector("form");
+    //En la práctica pone que se ponga al final, pero salta error si se hace de ese modo
     let divControlesPrincipales = document.getElementById("controlesprincipales")
     divControlesPrincipales.appendChild(formulario);
     let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
     
     //botón submit
-    let enviarObj = new EnviarGastoHandle();
+    let enviarObj = new EnviarGastoFormHandle();
     formulario.addEventListener('submit', enviarObj);
     //botón cancelar
     let cancelarObj = new CancelarFormHandle();
@@ -219,7 +220,7 @@ function EnviarHandle(){
     }
 }
 
-function EnviarGastoHandle(){
+function EnviarGastoFormHandle(){
     this.handleEvent = function(e){
         e.preventDefault();
          let formulario = e.currentTarget;
