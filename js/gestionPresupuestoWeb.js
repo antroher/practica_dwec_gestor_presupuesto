@@ -69,16 +69,21 @@ function mostrarGastoWeb(idElemento, gasto){
             botonEditar.className="gasto-editar";
             botonEditar.type="button";
             botonEditar.textContent="Editar";
-            /*
+            
             let editarHa= new EditarHandle();
             editarHa.gasto=gasto;
             botonEditar.addEventListener("click",editarHa);
-            */
+
+            let botonEditarF=document.createElement("button");
+            botonEditarF.className="gasto-editar-formulario";
+            botonEditarF.type="button";
+            botonEditarF.textContent="Editar Form";
+
             let editHaForm = new EditarHandleFormulario();
             editHaForm.gasto=gasto;
             editHaForm.botonEditarGasto=botonEditar;
             editHaForm.divGasto=divgasto;
-            botonEditar.addEventListener("click",editHaForm);
+            botonEditarF.addEventListener("click",editHaForm);
             divgasto.append(botonEditar);
 
             let botonBorrar=document.createElement("button");
@@ -279,6 +284,7 @@ function EditarHandleFormulario(){
         botonCancelar.addEventListener("click",this.handleEvent=function(){
 
             botonEditG.disabled=false;
+            
             divG.removeChild(formulario);
 
         });
