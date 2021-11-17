@@ -73,6 +73,8 @@ function mostrarGastoWeb(idElemento, gasto) {
                             btnEditGastoForm.textContent = 'Editar (formulario)';
                             btnEditGastoForm.type = 'button';
 
+    let editForm = new EditarHandleformulario();
+    editForm.gasto = gasto;
     //Creamos el manejador de eventos de editar el formulario
     btnEditGastoForm.addEventListener('click', editForm);
     //adjuntamos al botón a la estructura HTML
