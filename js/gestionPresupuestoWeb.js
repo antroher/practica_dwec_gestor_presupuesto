@@ -137,7 +137,7 @@ function BorrarHandle(){
 
 function BorrarEtiquetasHandle(){
     this.handleEvent = function(e) {
-        this.gasto.borrarEtiquetas(this.etiquetas);
+        this.gasto.borrarEtiquetas(this.etiqueta);
         repintar();
     }
 }
