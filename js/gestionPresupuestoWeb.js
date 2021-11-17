@@ -4,10 +4,8 @@ import * as gestionPresupuesto from './gestionPresupuesto.js';
 function mostrarDatoEnId(idElemento, valor) {
 
     let elem = document.getElementById(idElemento);
-
     let p = document.createElement('p');
     p.textContent = valor; // para modificar parte del texto del Dom, no meter codigo html nuevo
-
     elem.append(p); // añade un hijo al elemento que han pasado por ID
 }
 
@@ -127,21 +125,53 @@ function nuevoGastoWeb() {
     // todo convertir cadena de etiquetas separadas por comas a un array
     let etiquetasArray= etiquetas.split(',');
     let gastoAnyadido = new gestionPresupuesto.CrearGasto(descripcion,valor1,fecha,...etiquetasArray);
-    
+
     gestionPresupuesto.anyadirGasto(gastoAnyadido);
 
     repintar();
 }
 
-    //Botones
-    let btnActualizar = document.getElementById('actualizarpresupuesto');
-    let btnAnyadirgasto = document.getElementById('anyadirgasto');
-    // const anyadirgastoFirmulario = document.getElementById("anyadirgasto-formulario");
+// FUNCIONES CONSTRUCTORAS manejadoras de eventos
 
-    //Eventos
-    btnActualizar.addEventListener('click', actualizarPresupuestoWeb);
-    btnAnyadirgasto.addEventListener('click', nuevoGastoWeb);
-    // anyadirgastoFirmulario.addEventListener('click', nuevoGastoWebFormulario)
+// Función manejadora de eventos para editar un gasto --> Función Constructora
+function EditarHandle() {
+    this.handleEvent = function (event){
+        let descripcion = prompt("Escribe la nueva descripción del gasto");
+        let valor1 = parseFloat(prompt("Escribe la nueva valor del gasto"));
+        let fecha = prompt("Escribe la fecha del gasto en formato yyyy-mm-dd");
+        let etiquetas = prompt("Escribe las etiquetas del gasto separadas por ,");
+        let etiquetasArray = etiquetas.split(',');
+        this.gasto.actualizarValor(valor1);
+        this.gasto.actualizarDescripcion(descripcion);
+        this.gasto.actualizarFecha(fecha);
+        this.gasto.anyadirEtiquetas(...etiquetasArray);
+        repintar();
+    }
+}
+// Func. manejadora de eventos para borrar un gasto
+function BorrarHandle() {
+    this.handleEvent = function (event){
+        let number = this.gasto.id;
+        gestionPresupuesto.borrarGasto(number);
+        repintar();
+    }
+}
+
+function BorrarEtiquetasHandle() {
+    this.handleEvent = function (event){
+        this.gasto.borrarEtiquetas(this.etiqueta);
+        repintar();
+   }
+}
+//Botones
+let btnActualizar = document.getElementById('actualizarpresupuesto');
+let btnAnyadirgasto = document.getElementById('anyadirgasto');
+// const anyadirgastoFirmulario = document.getElementById("anyadirgasto-formulario");
+
+//Eventos
+btnActualizar.addEventListener('click', actualizarPresupuestoWeb);
+btnAnyadirgasto.addEventListener('click', nuevoGastoWeb);
+// anyadirgastoFirmulario.addEventListener('click', nuevoGastoWebFormulario)
 
 export {
     mostrarDatoEnId,
