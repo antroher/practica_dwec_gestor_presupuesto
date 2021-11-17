@@ -171,7 +171,7 @@ function nuevoGastoWebFormulario(){
             repintar();
             
         }
-       
+        
         
     })
     
