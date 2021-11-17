@@ -1,3 +1,7 @@
+
+//Ejemplo detallado de como hacer la práctica: https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley
+
+
 import * as gestionPresupuesto from './gestionPresupuesto.js';
 
 //Para iterar sobre un collection del node usar for...of
