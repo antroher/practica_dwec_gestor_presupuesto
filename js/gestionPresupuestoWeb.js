@@ -17,28 +17,61 @@ function mostrarDatoEnId(idElemento,valor){
 
 }
 
-function mostrarGastoWeb(idElemento,gastos)
+function mostrarGastoWeb(idElemento,gasto)
 {
     let elemento = document.getElementById(idElemento);
-    for (let g of gastos) {
-        let datos = "";
+    let div = document.createElement('div');
+    let div1 = document.createElement('div');
+    div.className = "gasto";
 
-        for(let i of g.etiquetas) {
-            datos +=
-            `<span class="gasto-etiquetas-etiqueta">
-            ${i}
-            </span>`
-        }
-        elemento.innerHTML += 
-        `<div class="gasto">
-            <div class="gasto-descripcion">${g.descripcion}</div>
-            <div class="gasto-fecha">${g.fecha}</div> 
-            <div class="gasto-valor">${g.valor}</div> 
-            <div class="gasto-etiquetas">
-                ${datos}`;
+        
+        div.innerHTML += 
+        `
+            <div class="gasto-descripcion">${gasto.descripcion}</div>
+            <div class="gasto-fecha">${gasto.fecha}</div> 
+            <div class="gasto-valor">${gasto.valor}</div> `;
+
+
+    for (let etiquetas of gasto.etiquetas)
+    {        
+        let span = document.createElement('span');
+        span.className="gasto-etiquetas-etiqueta";
+
+        let manejadorBorrarEtiqueta = new BorrarEtiquetasHandle();
+        manejadorBorrarEtiqueta.gasto = gasto;
+        manejadorBorrarEtiqueta.etiqueta = etiquetas;
+        span.addEventListener("click", manejadorBorrarEtiqueta);
+
+        span.append(etiquetas);
+        div1.append(span);
     }
 
+    div1.className ="gasto-etiquetas";
     
+    
+    div.append(div1);
+
+    let botEditar = document.createElement('button');
+    botEditar.className = "gasto-editar";
+    botEditar.type = "button";
+    botEditar.textContent = "Editar";
+
+    let manejadorEdit = new EditarHandle();
+    manejadorEdit.gasto = gasto;
+    botEditar.addEventListener("click", manejadorEdit);
+    div.append(botEditar);
+
+    let botBorrar = document.createElement('button');
+    botBorrar.className = "gasto-borrar";
+    botBorrar.type = "button";
+    botBorrar.textContent = "Borrar";
+
+    let manejadorBorrar = new BorrarHandle();
+    manejadorBorrar.gasto = gasto;
+    botBorrar.addEventListener("click", manejadorBorrar);
+    div.append(botBorrar);
+
+    elemento.append(div)
 
 }
 
@@ -68,8 +101,10 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
         mostrarDatoEnId("balance-total", calcularBalance());
 
 
+        document.getElementById("listado-gastos-completo").innerHTML = "";
         
         let listagastos = listarGastos();
+        
     for (let lista of listagastos)
         {
             mostrarGastoWeb("listado-gastos-completo", lista);
@@ -84,7 +119,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
         repintar();
     }
     let botActualizar = document.getElementById("actualizarpresupuesto");
-    botActualizar.addEventListener("click", actualizarPresupuestoWeb());
+    botActualizar.addEventListener("click", actualizarPresupuestoWeb);
 
     function nuevoGastoWeb()
     {
@@ -142,7 +177,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
     {
         this.handleEvent = function(event){
        
-            this.gasto.borrarEtiquetas(this.gasto.etiquetas);
+            this.gasto.borrarEtiquetas(this.etiqueta);
     
             repintar();
         }

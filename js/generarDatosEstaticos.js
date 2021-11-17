@@ -40,15 +40,40 @@ mostrarDatoEnId("gastos-totales", calcularTotalGastos());
 
 mostrarDatoEnId("balance-total", calcularBalance());
 
-mostrarGastoWeb('listado-gastos-completo',listarGastos());
+let gastos = listarGastos();
 
-mostrarGastoWeb('listado-gastos-filtrado-1',filtrarGastos({fechaDesde:"2021-09-01",fechaHasta:"2021-09-30"}));
+for (let gasto of gastos)
+{
+    mostrarGastoWeb('listado-gastos-completo',gasto);
+}
 
-mostrarGastoWeb('listado-gastos-filtrado-2',filtrarGastos({valorMinimo:50}));
+let gastosfiltrados1 = filtrarGastos({fechaDesde:"2021-09-01",fechaHasta:"2021-09-30"});
 
-mostrarGastoWeb('listado-gastos-filtrado-3',filtrarGastos({valorMaximo:200,etiquetasTiene:["seguros"]}));
+for (let gasto of gastosfiltrados1)
+{
+    mostrarGastoWeb("listado-gastos-filtrado-1", gasto);
+}
 
-mostrarGastoWeb('listado-gastos-filtrado-4',filtrarGastos({valorMaximo:50, etiquetasTiene:["comida","transporte"]}));
+let gastosfiltrados2 = filtrarGastos({valorMinimo:50});
+
+for (let gasto of gastosfiltrados2)
+{
+    mostrarGastoWeb('listado-gastos-filtrado-2',gasto);
+}
+
+let gastosfiltrados3 = filtrarGastos({valorMaximo:200,etiquetasTiene:["seguros"]});
+
+for (let gasto of gastosfiltrados3)
+{
+    mostrarGastoWeb('listado-gastos-filtrado-3',gasto);
+}
+
+let gastosfiltrados4 = filtrarGastos({valorMaximo:50, etiquetasTiene:["comida","transporte"]});
+
+for (let gasto of gastosfiltrados4)
+{
+    mostrarGastoWeb('listado-gastos-filtrado-4',gasto);
+}
 
 mostrarGastosAgrupadosWeb('agrupacion-dia',agruparGastos("dia"),"día");
 
