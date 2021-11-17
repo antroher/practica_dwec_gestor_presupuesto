@@ -158,13 +158,13 @@ El repositorio se ha configurado para que se *ejecuten los tests automáticament
 
      Estas modificaciones son:
      - *Botón editar*:
-       - Crear un botón con texto ~Editar~ de tipo ~button~ (~<button type="button"~) con clase ~gasto-editar~.
+       - Crear un botón con texto ~Editar~ de tipo ~button~ (~<button type="button">~) con clase ~gasto-editar~.
        - Crear un [[https://es.javascript.info/constructor-new#funcion-constructora][nuevo objeto]] a partir de la función constructora ~EditarHandle~.
        - Establecer la propiedad ~gasto~ del objeto creado al objeto ~gasto~ (recuerda que el objeto ~gasto~ es un parámetro pasado a la función ~mostrarGastoWeb~).
        - Añadir el objeto recién creado como *objeto manejador del evento* ~click~ al botón ~Editar~ recién creado.
        - Añadir el botón al DOM a continuación de las etiquetas
      - *Botón borrar*:
-       - Crear un botón con texto ~Borrar~ de tipo ~button~ (~<button type="button"~) con clase ~gasto-borrar~.
+       - Crear un botón con texto ~Borrar~ de tipo ~button~ (~<button type="button">~) con clase ~gasto-borrar~.
        - Crear un [[https://es.javascript.info/constructor-new#funcion-constructora][nuevo objeto]] a partir de la función constructora ~BorrarHandle~.
        - Establecer la propiedad ~gasto~ del objeto creado al objeto ~gasto~ (recuerda que el objeto ~gasto~ es un parámetro pasado a la función ~mostrarGastoWeb~).
        - Añadir el objeto recién creado como *objeto manejador del evento* ~click~ al botón ~Borrar~ recién creado.

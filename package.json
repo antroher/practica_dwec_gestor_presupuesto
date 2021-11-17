@@ -9,7 +9,8 @@
         "test3": "mocha test/03_testIntroJSIII.js",
         "test4": "cypress run -b chromium -s test/04_testInteraccionHTML.js",
         "test5": "cypress run -b chromium -s test/05_testEventos.js",
-        "test6": "cypress run -b chromium -s test/06_testFormularios.js"
+        "test6": "cypress run -b chromium -s test/06_testFormularios.js",
+        "test7": "cypress run -b chromium -s test/07_testRegexp.js"
     },
     "description": "Práctica de Gestión de Presupuestos del módulo de Desarrollo de Web en Entorno Cliente",
     "license": "GPL-3.0",
