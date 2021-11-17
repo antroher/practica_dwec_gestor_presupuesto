@@ -184,8 +184,6 @@ function nuevoGastoWebFormulario() {
     //Copia del formulario/template
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
     var formulario = plantillaFormulario.querySelector("form");
-    //Recogemos el evento submit
-    //let buttonSubmit = formulario.getElementsByTagName("button")[0];
 
     //Evento para el submit del formulario
     formulario.addEventListener('submit', this.handleEvent = function(event) {
@@ -210,15 +208,16 @@ function nuevoGastoWebFormulario() {
     let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
 
     //Por último, añadir el fragmento de documento (variable plantillaFormulario) al final del <div id="controlesprincipales"> para que se muestre en la página.
-    let divControlesPrincipales = document.getElementById("controlesprincipales").appendChild(plantillaFormulario);
+    let divControlesPrincipales = document.getElementById("controlesprincipales")
+    divControlesPrincipales.appendChild(formulario);
 }
 
 //Manejador del evento cancelar del formulario
 function CancelarFormHandle() {
     this.handleEvent = function (event){
-        //¿Eliminamos el formulario?
-       this.formulario.remove();
-       let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+        e.currentTarget.parentNode.remove();
+        let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+        repintar();
     }
 }
 
