@@ -117,20 +117,6 @@ function repintar() {
     }
 }
 
-function formatearFecha(date) {
-    let d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
-
-    return [year, month, day].join('-');
-}
-
 function actualizarPresupuestoWeb() {
     let presupuesto = parseFloat(prompt("Introduzca un presupuesto: "))
     gestionPresupuesto.actualizarPresupuesto(presupuesto);
@@ -294,7 +280,8 @@ function EditarHandleformulario() {
         let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
 
         //Por último, añadir el fragmento de documento (variable plantillaFormulario) al final del <div id="controlesprincipales"> para que se muestre en la página.
-        let divControlesPrincipales = document.getElementById("controlesprincipales").appendChild(plantillaFormulario);
+        let divControlesPrincipales = document.getElementById("controlesprincipales")
+        divControlesPrincipales.appendChild(formulario);
     }
 }
 
