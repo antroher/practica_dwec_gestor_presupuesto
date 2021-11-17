@@ -194,31 +194,6 @@ function CancelarFormHandle() {
     }
 }
 
-// function EditarFormHandle() {
-//     this.handleEvent = function (event){
-//         //Volvemos a clonar el formulario y almacenarlo como fragmento en formulario
-//         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
-//         var formulario = plantillaFormulario.querySelector("form");
-
-//         //recogemos el inicializador del evento y adjuntamos el formulario debajo
-//         let btnEditarFormulario = event.currentTarget;
-//         btnEditarFormulario.appendChild(formulario);
-//         btnEditarFormulario.setAttribute("disabled", );
-
-//         formularioSubmit.elements.descripcion.value = this.gasto.descripcion;
-//         formularioSubmit.elements.valor.value = this.gasto.valor;
-//         formularioSubmit.elements.fecha.value = new Date(this.gasto.fecha).toISOString().substr(0,10);
-//         formularioSubmit.elements.etiquetas.value = this.gasto.etiquetas;
-        
-//         let btnEnviarForm = new EnviarHandle();
-//         btnEnviarForm.gasto = this.gasto();
-//         formulario.addEventListener('submit', btnEnviarForm);
-
-//         let btnCancelarForm = formulario.querySelector("button.cancelar");
-//         let cancelarForm = new CancelarFormHandle();
-//         btnCancelarForm.addEventListener('click', cancelarForm);
-//     }
-// }
 
 //Este handle actualizará los valores del gasto que nosotros estemos manejando
 function EnviarHandle(){
