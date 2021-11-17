@@ -276,6 +276,25 @@ agroupText+="<div class='agrupacion-dato'>\n"
                  +"</div>\n</div>\n";
 }
 
+
+
+
+//PRACTICA 6
+  function nuevoGastoWebFormulario()
+    {
+      let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+      var formulario = plantillaFormulario.querySelector("form");
+      var plantillaFormulario= formulario.getElementById()
+
+      let span = document.createElement("span");
+      span.className += "gasto-etiquetas-etiqueta";
+      span.textContent = item + " ";
+      if(idElemento === "listado-gastos-completo"){
+          
+          span.addEventListener("click", borrarEtiquetas);
+      }
+      divGE.append(span);
+    }
 }
 
 
@@ -291,5 +310,6 @@ export{
     nuevoGastoWeb,
     EditarHandle,
     BorrarHandle,
-    BorrarEtiquetasHandle
+    BorrarEtiquetasHandle,
+    nuevoGastoWebFormulario
 }
