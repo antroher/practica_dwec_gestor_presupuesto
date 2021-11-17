@@ -261,38 +261,6 @@ function EditarHandleformulario() {
     }
 }
 
-function filtrarGastosWeb(){
-    this.handleEvent = function(event){
-        event.preventDefault();
-
-        let formulario = event.currentTarget;
-        let descripcion = formulario.elements['formulario-filtrado-descripcion'].value;
-        let valorMinimo = formulario.elements['formulario-filtrado-valor-minimo'].value;
-        let valorMaximo = formulario.elements['formulario-filtrado-valor-maximo'].value;
-        let fechaDesde = formulario.elements['formulario-filtrado-fecha-desde'].value;
-        let fechaHasta = formulario.elements['formulario-filtrado-fecha-hasta'].value;
-        let etiquetas = formulario.elements['formulario-filtrado-etiquetas-tiene'].value;
-
-        if(etiquetas !== null){
-           etiquetas = gestionPresupuesto.transformarListadoEtiquetas(etiquetas);
-        }
-
-        valorMinimo = parseFloat(valorMinimo);
-        valorMaximo = parseFloat(valorMaximo);
-
-        let gastosFiltrados = gestionPresupuesto.filtrarGastos({fechaDesde: fechaDesde,fechaHasta: fechaHasta,valorMinimo: valorMinimo,valorMaximo: valorMaximo,descripcionContiene: descripcion,etiquetasTiene: etiquetas});
-
-        let listaGastos = document.getElementById("listado-gastos-completo");
-        while(listaGastos.firstChild){
-            listaGastos.removeChild(listaGastos.firstChild);
-        }
-
-        for (let gasto of gastosFiltrados) {
-            mostrarGastoWeb("listado-gastos-completo", gasto);
-        }
-    }
-}
-
 //Botones
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
