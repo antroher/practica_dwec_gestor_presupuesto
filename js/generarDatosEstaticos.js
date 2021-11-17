@@ -81,4 +81,3 @@ gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes",agrupMes,"mes")
 let agrupAnyo = gestionPresupuesto.agruparGastos("anyo");
 
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo",agrupAnyo,"año"); 
-

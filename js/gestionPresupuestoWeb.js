@@ -98,10 +98,10 @@ function repintar() {
     mostrarDatoEnId('presupuesto',gestionPresupuesto.mostrarPresupuesto());
     // Mostrar gastos totales
     document.getElementById('gastos-totales').innerHTML = " ";
-    mostrarDatoEnId('gastos-totales',gestionPresupuesto.calcularTotalGastos());
+    mostrarDatoEnId('gastos-totales',gestionPresupuesto.calcularTotalGastos().toFixed(2));
     // Mostrar balance total
     document.getElementById('balance-total').innerHTML = " ";
-    mostrarDatoEnId('balance-total',gestionPresupuesto.calcularBalance());
+    mostrarDatoEnId('balance-total',gestionPresupuesto.calcularBalance().toFixed(2));
     // Borrar el contenito de #listado-gastos-completo
     document.getElementById('listado-gastos-completo').innerHTML = " ";
     // Mostrar listado de gastos
@@ -111,24 +111,37 @@ function repintar() {
 }
 // función manejadora de evento click de #actualizarpresupuesto
 function actualizarPresupuestoWeb(){
-    let nuevoPre = parseFloat(prompt("Introduce un presupuesto"));
+    let nuevoPre = parseFloat(prompt("Introduce un nuevo presupuesto"));
     gestionPresupuesto.actualizarPresupuesto(nuevoPre);
     
     repintar();
-    // obtener en elemento del botón actualizar
-    let botonActualizar = document.getElementById('actualizarpresupuesto');
-    // addEventListener para que sea función manejadora de eventos --> se llama sin ();
-    botonActualizar.addEventListener('click', actualizarPresupuestoWeb);
 }
 // manejadora del evento click del boton anyadirgasto
 function nuevoGastoWeb() {
-    let descN = prompt('Introduce descripción del gasto');
-    let valorN = parseFloat(prompt('Introduce valor del gasto'));
-    let fechaN = new Date (prompt('Introduce fecha en formato AAAA-MM-DD'));
-    let etiqN = prompt('Introduce etiquetas separadas por comas');
+
+    let descripcion = prompt("Escribe la descripción del gasto");
+    let valor1 = parseFloat(prompt("Escribe el valor del gasto"));
+    let fecha = prompt("Escribe la fecha del gasto en formato yyyy-mm-dd");
+    let etiquetas = prompt("Escribe las etiquetas del gasto separadas por ,");
 
     // todo convertir cadena de etiquetas separadas por comas a un array
+    let etiquetasArray= etiquetas.split(',');
+    let gastoAnyadido = new gestionPresupuesto.CrearGasto(descripcion,valor1,fecha,...etiquetasArray);
+    
+    gestionPresupuesto.anyadirGasto(gastoAnyadido);
+
+    repintar();
 }
+
+    //Botones
+    let btnActualizar = document.getElementById('actualizarpresupuesto');
+    let btnAnyadirgasto = document.getElementById('anyadirgasto');
+    // const anyadirgastoFirmulario = document.getElementById("anyadirgasto-formulario");
+
+    //Eventos
+    btnActualizar.addEventListener('click', actualizarPresupuestoWeb);
+    btnAnyadirgasto.addEventListener('click', nuevoGastoWeb);
+    // anyadirgastoFirmulario.addEventListener('click', nuevoGastoWebFormulario)
 
 export {
     mostrarDatoEnId,
