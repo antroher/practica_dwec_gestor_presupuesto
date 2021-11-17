@@ -5,6 +5,7 @@ import * as gp from "./gestionPresupuesto.js";
 
 document.getElementById("actualizarpresupuesto").addEventListener("click", gpw.actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener("click", gpw.nuevoGastoWeb);
+
 gp.actualizarPresupuesto(1500);
 gpw.mostrarDatoEnId('presupuesto',gp.mostrarPresupuesto());
 /*~”Compra carne”, 23.44, “2021-10-06”, “casa”, “comida”~

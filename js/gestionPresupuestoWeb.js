@@ -13,8 +13,6 @@ function mostrarDatoEnId(idElemento,valor)
     valor - El valor a mostrar */
     
     document.getElementById(idElemento).innerHTML += valor;
-    
-
 }
 
 function mostrarGastoWeb(idElemento,gasto)
@@ -36,25 +34,89 @@ function mostrarGastoWeb(idElemento,gasto)
     </span>
     <!-- Etcétera -->
   </div> 
-</div> */
-let cadenaEtiquetas="";
-gasto.etiquetas.forEach(etiq => {
- 
-    cadenaEtiquetas+="<span class='gasto-etiquetas-etiqueta'>\n"+etiq+"\n</span>\n";
-  
-  
-  
-});
+</div>
+                  */
 
-let element = document.getElementById(idElemento);
-element.innerHTML+="<div class='gasto'>"
-                 +"<div class='gasto-descripcion'>"+gasto.descripcion+"</div>"
-                 +"<div class='gasto-fecha'>"+new Date(gasto.fecha).toLocaleDateString()+"</div>"
-                 +"<div class='gasto-valor'>"+gasto.valor+"</div>"
-                 +"<div class='gasto-etiquetas'>"
-                 +cadenaEtiquetas
-                 +"</div></div>";
-                  
+                
+
+                 let elem = document.getElementById(idElemento);
+
+                 let divPrincipal = document.createElement("div");
+                 divPrincipal.className += "gasto";
+                 elem.append(divPrincipal);
+             
+                 
+                 let divGD = document.createElement("div");
+                 divGD.className += "gasto-descripcion";
+                 divGD.textContent = gasto.descripcion;
+                 
+             
+                 
+                 let divGF = document.createElement("div");
+                 divGF.className += "gasto-fecha";
+                 divGF.textContent = new Date(gasto.fecha).toLocaleDateString();
+                
+             
+                 
+                 let divGV = document.createElement("div");
+                 divGV.className += "gasto-valor";
+                 divGV.textContent = gasto.valor;
+                 
+             
+                
+                 let divGE = document.createElement("div");
+
+                 
+                 divGE.className += "gasto-etiquetas";
+             
+             
+
+
+                 gasto.etiquetas.forEach(item => {
+                   //Objeto eliminar con evento
+                     let borrarEtiquetas = new BorrarEtiquetasHandle();
+                     borrarEtiquetas.gasto = gasto;
+                     borrarEtiquetas.etiqueta = item;
+             
+                     let span = document.createElement("span");
+                     span.className += "gasto-etiquetas-etiqueta";
+                     span.textContent = item + " ";
+                     if(idElemento === "listado-gastos-completo"){
+                         
+                         span.addEventListener("click", borrarEtiquetas);
+                     }
+                     divGE.append(span);
+                 }); 
+                 
+                 
+                 divPrincipal.append(divGD);
+                 divPrincipal.append(divGF);
+                 divPrincipal.append(divGV);
+                 divPrincipal.append(divGE);
+            
+                 //Objeto editar con evento
+                 let editHandler = new EditarHandle();
+                 editHandler.gasto = gasto;
+                     
+                 let buttonEdit = document.createElement("button");
+                 buttonEdit.className = "gasto-editar";
+                 buttonEdit.textContent = "Editar";
+                 buttonEdit.addEventListener("click", editHandler);
+                     
+                 //Objeto eliminar con evento
+                 let borrarHandler = new BorrarHandle();
+                 borrarHandler.gasto = gasto;
+                     
+                 let buttonDelete = document.createElement("button");
+                 buttonDelete.className = "gasto-borrar";
+                 buttonDelete.textContent = "Borrar";
+                 buttonDelete.addEventListener("click", borrarHandler);
+                
+                 if(idElemento === "listado-gastos-completo"){
+                     divPrincipal.append(buttonEdit);
+                     divPrincipal.append(buttonDelete);
+                 }
+
 
 }
 
@@ -70,30 +132,27 @@ Mostrar el balance total en div#balance-total (funciones calcularBalance y mostr
 Borrar el contenido de div#listado-gastos-completo, para que el paso siguiente no duplique la información. Puedes utilizar innerHTML para borrar el contenido de dicha capa.
 Mostrar el listado completo de gastos en div#listado-gastos-completo (funciones listarGastos y mostrarGastoWeb)
 La función repintar no actualizará el resto de capas (filtrados y agrupaciones) de la práctica anterior (lo haremos así por simplicidad).*/
-let gastocompleto= new Array();
-let gastos = gp.listarGastos();
-document.getElementById("presupuesto").innerHTML=mostrarDatoEnId(gp.mostrarPresupuesto(),"presupuesto");
-document.getElementById("balance-total").innerHTML=mostrarDatoEnId(gp.calcularTotalGastos(),"gastos-totales");
-document.getElementById("gastos-totales").innerHTML=mostrarDatoEnId(gp.calcularBalance(),"balance-total");
-document.getElementById("listado-gastos-completo").innerHTML=
-gastos.forEach(item => {
-  mostrarGastoWeb("presupuesto",item);
-});
 
-gastos.forEach(item => {
-  mostrarGastoWeb("balance-total",item);
-});
-gastos.forEach(item => {
-  mostrarGastoWeb("gastos-totales",item);
-});
 
-gastos.forEach(item => {
-  gastocompleto.push(item);
-});
 
-gastocompleto.forEach(item=>{
-  mostrarGastoWeb("listado-gastos-completo", item)
-});
+
+document.getElementById('presupuesto').innerHTML='';
+let presupuesto = gp.mostrarPresupuesto();
+mostrarDatoEnId("presupuesto",presupuesto);
+
+document.getElementById('gastos-totales').innerHTML='';
+let gastoTotal = gp.calcularTotalGastos();
+mostrarDatoEnId("gastos-totales",gastoTotal);
+
+document.getElementById('balance-total').innerHTML='';
+let balanceTotal = gp.calcularBalance();
+mostrarDatoEnId("balance-total",balanceTotal);
+
+document.getElementById("listado-gastos-completo").innerHTML = '';
+let listGasto = gp.listarGastos();
+for (const gasto of listGasto) {
+  mostrarGastoWeb("listado-gastos-completo", gasto);
+}
 }
 
 
@@ -118,41 +177,47 @@ Llamar a la función repintar para que se muestre la lista con el nuevo gasto.*/
   let fecha=prompt("Introduce fecha gasto");
   let etiquetas=prompt("Introduce etiquetas gasto").split(",");
 
- 
-
-
   let gasto =new gp.CrearGasto(descricion,valor,fecha);
   etiquetas.forEach(e => {
       gasto.anyadirEtiquetas(e);
   });
-
   gp.anyadirGasto(gasto);
   repintar();
 }
 
 function EditarHandle()
 {
+  this.handleEvent = function (e){
+  let descripcion,valor,fecha,etiquetasnexo,etiquetasreal;
+     descripcion = prompt("Escribe la nueva descripción del gasto");
+     valor = parseFloat(prompt("Escribe la nueva valor del gasto"));
+     fecha = new Date(prompt("Escribe la fecha del gastocon el formato ingles")).toLocaleDateString();
+     etiquetasnexo = prompt("Escribe las etiquetas del gasto separadas por ,");
+    etiquetasreal = etiquetasnexo.split(',');
 
+    this.gasto.actualizarValor(valor);
+    this.gasto.actualizarDescripcion(descripcion);
+    this.gasto.actualizarFecha(fecha);
+    this.gasto.anyadirEtiquetas(...etiquetasreal);
+    
+    repintar();
+  }
 }
 
 function BorrarHandle()
 {
-  
+  this.handleEvent = function (){
+    let id = this.gasto.id;
+    gp.borrarGasto(id);
+    repintar();
+    
+  }
 }
 function BorrarEtiquetasHandle(){
-  let divGV=document.createElement('div');
-  divGV.className+='gasto-valor';
-  divGV.innerText=gasto.valor;
-
-  let divGE=document.createElement('div');
-  divGE.className+='gasto-etiquetas';
-  divGE.id+=`e${gasto.id}`;
-
-  for(let item of gasto.etiquetas)
-  {
-     
+  this.handleEvent = function (){
+    this.gasto.borrarEtiquetas(this.etiqueta);
+    repintar();
   }
-  repintar();
 }
 
 
@@ -193,14 +258,14 @@ Así, para el ejemplo de agrup dado antes se deberá generar un código como el 
     <span class="agrupacion-dato-valor">39</span>
   </div>
 </div> */
-let agroupText="";
+let agroupText='';
 if(idElemento!=undefined)
 {
-for(let obj in agroup)
+for(let i in agroup)
 {
 agroupText+="<div class='agrupacion-dato'>\n"
-        + "<span class='agrupacion-dato-clave'>"+obj+"</span>\n"
-        +"<span class='agrupacion-dato-valor'>"+agroup[obj]+"</span>\n"
+        + "<span class='agrupacion-dato-clave'>"+i+"</span>\n"
+        +"<span class='agrupacion-dato-valor'>"+agroup[i]+"</span>\n"
         +"</div>\n";
 }
 
