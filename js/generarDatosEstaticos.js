@@ -8,7 +8,7 @@ let botonAnyadirGasto = document.getElementById("anyadirgasto");
 botonAnyadirGasto.onclick = metodosGastosWeb.nuevoGastoWeb;
 
 let botonAnyadirGastoFormulario = document.getElementById("anyadirgasto-formulario");
-botonAnyadirGastoFormulario.onclick = metodosGastosWeb.nuevoGastoWebFormulario;
+botonAnyadirGastoFormulario.addEventListener('click', metodosGastosWeb.nuevoGastoWebFormulario);
 
 //let arrayEditarHandlers = new Array();
 //let arrayBorrarHandlers = new Array();

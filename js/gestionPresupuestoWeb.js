@@ -92,7 +92,6 @@ function repintar(){
     document.getElementById("presupuesto").innerHTML="";
     document.getElementById("gastos-totales").innerHTML="";
     document.getElementById("balance-total").innerHTML="";
-    document.getElementById("controlesprincipales").removeChild(formulario);
     mostrarDatoEnId("presupuesto", metodosGastos.mostrarPresupuesto());
     mostrarDatoEnId("gastos-totales", metodosGastos.calcularTotalGastos());
     mostrarDatoEnId("balance-total", metodosGastos.calcularBalance());
@@ -151,30 +150,36 @@ function nuevoGastoWeb(){
 }
 
 function nuevoGastoWebFormulario(){
-    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
     var formulario = plantillaFormulario.querySelector("form");
     let boton = document.getElementById("anyadirgasto-formulario");
     boton.disabled = true;
     document.getElementById("controlesprincipales").append(formulario);
 
     formulario.addEventListener("submit",this.handleEvent = function(event){
-        if(!event.defaultPrevented()){
-            let descForm = formulario.elements.descripcion;
-            let valForm = formulario.elements.valor;
-            let fechForm = formulario.elements.fecha;
-            let etForm = formulario.elements.etiquetas;
-            let etiqForm = new Array();
-            etiqForm = etForm.value.split(",");
-            let gastoForm = new metodosGastos.CrearGasto(descForm.value,parseFloat(valForm.value), fechForm.value, ...etiqForm);
-            metodosGastos.anyadirGasto(gastoForm);
-            boton.disabled = false;
-            repintar();
+        event.preventDefault();
+        let descForm = formulario.elements.descripcion.value;
+        console.log("dscripcion: " + descForm.value);
+        let valForm = formulario.elements.valor.value;
+        let fechForm = formulario.elements.fecha.value;
+        let etForm = formulario.elements.etiquetas.value;
+        let etiqForm = new Array();
+        etiqForm = etForm.split(",");
+        let gastoForm = new metodosGastos.CrearGasto(descForm,parseFloat(valForm), fechForm, ...etiqForm);
+        metodosGastos.anyadirGasto(gastoForm);
+        console.log("gasto: " + gastoForm);
+        boton.disabled = false;
+        document.getElementById("controlesprincipales").removeChild(formulario);
+        repintar();
             
-        }
-        
-        
-    })
-    
+    });
+
+    let botonCancelar = formulario.querySelector("button.cancelar");
+    botonCancelar.addEventListener("click", this.handleEvent = function(){
+        boton.disabled = false;
+        document.getElementById("controlesprincipales").removeChild(formulario);
+    });
     
 }
 

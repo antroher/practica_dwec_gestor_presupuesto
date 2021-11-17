@@ -215,19 +215,15 @@ function agruparGastos(periodoAgrupar, etiquetasArupar, fechaDesdeAgrupar, fecha
         fechaHasta : fechaHastaArupar,
         etiquetasTiene : etiquetasArupar
     }
-    console.log(filtroAgrupar);    //console.log("Filtro: Etiquetas: " + filtroAgrupar.etiquetasTiene + " Fecha desde: " +  filtroAgrupar.fechaDesde + " Fecha hasta: " + filtroAgrupar.fechaHasta)
 
     let gastosAAgrupar = new Array();
 
     gastosAAgrupar = filtrarGastos(filtroAgrupar);
 
-    console.log(JSON.stringify(gastosAAgrupar));
     
     return gastosAAgrupar.reduce(function(prev, current){
 
         let fechaReduce = current.obtenerPeriodoAgrupacion(periodoAgrupar);
-
-        console.log("Reduce:" + current.etiquetas, new Date(current.fecha).toISOString().substring(0,10), current.id);
 
         if(prev.hasOwnProperty(fechaReduce))prev[fechaReduce] += current.valor;
         else prev[fechaReduce] = current.valor;
