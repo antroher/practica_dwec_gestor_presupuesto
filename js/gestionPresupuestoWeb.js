@@ -96,7 +96,7 @@ function editarHandle() {
         this.gasto.actualizarValor(valor);
         this.gasto.actualizarDescripcion(descripcion);
         this.gasto.actualizarFecha(fecha);
-        this.gasto.anyadirEtiquetas(...arrayEtiquetas);  
+        this.gasto.anyadirEtiquetas(...ArrayEtiquetas);  
         repintar();
     }
 }
@@ -104,6 +104,13 @@ function editarHandle() {
 function borrarHandle(){
     this.handleEvennt = function(e){
         gestionPresupuesto.borrarGasto(this.gasto.id);
+        repintar();
+    }
+}
+
+function borrarEtiquetasHandle(){
+    this.handleEvent = function(e) {
+        this.gasto.borrarEtiquetas(this.etiqueta);
         repintar();
     }
 }
