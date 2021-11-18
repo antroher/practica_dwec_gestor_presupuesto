@@ -101,9 +101,10 @@ function editarHandle() {
     }
 }
 
-function BorrarHandle(){
+function borrarHandle(){
     this.handleEvennt = function(e){
-        
+        gestionPresupuesto.borrarGasto(this.gasto.id);
+        repintar();
     }
 }
 
@@ -114,5 +115,7 @@ export {
     repintar,
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
-    editarHandle
+    editarHandle,
+    borrarHandle,
+    borrarEtiquetasHandle
 }
