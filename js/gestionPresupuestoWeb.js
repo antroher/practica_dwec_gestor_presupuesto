@@ -57,14 +57,17 @@ function actualizarPresupuestoWeb () {
 }
 
 function nuevoGastoWeb (){
-    let descripcion = promt();
-    let valor = parseFloat(promt());
-    let fecha = promt();
-    let etiquetas =  promt();
+    let descripcion = promt('Descirba el objrto a adquirir: ');
+    let valor = parseFloat(promt('Indique el valor de la adquisición: '));
+    let fecha = promt('Indique la fecha utilizando un formato (yyyy-mm-dd): ');
+    let etiquetas =  promt('Indique las etiquetas separándolas por comas: ');
 
     let ArrayEtiquetas = etiquetas.split(',');
 
-    gestionPresupuesto.CrearGasto(descripcion, valor, fecha, ArrayEtiquetas);
+    let gasto = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, ...ArrayEtiquetas);
+    
+    gestionPresupuesto.anyadirGasto(gasto);
+    repintar();
 }
 
 export {
