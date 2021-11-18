@@ -19,6 +19,7 @@ function mostrarGastoWeb(idElemento, gasto) {
     //Creación de Divs
     let divGasto = document.createElement("div");
     divGasto.className = 'gasto';
+    divGasto.setAttribute('id', `gasto-${gasto.id}`)
 
     let divGDesc = document.createElement("div");
     divGDesc.className = 'gasto-descripcion';
@@ -81,7 +82,17 @@ function mostrarGastoWeb(idElemento, gasto) {
         deleteHandler.gasto = gasto;
         buttonDelete.addEventListener('click', deleteHandler);
 
-        divGasto.append(buttonEdit, buttonDelete)
+        //Creado del boton de editar gasto mediante formulario.
+        let buttonEditForm = document.createElement("button");
+        buttonEditForm.className = 'gasto-editar-formulario';
+        buttonEditForm.textContent = 'Editar (Formulario)';
+
+        let editFormHandler = new EditarHandleFormulario();
+        editFormHandler.gasto = gasto;
+        buttonEditForm.addEventListener('click', editFormHandler);
+
+        //Colgado de botones al div del gasto.
+        divGasto.append(buttonEdit, buttonDelete, buttonEditForm);
     }
 
     //Asignado del div gasto al div padre ('listado-gastos')
@@ -259,18 +270,21 @@ function BorrarEtiquetasHandle() {
 }
 
 function nuevoGastoWebFormulario() {
-    
-    let gridForm = document.getElementById("formulario-template").content.cloneNode(true);
-    var form = gridForm.querySelector("form");
-    
-    
-//     let cancelarEvent = new cancelarHandle();
-//     cancelarEvent.formulario = form;
-//     form.getElementById('cancelar').addEventListener('click', cancelarEvent);
+    //Clonación y creación del formulario mediante el template (plantilla).
+    let form = document.getElementById("formulario-template").content.cloneNode(true).querySelector("form");
+    document.getElementById("controlesprincipales").append(form);
 
-//     let submitEvent = new submitHandle();
-//     form.addEventListener('submit', submitEvent);
-// }
+    //Cancelación del boton de añadir gasto.
+    document.getElementById('anyadirgasto-formulario').disabled = true;
+    
+    //Creación del objeto manipulador de eventos del boton enviar.
+    let submitEvent = new submitHandle();
+    form.addEventListener('submit', submitEvent);
+
+    //Creación del objeto manipulador de eventos del boton cancelar.
+    let cancelarEvent = new cancelarHandle();
+    cancelarEvent.formulario = form;
+    form.querySelector("button[class='cancelar']").addEventListener('click', cancelarEvent);
 }
 
 function submitHandle() {
@@ -279,17 +293,18 @@ function submitHandle() {
         event.preventDefault();
 
         //Recogida de datos del propio formulario.
-        let descripcion = event.currentTarget.descripcion;
-        let valor = event.currentTarget.valor;
-        let fecha = event.currentTarget.fecha;
-        let etiquetas = event.currentTarget.etiquetas;
+        let descripcion = event.currentTarget.descripcion.value;
+        let valor = event.currentTarget.valor.value;
+        let fecha = event.currentTarget.fecha.value;
+        let etiquetas = event.currentTarget.etiquetas.value;
 
+        //Separación de las etiquetas a un array (Si estan definidas).
         if (typeof etiquetas !== 'undefined') {
             etiquetas = etiquetas.split(",");
         }
 
         //Creación de gasto con los datos recogidos.
-        let gasto = gP.CrearGasto(descripcion, valor, fecha, etiquetas);
+        let gasto = new gP.CrearGasto(descripcion, valor, fecha, etiquetas);
 
         //Adición del gasto a la lista.
         gP.anyadirGasto(gasto);
@@ -297,18 +312,33 @@ function submitHandle() {
         //Llamar a la función repintar.
         repintar();
 
+        //Activación del boton de añadir gasto de nuevo.
         document.getElementById('anyadirgasto-formulario').disabled = false;
-
-
     }
 }
 
 function cancelarHandle () {
-    this.handleEvent = function(event) {
+    this.handleEvent = function() {
         //Eliminar el formulario creado.
         this.formulario.remove();
 
+        //Activación del boton de añadir gastos de nuevo.
         document.getElementById("anyadirgasto-formulario").disabled = false;
+    }
+}
+
+function EditarHandleFormulario() {
+    this.handleEvent = function(event) {
+        //Clonación y creación del formulario mediante el template (plantilla).
+        let form = document.getElementById("formulario-template").content.cloneNode(true).querySelector("form");
+        document.getElementById(`gasto-${this.gasto.id}`).append(form);
+
+        form.descripcion.value = this.gasto.descripcion;
+        form.valor.value = this.gasto.valor;
+        form.fecha.value = Date(this.gasto.fecha);
+        form.etiquetas.value = this.gasto.etiquetas;
+
+        //https://stackoverflow.com/questions/12346381/set-date-in-input-type-date
     }
 }
 
