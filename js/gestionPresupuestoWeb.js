@@ -65,17 +65,23 @@ function mostrarGastoWeb(idElemento,gastos){
         divG.append(divGEtiq);
 
         if(idElemento === 'listado-gastos-completo'){
+            //CREAR BOTÓN EDITAR PROMP
             let botonEditar = document.createElement('button');
             botonEditar.className = 'gasto-editar';
             botonEditar.textContent = 'Editar'
-    
+            //CREAR BOTÓN BORRAR
             let botonBorrar = document.createElement('button');
             botonBorrar.className = 'gasto-borrar';
             botonBorrar.textContent = 'Borrar';
+            //CREAR BOTON EDITAR FORMULARIO
+            let botonEditarForm = document.createElement('button');
+            botonEditarForm.className = 'gasto-editar-formulario';
+            botonEditarForm.textContent = 'Editar (Formulario)'
+
             //ELEMENTO VACIO PARA SEPARAR LOS GASTOS
             let divVacio = document.createElement('div');
             divVacio.className = 'salto';
-            divVacio.textContent = "--------------------------------- ";
+            divVacio.textContent = "______________________________ ";
 
             //EVENTO BOTON EDITAR GASTO
             let EventoEditarHandle = new EditarHandle();
@@ -87,6 +93,7 @@ function mostrarGastoWeb(idElemento,gastos){
             botonBorrar.addEventListener(`click`, EventoBorrarHandle);
             divG.append(botonEditar);
             divG.append(botonBorrar);
+            divG.append(botonEditarForm);
             divG.append(divVacio);
             }
         element.append(divG);
@@ -175,6 +182,15 @@ function BorrarEtiquetasHandle() {
         this.gasto.borrarEtiquetas(this.etiqueta);
         repintar();
     }
+}
+
+//PRACTICA 6 FORMULARIOS -------------------------------------------------
+//IMPRIME FORUMLARIO AL CREAR GASTO
+function nuevoGastoWebFormulario(){
+    let idElemento = document.getElementById('controlesprincipales');
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+    var formulario = plantillaFormulario.querySelector("form");
+    idElemento.append(formulario);
 }
 
 //El export de las funciones
