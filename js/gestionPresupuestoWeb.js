@@ -84,6 +84,12 @@ function nuevoGastoWeb (){
     repintar();
 }
 
+function editarHandle() {
+    this.handleEvennt = function(e) {
+        let descripcion = promt('Nueva descripción del gasto');
+    }
+}
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
