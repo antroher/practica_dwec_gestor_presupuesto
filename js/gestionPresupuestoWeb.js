@@ -86,7 +86,14 @@ function nuevoGastoWeb (){
 
 function editarHandle() {
     this.handleEvennt = function(e) {
-        let descripcion = promt('Nueva descripción del gasto');
+        let descripcion = promt('Indique la nueva descripción del gasto: ');
+        let valor = parseFloat(promt('Indique el nuevo valor: '));
+        let fecha = promt('Inqdique la nueva fecha en formato (yyyy-mm-dd): ');
+        let etiquetas = promt('Indique las etiquetas separadas por comas: ');
+        
+        let ArrayEtiquetas = etiquetas.split(',');
+
+        
     }
 }
 
