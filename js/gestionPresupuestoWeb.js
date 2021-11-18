@@ -111,7 +111,7 @@ let btnActualizarPres = document.getElementById("actualizarpresupuesto");
 let btnAnyadirgasto = document.getElementById("anyadirgasto");
 //Eventos
 btnActualizarPres.addEventListener('click',actualizarPresupuestoWeb); 
-btnAnyadirgasto = addEventListener('click',nuevoGastoWeb);
+btnAnyadirgasto.addEventListener('click',nuevoGastoWeb);
 
 function nuevoGastoWeb() {
     let Descripcion = prompt('Introduce  la descripción del gasto');
