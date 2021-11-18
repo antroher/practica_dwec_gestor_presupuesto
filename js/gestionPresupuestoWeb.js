@@ -47,6 +47,8 @@ function mostrarGastosAgrupadosWeb (idElemento, agrup, periodo) {
 }
 
 function repintar () {
+    let presupuesto = gestionPresupuesto.mostrarPresupuesto();
+    mostrarDatoEnId('presupuesto', presupuesto);
 
 }
 
