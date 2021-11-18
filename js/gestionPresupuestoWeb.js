@@ -51,6 +51,13 @@ function mostrarDatoEnId(idElemento,valor){
             btnBorrar.className += 'gasto-borrar'
             btnBorrar.textContent = "Borrar";
             btnBorrar.type = 'button';
+
+            //Sepracion de gastos, me la ha enseñado un compañero
+
+            let divSeparador = document.createElement('div');
+            divSeparador.className = 'salto';
+            divSeparador.textContent = "----------------------------------"
+            
     
             let editar = new EditarHandle();
             let borrar = new BorrarHandle();
@@ -63,7 +70,8 @@ function mostrarDatoEnId(idElemento,valor){
             
             
             elGasto.append(btnEdit);
-            elGasto.append(btnBorrar)
+            elGasto.append(btnBorrar);
+            elGasto.append(divSeparador);
            }
         
         })
