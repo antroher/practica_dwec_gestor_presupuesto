@@ -1,5 +1,5 @@
-import * as gestionPresupuesto from './gestionPresupuesto.js';
 //Para iterar sobre un collection del node usar for...of
+import * as gestionPresupuesto from './gestionPresupuesto.js';
 
 
 function mostrarDatoEnId(idElemento, valor) {
@@ -25,13 +25,28 @@ function mostrarGastoWeb(idElemento, gastos) {
             <div class="gasto-fecha">${gasto.fecha}</div> 
             <div class="gasto-valor">${gasto.valor}</div> 
             <div class="gasto-etiquetas">
-            ${data}
-            <div>
-            <button type="button" class="gasto-editar">Editar</button>
-            <button type="button" class="gasto-borrar">Borrar</button>
-            <div>`
-
+            ${data}`
     }
+
+    let bEditar = document.createElement("button");
+    bEditar.className += "gasto-editar";
+    bEditar.textContent += "Editar";
+    bEditar.type = "button";
+
+    let bBorrar = document.createElement("button");
+    bBorrar.className += "gasto-borrar";
+    bBorrar.textContent += "Borrar";
+    bBorrar.type = "button";
+
+    let editar = new EditarHandle();
+    editar.gasto = gasto;
+    editar.addEventListener("click", editar);
+    div.append(editar);
+
+    let borrar = new BorrarHandle();
+    borrar.gasto = gasto;
+    borrar.addEventListener('click', borrar);
+    div.append(borrar);
     
 }
 
@@ -116,7 +131,7 @@ function nuevoGastoWeb() {
 
 function EditarHandle() {
     
-    this.handle = function (a){
+    this.handleEvent = function (a){
 
         let descripcion = prompt("Introducir la descripcion");
         let valor = parseFloat(prompt("Introducir valor"));
@@ -127,20 +142,29 @@ function EditarHandle() {
         etiquetas = etiquetasintro.split(",");
 
        
-
+       
+        
+        
+        repintar();
     }
 }
 
 function BorrarHandle() {
 
+    this.handleEvent = function (a) {
+        gestionPresupuesto.borrarGasto()
 
 
+    }
 }
 
 function BorrarEtiquetasHandle() {
 
+    this.handleEvent = function (a) {
+        
 
 
+    }
 }
 
 /*
