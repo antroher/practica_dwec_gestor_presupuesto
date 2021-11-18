@@ -187,6 +187,37 @@ function BorrarEtiquetasHandle()
     }
 }
 
+function nuevoGastoWebFormulario()
+{
+    //Copia en enunciado
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+    var formulario = plantillaFormulario.querySelector("form");
+
+    let divContrPrinc = document.getElementById("controlesprincipales");
+    divContrPrinc.append(formulario);
+    
+
+    //Boton Añadir
+    let botonAnyadirFormulario = document.getElementById("anyadirgasto-formularioi");
+    botonAnyadirFormulario.addEventListener('click', nuevoGastoWebFormulario);
+    
+    //Boton Cancelar
+    let botonCancelar = formulario.querySelector("button.cancelar");
+
+}
+
+function EnviarGastoFormulario()
+{
+    let previsto = event.preventDefault();
+    let acceso = event.currentTarget();
+    //Añadir el gasto a la lista de gastos AQUIIIII 
+    repintar();
+    
+}
+    
+
+
+
 //********** NO TOCAR **************
 export   {
     mostrarDatoEnId,
@@ -197,6 +228,7 @@ export   {
     nuevoGastoWeb, 
     EditarHandle,
     BorrarHandle,
-    BorrarEtiquetasHandle
+    BorrarEtiquetasHandle, 
+    nuevoGastoWebFormulario
     
 }
