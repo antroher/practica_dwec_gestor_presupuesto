@@ -92,8 +92,13 @@ function editarHandle() {
         let etiquetas = promt('Indique las etiquetas separadas por comas: ');
         
         let ArrayEtiquetas = etiquetas.split(',');
-
         
+        this.gasto.actualizarValor(valor);
+        this.gasto.actualizarDescripcion(descripcion);
+        this.gasto.actualizarFecha(fecha);
+        this.gasto.anyadirEtiquetas(...arrayEtiquetas);  
+
+
     }
 }
 
