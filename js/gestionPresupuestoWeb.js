@@ -267,15 +267,40 @@ function EditarHandleformulario() {
     }
 }
 
+function filtrarGastosWeb() {
+    event.preventDefault();
+    let formularioFiltrado = document.getElementById("formulario-filtrado");
+    let formularioFiltradoDescr = formularioFiltrado.getElementById("formulario-filtrado-descripcion").value;
+    let formularioFiltradoMinVal = parseFloat(formularioFiltrado.getElementById("formulario-filtrado-valor-minimo").value);
+    let formularioFiltradoMaxVal = parseFloat(formularioFiltrado.getElementById("formulario-filtrado-valor-maximo")).value;
+    let formularioFiltradoFechDesde = formularioFiltrado.getElementById("formulario-filtrado-fecha-desde").value;
+    let formularioFiltradoFechHasta = formularioFiltrado.getElementById("formulario-filtrado-fecha-hasta").value;
+    let formularioFiltradoEti = formularioFiltrado.getElementById("formulario-filtrado-etiquetas-tiene").value;
+    
+    
+    // if (formularioFiltradoDescr != null && formularioFiltradoDescr != "") {
+    //     filtrador
+    // }
+    if (formularioFiltradoEti != undefined) {
+        formularioFiltradoEti = gestionPresupuesto.transformarListadoEtiquetas(formularioFiltradoEti);
+    }
+    let filtrador = {etiquetasTiene : formularioFiltradoEti, fechaDesde : formularioFiltradoFechDesde, fechaHasta : formularioFiltradoFechHasta, 
+                     descripcionContiene : formularioFiltradoDescr, valorMinimo : formularioFiltradoMinVal, valorMaximo : formularioFiltradoMaxVal};
+    gestionPresupuesto.filtrarGastos(filtrador);
+    document.getElementById("listado-gastos-completo").innerHTML = " ";
+    mostrarGastoWeb();
+}
+
 //Botones
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
 const anyadirgastoFirmulario = document.getElementById("anyadirgasto-formulario");
-
+const formularioFiltrador = document.getElementById("formulario-filtrado");
 //Eventos
 actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
 anyadirgasto.addEventListener('click', nuevoGastoWeb);
 anyadirgastoFirmulario.addEventListener('click', nuevoGastoWebFormulario)
+formularioFiltrador.addEventListener('submit', filtrarGastosWeb);
 
 
 export   {

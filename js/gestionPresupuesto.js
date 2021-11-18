@@ -235,6 +235,11 @@ function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
     }
 }
 
+function transformarListadoEtiquetas(input) {
+    let etiquetasFiltradas = input.match(/[a-z0-9]+/gi);
+    return etiquetasFiltradas;
+}
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -249,5 +254,6 @@ export   {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    transformarListadoEtiquetas
 }

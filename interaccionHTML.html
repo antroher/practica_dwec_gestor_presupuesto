@@ -29,6 +29,40 @@
 
             <div id="balance-total">
             </div>
+            
+            <div id="filtrar-gastos">
+                <h2>Filtrar gastos</h2>
+                <form id="formulario-filtrado">
+                  <div class="form-control">
+                    <label for="formulario-filtrado-descripcion">Descripción</label>
+                    <input type="text" name="formulario-filtrado-descripcion" id="formulario-filtrado-descripcion">
+                  </div>
+                  <div class="form-control">
+                    <label for="formulario-filtrado-valor-minimo">Valor mínimo</label>
+                    <input type="number" name="formulario-filtrado-valor-minimo" id="formulario-filtrado-valor-minimo" step="0.01">
+                  </div>
+                  <div class="form-control">
+                    <label for="formulario-filtrado-valor-maximo">Valor máximo</label>
+                    <input type="number" name="formulario-filtrado-valor-maximo" id="formulario-filtrado-valor-maximo" step="0.01">
+                  </div>
+                  <div class="form-control">
+                    <label for="formulario-filtrado-fecha-desde">Fecha inicial</label>
+                    <input type="date" name="formulario-filtrado-fecha-desde" id="formulario-filtrado-fecha-desde">
+                  </div>
+                  <div class="form-control">
+                    <label for="formulario-filtrado-fecha-hasta">Fecha final</label>
+                    <input type="date" name="formulario-filtrado-fecha-hasta" id="formulario-filtrado-fecha-hasta">
+                  </div>
+                  <div class="form-control">
+                    <label for="formulario-filtrado-etiquetas-tiene">Etiquetas</label>
+                    <input type="text" name="formulario-filtrado-etiquetas-tiene" id="formulario-filtrado-etiquetas-tiene">
+                  </div>
+                  <div class="form-control">
+                    <button type="submit">Enviar</button>
+                  </div>
+                </form>
+              
+              </div>
 
             <div id="listado-gastos-completo">
             </div>
