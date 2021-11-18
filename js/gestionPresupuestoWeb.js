@@ -285,7 +285,7 @@ function filtrarGastosWeb() {
         let filtrador = ({etiquetasTiene : formularioFiltradoEti, fechaDesde : formularioFiltradoFechDesde, fechaHasta : formularioFiltradoFechHasta, 
                          descripcionContiene : formularioFiltradoDescr, valorMinimo : formularioFiltradoMinVal, valorMaximo : formularioFiltradoMaxVal});
         gestionPresupuesto.filtrarGastos(filtrador);
-        document.getElementById("listado-gastos-completo").innerHTML = " ";
+        document.getElementById("listado-gastos-completo").innerHTML = "";
         mostrarGastoWeb();
     }
 }
