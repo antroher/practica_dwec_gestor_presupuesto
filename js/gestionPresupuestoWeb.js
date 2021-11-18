@@ -170,7 +170,7 @@ function EditarHandle()
         this.gasto.actualizarValor(valor);
         this.gasto.actualizarDescripcion(descripcion);
         this.gasto.actualizarFecha(fecha);
-        this.gasto.actualizarEtiquetas(arrayEtiq);
+        this.gasto.anyadirEtiquetas(arrayEtiq);
 
         repintar();
     }
