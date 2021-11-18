@@ -270,7 +270,7 @@ function EditarHandleformulario() {
 function filtrarGastosWeb() {
     this.handleEvent = function(event) {
         event.preventDefault();
-        let formularioFiltrado = document.getElementById("formulario-filtrado");
+        let formulario = event.currentTarget;
         let formularioFiltradoDescr = formularioFiltrado.getElementById("formulario-filtrado-descripcion").value;
         let formularioFiltradoMinVal = parseFloat(formularioFiltrado.getElementById("formulario-filtrado-valor-minimo").value);
         let formularioFiltradoMaxVal = parseFloat(formularioFiltrado.getElementById("formulario-filtrado-valor-maximo")).value;
