@@ -97,7 +97,7 @@ function editarHandle() {
         this.gasto.actualizarDescripcion(descripcion);
         this.gasto.actualizarFecha(fecha);
         this.gasto.anyadirEtiquetas(...arrayEtiquetas);  
-
+        repintar();
 
     }
 }
