@@ -125,7 +125,7 @@ function mostrarDatoEnId(idElemento,valor){
         
         //Funcion editar Handle
         function EditarHandle(){
-                this.handleEvent = function(){
+                this.handleEvent = function(ev){
 
                     this.gasto.actualizarDescripcion(prompt("Introduce la nueva descripcion"));
 
@@ -145,7 +145,7 @@ function mostrarDatoEnId(idElemento,valor){
         // Borrar Handle
 
         function BorrarHandle(){
-            this.handleEvent = function(){
+            this.handleEvent = function(ev){
                     GesPresu.borrarGasto(this.gasto.id);
 
                     repintar();
@@ -156,7 +156,7 @@ function mostrarDatoEnId(idElemento,valor){
         //Borrar etiquetas del handle
 
         function BorrarEtiquetasHandle(){
-            this.handleEvent = function(){
+            this.handleEvent = function(ev){
                 this.gasto.borrarEtiquetas(this.etiqueta)
 
                 repintar();

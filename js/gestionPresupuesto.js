@@ -22,7 +22,6 @@ var idGasto = 0;
     }
 
     function mostrarPresupuesto() {
-        console.log(`Tu presupuesto actual es de ${presupuesto} €`)
         return(`Tu presupuesto actual es de ${presupuesto} €` )
 
     }
@@ -191,6 +190,7 @@ function filtrarGastos(objetoDelGasto){
                     {
                         acumulado += gastos[i].valor;
                     }
+
                     return acumulado;
                 }
 
