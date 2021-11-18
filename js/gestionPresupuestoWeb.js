@@ -1,4 +1,6 @@
 import * as gesPres from "./gestionPresupuesto.js";
+//Primera parte de una guía muy útil que encontré https://www.youtube.com/watch?v=ztL8KMLJ9Is
+//Funciones
 
 function mostrarDatoEnId(idElemento, valor) {//https://www.youtube.com/watch?v=DMawWBwHnBU
     let elem = document.getElementById(idElemento);
@@ -49,7 +51,6 @@ function mostrarGastoWeb(idElemento, gasto) {
     btnBorrar.addEventListener('click', dlt);
     div.append(btnEditar);
     div.append(btnBorrar);
-
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -86,7 +87,7 @@ function repintar() {
     }
 }
 
-function formatearFecha(date) {
+/*function formatearFecha(date) {
     let d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
@@ -97,7 +98,7 @@ function formatearFecha(date) {
     if (day.length < 2) 
         day = '0' + day;
     return [year, month, day].join('-');
-}
+}*/
 
 function actualizarPresupuestoWeb()  {
     let pres = parseFloat(prompt(`Hey amigo, introduce tu presupuesto`));
@@ -115,6 +116,15 @@ function nuevoGastoWeb() {
     gesPres.anyadirGasto(gasto);
     repintar();
 }
+
+function nuevoGastoWebFormulario() {
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+    var formulario = plantillaFormulario.querySelector("form");
+    
+    repintar();
+}
+
+//Manejadores
 
 function EditarHandle() {
     this.handleEvent = function (e){    
@@ -145,8 +155,8 @@ function BorrarEtiquetasHandle() {
     }
 }
 
-function nuevoGastoWebFormulario() {
-
+function submitHandle(event) {
+    event.preventDefault();
 }
 
 //Botones
