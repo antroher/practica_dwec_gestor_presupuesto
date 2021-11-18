@@ -109,7 +109,7 @@ function nuevoGastoWeb (){
     repintar();
 }
 
-function editarHandle() {
+function EditarHandle() {
     this.handleEvennt = function(e) {
         let descripcion = promt('Indique la nueva descripción del gasto: ');
         let valor = parseFloat(promt('Indique el nuevo valor: '));
@@ -126,14 +126,14 @@ function editarHandle() {
     }
 }
 
-function borrarHandle(){
+function BorrarHandle(){
     this.handleEvennt = function(e){
         gestionPresupuesto.borrarGasto(this.gasto.id);
         repintar();
     }
 }
 
-function borrarEtiquetasHandle(){
+function BorrarEtiquetasHandle(){
     this.handleEvent = function(e) {
         this.gasto.borrarEtiquetas(this.etiqueta);
         repintar();
@@ -148,11 +148,5 @@ btnNuevoGasto.addEventListener("click", nuevoGastoWeb);
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb,
-    repintar,
-    actualizarPresupuestoWeb,
-    nuevoGastoWeb,
-    editarHandle,
-    borrarHandle,
-    borrarEtiquetasHandle
+    mostrarGastosAgrupadosWeb
 }
