@@ -50,6 +50,18 @@ function repintar () {
     let presupuesto = gestionPresupuesto.mostrarPresupuesto();
     mostrarDatoEnId('presupuesto', presupuesto);
 
+    let gastosTotales = gestionPresupuesto.calcularTotalGastos().toFixed(2);
+    mostrarDatoEnId("gastos-totales", gastosTotales);
+
+    let balanceTotal = gestionPresupuesto.calcularBalance().toFixed(2);
+    mostrarDatoEnId('balance-total', balanceTotal);
+
+    document.getElementById('listado-gastos-completo').innerHTML = " " ;
+
+    let listarGastos = gestionPresupuesto.listarGastos();
+    for (const x of listarGastos) {
+        mostrarGastoWeb("listado-gastos-completo", x);
+    }
 }
 
 function actualizarPresupuestoWeb () {
