@@ -1,3 +1,7 @@
+
+//Ejemplo detallado de como hacer la práctica: https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley
+
+
 import * as gestionPresupuesto from './gestionPresupuesto.js';
 
 //Para iterar sobre un collection del node usar for...of
@@ -117,20 +121,6 @@ function repintar() {
     }
 }
 
-function formatearFecha(date) {
-    let d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
-
-    return [year, month, day].join('-');
-}
-
 function actualizarPresupuestoWeb() {
     let presupuesto = parseFloat(prompt("Introduzca un presupuesto: "))
     gestionPresupuesto.actualizarPresupuesto(presupuesto);
@@ -184,85 +174,96 @@ function nuevoGastoWebFormulario() {
     //Copia del formulario/template
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
     var formulario = plantillaFormulario.querySelector("form");
-    //Recogemos el evento submit
-    //let buttonSubmit = formulario.getElementsByTagName("button")[0];
-
-    //Evento para el submit del formulario
-    formulario.addEventListener('submit', this.handleEvent = function(event) {
-        event.preventDefault();
-        let formularioSubmit = event.currentTarget;
-        let descripcionForm = formularioSubmit.elements.descripcion.value;
-        let valorForm = formularioSubmit.elements.valor.value;
-        let fechaForm = new Date(formularioSubmit.elements.fecha.value);
-        let etiquetasForm = formularioSubmit.elements.etiquetas.value;
-        let newGastoForm = new gestionPresupuesto.CrearGasto(descripcionForm, valorForm, fechaForm, etiquetasForm);
-        gestionPresupuesto.anyadirGasto(newGastoForm);
-        repintar();
-        let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
-    });
+    //En la práctica pone que se ponga al final, pero salta error si se hace de ese modo
+    let divControlesPrincipales = document.getElementById("controlesprincipales")
+    divControlesPrincipales.appendChild(formulario);
+    let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
+    
+    //botón submit
+    let enviarObj = new EnviarGastoFormHandle();
+    formulario.addEventListener('submit', enviarObj);
     //botón cancelar
     let cancelarObj = new CancelarFormHandle();
-    console.log("Dentro de nuevoGastoWebFormulario" + formulario)
-    cancelarObj.formulario = formulario;
-
     let btnCancelar = formulario.querySelector("button.cancelar");
     btnCancelar.addEventListener("click", cancelarObj);
-
-    //Desactivar -añadir atributo disabled- al botón anyadirgasto-formulario
-    let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
-
-    //Por último, añadir el fragmento de documento (variable plantillaFormulario) al final del <div id="controlesprincipales"> para que se muestre en la página.
-    let divControlesPrincipales = document.getElementById("controlesprincipales").appendChild(plantillaFormulario);
 }
 
 //Manejador del evento cancelar del formulario
 function CancelarFormHandle() {
     this.handleEvent = function (event){
-        //¿Eliminamos el formulario?
-        this.formulario.remove();
+        //La única forma de borrar el formulario sin que salten mil errores
+        //básicamente recoge el padre del botón cancelar -el formulario- y lo borra
+        //llevo probando combinaciones 2 horas y esto es lo mejor que me ha salido
+        event.currentTarget.parentNode.remove();
         let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
-    }
-}
-
-function EditarFormHandle() {
-    this.handleEvent = function (event){
-        event.preventDefault();
-        let formularioSubmit = event.currentTarget;
-        let descripcionForm = formularioSubmit.elements.descripcion.value;
-        let valorForm = formularioSubmit.elements.valor.value;
-        let fechaForm = formularioSubmit.elements.fecha.value;
-        let etiquetasForm = formularioSubmit.elements.etiquetas.value;
-        let newGastoForm = new gestionPresupuesto.CrearGasto(descripcionForm, valorForm, fechaForm, etiquetasForm);
-        gestionPresupuesto.anyadirGasto(newGastoForm);
         repintar();
-        let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
     }
 }
 
-//Manejador del evento editar gasto formulario TODO
+
+//Este handle actualizará los valores del gasto que nosotros estemos manejando
+function EnviarHandle(){
+    this.handleEvent = function(e){
+        //Evitamos que se haga el submit
+        e.preventDefault();
+        //Recogemos el evento que ha realizado el evento y actualizamos los valores del gasto
+        let formulario = e.currentTarget;
+        let descripcion = formulario.elements.descripcion.value;
+        this.gasto.actualizarDescripcion(descripcion);
+        let valor = parseFloat(formulario.elements.valor.value);
+        this.gasto.actualizarValor(valor);
+        let fecha = formulario.elements.fecha.value;
+        this.gasto.actualizarFecha(fecha);
+        let etiquetas = formulario.elements.etiquetas.value;
+        this.gasto.anyadirEtiquetas(etiquetas);
+        repintar();
+    }
+}
+
+function EnviarGastoFormHandle(){
+    this.handleEvent = function(e){
+        e.preventDefault();
+         let formulario = e.currentTarget;
+         let descripcion = formulario.elements.descripcion.value;
+         let valor = parseFloat(formulario.elements.valor.value);
+         let fecha = formulario.elements.fecha.value;
+         let etiquetas = formulario.elements.etiquetas.value;
+        let gastoNuevo = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, etiquetas);
+        gestionPresupuesto.anyadirGasto(gastoNuevo);
+        repintar();
+        document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+    }
+}
+
+//Manejador del evento editar gasto formulario
 function EditarHandleformulario() {
     this.handleEvent = function (event){
 
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+        var formulario = plantillaFormulario.querySelector("form");
+        //En el enunciado pone que se ponga al final el añadir el formulario, pero si lo haces así explota
+        //por ello primero selecciono el nodo y después adjunto el formulario al DOM.
+        let divControlesPrincipales = document.getElementById("controlesprincipales")
+        divControlesPrincipales.appendChild(formulario);
+        //Recogemos el nodo que ha pedido el evento
+        let btnEditarFormulario = event.currentTarget;
+        btnEditarFormulario.appendChild(formulario);
         formulario.elements.descripcion.value  = this.gasto.descripcion;
         formulario.elements.valor.value = this.gasto.valor;
-        formulario.elements.fecha.value = this.gasto.fecha.toLocaleString();
+        formulario.elements.fecha.value = new Date(this.gasto.fecha).toISOString().substr(0,10);
         formulario.elements.etiquetas.value = this.gasto.etiquetas;
 
         //Evento para el submit del formulario
-        let EditarFormHandle1 = new EditarFormHandle();
+        let EditarFormHandle1 = new EnviarHandle();
         EditarFormHandle1.gasto = this.gasto;
         formulario.addEventListener('submit', EditarFormHandle1);
         //botón cancelar
         let btnCancelar = formulario.querySelector("button.cancelar");
         let cancelarObj = new CancelarFormHandle();
-        cancelarObj.formulario = this.formulario;
         btnCancelar.addEventListener("click", cancelarObj);
 
         //Desactivar -añadir atributo disabled- al botón anyadirgasto-formulario
-        let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
-
-        //Por último, añadir el fragmento de documento (variable plantillaFormulario) al final del <div id="controlesprincipales"> para que se muestre en la página.
-        let divControlesPrincipales = document.getElementById("controlesprincipales").appendChild(plantillaFormulario);
+        btnEditarFormulario.setAttribute("disabled", "");
     }
 }
 
