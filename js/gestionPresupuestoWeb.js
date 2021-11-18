@@ -64,7 +64,8 @@ function mostrarGastoWeb(idElemento, gasto )/*HAY Q PASARLE UN ARRAY DE GASTO*/
 
   divGasto.append(gastoDescripcion, gastoValor, gastoFecha, gastoEtiquetas);
   elemento.append(divGasto);
-
+ //crear boton editar formulario  y ese boton llama a un manejador para ver que haces 
+ //BOTON ENVIAR Y CCANCELAR, APROCHECHAR EL CODIGO DEL PRINCIPIO DE LA PRACTICA 
   if(idElemento === 'listado-gastos-completo')
   {
     let buttomE = document.createElement("button");
@@ -208,7 +209,48 @@ function BorrarEtiquetasHandle() {
   }
 }
 
+function nuevoGastoWebFormulario()
+{
+  //estamos haciendo una clonacion para poder manejarlo con javascript
+  let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+  //seleccionamos la etique form
+  var formulario = plantillaFormulario.querySelector("form");
 
+
+
+    
+  //buttomE.addEventListener('click', evEditar); al clicar te tiene   qure llevar aquí
+}
+function CancelarEtiquetasHandle() {
+  
+  this.handleEvent = function (e){
+  
+    //this.gasto.borrarEtiquetas(this.etiqueta);
+    
+    repintar();
+  }
+}
+//MANEJADOR DE EVENTOS EDITAR HADLEFROMULARIO
+function FormSubmitHandle(){
+
+  this.handleEvent = function (e) {
+
+      e.preventDefault();
+
+      let formulario = e.currentTarget;
+      let dscr = formulario.elements.descripcion.value;
+      let valor = parseFloat(formulario.elements.valor.value);
+      let fecha = formulario.elements.fecha.value;
+      let etiquetas = formulario.elements.etiquetas.value;
+      
+      let nuevoG = new gestionPresupuesto.CrearGasto(dscr,valor,fecha,etiquetas);
+      gestionPresupuesto.anyadirGasto(nuevoG);
+      repintar();
+      document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+
+  }
+
+}
 export{
   mostrarDatoEnId,
   mostrarGastoWeb,
@@ -217,5 +259,8 @@ export{
   BorrarHandle,
   BorrarEtiquetasHandle,
   repintar,
-  actualizarPresupuestoWeb
+  actualizarPresupuestoWeb,
+  nuevoGastoWebFormulario,
+  CancelarEtiquetasHandle,
+  FormSubmitHandle
 }
