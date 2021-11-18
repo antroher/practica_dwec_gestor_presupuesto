@@ -195,10 +195,12 @@ function nuevoGastoWebFormulario()
 
     let divContrPrinc = document.getElementById("controlesprincipales");
     divContrPrinc.append(formulario);
-    
 
+    document.getElementById("anyadirgasto-formulario").disabled = true;
+    
+    // **************** MODIFICAR ***********************
     //Boton Añadir
-    let botonAnyadirFormulario = document.getElementById("anyadirgasto-formularioi");
+    let botonAnyadirFormulario = document.getElementById("anyadirgasto-formulario");
     botonAnyadirFormulario.addEventListener('click', nuevoGastoWebFormulario);
     
     //Boton Cancelar
@@ -206,12 +208,22 @@ function nuevoGastoWebFormulario()
 
 }
 
-function EnviarGastoFormulario()
+function EnviarFormularioHandle()
 {
-    let previsto = event.preventDefault();
-    let acceso = event.currentTarget();
-    //Añadir el gasto a la lista de gastos AQUIIIII 
-    repintar();
+    this.handleEvent = function(event)
+    {
+        let previsto = event.preventDefault();
+        let acceso = event.currentTarget();
+        let desc = acceso.elements.descripcion.value;
+        let val = parseFloat(acceso.elements.valor.value);
+        let fec = acceso.elements.fecha.value;
+        let etique = acceso.elements.etiquetas.value;
+
+        //******************TO BE CONTINUED**************+
+
+        repintar();
+    }
+    
     
 }
     
@@ -229,6 +241,7 @@ export   {
     EditarHandle,
     BorrarHandle,
     BorrarEtiquetasHandle, 
-    nuevoGastoWebFormulario
+    nuevoGastoWebFormulario, 
+    EnviarFormularioHandle
     
 }
