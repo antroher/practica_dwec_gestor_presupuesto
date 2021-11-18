@@ -11,9 +11,68 @@ function mostrarDatoEnId(idElemento,valor){
     
 }
     function mostrarGastoWeb(idElemento,gastos){
-        let element = document.getElementById(idElemento);
 
+        gastos.forEach((gasto) =>{
+            let element = document.getElementById(idElemento);
+            let elGasto = document.createElement("div");
+            elGasto.className = "gasto";
+            element.append(elGasto);
+    
+            elGasto.innerHTML +=`
+            <div class="gasto-descripcion">${gasto.descripcion}</div>
+            <div class="gasto-fecha">${new Date(gasto.fecha).toLocaleString()}</div> 
+            <div class="gasto-valor">${gasto.valor}</div>
+             `
+    
+           let etiGasto = document.createElement("div")
+           etiGasto.className = "gasto-etiquetas";
+           elGasto.append(etiGasto);
+    
+           for(let etiqueta of gasto.etiquetas){
+               let newEtiqueta = new BorrarEtiquetasHandle();
+               newEtiqueta.gasto = gasto;
+    
+               let gastEtiqueta = document.createElement("span");
+               gastEtiqueta.className = "gasto-etiquetas-etiqueta";
+               gastEtiqueta.textContent = etiqueta + " ";
+               newEtiqueta.etiqueta = etiqueta;
+               etiGasto.append(gastEtiqueta);
+               gastEtiqueta.addEventListener("click",newEtiqueta);
+           }
 
+           //Para que solo ponga el boton el listado de gastos
+           if (idElemento === "listado-gastos-completo") {
+            let btnEdit = document.createElement("button");
+            btnEdit.className += 'gasto-editar'
+            btnEdit.textContent = "Editar";
+            btnEdit.type = 'button';
+            
+            let btnBorrar = document.createElement("button");
+            btnBorrar.className += 'gasto-borrar'
+            btnBorrar.textContent = "Borrar";
+            btnBorrar.type = 'button';
+    
+            let editar = new EditarHandle();
+            let borrar = new BorrarHandle();
+    
+            editar.gasto = gasto;
+            borrar.gasto = gasto;
+    
+            btnEdit.addEventListener('click',editar);
+            btnBorrar.addEventListener('click',borrar);
+            
+            
+            elGasto.append(btnEdit);
+            elGasto.append(btnBorrar)
+           }
+        
+        })
+
+       
+    }
+        //Funcion antigua q no funciona :(
+
+        /*
     
         gastos.forEach((gasto) => {
             let etiquetas = "";
@@ -65,8 +124,7 @@ function mostrarDatoEnId(idElemento,valor){
                     etiHandle.etiqueta = etiquetaLista[search];
                     document.getElementById(tags).addEventListener('click', etiHandle);
                 });
-        });
-    }
+        });*/
     
         function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
             let elemento = document.getElementById(idElemento);
