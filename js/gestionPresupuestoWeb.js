@@ -90,7 +90,30 @@ function mostrarGastoWeb(idElemento, gasto )/*HAY Q PASARLE UN ARRAY DE GASTO*/
     buttomE.addEventListener('click', evEditar);
 
     let gastoactual= document.getElementById(gasto.id);
-    gastoactual.append(buttomE, buttomB);    
+    gastoactual.append(buttomE, buttomB); 
+    
+    /*//--------------------------
+
+    let buttomEN = document.createElement("button");
+    buttomEN.className += "gasto-enviar";
+    buttomEN.textContent = 'Enviar';
+    buttomEN.type ='button';
+
+    let evEnviar = new FormSubmitHandle();
+    evEnviar.gasto = gasto;
+
+    buttomEN.addEventListener('click', evEnviar);
+
+
+    let buttomCan = document.createElement("button");
+    buttomCan.className += "gasto-Cancelar";
+    buttomCan.textContent = 'Cancelar';
+    buttomCan.type ='button';
+
+    let evCancelar = new CancelarEtiquetasHandle();
+    evCancelar.gasto = gasto;
+
+    buttomCan.addEventListener('click', evCancelar);*/
   
   }
   
@@ -231,6 +254,9 @@ function CancelarEtiquetasHandle() {
   }
 }
 //MANEJADOR DE EVENTOS EDITAR HADLEFROMULARIO
+
+
+//OK
 function FormSubmitHandle(){
 
   this.handleEvent = function (e) {
