@@ -98,7 +98,12 @@ function editarHandle() {
         this.gasto.actualizarFecha(fecha);
         this.gasto.anyadirEtiquetas(...arrayEtiquetas);  
         repintar();
+    }
+}
 
+function BorrarHandle(){
+    this.handleEvennt = function(e){
+        
     }
 }
 
