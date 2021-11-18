@@ -86,7 +86,7 @@ function repintar() {
     }
 }
 
-/*function formatearFecha(date) {
+function formatearFecha(date) {
     let d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
@@ -97,7 +97,7 @@ function repintar() {
     if (day.length < 2) 
         day = '0' + day;
     return [year, month, day].join('-');
-}*/
+}
 
 function actualizarPresupuestoWeb()  {
     let pres = parseFloat(prompt(`Hey amigo, introduce tu presupuesto`));
@@ -115,8 +115,6 @@ function nuevoGastoWeb() {
     gesPres.anyadirGasto(gasto);
     repintar();
 }
-
-
 
 function EditarHandle() {
     this.handleEvent = function (e){    
@@ -139,6 +137,7 @@ function BorrarHandle() {
         repintar();
     }        
 }
+
 function BorrarEtiquetasHandle() {
     this.handleEvent = function (e){
         this.gasto.borrarEtiquetas(this.etiqueta);
@@ -147,25 +146,21 @@ function BorrarEtiquetasHandle() {
 }
 
 function nuevoGastoWebFormulario() {
-    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
-    var formulario = plantillaFormulario.querySelector("form");
-    
+
 }
 
 //Botones
-const btnActPres = document.getElementById("actualizarpresupuesto");
 const btnAddGas = document.getElementById("anyadirgasto");
-const btnFormGas = getElementById("anyadirgasto-formulario");
-
-btnActPres.addEventListener("click", actualizarPresupuestoWeb);
+const btnActPres = document.getElementById("actualizarpresupuesto");
+const btnGastForm = document.getElementById("anyadirgasto-formulario");
 btnAddGas.addEventListener("click", nuevoGastoWeb);
-btnFormGas.addEventListener("click", nuevoGastoWebFormulario);
-
-
+btnActPres.addEventListener("click", actualizarPresupuestoWeb);
+btnGastForm.addEventListener("click", nuevoGastoWebFormulario);
 
 //oaoaoaotiritioaoaoaotiritoaoaoaoaooooooooooooooo
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar
 }
