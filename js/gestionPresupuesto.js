@@ -48,7 +48,6 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     };
 
     this.actualizarValor = function(newValue){
-        let RetournValue
 
         if(newValue >= 0)
         {
