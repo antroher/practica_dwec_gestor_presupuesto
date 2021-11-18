@@ -333,12 +333,36 @@ function EditarHandleFormulario() {
         let form = document.getElementById("formulario-template").content.cloneNode(true).querySelector("form");
         document.getElementById(`gasto-${this.gasto.id}`).append(form);
 
+        //Recogida y representación de datos del gasto en el formulario.
         form.descripcion.value = this.gasto.descripcion;
         form.valor.value = this.gasto.valor;
-        form.fecha.value = Date(this.gasto.fecha);
-        form.etiquetas.value = this.gasto.etiquetas;
 
-        //https://stackoverflow.com/questions/12346381/set-date-in-input-type-date
+        //Recogida y representación de la fecha del gasto.
+        let fecha = new Date(this.gasto.fecha);
+        let fechaFormateda = fecha.toISOString().substring(0,10);
+        form.fecha.value = fechaFormateda;
+
+        //Recogida y representacion de las etiquetas del gasto.
+        let etiquetaString = "";
+        this.gasto.etiquetas.forEach((etiqueta, index) => {
+            if (this.gasto.etiquetas.length - 1 === index) {
+                etiquetaString += etiqueta;
+            }
+            else {
+                etiquetaString += etiqueta + ", ";
+            }
+        });
+        form.etiquetas.value = etiquetaString;
+
+        //Creación del objeto manejador de eventos del boton cancelar.
+        let cancelarHandle = new cancelarHandle();
+        
+    }
+
+    function submitEditHandle () {
+        this.handleEvent = function(event) {
+
+        }
     }
 }
 
