@@ -271,22 +271,24 @@ function filtrarGastosWeb() {
     this.handleEvent = function(event) {
         event.preventDefault();
         let formulario = event.currentTarget;
-        let formularioFiltradoDescr = formulario.elements["formulario-filtrado-descripcion"].value;
-        let formularioFiltradoMinVal = parseFloat(formulario.elements["formulario-filtrado-valor-minimo"].value);
-        let formularioFiltradoMaxVal = parseFloat(formulario.elements["formulario-filtrado-valor-maximo"].value);
-        let formularioFiltradoFechDesde = formulario.elements["formulario-filtrado-fecha-desde"].value;
-        let formularioFiltradoFechHasta = formulario.elements["formulario-filtrado-fecha-hasta"].value;
-        let formularioFiltradoEti = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
+        let descr = formulario.elements["formulario-filtrado-descripcion"].value;
+        let minVal = parseFloat(formulario.elements["formulario-filtrado-valor-minimo"].value);
+        let maxVal = parseFloat(formulario.elements["formulario-filtrado-valor-maximo"].value);
+        let fechaDesde = formulario.elements["formulario-filtrado-fecha-desde"].value;
+        let fechHasta = formulario.elements["formulario-filtrado-fecha-hasta"].value;
+        let etiq = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
         
         
         if (formularioFiltradoEti != undefined) {
             formularioFiltradoEti = gestionPresupuesto.transformarListadoEtiquetas(formularioFiltradoEti);
         }
-        let filtrador = ({etiquetasTiene : formularioFiltradoEti, fechaDesde : formularioFiltradoFechDesde, fechaHasta : formularioFiltradoFechHasta, 
-                         descripcionContiene : formularioFiltradoDescr, valorMinimo : formularioFiltradoMinVal, valorMaximo : formularioFiltradoMaxVal});
-        gestionPresupuesto.filtrarGastos(filtrador);
+        let filtrador = {valorMinimo : minVal, valorMaximo : maxVal, etiquetasTiene : etiq, fechaDesde : fechaDesde, fechaHasta : fechHasta, 
+                         descripcionContiene : descr};
+        let gastosFiltradosForm = gestionPresupuesto.filtrarGastos(filtrador);
         document.getElementById("listado-gastos-completo").innerHTML = "";
-        mostrarGastoWeb();
+        for (let gasto of gastosFiltradosForm) {
+            mostrarGastoWeb("listado-gastos-completo", gasto);
+        }
     }
 }
 
@@ -294,11 +296,13 @@ function filtrarGastosWeb() {
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
 const anyadirgastoFirmulario = document.getElementById("anyadirgasto-formulario");
+// let filtGastoForm = new filtrarGastosWeb();
 const formularioFiltrador = document.getElementById("formulario-filtrado");
 //Eventos
 actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
 anyadirgasto.addEventListener('click', nuevoGastoWeb);
 anyadirgastoFirmulario.addEventListener('click', nuevoGastoWebFormulario)
+
 formularioFiltrador.addEventListener('submit', filtrarGastosWeb);
 
 
