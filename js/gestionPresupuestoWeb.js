@@ -196,7 +196,8 @@ function nuevoGastoWebFormulario()
     let divContrPrinc = document.getElementById("controlesprincipales");
     divContrPrinc.append(formulario);
 
-    document.getElementById("anyadirgasto-formulario").disabled = true;
+    let enviar = new EnviarFormularioHandle();
+    formulario.addEventListener('click', enviar);
     
     // **************** MODIFICAR ***********************
     //Boton Añadir
@@ -219,9 +220,16 @@ function EnviarFormularioHandle()
         let fec = acceso.elements.fecha.value;
         let etique = acceso.elements.etiquetas.value;
 
-        //******************TO BE CONTINUED**************+
+        etique = etique.split(',');
+
+        this.gasto.actualizarDescripcion(desc);
+        this.gasto.actualizarValor(val);
+        this.gasto.actualizarFecha(fec);
+        this.gasto.anyadirEtiquetas(etique);        
 
         repintar();
+
+        document.getElementById("anyadirgasto-formulario").disabled = true;
     }
     
     
