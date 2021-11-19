@@ -196,20 +196,15 @@ function nuevoGastoWebFormulario()
     let divContrPrinc = document.getElementById("controlesprincipales");
     divContrPrinc.append(formulario);
 
+    //Boton Enviar
     let enviar = new EnviarFormularioHandle();
-    formulario.addEventListener('click', enviar);
+    formulario.addEventListener('submit', enviar);
 
+    //Boton Cancelar
     let cancelar = new CancelarFormulariohandle();
+    let botonCancelar = document.querySelector('button.cancelar');
     formulario.addEventListener('click', cancelar);
     
-    // **************** MODIFICAR ***********************
-    //Boton Añadir
-    let botonAnyadirFormulario = document.getElementById("anyadirgasto-formulario");
-    botonAnyadirFormulario.addEventListener('click', nuevoGastoWebFormulario);
-    
-    //Boton Cancelar
-    let botonCancelar = formulario.querySelector("button.cancelar");
-
 }
 
 function EnviarFormularioHandle()
@@ -239,7 +234,7 @@ function CancelarFormulariohandle()
 {
     this.handleEvent = function(event)
     {
-        let accesoCanc = event.currentTanget.remove();
+        event.currentTanget.parentNode.remove();
         document.getElementById("anyadirgasto-formulario").removeAttribute('disabled');
 
         repintar();
