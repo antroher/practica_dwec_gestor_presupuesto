@@ -246,10 +246,22 @@ function mostrarDatoEnId(idElemento,valor){
             let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
             var formulario = plantillaFormulario.querySelector("form");
 
-            let enviarForm = 
+            //Append para los controles principales
+            document.getElementById("controlesprincipales").append(form);
 
+            //Boton enviar
+            let enviarForm = new enviarForm ();
+            formulario.addEventListener("click", enviarForm);
 
-            repintar();
+            //Boton cancelar
+            let cancelForm = new cancelForm ();
+            cancelForm.formulario = formulario;
+            formulario.querySelector("button[class='cancelar']").addEventListener('click', cancelForm);
+        }
+
+        function EditarHandleFormulario()
+        {
+            
         }
 
 //El export de las funciones
