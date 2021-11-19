@@ -10,10 +10,14 @@ function mostrarDatoEnId(idElemento, valor) {
 }
 
 function mostrarGastoWeb(idElemento,gasto) {
+   /* 
+    let elemento = document.getElementById(idElemento);
 
     // creacrión elemento <div class="gasto">
     let divG = document.createElement('div');
     divG.className += 'gasto';
+    elemento.append(divG);
+
     // <div class="gasto-descripcion">
     let divGD = document.createElement('div');
     divGD.className += 'gasto-descripcion';
@@ -30,19 +34,107 @@ function mostrarGastoWeb(idElemento,gasto) {
     let divGE = document.createElement('div');
     divGE.className = 'gasto-etiquetas';
 
-    let span;
+    divG.append(divGD);
+    divG.append(divGF);
+    divG.append(divGV);
+    divG.append(divGE);
+
     for (let eti of gasto.etiquetas){
-        span = document.createElement('span');
-        span.className += 'gasto-etiquetas-etiqueta';
-        span.textContent += `${eti} `;
-        divGE.append(span);
+        //Creación del objeto para Borrar Etiquetas
+        let nuevoObjEtiqueta = new BorrarEtiquetasHandle(); 
+        nuevoObjEtiqueta.gasto = gasto;
+
+        //Creación de la etiqueta
+        let gastoEtiqueta = document.createElement("span");
+        gastoEtiqueta.className = "gasto-etiquetas-etiqueta";
+        gastoEtiqueta.innerHTML = eti + "<br>";
+        nuevoObjEtiqueta.etiqueta = eti;
+
+        //Adjuntamos la etiqueta al div gasto-etiquetas
+        divGE.append(gastoEtiqueta);
+
+        //Creamos el manejador para la etiqueta
+        gastoEtiqueta.addEventListener('click',nuevoObjEtiqueta);
     }
 
-    // Insertar en el DOM
-    let elemento = document.getElementById(idElemento);
-    elemento.append(divG);
-    divG.append(divGD,divGF,divGV,divGE);
-    divGE.append(span);
+    // Botón Editar
+    let btnEditar = document.createElement('button');
+    btnEditar.type = 'button';
+    btnEditar.className = 'gasto-editar';
+    btnEditar.textContent = 'Editar';
+
+    // nuevo objeto a partir de la función constructora
+    let editar = new EditarHandle();
+    // propiedad 'gasto' del ojeto = gasto pasado por parámetro
+    editar.gasto = gasto;
+
+    // Manejador del evento 'click'
+    btnEditar.addEventListener('click', edit);
+
+    // Insertar botón en el DOM
+    divG.append(btnEditar); */
+
+    let elem = document.getElementById(idElemento);
+    let divGasto = document.createElement("div");
+    divGasto.className = "gasto";
+    elem.append(divGasto);
+
+    /* Coloco el primer bloque de código html ya que este no va a variar ----------------------------------------------------------------------------.*/
+
+    divGasto.innerHTML += `<div class="gasto-descripcion">${gasto.descripcion}</div>
+        <div class="gasto-fecha">${gasto.fecha}</div> 
+        <div class="gasto-valor">${gasto.valor}</div> 
+    `;
+
+    let gastoEtiquetas = document.createElement("div");
+    gastoEtiquetas.className = "gasto-etiquetas";
+    divGasto.append(gastoEtiquetas);
+
+    for (let etiq of gasto.etiquetas) {
+        //Creación objeto  Borrar Etiquetas
+        let nuevoObjEtiqueta = new BorrarEtiquetasHandle(); 
+        nuevoObjEtiqueta.gasto = gasto;
+
+        //Creación de la etiqueta
+        let gastoEtiqueta = document.createElement("span");
+        gastoEtiqueta.className = "gasto-etiquetas-etiqueta";
+        gastoEtiqueta.innerHTML = etiq + " ";
+        nuevoObjEtiqueta.etiqueta = etiq;
+
+        //Adjuntamos la etiqueta al div gasto-etiquetas
+        gastoEtiquetas.append(gastoEtiqueta);
+
+        //Creamos el eventoClick para la etiqueta
+        gastoEtiqueta.addEventListener('click',nuevoObjEtiqueta);
+    }
+
+    //Botón editar-----------------------------------------------------------------------------------
+    let botonEditar = document.createElement("button");
+    botonEditar.className += 'gasto-editar'
+    botonEditar.textContent = "Editar";
+    botonEditar.type = 'button';
+
+    //Botón borrar---------------------------------------------------------------------------
+    let botonBorrar = document.createElement("button");
+    botonBorrar.className += 'gasto-borrar'
+    botonBorrar.textContent = "Borrar";
+    botonBorrar.type = 'button';
+
+    //Creamos objetos editarHandle y borrarHandle para asignarle un parametro gasto con el valor del gasto actual---------------------------------------.
+    let edit = new EditarHandle();
+    let delet = new BorrarHandle();
+    edit.gasto = gasto;
+    delet.gasto = gasto;
+
+    //Añadimos los eventos a los botones--------------------------------------------------------------------
+    botonEditar.addEventListener('click', edit);
+    botonBorrar.addEventListener('click', delet);
+
+    //Que lo añada
+    if(idElemento === "listado-gastos-completo"){
+        divGasto.append(botonEditar);
+        divGasto.append(botonBorrar);
+    }
 }
 
 function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo) {  // agrup = { "2021-09": 5, "2021-10": 39}
@@ -116,7 +208,7 @@ function actualizarPresupuestoWeb(){
 }
 // manejadora del evento click del boton anyadirgasto
 function nuevoGastoWeb() {
-
+/*
     let descripcion = prompt("Escribe la descripción del gasto");
     let valor1 = parseFloat(prompt("Escribe el valor del gasto"));
     let fecha = prompt("Escribe la fecha del gasto en formato yyyy-mm-dd");
@@ -128,6 +220,30 @@ function nuevoGastoWeb() {
 
     gestionPresupuesto.anyadirGasto(gastoAnyadido);
 
+    repintar(); */
+    //Pedir al usuario la información necesaria para crear un nuevo gasto mediante sucesivas preguntas con prompt (por orden: descripción, valor, fecha y etiquetas). 
+    
+    //Descirpción del gasto.
+    let gastoDesc = prompt('Introduce la descripción del gasto :');
+
+    //Convertir el valor a número (recuerda que prompt siempre devuelve un string).
+    let gastoValor = parseFloat(prompt('Introduce el valor del gasto :'));
+
+    //Fecha del gasto.
+    let gastoFecha =Date.parse(prompt('Introduce la fecha del gasto :'));
+
+    //Etiquetas del gasto.
+    let gastoEtiquetas = prompt('Introduce las etiquetas del gasto separadas por comas :');
+    //Convertimos la cadena de texto con las etiquetas a un array para poder pasárselo a la función constructora crearGasto.
+    let arrayEtiquetas = gastoEtiquetas.split(',');
+
+    //Crear un nuevo gasto (función crearGasto). ¡Ojo con la manera de pasar el parámetro ~etiquetas~!
+    let gastoWeb = new gestionPresupuesto.CrearGasto(gastoDesc,gastoValor,gastoFecha,arrayEtiquetas);
+
+    //Añadir el gasto a la lista (función anyadirGasto).
+    gestionPresupuesto.anyadirGasto(gastoWeb);
+
+    //Llamar a la función repintar para que se muestre la lista con el nuevo gasto.
     repintar();
 }
 
@@ -135,31 +251,39 @@ function nuevoGastoWeb() {
 
 // Función manejadora de eventos para editar un gasto --> Función Constructora
 function EditarHandle() {
-    this.handleEvent = function (event){
-        let descripcion = prompt("Escribe la nueva descripción del gasto");
-        let valor1 = parseFloat(prompt("Escribe la nueva valor del gasto"));
-        let fecha = prompt("Escribe la fecha del gasto en formato yyyy-mm-dd");
-        let etiquetas = prompt("Escribe las etiquetas del gasto separadas por ,");
-        let etiquetasArray = etiquetas.split(',');
-        this.gasto.actualizarValor(valor1);
-        this.gasto.actualizarDescripcion(descripcion);
-        this.gasto.actualizarFecha(fecha);
-        this.gasto.anyadirEtiquetas(...etiquetasArray);
+    this.handleEvent = function(event){
+        let desc = prompt('Escriba la descripción del nuevo gasto');
+        let val = parseFloat(prompt('Escriba el valor del nuevo gasto'));
+        let fech = new Date(prompt('Escriba la fecha del nuevo gasto')).toLocaleDateString();
+        let etiq = prompt('Escriba las etiquetas separadas por comas del nuevo gasto');
+            etiq = etiq.split(', ');
+        
+        this.gasto.actualizarValor(val);
+        this.gasto.actualizarDescripcion(desc);
+        this.gasto.actualizarFecha(fech);
+        this.gasto.anyadirEtiquetas(etiq);
+
         repintar();
     }
 }
 // Func. manejadora de eventos para borrar un gasto
 function BorrarHandle() {
     this.handleEvent = function (event){
-        let number = this.gasto.id;
-        gestionPresupuesto.borrarGasto(number);
+        
+        //Borrar el gasto asociado. Para ello utilizará la función borrarGasto y como parámetro utilizará el id del gasto seleccionado, disponible en this.gasto.
+        gestionPresupuesto.borrarGasto(this.gasto.id);
+        //Llamar a la función repintar para que se muestre la lista actualizada de gastos.
         repintar();
     }
 }
 
 function BorrarEtiquetasHandle() {
-    this.handleEvent = function (event){
+    this.handleEvent = function(){
+        //Borrar la etiqueta seleccionada del gasto asociado. Para ello utilizará la función borrarEtiquetas del gasto asociado (this.gasto) y como parámetro
+        //utilizará la etiqueta seleccionada, disponible en this.etiqueta.  
         this.gasto.borrarEtiquetas(this.etiqueta);
+
+        //Llamar a la función repintar para que se muestre la lista actualizada de gastos.
         repintar();
    }
 }
@@ -177,7 +301,10 @@ export {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    repintar,
     actualizarPresupuestoWeb,
-    nuevoGastoWeb
+    EditarHandle,
+    nuevoGastoWeb,
+    repintar,
+    BorrarHandle,
+    BorrarEtiquetasHandle
 }
