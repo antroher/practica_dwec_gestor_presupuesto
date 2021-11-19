@@ -272,12 +272,13 @@ function filtrarGastosWeb() {
         event.preventDefault();
         let formulario = event.currentTarget;
         let descr = formulario.elements["formulario-filtrado-descripcion"].value;
-        let minVal = parseFloat(formulario.elements["formulario-filtrado-valor-minimo"].value);
-        let maxVal = parseFloat(formulario.elements["formulario-filtrado-valor-maximo"].value);
+        let minVal = formulario.elements["formulario-filtrado-valor-minimo"].value;
+        let maxVal = formulario.elements["formulario-filtrado-valor-maximo"].value;
         let fechaDesde = formulario.elements["formulario-filtrado-fecha-desde"].value;
         let fechHasta = formulario.elements["formulario-filtrado-fecha-hasta"].value;
         let etiq = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
         
+
         
         if (formularioFiltradoEti != undefined) {
             formularioFiltradoEti = gestionPresupuesto.transformarListadoEtiquetas(formularioFiltradoEti);
@@ -302,8 +303,9 @@ const formularioFiltrador = document.getElementById("formulario-filtrado");
 actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
 anyadirgasto.addEventListener('click', nuevoGastoWeb);
 anyadirgastoFirmulario.addEventListener('click', nuevoGastoWebFormulario)
-
-formularioFiltrador.addEventListener('submit', filtrarGastosWeb);
+//Al tener que trabajar con el propio nodo que manifiesta el evento deberemos crear un objeto manejador... o eso creo yo despúes de 3 horas sin saber que falla jeje
+let filtGastForm = new filtrarGastosWeb();
+formularioFiltrador.addEventListener('submit', filtGastForm);
 
 
 export   {

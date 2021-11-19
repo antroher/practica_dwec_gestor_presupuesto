@@ -71,12 +71,12 @@ function filtrarGastos(gastosFilter) {
         }
         if (Object.hasOwn(gastosFilter, 'valorMinimo') && typeof gastosFilter.valorMinimo === 'number') {
             gastosFiltrados = gastosFiltrados.filter((x) => {
-                return x.valor >= gastosFilter.valorMinimo
+                return x.valor > gastosFilter.valorMinimo;
             })
         }
         if (Object.hasOwn(gastosFilter, 'valorMaximo') && typeof gastosFilter.valorMaximo === 'number') {
             gastosFiltrados = gastosFiltrados.filter((x) => {
-                return x.valor <= gastosFilter.valorMaximo
+                return x.valor < gastosFilter.valorMaximo;
             })
         }
         if (Object.hasOwn(gastosFilter, 'descripcionContiene') && typeof gastosFilter.descripcionContiene === 'string') {
