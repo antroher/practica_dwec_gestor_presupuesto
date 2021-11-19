@@ -4,6 +4,9 @@ import * as GesPresu from "./gestionPresupuesto.js";
 //Botones
 document.getElementById("actualizarpresupuesto").addEventListener("click",actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener("click",nuevoGastoWeb);
+document.getElementById("anyadirgasto-formulario").addEventListener("click",nuevoGastoWeb);
+
+
 
 function mostrarDatoEnId(idElemento,valor){
     let datId = document.getElementById(idElemento);
@@ -51,7 +54,11 @@ function mostrarDatoEnId(idElemento,valor){
             btnBorrar.className += 'gasto-borrar'
             btnBorrar.textContent = "Borrar";
             btnBorrar.type = 'button';
-
+        
+            let btnEnviar = document.createElement("button");
+            btnEnviar.className += 'gasto-editar-formulario';
+            btnEnviar.textContent = "Editar (formulario)";
+            btnEnviar.type = "button"
             //Sepracion de gastos, me la ha enseñado un compañero
 
             let divSeparador = document.createElement('div');
@@ -71,7 +78,9 @@ function mostrarDatoEnId(idElemento,valor){
             
             elGasto.append(btnEdit);
             elGasto.append(btnBorrar);
+            elGasto.append(btnEnviar);
             elGasto.append(divSeparador);
+
            }
         
         })
@@ -227,6 +236,20 @@ function mostrarDatoEnId(idElemento,valor){
 
                 repintar();
             }
+        }
+
+        //Funcion Formulario PRACTICA 6
+
+
+        function nuevoGastoWebFormulario(){
+            //Copia formulario
+            let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+            var formulario = plantillaFormulario.querySelector("form");
+
+            let enviarForm = 
+
+
+            repintar();
         }
 
 //El export de las funciones
