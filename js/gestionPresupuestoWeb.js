@@ -90,16 +90,16 @@ function repintar () {
 }
 
 function actualizarPresupuestoWeb () {
-    let valor = parseFloat ( promt ("Introduzaca un presupuesto: "));
+    let valor = parseFloat ( prompt ("Introduzaca un presupuesto: "));
     gestionPresupuesto.actualizarPresupuesto(valor);
-    reprintar();
+    repintar();
 }
 
 function nuevoGastoWeb (){
-    let descripcion = promt('Descirba el objrto a adquirir: ');
-    let valor = parseFloat(promt('Indique el valor de la adquisición: '));
-    let fecha = promt('Indique la fecha utilizando un formato (yyyy-mm-dd): ');
-    let etiquetas =  promt('Indique las etiquetas separándolas por comas: ');
+    let descripcion = prompt('Descirba el objrto a adquirir: ');
+    let valor = parseFloat(prompt('Indique el valor de la adquisición: '));
+    let fecha = prompt('Indique la fecha utilizando un formato (yyyy-mm-dd): ');
+    let etiquetas =  prompt('Indique las etiquetas separándolas por comas: ');
 
     let ArrayEtiquetas = etiquetas.split(',');
 
@@ -111,10 +111,10 @@ function nuevoGastoWeb (){
 
 function EditarHandle() {
     this.handleEvennt = function(e) {
-        let descripcion = promt('Indique la nueva descripción del gasto: ');
-        let valor = parseFloat(promt('Indique el nuevo valor: '));
-        let fecha = promt('Inqdique la nueva fecha en formato (yyyy-mm-dd): ');
-        let etiquetas = promt('Indique las etiquetas separadas por comas: ');
+        let descripcion = prompt('Indique la nueva descripción del gasto: ');
+        let valor = parseFloat(prompt('Indique el nuevo valor: '));
+        let fecha = prompt('Inqdique la nueva fecha en formato (yyyy-mm-dd): ');
+        let etiquetas = prompt('Indique las etiquetas separadas por comas: ');
         
         let ArrayEtiquetas = etiquetas.split(',');
         
