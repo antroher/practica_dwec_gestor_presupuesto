@@ -198,6 +198,9 @@ function nuevoGastoWebFormulario()
 
     let enviar = new EnviarFormularioHandle();
     formulario.addEventListener('click', enviar);
+
+    let cancelar = new CancelarFormulariohandle();
+    formulario.addEventListener('click', cancelar);
     
     // **************** MODIFICAR ***********************
     //Boton Añadir
@@ -214,12 +217,11 @@ function EnviarFormularioHandle()
     this.handleEvent = function(event)
     {
         let previsto = event.preventDefault();
-        let acceso = event.currentTarget();
-        let desc = acceso.elements.descripcion.value;
-        let val = parseFloat(acceso.elements.valor.value);
-        let fec = acceso.elements.fecha.value;
-        let etique = acceso.elements.etiquetas.value;
-
+        let accesoEnv = event.currentTarget();
+        let desc = accesoEnv.elements.descripcion.value;
+        let val = parseFloat(accesoEnv.elements.valor.value);
+        let fec = accesoEnv.elements.fecha.value;
+        let etique = accesoEnv.elements.etiquetas.value;
         etique = etique.split(',');
 
         this.gasto.actualizarDescripcion(desc);
@@ -230,13 +232,19 @@ function EnviarFormularioHandle()
         repintar();
 
         document.getElementById("anyadirgasto-formulario").disabled = true;
-    }
-    
-    
+    }    
 }
-    
 
+function CancelarFormulariohandle()
+{
+    this.handleEvent = function(event)
+    {
+        let accesoCanc = event.currentTanget.remove();
+        document.getElementById("anyadirgasto-formulario").removeAttribute('disabled');
 
+        repintar();
+    }
+}
 
 //********** NO TOCAR **************
 export   {
@@ -250,6 +258,7 @@ export   {
     BorrarHandle,
     BorrarEtiquetasHandle, 
     nuevoGastoWebFormulario, 
-    EnviarFormularioHandle
+    EnviarFormularioHandle, 
+    CancelarFormulariohandle
     
 }
