@@ -429,8 +429,14 @@ function agruparGastos(periodo = "mes", etiquetasEntrante = [], fechaDesdeEntran
     }, {});
 
     return gastosAgrupados;
-
 }
+
+function transformarListadoEtiquetas(etiquetasEntrantes) {
+    let tagReformed = etiquetasEntrantes.replaceAll(/,|.| |;|:/g, ",");
+    let etiquetasFinales = tagReformed.split(",")
+    return etiquetasFinales;
+}
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ:exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado.
@@ -445,5 +451,6 @@ export   {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    transformarListadoEtiquetas
 }

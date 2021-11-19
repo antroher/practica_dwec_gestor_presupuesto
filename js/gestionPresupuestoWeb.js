@@ -295,7 +295,7 @@ function submitHandle() {
 
         //Recogida de datos del propio formulario.
         let descripcion = event.currentTarget.descripcion.value;
-        let valor = event.currentTarget.valor.value;
+        let valor = parseFloat(event.currentTarget.valor.value);
         let fecha = event.currentTarget.fecha.value;
         let etiquetas = event.currentTarget.etiquetas.value;
 
@@ -312,6 +312,9 @@ function submitHandle() {
 
         //Llamar a la función repintar.
         repintar();
+
+        //Borrado de formulario
+        event.currentTarget.remove();
 
         //Activación del boton de añadir gasto de nuevo.
         document.getElementById('anyadirgasto-formulario').disabled = false;
@@ -397,10 +400,10 @@ function EditarHandleFormulario() {
     }
 }
 
+
 //Funciones a exportar para el test.
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb, 
-    repintar
+    mostrarGastosAgrupadosWeb
 }

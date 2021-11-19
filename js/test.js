@@ -134,8 +134,15 @@
 
 // filtrar({fechaDesde: "12-04-1996"});
 
-function dibujar() {
-    let element = document.getElementById("hola");
-    element.innerHTML += "<p>Vamos a ver</p>"
+// function dibujar() {
+//     let element = document.getElementById("hola");
+//     element.innerHTML += "<p>Vamos a ver</p>"
+// }
+// document.getElementById("actualizarpresupuesto").addEventListener("click", dibujar);
+
+function etiquetas (etiquetas) {
+    let prueba = etiquetas.replaceAll(/-|,| |'/g, ",")
+    return prueba;
 }
-document.getElementById("actualizarpresupuesto").addEventListener("click", dibujar);
+
+console.log(etiquetas("hola-sas,asdsa asd"));
