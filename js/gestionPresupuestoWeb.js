@@ -55,16 +55,21 @@ function mostrarGastoWeb(idElemento, gasto) {
 
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
-    const elemento = document.getElementById(idElemento);
-    let data = ""
-    for (let [key, value] of Object.entries(agrup)){
-        data += `<div class="agrupacion-dato">
-                    <span class="agrupacion-dato-clave">${key}</span>
-                    <span class="agrupacion-dato-valor">${value}</span>
-                </div>`
+    const div = document.getElementById(idElemento);
+
+    let storage = "";
+    for (let [clave, valor] of Object.entries(agrup)) {
+        storage +=
+        `<div class="agrupacion-dato">
+            <span class="agrupacion-dato-clave">${clave}</span>
+            <span class="agrupacion-dato-valor">${valor}</span>
+        </div>`
     };
-    elemento.innerHTML += 
-    `<div class="agrupacion"><h1>Gastos agrupados por ${periodo}</h1>${data}`
+        div.innerHTML += ` 
+    <div class="agrupacion">
+        <h1>Gastos agrupados por ${periodo}</h1>
+        ${storage}
+    `
 }
 
 
@@ -89,23 +94,22 @@ function repintar(){
 
 
 function actualizarPresupuestoWeb(){
-    let presupuesto = parsefloat.prompt("Introduce el presupuesto")
+    let presupuesto = parseFloat(prompt("Introduce el presupuesto"))
     gestionPresupuesto.actualizarPresupuesto(presupuesto)
-    repintar()
+    repintar();
 }
 
 
 function nuevoGastoWeb(){
     let descripcion = prompt ("Introudzca la descripción")
-    let valor = parsefloat(prompt ("Introudzca el valor"))
+    let valor = parseFloat(prompt("Introudzca el valor"))
     let fecha = prompt ("Introudzca la fecha")
     let etiquetas = prompt ("Introudzca las etiquetas")
 
-    valor = parsefloat(this.valor)
+    let arrayEtiquetas = etiquetas.split(",");
 
-    let etiquetasArray = etiquetas.split(',')
-
-    const gasto = gestionPresupuesto.CrearGasto(descripcion, valor, fecha, ...arrayEtiquetas)
+    let gasto = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, ...arrayEtiquetas);
+    
     gestionPresupuesto.anyadirGasto(gasto)
 
     repintar()
