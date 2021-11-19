@@ -203,13 +203,12 @@ function nuevoGastoWebFormulario() {
 }
 //enviar botón
 function FormSubmitHandle() {
-    this.handleEvent(event){
-    event.preventDefault();
-    //Crear gasto con datos formulario
-    //repintar
-    //activar botón origen
-    SetAttribute("disable")//desabilita el cotón
-    removeAtributte("disable"); //habiliat el boón
+    this.handleEvent = function(event){
+
+    gastos = gestionPresupuesto.CrearGasto();
+    repintar();
+    removeAtributte("disable"); //habilitar el boón de envío
+    //SetAttribute("disable")//desabilita el botón
     }
 }
 //cancel botón
