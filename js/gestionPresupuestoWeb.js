@@ -191,8 +191,52 @@ function nuevoGastoWebFormulario(){
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
     var formulario = plantillaFormulario.querySelector("form");
     idElemento.append(formulario);
-}
+    
+    //DESACTIVAR BOTÓN
+    document.querySelector("button[id='anyadirgasto-formulario']").disabled = true;
 
+    //creamos evento cancelar
+    let EventoCancelarForm = new cancelarFromHandle();
+    EventoCancelarForm.formulario = formulario;
+    formulario.querySelector("button[class='cancelar']").addEventListener('click', EventoCancelarForm);
+
+    //creamos evento submit
+    let EventoSubmitForm = new submitFormHandle();
+    EventoSubmitForm.formulario = formulario;
+    formulario.addEventListener('submit', EventoSubmitForm);
+}
+//AGREGAR FUNCIÓN AL BOTON AÑADIR GASTO FORMULARIO
+let botonAyadirGastoForm = document.getElementById("anyadirgasto-formulario");
+botonAyadirGastoForm.addEventListener('click', nuevoGastoWebFormulario);
+
+//EVENTO BOTÓN CANCELAR
+function cancelarFromHandle(){
+    this.handleEvent = function(event){
+        //Activa botón añadirgasto-formulario
+        document.querySelector("button[id='anyadirgasto-formulario']").disabled = false;
+
+        this.formulario.remove();
+    }
+}
+//EVENTO SUBMIT
+function submitFormHandle(){
+    this.handleEvent = function(event){
+        event.preventDefault();
+        let descripcion = event.currentTarget.descripcion.value;
+        let valor = parseFloat(event.currentTarget.valor.value);
+        let fecha = event.currentTarget.fecha.value;
+        let etiquetas = event.currentTarget.etiquetas.value;
+
+        let gasto = new gesPre.CrearGasto(descripcion,valor,fecha,etiquetas);
+        gesPre.anyadirGasto(gasto)
+
+        //activar boton añadir gasto
+        document.querySelector("button[id='anyadirgasto-formulario']").disabled = false;
+        //Eliminar formulario
+        event.currentTarget.remove();
+        repintar();
+    }
+}
 //El export de las funciones
 export{
     mostrarDatoEnId,
