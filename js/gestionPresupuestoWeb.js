@@ -201,8 +201,8 @@ function nuevoGastoWebFormulario()
     formulario.addEventListener('submit', enviar);
 
     //Boton Cancelar
-    let cancelar = new CancelarFormulariohandle();
-    let botonCancelar = document.querySelector('button.cancelar');
+    let cancelar = new CancelarFormularioHandle();
+    document.querySelector('button.cancelar');
     formulario.addEventListener('click', cancelar);
     
 }
@@ -230,7 +230,7 @@ function EnviarFormularioHandle()
     }    
 }
 
-function CancelarFormulariohandle()
+function CancelarFormularioHandle()
 {
     this.handleEvent = function(event)
     {
@@ -254,6 +254,6 @@ export   {
     BorrarEtiquetasHandle, 
     nuevoGastoWebFormulario, 
     EnviarFormularioHandle, 
-    CancelarFormulariohandle
+    CancelarFormularioHandle
     
 }
