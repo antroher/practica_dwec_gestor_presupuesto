@@ -1,4 +1,4 @@
-
+import * as gestionPresupuesto from './gestionPresupuesto.js';
 
 function mostrarDatoEnId(idElemento, valor) {
     let div = document.getElementById(idElemento);
@@ -39,22 +39,46 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 
 
 function repintar(){
+    let presupuesto = gestionPresupuesto.mostrarPresupuesto();
+    mostrarDatoEnId("presupuesto", presupuesto)
+
+    let gastosTotales = gestionPresupuesto.calcularTotalGastos();
+    mostrarDatoEnId("gastos-totales", gastosTotales)
+
+    let balanceTotal = gestionPresupuesto.calcularBalance();
+    mostrarDatoEnId("balance-total", balanceTotal)
+
+    let listadoGastosCompleto = innerHTML
 
 }
 
 
 function actualizarPresupuestoWeb(){
-
+    let presupuesto = parsefloat.prompt("Introduce el presupuesto")
+    gestionPresupuesto.actualizarPresupuesto(presupuesto)
+    repintar()
 }
 
 
 function nuevoGastoWeb(){
+    let descripcion = prompt ("Introudzca la descripción")
+    let valor = prompt ("Introudzca el valor")
+    let fecha = prompt ("Introudzca la fecha")
+    let etiquetas = prompt ("Introudzca las etiquetas")
 
+    valor = parsefloat(this.valor)
+
+    let etiquetasArray = etiquetas.split(',')
+
+    const gasto = gestionPresupuesto.CrearGasto(descripcion, valor, fecha, etiquetasArray)
+    gestionPresupuesto.anyadirGasto(gasto)
+
+    repintar()
 }
 
 
 function EditarHandle(){
-
+    this.handleEvent = function(e)
 }
 
 function BorrarHandle(){
@@ -67,9 +91,7 @@ function BorrarEtiquetasHandle(){
 }
 
 
-function mostrarGastoWeb(){
 
-}
 
 
 
