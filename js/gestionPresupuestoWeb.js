@@ -202,11 +202,11 @@ function CancelarFormHandle() {
 
 //Este handle actualizará los valores del gasto que nosotros estemos manejando
 function EnviarHandle(){
-    this.handleEvent = function(e){
+    this.handleEvent = function(event){
         //Evitamos que se haga el submit
-        e.preventDefault();
+        event.preventDefault();
         //Recogemos el evento que ha realizado el evento y actualizamos los valores del gasto
-        let formulario = e.currentTarget;
+        let formulario = event.currentTarget;
         let descripcion = formulario.elements.descripcion.value;
         this.gasto.actualizarDescripcion(descripcion);
         let valor = parseFloat(formulario.elements.valor.value);
@@ -273,15 +273,15 @@ function filtrarGastosWeb() {
         let descr = formulario.elements["formulario-filtrado-descripcion"].value;
         let minVal = parseFloat(formulario.elements["formulario-filtrado-valor-minimo"].value);
         let maxVal = parseFloat(formulario.elements["formulario-filtrado-valor-maximo"].value);
-        let fechaDesde = formulario.elements["formulario-filtrado-fecha-desde"].value;
-        let fechaHasta = formulario.elements["formulario-filtrado-fecha-hasta"].value;
+        let fechaDesde1 = formulario.elements["formulario-filtrado-fecha-desde"].value;
+        let fechaHasta1 = formulario.elements["formulario-filtrado-fecha-hasta"].value;
         let etiq = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
         
         if (etiq !== undefined) {
             etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
         }
-        let filtrador = ({fechaDesde : fechaDesde,fechaHasta : fechaHasta,valorMinimo : minVal,valorMaximo : maxVal,descripcionContiene : descr,etiquetasTiene : etiq});
-        let gastosFiltradosForm = gestionPresupuesto.filtrarGastos(filtrador);
+        let gastosFilter = ({fechaDesde : fechaDesde1, fechaHasta : fechaHasta1, valorMinimo : minVal, valorMaximo : maxVal, descripcionContiene : descr, etiquetasTiene : etiq});
+        let gastosFiltradosForm = gestionPresupuesto.filtrarGastos(gastosFilter);
         document.getElementById("listado-gastos-completo").innerHTML = " ";
         for (let gastoForm of gastosFiltradosForm) {
             mostrarGastoWeb("listado-gastos-completo", gastoForm);
