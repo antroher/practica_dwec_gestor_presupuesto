@@ -95,17 +95,29 @@ function EditarHandle(){
 }
 
 function BorrarHandle(){
-
+    this.handleEvent = function(e) {
+        gestionPresupuesto.borrarGasto(this.gasto.id);
+        repintar();
+    }
 }
 
 
 function BorrarEtiquetasHandle(){
-
+    this.handleEvent = function(e) {
+        this.gasto.borrarEtiquetas(this.etiqueta);
+        repintar();
+    }
 }
 
 
+const btnActualizarPresupuesto = document.getElementById("actualizarPresupuesto");
+btnActualizarPresupuesto.addEventListener("click", actualizarPresupuestoWeb)
 
+const btnNuevoGasto = document.getElementById("anyadirgasto");
+btnNuevoGasto.addEventListener("click", nuevoGastoWeb);
 
+const btnNuevoGastoFormulario = document.getElementById("anyadirgasto-formulario");
+btnActualizarPresupuesto.addEventListener("click", nuevoGastoWebFormulario);
 
 
 export{
