@@ -73,6 +73,7 @@ function mostrarGastoWeb(idElemento, gasto){
             let editarHa= new EditarHandle();
             editarHa.gasto=gasto;
             botonEditar.addEventListener("click",editarHa);
+            divgasto.append(botonEditar);
 
             let botonEditarF=document.createElement("button");
             botonEditarF.className="gasto-editar-formulario";
@@ -81,10 +82,10 @@ function mostrarGastoWeb(idElemento, gasto){
 
             let editHaForm = new EditarHandleFormulario();
             editHaForm.gasto=gasto;
-            editHaForm.botonEditarGasto=botonEditar;
+            editHaForm.botonEditarGasto=botonEditarF;
             editHaForm.divGasto=divgasto;
             botonEditarF.addEventListener("click",editHaForm);
-            divgasto.append(botonEditar);
+            divgasto.append(botonEditarF);
 
             let botonBorrar=document.createElement("button");
             botonBorrar.className="gasto-borrar";
@@ -124,7 +125,6 @@ function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
 }
 
 function repintar(){
-    document.getElementById('controlesprincipales').innerHTML='';
     document.getElementById("presupuesto").innerHTML="";
     document.getElementById("balance-total").innerHTML="";
     document.getElementById("gastos-totales").innerHTML="";
@@ -233,9 +233,9 @@ function nuevoGastoWebFormulario(){
         etiquetas=etiquetas.value.split(",");
         let gasto = new gp.CrearGasto(desc.value,parseFloat(valor.value),fecha.value,...etiquetas);
         gp.anyadirGasto(gasto);
-        repintar();
         document.getElementById("anyadirgasto-formulario").disabled=false;
         document.getElementById("controlesprincipales").removeChild(formulario);
+        repintar();
 
     });
     document.getElementById("controlesprincipales").append(formulario);
@@ -245,6 +245,7 @@ function nuevoGastoWebFormulario(){
 
         document.getElementById("anyadirgasto-formulario").disabled=false;
         document.getElementById("controlesprincipales").removeChild(formulario);
+        repintar();
 
     });
 }
@@ -274,9 +275,9 @@ function EditarHandleFormulario(){
             let etiquetas=formulario.elements.etiquetas;
             etiquetas=etiquetas.value.split(",");
             g.anyadirEtiquetas(...etiquetas);
-            repintar();
             botonEditG.disabled=false;
             divG.removeChild(formulario);
+            repintar();
     
         });
 
@@ -284,8 +285,8 @@ function EditarHandleFormulario(){
         botonCancelar.addEventListener("click",this.handleEvent=function(){
 
             botonEditG.disabled=false;
-            
             divG.removeChild(formulario);
+            repintar();
 
         });
     }
