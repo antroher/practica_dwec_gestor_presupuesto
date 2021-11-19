@@ -18,7 +18,6 @@ function mostrarGastoWeb(idElemento, gasto) {
     let divGasto = document.createElement("div");
     divGasto.className = "gasto";
     elemento.append(divGasto);
-        
     divGasto.innerHTML += 
     `
         <div class="gasto-descripcion">${gasto.descripcion}</div>
