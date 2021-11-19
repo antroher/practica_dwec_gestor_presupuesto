@@ -78,7 +78,20 @@ function nuevoGastoWeb(){
 
 
 function EditarHandle(){
-    this.handleEvent = function(e)
+    this.handleEvent = function(e){
+        let descripcion = prompt(`Nueva descripción del gasto`);
+        let valor1 = parseFloat(prompt(`Indique el valor`))
+        let fecha = prompt(`Actualice la fecha`)
+        let etiquetas = prompt(`Escriba las etiquetas`)
+
+        let arrayEtiquetas =etiquetas.split(`,`);
+
+        this.gasto.actualizarValor(valor1);
+        this.gasto.actualizarDescripcion(descripcion);
+        this.gasto.actualizarFecha(fecha);
+        this.gasto.anyadirEtiquetas(...arrayEtiquetas);  
+        repintar();
+    }
 }
 
 function BorrarHandle(){
