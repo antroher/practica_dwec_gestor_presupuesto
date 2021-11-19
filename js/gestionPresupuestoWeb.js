@@ -272,23 +272,20 @@ function filtrarGastosWeb() {
         event.preventDefault();
         let formulario = event.currentTarget;
         let descr = formulario.elements["formulario-filtrado-descripcion"].value;
-        let minVal = formulario.elements["formulario-filtrado-valor-minimo"].value;
-        let maxVal = formulario.elements["formulario-filtrado-valor-maximo"].value;
+        let minVal = parseFloat(formulario.elements["formulario-filtrado-valor-minimo"].value);
+        let maxVal = parseFloat(formulario.elements["formulario-filtrado-valor-maximo"].value);
         let fechaDesde = formulario.elements["formulario-filtrado-fecha-desde"].value;
-        let fechHasta = formulario.elements["formulario-filtrado-fecha-hasta"].value;
+        let fechaHasta = formulario.elements["formulario-filtrado-fecha-hasta"].value;
         let etiq = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
         
-
-        
-        if (formularioFiltradoEti != undefined) {
-            formularioFiltradoEti = gestionPresupuesto.transformarListadoEtiquetas(formularioFiltradoEti);
+        if (etiq !== null) {
+            etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
         }
-        let filtrador = {valorMinimo : minVal, valorMaximo : maxVal, etiquetasTiene : etiq, fechaDesde : fechaDesde, fechaHasta : fechHasta, 
-                         descripcionContiene : descr};
+        let filtrador = ({fechaDesde : fechaDesde,fechaHasta : fechaHasta,valorMinimo : minVal,valorMaximo : maxVal,descripcionContiene : descr,etiquetasTiene : etiq});
         let gastosFiltradosForm = gestionPresupuesto.filtrarGastos(filtrador);
-        document.getElementById("listado-gastos-completo").innerHTML = "";
-        for (let gasto of gastosFiltradosForm) {
-            mostrarGastoWeb("listado-gastos-completo", gasto);
+        document.getElementById("listado-gastos-completo").innerHTML = " ";
+        for (let gastoForm of gastosFiltradosForm) {
+            mostrarGastoWeb("listado-gastos-completo", gastoForm);
         }
     }
 }
@@ -297,7 +294,7 @@ function filtrarGastosWeb() {
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
 const anyadirgastoFirmulario = document.getElementById("anyadirgasto-formulario");
-// let filtGastoForm = new filtrarGastosWeb();
+//formulario que filtra gastos
 const formularioFiltrador = document.getElementById("formulario-filtrado");
 //Eventos
 actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);

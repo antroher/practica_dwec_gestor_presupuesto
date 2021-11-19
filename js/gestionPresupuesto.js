@@ -55,10 +55,8 @@ function calcularBalance() {
 }
 
 function filtrarGastos(gastosFilter) {
-    //Deep clone
-    //let gastosFiltrados = JSON.parse(JSON.stringify(gastos));
     let gastosFiltrados = Object.assign(gastos);
-    if (typeof gastosFilter === 'object' && gastosFilter != null && Object.entries(gastosFilter).length >= 0) {
+    if (gastosFilter != null && Object.entries(gastosFilter).length >= 0) {
         if (Object.hasOwn(gastosFilter, 'fechaDesde') && typeof gastosFilter.fechaDesde === 'string') {
             gastosFiltrados = gastosFiltrados.filter((x) => {
                 return x.fecha >= (Date.parse(gastosFilter.fechaDesde))
@@ -103,6 +101,53 @@ function filtrarGastos(gastosFilter) {
     }
     return gastos;
 }
+// function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}){
+//     let gastosFiltrados;
+//     gastosFiltrados = gastos.filter(function(gasto){
+//      let exist = true;
+//      if(fechaDesde){
+//          if(gasto.fecha < Date.parse(fechaDesde)){
+//              exist = false;
+//          }
+//      }
+//      if(fechaHasta){
+//          if(gasto.fecha > Date.parse(fechaHasta)){
+//              exist = false;
+//          }
+//      }
+//      if(valorMinimo){
+//          if(gasto.valor < valorMinimo){
+//              exist = false;
+//          }
+//      }
+//      if(valorMaximo){
+//          if(gasto.valor > valorMaximo){
+//              exist = false;
+//          }
+//      }
+//      if(descripcionContiene){
+//              if(!gasto.descripcion.includes(descripcionContiene)){
+//                  exist = false;
+//              }
+//      }
+//      if(etiquetasTiene){
+//          let inside = false;                   
+//              for (let i = 0; i < gasto.etiquetas.length; i++) {                   
+//                  for (let j= 0; j < etiquetasTiene.length; j++) {
+//                      if(gasto.etiquetas[i] == etiquetasTiene[j]){
+//                          inside = true;
+//                      }                 
+//                  }
+//              }
+//              if(inside == false){
+//                  exist = false;
+//              }  
+//      }
+//          return exist;
+//     });
+// return gastosFiltrados;  
+// }
+
 
 function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
     let filtrador = {etiquetasTiene : etiquetas, fechaDesde : fechaDesde, fechaHasta : fechaHasta}
