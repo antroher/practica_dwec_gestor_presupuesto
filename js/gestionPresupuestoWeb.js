@@ -48,8 +48,12 @@ function repintar(){
     let balanceTotal = gestionPresupuesto.calcularBalance();
     mostrarDatoEnId("balance-total", balanceTotal)
 
-    let listadoGastosCompleto = innerHTML
+    document.getElementById('listado-gastos-completo').innerHTML = " " ;
 
+    let listarGastos = gestionPresupuesto.listarGastos();
+    for(const x of listarGastos) {
+        mostrarGastoWeb("listado-gastos-completo", x);
+    }
 }
 
 
