@@ -4,6 +4,7 @@ import * as GesPresu from "./gestionPresupuesto.js";
 document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb);
 // button.addEventListener("click",actualizarPresupuestoWeb) otra opción
 document.getElementById("anyadirgasto").addEventListener("click",nuevoGastoWeb);
+// document.getElementById("anyadirgasto-formulario").addEventListener("click",anyadirGasto);//btono añador gasto
 
 function mostrarDatoEnId(idElemento,valor){
     let elemento = document.getElementById(idElemento);
@@ -11,52 +12,67 @@ function mostrarDatoEnId(idElemento,valor){
 }
 
 function mostrarGastoWeb(idElemento,gastos){
-    let elemento = document.getElementById(idElemento);
 
-    gastos.forEach((gasto) => {
-        let etiquetas = "";
-        let IdTag = [];
-        let arrayEti = [];
+    gastos.forEach((gasto) =>{
+        let element = document.getElementById(idElemento);
+        let elGasto = document.createElement("div");
+        elGasto.className = "gasto";
+        element.append(elGasto);
 
-        gasto.etiquetas.forEach((etiqueta) => {
-            etiquetas +=
-            `<span class="gasto-etiquetas-etiqueta" id ="${gasto.id}-${etiqueta}">
-                ${etiqueta}
-            </span>`;
-            
-            // recoger el id y la etiqueta que se borra para utilizarla luego
-            IdTag.push(`${gasto.id}-${etiqueta}`);
-            arrayEti.push(`${etiqueta}`);
-        });
-
-        elemento.innerHTML += 
-        `<div class="gasto">
+        elGasto.innerHTML +=`
         <div class="gasto-descripcion">${gasto.descripcion}</div>
-        <div class="gasto-fecha">${gasto.fecha}</div> 
-        <div class="gasto-valor">${gasto.valor}</div> 
-        <div class="gasto-etiquetas">
-            ${etiquetas}
-        </div> 
-            <button class="gasto-editar" id="gasto-editar-${gasto.id}" type="button">Editar</button>
-            <button class="gasto-borrar" id="gasto-borrar-${gasto.id}" type="button">Borrar</button>
-        </div>`;
-        
-        let editHandler = new EditarHandle();
-        editHandler.gasto = gasto;
-        document.getElementById(`gasto-editar-${gasto.id}`).addEventListener('click', editHandler);
+        <div class="gasto-fecha">${new Date(gasto.fecha).toLocaleString()}</div> 
+        <div class="gasto-valor">${gasto.valor}</div>
+         `
 
-        //Asignación del objeto manejador al boton de borrado.
-        let deleteHandler = new BorrarHandle();
-        deleteHandler.gasto = gasto;
-        document.getElementById(`gasto-borrar-${gasto.id}`).addEventListener('click', deleteHandler);
+       let etiGasto = document.createElement("div")
+       etiGasto.className = "gasto-etiquetas";
+       elGasto.append(etiGasto);
 
-            IdTag.forEach((tagId, index) => {
-            let tagsHandler = new BorrarEtiquetasHandle();
-            tagsHandler.gasto = gasto;
-            tagsHandler.etiqueta = arrayEti[index];
-            document.getElementById(tagId).addEventListener('click', tagsHandler);
-        });
-    });
+       for(let etiqueta of gasto.etiquetas){
+           let newEtiqueta = new BorrarEtiquetasHandle();
+           newEtiqueta.gasto = gasto;
+
+           let gastEtiqueta = document.createElement("span");
+           gastEtiqueta.className = "gasto-etiquetas-etiqueta";
+           gastEtiqueta.textContent = etiqueta + " ";
+           newEtiqueta.etiqueta = etiqueta;
+           etiGasto.append(gastEtiqueta);
+           gastEtiqueta.addEventListener("click",newEtiqueta);
+       }
+
+       //Para que solo ponga el boton el listado de gastos
+       if (idElemento === "listado-gastos-completo") {
+        let btnEdit = document.createElement("button");
+        btnEdit.className += 'gasto-editar'
+        btnEdit.textContent = "Editar";
+        btnEdit.type = 'button';
+
+        let btnBorrar = document.createElement("button");
+        btnBorrar.className += 'gasto-borrar'
+        btnBorrar.textContent = "Borrar";
+        btnBorrar.type = 'button';
+
+        //Sepracion de gastos, me la ha enseñado un compañero
+
+        let divSeparador = document.createElement('div');
+        divSeparador.className = 'salto';
+        divSeparador.textContent = "------------------------------"
+
+        let editar = new EditarHandle();
+        let borrar = new BorrarHandle();
+
+        editar.gasto = gasto;
+        borrar.gasto = gasto;
+
+        btnEdit.addEventListener('click',editar);
+        btnBorrar.addEventListener('click',borrar);
+        elGasto.append(btnEdit);
+        elGasto.append(btnBorrar);
+        elGasto.append(divSeparador);
+       }
+
+    })
 }
 
 function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
@@ -141,6 +157,10 @@ function BorrarHandle() {
 
         repintar();
     }
+function nuevoGastoWebFormulario(){
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+    var formulario = plantillaFormulario.querySelector("form");
+}
 }
 
 
