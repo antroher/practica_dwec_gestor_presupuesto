@@ -238,7 +238,18 @@ function nuevoGastoWebFormulario()
   let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
   //seleccionamos la etique form
   var formulario = plantillaFormulario.querySelector("form");
+  let controlesPrincipales = document.getElementById("controlesprincipales");
 
+  controlesPrincipales.append(formulario);
+
+  document.getElementById("anyadirgasto-formulario").disabled = true;
+
+  let enviarHandle = new EnviarGastoHandle();
+  formulario.addEventListener("submit", enviarHandle);
+
+  let botonCancelar =formulario.querySelector("button.cancelar");
+  let cancelarEvento = new cancelarHandle();
+  botonCancelar.addEventListener("click",cancelarEvento);
 
 
     
@@ -277,6 +288,16 @@ function FormSubmitHandle(){
   }
 
 }
+//ok
+let botonActualizarPresupuesto = document.getElementById("actualizarpresupuesto");
+botonActualizarPresupuesto.addEventListener("click", actualizarPresupuestoWeb);
+
+let botonNuevoGasto  = document.getElementById("anyadirgasto");
+botonNuevoGasto.addEventListener("click", nuevoGastoWeb);
+
+let botonAnyadirGastoFormulario = document.getElementById("anyadirgasto-formulario");
+botonAnyadirGastoFormulario.addEventListener("click", nuevoGastoWebFormulario);
+
 export{
   mostrarDatoEnId,
   mostrarGastoWeb,
