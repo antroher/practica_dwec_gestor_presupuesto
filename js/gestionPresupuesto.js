@@ -47,73 +47,73 @@ function CrearGasto(descripcionEntrante, valorEntrante = 0, fechaEntrante = Date
         return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
     },
 
-        this.mostrarGastoCompleto = function () {
-            let cadenaCompleta = "";
-            let cadenaFecha = new Date(this.fecha).toLocaleString();
-            cadenaCompleta += `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${cadenaFecha}\nEtiquetas:\n`;
-            for (let i = 0; i < this.etiquetas.length; i++) {
-                cadenaCompleta += `- ${this.etiquetas[i]}\n`
-            }
-            console.log(cadenaCompleta);
-            return cadenaCompleta;
-        },
-
-        this.anyadirEtiquetas = function (...nuevasEtiquetas) {
-            for (let i = 0; i < nuevasEtiquetas.length; i++) {
-                if(this.etiquetas.includes(nuevasEtiquetas[i])) {
-                    continue;
-                }
-                this.etiquetas.push(nuevasEtiquetas[i]);
-            }
-        },
-
-        this.borrarEtiquetas = function (...etiquetasABorrar) {
-            for (let i = 0; i < etiquetasABorrar.length; i++) {
-                for (let f = 0; f < this.etiquetas.length; f++) {
-                    if (etiquetasABorrar[i] === this.etiquetas[f]){
-                        this.etiquetas.splice(f, 1);
-                    }
-                }
-            }
-        },
-
-        this.actualizarDescripcion = function(nuevaDescripcion) {
-            this.descripcion = nuevaDescripcion;
-        },
-
-        this.actualizarValor = function (nuevoValor) {
-            if (nuevoValor >= 0) {
-                this.valor = nuevoValor;
-            }
-        },
-        
-        this.actualizarFecha = function (nuevaFecha) {
-            if (!isNaN(Date.parse(nuevaFecha)))
-            {
-                this.fecha = Date.parse(nuevaFecha);
-            }
-        },
-
-        this.obtenerPeriodoAgrupacion = function(periodo) {
-            let fechaGasto = new Date(this.fecha);
-
-            switch(periodo) {
-                case "dia":
-                    return `${
-                        fechaGasto.getFullYear()}-${
-                            ((fechaGasto.getMonth() + 1) < 10) ? `0${fechaGasto.getMonth() + 1}` : `${fechaGasto.getMonth() + 1}`}-${
-                                (fechaGasto.getDate() < 10) ? `0${fechaGasto.getDate()}` : `${fechaGasto.getDate()}`}`;
-                case "mes":
-                    return `${
-                        fechaGasto.getFullYear()}-${
-                            ((fechaGasto.getMonth() + 1) < 10) ? `0${fechaGasto.getMonth() + 1}` : `${fechaGasto.getMonth() + 1}`}`
-                case "anyo":
-                    return `${
-                        fechaGasto.getFullYear()}`
-                default:
-                    return "Periodo incorrecto";
-            };
+    this.mostrarGastoCompleto = function () {
+        let cadenaCompleta = "";
+        let cadenaFecha = new Date(this.fecha).toLocaleString();
+        cadenaCompleta += `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${cadenaFecha}\nEtiquetas:\n`;
+        for (let i = 0; i < this.etiquetas.length; i++) {
+            cadenaCompleta += `- ${this.etiquetas[i]}\n`
         }
+        console.log(cadenaCompleta);
+        return cadenaCompleta;
+    },
+
+    this.anyadirEtiquetas = function (...nuevasEtiquetas) {
+        for (let i = 0; i < nuevasEtiquetas.length; i++) {
+            if(this.etiquetas.includes(nuevasEtiquetas[i])) {
+                continue;
+            }
+            this.etiquetas.push(nuevasEtiquetas[i]);
+        }
+    },
+
+    this.borrarEtiquetas = function (...etiquetasABorrar) {
+        for (let i = 0; i < etiquetasABorrar.length; i++) {
+            for (let f = 0; f < this.etiquetas.length; f++) {
+                if (etiquetasABorrar[i] === this.etiquetas[f]){
+                    this.etiquetas.splice(f, 1);
+                }
+            }
+        }
+    },
+
+    this.actualizarDescripcion = function(nuevaDescripcion) {
+        this.descripcion = nuevaDescripcion;
+    },
+
+    this.actualizarValor = function (nuevoValor) {
+        if (nuevoValor >= 0) {
+            this.valor = nuevoValor;
+        }
+    },
+    
+    this.actualizarFecha = function (nuevaFecha) {
+        if (!isNaN(Date.parse(nuevaFecha)))
+        {
+            this.fecha = Date.parse(nuevaFecha);
+        }
+    },
+
+    this.obtenerPeriodoAgrupacion = function(periodo) {
+        let fechaGasto = new Date(this.fecha);
+
+        switch(periodo) {
+            case "dia":
+                return `${
+                    fechaGasto.getFullYear()}-${
+                        ((fechaGasto.getMonth() + 1) < 10) ? `0${fechaGasto.getMonth() + 1}` : `${fechaGasto.getMonth() + 1}`}-${
+                            (fechaGasto.getDate() < 10) ? `0${fechaGasto.getDate()}` : `${fechaGasto.getDate()}`}`;
+            case "mes":
+                return `${
+                    fechaGasto.getFullYear()}-${
+                        ((fechaGasto.getMonth() + 1) < 10) ? `0${fechaGasto.getMonth() + 1}` : `${fechaGasto.getMonth() + 1}`}`
+            case "anyo":
+                return `${
+                    fechaGasto.getFullYear()}`
+            default:
+                return "Periodo incorrecto";
+        };
+    }
 } 
 
 function listarGastos() {
