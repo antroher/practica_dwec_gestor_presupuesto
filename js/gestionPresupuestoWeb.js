@@ -196,37 +196,41 @@ function nuevoGastoWebFormulario()
     let divContrPrinc = document.getElementById("controlesprincipales");
     divContrPrinc.append(formulario);
 
+    //Para desactivar boton
+    document.getElementById("anyadirgasto-formulario").disabled = true;
+
     //Boton Enviar
     let enviar = new EnviarFormularioHandle();
     formulario.addEventListener('submit', enviar);
 
     //Boton Cancelar
     let cancelar = new CancelarFormularioHandle();
-    document.querySelector('button.cancelar');
-    formulario.addEventListener('click', cancelar);
-    
+    let botonCancelar = formulario.querySelector("button.cancelar");
+    botonCancelar.addEventListener('click', cancelar);
 }
+
+//BOTON nuevoGastoWebFormulario
+let anyadirgastoForm = document.getElementById("anyadirgasto-formulario");
+anyadirgastoForm.addEventListener('click', nuevoGastoWebFormulario);
+
 
 function EnviarFormularioHandle()
 {
     this.handleEvent = function(event)
     {
-        let previsto = event.preventDefault();
-        let accesoEnv = event.currentTarget();
-        let desc = accesoEnv.elements.descripcion.value;
-        let val = parseFloat(accesoEnv.elements.valor.value);
-        let fec = accesoEnv.elements.fecha.value;
-        let etique = accesoEnv.elements.etiquetas.value;
-        etique = etique.split(',');
+        event.preventDefault();
+        let accesoEnv = event.currentTarget;
+        let desc = accesoEnv.descripcion.value;
+        let val = parseFloat(accesoEnv.valor.value);
+        let fec = accesoEnv.fecha.value;
+        let etique = accesoEnv.etiquetas.value;       
 
-        this.gasto.actualizarDescripcion(desc);
-        this.gasto.actualizarValor(val);
-        this.gasto.actualizarFecha(fec);
-        this.gasto.anyadirEtiquetas(etique);        
+        let gastoEnv = new gestionPresupuesto.CrearGasto(desc, val, fec, etique);
+        gestionPresupuesto.anyadirGasto(gastoEnv);      
 
         repintar();
 
-        document.getElementById("anyadirgasto-formulario").disabled = true;
+        document.getElementById("anyadirgasto-formulario").disabled = false;
     }    
 }
 
@@ -234,26 +238,16 @@ function CancelarFormularioHandle()
 {
     this.handleEvent = function(event)
     {
-        event.currentTanget.parentNode.remove();
-        document.getElementById("anyadirgasto-formulario").removeAttribute('disabled');
-
+        document.getElementById("anyadirgasto-formulario").disabled = false;
+        event.currentTarget.parentNode.remove();
         repintar();
     }
 }
+
 
 //********** NO TOCAR **************
 export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb,    
-    repintar, 
-    actualizarPresupuestoWeb, 
-    nuevoGastoWeb, 
-    EditarHandle,
-    BorrarHandle,
-    BorrarEtiquetasHandle, 
-    nuevoGastoWebFormulario, 
-    EnviarFormularioHandle, 
-    CancelarFormularioHandle
-    
+    mostrarGastosAgrupadosWeb
 }
