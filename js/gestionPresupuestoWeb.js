@@ -278,7 +278,7 @@ function filtrarGastosWeb() {
         let fechaHasta = formulario.elements["formulario-filtrado-fecha-hasta"].value;
         let etiq = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
         
-        if (etiq !== null) {
+        if (etiq !== undefined) {
             etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
         }
         let filtrador = ({fechaDesde : fechaDesde,fechaHasta : fechaHasta,valorMinimo : minVal,valorMaximo : maxVal,descripcionContiene : descr,etiquetasTiene : etiq});
@@ -294,7 +294,6 @@ function filtrarGastosWeb() {
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
 const anyadirgastoFirmulario = document.getElementById("anyadirgasto-formulario");
-//formulario que filtra gastos
 const formularioFiltrador = document.getElementById("formulario-filtrado");
 //Eventos
 actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
