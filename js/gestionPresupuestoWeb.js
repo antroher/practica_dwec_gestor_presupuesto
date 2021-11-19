@@ -168,6 +168,7 @@ btnActPres.addEventListener("click", actualizarPresupuestoWeb);
 btnGastForm.addEventListener("click", nuevoGastoWebFormulario);
 
 //oaoaoaotiritioaoaoaotiritoaoaoaoaooooooooooooooo
+//https://www.youtube.com/watch?v=QZShA_a-5r8
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
