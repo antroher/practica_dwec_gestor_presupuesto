@@ -157,29 +157,19 @@ function nuevoGastoWebFormulario(){
     boton.disabled = true;
     document.getElementById("controlesprincipales").append(formulario);
 
-    formulario.addEventListener("submit",this.handleEvent = function(event){
-        event.preventDefault();
-        let descForm = formulario.elements.descripcion.value;
-        console.log("dscripcion: " + descForm.value);
-        let valForm = formulario.elements.valor.value;
-        let fechForm = formulario.elements.fecha.value;
-        let etForm = formulario.elements.etiquetas.value;
-        let etiqForm = new Array();
-        etiqForm = etForm.split(",");
-        let gastoForm = new metodosGastos.CrearGasto(descForm,parseFloat(valForm), fechForm, ...etiqForm);
-        metodosGastos.anyadirGasto(gastoForm);
-        console.log("gasto: " + gastoForm);
-        boton.disabled = false;
-        document.getElementById("controlesprincipales").removeChild(formulario);
-        repintar();
-            
-    });
+    let anyadirGastoFromHandler = new AnyadirGastoFormularioHandler();
+    anyadirGastoFromHandler.formulario = formulario;
+    anyadirGastoFromHandler.boton = boton;
+
+    formulario.addEventListener("submit",anyadirGastoFromHandler);
 
     let botonCancelar = formulario.querySelector("button.cancelar");
-    botonCancelar.addEventListener("click", this.handleEvent = function(){
-        boton.disabled = false;
-        document.getElementById("controlesprincipales").removeChild(formulario);
-    });
+    let handlerBotonCancelar = new CancelarBotonFormulario();
+    handlerBotonCancelar.formulario = formulario;
+    handlerBotonCancelar.boton = boton;
+    handlerBotonCancelar.elemento = "controlesprincipales";
+
+    botonCancelar.addEventListener("click", handlerBotonCancelar);
     
 }
 
@@ -202,6 +192,28 @@ function EditarHandle(){
         repintar();
     };
 
+}
+function AnyadirGastoFormularioHandler(){
+    this.handleEvent = function(){
+        let descForm = this.formulario.elements.descripcion.value;
+        let valForm = this.formulario.elements.valor.value;
+        let fechForm = this.formulario.elements.fecha.value;
+        let etForm = this.formulario.elements.etiquetas.value;
+        let etiqForm = new Array();
+        etiqForm = etForm.split(",");
+        let gastoForm = new metodosGastos.CrearGasto(descForm,parseFloat(valForm), fechForm, ...etiqForm);
+        metodosGastos.anyadirGasto(gastoForm);
+        this.boton.disabled = false;
+        document.getElementById("controlesprincipales").removeChild(this.formulario);
+        repintar();
+    }
+}
+
+function CancelarBotonFormulario(){
+    this.handleEvent = function(){
+        this.boton.disabled = false;
+        document.getElementById(this.elemento).removeChild(this.formulario);
+    }
 }
 
 function EditarHandleFormulario(){
