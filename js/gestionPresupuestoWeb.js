@@ -34,11 +34,32 @@ function mostrarGastoWeb(idElemento, gasto){
     divGasto.append(divGastoEti);
 
     for (let et of gasto.etiquetas){
+        let objBorrarEti = new BorrarEtiquetasHandle();
+        objBorrarEti.gasto = gasto;
         let spanGastoEti = document.createElement('span');
         spanGastoEti.classList.add('gasto-etiquetas-etiqueta');
         spanGastoEti.innerHTML = et;
+        objBorrarEti.etiqueta = et;
+        spanGastoEti.addEventListener('click', objBorrarEti);
         divGastoEti.append(spanGastoEti);
     }
+
+    let botonE = document.createElement('button');
+    botonE.classList.add('gasto-editar');
+    botonE.innerHTML = 'Editar';
+    let objEditar = new EditarHandle();
+    objEditar.gasto = gasto;
+    botonE.addEventListener("click",objEditar);
+    divGasto.append(botonE);
+
+    let botonB = document.createElement('button');
+    botonB.classList.add('gasto-borrar');
+    botonB.innerHTML = 'Borrar';
+    let objBorrar = new BorrarHandle();
+    objBorrar.gasto = gasto;
+    botonB.addEventListener("click",objBorrar);
+    divGasto.append(botonB);
+
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -108,13 +129,51 @@ function nuevoGastoWeb(){
     let fec = new Date(prompt('Introduzca una fecha')).toLocaleDateString();
     let eti = prompt('Introduzca una etiqueta(seguida de una coma)'); 
     eti = eti.split(', ');
+
     let gasto1 = new gP.CrearGasto(des, val, fec, eti);
+
     gP.anyadirGasto(gasto1);
+
     repintar();
 }
 
 let b2 = document.getElementById('anyadirgasto');
 b2.addEventListener("click",nuevoGastoWeb);
+
+function EditarHandle(){
+    this.handleEvent = function(event){
+        let des = prompt('Edita la descripción del gasto');
+        let val = parseFloat(prompt('Edita el valor del gasto'));
+        let fec = new Date(prompt('Edita la fecha del gasto')).toLocaleDateString();
+        let eti = prompt('Edita las etiquetas del gasto(seguida de una coma)'); 
+        eti = eti.split(', ');
+
+        this.gasto.actualizarValor(val);
+        this.gasto.actualizarDescripcion(des);
+        this.gasto.actualizarFecha(fec);
+        this.gasto.anyadirEtiquetas(eti);
+
+        repintar();
+    }
+}
+
+function BorrarHandle(){
+    this.handleEvent = function(event){
+
+        gP.borrarGasto(this.gasto.id);
+
+        repintar();
+    }
+}
+
+function BorrarEtiquetasHandle(){
+    this.handleEvent = function(event){
+
+        this.gasto.borrarEtiquetas(this.etiqueta);
+
+        repintar();
+    }
+}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
