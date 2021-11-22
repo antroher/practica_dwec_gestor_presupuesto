@@ -224,9 +224,11 @@ function AnyadirGastoFormularioHandler(){
 }
 
 function CancelarBotonFormulario(){
-    this.handleEvent = function(){
+    this.handleEvent = function(event){
         this.boton.disabled = false;
-        this.elemento.removeChild(this.formulario);
+        //this.elemento.removeChild(this.formulario);
+        //this.formulario.parentNode.removeChild(this.formulario);
+        //event.currentTarget.parentNode.removeChild(this.formulario);
     }
 }
 
@@ -242,7 +244,7 @@ function EditarHandleFormulario(){
 
         let aplicarEdit = new AplicarEditForm();
         aplicarEdit.gasto = this.gasto;
-        aplicarEdit.formulario = this.formulario;
+        aplicarEdit.formulario = formulario;
         aplicarEdit.boton = this.boton;
         aplicarEdit.elemento = this.elemento;
 
@@ -262,7 +264,8 @@ function EditarHandleFormulario(){
 
 
 function AplicarEditForm(){
-    this.handleEvent = function(){
+    this.handleEvent = function(event){
+        event.preventDefault();
         this.gasto.actualizarDescripcion(this.formulario.elements.descripcion.value);
         this.gasto.actualizarFecha(this.formulario.elements.fecha.value);
         this.gasto.actualizarValor(this.formulario.elements.valor.value);
@@ -272,6 +275,7 @@ function AplicarEditForm(){
         this.gasto.anyadirEtiquetas(...etiqForm);
         this.boton.disabled = false;
         this.elemento.removeChild(this.formulario);
+        console.log(metodosGastos.calcularTotalGastos());
         repintar();
 
     }
