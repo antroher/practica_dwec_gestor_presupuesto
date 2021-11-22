@@ -432,9 +432,14 @@ function agruparGastos(periodo = "mes", etiquetasEntrante = [], fechaDesdeEntran
 }
 
 function transformarListadoEtiquetas(etiquetasEntrantes) {
-    let tagReformed = etiquetasEntrantes.replaceAll(/,|.| |;|:/g, ",");
-    let etiquetasFinales = tagReformed.split(",")
-    return etiquetasFinales;
+    //Realizado del filtrado de las etiquetas
+    let filtredTags = etiquetasEntrantes.split(/[;.:,\s]/);
+
+    //Eliminado de string vacias dentro del array mediante la función filter.
+    let finalTags = filtredTags.filter(tag => tag !== "");
+
+    //Devolución de las etiquetas correctamente transformadas.
+    return finalTags;
 }
 
 

@@ -140,9 +140,43 @@
 // }
 // document.getElementById("actualizarpresupuesto").addEventListener("click", dibujar);
 
-function etiquetas (etiquetas) {
-    let prueba = etiquetas.replaceAll(/-|,| |'/g, ",")
-    return prueba;
+// function etiquetas (etiquetas) {
+//     let filtredTags = etiquetas.split(/[;.:,\s]/);
+    
+//     return filtredTags;
+// }
+
+
+
+// let etiquetasdsa = etiquetas("eti1,    ;:eti2")
+// let hola = etiquetasdsa.filter(etiqueta => etiqueta)
+// console.log(hola)
+
+
+
+// function etiquetas (etiquetas) {
+//     let filtredTags = etiquetas.replaceAll(/[;:,]/g,",")
+//     return filtredTags;
+// }
+
+// let etiquetasdsa = etiquetas("eti1,;:eti2")
+// let etiquetasextra = etiquetasdsa.split(",")
+// console.log(etiquetasextra[2]);
+// if(etiquetasextra[2] === "") {
+//     console.log("true");
+// }
+// let nuevasetiquetas = etiquetasextra.splice(2, 1);
+// console.log(nuevasetiquetas);
+
+function transformarListadoEtiquetas(etiquetasEntrantes) {
+    //Realizado del filtrado de las etiquetas
+    let filtredTags = etiquetasEntrantes.split(/[;.:,\s]/);
+
+    //Eliminado de string vacias dentro del array mediante la función filter.
+    let finalTags = filtredTags.filter(tag => tag !== "");
+
+    //Devolución de las etiquetas correctamente transformadas.
+    return finalTags;
 }
 
-console.log(etiquetas("hola-sas,asdsa asd"));
+console.log(transformarListadoEtiquetas('eti1,         ;:;:.;,     eti2'))

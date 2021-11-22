@@ -400,6 +400,21 @@ function EditarHandleFormulario() {
     }
 }
 
+function filtrarGastoWeb () {
+    event.preventDefault();
+
+    let filterDescription = document.getElementById("formulario-filtrado-descripcion").value;
+    let filterMinValue = document.getElementById("formulario-filtrado-valor-minimo").value;
+    let filterMaxValue = document.getElementById("formulario-filtrado-valor-maximo").value;
+    let filterFromDate = document.getElementById("formulario-filtrado-fecha-desde").value;
+    let filterUntilDate = document.getElementById("formulario-filtrado-fecha-hasta").value;
+    let filterContainTags = document.getElementById("formulario-filtrado-etiquetas-tiene").value;
+
+    if (typeof filterContainTags !== "undefined") {
+        gP.transformarListadoEtiquetas(filterContainTags);
+    }
+
+}
 
 //Funciones a exportar para el test.
 export {
