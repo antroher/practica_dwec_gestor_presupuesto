@@ -128,7 +128,7 @@ El repositorio se ha configurado para que se *ejecuten los tests automáticament
      - https://es.javascript.info/regexp-methods#str-match-regexp
      - https://es.javascript.info/regexp-character-sets-and-ranges#rangos
      
-     Por último, se deberá [[https://es.javascript.info/import-export#export-separado-de-la-declaracion][exportar]] la función ~transformarListadoEtiquetas~ para poder testearla.
+     Por último, se deberá [[https://es.javascript.info/import-export#export-separado-de-la-declaracion][exportar]] la función ~transformarListadoEtiquetas~.
      
 *** Fichero ~js/gestionPresupuestoWeb.js~ 
     Vamos a hacer una serie de modificaciones sobre este fichero con respecto a la práctica anterior.

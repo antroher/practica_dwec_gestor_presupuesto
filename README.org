@@ -31,3 +31,4 @@
   - [[./enunciados/eventos.org][Eventos en JavaScript]]
   - [[./enunciados/formularios.org][Formularios y JavaScript]]
   - [[./enunciados/regexp.org][Expresiones regulares]]
+  - [[./enunciados/almacenamiento.org][Almacenamiento en el navegador]]
