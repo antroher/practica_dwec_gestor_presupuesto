@@ -78,11 +78,3 @@ gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", agrupacion ,"m
 agrupacion = gestionPresupuesto.agruparGastos("anyo");
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", agrupacion ,"año");
 
-/**** EVENTOS DE LOS BOTONES ****/
-
-//Forma 1 --> Creas una función en una variable y la añades al listener del botón deseado.
-let btnActualizarPresupuesto = document.getElementById("actualizarpresupuesto");
-btnActualizarPresupuesto.addEventListener("click", () => gestionPresupuestoWeb.actualizarPresupuestoWeb());
-
-let btnAnyadirgasto = document.getElementById("anyadirgasto");
-btnAnyadirgasto.addEventListener("click",gestionPresupuestoWeb.nuevoGastoWeb);

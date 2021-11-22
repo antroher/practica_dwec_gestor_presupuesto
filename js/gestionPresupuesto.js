@@ -149,7 +149,8 @@ function borrarGasto(id) {
 function calcularTotalGastos() {
   let totalGastos = 0;
   for (let i in gastos) {
-    totalGastos += gastos[i].valor;
+
+    totalGastos += parseFloat(gastos[i].valor);
   }
   return totalGastos;
 }
