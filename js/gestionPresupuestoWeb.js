@@ -45,7 +45,7 @@ function mostrarGastoWeb(idElemento, gasto)
         {
             let botonBorrarEtiquetas = new BorrarEtiquetasHandle();
             botonBorrarEtiquetas.gasto = gasto;
-            botonBorrarEtiquetas.etiqueta = etiq;
+            botonBorrarEtiquetas.etiqueta = etiq; //* ETIQUETA *A
             spanEtiquetas.addEventListener('click', botonBorrarEtiquetas);        
         }
     }
@@ -81,20 +81,18 @@ function mostrarGastoWeb(idElemento, gasto)
         let gastoActual = document.getElementById(gasto.id);
         gastoActual.append(botonEditar,botonBorrar);  
         
-        //boton editar formulario
+        //boton editar formulario -> PRACTICA 6
         let botonEditForm = document.createElement('button');
         botonEditForm.className += 'gasto-editar-formulario';
-        botonEditar.textContent = 'Editar (formulario)';
-        botonEditar.type = 'button';
+        botonEditForm.textContent = 'Editar (formulario)';
+        botonEditForm.type = 'button';
 
         let editarFormNew = new EditarHandleFormulario();
-        editarFormNew.gasto = gasto;
+        editarNew.gasto = gasto;
 
-        botonEditForm.addEventListener('click', editarNew); 
-
-    }
-   
-       
+        botonEditForm.addEventListener('click', editarFormNew); 
+        gastoActual.append(botonEditForm);
+    }      
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
@@ -195,12 +193,12 @@ function BorrarEtiquetasHandle()
 {
     this.handleEvent = function(event)
     {        
-        this.gasto.borrarEtiquetas(this.etiqueta);        
+        this.gasto.borrarEtiquetas(this.etiqueta);  //*OJO CON ETIQUETA *A      
         repintar();
     }
 }
 
-function nuevoGastoWebFormulario()
+function nuevoGastoWebFormulario() //PRACTICA 6 - a y b
 {
     //Copia en enunciado
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
@@ -227,7 +225,7 @@ let anyadirgastoForm = document.getElementById("anyadirgasto-formulario");
 anyadirgastoForm.addEventListener('click', nuevoGastoWebFormulario);
 
 
-function EnviarFormularioHandle()
+function EnviarFormularioHandle() //PRACTICA 6 - a y b
 {
     this.handleEvent = function(event)
     {
@@ -247,7 +245,7 @@ function EnviarFormularioHandle()
     }    
 }
 
-function CancelarFormularioHandle()
+function CancelarFormularioHandle() //PRACTICA 6 - a y b
 {
     this.handleEvent = function(event)
     {
@@ -257,11 +255,57 @@ function CancelarFormularioHandle()
     }
 }
 
-function EditarHandleFormulario()
+function EditarHandleFormulario() //PRACTICA 6 - c y d
 {
     this.handleEvent = function(event) 
     {
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+        var formulario = plantillaFormulario.querySelector("form");
+
+        let divContrPrinc = document.getElementById("controlesprincipales");
+        divContrPrinc.append(formulario);
+
+        let accesoEditForm = event.currentTarget;
+        accesoEditForm.append(formulario);
+        accesoEditForm.disabled = true;
+
+        formulario.descripcion.value = this.gasto.descripcion;
+        formulario.valor.value = parseFloat(this.gasto.valor);
+        formulario.fecha.value = new Date(this.gasto.fecha).toISOString().substr(0,10);
+        formulario.etiquetas.value = this.gasto.etiquetas; 
+
+        //Boton Enviar
+        let enviarFormulario = new EnviarHandle();
+        enviarFormulario.gasto = this.gasto;
+        formulario.addEventListener('submit', enviarFormulario);
+
+        //Boton Cancelar
+        let cancelarFormulario = new CancelarFormularioHandle();
+        let botonCancelarFormulario = formulario.querySelector("button.cancelar");
+        botonCancelarFormulario.addEventListener('click', cancelarFormulario);
+    }
+}
+
+function EnviarHandle() //PRACTICA 6 - c y d
+{
+    this.handleEvent = function(event) 
+    {
+        event.preventDefault();
+        let accesoEnvH = event.currentTarget;
         
+        let desc = accesoEnvH.descripcion.value;
+        this.gasto.actualizarDescripcion(desc);
+
+        let val = parseFloat(accesoEnvH.valor.value);
+        this.gasto.actualizarValor(val);
+
+        let fec = accesoEnvH.fecha.value;
+        this.gasto.actualizarFecha(fec);
+
+        let etique = accesoEnvH.etiquetas.value; 
+        this.gasto.anyadirEtiquetas(etique);           
+
+        repintar();
     }
 }
 

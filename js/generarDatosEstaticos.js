@@ -62,7 +62,6 @@ for (let gasto of fltGasto2)
     gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-2', gasto);
 }
 
-
 //Mostrar el listado de gastos de más de 200€ con etiqueta seguros en div#listado-gastos-filtrado-3
 let mas200conSeguros =
 {
