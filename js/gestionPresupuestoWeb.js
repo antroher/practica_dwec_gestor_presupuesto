@@ -88,7 +88,7 @@ function mostrarGastoWeb(idElemento, gasto)
         botonEditForm.type = 'button';
 
         let editarFormNew = new EditarHandleFormulario();
-        editarNew.gasto = gasto;
+        editarFormNew.gasto = gasto;
 
         botonEditForm.addEventListener('click', editarFormNew); 
         gastoActual.append(botonEditForm);
