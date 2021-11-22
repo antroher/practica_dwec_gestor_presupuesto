@@ -2,11 +2,11 @@ import * as gestionPresupuesto from './gestionPresupuesto.js';
 import * as gestionPresupuestoWeb from './gestionPresupuestoWeb.js';
 
 // Controladores
-let boton = document.getElementById('actualizarpresupuesto');
-boton.onclick = gestionPresupuestoWeb.actualizarPresupuestoWeb;
+let btnActualizar = document.getElementById('actualizarpresupuesto'); 
+btnActualizar.onclick = gestionPresupuestoWeb.actualizarPresupuestoWeb;
 
-let boton2 = document.getElementById('anyadirgasto');
-boton2.onclick = gestionPresupuestoWeb.nuevoGastoWeb;
+let btnAnyadir = document.getElementById('anyadirgasto');
+btnAnyadir.onclick = gestionPresupuestoWeb.nuevoGastoWeb;
 
 gestionPresupuesto.actualizarPresupuesto(1500);
 gestionPresupuestoWeb.mostrarDatoEnId('presupuesto', gestionPresupuesto.mostrarPresupuesto());
@@ -24,7 +24,7 @@ gestionPresupuestoWeb.mostrarDatoEnId('balance-total', gestionPresupuesto.calcul
 let gastos = gestionPresupuesto.listarGastos();
 gastos.forEach(exp => {gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-completo', exp);});
 
-let gastosFilt = gestionPresupuesto.filtrarGastos({fechaDesde: '2021-09-01', fechaHasta:'2021-09-30'});
+let gastosFilt = gestionPresupuesto.filtrarGastos({fechaDesde: '2021-09-01', fechaHasta: '2021-09-30'});
 gastosFilt.forEach(gastoFiltrado => {gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-1', gastoFiltrado);});
 
 gastosFilt = gestionPresupuesto.filtrarGastos({valorMinimo: 50});
@@ -36,6 +36,6 @@ gastosFilt.forEach(gastoFiltrado => {gestionPresupuestoWeb.mostrarGastoWeb('list
 gastosFilt = gestionPresupuesto.filtrarGastos({valorMaximo: 50, etiquetasTiene: ['comida','transporte']});
 gastosFilt.forEach(gastoFiltrado => {gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-4', gastoFiltrado);});
 
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-dia',gestionPresupuesto.agruparGastos('dia'),'día');
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-mes',gestionPresupuesto.agruparGastos('mes'),'mes');
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-anyo',gestionPresupuesto.agruparGastos('anyo'),'año');
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-dia',gestionPresupuesto.agruparGastos('dia'), 'día');
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-mes',gestionPresupuesto.agruparGastos('mes'), 'mes');
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-anyo',gestionPresupuesto.agruparGastos('anyo'), 'año');
