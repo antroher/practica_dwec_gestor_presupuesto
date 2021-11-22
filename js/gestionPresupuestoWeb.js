@@ -4,7 +4,8 @@ import * as gP from './gestionPresupuesto.js';
 
 document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb);
-document.getElementById("anyadirgasto-formulario").addEventListener('click', nuevoGastoWebFormulario)
+document.getElementById("anyadirgasto-formulario").addEventListener('click', nuevoGastoWebFormulario);
+document.getElementById("formulario-filtrado").addEventListener('submit', filtrarGastoWeb)
 
 
 function mostrarDatoEnId(idElemento, valor) {
@@ -409,11 +410,16 @@ function filtrarGastoWeb () {
     let filterFromDate = document.getElementById("formulario-filtrado-fecha-desde").value;
     let filterUntilDate = document.getElementById("formulario-filtrado-fecha-hasta").value;
     let filterContainTags = document.getElementById("formulario-filtrado-etiquetas-tiene").value;
+    console.log(filterDescription);
 
     if (typeof filterContainTags !== "undefined") {
-        gP.transformarListadoEtiquetas(filterContainTags);
+       filterContainTags = gP.transformarListadoEtiquetas(filterContainTags);
     }
 
+    let gastosFiltrados = gP.filtrarGastos({filterDescription, filterMinValue, filterMaxValue, filterFromDate, filterUntilDate, filterContainTags});
+    console.log(gastosFiltrados);
+
+    mostrarGastoWeb("listado-gasto-completo", gastosFiltrados);
 }
 
 //Funciones a exportar para el test.
