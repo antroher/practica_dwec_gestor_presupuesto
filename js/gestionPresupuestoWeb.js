@@ -87,19 +87,6 @@ function repintar() {
     }
 }
 
-/*function formatearFecha(date) {
-    let d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
-    return [year, month, day].join('-');
-}*/
-
 function actualizarPresupuestoWeb()  {
     let pres = parseFloat(prompt(`Hey amigo, introduce tu presupuesto`));
     gesPres.actualizarPresupuesto(pres);
@@ -163,14 +150,15 @@ function BorrarEtiquetasHandle() {
 
 function submitHandle(e) {
     this.handleEvent = function(e){
-        e.preventDefault();let formulario = e.currentTarget;
-        let des = formulario.elements.descripcion.value;
+        e.preventDefault();
+        let form = e.currentTarget;
+        let des = form.elements.descripcion.value;
         this.gasto.actualizarDescripcion(des);
-        let val = parseFloat(formulario.elements.valor.value);
+        let val = parseFloat(form.elements.valor.value);
         this.gasto.actualizarValor(val);
-        let fec = formulario.elements.fecha.value;
+        let fec = form.elements.fecha.value;
         this.gasto.actualizarFecha(fec);
-        let eti = formulario.elements.etiquetas.value;
+        let eti = form.elements.etiquetas.value;
         this.gasto.anyadirEtiquetas(eti);
         repintar();
     }
@@ -184,8 +172,8 @@ function enviarGastoFormHandle(){
          let valor = parseFloat(formulario.elements.valor.value);
          let fecha = formulario.elements.fecha.value;
          let etiquetas = formulario.elements.etiquetas.value;
-        let gastoNuevo = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, etiquetas);
-        gestionPresupuesto.anyadirGasto(gastoNuevo);
+        let gastoNuevo = new gesPres.CrearGasto(descripcion, valor, fecha, etiquetas);
+        gesPres.anyadirGasto(gastoNuevo);
         repintar();
         document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
     }
