@@ -272,9 +272,10 @@ function EditarHandleFormulario(){
             g.actualizarDescripcion(formulario.elements.descripcion.value);
             g.actualizarValor(parseFloat(formulario.elements.valor.value));
             g.actualizarFecha(formulario.elements.fecha.value);
-            let etiquetas=formulario.elements.etiquetas;
-            etiquetas=etiquetas.value.split(",");
-            g.anyadirEtiquetas(...etiquetas);
+            let etiquetasForm=formulario.elements.etiquetas;
+            etiquetasForm=etiquetasForm.value.split(",");
+            g.borrarEtiquetas(...g.etiquetas);
+            g.anyadirEtiquetas(...etiquetasForm);
             botonEditG.disabled=false;
             divG.removeChild(formulario);
             repintar();
