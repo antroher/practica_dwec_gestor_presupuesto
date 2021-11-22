@@ -55,12 +55,14 @@ function mostrarDatoEnId(idElemento,valor){
             btnBorrar.textContent = "Borrar";
             btnBorrar.type = 'button';
         
-            let btnEnviar = document.createElement("button");
-            btnEnviar.className += 'gasto-editar-formulario';
-            btnEnviar.textContent = "Editar (formulario)";
-            btnEnviar.type = "button"
-            //Sepracion de gastos, me la ha enseñado un compañero
+               //Formulario
+            let btnEditForm = document.createElement("button");
+            btnEditForm.className += 'gasto-editar-formulario';
+            btnEditForm.textContent = "Editar (formulario)";
+            btnEditForm.type = "button"
 
+
+            //Sepracion de gastos, me la ha enseñado un compañero
             let divSeparador = document.createElement('div');
             divSeparador.className = 'salto';
             divSeparador.textContent = "----------------------------------"
@@ -75,11 +77,15 @@ function mostrarDatoEnId(idElemento,valor){
             btnEdit.addEventListener('click',editar);
             btnBorrar.addEventListener('click',borrar);
             
+         
+
+            
             
             elGasto.append(btnEdit);
             elGasto.append(btnBorrar);
-            elGasto.append(btnEnviar);
+            elGasto.append(btnEditForm);
             elGasto.append(divSeparador);
+ 
 
            }
         
