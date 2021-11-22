@@ -224,11 +224,9 @@ function AnyadirGastoFormularioHandler(){
 }
 
 function CancelarBotonFormulario(){
-    this.handleEvent = function(event){
+    this.handleEvent = function(){
         this.boton.disabled = false;
-        //this.elemento.removeChild(this.formulario);
-        //this.formulario.parentNode.removeChild(this.formulario);
-        //event.currentTarget.parentNode.removeChild(this.formulario);
+        this.elemento.removeChild(this.formulario);
     }
 }
 
@@ -250,11 +248,11 @@ function EditarHandleFormulario(){
 
 
         this.boton.disabled = true;
-        formulario.addEventListener("subimt", aplicarEdit);
+        formulario.addEventListener("submit", aplicarEdit);
 
         let botonCancelar = formulario.querySelector("button.cancelar");
         let handlerBotonCancelar = new CancelarBotonFormulario();
-        handlerBotonCancelar.formulario = this.formulario;
+        handlerBotonCancelar.formulario = formulario;
         handlerBotonCancelar.boton = this.boton;
         handlerBotonCancelar.elemento = this.elemento;
         botonCancelar.addEventListener("click", handlerBotonCancelar);
@@ -268,7 +266,7 @@ function AplicarEditForm(){
         event.preventDefault();
         this.gasto.actualizarDescripcion(this.formulario.elements.descripcion.value);
         this.gasto.actualizarFecha(this.formulario.elements.fecha.value);
-        this.gasto.actualizarValor(this.formulario.elements.valor.value);
+        this.gasto.actualizarValor(parseFloat(this.formulario.elements.valor.value));
         let etiqForm = new Array();
         etiqForm = this.formulario.elements.etiquetas.value.split(",");
         this.gasto.borrarEtiquetas(...this.gasto.etiquetas);
