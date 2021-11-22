@@ -49,18 +49,16 @@ function CrearGasto(des, v, fec = Date.now(), ...etiq) {
     if (comprobarNumNegativo(v)){
         v = 0;
     }
-    
-    let gasto = {
 
-        descripcion: des,
+        this.descripcion = des,
 
-        valor: v,
+        this.valor = v,
   
-        etiquetas: [...etiq],
+        this.etiquetas = [...etiq],
 
-        fecha: (typeof fec == 'string') ? Date.parse(fec) : fec,
+        this.fecha = (typeof fec == 'string') ? Date.parse(fec) : fec,
 
-        mostrarGasto(){
+        this.mostrarGasto = function(){
 
             let texto = 'Gasto correspondiente a ' + this.descripcion + 
             ' con valor ' + this.valor + ' €';
@@ -68,7 +66,7 @@ function CrearGasto(des, v, fec = Date.now(), ...etiq) {
         },
 
 
-        mostrarGastoCompleto(){
+        this.mostrarGastoCompleto = function(){
               
             let fechaDate = new Date(this.fecha);
             let texto = this.mostrarGasto() + '.' + '\nFecha: ' + fechaDate.toLocaleString() + 
@@ -81,17 +79,17 @@ function CrearGasto(des, v, fec = Date.now(), ...etiq) {
             return texto;
         },
 
-        actualizarDescripcion(newDes){
+        this.actualizarDescripcion = function(newDes){
             this.descripcion = newDes;
         },
 
-        actualizarValor(newV){
+        this.actualizarValor = function(newV){
             if (!comprobarNumNegativo(newV)){
                 this.valor = newV;
             }
         },
 
-        actualizarFecha(newFec){
+        this.actualizarFecha = function(newFec){
             if (isNaN(Date.parse(newFec))){ 
             }
             else{
@@ -99,7 +97,7 @@ function CrearGasto(des, v, fec = Date.now(), ...etiq) {
             }
         },
 
-        anyadirEtiquetas(...eti){
+        this.anyadirEtiquetas = function(...eti){
             for (let elem of eti){
                 if (!this.etiquetas.includes(elem)){
                     this.etiquetas.push(elem);
@@ -107,7 +105,7 @@ function CrearGasto(des, v, fec = Date.now(), ...etiq) {
             }
         },
 
-        borrarEtiquetas(...nombres){
+        this.borrarEtiquetas = function(...nombres){
             for (let nom of nombres){
                 if (this.etiquetas.includes(nom)){
                     this.etiquetas.splice(this.etiquetas.indexOf(nom),1);
@@ -115,7 +113,7 @@ function CrearGasto(des, v, fec = Date.now(), ...etiq) {
             }  
         },
 
-        obtenerPeriodoAgrupacion(periodo){
+        this.obtenerPeriodoAgrupacion = function(periodo){
 
             let fec = new Date(this.fecha); //convierte en objeto fecha
 
@@ -142,9 +140,6 @@ function CrearGasto(des, v, fec = Date.now(), ...etiq) {
             }
             return cadena;
         }
-    };
-
-    return gasto;
 }
 
 function listarGastos(){
