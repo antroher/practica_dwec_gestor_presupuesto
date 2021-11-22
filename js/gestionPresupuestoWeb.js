@@ -111,11 +111,25 @@ function mostrarGastoWeb(idElemento,gasto)
                  buttonDelete.className = "gasto-borrar";
                  buttonDelete.textContent = "Borrar";
                  buttonDelete.addEventListener("click", borrarHandler);
+
+
+                 //Objeto editar formulario con evente
+
+                 let EditarFormHandler= new EditarHandleFormulario();
+                 EditarFormHandler.gasto=gasto;
+
+                 let buttonEditForm= document.createElement("button");
+                 buttonEditForm.className="gasto-editar-formulario";
+                 buttonEditForm.textContent="Editar (formulario)";
+                 buttonEditForm.addEventListener("click",editHandler)
                 
                  if(idElemento === "listado-gastos-completo"){
                      divPrincipal.append(buttonEdit);
                      divPrincipal.append(buttonDelete);
+                     divPrincipal.append(buttonEditForm);
                  }
+
+                 
 
 
 }
@@ -275,28 +289,54 @@ agroupText+="<div class='agrupacion-dato'>\n"
                  +agroupText
                  +"</div>\n</div>\n";
 }
+}
+
 
 
 
 
 //PRACTICA 6
-  function nuevoGastoWebFormulario()
-    {
-      let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
-      var formulario = plantillaFormulario.querySelector("form");
-      var plantillaFormulario= formulario.getElementById()
 
-      let span = document.createElement("span");
-      span.className += "gasto-etiquetas-etiqueta";
-      span.textContent = item + " ";
-      if(idElemento === "listado-gastos-completo"){
-          
-          span.addEventListener("click", borrarEtiquetas);
-      }
-      divGE.append(span);
-    }
+function submitEditHandle () {
+ 
 }
 
+function cancelarEditHandle () {
+  this.handleEvent = function() {
+      this.formulario.remove();
+      document.getElementById(`gasto-editar-formulario-${this.gasto.id}`).disabled = false;
+  }
+}
+
+function cancelarHandle () {
+  this.handleEvent = function() {
+      this.formulario.remove();
+      document.getElementById("anyadirgasto-formulario").disabled = false;
+  }
+}
+
+
+  function nuevoGastoWebFormulario()
+    {
+      let cancel = new cancelarHandle();
+      let submit = new submitHandle();
+      let form ;
+      form= document.getElementById("formulario-template").content.cloneNode(true).querySelector("form");
+   
+    document.getElementById("controlesprincipales").append(form);
+
+    document.getElementById('anyadirgasto-formulario').disabled = true;
+    
+    form.addEventListener('submit', submit);
+
+    cancel.formulario = form;
+    form.querySelector("button[class='cancelar']").addEventListener('click', cancel);
+}
+
+function EditarHandleFormulario(){
+
+}
+  
 
 
 
@@ -311,5 +351,6 @@ export{
     EditarHandle,
     BorrarHandle,
     BorrarEtiquetasHandle,
-    nuevoGastoWebFormulario
+    nuevoGastoWebFormulario,
+    EditarHandleFormulario
 }
