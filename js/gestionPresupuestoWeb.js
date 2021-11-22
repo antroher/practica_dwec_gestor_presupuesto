@@ -293,12 +293,39 @@ function EditarHandleFormulario(){
     }
 }
 
+function FiltrarGastosWeb(){
+    this.handleEvent=function(){
+        let formulario = document.getElementById("formulario-filtrado");
+        formulario.addEventListener("submit",this.handleEvent=function(event){
+            event.preventDefault();
+            let desc=document.getElementById("formulario-filtrado-descripcion").value;
+            let vmin = parseFloat(document.getElementById("formulario-filtrado-valor-minimo").value);
+            let vmax = parseFloat(document.getElementById("formulario-filtrado-valor-maximo").value);
+            let fini = document.getElementById("formulario-filtrado-fecha-desde").value;
+            let ffin=document.getElementById("formulario-filtrado-fecha-hasta").value;
+            let etiq=document.getElementById("formulario-filtrado-etiquetas-tiene").value;
+            let etiquetasBuscar=[];
+            if(etiq!=="" && typeof etiq !== 'undefined'){
+                etiquetasBuscar=gp.transformarListadoEtiquetas(etiq);
+            }
+            let filtro ={fechaDesde:fini,fechaHasta:ffin,valorMinimo:vmin,valorMaximo:vmax,descripcionContiene:desc,etiquetasTiene:etiquetasBuscar};
+            let gfiltrados=gp.filtrarGastos(filtro);
+            document.getElementById("listado-gastos-completo").innerHTML="";
+            gfiltrados.forEach(gf => {
+                mostrarGastoWeb("listado-gastos-completo",gf);
+            });
+        });
+
+    }
+}
+
 let boton=document.getElementById("actualizarpresupuesto");
 boton.onclick=actualizarPresupuestoWeb;
 let boton2=document.getElementById("anyadirgasto");
 boton2.onclick=nuevoGastoWeb;
 let botonAnyadirForm=document.getElementById("anyadirgasto-formulario");
 botonAnyadirForm.onclick=nuevoGastoWebFormulario;
+
 
 
 export   {
