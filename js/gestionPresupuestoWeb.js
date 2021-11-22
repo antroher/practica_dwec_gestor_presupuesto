@@ -117,7 +117,8 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
 
 }
 
-function repintar(){
+function repintar()
+{
     document.getElementById('presupuesto').innerHTML = '';
     document.getElementById('balance-total').innerHTML = '';
     document.getElementById('gastos-totales').innerHTML = '';
@@ -147,7 +148,8 @@ function repintar(){
     
 }
 
-function actualizarPresupuestoWeb(){
+function actualizarPresupuestoWeb()
+{
     let presupuesto = prompt('Introduce un presupuesto nuevo');
     presupuesto = parseInt(presupuesto);
 
@@ -156,7 +158,8 @@ function actualizarPresupuestoWeb(){
     repintar();
 }
 
-function nuevoGastoWeb(){
+function nuevoGastoWeb()
+{
     let descrip = prompt('Introduce la descripción del gasto: ');
     let valor = prompt('Introduce el valor del gasto: ');
     let fecha = prompt('Introduce la fecha del gasto: ');
@@ -172,14 +175,16 @@ function nuevoGastoWeb(){
     repintar();
 }
 
-function BorrarHandle(){
+function BorrarHandle()
+{
     this.handleEvent = function()
     {
         gestionpre.borrarGasto(this.gasto.id);
         repintar();
     };
  }
- function BorrarEtiquetasHandle(){
+ function BorrarEtiquetasHandle()
+ {
     this.handleEvent = function()
     {
         this.gasto.borrarEtiquetas(this.etiqueta);
@@ -189,7 +194,8 @@ function BorrarHandle(){
 
  function EditarHandle(){
 
-    this.handleEvent = function(e){
+    this.handleEvent = function(e)
+    {
        //Pedir datos al usuario
        let descri = prompt("Introduce la descripción nueva: ", this.gasto.descripcion);
        let v1 = prompt("Introduce el valor nuevo: ", this.gasto.valor);
