@@ -79,8 +79,21 @@ function mostrarGastoWeb(idElemento, gasto)
         botonBorrar.addEventListener('click', borrarNew);
 
         let gastoActual = document.getElementById(gasto.id);
-        gastoActual.append(botonEditar,botonBorrar);
+        gastoActual.append(botonEditar,botonBorrar);  
+        
+        //boton editar formulario
+        let botonEditForm = document.createElement('button');
+        botonEditForm.className += 'gasto-editar-formulario';
+        botonEditar.textContent = 'Editar (formulario)';
+        botonEditar.type = 'button';
+
+        let editarFormNew = new EditarHandleFormulario();
+        editarFormNew.gasto = gasto;
+
+        botonEditForm.addEventListener('click', editarNew); 
+
     }
+   
        
 }
 
@@ -241,6 +254,14 @@ function CancelarFormularioHandle()
         document.getElementById("anyadirgasto-formulario").disabled = false;
         event.currentTarget.parentNode.remove();
         repintar();
+    }
+}
+
+function EditarHandleFormulario()
+{
+    this.handleEvent = function(event) 
+    {
+        
     }
 }
 
