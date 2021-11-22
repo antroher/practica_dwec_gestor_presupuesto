@@ -55,11 +55,7 @@ function mostrarDatoEnId(idElemento,valor){
             btnBorrar.textContent = "Borrar";
             btnBorrar.type = 'button';
         
-               //Formulario
-            let btnEditForm = document.createElement("button");
-            btnEditForm.className += 'gasto-editar-formulario';
-            btnEditForm.textContent = "Editar (formulario)";
-            btnEditForm.type = "button"
+           
 
 
             //Sepracion de gastos, me la ha enseñado un compañero
@@ -67,6 +63,20 @@ function mostrarDatoEnId(idElemento,valor){
             divSeparador.className = 'salto';
             divSeparador.textContent = "----------------------------------"
             
+               //Formulario
+            let btnEditForm = document.createElement("button");
+            btnEditForm.className += 'gasto-editar-formulario';
+            btnEditForm.textContent = "Editar (formulario)";
+            btnEditForm.type = "button";
+            
+            let editFormulario = new EditarHandleFormulario();
+            editFormulario.gasto = gasto;
+
+            //manejador de eventps del edit del form
+            btnEditForm.addEventListener('click',editFormulario);
+            
+
+            //botones
     
             let editar = new EditarHandle();
             let borrar = new BorrarHandle();
@@ -265,6 +275,21 @@ function mostrarDatoEnId(idElemento,valor){
             formulario.querySelector("button[class='cancelar']").addEventListener('click', cancelForm);
         }
 
+        //selecciona los campos para crear el formulario
+        function submitHandle(){
+            this.handleEvent = function (event){
+                event.preventDe
+            }
+        }
+
+            //Cancelar formulario
+
+        function CancelarFormHandle(){
+            this.handleEvent = function (){
+                //elimina el form
+                    this.formulario.remove();
+            }
+        }
         function EditarHandleFormulario()
         {
             
