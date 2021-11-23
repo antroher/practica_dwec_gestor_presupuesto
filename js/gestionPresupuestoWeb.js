@@ -80,7 +80,29 @@ function mostrarGastoWeb(idElemento, gastos) {
        
         let gastoActual = document.getElementById(gastos.id);
         gastoActual.append(ButtonEditar,ButtonBorrar);
-    }   
+
+        //práctica 6: Añade un segundo botón de edición a la estructura HTML de cada gasto
+    
+    //botones
+    
+        let gastoActual = document.getElementById(gasto.id);;
+
+        let btnGastoForm = document.createElement("button");
+        btnGastoForm.className += 'gasto-editar-formulario';
+        btnGastoForm.textContent = 'Editar (formulario)';
+        btnGastoForm.type = 'button';
+
+        //eventos
+        let eventGatoForm = new nuevoGastoWebFormulario();
+        eventGatoForm.gasto = gastos;
+        
+        btnGastoForm.addEventListener('click',eventGatoForm);
+        gastoActual.append(btnGastoForm);
+    }  
+
+    
+    
+    
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
@@ -150,6 +172,28 @@ function repintar() { //inner HTML faltan filtrados vaciar y volver a llamarlos
         mostrarGastoWeb("listado-gastos-completo", k);
 }
 
+function BorrarHandle() {
+    this.handleEvent = function (event) {
+
+        gestionPresupuesto.borrarGasto(this.gasto.id); //borrar gasto
+        repintar();
+    }
+}
+
+function BorrarEtiquetasHandle() {
+    this.handleEvent = function(event){
+
+        this.gasto.borrarEtiquetas(this.etiqueta);
+        repintar();
+    }
+}
+function cancelFormHandle() {
+    this.handleEvent = function (e){
+        e.currentTarget.parentNode.remove();
+        let btnAddGastForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+        repintar();
+    }
+}
 
 //edita cada gasto tras acción del botón editar de cada gasto
 function EditarHandle() {
@@ -171,51 +215,101 @@ function EditarHandle() {
         repintar();
     }
 }
-function BorrarHandle() {
-    this.handleEvent = function (event) {
 
-        gestionPresupuesto.borrarGasto(this.gasto.id); //borrar gasto
-        repintar();
-    }
-}
 
-function BorrarEtiquetasHandle() {
-    this.handleEvent = function(event){
-
-        this.gasto.borrarEtiquetas(this.etiqueta);
-        repintar();
-    }
-}
-
-//cuando hago click al botón Añadir Gasto Formulario
+//se encarga de cargar la plantilla, modificarla y añadirla a la página
 function nuevoGastoWebFormulario() { 
+    
     // Clona el contenido de la plantilla para reutilizarlo múltiples veces
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
-    document.body.append(plantillaFormulario); // Ahora el script aparece en HTML
     var formulario = plantillaFormulario.querySelector("form"); //Accede al elemento <form>
-    //desactivar boton origen
+    
+    //crear y asociar manejadores de eventos a los botones Enviar y Cancelar
     let controlPrincipal = document.querySelector("#controlesprincipales");
-        controlPrincipal.append(formulario);
-        let Submit = new FormSubmitHandle();
-        let Cancel = new FormCancelHandle();
-        formulario.addEventListener('click',Submit);
-        formulario.addEventListener('click',Cancel);
+    controlPrincipal.append(formulario);
+
+    ledocument.getElementById("anyadirgasto-formulario").setAttribute("disabled");
+
+    //botón enviar
+    let Submit = new FormSubmitHandle();
+    formulario.addEventListener("submit",Submit);
+    //botón cancelar
+    let btnCancelar = formulario.querySelector("button.cancelar");
+    let EventCancel = new FormCancelHandle();
+    btnCancelar.addEventListener('click', EventCancel); //al hacer clic en el boton cancelar
 }
+<<<<<<< HEAD
 
 //enviar botón
 function FormSubmitHandle() {
     this.handleEvent = function(event){
+=======
+>>>>>>> d006d1af5d65c94e51ca2a5d31ad5f4cb7ee59d6
 
-    gastos = gestionPresupuesto.CrearGasto();
-    repintar();
-    removeAtributte("disable"); //habilitar el boón de envío
-    //SetAttribute("disable")//desabilita el botón
+function EditarHandleFormulario() {
+    this.handleEvent = function (event) {
+
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+      var formulario = plantillaFormulario.querySelector("form");
+
+      let controlesPrincipales = document.getElementById("controlesprincipales");
+      controlesPrincipales.append(formulario);
+
+      let accesoEditForm = event.currentTarget;
+      accesoEditForm.append(formulario);
+      accesoEditForm.disabled = true;
+
+      formulario.descripcion.value = this.gasto.descripcion;
+      formulario.valor.value = parseFloat(this.gasto.valor);
+      formulario.fecha.value = new Date(this.gasto.fecha).toISOString().substr(0,10);
+      formulario.etiquetas.value = this.gasto.etiquetas; 
+
+      //Boton Enviar
+      let enviarForm = new FormSubmitHandle();
+      enviarForm.gasto = this.gasto;
+      formulario.addEventListener('submit', enviarForm);
+
+      //Boton Cancelar
+      let cancelarForm = new FormCancelHandle();
+      let botonCancelarFormulario = formulario.querySelector("button.cancelar");
+      botonCancelarFormulario.addEventListener('click', cancelarForm);
     }
 }
-//cancel botón
-function FormCancelHandle() {
+
+//función enviar formulario
+function FormSubmitHandle() {
+    this.handleEvent = function(event){ //manejador que esccuha el evento
     
+    event.preventDefault(); 
+    let Accederformulario = event.currentTarget; //llama al fomulario, objeto llamante de los elementos del formulario
+    
+    let descipcion = Accederformulario.elemnts.descripcion.value //elemento más nombre del imput
+    let valor = parseFloat(Accederformulario.elements.valor.value);
+    let date = Accederformulario.elements.fecha.value;
+    let etiq = Accederformulario.elements.etiquetas.value;
+    
+    let newGasto = new datosPresupuesto.CrearGasto(descipcion,valor,date,etiq);
+      datosPresupuesto.anyadirGasto(newGasto);
+    repintar();
+    let AñadirGatoForm = document.getElementById("#anyadirgasto-formulario");
+    AñadirGatoForm.SetAttribute("disable")//habilitar el botón de envío
+    }
 }
+
+//botón cancelar
+function FormCancelHandle() {
+    this.handleEvent = function (event) { //método
+
+        event.preventDefault();
+        //borra el formulario coguiendo al padre del boton cancelar del formulario
+        event.currentTarget.parentNode.remove();
+        //volver a activar el botón anyadirgasto-formulario
+        let AñadirGatoForm = document.getElementById("#anyadirgasto-formulario");
+        AñadirGatoForm.removeAttribute("disable")//deshabilitar el botón de envío
+        repintar();
+    }
+}
+<<<<<<< HEAD
 
 //manejadora de eventos del gasto
 function EditarHandleformulario(params) {
@@ -227,6 +321,19 @@ function EditarHandleformulario(params) {
     //Crear un nuevo gasto con la información de los campos del formulario
     let NewGatos = new gestionPresupuesto.CrearGasto();
 }
+=======
+//editar un gasto a través de un formulario
+let gastoEditarForm = document.querySelector('#button.gasto-editar-formulario');
+let eventGastoEditarForm = new EditarHandleFormulario();
+gastoEditarForm.addEventListener('click',eventGastoEditarForm);
+
+const anyadirgastoFirmulario = document.getElementById("anyadirgasto-formulario");
+let CargarPlantilla = nuevoGastoWebFormulario();
+anyadirgastoFirmulario.addEventListener('click',CargarPlantilla);
+
+let objCancel = new FormSubmitHandle();
+formulario.addEventListener("cancelar",objCancel);
+>>>>>>> d006d1af5d65c94e51ca2a5d31ad5f4cb7ee59d6
 
 
 export {
@@ -241,19 +348,6 @@ export {
     nuevoGastoWeb    
 }
 /*
-    disable quitarlo para activar de nuevo el boton
-    para submit de editar cada gasto se modifica el submit porqeu se trabaja con mostrar gasto web y se le añade un gasto
-    puedo ver si this.ObjectHasProperty 
-    if(HasOwnProperty(propiedad gasto)
-    rellenarlos con los gastos )
-    en el caso de que se tenga la propiedad gasto
-
-    método querySelectorAll("#boton") para todos los elementos, devuelve todos los elementos se diferencia con 0,1.. o for con el mismo id
-    método querySelector(".gasto#boton")para un unico eleemento,busca en el elemto boton hijo de la clase gasto 
-    getElementById("") si tengo un de gasto para todos devuelve el primero que encuentre mas no todos
-    getElementByClassName("boton editar") colección de elementos hasta el By. 
-    Devuelve la coleccion de la variable de todos los que posean esa clase
-
-    .+ cualquier ocurrencia de cualquier caracter una o muchas veces
-    .* cualquier caracter se repite de ninguna a 
+    event.preventDefault() --> permite que no se recarge la página, es decir que no se envién datos al servidor
+    removeAttribute(); //deshabilitar el botón de envío
 */
