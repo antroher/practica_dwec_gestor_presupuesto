@@ -239,8 +239,16 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta = new 
     },{});
 
     return gastosAgrupar;
+}
 
+function transformarListadoEtiquetas(etiquetas){
+    let regexp = /[a-zA-Z0-9]+/gi;  //Solo palabras
+    let resultado = etiquetas.match(regexp);
+    return resultado;
+}
 
+function cargarGastos(nGastos){
+    gastos = nGastos;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -257,5 +265,6 @@ export   {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
-
+    transformarListadoEtiquetas,
+    cargarGastos,
 }

@@ -71,9 +71,9 @@ let gastosAgruparAnyo = gp.agruparGastos("anyo");
 
 gpw.mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAgruparAnyo, "año");
 
-document.getElementById("actualizarpresupuesto").addEventListener("click", gpw.actualizarPresupuestoWeb);
+//document.getElementById("actualizarpresupuesto").addEventListener("click", gpw.actualizarPresupuestoWeb);
 
-document.getElementById("anyadirgasto").addEventListener("click", gpw.nuevoGastoWeb);
+//document.getElementById("anyadirgasto").addEventListener("click", gpw.nuevoGastoWeb);
 
-document.getElementById("anyadirgasto-formulario").addEventListener("click", gpw.nuevoGastoWebFormulario);
+//document.getElementById("anyadirgasto-formulario").addEventListener("click", gpw.nuevoGastoWebFormulario);
 
