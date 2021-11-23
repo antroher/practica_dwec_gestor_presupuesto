@@ -2,7 +2,7 @@ import * as datosPresupuesto from './gestionPresupuesto.js';
 
 "use strict";
 
-
+//ok
 function mostrarDatoEnId (idElemento, valor)
 {
   let elemento = document.getElementById(idElemento);
@@ -14,7 +14,7 @@ function mostrarDatoEnId (idElemento, valor)
   elemento.appendChild(parrafo);
 }
 
-
+//OK
 function mostrarGastoWeb(idElemento, gasto )/*HAY Q PASARLE UN ARRAY DE GASTO*/ 
 {
   let elemento = document.getElementById(idElemento);
@@ -104,7 +104,6 @@ function mostrarGastoWeb(idElemento, gasto )/*HAY Q PASARLE UN ARRAY DE GASTO*/
     gastoActual.append(buttomEditForm);
 
   }
-  
 }
 
 //ok
@@ -221,26 +220,6 @@ function BorrarEtiquetasHandle() {
 }
 
 //ok
-function EnviarFormularioHandle() 
-{
-    this.handleEvent = function(e)
-    {
-        e.preventDefault();
-        let enviar = e.currentTarget;
-        let desc = enviar.descripcion.value;
-        let val = parseFloat(enviar.valor.value);
-        let fec = enviar.fecha.value;
-        let etique = enviar.etiquetas.value;       
-
-        let gastoEnv = new gestionPresupuesto.CrearGasto(desc, val, fec, etique);
-        gestionPresupuesto.anyadirGasto(gastoEnv);      
-
-        repintar();
-
-        document.getElementById("anyadirgasto-formulario").disabled = false;
-    }    
-}
-//ok
 function CancelarFormularioHandle() 
 {
     this.handleEvent = function(e)
@@ -266,19 +245,17 @@ function nuevoGastoWebFormulario()
 
   //Boton Enviar
 
-  let enviarHandle = new EnviarGastoHandle();
-  formulario.addEventListener("submit", enviarHandle);
+  let enviarHadl = new FormSubmitHandle();
+  formulario.addEventListener("submit", enviarHadl);
 
   //Boton Cancelar
 
   let botonCancelar =formulario.querySelector("button.cancelar");
-  let cancelarEvento = new cancelarHandle();
+  let cancelarEvento = new CancelarFormularioHandle();
   botonCancelar.addEventListener("click",cancelarEvento);
-
-
-    
-  //buttomE.addEventListener('click', evEditar); al clicar te tiene   qure llevar aquí
 }
+
+//OK
 function EditarHandleFormulario() 
 {
     this.handleEvent = function(event) 
@@ -310,8 +287,6 @@ function EditarHandleFormulario()
     }
 }
 
-//MANEJADOR DE EVENTOS EDITAR HADLEFROMULARIO
-
 //OK
 function FormSubmitHandle(){
 
@@ -333,6 +308,30 @@ function FormSubmitHandle(){
   }
 
 }
+
+function EnviarHandle() 
+{
+    this.handleEvent = function(event) 
+    {
+        event.preventDefault();
+        let accesoEnvH = event.currentTarget;
+        
+        let desc = accesoEnvH.descripcion.value;
+        this.gasto.actualizarDescripcion(desc);
+
+        let val = parseFloat(accesoEnvH.valor.value);
+        this.gasto.actualizarValor(val);
+
+        let fec = accesoEnvH.fecha.value;
+        this.gasto.actualizarFecha(fec);
+
+        let etique = accesoEnvH.etiquetas.value; 
+        this.gasto.anyadirEtiquetas(etique);           
+
+        repintar();
+    }
+}
+
 //ok
 let botonActualizarPresupuesto = document.getElementById("actualizarpresupuesto");
 botonActualizarPresupuesto.addEventListener("click", actualizarPresupuestoWeb);
