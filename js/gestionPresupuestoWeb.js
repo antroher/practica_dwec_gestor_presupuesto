@@ -201,6 +201,7 @@ function nuevoGastoWebFormulario() {
         formulario.addEventListener('click',Submit);
         formulario.addEventListener('click',Cancel);
 }
+
 //enviar botón
 function FormSubmitHandle() {
     this.handleEvent = function(event){
@@ -215,6 +216,19 @@ function FormSubmitHandle() {
 function FormCancelHandle() {
     
 }
+
+//manejadora de eventos del gasto
+function EditarHandleformulario(params) {
+
+    formulario.addEventListener("submit", function EditarHandleformulario(e) {
+        //evitamos que se envie el formulario
+        e.preventDefault();
+    });
+    //Crear un nuevo gasto con la información de los campos del formulario
+    let NewGatos = new gestionPresupuesto.CrearGasto();
+}
+
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
