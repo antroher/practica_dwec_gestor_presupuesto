@@ -18,49 +18,38 @@ gpw.mostrarDatoEnId(gp.calcularBalance(),"balance-total");
 
 let gastos = gp.listarGastos();
 
-document.getElementById("listado-gastos-completo").innerHTML="<hr>";
 gastos.forEach(g => {
     gpw.mostrarGastoWeb("listado-gastos-completo",g);
     /*arrayEditarHandle.push(gpw.EditarHandle(g));
     arrayBorrarHandle.push(gpw.BorrarHandle(g));*/
 });
-document.getElementById("listado-gastos-completo").innerHTML+="<hr>";
-
-document.getElementById("listado-gastos-filtrado-1").innerHTML+="<hr>";
 let gastosF=gp.filtrarGastos({fechaDesde:"2021-09-01", fechaHasta:"2021-09-30"});
 gastosF.forEach(gf => {
     gpw.mostrarGastoWeb("listado-gastos-filtrado-1",gf);
     /*arrayEditarHandle.push(gpw.EditarHandle(gf));
     arrayBorrarHandle.push(gpw.BorrarHandle(gf));*/
 });
-document.getElementById("listado-gastos-filtrado-1").innerHTML+="<hr>";
 
-document.getElementById("listado-gastos-filtrado-2").innerHTML+="<hr>";
 gastosF=gp.filtrarGastos({valorMinimo:50});
 gastosF.forEach(gf => {
     gpw.mostrarGastoWeb("listado-gastos-filtrado-2",gf);
     /*arrayEditarHandle.push(gpw.EditarHandle(gf));
     arrayBorrarHandle.push(gpw.BorrarHandle(gf));*/
 });
-document.getElementById("listado-gastos-filtrado-2").innerHTML+="<hr>";
 
-document.getElementById("listado-gastos-filtrado-3").innerHTML+="<hr>";
 gastosF=gp.filtrarGastos({valorMinimo:200,etiquetasTiene:["seguros"]});
 gastosF.forEach(gf => {
     gpw.mostrarGastoWeb("listado-gastos-filtrado-3",gf);
     /*arrayEditarHandle.push(gpw.EditarHandle(gf));
     arrayBorrarHandle.push(gpw.BorrarHandle(gf));*/
 });
-document.getElementById("listado-gastos-filtrado-3").innerHTML+="<hr>";
 
-document.getElementById("listado-gastos-filtrado-4").innerHTML+="<hr>";
 gastosF=gp.filtrarGastos({valorMaximo:50,etiquetasTiene:["comida","transporte"]});
 gastosF.forEach(gf => {
     gpw.mostrarGastoWeb("listado-gastos-filtrado-4",gf);
     /*arrayEditarHandle.push(gpw.EditarHandle(gf));
     arrayBorrarHandle.push(gpw.BorrarHandle(gf));*/
 });
-document.getElementById("listado-gastos-filtrado-4").innerHTML+="<hr>";
 
 gpw.mostrarGastosAgrupadosWeb("agrupacion-dia",gp.agruparGastos("dia"),"día");
 
