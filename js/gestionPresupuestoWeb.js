@@ -126,7 +126,7 @@ function nuevoGastoWebFormulario() {
 
     let divControlesPrincipales = document.getElementById("controlesprincipales")
     divControlesPrincipales.appendChild(formulario);
-    let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
+    document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
 
     let enviarGastoWeb = new EnviarGastoWebHandle();
     formulario.addEventListener("submit", enviarGastoWeb);
@@ -141,7 +141,7 @@ function CancelarGastoWebHandle() {
     this.handleEvent = function (event){
         
         event.currentTarget.parentNode.remove();
-        let btnAnyadirGastoWeb = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+        document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
         repintar();
     }
 }
