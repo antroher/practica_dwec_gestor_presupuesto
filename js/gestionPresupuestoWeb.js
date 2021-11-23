@@ -4,7 +4,7 @@ import * as GesPresu from "./gestionPresupuesto.js";
 //Botones
 document.getElementById("actualizarpresupuesto").addEventListener("click",actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener("click",nuevoGastoWeb);
-document.getElementById("anyadirgasto-formulario").addEventListener("click",nuevoGastoWeb);
+document.getElementById("anyadirgasto-formulario").addEventListener("click",nuevoGastoWebFormulario);
 
 
 
@@ -19,6 +19,7 @@ function mostrarDatoEnId(idElemento,valor){
             let element = document.getElementById(idElemento);
             let elGasto = document.createElement("div");
             elGasto.className = "gasto";
+            elGasto.setAttribute('id', `gasto-${gasto.id}`)
             element.append(elGasto);
     
             elGasto.innerHTML +=`
@@ -65,15 +66,16 @@ function mostrarDatoEnId(idElemento,valor){
             
                //Formulario
             let btnEditForm = document.createElement("button");
+            btnEditForm.setAttribute('id', `gasto-editar-formulario-${gasto.id}`)
             btnEditForm.className += 'gasto-editar-formulario';
             btnEditForm.textContent = "Editar (formulario)";
             btnEditForm.type = "button";
             
             let editFormulario = new EditarHandleFormulario();
             editFormulario.gasto = gasto;
-
-            //manejador de eventps del edit del form
+               //manejador de eventps del edit del form
             btnEditForm.addEventListener('click',editFormulario);
+
             
 
             //botones
@@ -263,37 +265,140 @@ function mostrarDatoEnId(idElemento,valor){
             var formulario = plantillaFormulario.querySelector("form");
 
             //Append para los controles principales
-            document.getElementById("controlesprincipales").append(form);
+            document.getElementById("controlesprincipales").append(formulario);
 
             //Boton enviar
-            let enviarForm = new enviarForm ();
-            formulario.addEventListener("click", enviarForm);
+            let enviarForm = new submitHandle ();
+            formulario.addEventListener("submit", enviarForm);
 
             //Boton cancelar
-            let cancelForm = new cancelForm ();
+            let cancelForm = new CancelarHandle ();
             cancelForm.formulario = formulario;
             formulario.querySelector("button[class='cancelar']").addEventListener('click', cancelForm);
+
+            document.getElementById('anyadirgasto-formulario').disabled = true;
         }
 
         //selecciona los campos para crear el formulario
         function submitHandle(){
-            this.handleEvent = function (event){
-                event.preventDe
+            this.handleEvent = function(event) {
+                //Prevenir el efecto por defecto del formulario.
+                event.preventDefault();
+        
+                //Datos del form
+                let descripcion = event.currentTarget.descripcion.value;
+                let valor = parseFloat(event.currentTarget.valor.value);
+                let fecha = event.currentTarget.fecha.value;
+                let etiquetas = event.currentTarget.etiquetas.value;
+        
+                //Separa las etiquetas
+                if (typeof etiquetas !== 'undefined') {
+                    etiquetas = etiquetas.split(",");
+                }
+        
+                //Creas los gastos
+                let gasto = new GesPresu.CrearGasto(descripcion, valor, fecha, etiquetas);
+        
+                     //añadimos el gasto 
+                GesPresu.anyadirGasto(gasto);
+        
+                repintar();
+        
+                //Borramos el formulario
+                event.currentTarget.remove();
+        
+    
+                document.getElementById('anyadirgasto-formulario').disabled = false;
             }
         }
+
 
             //Cancelar formulario
 
-        function CancelarFormHandle(){
+        function CancelarHandle(){
             this.handleEvent = function (){
                 //elimina el form
                     this.formulario.remove();
+
+                    //Boton añadir
+                document.getElementById("anyadirgasto-formulario").disabled = false;
             }
         }
+
+        
+        //De esta funcion no tenia ni idea y me la ha enseñado un compañero
+
         function EditarHandleFormulario()
         {
-            
+            this.handleEvent = function(event) {
+                //Clonación y creación del formulario mediante el template (plantilla).
+                let form = document.getElementById("formulario-template").content.cloneNode(true).querySelector("form");
+                document.getElementById(`gasto-${this.gasto.id}`).append(form);
+        
+                //Deshabilitar el boton de editar gasto.
+                document.getElementById(`gasto-editar-formulario-${this.gasto.id}`).disabled = true;
+        
+                //Recogida y representación de datos del gasto en el formulario.
+                form.descripcion.value = this.gasto.descripcion;
+                form.valor.value = this.gasto.valor;
+        
+                //Recogida y representación de la fecha del gasto.
+                let fecha = new Date(this.gasto.fecha);
+                let fechaFormateda = fecha.toISOString().substring(0,10);
+                form.fecha.value = fechaFormateda;
+        
+                //Recogida y representacion de las etiquetas del gasto.
+                let etiquetaString = "";
+                this.gasto.etiquetas.forEach((etiqueta, index) => {
+                    if (this.gasto.etiquetas.length - 1 === index) {
+                        etiquetaString += etiqueta;
+                    }
+                    else {
+                        etiquetaString += etiqueta + ", ";
+                    }
+                });
+                form.etiquetas.value = etiquetaString;
+        
+                //Creación del objeto manejador de eventos del boton cancelar.
+                let cancelarEvent = new CancelarEditHandle();
+                cancelarEvent.formulario = form;
+                cancelarEvent.gasto = this.gasto;
+                form.querySelector("button[class='cancelar']").addEventListener('click', cancelarEvent);
+        
+                //Creación del objeto manejador de eventos del boton enviar.
+                let submitEvent = new submitEditHandle();
+                submitEvent.gasto = this.gasto;
+                form.addEventListener('submit', submitEvent);
         }
+    }
+
+    //Funcion para el submit del editar
+        function submitEditHandle(){
+            this.handleEvent = function (event){
+                this.gasto.actualizarDescripcion(event.currentTarget.descripcion.value);
+                this.gasto.actualizarValor(parseFloat(event.currentTarget.valor.value));
+                this.gasto.actualizarFecha(event.currentTarget.fecha.value);
+                    let etiquetas = event.currentTarget.etiquetas.value;
+                    if (typeof etiquetas !== "undefined") {
+                        etiquetas = etiquetas.split(",");
+                    }
+                this.gasto.etiquetas = etiquetas;
+    
+                repintar();
+            }
+        }
+
+        //Esta funcion es para el cancelar del formulario
+        function CancelarEditHandle(){
+            this.handleEvent = function (){
+                //elimina el form
+                    this.formulario.remove();
+
+                    //Boton añadir
+                document.getElementById(`gasto-editar-formulario-${this.gasto.id}`).disabled = false;
+            }
+        }
+
 
 //El export de las funciones
 export{
