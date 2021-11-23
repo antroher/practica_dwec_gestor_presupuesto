@@ -37,28 +37,31 @@ function mostrarGastoWeb(idElemento, gasto) {
     let divGEtiq = document.createElement("div"); 
     divGEtiq.className = 'gasto-etiquetas';
 
-    gasto.etiquetas.forEach((etiqueta, index) => {
-        //Creación del span.
-        let spanEtiq = document.createElement("span");
-        spanEtiq.className = 'gasto-etiquetas-etiqueta';
-
-        //Decorador dependiendo de si es la ultima etiqueta o no.
-        if (gasto.etiquetas.length - 1 === index) {
-            spanEtiq.textContent = `${etiqueta}`;
-        }
-        else {
-            spanEtiq.textContent = `${etiqueta} | `
-        }
-
-        //Creación del objeto controlador del evento y asociación al mismo.
-        let tagHandler = new BorrarEtiquetasHandle();
-        tagHandler.gasto = gasto;
-        tagHandler.etiqueta = etiqueta;
-        spanEtiq.addEventListener('click', tagHandler);
-
-        //Ligado al div de etiquetas.
-        divGEtiq.append(spanEtiq);
-    });
+    if (typeof gasto.etiquetas !== "undefined") {
+        gasto.etiquetas.forEach((etiqueta, index) => {
+            //Creación del span.
+            let spanEtiq = document.createElement("span");
+            spanEtiq.className = 'gasto-etiquetas-etiqueta';
+    
+            //Decorador dependiendo de si es la ultima etiqueta o no.
+            if (gasto.etiquetas.length - 1 === index) {
+                spanEtiq.textContent = `${etiqueta}`;
+            }
+            else {
+                spanEtiq.textContent = `${etiqueta} | `
+            }
+    
+            //Creación del objeto controlador del evento y asociación al mismo.
+            let tagHandler = new BorrarEtiquetasHandle();
+            tagHandler.gasto = gasto;
+            tagHandler.etiqueta = etiqueta;
+            spanEtiq.addEventListener('click', tagHandler);
+    
+            //Ligado al div de etiquetas.
+            divGEtiq.append(spanEtiq);
+        });
+    }
+    
 
     //Asignado de divs al div padre('gasto').
     divGasto.append(divGDesc, divGFecha, divGValor, divGEtiq);
@@ -304,9 +307,9 @@ function submitHandle() {
         if (typeof etiquetas !== 'undefined') {
             etiquetas = etiquetas.split(",");
         }
-
+        console.log(etiquetas);
         //Creación de gasto con los datos recogidos.
-        let gasto = new gP.CrearGasto(descripcion, valor, fecha, etiquetas);
+        let gasto = new gP.CrearGasto(descripcion, valor, fecha, [etiquetas]);
 
         //Adición del gasto a la lista.
         gP.anyadirGasto(gasto);
@@ -377,15 +380,19 @@ function EditarHandleFormulario() {
 
     function submitEditHandle () {
         this.handleEvent = function(event) {
+            //Actualización de propiedades del gasto.
             this.gasto.actualizarDescripcion(event.currentTarget.descripcion.value);
             this.gasto.actualizarValor(parseFloat(event.currentTarget.valor.value));
             this.gasto.actualizarFecha(event.currentTarget.fecha.value);
+
+            //Comprobación de si las etiquetas estan definidas y si es asi su actualización.
             let etiquetas = event.currentTarget.etiquetas.value;
             if (typeof etiquetas !== "undefined") {
                 etiquetas = etiquetas.split(",");
             }
             this.gasto.etiquetas = etiquetas;
 
+            //Llamada a la función repintar.
             repintar();
         }
     }
@@ -402,24 +409,41 @@ function EditarHandleFormulario() {
 }
 
 function filtrarGastoWeb () {
+    //Prevenir el evento por defecto.
     event.preventDefault();
 
-    let filterDescription = document.getElementById("formulario-filtrado-descripcion").value;
-    let filterMinValue = document.getElementById("formulario-filtrado-valor-minimo").value;
-    let filterMaxValue = document.getElementById("formulario-filtrado-valor-maximo").value;
-    let filterFromDate = document.getElementById("formulario-filtrado-fecha-desde").value;
-    let filterUntilDate = document.getElementById("formulario-filtrado-fecha-hasta").value;
-    let filterContainTags = document.getElementById("formulario-filtrado-etiquetas-tiene").value;
-    console.log(filterDescription);
-
+    //Recogida de datos del formulario.
+    let form = document.getElementById("formulario-filtrado")
+    let filterDescription = form.elements["formulario-filtrado-descripcion"].value;
+    let filterMinValue = parseFloat(form.elements["formulario-filtrado-valor-minimo"].value);
+    let filterMaxValue = parseFloat(form.elements["formulario-filtrado-valor-maximo"].value);
+    let filterFromDate = Date.parse(form.elements["formulario-filtrado-fecha-desde"].value);
+    let filterUntilDate = Date.parse(form.elements["formulario-filtrado-fecha-hasta"].value);
+    let filterContainTags = form.elements["formulario-filtrado-etiquetas-tiene"].value;
+    
+    //Comprobación de si las etiquetas estan definidas.
     if (typeof filterContainTags !== "undefined") {
        filterContainTags = gP.transformarListadoEtiquetas(filterContainTags);
     }
 
-    let gastosFiltrados = gP.filtrarGastos({filterDescription, filterMinValue, filterMaxValue, filterFromDate, filterUntilDate, filterContainTags});
-    console.log(gastosFiltrados);
+    //Creación del objeto a filtrar.
+    let filtro = {
+        descripcionContiene: (filterDescription === "") ? undefined : filterDescription,
+        valorMinimo: (isNaN(filterMinValue)) ? undefined : filterMinValue,
+        valorMaximo: (isNaN(filterMaxValue)) ? undefined : filterMaxValue,
+        fechaDesde: (isNaN(filterFromDate)) ? undefined : filterFromDate,
+        fechaHasta: (isNaN(filterUntilDate)) ? undefined : filterUntilDate,
+        etiquetasTiene: (!Array.isArray(filterContainTags)) ? undefined : filterContainTags  
+    }
 
-    mostrarGastoWeb("listado-gasto-completo", gastosFiltrados);
+    let gastosFiltrados = gP.filtrarGastos(filtro);
+
+    document.getElementById("listado-gastos-completo").innerHTML = "";
+
+    for (let gasto of gastosFiltrados) {
+        mostrarGastoWeb("listado-gastos-completo", gasto);    
+    }
+    
 }
 
 //Funciones a exportar para el test.

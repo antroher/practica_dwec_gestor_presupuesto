@@ -178,5 +178,3 @@ function transformarListadoEtiquetas(etiquetasEntrantes) {
     //Devolución de las etiquetas correctamente transformadas.
     return finalTags;
 }
-
-console.log(transformarListadoEtiquetas('eti1,         ;:;:.;,     eti2'))

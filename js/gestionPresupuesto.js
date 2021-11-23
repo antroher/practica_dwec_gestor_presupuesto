@@ -155,31 +155,31 @@ function filtrarGastos(filtroEntrante) {
     let caseString = ""; //Variable para usarla luego en el switch para las diferentes posibilidades de filtrado.
 
     //Comprobación y asignacion de las propiedades del objeto entrante.
-    if (filtroEntrante.hasOwnProperty("fechaDesde")) {
+    if (filtroEntrante.hasOwnProperty("fechaDesde") && typeof filtroEntrante.fechaDesde !== "undefined") {
         if (!isNaN(Date.parse(filtroEntrante.fechaDesde))) {
             fechaDesde = Date.parse(filtroEntrante.fechaDesde);
             caseString += "a";
         }
     }
-    if (filtroEntrante.hasOwnProperty("fechaHasta")) {
+    if (filtroEntrante.hasOwnProperty("fechaHasta") && typeof filtroEntrante.fechaHasta !== "undefined") {
         if (!isNaN(Date.parse(filtroEntrante.fechaHasta))) {
             fechaHasta = Date.parse(filtroEntrante.fechaHasta);
             caseString += "b";
         }
     }
-    if (filtroEntrante.hasOwnProperty("valorMinimo")) {
+    if (filtroEntrante.hasOwnProperty("valorMinimo") && typeof filtroEntrante.valorMinimo !== "undefined") {
         valorMinimo = filtroEntrante.valorMinimo;
         caseString += "c";
     }
-    if (filtroEntrante.hasOwnProperty("valorMaximo")) {
+    if (filtroEntrante.hasOwnProperty("valorMaximo") && typeof filtroEntrante.valorMaximo !== "undefined") {
         valorMaximo = filtroEntrante.valorMaximo;
         caseString += "d";
     }
-    if (filtroEntrante.hasOwnProperty("descripcionContiene")) {
+    if (filtroEntrante.hasOwnProperty("descripcionContiene") && typeof filtroEntrante.descripcionContiene !== "undefined") {
         descripcionContiene = filtroEntrante.descripcionContiene;
         caseString += "e";
     }
-    if (filtroEntrante.hasOwnProperty("etiquetasTiene")) {
+    if (filtroEntrante.hasOwnProperty("etiquetasTiene") && typeof filtroEntrante.etiquetasTiene !== "undefined") {
         etiquetasTiene = filtroEntrante.etiquetasTiene;
         tieneEtiquetas = true;
     }
