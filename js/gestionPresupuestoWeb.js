@@ -246,7 +246,7 @@ btnActualizarPresupuesto.addEventListener("click", actualizarPresupuestoWeb);
 const btnNuevoGasto = document.getElementById("anyadirgasto");
 btnNuevoGasto.addEventListener("click", nuevoGastoWeb);
 const btnNuevoGastoFormulario = document.getElementById("anyadirgasto-formulario");
-btnActualizarPresupuesto.addEventListener("click", nuevoGastoWebFormulario);
+btnNuevoGastoFormulario.addEventListener("click", nuevoGastoWebFormulario);
 
 export {
     mostrarDatoEnId,
