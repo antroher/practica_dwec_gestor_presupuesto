@@ -31,7 +31,7 @@ function CrearGasto(des, val = 0, fec = Date.now(), ...eti) {
     }
 
     if (fec === "") {
-        this.fecha = getDate();
+        this.fecha = Date.now();//getDate();
     }
 
     this.descripcion = des;

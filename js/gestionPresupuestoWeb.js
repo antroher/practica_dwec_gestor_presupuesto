@@ -51,6 +51,16 @@ function mostrarGastoWeb(idElemento, gasto) {
     btnBorrar.addEventListener('click', dlt);
     div.append(btnEditar);
     div.append(btnBorrar);
+
+    let btnEditGastoForm = document.createElement("button");
+    btnEditGastoForm.className += 'gasto-editar-formulario';
+    btnEditGastoForm.textContent = 'Editar (formulario)';
+    btnEditGastoForm.type = 'button';
+
+    let editForm = new editHandleForm();
+    editForm.gasto = gasto;
+    btnEditGastoForm.addEventListener('click', editForm);
+    div.append(btnEditGastoForm);  
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -196,7 +206,7 @@ function editHandleForm() {
         editFormHandle.gasto = this.gasto;
         formulario.addEventListener('submit', editFormHandle);
         let btnCancel = formulario.querySelector("button.cancelar");
-        let cancelObject = new CancelarFormHandle();
+        let cancelObject = new cancelFormHandle();
         btnCancel.addEventListener("click", cancelObject);
         btnEditForm.setAttribute("disabled", "");
     }
