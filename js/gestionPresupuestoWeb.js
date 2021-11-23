@@ -238,13 +238,10 @@ function nuevoGastoWebFormulario() {
     let EventCancel = new FormCancelHandle();
     btnCancelar.addEventListener('click', EventCancel); //al hacer clic en el boton cancelar
 }
-<<<<<<< HEAD
-
 //enviar botón
 function FormSubmitHandle() {
     this.handleEvent = function(event){
-=======
->>>>>>> d006d1af5d65c94e51ca2a5d31ad5f4cb7ee59d6
+
 
 function EditarHandleFormulario() {
     this.handleEvent = function (event) {
