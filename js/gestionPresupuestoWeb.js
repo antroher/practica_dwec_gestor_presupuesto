@@ -3,66 +3,62 @@
 import * as gestionPresupuesto from "./gestionPresupuesto.js";
 
 
-function mostrarDatoEnId(idElemento, valor) {
+
+function mostrarDatoEnId (idElemento, valor) {
     let elemento = document.getElementById(idElemento);
-    let p = document.createElement("p");
-    p.textContent = valor;
-    elemento.appendChild(p);
+    let parrafo = document.createElement("p");
+    parrafo.textContent = valor;
+    elemento.appendChild(parrafo);
 }
 
 function mostrarGastoWeb(idElemento, gasto) {
     let elemento = document.getElementById(idElemento);
-    let gastoDiv = document.createElement("div");
-    
-    gastoDiv.classList.add("gasto");
-    elemento.append(gastoDiv);
-    gastoDiv.innerHTML +=
+    let divGasto = document.createElement("div");
+    divGasto.className = "gasto";
+    elemento.append(divGasto);
+        
+    divGasto.innerHTML += 
     `
         <div class="gasto-descripcion">${gasto.descripcion}</div>
         <div class="gasto-fecha">${gasto.fecha}</div> 
         <div class="gasto-valor">${gasto.valor}</div> 
-    `
-    let etiquetas = document.createElement("div");
-    etiquetas.classList.add = "gasto-etiquetas";
-    gastoDiv.append(etiquetas);
+    `;
+                        
+    let gastoEtiquetas = document.createElement("div");
+    gastoEtiquetas.className = "gasto-etiquetas";
+    divGasto.append(gastoEtiquetas);
+    let nuevoObjEtiqueta = new BorrarEtiquetasHandle(); 
+    nuevoObjEtiqueta.gasto = gasto;
 
-    for (let etiqueta of gasto.etiquetas) {
-
-        let newObjEtiqueta = new BorrarEtiquetasHandle();
-        newObjEtiqueta.gasto = gasto;
-
-        let etiquetaGasto = document.createElement("span");
-        etiquetaGasto.className = "gasto-etiquetas-etiqueta";
-        etiquetaGasto.innerHTML = etiqueta + "<br>";
-        newObjEtiqueta.etiqueta = etiqueta;
-
-        etiquetas.append(etiquetaGasto);
-
-        etiquetaGasto.addEventListener("click",newObjEtiqueta);
-
+    for (let etiq of gasto.etiquetas) {
+        let gastoEtiqueta = document.createElement("span");
+        gastoEtiqueta.className = "gasto-etiquetas-etiqueta";
+        gastoEtiqueta.innerHTML = etiq + "<br>";
+        nuevoObjEtiqueta.etiqueta = etiq;
+        gastoEtiquetas.append(gastoEtiqueta);
     }
-   
-    let btnEditar = document.createElement("button");
-    btnEditar.className += 'gasto-editar'
-    btnEditar.textContent = "Editar";
-    btnEditar.type = 'button';
 
-    let btnBorrar = document.createElement("button");
-    btnBorrar.className += 'gasto-borrar'
-    btnBorrar.textContent = "Borrar";
-    btnBorrar.type = 'button';
+    let buttonEdit = document.createElement("button");
+                        buttonEdit.className += 'gasto-editar'
+                        buttonEdit.textContent = "Editar";
+                        buttonEdit.type = 'button';
+
+    let buttonBorr = document.createElement("button");
+                        buttonBorr.className += 'gasto-borrar'
+                        buttonBorr.textContent = "Borrar";
+                        buttonBorr.type = 'button';
 
     let edit = new EditarHandle();
     let delet = new BorrarHandle();
     edit.gasto = gasto;
     delet.gasto = gasto;
-
-    btnEditar.addEventListener('click', edit);
-    btnBorrar.addEventListener('click', delet);
-
-
-    gastoDiv.append(btnEditar);
-    gastoDiv.append(btnBorrar);
+    
+    buttonEdit.addEventListener('click', edit);
+    buttonBorr.addEventListener('click', delet);
+    gastoEtiquetas.addEventListener('click',nuevoObjEtiqueta);
+    
+    divGasto.append(buttonEdit);
+    divGasto.append(buttonBorr);
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
@@ -88,10 +84,10 @@ function repintar() {
     let presupuesto = gestionPresupuesto.mostrarPresupuesto();
     mostrarDatoEnId("presupuesto",presupuesto);
 
-    let gasto = gestionPresupuesto.calcularTotalGastos();
+    let gasto = gestionPresupuesto.calcularTotalGastos().toFixed(2);
     mostrarDatoEnId("gastos-totales",gasto);
 
-    let balance = gestionPresupuesto.calcularBalance();
+    let balance = gestionPresupuesto.calcularBalance().toFixed(2);
     mostrarDatoEnId("balance-total",balance);
 
     document.getElementById("listado-gastos-completo").innerHTML = " ";
@@ -104,9 +100,9 @@ function repintar() {
 
 function actualizarPresupuestoWeb() {
 
-    let valor = parseFloat(prompt ("Introduce un nuevo presupuesto: "));
+    let valor2 = parseFloat ( prompt ("Introduce un presupuesto: "));
 
-    gestionPresupuesto.actualizarPresupuesto(valor);
+    gestionPresupuesto.actualizarPresupuesto(valor2);
 
     repintar();
 
