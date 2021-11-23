@@ -289,11 +289,30 @@ function filtrarGastosWeb() {
     }
 }
 
+function guardarGastosWeb() {
+    this.handleEvent = function(event) {
+        let listadoGastos = gestionPresupuesto.listarGastos();
+        localStorage.GestorGastosDWEC = JSON.stringify(listadoGastos);
+    }
+}
+
+function cargarGastosWeb() {
+    this.handleEvent = function(event) {
+        if (localStorage.GestorGastosDWEC == null) 
+            gestionPresupuesto.cargarGastos([]);
+        else 
+            gestionPresupuesto.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
+        repintar();    
+    }
+}
+
 //Botones
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
 const anyadirgastoFirmulario = document.getElementById("anyadirgasto-formulario");
 const formularioFiltrador = document.getElementById("formulario-filtrado");
+const btnGuardarGastos = document.getElementById("guardar-gastos");
+const btnCargarGastos = document.getElementById("cargar-gastos");
 //Eventos
 actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
 anyadirgasto.addEventListener('click', nuevoGastoWeb);
@@ -301,6 +320,12 @@ anyadirgastoFirmulario.addEventListener('click', nuevoGastoWebFormulario)
 //Al tener que trabajar con el propio nodo que manifiesta el evento deberemos crear un objeto manejador... o eso creo yo despúes de 3 horas sin saber que falla jeje
 let filtGastForm = new filtrarGastosWeb();
 formularioFiltrador.addEventListener('submit', filtGastForm);
+
+//Práctica 8
+let objGuardarGastosWeb = new guardarGastosWeb();
+let objCargarGastosWeb = new cargarGastosWeb();
+btnGuardarGastos.addEventListener('click', objGuardarGastosWeb);
+btnCargarGastos.addEventListener('click', objCargarGastosWeb);
 
 
 export   {
