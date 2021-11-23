@@ -12,7 +12,7 @@ function nuevoGastoWebFormulario(){
     anyadirGastoFromHandler.formulario = formulario;
     anyadirGastoFromHandler.boton = boton;
 
-    formulario.addEventListener("submit",anyadirGastoFromHandler);
+    formulario.addEventListener("submit", anyadirGastoFromHandler);
 
     let botonCancelar = formulario.querySelector("button.cancelar");
     let handlerBotonCancelar = new CancelarBotonFormulario();
@@ -23,8 +23,6 @@ function nuevoGastoWebFormulario(){
     botonCancelar.addEventListener("click", handlerBotonCancelar);
     
 }
-
-
 
 function repintar(){
     document.getElementById('presupuesto').innerHTML = '';
@@ -112,8 +110,8 @@ function repintar(){
         let etForm = this.formulario.elements.etiquetas.value;
         let etiqForm = new Array();
         etiqForm = etForm.split(",");
-        let gastoForm = new metodosGastos.CrearGasto(descForm,parseFloat(valForm), fechForm, ...etiqForm);
-        metodosGastos.anyadirGasto(gastoForm);
+        let gastoForm = new gestionPresupuesto.CrearGasto(descForm,parseFloat(valForm), fechForm, ...etiqForm);
+        gestionPresupuesto.anyadirGasto(gastoForm);
         this.boton.disabled = false;
         document.getElementById("controlesprincipales").removeChild(this.formulario);
         repintar();
@@ -132,7 +130,7 @@ function repintar(){
         this.gasto.anyadirEtiquetas(...etiqForm);
         this.boton.disabled = false;
         this.elemento.removeChild(this.formulario);
-        console.log(metodosGastos.calcularTotalGastos());
+        console.log(gestionPresupuesto.calcularTotalGastos());
         repintar();
 
     }
@@ -256,9 +254,9 @@ function mostrarGastoWeb(idElemento, gasto){
         let editHaForm = new EditarHandleFormulario();
         editHaForm.gasto=gasto;
         editHaForm.botonEditarGasto=botonEditarF;
-        editHaForm.divGasto=divgasto;
+        editHaForm.divGasto= divGasto;
         botonEditarF.addEventListener("click",editHaForm);
-        divgasto.append(botonEditarF);
+        divGasto.append(botonEditarF);
 
         
     }
