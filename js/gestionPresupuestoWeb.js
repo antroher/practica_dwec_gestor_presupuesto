@@ -210,6 +210,10 @@ function nuevoGastoWebFormulario() {
     btnCancelar.addEventListener("click", cancelarObj);
 }
 
+const anyadirgastoFormulario = document.getElementById("anyadirgasto-formulario");
+anyadirgastoFormulario.addEventListener('click', nuevoGastoWebFormulario)
+
+
 function EditarHandleformulario() {
     this.handleEvent = function (event){
 
