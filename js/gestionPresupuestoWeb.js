@@ -92,6 +92,9 @@ function mostrarGastoWeb(idElemento, gasto )/*HAY Q PASARLE UN ARRAY DE GASTO*/
     gastoactual.append(buttomE, buttomB); 
     
     //Botón editar formulario
+    
+    let gastoActual = document.getElementById(gasto.id);; 
+
     let buttomEditForm = document.createElement('button');
     buttomEditForm.className += 'gasto-editar-formulario';
     buttomEditForm.textContent = 'Editar (formulario)';
@@ -245,7 +248,7 @@ function nuevoGastoWebFormulario()
 
   //Boton Enviar
 
-  let enviarHadl = new FormSubmitHandle();
+  let enviarHadl = new EnviarFormularioHandle();
   formulario.addEventListener("submit", enviarHadl);
 
   //Boton Cancelar
@@ -288,22 +291,24 @@ function EditarHandleFormulario()
 }
 
 //OK
-function FormSubmitHandle(){
+function EnviarFormularioHandle(){
 
   this.handleEvent = function (e) {
 
       e.preventDefault();
 
       let formulario = e.currentTarget;
-      let dscr = formulario.elements.descripcion.value;
-      let valor = parseFloat(formulario.elements.valor.value);
-      let fecha = formulario.elements.fecha.value;
-      let etiquetas = formulario.elements.etiquetas.value;
+      let dscr = formulario.descripcion.value;
+      let valor = parseFloat(formulario.valor.value);
+      let fecha = formulario.fecha.value;
+      let etiquetas = formulario.etiquetas.value;
       
       let nuevoG = new gestionPresupuesto.CrearGasto(dscr,valor,fecha,etiquetas);
       gestionPresupuesto.anyadirGasto(nuevoG);
+
       repintar();
-      document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+
+      document.getElementById("anyadirgasto-formulario").disabled = false;
 
   }
 
