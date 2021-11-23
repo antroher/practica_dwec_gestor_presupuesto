@@ -303,8 +303,8 @@ function EnviarFormularioHandle(){
       let fecha = formulario.fecha.value;
       let etiquetas = formulario.etiquetas.value;
       
-      let nuevoG = new gestionPresupuesto.CrearGasto(dscr,valor,fecha,etiquetas);
-      gestionPresupuesto.anyadirGasto(nuevoG);
+      let nuevoG = new datosPresupuesto.CrearGasto(dscr,valor,fecha,etiquetas);
+      datosPresupuesto.anyadirGasto(nuevoG);
 
       repintar();
 
