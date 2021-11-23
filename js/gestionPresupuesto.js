@@ -233,6 +233,10 @@ function agruparGastos(periodoAgrupar, etiquetasArupar, fechaDesdeAgrupar, fecha
     
 }
 
+function transformarListadoEtiquetas(cadena){
+    return cadena.split(/[ ,;:\.~]+/g); //la g = busca todas las coincidencias i = case insensitive (indierenia entre mayusc y minusc)
+}
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -247,5 +251,6 @@ export   {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    transformarListadoEtiquetas
 }
