@@ -11,18 +11,20 @@
 
     <body>
         <div id="aplicacion">
+            <div id="controlesprincipales">
+                <button type="button" id="actualizarpresupuesto">
+                    Actualizar presupuesto
+                </button>
+                <button type="button" id="anyadirgasto">
+                    Añadir gasto
+                </button>
+                <button type="button" id="anyadirgasto-formulario">
+                    Añadir gasto (formulario)
+                </button>
+            </div>
+            <div id="formulario-nuevo-gasto">
 
-                <div id="controlesprincipales">
-                        <button type="button" id="actualizarpresupuesto">
-                          Actualizar presupuesto
-                        </button>
-                        <button type="button" id="anyadirgasto">
-                          Añadir gasto
-                        </button>
-                        <button type="button" id="anyadirgasto-formulario">
-                          Añadir gasto (formulario)
-                        </button>
-                      </div>
+            </div>
             <div id="presupuesto">
             </div>
 
@@ -31,34 +33,76 @@
 
             <div id="balance-total">
             </div>
+            <hr>
 
             <div id="listado-gastos-completo">
             </div>
 
+            <hr>
+
             <div id="listado-gastos-filtrado-1">
+                <h3>Gastos filtrados 1</h3>
             </div>
 
+            <hr>
+            
             <div id="listado-gastos-filtrado-2">
+                <h3>Gastos filtrados 2</h3>
             </div>
+
+            <hr>
 
             <div id="listado-gastos-filtrado-3">
+                <h3>Gastos filtrados 3</h3>
             </div>
+
+            <hr>
 
             <div id="listado-gastos-filtrado-4">
+                <h3>Gastos filtrados 4</h3>
             </div>
 
+            <hr>
+            
             <div id="agrupacion-dia">
             </div>
+
+            <hr>
 
             <div id="agrupacion-mes">
             </div>
 
+            <hr>
+
             <div id="agrupacion-anyo">
             </div>
 
+            <!-- Plantilla del formulario -->
+            <template id="formulario-template">
+                <form>
+                    <div class="form-control">
+                        <label for="descripcion">Descripción</label>
+                        <input type="text" name="descripcion" id="descripcion">
+                    </div>
+                    <div class="form-control">
+                        <label for="valor">Valor</label>
+                        <input type="number" step="0.01" name="valor" id="valor">
+                    </div>
+                    <div class="form-control">
+                        <label for="fecha">Fecha</label>
+                        <input type="date" name="fecha" id="fecha">
+                    </div>
+                    <div class="form-control">
+                        <label for="etiquetas">Etiquetas</label>
+                        <input type="text" name="etiquetas" id="etiquetas">
+                    </div>
+                    <button type="submit">Enviar</button>
+                    <button class="cancelar" type="button">Cancelar</button>
+                </form>
+            </template>
         </div>
 
-        <!--
+<!--
              TODO: Cargar el script js/generarDatosEstaticos.js
 
              Cargar script al final para que se haya cargado todo el HTML previo.
@@ -66,29 +110,6 @@
              https://es.javascript.info/modules-intro#que-es-un-modulo
         -->
         <script src="./js/generarDatosEstaticos.js" type="module"> </script>
-
-        <template  id = " formulario-template "> 
-    <form > 
-        <div  class = " formulario-control " > 
-            <label  for = " descripcion " > Descripción </label > 
-            <input  type = " text " name = " descripcion " id = " descripcion "> 
-        </div > 
-        <div  class = " control de formulario" > 
-            <label  for =" valor " > Valor </label > 
-            <input  type =" number " step =" 0.01 " name =" valor " id =" valor "> 
-        </div > 
-        <div  class =" form-control " > 
-            <etiqueta  para =" fecha " > Fecha </etiqueta > 
-            <input  type = " date " name = " fecha " id = " fecha " > 
-        </div > 
-        <div  class = " form-control " > 
-            <label  for = " etiquetas " > Etiquetas </label > 
-            <input  type = " text " nombre =" etiquetas " id =" etiquetas " >
-        </div >
-        <button  type = " enviar " > Enviar </button > 
-        <button  class = " cancelar " type = " button " > Cancelar </button > 
-    </form > 
-</template >
     </body>
    
 </html>

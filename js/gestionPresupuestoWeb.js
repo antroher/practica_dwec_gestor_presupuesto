@@ -43,6 +43,7 @@ function mostrarGastoWeb(idElemento,gasto)
 
                  let divPrincipal = document.createElement("div");
                  divPrincipal.className += "gasto";
+                 divPrincipal.id = `gasto-${gasto.id}`;
                  elem.append(divPrincipal);
              
                  
@@ -121,7 +122,7 @@ function mostrarGastoWeb(idElemento,gasto)
                  let buttonEditForm= document.createElement("button");
                  buttonEditForm.className="gasto-editar-formulario";
                  buttonEditForm.textContent="Editar (formulario)";
-                 buttonEditForm.addEventListener("click",editHandler)
+                 buttonEditForm.addEventListener("click",EditarFormHandler)
                 
                  if(idElemento === "listado-gastos-completo"){
                      divPrincipal.append(buttonEdit);
@@ -298,7 +299,18 @@ agroupText+="<div class='agrupacion-dato'>\n"
 //PRACTICA 6
 
 function submitEditHandle () {
- 
+  this.handleEvent = function(event) {
+    this.gasto.actualizarDescripcion(event.currentTarget.descripcion.value);
+    this.gasto.actualizarValor(parseFloat(event.currentTarget.valor.value));
+    this.gasto.actualizarFecha(event.currentTarget.fecha.value);
+    let etiquetas = event.currentTarget.etiquetas.value;
+    if (typeof etiquetas !== "undefined") {
+        etiquetas = etiquetas.split(",");
+    }
+    this.gasto.etiquetas = etiquetas;
+
+    repintar();
+}
 }
 
 function cancelarEditHandle () {
@@ -316,8 +328,7 @@ function cancelarHandle () {
 }
 
 
-  function nuevoGastoWebFormulario()
-    {
+  function nuevoGastoWebFormulario(){
       let cancel = new cancelarHandle();
       let submit = new submitHandle();
       let form ;
@@ -333,8 +344,61 @@ function cancelarHandle () {
     form.querySelector("button[class='cancelar']").addEventListener('click', cancel);
 }
 
-function EditarHandleFormulario(){
+function submitHandle() {
+  this.handleEvent = function(event) {
+      event.preventDefault();
+      let descripcion = event.currentTarget.descripcion.value;
+      let valor = parseFloat(event.currentTarget.valor.value);
+      let fecha = event.currentTarget.fecha.value;
+      let etiquetas = event.currentTarget.etiquetas.value;
 
+      if (typeof etiquetas !== 'undefined') {
+          etiquetas = etiquetas.split(",");
+      }
+      let gasto = new gp.CrearGasto(descripcion, valor, fecha, etiquetas);
+      gp.anyadirGasto(gasto);
+      repintar();
+      event.currentTarget.remove();
+      document.getElementById('anyadirgasto-formulario').disabled = false;
+  }
+}
+
+function EditarHandleFormulario(){
+  this.handleEvent = function(event) {
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+    var form = plantillaFormulario.querySelector("form");
+    document.getElementById("gasto-"+this.gasto.id).append(form);
+
+    document.getElementById("gasto-editar-formulario-"+this.gasto.id).disabled = true;
+
+    form.descripcion.value = this.gasto.descripcion;
+    form.valor.value = this.gasto.valor;
+
+    let fecha = new Date(this.gasto.fecha);
+    let fechaFormateda = fecha.toISOString().substring(0,10);
+    form.fecha.value = fechaFormateda;
+
+    let etiquetaString = "";
+    this.gasto.etiquetas.forEach((etiqueta, index) => {
+        if (this.gasto.etiquetas.length - 1 === index) {
+            etiquetaString += etiqueta;
+        }
+        else {
+            etiquetaString += etiqueta + ", ";
+        }
+    });
+    form.etiquetas.value = etiquetaString;
+
+    let cancelarEvent = new cancelarEditHandle();
+    cancelarEvent.formulario = form;
+    cancelarEvent.gasto = this.gasto;
+    form.querySelector("button[class='cancelar']").addEventListener('click', cancelarEvent);
+
+    let submitEvent = new submitEditHandle();
+    submitEvent.gasto = this.gasto;
+    form.addEventListener('submit', submitEvent);
+
+}
 }
   
 

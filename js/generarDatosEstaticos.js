@@ -5,6 +5,7 @@ import * as gp from "./gestionPresupuesto.js";
 
 document.getElementById("actualizarpresupuesto").addEventListener("click", gpw.actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener("click", gpw.nuevoGastoWeb);
+document.getElementById("anyadirgasto-formulario").addEventListener('click', gp.nuevoGastoWebFormulario)
 
 gp.actualizarPresupuesto(1500);
 gpw.mostrarDatoEnId('presupuesto',gp.mostrarPresupuesto());
