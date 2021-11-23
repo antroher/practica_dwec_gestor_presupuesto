@@ -184,6 +184,72 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
     }
 
 
+    function nuevoGastoWebFormulario()
+    {
+        this.handleEvent = function(e)
+        {
+            let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+
+            let formulario = plantillaFormulario.querySelector("form");
+
+        
+        
+            let manejadorEnvio = new eventoEnviar();
+            let botonEnviar = formulario;
+            botonEnviar.addEventListener("submit", manejadorEnvio);
+        
+            let manejadorCancelar = new eventoCancelar();
+            manejadorCancelar.botonCrear = e.target;
+            let botonCancelar = plantillaFormulario.querySelector("button.cancelar");
+            botonCancelar.addEventListener("click", manejadorCancelar);
+        
+            e.target.disabled = "disabled";
+
+        
+            document.getElementById("controlesprincipales").append(formulario);
+        }
+    }
+
+    let anyadrigastoForm = document.getElementById("anyadirgasto-formulario")
+    anyadrigastoForm.addEventListener("click", nuevoGastoWebFormulario);
+
+    function eventoEnviar()
+    {
+    this.handleEvent = function(e)
+        {
+            e.preventDefault();
+            let actual = e.currentTarget;
+
+            let nuevaDesc = actual.elements.descripcion.value;
+            let nuevoValor = actual.elements.valor.value;
+            let nuevaFecha = actual.elements.fecha.value;
+            let nuevasEtiquetas = actual.elements.etiquetas.value;
+
+            nuevoValor = parseFloat(nuevoValor);
+       
+            let gasto = new gesPres.CrearGasto(nuevaDesc, nuevoValor, nuevaFecha, nuevasEtiquetas);
+            gesPres.anyadirGasto(gasto);
+
+            repintar();
+
+            let anyadirGasto = document.getElementById("anyadirgasto-formulario");
+
+            anyadirGasto.disabled = "";
+        }
+    }
+
+function eventoCancelar()
+{
+    this.handleEvent = function(e)
+    {
+        
+        e.target.form.remove();
+
+       
+        this.botonCrear.disabled = false;
+    }
+}
+
 export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
