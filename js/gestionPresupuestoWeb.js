@@ -242,6 +242,23 @@ function EditarHandleformulario() {
         btnEditarFormulario.setAttribute("disabled", "");
     }
 }
+function EnviarHandle(){
+    this.handleEvent = function(e){
+
+        e.preventDefault();
+
+        let formulario = e.currentTarget;
+        let descripcion = formulario.elements.descripcion.value;
+        this.gasto.actualizarDescripcion(descripcion);
+        let valor = parseFloat(formulario.elements.valor.value);
+        this.gasto.actualizarValor(valor);
+        let fecha = formulario.elements.fecha.value;
+        this.gasto.actualizarFecha(fecha);
+        let etiquetas = formulario.elements.etiquetas.value;
+        this.gasto.anyadirEtiquetas(etiquetas);
+        repintar();
+    }
+}
 
 export {
     mostrarDatoEnId,
