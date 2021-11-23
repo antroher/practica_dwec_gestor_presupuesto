@@ -172,7 +172,7 @@ function CrearGasto(desintro, valorintro, fecha = Date.now(), ...etiquetas) {
         }
         
     
-    };
+};
 
     
 
