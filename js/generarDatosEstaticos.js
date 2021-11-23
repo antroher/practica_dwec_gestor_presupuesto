@@ -5,6 +5,9 @@ let btnActualizar = document.getElementById('actualizarpresupuesto')
 btnActualizar.onclick = gestionWeb.actualizarPresupuestoWeb;
 let btnAnyadir = document.getElementById('anyadirgasto')
 btnAnyadir.onclick = gestionWeb.nuevoGastoWeb;
+let botonAnyadirGastoFormulario = document.getElementById("anyadirgasto-formulario");
+botonAnyadirGastoFormulario.addEventListener('click', gestionWeb.nuevoGastoWebFormulario);
+
 
 gestionPresupuesto.actualizarPresupuesto(1500);
 gestionWeb.mostrarDatoEnId("presupuesto", gestionPresupuesto.mostrarPresupuesto());
