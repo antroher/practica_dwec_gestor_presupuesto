@@ -32,7 +32,7 @@ function CrearGasto(desc, val = 0, fec = Date.now(), ...eti) {
         this.etiqueta = [];
     }
     if (fec === "") {
-        this.fecha = getDate();
+        this.fecha = Date.now();
     }
 
 	    this.descripcion = desc,
