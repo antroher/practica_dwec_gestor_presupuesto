@@ -262,7 +262,7 @@ function EditarHandleFormulario(){
 
         formulario.elements.descripcion.value=g.descripcion;
         formulario.elements.valor.value=g.valor;
-        formulario.elements.fecha.value=new Date(g.fecha).toLocaleDateString();
+        formulario.elements.fecha.value=new Date(g.fecha).toISOString().substring(0,10);
         formulario.elements.etiquetas.value=g.etiquetas.toString();
         divG.appendChild(formulario);
         
@@ -294,9 +294,7 @@ function EditarHandleFormulario(){
 }
 
 function FiltrarGastosWeb(){
-    this.handleEvent=function(){
-        let formulario = document.getElementById("formulario-filtrado");
-        formulario.addEventListener("submit",this.handleEvent=function(event){
+    this.handleEvent=function(event){
             event.preventDefault();
             let desc=document.getElementById("formulario-filtrado-descripcion").value;
             let vmin = parseFloat(document.getElementById("formulario-filtrado-valor-minimo").value);
@@ -308,15 +306,36 @@ function FiltrarGastosWeb(){
             if(etiq!=="" && typeof etiq !== 'undefined'){
                 etiquetasBuscar=gp.transformarListadoEtiquetas(etiq);
             }
-            let filtro ={fechaDesde:fini,fechaHasta:ffin,valorMinimo:vmin,valorMaximo:vmax,descripcionContiene:desc,etiquetasTiene:etiquetasBuscar};
+            //let filtro ={fechaDesde:fini,fechaHasta:ffin,valorMinimo:vmin,valorMaximo:vmax,descripcionContiene:desc,etiquetasTiene:etiquetasBuscar};
+            let filtro={};
+            if(desc!=="" && typeof desc !== 'undefined'){
+                filtro.descripcionContiene=desc;
+            }
+            if(vmin!=="" && typeof vmin !== 'undefined' && !isNaN(vmin)){
+                filtro.valorMinimo=vmin;
+            }
+            if(vmax!=="" && typeof vmax !== 'undefined'&& !isNaN(vmax)){
+                filtro.valorMaximo=vmax;
+            }
+            if(fini!=="" && typeof fini !== 'undefined'){
+                filtro.fechaDesde=fini;
+            }
+            if(ffin!=="" && typeof ffin !== 'undefined'){
+                filtro.fechaHasta=ffin;
+            }if(etiquetasBuscar.length>0){
+                filtro.etiquetasTiene=etiquetasBuscar;
+            }
+            
+            console.log(filtro);
             let gfiltrados=gp.filtrarGastos(filtro);
-            document.getElementById("listado-gastos-completo").innerHTML="";
+            document.getElementById("listado-gastos-completo").innerHTML="<hr>";
             gfiltrados.forEach(gf => {
                 mostrarGastoWeb("listado-gastos-completo",gf);
             });
-        });
+            document.getElementById("listado-gastos-completo").innerHTML+="<hr>";
+        };
 
-    }
+    
 }
 
 let boton=document.getElementById("actualizarpresupuesto");
@@ -325,6 +344,9 @@ let boton2=document.getElementById("anyadirgasto");
 boton2.onclick=nuevoGastoWeb;
 let botonAnyadirForm=document.getElementById("anyadirgasto-formulario");
 botonAnyadirForm.onclick=nuevoGastoWebFormulario;
+let fhandler= new FiltrarGastosWeb();
+let formulario = document.getElementById("formulario-filtrado");
+formulario.addEventListener("submit",fhandler);
 
 
 
