@@ -134,6 +134,11 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     
 }
 
+function nuevoGastoWebFormulario(){
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+    var formulario = plantillaFormulario.querySelector("form");
+}
+
 function repintar(){
     document.getElementById('presupuesto').innerHTML='';
     document.getElementById('gastos-totales').innerHTML="";
@@ -204,6 +209,11 @@ function BorrarEtiquetasHandle(){
         repintar();
     }
     
+}
+function EditarHandleFormulario(){
+    this.handleEvent = function(event){
+
+    }
 }
 
 export {
