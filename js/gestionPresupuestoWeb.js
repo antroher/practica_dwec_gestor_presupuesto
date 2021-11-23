@@ -12,25 +12,7 @@ function mostrarDatoEnId(idElemento, valor) {
     elemento.appendChild(p);
 }
 
-function mostrarGastoWeb(idElemento, gastos) {
-    /* let elemento = document.getElementById(idElemento);
-    for (let gasto of gastos) {
-        let data = "";
-        for (let i of gasto.etiquetas) {
-            data +=
-                `<span class="gasto-etiquetas-etiqueta">
-                ${i}
-            </span>`
-        } */
-        /* elemento.innerHTML +=
-            `<div class="gasto">
-            <div class="gasto-descripcion">${gasto.descripcion}</div>
-            <div class="gasto-fecha">${gasto.fecha}</div> 
-            <div class="gasto-valor">${gasto.valor}</div> 
-            <div class="gasto-etiquetas">
-            ${data}
-            </div>`; */
-
+function mostrarGastoWeb(idElemento, gasto) {
     let divG = document.createElement('div');
     divG.className += 'gasto';
 
@@ -62,6 +44,28 @@ function mostrarGastoWeb(idElemento, gastos) {
         }
         divGF.append(spanE);
     }
+
+    let buttonEdit = document.createElement("button");
+    buttonEdit.className += 'gasto-editar'
+    buttonEdit.textContent = "Editar";
+    buttonEdit.type = 'button';
+
+    let buttonBorr = document.createElement("button");
+    buttonBorr.className += 'gasto-borrar'
+    buttonBorr.textContent = "Borrar";
+    buttonBorr.type = 'button';
+
+    let edit = new EditarHandle();
+    let delet = new BorrarHandle();
+    edit.gasto = gasto;
+    delet.gasto = gasto;
+    
+    buttonEdit.addEventListener('click', edit);
+    buttonBorr.addEventListener('click', delet);
+    gastoEtiquetas.addEventListener('click',nuevoObjEtiqueta);
+    
+    divGasto.append(buttonEdit);
+    divGasto.append(buttonBorr);
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
@@ -124,7 +128,7 @@ let btnAddGasto = document.getElementById("anyadirgasto");
 btnAddGasto.addEventListener("click", nuevoGastoWeb);
 
 function EditarHandle() {
-    this.handleEvent = function (evento) {
+    this.handleEvent = function (event) {
         let descripcion = prompt("Escriba la descripción");
         let valor1 = parseFloat(prompt("Escriba el valor"));
         let fecha = prompt("Escriba la fecha. Formato yyyy-mm-dd");
@@ -139,7 +143,20 @@ function EditarHandle() {
     }
 }
 
+function BorrarHandle() {
+    this.handleEvent = function (event){
+      let num = this.gasto.id;
+      gestionPresupuesto.borrarGasto(num);
+      repintar();
+    }
+}
 
+function BorrarEtiquetasHandle() {
+    this.handleEvent = function (event){
+    this.gasto.borrarEtiquetas(this.etiqueta);
+    repintar();
+   }
+}
 
 export {
     mostrarDatoEnId,
@@ -148,5 +165,7 @@ export {
     repintar,
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
-    EditarHandle
+    EditarHandle,
+    BorrarHandle,
+    BorrarEtiquetasHandle
 }
