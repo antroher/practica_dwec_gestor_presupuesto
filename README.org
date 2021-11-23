@@ -30,3 +30,8 @@
   - [[./enunciados/interaccionHTML.org][Interacción con HTML]]
   - [[./enunciados/eventos.org][Eventos en JavaScript]]
   - [[./enunciados/formularios.org][Formularios y JavaScript]]
+<<<<<<< HEAD
+=======
+  - [[./enunciados/regexp.org][Expresiones regulares]]
+  - [[./enunciados/almacenamiento.org][Almacenamiento en el navegador]]
+>>>>>>> 1e8e757cb84468f37ef46c83a832d66a8ede796a
