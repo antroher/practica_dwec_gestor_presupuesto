@@ -1,5 +1,5 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
-
+"use strict"
 // TODO: Variable global
 var presupuesto = 0;
 var gastos = new Array();
@@ -31,7 +31,7 @@ function actualizarPresupuesto(num) {
 
 function mostrarPresupuesto() {
     // TODO
-    let texto = 'Tu presupuesto actual es de ' + presupuesto + ' €';
+    let texto = `Tu presupuesto actual es de ${presupuesto} €`;
     return texto;
 }
 

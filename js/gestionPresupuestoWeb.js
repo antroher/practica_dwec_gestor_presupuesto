@@ -1,4 +1,5 @@
 //Para iterar sobre un collection del node usar for...of
+// npx cypress open
 import * as gestionPresupuesto from "./gestionPresupuesto.js";
 
 
@@ -9,20 +10,20 @@ function mostrarDatoEnId(idElemento, valor) {
     elemento.appendChild(p);
 }
 
-function mostrarGastoWeb(idElemento, gastos) {
+function mostrarGastoWeb(idElemento, gasto) {
     let elemento = document.getElementById(idElemento);
-    let gastoDiv = document.getElementById("div");
+    let gastoDiv = document.createElement("div");
     
-    gastoDiv.className = "gasto";
+    gastoDiv.classList.add("gasto");
     elemento.append(gastoDiv);
     gastoDiv.innerHTML +=
     `
-    <div class="gasto-descripcion">${gasto.descripcion}</div>
-            <div class="gasto-fecha">${gasto.fecha}</div> 
-            <div class="gasto-valor">${gasto.valor}</div> 
+        <div class="gasto-descripcion">${gasto.descripcion}</div>
+        <div class="gasto-fecha">${gasto.fecha}</div> 
+        <div class="gasto-valor">${gasto.valor}</div> 
     `
     let etiquetas = document.createElement("div");
-    etiquetas.className = "gasto-etiquetas";
+    etiquetas.classList.add = "gasto-etiquetas";
     gastoDiv.append(etiquetas);
 
     for (let etiqueta of gasto.etiquetas) {
@@ -32,34 +33,36 @@ function mostrarGastoWeb(idElemento, gastos) {
 
         let etiquetaGasto = document.createElement("span");
         etiquetaGasto.className = "gasto-etiquetas-etiqueta";
-        etiquetaGasto.innerHTML = etiq + "<br>";
-        newObjEtiqueta.etiqueta = etiq;
+        etiquetaGasto.innerHTML = etiqueta + "<br>";
+        newObjEtiqueta.etiqueta = etiqueta;
 
-        etiquetas.append(etiqueta);
+        etiquetas.append(etiquetaGasto);
 
-        etiqueta.addEventListener("click",newObjEtiqueta);
+        etiquetaGasto.addEventListener("click",newObjEtiqueta);
 
     }
    
-    let bEditar = document.createElement("button");
-    bEditar.className += "gasto-editar";
-    bEditar.textContent = "Editar";
-    bEditar.type = "button";
+    let btnEditar = document.createElement("button");
+    btnEditar.className += 'gasto-editar'
+    btnEditar.textContent = "Editar";
+    btnEditar.type = 'button';
 
-    let bBorrar = document.createElement("button");
-    bBorrar.className += "gasto-borrar";
-    bBorrar.textContent = "Borrar";
-    bBorrar.type = "button";
+    let btnBorrar = document.createElement("button");
+    btnBorrar.className += 'gasto-borrar'
+    btnBorrar.textContent = "Borrar";
+    btnBorrar.type = 'button';
 
-    let editar = new EditarHandle();
-    editar.gasto = gasto;
-    editar.addEventListener("click", editar);
-    GastoDiv.append(editar);
+    let edit = new EditarHandle();
+    let delet = new BorrarHandle();
+    edit.gasto = gasto;
+    delet.gasto = gasto;
 
-    let borrar = new BorrarHandle();
-    borrar.gasto = gasto;
-    borrar.addEventListener('click', borrar);
-    GastoDiv.append(borrar);
+    btnEditar.addEventListener('click', edit);
+    btnBorrar.addEventListener('click', delet);
+
+
+    gastoDiv.append(btnEditar);
+    gastoDiv.append(btnBorrar);
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
@@ -91,19 +94,17 @@ function repintar() {
     let balance = gestionPresupuesto.calcularBalance();
     mostrarDatoEnId("balance-total",balance);
 
-    let borrarDatos = document.getElementById("listado-gastos-completos").innerHTML = "";
+    document.getElementById("listado-gastos-completo").innerHTML = " ";
 
     let listaGastos = gestionPresupuesto.listarGastos();
     for (const gasto of listaGastos) {
-
-        mostrarGastoWeb("listado-gastos-completo")
-
+        mostrarGastoWeb("listado-gastos-completo", gasto);
     }
 }
 
 function actualizarPresupuestoWeb() {
 
-    let valor = parseFloat(prompt ("Introduce un nuevo presupuesto"));
+    let valor = parseFloat(prompt ("Introduce un nuevo presupuesto: "));
 
     gestionPresupuesto.actualizarPresupuesto(valor);
 
@@ -116,10 +117,10 @@ function nuevoGastoWeb() {
     let descripcion = prompt("Introducir la descripcion");
     let valor = parseFloat(prompt("Introducir valor"));
     let fecha = prompt("Introduce la fecha (yyyy-mm-dd)");
-    const etiquetas = new Array();
+    //const etiquetas = new Array();
     let etiquetasintro = prompt("Introduce las etiquetas separandolas con (,) ");
     
-    etiquetas = etiquetasintro.split(",");
+    const etiquetas = etiquetasintro.split(",");
 
    
     /*
@@ -130,7 +131,7 @@ function nuevoGastoWeb() {
     }
     */    
 
-    const gasto = gestionPresupuesto.CrearGasto(descripcion, valor, fecha, ...etiquetas);
+    const gasto = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, ...etiquetas);
 
     gestionPresupuesto.anyadirGasto(gasto);
 
@@ -140,18 +141,20 @@ function nuevoGastoWeb() {
 
 function EditarHandle() {
     
-    this.handleEvent = function (a){
+    this.handleEvent = function(x){
 
-        let descripcion = prompt("Introducir la descripcion");
-        let valor = parseFloat(prompt("Introducir valor"));
-        let fecha = prompt("Introduce la fecha (yyyy-mm-dd)");
-        const etiquetas = new Array();
-        let etiquetasintro = promt("introduce las etiquetas separandolas con (,)");
+        let descripcion = prompt(`Introducir la descripcion`);
+        let valor1 = parseFloat(prompt(`Introducir valor`));
+        let fecha = prompt(`Introduce la fecha (yyyy-mm-dd)`);
+        //const etiquetas = new Array();
+        let etiquetasintro = prompt(`Introduce las etiquetas separandolas con (,)`);
 
-        etiquetas = etiquetasintro.split(",");
+        let etiquetas = etiquetasintro.split(`,`);
 
-       this.
-        
+        this.gasto.actualizarValor(valor1);
+        this.gasto.actualizarDescripcion(descripcion);
+        this.gasto.actualizarFecha(fecha);
+        this.gasto.anyadirEtiquetas(...etiquetas);
         
         repintar();
     }
@@ -160,7 +163,8 @@ function EditarHandle() {
 function BorrarHandle() {
 
     this.handleEvent = function (a) {
-        gestionPresupuesto.borrarGasto();
+        let idnum = this.gasto.id;
+        gestionPresupuesto.borrarGasto(idnum);
         repintar();
 
     }
@@ -169,47 +173,21 @@ function BorrarHandle() {
 function BorrarEtiquetasHandle() {
 
     this.handleEvent = function (a) {
-        
-
-
+        this.gasto.borrarEtiquetas(this.etiqueta);
+        repintar();
     }
 }
 
-/*
-    estructura HTML final
-
-<div class="gasto">
-  <div class="gasto-descripcion">DESCRIPCIÓN DEL GASTO</div>
-  <div class="gasto-fecha">FECHA DEL GASTO</div> 
-  <div class="gasto-valor">VALOR DEL GASTO</div> 
-  <div class="gasto-etiquetas">
-    <!-- Este elemento span tendrá un manejador de eventos -->
-    <span class="gasto-etiquetas-etiqueta">
-      ETIQUETA 1
-    </span>
-    <!-- Este elemento span tendrá un manejador de eventos -->
-    <span class="gasto-etiquetas-etiqueta">
-      ETIQUETA 2
-    </span>
-    <!-- Etcétera -->
-  </div> 
-  <!-- Este botón tendrá un manejador de eventos -->
-  <button class="gasto-editar" type="button">Editar</button>
-  <!-- Este botón tendrá un manejador de eventos -->
-  <button class="gasto-borrar" type="button">Borrar</button>
-</div>
-
-*/
-
-//button
+//botones
 const botonactulizarpresupuesto = document.getElementById('actualizarpresupuesto')
-
+const botonanyadirgasto = document.getElementById('anyadirgasto');
 
 //Event
 botonactulizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
+botonanyadirgasto.addEventListener('click', nuevoGastoWeb);
 
 export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb,
+    mostrarGastosAgrupadosWeb
 }
