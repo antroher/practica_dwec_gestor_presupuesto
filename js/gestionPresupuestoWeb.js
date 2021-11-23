@@ -1,6 +1,7 @@
 import * as gestionPresupuesto from './gestionPresupuesto.js';
 'use strict'
 
+                        // FUNCIONES  //
 function mostrarDatoEnId(idElemento, valor) {
 
     let elem = document.getElementById(idElemento);
@@ -9,53 +10,51 @@ function mostrarDatoEnId(idElemento, valor) {
     elem.append(p); // añade un hijo al elemento que han pasado por ID
 }
 
-function mostrarGastoWeb(idElemento,gasto) {
-   /* 
+function mostrarGastoWeb(idElemento,gasto) { 
     let elemento = document.getElementById(idElemento);
-
-    // creacrión elemento <div class="gasto">
-    let divG = document.createElement('div');
-    divG.className += 'gasto';
-    elemento.append(divG);
+    
+    // creación elemento <div class="gasto">
+    let divGasto = document.createElement('div');
+    divGasto.className += 'gasto';
+    elemento.append(divGasto);
 
     // <div class="gasto-descripcion">
-    let divGD = document.createElement('div');
-    divGD.className += 'gasto-descripcion';
-    divGD.textContent += `${gasto.descripcion}`; // ==>  <div class="gasto-descripcion"> ${gasto.descripcion} </div>
-    // <div class="gasto-fecha"
-    let divGF = document.createElement('div');
-    divGF.className = 'gasto-fecha';
-    divGF.textContent = `${gasto.fecha}`;
-    // <div class="gasto-valor">
-    let divGV = document.createElement('div');
-    divGV.className = 'gasto-valor';
-    divGV.textContent = `${gasto.valor}`;
-    // <div class="gasto-etiquetas">
-    let divGE = document.createElement('div');
-    divGE.className = 'gasto-etiquetas';
+    let divGastoDesc = document.createElement('div');
+    divGastoDesc.className += 'gasto-descripcion';
+    divGastoDesc.textContent += gasto.descripcion;
+    divGasto.append(divGastoDesc);
 
-    divG.append(divGD);
-    divG.append(divGF);
-    divG.append(divGV);
-    divG.append(divGE);
+    // <div class="gasto-fecha"
+    let divGastoFecha = document.createElement('div');
+    divGastoFecha.className = 'gasto-fecha';
+    divGastoFecha.textContent = new Date(gasto.fecha).toLocaleDateString();
+    divGasto.append(divGastoFecha);
+
+    // <div class="gasto-valor">
+    let divGastoValor = document.createElement('div');
+    divGastoValor.className = 'gasto-valor';
+    divGastoValor.textContent = gasto.valor + "";
+    divGasto.append(divGastoValor);
+
+    // <div class="gasto-etiquetas">
+    let divGastoEtiq = document.createElement('div');
+    divGastoEtiq.className = 'gasto-etiquetas';
 
     for (let eti of gasto.etiquetas){
-        //Creación del objeto para Borrar Etiquetas
-        let nuevoObjEtiqueta = new BorrarEtiquetasHandle(); 
-        nuevoObjEtiqueta.gasto = gasto;
+        let span = document.createElement('span');
+            span.className = "gasto-etiquetas-etiqueta";
+            span.textContent = eti + " ";
 
-        //Creación de la etiqueta
-        let gastoEtiqueta = document.createElement("span");
-        gastoEtiqueta.className = "gasto-etiquetas-etiqueta";
-        gastoEtiqueta.innerHTML = eti + "<br>";
-        nuevoObjEtiqueta.etiqueta = eti;
-
-        //Adjuntamos la etiqueta al div gasto-etiquetas
-        divGE.append(gastoEtiqueta);
-
-        //Creamos el manejador para la etiqueta
-        gastoEtiqueta.addEventListener('click',nuevoObjEtiqueta);
+        //Creación de la etiqueta + Creación del objeto para Borrar Etiquetas
+        if(idElemento=="listado-gastos-completo"){
+            let borraEt=new BorrarEtiquetasHandle();
+            borraEt.gasto = gasto;
+            borraEt.etiqueta = eti;
+            span.addEventListener("click",borraEt);
+        }
+        divGastoEtiq.append(span);
     }
+    divGasto.append(divGastoEtiq);
 
     // Botón Editar
     let btnEditar = document.createElement('button');
@@ -63,78 +62,33 @@ function mostrarGastoWeb(idElemento,gasto) {
     btnEditar.className = 'gasto-editar';
     btnEditar.textContent = 'Editar';
 
-    // nuevo objeto a partir de la función constructora
     let editar = new EditarHandle();
-    // propiedad 'gasto' del ojeto = gasto pasado por parámetro
     editar.gasto = gasto;
+    btnEditar.addEventListener('click', editar);
+    divGasto.append(btnEditar);
 
-    // Manejador del evento 'click'
-    btnEditar.addEventListener('click', edit);
+    //Botón Borrar
+    let btnBorrar = document.createElement('button');
+    btnBorrar.type = 'button';
+    btnBorrar.className += 'gasto-borrar';
+    btnBorrar.textContent = "Borrar";
 
-    // Insertar botón en el DOM
-    divG.append(btnEditar); */
+    let borrar = new BorrarHandle();
+    borrar.gasto = gasto;
+    btnBorrar.addEventListener('click', borrar);
+    divGasto.append(btnBorrar);
 
-    let elem = document.getElementById(idElemento);
-    let divGasto = document.createElement("div");
-    divGasto.className = "gasto";
-    elem.append(divGasto);
+    // Botón EditarFormulario
+    let btnEditarForm = document.createElement('button');
+    btnEditarForm.type = 'button';
+    btnEditarForm.className += 'gasto-editar-formulario';
+    btnEditarForm.textContent = 'Editar (formulario)';
 
-    /* Coloco el primer bloque de código html ya que este no va a variar ----------------------------------------------------------------------------.*/
+    let editarForm = new EditarHandleformulario();
+    editarForm.gasto = gasto;
+    btnEditarForm.addEventListener('click', editarForm);
+    divGasto.append(btnEditarForm);
 
-    divGasto.innerHTML += `<div class="gasto-descripcion">${gasto.descripcion}</div>
-        <div class="gasto-fecha">${gasto.fecha}</div> 
-        <div class="gasto-valor">${gasto.valor}</div> 
-    `;
-
-    let gastoEtiquetas = document.createElement("div");
-    gastoEtiquetas.className = "gasto-etiquetas";
-    divGasto.append(gastoEtiquetas);
-
-    for (let etiq of gasto.etiquetas) {
-        //Creación objeto  Borrar Etiquetas
-        let nuevoObjEtiqueta = new BorrarEtiquetasHandle(); 
-        nuevoObjEtiqueta.gasto = gasto;
-
-        //Creación de la etiqueta
-        let gastoEtiqueta = document.createElement("span");
-        gastoEtiqueta.className = "gasto-etiquetas-etiqueta";
-        gastoEtiqueta.innerHTML = etiq + " ";
-        nuevoObjEtiqueta.etiqueta = etiq;
-
-        //Adjuntamos la etiqueta al div gasto-etiquetas
-        gastoEtiquetas.append(gastoEtiqueta);
-
-        //Creamos el eventoClick para la etiqueta
-        gastoEtiqueta.addEventListener('click',nuevoObjEtiqueta);
-    }
-
-    //Botón editar-----------------------------------------------------------------------------------
-    let botonEditar = document.createElement("button");
-    botonEditar.className += 'gasto-editar'
-    botonEditar.textContent = "Editar";
-    botonEditar.type = 'button';
-
-    //Botón borrar---------------------------------------------------------------------------
-    let botonBorrar = document.createElement("button");
-    botonBorrar.className += 'gasto-borrar'
-    botonBorrar.textContent = "Borrar";
-    botonBorrar.type = 'button';
-
-    //Creamos objetos editarHandle y borrarHandle para asignarle un parametro gasto con el valor del gasto actual---------------------------------------.
-    let edit = new EditarHandle();
-    let delet = new BorrarHandle();
-    edit.gasto = gasto;
-    delet.gasto = gasto;
-
-    //Añadimos los eventos a los botones--------------------------------------------------------------------
-    botonEditar.addEventListener('click', edit);
-    botonBorrar.addEventListener('click', delet);
-
-    //Que lo añada
-    if(idElemento === "listado-gastos-completo"){
-        divGasto.append(botonEditar);
-        divGasto.append(botonBorrar);
-    }
 }
 
 function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo) {  // agrup = { "2021-09": 5, "2021-10": 39}
@@ -246,65 +200,130 @@ function nuevoGastoWeb() {
     //Llamar a la función repintar para que se muestre la lista con el nuevo gasto.
     repintar();
 }
+function nuevoGastoWebFormulario() {
+    //Copia del formulario/template
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+    var formulario = plantillaFormulario.querySelector("form");
 
-// FUNCIONES CONSTRUCTORAS manejadoras de eventos
+    let divControlesPrincipales = document.getElementById("controlesprincipales")
+    divControlesPrincipales.appendChild(formulario);
+    let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
+    
+    //botón submit
+    let enviarObj = new EnviarGastoFormHandle();
+    formulario.addEventListener('submit', enviarObj);
+    //botón cancelar
+    let cancelarObj = new CancelarFormHandle();
+    let btnCancelar = formulario.querySelector("button.cancelar");
+    btnCancelar.addEventListener("click", cancelarObj);
+}
 
-// Función manejadora de eventos para editar un gasto --> Función Constructora
+                // FUNCIONES CONSTRUCTORAS manejadoras de eventos
+
 function EditarHandle() {
-    this.handleEvent = function(event){
-        let desc = prompt('Escriba la descripción del nuevo gasto');
-        let val = parseFloat(prompt('Escriba el valor del nuevo gasto'));
-        let fech = new Date(prompt('Escriba la fecha del nuevo gasto')).toLocaleDateString();
-        let etiq = prompt('Escriba las etiquetas separadas por comas del nuevo gasto');
-            etiq = etiq.split(', ');
-        
-        this.gasto.actualizarValor(val);
-        this.gasto.actualizarDescripcion(desc);
-        this.gasto.actualizarFecha(fech);
-        this.gasto.anyadirEtiquetas(etiq);
-
+    this.handleEvent = function (event){
+        let descripcion = prompt("Escribe la nueva descripción del gasto");
+        let valor1 = parseFloat(prompt("Escribe la nueva valor del gasto"));
+        let fecha = prompt("Escribe la fecha del gasto en formato yyyy-mm-dd");
+        let etiquetas = prompt("Escribe las etiquetas del gasto separadas por ,");
+        let etiquetasArray = etiquetas.split(',');
+        this.gasto.actualizarValor(valor1);
+        this.gasto.actualizarDescripcion(descripcion);
+        this.gasto.actualizarFecha(fecha);
+        this.gasto.anyadirEtiquetas(...etiquetasArray);
         repintar();
     }
 }
-// Func. manejadora de eventos para borrar un gasto
 function BorrarHandle() {
     this.handleEvent = function (event){
-        
-        //Borrar el gasto asociado. Para ello utilizará la función borrarGasto y como parámetro utilizará el id del gasto seleccionado, disponible en this.gasto.
-        gestionPresupuesto.borrarGasto(this.gasto.id);
-        //Llamar a la función repintar para que se muestre la lista actualizada de gastos.
+      let number = this.gasto.id;
+      gestionPresupuesto.borrarGasto(number);
+      repintar();
+    }
+}
+function BorrarEtiquetasHandle() {
+    this.handleEvent = function (event){
+    this.gasto.borrarEtiquetas(this.etiqueta);
+    repintar();
+   }
+}
+function EnviarGastoFormHandle(){
+    this.handleEvent = function(e){
+        e.preventDefault();
+         let formulario = e.currentTarget;
+         let descripcion = formulario.elements.descripcion.value;
+         let valor = parseFloat(formulario.elements.valor.value);
+         let fecha = formulario.elements.fecha.value;
+         let etiquetas = formulario.elements.etiquetas.value;
+        let gastoNuevo = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, etiquetas);
+        gestionPresupuesto.anyadirGasto(gastoNuevo);
+        repintar();
+        document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+    }
+}
+//Manejador del evento editar gasto formulario
+function EditarHandleformulario() {
+    this.handleEvent = function (event){
+
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+        var formulario = plantillaFormulario.querySelector("form");
+        //En el enunciado pone que se ponga al final el añadir el formulario, pero si lo haces así explota
+        //por ello primero selecciono el nodo y después adjunto el formulario al DOM.
+        let divControlesPrincipales = document.getElementById("controlesprincipales")
+        divControlesPrincipales.appendChild(formulario);
+        //Recogemos el nodo que ha pedido el evento
+        let btnEditarFormulario = event.currentTarget;
+        btnEditarFormulario.appendChild(formulario);
+        formulario.elements.descripcion.value  = this.gasto.descripcion;
+        formulario.elements.valor.value = this.gasto.valor;
+        formulario.elements.fecha.value = new Date(this.gasto.fecha).toISOString().substr(0,10);
+        formulario.elements.etiquetas.value = this.gasto.etiquetas;
+
+        //Evento para el submit del formulario
+        let EditarFormHandle1 = new EnviarHandle();
+        EditarFormHandle1.gasto = this.gasto;
+        formulario.addEventListener('submit', EditarFormHandle1);
+        //botón cancelar
+        let btnCancelar = formulario.querySelector("button.cancelar");
+        let cancelarObj = new CancelarFormHandle();
+        btnCancelar.addEventListener("click", cancelarObj);
+
+        //Desactivar -añadir atributo disabled- al botón anyadirgasto-formulario
+        btnEditarFormulario.setAttribute("disabled", "");
+    }
+}
+//Manejador del evento cancelar del formulario
+function CancelarFormHandle() {
+    this.handleEvent = function (event){
+        //La única forma de borrar el formulario sin que salten mil errores
+        //básicamente recoge el padre del botón cancelar -el formulario- y lo borra
+        //llevo probando combinaciones 2 horas y esto es lo mejor que me ha salido
+        event.currentTarget.parentNode.remove();
+        let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
         repintar();
     }
 }
 
-function BorrarEtiquetasHandle() {
-    this.handleEvent = function(){
-        //Borrar la etiqueta seleccionada del gasto asociado. Para ello utilizará la función borrarEtiquetas del gasto asociado (this.gasto) y como parámetro
-        //utilizará la etiqueta seleccionada, disponible en this.etiqueta.  
-        this.gasto.borrarEtiquetas(this.etiqueta);
-
-        //Llamar a la función repintar para que se muestre la lista actualizada de gastos.
-        repintar();
-   }
-}
 //Botones
 let btnActualizar = document.getElementById('actualizarpresupuesto');
 let btnAnyadirgasto = document.getElementById('anyadirgasto');
-// const anyadirgastoFirmulario = document.getElementById("anyadirgasto-formulario");
+let anyadirgastoFormulario = document.getElementById("anyadirgasto-formulario");
+
 
 //Eventos
 btnActualizar.addEventListener('click', actualizarPresupuestoWeb);
 btnAnyadirgasto.addEventListener('click', nuevoGastoWeb);
-// anyadirgastoFirmulario.addEventListener('click', nuevoGastoWebFormulario)
+anyadirgastoFormulario.addEventListener('click', nuevoGastoWebFormulario);
+// anyadirgastoFormulario.onclick=nuevoGastoWebFormulario;  hacen lo mismo
 
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     actualizarPresupuestoWeb,
-    EditarHandle,
     nuevoGastoWeb,
     repintar,
+    EditarHandle,
     BorrarHandle,
     BorrarEtiquetasHandle
 }
