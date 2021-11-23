@@ -193,6 +193,11 @@ function nuevoGastoWebFormulario() {
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
     document.body.append(plantillaFormulario); // Ahora el script aparece en HTML
     var formulario = plantillaFormulario.querySelector("form"); //Accede al elemento <form>
+    //función mejoradora de evento
+    plantillaFormulario.addEventListener("submit", function (event) {
+        event.preventDefault();
+    })
+
     //desactivar boton origen
     let controlPrincipal = document.querySelector("#controlesprincipales");
         controlPrincipal.append(formulario);
@@ -201,19 +206,20 @@ function nuevoGastoWebFormulario() {
         formulario.addEventListener('click',Submit);
         formulario.addEventListener('click',Cancel);
 }
+
+
 //enviar botón
 function FormSubmitHandle() {
     this.handleEvent = function(event){
 
     gastos = gestionPresupuesto.CrearGasto();
     repintar();
-    removeAtributte("disable"); //habilitar el boón de envío
-    //SetAttribute("disable")//desabilita el botón
+    SetAttribute("disable")//habilitar el boón de envío
     }
 }
 //cancel botón
 function FormCancelHandle() {
-    
+    form
 }
 export {
     mostrarDatoEnId,
@@ -227,19 +233,6 @@ export {
     nuevoGastoWeb    
 }
 /*
-    disable quitarlo para activar de nuevo el boton
-    para submit de editar cada gasto se modifica el submit porqeu se trabaja con mostrar gasto web y se le añade un gasto
-    puedo ver si this.ObjectHasProperty 
-    if(HasOwnProperty(propiedad gasto)
-    rellenarlos con los gastos )
-    en el caso de que se tenga la propiedad gasto
-
-    método querySelectorAll("#boton") para todos los elementos, devuelve todos los elementos se diferencia con 0,1.. o for con el mismo id
-    método querySelector(".gasto#boton")para un unico eleemento,busca en el elemto boton hijo de la clase gasto 
-    getElementById("") si tengo un de gasto para todos devuelve el primero que encuentre mas no todos
-    getElementByClassName("boton editar") colección de elementos hasta el By. 
-    Devuelve la coleccion de la variable de todos los que posean esa clase
-
-    .+ cualquier ocurrencia de cualquier caracter una o muchas veces
-    .* cualquier caracter se repite de ninguna a 
+    event.preventDefault() --> permite que no se recarge la página, es decir que no se envién datos al servidor
+    removeAtributte("disable"); //desabilita el botón
 */
