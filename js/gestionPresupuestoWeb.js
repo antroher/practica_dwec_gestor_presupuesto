@@ -217,7 +217,7 @@ function EditarHandleFormulario()
     }
 }
 
-
+//Funcion submitEditHandle
 function submitEditHandle(){
     this.handleEvent = function (event){
         this.gasto.actualizarDescripcion(event.currentTarget.descripcion.value);
