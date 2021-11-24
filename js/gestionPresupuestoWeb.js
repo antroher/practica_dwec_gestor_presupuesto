@@ -14,44 +14,74 @@ function mostrarDatoEnId(idElemento ,valor){
 
 }
 
- function mostrarGastoWeb(idElemento ,gasto){
-     let string1 = `<div class="gasto">
-                            <div class="gasto-descripcion"> ${gasto.descripcion} </div>
-                            <div class="gasto-fecha"> ${new Date(gasto.fecha).toLocaleDateString()} </div>
-                             <div class="gasto-valor"> ${gasto.valor} </div>
-                            <div class="gasto-etiquetas">`;
+ function mostrarGastoWeb(idElemento, gasto)
+{
+    let contenido = document.getElementById(idElemento);
 
+    let div1 = document.createElement("div");
+    let div2 = document.createElement("div");
+    let div3 = document.createElement("div");
+    let div4 = document.createElement("div");
+    let div5 = document.createElement("div");
 
-                        
-    
-    console.log(gasto.etiquetas);
-    gasto.etiquetas.forEach(etiq => {
-            string1 += ` <span class="gasto-etiquetas-etiqueta"> ${etiq} </span> `;
+    div1.className = "gasto";
 
-    });
+    div2.className = "gasto-descripcion";
+    div2.append(gasto.descripcion);
 
-        
-    string1 += `</div></div>`;
+    div3.className = "gasto-fecha";
+    div3.append(gasto.fecha);
 
-    document.getElementById(idElemento).innerHTML += string1;
+    div4.className = "gasto-valor";
+    div4.append(gasto.valor);
 
-}
+    div1.append(div2);
+    div1.append(div3);
+    div1.append(div4);
 
-function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
-    let string1 = `<div class="agrupacion">
-                        <h1>Gastos agrupados por ${periodo}</h1>`
-    
-    for(let elem in agrup)
+    div5.className = "gasto-etiquetas";
+
+    for (let e of gasto.etiquetas)
     {
-        string1 += `<div class="agrupacion-dato">
-                        <span class="agrupacion-dato-clave">${elem} </span>
-                        <span class="agrupacion-dato-valor">${agrup[elem]}</span>
-                        </div> `;
-    }
-    string1 += `</div>`;
+        let span = document.createElement("span");
+        span.className = "gasto-etiquetas-etiqueta";
 
-    document.getElementById(idElemento).innerHTML += string1;
-                 
+        span.append(e);
+        div5.append(span);
+
+        //Borrado etiquetas
+        let evEtiquetas = new BorrarEtiquetasHandle();
+        evEtiquetas.gasto = gasto;
+        evEtiquetas.etiqueta = e;
+
+        span.addEventListener("click", evEtiquetas);
+    }
+
+    div1.append(div5);
+
+    //Boton Editar
+    let evEditar = new EditarHandle();
+    evEditar.gasto = gasto;
+
+    let btnEditar = document.createElement("button");
+    btnEditar.type = "button";
+    btnEditar.className = "gasto-editar";
+    btnEditar.textContent = "Editar";
+    btnEditar.addEventListener("click", evEditar);
+
+    //Boton borrar
+    let evBorrar = new BorrarHandle();
+    evBorrar.gasto = gasto;
+
+    let btnBorrar = document.createElement("button");
+    btnBorrar.type = "button";
+    btnBorrar.className = "gasto-borrar";
+    btnBorrar.textContent = "Borrar";
+    btnBorrar.addEventListener("click", evBorrar);
+
+    div1.append(btnEditar);
+    div1.append(btnBorrar);
+    contenido.append(div1);
 }
 
 function repintar()
