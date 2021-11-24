@@ -116,6 +116,17 @@ function EditarHandle()
     }
 }
 
+function BorrarHandle()
+{
+    this.handleEvent = function(e)
+    {
+        gesPres.borrarGasto(this.gasto.id);
+
+        repintar();
+    }
+}
+
+
 
 export {
     mostrarDatoEnId,
@@ -124,5 +135,6 @@ export {
     repintar,
     nuevoGastoWeb,
     actualizarPresupuestoWeb,
-    EditarHandle
+    EditarHandle,
+    BorrarHandle
 }
