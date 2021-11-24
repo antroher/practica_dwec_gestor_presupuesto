@@ -1,39 +1,62 @@
 "use strict";
 
-import * as GastosGen from "./gestionPresupuesto.js";
-import * as GastosGenWeb from "./gestionPresupuestoWeb.js";
+import * as gestionPresupuesto from './gestionPresupuesto.js';
+import * as gestionPresupuestoWeb from './gestionPresupuestoWeb.js';
 
-GastosGen.actualizarPresupuesto(1500);
+gestionPresupuesto.actualizarPresupuesto(1500);
 
-GastosGenWeb.mostrarDatoEnId("presupuesto", GastosGen.mostrarPresupuesto());
+let mostrar = gestionPresupuesto.mostrarPresupuesto();
+let datoPresupuesto = gestionPresupuestoWeb.mostrarDatoEnId("presupuesto",mostrar);
 
-GastosGen.anyadirGasto(new GastosGen.CrearGasto("Compra carne", 23.44, "2021-10-06", "casa", "comida"));
-GastosGen.anyadirGasto(new GastosGen.newCrearGasto("Compra fruta y verdura", 14.25, "2021-09-06", "supermercado", "comida"));
-GastosGen.anyadirGasto(new GastosGen.newCrearGasto("Bonobús", 18.60, "2020-05-26", "transporte"));
-GastosGen.anyadirGasto(new GastosGen.newCrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina"));
-GastosGen.anyadirGasto(new GastosGen.newCrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros"));
-GastosGen.anyadirGasto(new GastosGen.newCrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros"));
+let gasto1 = new gestionPresupuesto.CrearGasto("Compra carne",23.44,"2021-10-06","casa","comida");
+export let gasto2 = new gestionPresupuesto.CrearGasto("Compra fruta y verdura",14.25,"2021-09-06","supermercado","comida");
+let gasto3 = new gestionPresupuesto.CrearGasto("Bonobús",18.6,"2020-05-26","transporte");
+let gasto4 = new gestionPresupuesto.CrearGasto("Gasolina",60.42,"2021-10-08","transporte","gasolina");
+let gasto5 = new gestionPresupuesto.CrearGasto("Seguro hogar",206.45,"2021-09-26", "casa","seguros");
+let gasto6 = new gestionPresupuesto.CrearGasto("Seguro coche", 195.78,"2021-10-06","transporte","seguros");
 
-GastosGenWeb.mostrarDatoEnId("gastos-totales", GastosGen.calcularTotalGastos());
-GastosGenWeb.mostrarDatoEnId("balance-total", GastosGen.calcularBalance());
-GastosGenWeb.mostrarGastoWeb("listado-gastos-completo", GastosGen.listarGastos());
-GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-1", GastosGen.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"}));
-GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-2", GastosGen.filtrarGastos({valorMinimo:50}));
-GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-3", GastosGen.filtrarGastos({valorMinimo: 200, etiquetasTiene:["seguros"]}));
-GastosGenWeb.mostrarGastoWeb("listado-gastos-filtrado-4", GastosGen.filtrarGastos({valorMaximo: 50, etiquetasTiene:["comida","transporte"]}));
+gestionPresupuesto.anyadirGasto(gasto1);
+gestionPresupuesto.anyadirGasto(gasto2);
+gestionPresupuesto.anyadirGasto(gasto3);
+gestionPresupuesto.anyadirGasto(gasto4);
+gestionPresupuesto.anyadirGasto(gasto5);
+gestionPresupuesto.anyadirGasto(gasto6);
 
-let gastoAgrupado1 = GastosGen.agruparGastos("dia");
-GastosGen.agruparGastos("agrupacion-dia",gastoAgrupado1,"dia");
-GastosGenWeb.mostrarGastosAgrupadosWeb("agrupacion-dia",gastoAgrupado1,"dia");
+let gastoTotal = gestionPresupuesto.calcularTotalGastos().toFixed(2);
+gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales",gastoTotal);
+let balanceTotal = gestionPresupuesto.calcularBalance().toFixed(2);
+gestionPresupuestoWeb.mostrarDatoEnId("balance-total",balanceTotal);
+let matrizGasto = gestionPresupuesto.listarGastos();
 
-let gastoAgrupado2 = GastosGen.agruparGastos("mes");
-GastosGen.agruparGastos("agrupacion-mes",gastoAgrupado2,"mes");
-GastosGenWeb.mostrarGastosAgrupadosWeb("agrupacion-mes",gastoAgrupado2,"mes");
+for (const x of matrizGasto) {
+  gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", x);
+}
 
-let gastoAgrupado3 = GastosGen.agruparGastos("anyo");
-GastosGen.agruparGastos("agrupacion-mes",gastoAgrupado3,"anyo");
-GastosGenWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo",gastoAgrupado3,"año");
+let filtro1 = gestionPresupuesto.filtrarGastos({ fechaDesde: "2021-09-01", fechaHasta: "2021-09-30" });
+for (const gasto of filtro1) {
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1", gasto);
+}
 
-Cypress.on('uncaught:exception', (err, runnable) => {
-    return false
-})
+let filtro2 = gestionPresupuesto.filtrarGastos({ valorMinimo: 50, });
+for (const gasto of filtro2) {
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2", gasto);
+}
+
+let filtro3 = gestionPresupuesto.filtrarGastos({etiquetasTiene: ["seguros"],valorMinimo: 200});
+for (const gasto of filtro3) {
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3", gasto);
+}
+  
+let filtro4 = gestionPresupuesto.filtrarGastos({etiquetasTiene: ["comida", "transporte"],valorMaximo: 50});
+for (const gasto of filtro4) {
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gasto);
+}
+
+let agrupacion1 = gestionPresupuesto.agruparGastos("dia");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia",agrupacion1,"día");
+
+let agrupacion2 = gestionPresupuesto.agruparGastos("mes");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes",agrupacion2,"mes");
+
+let agrupacion3 = gestionPresupuesto.agruparGastos("anyo");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo",agrupacion3,"año");

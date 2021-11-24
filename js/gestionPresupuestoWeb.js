@@ -76,8 +76,8 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     for (let [param, value] of Object.entries(agrup)) {
         agrupacion += `
         <div class="agrupacion-dato">
-        <span class="agrupacion-dato-clave">${param}</span>
-        <span class="agrupacion-dato-valor">${value}</span>
+            <span class="agrupacion-dato-clave">${param}</span>
+            <span class="agrupacion-dato-valor">${value}</span>
         </div>`
     };
     elemento.innerHTML +=
