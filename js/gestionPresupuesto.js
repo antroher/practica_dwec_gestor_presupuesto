@@ -173,7 +173,7 @@ function filtrarGastos(filtrarG) {
                 }
             }
             if(filtrarG.hasOwnProperty("etiquetasTiene")){
-                if(filtrarG.etiquetasTiene.length != 0){
+                if(filtrarG.etiquetasTiene.length != 0 ){
                     let comp = false;
                     for(let desc of filtrarG.etiquetasTiene){
                         if(gastFil.etiquetas.includes(desc)){
@@ -185,6 +185,7 @@ function filtrarGastos(filtrarG) {
                     }
                 }
             }
+
             return gastFil;
         });
         return resFil;
@@ -206,7 +207,10 @@ let gastosAgr = listRes.reduce(function(agrup, gastFil){
 }, {});
 return gastosAgr;
 }
-
+function transformarListadoEtiquetas(input){
+    let etiquetasFiltradas = input.match(/[a-z0-9]+/gi);
+    return etiquetasFiltradas;
+}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -221,5 +225,6 @@ export {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    transformarListadoEtiquetas
 }
