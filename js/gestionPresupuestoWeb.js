@@ -47,7 +47,7 @@ function mostrarGastoWeb(idElemento,gasto) {
 
         //Creación de la etiqueta + Creación del objeto para Borrar Etiquetas
         if(idElemento=="listado-gastos-completo"){
-            let borraEt=new BorrarEtiquetasHandle();
+            let borraEt = new BorrarEtiquetasHandle();
             borraEt.gasto = gasto;
             borraEt.etiqueta = eti;
             span.addEventListener("click",borraEt);
