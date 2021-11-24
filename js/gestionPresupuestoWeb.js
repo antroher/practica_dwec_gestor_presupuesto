@@ -203,10 +203,12 @@ function nuevoGastoWeb() {
 function nuevoGastoWebFormulario() {
     //Copia del formulario/template
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+    // variable con el formulario
     var formulario = plantillaFormulario.querySelector("form");
 
     let divControlesPrincipales = document.getElementById("controlesprincipales")
     divControlesPrincipales.appendChild(formulario);
+    // deshabilitar el botón para que  no siga haciendo formularios
     let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
     
     //botón submit
@@ -247,6 +249,24 @@ function BorrarEtiquetasHandle() {
     repintar();
    }
 }
+//Este handle actualizará los valores del gasto que nosotros estemos manejando
+function EnviarHandle(){
+    this.handleEvent = function(event){
+        //Evitamos que se haga el submit
+        event.preventDefault();
+        //Recogemos el evento que ha realizado el evento y actualizamos los valores del gasto
+        let formulario = event.currentTarget;
+        let descripcion = formulario.elements.descripcion.value;
+        this.gasto.actualizarDescripcion(descripcion);
+        let valor = parseFloat(formulario.elements.valor.value);
+        this.gasto.actualizarValor(valor);
+        let fecha = formulario.elements.fecha.value;
+        this.gasto.actualizarFecha(fecha);
+        let etiquetas = formulario.elements.etiquetas.value;
+        this.gasto.anyadirEtiquetas(etiquetas);
+        repintar();
+    }
+}
 function EnviarGastoFormHandle(){
     this.handleEvent = function(e){
         e.preventDefault();
@@ -280,7 +300,7 @@ function EditarHandleformulario() {
         formulario.elements.etiquetas.value = this.gasto.etiquetas;
 
         //Evento para el submit del formulario
-        let EditarFormHandle1 = new EnviarHandle();
+        let EditarFormHandle1 = new EnviarHandle();  /* Aquí me falla el EnviarHandle()  */ 
         EditarFormHandle1.gasto = this.gasto;
         formulario.addEventListener('submit', EditarFormHandle1);
         //botón cancelar
