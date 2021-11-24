@@ -51,9 +51,9 @@ function CrearGasto(descripcion = "No hay descripción", valor = 0, fecha = Date
         }
 
         let fechaloc = new Date(this.fecha).toLocaleString();
-        let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\n
-                    Fecha: ${fechaloc}\n
-                    Etiquetas:\n${lasEtiquetas}`;
+        let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\n`;
+            texto += `Fecha: ${fechaloc}\n`;
+            texto += `Etiquetas:\n${lasEtiquetas}`;
         return texto;
     }
     this.actualizarFecha = function(fecha){
