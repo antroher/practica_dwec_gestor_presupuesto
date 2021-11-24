@@ -79,8 +79,27 @@ function CrearGasto(descripcion = "No hay descripción", valor = 0, fecha = Date
             }
         }
     }
+
+    this.obtenerPeriodoAgrupacion = function(periodo){
+        let periodoAgrupacion = "";
+        if(periodo == "anyo" || periodo == "mes" || periodo == "dia"){
+            const aux = new Date(this.fecha);
+            periodoAgrupacion = aux.toISOString();
+
+            if(periodo == "anyo"){
+                periodoAgrupacion = periodoAgrupacion.substring(0,4);
+            }else if(periodo == "mes"){
+                periodoAgrupacion = periodoAgrupacion.substring(0,7);
+            }else if(periodo == "dia"){
+                periodoAgrupacion = periodoAgrupacion.substring(0,10);
+            }
+        }
+        return periodoAgrupacion;
+    }
     
 }
+
+//https://www.youtube.com/watch?v=eVcBFTAh0co
 
 function listarGastos(){
     return gastos;
@@ -129,5 +148,7 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
