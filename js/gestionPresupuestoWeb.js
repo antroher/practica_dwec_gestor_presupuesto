@@ -6,6 +6,10 @@ mostrarGastosAgrupadosWeb*/
 import * as gp from "./gestionPresupuesto.js";
 'use strict'
 
+document.getElementById("actualizarpresupuesto").addEventListener("click", actualizarPresupuestoWeb);
+document.getElementById("anyadirgasto").addEventListener("click", nuevoGastoWeb);
+document.getElementById("anyadirgasto-formulario").addEventListener("click", nuevoGastoWebFormulario);
+
 function mostrarDatoEnId(idElemento,valor)
 {
     /**Función de dos parámetros que se encargará de escribir el valor (texto) en el elemento HTML con id idElemento indicado:
