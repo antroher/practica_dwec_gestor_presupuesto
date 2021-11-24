@@ -21,10 +21,17 @@ function mostrarPresupuesto(){
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
-function CrearGasto(descripcion, valor){
+function CrearGasto(descripcion = "No hay descripción", valor = 0, fecha = Date.now(), ...etiquetas){
     
     this.descripcion = descripcion;
     this.valor = (valor >= 0) ? valor : 0;
+    if(isNaN(Date.parse(fecha))){
+        this.fecha = Date.now();
+    }else{
+        this.fecha = Date.parse(fecha);
+    }
+    this.etiquetas = [];
+
     this.mostrarGasto = function(){
         return "Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €";
     };
@@ -37,11 +44,54 @@ function CrearGasto(descripcion, valor){
         }
     };
     
+    this.mostrarGastoCompleto = function(){
+        let lasEtiquetas = "";
+        for(let etiqueta of this.etiquetas){
+            lasEtiquetas += `- ${etiqueta}\n`;
+        }
+
+        let fechaloc = new Date(this.fecha).toLocaleString();
+        let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\n
+                    Fecha: ${fechaloc}\n
+                    Etiquetas:\n${lasEtiquetas}`;
+        return texto;
+    }
+    this.actualizarFecha = function(fecha){
+        if(!isNaN(Date.parse(fecha))){
+            this.fecha = Date.parse(fecha);
+        }
+    };
+    this.anyadirEtiquetas = function(...etiquetas){
+        for(let etiqueta of etiquetas){
+            if(this.etiquetas.includes(etiqueta) == false){
+                this.etiquetas.push(etiqueta);
+            }
+        }
+    }
+    //anyadirEtiquetas comprueba que no se creen duplicados
+    this.anyadirEtiquetas(...etiquetas);
+
+    this.borrarEtiquetas = function(...etiquetas){
+        for(let etiqueta of etiquetas){
+            let index = this.etiquetas.indexOf(etiqueta);
+            if(index != -1){
+                this.etiquetas.splice(index,1);
+            }
+        }
+    }
     
 }
 
 function listarGastos(){
     return gastos;
+}
+
+function anyadirGasto(gasto){
+    if(typeof(gasto) === "object"){
+        gasto.id = idGasto;
+        gastos.push(gasto);
+        idGasto++;
+    }
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -50,5 +100,10 @@ function listarGastos(){
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance
 }
