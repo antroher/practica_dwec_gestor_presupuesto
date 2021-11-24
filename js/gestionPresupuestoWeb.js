@@ -1,23 +1,23 @@
+//Carlos Ramos Mirete 2ºDAW N
 //Este fichero contendrá las utilidades necesarias para mostrar los datos de la aplicación en la página interaccionHTML.html
 "use strict";
 /**** IMPORTS ****/
 import * as gestionPresupuesto from "./gestionPresupuesto.js"
 
 /**** CONSTANTES ****/
-
-//Intento de ENUM
+//ENUM para tipo de botones.
 const BOTON = {
     EDITAR: "Editar",
     BORRAR: "Borrar",
     EDITAR_FORM: "Editar (Formulario)"
 }
 
-/**** CONSTRUCTORES ****/
+//*  CONSTRUCTORES  *//
 
-//--EVENTOS--//
+//* EVENTOS *//
 
 /**
- * Evento par el botón Editar
+ *  * Constructor de evento par el botón Editar *
  */
 function EditarHandle() {
     this.handleEvent = function () {
@@ -40,7 +40,7 @@ function EditarHandle() {
 }
 
 /**
- * Evento para el botón Borrar
+ * * Constructor de evento para el botón Borrar *
  */
 function BorrarHandle() {
     this.handleEvent = function () {
@@ -50,7 +50,7 @@ function BorrarHandle() {
 }
 
 /**
- * Evento para borrar una etiqueta
+ * * Constructor de evento para borrar una etiqueta. *
  */
 function BorrarEtiquetasHandle() {
     this.handleEvent = function () {
@@ -60,7 +60,7 @@ function BorrarEtiquetasHandle() {
 }
 
 /**
- * Evento para añadir un gasto desde un formulario.
+ * * Constructor de evento para añadir un gasto desde un formulario. *
  */
 function AnyadirGastoFormularioHandle() {
     this.handleEvent = function (event) {
@@ -81,18 +81,37 @@ function AnyadirGastoFormularioHandle() {
     }
 }
 
+/**
+ * * Constructor de evento que muestra el formulario a un gasto, y le crea los eventos de los botones del mismo. *
+ */
 function MostrarFormularioGastoHandle() {
     this.handleEvent = function (event) {
         event.preventDefault();
         let form = this.formulario;
-        this.padre.append(form);
-        form.elements.descripcion.value = this.gasto.descripcion;
-        form.elements.valor.value = this.gasto.valor;
-        form.elements.fecha.value = new Date(this.gasto.fecha);
-        this.btnPadre.disabled = true;
+        let padr = this.padre;
+        let gast = this.gasto;
+        //Desactivamos Boton padre
+        padr.querySelector(".gasto-editar-formulario").disabled = true;
+        //Añadimos formulario y sus valores
+        padr.append(form);
+        form.elements.descripcion.value = gast.descripcion;
+        form.elements.valor.value = gast.valor;
+        form.elements.fecha.value = new Date(gast.fecha).toISOString().substring(0, 10);
+        //Creamos eventos y añadimos elementos como proiedades.
+        let eventoAnyadir = new EditarGastoFormularioHandle();
+        let eventoCancelar = new CancelarGastoHandle();
+        eventoAnyadir.formulario = form;
+        eventoAnyadir.gasto = gast;
+        eventoCancelar.formulario = form;
+        //Añadimos los listeners
+        form.addEventListener("submit", eventoAnyadir);
+        form.querySelector(".cancelar").addEventListener("click", eventoCancelar);
     }
 }
 
+/**
+ * * Constructor de evento que edita un gasto. *
+ */
 function EditarGastoFormularioHandle() {
     this.handleEvent = function (event) {
         event.preventDefault();
@@ -103,29 +122,69 @@ function EditarGastoFormularioHandle() {
         g.actualizarFecha(elForm.fecha.value);
         g.borrarEtiquetas(g.etiquetas);
         let etiq = elForm.etiquetas.value;
-        if(etiq.includes(",")){
+        if (etiq.includes(",")) {
             etiq = etiq.split(",")
         }
         g.anyadirEtiquetas(etiq);
-        this.btnPadre.disabled = false;
+        this.formulario.parentNode.querySelector(".gasto-editar-formulario").disabled = false;
         repintar();
     }
 }
 
+/**
+ * * Constructor de evento que cancela la creación/edición de un gasto. *
+ */
 function CancelarGastoHandle() {
     this.handleEvent = function (event) {
         event.preventDefault();
-        this.padre.removeChild(this.formulario);
-        this.btnPadre.disabled = false;
+        let padre = this.formulario.parentNode;
+        let btnAnyadirGasto = document.getElementById("anyadirgasto-formulario");
+        if (btnAnyadirGasto.disabled == true) {
+            btnAnyadirGasto.disabled = false;
+            let hr = padre.querySelector("hr");
+            padre.removeChild(hr)
+        } else {
+            padre.querySelector(".gasto-editar-formulario").disabled = false;
+
+        }
+        padre.removeChild(this.formulario);
         repintar();
     }
 }
+function FiltrarGastosWebHandle(){
+    this.handleEvent = function(event){
+        event.preventDefault();
+        let elForm = this.formulario.elements;
+        let desc = elForm["formulario-filtrado-descripcion"].value;
+        let vMin = elForm["formulario-filtrado-valor-minimo"].value;
+        let vMax = elForm["formulario-filtrado-valor-maximo"].value;
+        let fDesd = elForm["formulario-filtrado-fecha-desde"].value;
+        let fHast = elForm["formulario-filtrado-fecha-hasta"].value;
+        let etiqTien = elForm["formulario-filtrado-etiquetas-tiene"].value;
+        if(etiqTien){
+            etiqTien = gestionPresupuesto.transformarListadoEtiquetas(etiqTien);
+        }
+        let objetoFiltro = {
+            descripcionContiene: desc,
+            fechaDesde: fDesd,
+            fechaHasta: fHast,
+            valorMinimo: vMin,
+            valorMaximo: vMax,
+            etiquetasTiene: etiqTien
+        }
+        let gastosFiltrados = gestionPresupuesto.filtrarGastos(objetoFiltro);
+        mostrarDatoEnId("listado-gastos-completo","")
+        gastosFiltrados.forEach(g => {
+            mostrarGastoWeb("listado-gastos-completo",g);
+        });
+    }
+}
 
-/**** FUNCIONES ****/
+//* FUNCIONES *//
 
 //Escribe el valor en el elemento HTML con id indicado
 /**
- * Escribe texto en el elemento HTML indicado con un ID.
+ * * Escribe texto en el elemento HTML indicado con un ID. *
  * @param {string} idElemento  - ID del elemento que se le quiere añadir un texto.
  * @param {string} texto - Texto que mostrará la estiqueta.
  */
@@ -144,7 +203,7 @@ function mostrarDatoEnId(idElemento, texto) {
 
 
 /**
- * Función que crea una etiqueta HTML
+ * * Función que crea una etiqueta HTML *
  * @param {strig} etiqueta  - Texto que indica que tipo de etiqueta se va ha crear.
  * @function @param {document.getElementById} padre - Etiqueta padre de la que se desea crear.
  * @param {string} clase - Texto que indica la clase de la etiqueta HTML.
@@ -160,7 +219,7 @@ function crearEtiquetaHTML(etiqueta, padre, clase, texto = "") {
 }
 
 /**
- * Función que  muestra un gasto en una etiqueta HTML.
+ ** Función que  muestra un gasto en una etiqueta HTML. *
  * @param {string} idElemento - ID del elemento HTML que se quiere modificar.
  * @param {gasto} gasto - Gasto que se quiere mostrar. 
  */
@@ -199,18 +258,6 @@ function mostrarGastoWeb(idElemento, gasto) {
         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
         let formulario = plantillaFormulario.querySelector("form");
         crearBoton(BOTON.EDITAR_FORM, gasto, "gasto-editar-formulario", divGasto, formulario);
-        let eventoAnyadir = new EditarGastoFormularioHandle();
-        let eventoCancelar = new CancelarGastoHandle()
-        eventoAnyadir.formulario = formulario;
-        eventoAnyadir.gasto = gasto;
-        eventoAnyadir.btnPadre = divGasto.querySelector(".gasto-editar-formulario");
-
-        eventoCancelar.padre = divGasto;
-        eventoCancelar.formulario = formulario;
-        eventoCancelar.btnPadre = divGasto.querySelector(".gasto-editar-formulario");
-
-        formulario.addEventListener("submit", eventoAnyadir);
-        formulario.querySelector(".cancelar").addEventListener("click", eventoCancelar);
     }
 }
 
@@ -220,6 +267,7 @@ function mostrarGastoWeb(idElemento, gasto) {
  * @param {Enumerator BOTON} tipoBoton  Tipo de botón que se creará.
  * @param {gasto} gasto - Gasto al que le afectará el evento.
  * @param {string} clase - Clase que se le aplicará al botón.
+ * @param {Element} formulario - Formulario que tiene que aparecer en el evento click del botón.
  * @returns {Element}  Referencia al botón HTML creado.
  */
 function crearBoton(tipoBoton, gast, clase, padre, formulario = undefined) {
@@ -246,9 +294,6 @@ function crearBoton(tipoBoton, gast, clase, padre, formulario = undefined) {
     evento.gasto = gast;
     boton.addEventListener("click", evento);
     padre.append(boton);
-    if (tipoBoton == BOTON.EDITAR_FORM){
-        evento.btnPadre = padre.querySelector("." + clase);
-    }
 }
 
 /**
@@ -330,7 +375,6 @@ function repintar() {
     //Mostrar el total de gastos agrupados por mes
     agrupacion = gestionPresupuesto.agruparGastos("mes");
     mostrarDatoEnId("agrupacion-mes", "");
-
     mostrarGastosAgrupadosWeb("agrupacion-mes", agrupacion, "mes");
 
     //Mostrar el total de gastos agrupados por año
@@ -339,7 +383,23 @@ function repintar() {
     mostrarGastosAgrupadosWeb("agrupacion-anyo", agrupacion, "año");
 }
 
-/**** EVENTOS DE LOS BOTONES ****/
+
+//* MANEJADORES DE EVENTOS *//
+
+let btnActualizarPresupuesto = document.getElementById("actualizarpresupuesto");
+btnActualizarPresupuesto.addEventListener("click", () => actualizarPresupuestoWeb());
+
+let btnAnyadirgasto = document.getElementById("anyadirgasto");
+btnAnyadirgasto.addEventListener("click", nuevoGastoWeb);
+
+let btnAnyadirgastoFormulario = document.getElementById("anyadirgasto-formulario");
+btnAnyadirgastoFormulario.addEventListener("click", nuevoGastoWebFormulario);
+
+let formularoFiltrarGastos = document.getElementById("formulario-filtrado");
+let eventoFormularioFiltratGasto = new FiltrarGastosWebHandle();
+eventoFormularioFiltratGasto.formulario = formularoFiltrarGastos;
+formularoFiltrarGastos.addEventListener("submit", eventoFormularioFiltratGasto);
+
 
 /**
  * Función que actualiza el presupuesto desde un botón de la web.
@@ -369,7 +429,7 @@ function nuevoGastoWebFormulario() {
     let divControlesPrincipales = document.getElementById("controlesprincipales");
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
     let formulario = plantillaFormulario.querySelector("form");
-    crearEtiquetaHTML("br", divControlesPrincipales, "");
+    ////crearEtiquetaHTML("br", divControlesPrincipales, "");
     crearEtiquetaHTML("hr", divControlesPrincipales, "");
     divControlesPrincipales.append(formulario);
     document.getElementById("anyadirgasto-formulario").disabled = true;
@@ -384,16 +444,6 @@ function nuevoGastoWebFormulario() {
     repintar();
 }
 
-/**** EVENTOS DE LOS BOTONES FIJOS ****/
-
-let btnActualizarPresupuesto = document.getElementById("actualizarpresupuesto");
-btnActualizarPresupuesto.addEventListener("click", () => actualizarPresupuestoWeb());
-
-let btnAnyadirgasto = document.getElementById("anyadirgasto");
-btnAnyadirgasto.addEventListener("click", nuevoGastoWeb);
-
-let btnAnyadirgastoFormulario = document.getElementById("anyadirgasto-formulario");
-btnAnyadirgastoFormulario.addEventListener("click", nuevoGastoWebFormulario);
 
 export {
     mostrarDatoEnId,
