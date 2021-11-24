@@ -60,6 +60,14 @@ function mostrarGastoWeb(idElemento, gasto){
     botonB.addEventListener("click",objBorrar);
     divGasto.append(botonB);
 
+    let botonEF = document.createElement('button');
+    botonEF.classList.add('gasto-editar-formulario');
+    botonEF.innerHTML = 'Editar (formulario)';
+    let objEditarForm = new EditarHandleFormulario();
+    objEditarForm.gasto = gasto;
+    botonEF.addEventListener("click",objEditarForm);
+    divGasto.append(botonEF);
+
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -174,6 +182,121 @@ function BorrarEtiquetasHandle(){
         repintar();
     }
 }
+
+function nuevoGastoWebFormulario(){
+
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+    var formulario = plantillaFormulario.querySelector("form");
+
+    //Enviar
+    let env = new enviarFormularioHandle();
+    formulario.addEventListener('submit',env);
+
+    //Cancelar
+    let bCancelar = formulario.querySelector("button.cancelar");
+    let can = new cancelarFormularioHandle();
+    bCancelar.addEventListener('click',can);
+
+    //Desacivar botón
+    document.getElementById('anyadirgasto-formulario').setAttribute('disabled', '');
+
+    //Añadir plantilla al final
+    document.getElementById('controlesprincipales').append(plantillaFormulario);
+}
+
+document.getElementById('anyadirgasto-formulario').addEventListener('click', nuevoGastoWebFormulario);
+
+function enviarFormularioHandle(){
+
+    this.handleEvent = function(event){
+
+        event.preventDefault();
+
+        let form = event.currentTarget;
+        let des = form.descripcion.value;
+        let val = parseFloat(form.valor.value);
+        let fec = form.fecha.value;
+        let eti = form.etiquetas.value;
+
+        let gastoEnviar = new gP.CrearGasto(des, val, fec, eti);
+
+        gP.anyadirGasto(gastoEnviar);
+    
+        repintar();
+
+        document.getElementById('anyadirgasto-formulario').removeAttribute('disabled');
+    }
+}
+
+
+function cancelarFormularioHandle(){
+
+    this.handleEvent = function(event){
+
+        event.currentTarget.parentNode.remove();
+
+        document.getElementById("anyadirgasto-formulario").removeAttribute('disabled');
+
+        repintar();
+        
+    }
+}
+
+
+function EditarHandleFormulario(){
+
+    this.handleEvent = function(event){
+
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+        var formulario = plantillaFormulario.querySelector("form");
+    
+        event.currentTarget.append(formulario);
+        event.currentTarget.setAttribute('disabled', '');
+    
+        formulario.descripcion.value = this.gasto.descripcion;
+        formulario.valor.value = parseFloat(this.gasto.valor);
+        formulario.fecha.value = new Date(this.gasto.fecha).toISOString().substr(0,10);
+        formulario.etiquetas.value = this.gasto.etiquetas;
+    
+        //Enviar
+        let envForm = new enviarHandle();
+        envForm.gasto = this.gasto;
+        formulario.addEventListener('submit',envForm);
+
+        //Cancelar
+        let bCancelarForm = formulario.querySelector("button.cancelar");
+        let canForm = new cancelarFormularioHandle();
+        bCancelarForm.addEventListener('click', canForm);
+
+    }
+
+}
+
+function enviarHandle(){
+
+    this.handleEvent = function(event){
+
+        event.preventDefault();
+
+        let form = event.currentTarget;
+
+        let des = form.descripcion.value;
+        this.gasto.actualizarDescripcion(des);
+
+        let val = parseFloat(form.valor.value);
+        this.gasto.actualizarValor(val);
+
+        let fec = form.fecha.value;
+        this.gasto.actualizarFecha(fec);
+
+        let eti = form.etiquetas.value;
+        this.gasto.anyadirEtiquetas(eti);
+    
+        repintar();
+    }
+}
+
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
