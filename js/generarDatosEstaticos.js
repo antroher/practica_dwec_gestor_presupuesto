@@ -27,13 +27,11 @@ gestionPresupuesto.anyadirGasto(gasto5);
 gestionPresupuesto.anyadirGasto(gasto6);
 
 // Mostrar gastos totales
-let gastosTotales = gestionPresupuesto.calcularTotalGastos();
-gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales",gastosTotales);
+gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales",gestionPresupuesto.calcularTotalGastos().toFixed(2));
                             //<div id="gastos-totales">
 
 // Mostar el balance total
-let balanceTotal = gestionPresupuesto.calcularBalance();
-gestionPresupuestoWeb.mostrarDatoEnId("balance-total",balanceTotal);
+gestionPresupuestoWeb.mostrarDatoEnId("balance-total",gestionPresupuesto.calcularBalance().toFixed(2));
                             //<div id="balance-total">
 
 // Mostrar listado de gastos
