@@ -11,10 +11,10 @@ let botonAnyadirGastoFormulario = document.getElementById("anyadirgasto-formular
 botonAnyadirGastoFormulario.addEventListener('click', metodosGastosWeb.nuevoGastoWebFormulario);
 
 let botonGuardarGastos = document.getElementById("guardar-gastos");
-botonGuardarGastos.addEventListener('click', metodosGastosWeb.guardarGastosWeb);
+botonGuardarGastos.addEventListener('click',new metodosGastosWeb.guardarGastosWeb);
 
 let botonCargarGastos = document.getElementById("cargar-gastos");
-botonCargarGastos.addEventListener('click', metodosGastosWeb.cargarGastosWeb);
+botonCargarGastos.addEventListener('click',new metodosGastosWeb.cargarGastosWeb);
 
 //let arrayEditarHandlers = new Array();
 //let arrayBorrarHandlers = new Array();

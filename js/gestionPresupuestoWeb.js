@@ -349,6 +349,7 @@ function guardarGastosWeb(){
     this.handleEvent = function(event){
         event.preventDefault();
         localStorage.GestorGastosDWEC = JSON.stringify(metodosGastos.listarGastos());
+        console.log(localStorage.GestorGastosDWEC);
     }
 }
 
