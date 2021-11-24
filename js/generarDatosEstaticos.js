@@ -10,6 +10,12 @@ botonAnyadirGasto.onclick = metodosGastosWeb.nuevoGastoWeb;
 let botonAnyadirGastoFormulario = document.getElementById("anyadirgasto-formulario");
 botonAnyadirGastoFormulario.addEventListener('click', metodosGastosWeb.nuevoGastoWebFormulario);
 
+let botonGuardarGastos = document.getElementById("guardar-gastos");
+botonGuardarGastos.addEventListener('click', metodosGastosWeb.guardarGastosWeb);
+
+let botonCargarGastos = document.getElementById("cargar-gastos");
+botonCargarGastos.addEventListener('click', metodosGastosWeb.cargarGastosWeb);
+
 //let arrayEditarHandlers = new Array();
 //let arrayBorrarHandlers = new Array();
 //let arrayBorrarEtiquetasHandlers = new Array();

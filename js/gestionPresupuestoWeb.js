@@ -345,6 +345,22 @@ let formularioFiltro = document.getElementById("formulario-filtrado");
 let handlerFiltro = new filtrarGastosWeb();
 formularioFiltro.addEventListener("submit", handlerFiltro);
 
+function guardarGastosWeb(){
+    this.handleEvent = function(event){
+        event.preventDefault();
+        localStorage.GestorGastosDWEC = JSON.stringify(metodosGastos.listarGastos());
+    }
+}
+
+function cargarGastosWeb(){
+    this.handleEvent = function(event){
+        event.preventDefault();
+        let gastosCargados = JSON.parse(localStorage.GestorGastosDWEC);
+        metodosGastos.cargarGastos(gastosCargados);
+        repintar();
+    }
+}
+
 
 export {
     mostrarDatoEnId,
@@ -354,5 +370,7 @@ export {
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
     nuevoGastoWebFormulario,
-    EditarHandleFormulario
+    EditarHandleFormulario,
+    guardarGastosWeb,
+    cargarGastosWeb
 }
