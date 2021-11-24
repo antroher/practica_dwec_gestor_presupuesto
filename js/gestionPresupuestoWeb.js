@@ -68,10 +68,27 @@ function repintar()
         mostrarGastoWeb("listado-gastos-completo", g);
     }
 }
+function nuevoGastoWeb()
+{
+    let desc = prompt("Introduce una descripcion");
+    let valor = parseFloat(prompt("Introduce un valor"));
+    let fecha = prompt("introduce una fecha");
+    let etiqs = prompt("introduce las etiquetas");
+
+    etiqs = etiqs.split(",");
+
+    let g1 = new gesPres.CrearGasto(desc, valor, fecha, etiqs);
+
+    gesPres.anyadirGasto(g1);
+
+    repintar();
+}
 
 
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar,
+    nuevoGastoWeb
 }
