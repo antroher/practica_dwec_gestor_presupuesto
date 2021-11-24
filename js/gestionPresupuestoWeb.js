@@ -83,6 +83,16 @@ function nuevoGastoWeb()
 
     repintar();
 }
+function actualizarPresupuestoWeb()
+{
+    let presu = prompt("Introduzca un presupuesto");
+
+    let presuNum = parseFloat(presu);
+
+    gesPres.actualizarPresupuesto(presuNum);
+
+    repintar();
+}
 
 
 export {
@@ -90,5 +100,6 @@ export {
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     repintar,
-    nuevoGastoWeb
+    nuevoGastoWeb,
+    actualizaePresupuestoWeb
 }
