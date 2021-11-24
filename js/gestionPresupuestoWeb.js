@@ -83,6 +83,7 @@ function nuevoGastoWeb()
 
     repintar();
 }
+
 function actualizarPresupuestoWeb()
 {
     let presu = prompt("Introduzca un presupuesto");
@@ -94,6 +95,27 @@ function actualizarPresupuestoWeb()
     repintar();
 }
 
+function EditarHandle()
+{
+    this.handleEvent = function(e)
+    {
+        let des = prompt("Introduce una descripcion");
+        let val = parseFloat(prompt("Introduce un valor"));
+        let fech = prompt("introduce una fecha");
+
+        let etiqsPrompt = prompt("introduce las etiquetas");
+
+        let etiq = etiqsPrompt.split(",");
+
+        this.gasto.actualizarValor(val);
+        this.gasto.actualizarDescripcion(des);
+        this.gasto.actualizarFecha(fech);
+        this.gasto.anyadirEtiquetas(...etiq);
+
+        repintar();
+    }
+}
+
 
 export {
     mostrarDatoEnId,
@@ -101,5 +123,6 @@ export {
     mostrarGastosAgrupadosWeb,
     repintar,
     nuevoGastoWeb,
-    actualizaePresupuestoWeb
+    actualizarPresupuestoWeb,
+    EditarHandle
 }
