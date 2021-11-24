@@ -79,6 +79,7 @@ function mostrarGastoWeb(idElemento,gasto)
     botEditarForm.textContent = "Editar (formulario)";
 
     let manejadorEditarForm = new EditarHandleformulario();
+    manejadorEditarForm.gasto = gasto;
     botEditarForm.addEventListener("click", manejadorEditarForm);
     div.append(botEditarForm)
 
@@ -200,24 +201,26 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
         this.handleEvent = function(e)
         {
             let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
-
             let formulario = plantillaFormulario.querySelector("form");
 
-        
+            document.getElementById("controlesprincipales").append(formulario);
+
+            let botonFormulario = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
+            
         
             let manejadorEnvio = new eventoEnviar();
-            let botonEnviar = formulario;
-            botonEnviar.addEventListener("submit", manejadorEnvio);
+            
+            formulario.addEventListener("submit", manejadorEnvio);
         
             let manejadorCancelar = new eventoCancelar();
-            manejadorCancelar.botonCrear = e.target;
+           
             let botonCancelar = plantillaFormulario.querySelector("button.cancelar");
             botonCancelar.addEventListener("click", manejadorCancelar);
         
-            e.target.disabled = "disabled";
+            
 
         
-            document.getElementById("controlesprincipales").append(formulario);
+            
         }
     }
 
@@ -237,15 +240,16 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
             let nuevasEtiquetas = actual.elements.etiquetas.value;
 
             nuevoValor = parseFloat(nuevoValor);
+            nuevasEtiquetas = nuevasEtiquetas.split(",");
        
-            let gasto = new gesPres.CrearGasto(nuevaDesc, nuevoValor, nuevaFecha, nuevasEtiquetas);
-            gesPres.anyadirGasto(gasto);
-
-            repintar();
+            let gasto1 = new CrearGasto(nuevaDesc, nuevoValor, nuevaFecha, nuevasEtiquetas);
+            anyadirGasto(gasto1);
 
             let anyadirGasto = document.getElementById("anyadirgasto-formulario");
 
-            anyadirGasto.disabled = "";
+            anyadirGasto.disabled = false;
+
+            repintar();
         }
     }
 
@@ -254,7 +258,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
         this.handleEvent = function(e)
         {
         
-            e.target.form.remove();
+            e.currentTarget.parentNode.remove();
 
        
             document.getElementById("anyadirgasto-formulario").disabled = false;
