@@ -125,7 +125,15 @@ function BorrarHandle()
         repintar();
     }
 }
+function BorrarEtiquetasHandle()
+{
+    this.handleEvent = function(e)
+    {
+        this.gasto.borrarEtiquetas(this.etiqueta);
 
+        repintar();
+    }
+}
 
 
 export {
@@ -136,5 +144,6 @@ export {
     nuevoGastoWeb,
     actualizarPresupuestoWeb,
     EditarHandle,
-    BorrarHandle
+    BorrarHandle,
+    BorrarEtiquetasHandle
 }
