@@ -320,7 +320,7 @@ function submitEditHandle () {
 function cancelarEditHandle () {
   this.handleEvent = function() {
       this.formulario.remove();
-      document.getElementById(`gasto-editar-formulario-${this.gasto.id}`).disabled = false;
+      document.querySelector(`#gasto-${this.gasto.id} .gasto-editar-formulario`).disabled = false;
   }
 }
 
@@ -373,7 +373,7 @@ function EditarHandleFormulario(){
     var form = plantillaFormulario.querySelector("form");
     document.getElementById("gasto-"+this.gasto.id).append(form);
 
-    document.getElementById("gasto-editar-formulario-"+this.gasto.id).disabled = true;
+    document.querySelector(`#gasto-${this.gasto.id} .gasto-editar-formulario`).disabled = true;
 
     form.descripcion.value = this.gasto.descripcion;
     form.valor.value = this.gasto.valor;
