@@ -411,39 +411,46 @@ function EditarHandleFormulario() {
 function filtrarGastoWeb () {
     //Prevenir el evento por defecto.
     event.preventDefault();
-
+    
     //Recogida de datos del formulario.
     let form = document.getElementById("formulario-filtrado")
     let filterDescription = form.elements["formulario-filtrado-descripcion"].value;
     let filterMinValue = parseFloat(form.elements["formulario-filtrado-valor-minimo"].value);
     let filterMaxValue = parseFloat(form.elements["formulario-filtrado-valor-maximo"].value);
-    let filterFromDate = Date.parse(form.elements["formulario-filtrado-fecha-desde"].value);
-    let filterUntilDate = Date.parse(form.elements["formulario-filtrado-fecha-hasta"].value);
+    let filterFromDate = form.elements["formulario-filtrado-fecha-desde"].value;
+    let filterUntilDate = form.elements["formulario-filtrado-fecha-hasta"].value;
     let filterContainTags = form.elements["formulario-filtrado-etiquetas-tiene"].value;
     
-    //Comprobación de si las etiquetas estan definidas.
-    if (typeof filterContainTags !== "undefined") {
-       filterContainTags = gP.transformarListadoEtiquetas(filterContainTags);
+    //Si las etiquetas estan vacias diremos que las etiquetas estan "undefined".
+    if (filterContainTags === "") {
+        filterContainTags = undefined;
     }
-
+    
     //Creación del objeto a filtrar.
     let filtro = {
         descripcionContiene: (filterDescription === "") ? undefined : filterDescription,
         valorMinimo: (isNaN(filterMinValue)) ? undefined : filterMinValue,
         valorMaximo: (isNaN(filterMaxValue)) ? undefined : filterMaxValue,
-        fechaDesde: (isNaN(filterFromDate)) ? undefined : filterFromDate,
-        fechaHasta: (isNaN(filterUntilDate)) ? undefined : filterUntilDate,
-        etiquetasTiene: (!Array.isArray(filterContainTags)) ? undefined : filterContainTags  
+        fechaDesde: (filterFromDate === "") ? undefined : filterFromDate,
+        fechaHasta: (filterUntilDate === "") ? undefined : filterUntilDate,
+        etiquetasTiene: (filterContainTags === "") ? undefined : filterContainTags  
     }
 
+    //Realización de la transformación de las etiquetas.
+    if (typeof filtro.etiquetasTiene !== "undefined") {
+        filtro.etiquetasTiene = gP.transformarListadoEtiquetas(filtro.etiquetasTiene);
+    }
+
+    //Filtrado de gastos.
     let gastosFiltrados = gP.filtrarGastos(filtro);
 
+    //Borrado del listado de gastos para mostrar los gastos filtrados.
     document.getElementById("listado-gastos-completo").innerHTML = "";
 
+    //Mostrar los gastos filtrados en el div "listado-gastos-completo".
     for (let gasto of gastosFiltrados) {
         mostrarGastoWeb("listado-gastos-completo", gasto);    
     }
-    
 }
 
 //Funciones a exportar para el test.

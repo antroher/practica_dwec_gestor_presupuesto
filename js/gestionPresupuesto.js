@@ -184,6 +184,7 @@ function filtrarGastos(filtroEntrante) {
         tieneEtiquetas = true;
     }
 
+    console.log(caseString);
     //Filtrado del array de gastos.
     let arrayDevolver = gastos.filter((gasto) => {
         //Creación de booleanos para su posterior uso.
