@@ -198,8 +198,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
 
     function nuevoGastoWebFormulario()
     {
-        this.handleEvent = function(e)
-        {
+      
             let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
             let formulario = plantillaFormulario.querySelector("form");
 
@@ -216,14 +215,9 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
         
             let manejadorCancelar = new eventoCancelar();
            
-            let botonCancelar = plantillaFormulario.querySelector("button.cancelar");
-            botonCancelar.addEventListener("click", manejadorCancelar);
+            let botonCancelar = formulario.querySelector("button.cancelar");
+            botonCancelar.addEventListener("click", manejadorCancelar);   
         
-            
-
-        
-            
-        }
     }
 
     let anyadirgastoForm = document.getElementById("anyadirgasto-formulario")
@@ -242,16 +236,17 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
             let nuevasEtiquetas = actual.elements.etiquetas.value;
 
             nuevoValor = parseFloat(nuevoValor);
-            nuevasEtiquetas = nuevasEtiquetas.split(",");
+            
        
-            let gasto1 = new CrearGasto(nuevaDesc, nuevoValor, nuevaFecha,...nuevasEtiquetas);
+            let gasto1 = new CrearGasto(nuevaDesc, nuevoValor, nuevaFecha,nuevasEtiquetas);
+            
             anyadirGasto(gasto1);
-
-            let anyadirGasto = document.getElementById("anyadirgasto-formulario");
-
-            anyadirGasto.disabled = false;
+            
+            let introducirGasto = document.getElementById("anyadirgasto-formulario");
+            introducirGasto.disabled = false;
 
             repintar();
+         
         }
     }
 
@@ -263,7 +258,9 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
             e.currentTarget.parentNode.remove();
 
        
-            document.getElementById("anyadirgasto-formulario").disabled = false;
+            let cancelar = document.getElementById("anyadirgasto-formulario")
+            cancelar.disabled = false;
+            repintar();
         }
     }
 
