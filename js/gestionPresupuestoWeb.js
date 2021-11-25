@@ -125,6 +125,7 @@ function repintar() {
         mostrarGastoWeb("listado-gastos-completo",list);
     }
 }
+
 // FUNCIONES MANEJADORAS DE EVENTOS ----------------------------------------------------------------------
 
 //función manejadora de evento click de #actualizarpresupuesto
@@ -136,30 +137,30 @@ function actualizarPresupuestoWeb(){
 }
 // manejadora del evento click del boton #anyadirgasto
 function nuevoGastoWeb() {
-
+    
     /* Pedir al usuario la información necesaria para crear un nuevo gasto mediante 
     sucesivas preguntas con prompt (por orden: descripción, valor, fecha y etiquetas). */
     
     //Descirpción del gasto.
     let gastoDesc = prompt('Introduce la descripción del gasto :');
-
+    
     //Convertir el valor a número (recuerda que prompt siempre devuelve un string).
     let gastoValor = parseFloat(prompt('Introduce el valor del gasto :'));
-
+    
     //Fecha del gasto.
     let gastoFecha =Date.parse(prompt('Introduce la fecha del gasto :'));
-
+    
     //Etiquetas del gasto.
     let gastoEtiquetas = prompt('Introduce las etiquetas del gasto separadas por comas :');
     //Convertimos la cadena de texto con las etiquetas a un array para poder pasárselo a la función constructora crearGasto.
     let arrayEtiquetas = gastoEtiquetas.split(',');
-
+    
     //Crear un nuevo gasto (función crearGasto). ¡Ojo con la manera de pasar el parámetro ~etiquetas~!
     let gastoWeb = new gestionPresupuesto.CrearGasto(gastoDesc,gastoValor,gastoFecha,arrayEtiquetas);
-
+    
     //Añadir el gasto a la lista (función anyadirGasto).
     gestionPresupuesto.anyadirGasto(gastoWeb);
-
+    
     //Llamar a la función repintar para que se muestre la lista con el nuevo gasto.
     repintar();
 }
@@ -170,22 +171,21 @@ function nuevoGastoWebFormulario() {
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
     // variable con el formulario
     var formulario = plantillaFormulario.querySelector("form");
-
+    // inserción en el DOM
     let divControlesPrincipales = document.getElementById("controlesprincipales")
     divControlesPrincipales.appendChild(formulario);
     // deshabilitar el botón para que  no siga haciendo formularios
     let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
     
+    // Botones del formulario
     //botón submit
     let enviarObj = new EnviarGastoFormHandle();
-    formulario.addEventListener('submit', enviarObj);
+    formulario.addEventListener('submit', enviarObj); // el botón de tipo submit (type="submit") recoge la acción submit, no click
     //botón cancelar
     let cancelarObj = new CancelarFormHandle();
-    let btnCancelar = formulario.querySelector("button.cancelar");
+    let btnCancelar = formulario.querySelector("button.cancelar");  // selecciona <button class="cancelar"> 
     btnCancelar.addEventListener("click", cancelarObj);
 }
-
-// FUNCIONES CONSTRUCTORAS manejadoras de eventos --------------------------------------------------------
 
 function EditarHandle() {   // Botón Editar del GASTO
     this.handleEvent = function (event){
@@ -262,10 +262,12 @@ function EnviarHandle(){
         repintar();
     }
 }
+// Manejador del evento 'submit' de añadir gasto con formulario
 function EnviarGastoFormHandle(){
-    this.handleEvent = function(e){
-        e.preventDefault();
-         let formulario = e.currentTarget;
+    this.handleEvent = function(event){
+        //Evitamos que se haga el submit
+        event.preventDefault();
+         let formulario = event.currentTarget;
          let descripcion = formulario.elements.descripcion.value;
          let valor = parseFloat(formulario.elements.valor.value);
          let fecha = formulario.elements.fecha.value;
@@ -280,9 +282,9 @@ function EnviarGastoFormHandle(){
 //Manejador del evento cancelar del formulario
 function CancelarFormHandle() {
     this.handleEvent = function (event){
-        //La única forma de borrar el formulario sin que salten mil errores
-        //básicamente recoge el padre del botón cancelar -el formulario- y lo borra
-        event.currentTarget.parentNode.remove();
+        //recoge el padre del botón cancelar -el formulario- y lo borra
+        event.currentTarget.parentNode.remove(); // -->parentNode es el padre del nodo actual.
+        // habilitar el botón añadirgasto-form
         let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
         repintar();
     }
