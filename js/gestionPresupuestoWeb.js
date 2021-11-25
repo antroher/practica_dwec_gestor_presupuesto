@@ -2,12 +2,15 @@
 
 import * as gP from './gestionPresupuesto.js';
 
+//Manejador de eventos de los botones
 document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario").addEventListener('click', nuevoGastoWebFormulario);
-document.getElementById("formulario-filtrado").addEventListener('submit', filtrarGastoWeb)
+document.getElementById("formulario-filtrado").addEventListener('submit', filtrarGastoWeb);
+document.getElementById("cargar-gastos").addEventListener('click', cargarGastosWeb);
+document.getElementById("guardar-gastos").addEventListener('click', guardarGastoWeb);
 
-
+//Funciones de gestionPresupuestoWeb
 function mostrarDatoEnId(idElemento, valor) {
     let element = document.getElementById(idElemento);
     element.innerHTML = `<p>${valor}</p>` 
@@ -102,67 +105,17 @@ function mostrarGastoWeb(idElemento, gasto) {
 
     //Asignado del div gasto al div padre ('listado-gastos')
     element.append(divGasto);
-
-    // //FUNCION ANTIGUA
-    // //Recogida del div del html.
-    // let element = document.getElementById(idElemento); 
-    
-    // //Creación de variables para su posterior utilización.
-    // let etiquetas = "";
-    // let tagIdStrings = [];
-    // let arrayEtiquetas = [];
-
-    // //Concatenación de las etiquetas del gasto y su guardado en arrays para su posterior uso.
-    // gasto.etiquetas.forEach((etiqueta) => {
-    //     etiquetas += 
-    //         `<span class="gasto-etiquetas-etiqueta" id="${gasto.id}-${etiqueta}">
-    //             ${etiqueta}
-    //         </span>`;
-
-    //     //Recogida de id del elemento y de la etiqueta a borrar en arrays para su posterior utilización.
-    //     tagIdStrings.push(`${gasto.id}-${etiqueta}`);
-    //     arrayEtiquetas.push(`${etiqueta}`);
-    // });    
-
-    // //Creación de la estructura HTML.
-    // element.innerHTML +=
-    //     `<div class="gasto">
-    //         <div class="gasto-descripcion">${gasto.descripcion}</div>
-    //         <div class="gasto-fecha">${gasto.fecha}</div> 
-    //         <div class="gasto-valor">${gasto.valor}</div> 
-    //         <div class="gasto-etiquetas">
-    //             ${etiquetas}
-    //         </div>
-    //         <button class="gasto-editar" id="gasto-editar-${gasto.id}" type="button">Editar</button>
-    //         <button class="gasto-borrar" id="gasto-borrar-${gasto.id}" type="button">Borrar</button>
-    //     </div>`;
-
-    //     //Asignación del objeto manejador al boton de editar. 
-    // let editHandler = new EditarHandle();
-    // editHandler.gasto = gasto;
-    // document.getElementById(`gasto-editar-${gasto.id}`).addEventListener('click', editHandler);
-    
-    // //Asignación del objeto manejador al boton de borrado.
-    // let deleteHandler = new BorrarHandle();
-    // deleteHandler.gasto = gasto;
-    // document.getElementById(`gasto-borrar-${gasto.id}`).addEventListener('click', deleteHandler);
-
-    // //Asignación del objeto manejador a los span de las etiquetas.
-    // tagIdStrings.forEach((tagId, index) => {
-    //     let tagsHandler = new BorrarEtiquetasHandle();
-    //     tagsHandler.gasto = gasto;
-    //     tagsHandler.etiqueta = arrayEtiquetas[index];
-    //     document.getElementById(tagId).addEventListener('click', tagsHandler);
-    // });
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
+    //Recogida de los elementos necesarios.
     let element = document.getElementById(idElemento);
     let keys =  Object.keys(agrup);
     let values = Object.values(agrup);
     let agrupDato = "";
     let periodoString = "";
 
+    //Modificación del periodo a mostrar dependiendo del periodo introducido.
     switch (periodo) {
         case "dia":
             periodoString = "día";
@@ -175,6 +128,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
             break;
     }
 
+    //Creación de los span mediante el uso de claves y valores del objeto agrup.
     keys.forEach((key, index) => {
         agrupDato += 
             `<div class="agrupacion-dato">
@@ -183,6 +137,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
              </div>`;
     });
 
+    //Concatenación de la string creada anteriormente al html.
     element.innerHTML += 
         `<div class="agrupacion">
             <h1>Gastos agrupados por ${periodoString}</h1>
@@ -451,6 +406,23 @@ function filtrarGastoWeb () {
     for (let gasto of gastosFiltrados) {
         mostrarGastoWeb("listado-gastos-completo", gasto);    
     }
+}
+
+function guardarGastoWeb () {
+    //Guardado del listado de gastos en el localStorage pasandolo previamente a JSON para poder almacenarlo.
+    localStorage.GestorGastosDWEC = JSON.stringify(gP.listarGastos());
+}
+
+function cargarGastosWeb() {
+    if (!localStorage.hasOwnProperty("GestorGastosDWEC")) {
+        gP.cargarGastos([]);
+    }
+    else {
+        gP.cargarGastos(JSON.parse(localStorage.getItem('GestorGastosDEWC')));
+    }
+    
+    //Llamada a la función repintar.
+    repintar();
 }
 
 //Funciones a exportar para el test.

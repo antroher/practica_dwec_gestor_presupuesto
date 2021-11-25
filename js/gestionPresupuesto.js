@@ -184,7 +184,6 @@ function filtrarGastos(filtroEntrante) {
         tieneEtiquetas = true;
     }
 
-    console.log(caseString);
     //Filtrado del array de gastos.
     let arrayDevolver = gastos.filter((gasto) => {
         //Creación de booleanos para su posterior uso.
@@ -443,11 +442,15 @@ function transformarListadoEtiquetas(etiquetasEntrantes) {
     return finalTags;
 }
 
+function cargarGastos (newGastos) {
+    //Sobrescribimos la variable global "gastos" con los nuevos gastos -> "newGastos".
+    gastos = newGastos;
+}
 
 // NO MODIFICAR A PARTIR DE AQUÍ:exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado.
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
-export   {
+export {
     mostrarPresupuesto,
     actualizarPresupuesto,
     CrearGasto,
@@ -458,5 +461,6 @@ export   {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
-    transformarListadoEtiquetas
+    transformarListadoEtiquetas, 
+    cargarGastos
 }
