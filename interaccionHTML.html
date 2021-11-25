@@ -1,64 +1,82 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>
-            Gestor de Presupuesto - Robert Hernández Ripoll
-        </title>
-    </head>
 
-    <body>
-        <div id="aplicacion">
-            <div id="controlesprincipales">
-                <button type="button" id="actualizarpresupuesto">
-                  Actualizar presupuesto
-                </button>
-                <button type="button" id="anyadirgasto">
-                  Añadir gasto
-                </button>
-              </div>
-            <div id="presupuesto">
-            </div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>
+    Gestor de Presupuesto - Robert Hernández Ripoll
+  </title>
+</head>
 
-            <div id="gastos-totales">
-            </div>
+<body>
+  <div id="aplicacion">
+    <div id="controlesprincipales">
+      <button type="button" id="actualizarpresupuesto">
+        Actualizar presupuesto
+      </button>
+      <button type="button" id="anyadirgasto">
+        Añadir gasto
+      </button>
+      <button type="button" id="anyadirgasto-formulario">
+        Añadir gasto (formulario)
+      </button>
+    </div>
+    <div id="presupuesto">
+    </div>
+    <div id="gastos-totales">
+    </div>
+    <div id="balance-total">
+    </div>
+    <div id="listado-gastos-completo">
+    </div>
+    <hr>
+    <div id="listado-gastos-filtrado-1">
+    </div>
+    <div id="listado-gastos-filtrado-2">
+    </div>
+    <div id="listado-gastos-filtrado-3">
+    </div>
+    <div id="listado-gastos-filtrado-4">
+    </div>
+    <div id="agrupacion-dia">
+    </div>
+    <div id="agrupacion-mes">
+    </div>
+    <div id="agrupacion-anyo">
+    </div>
+  </div>
+  <template id="formulario-template">
+    <form>
+      <div class="form-control">
+        <label for="descripcion">Descripción</label>
+        <input type="text" name="descripcion" id="descripcion">
+      </div>
+      <div class="form-control">
+        <label for="valor">Valor</label>
+        <input type="number" step="0.01" name="valor" id="valor">
+      </div>
+      <div class="form-control">
+        <label for="fecha">Fecha</label>
+        <input type="date" name="fecha" id="fecha">
+      </div>
+      <div class="form-control">
+        <label for="etiquetas">Etiquetas</label>
+        <input type="text" name="etiquetas" id="etiquetas">
+      </div>
+      <button type="submit">Enviar</button>
+      <button class="cancelar" type="button">Cancelar</button>
+    </form>
+  </template>
 
-            <div id="balance-total">
-            </div>
-
-            <div id="listado-gastos-completo">
-            </div>
-
-            <div id="listado-gastos-filtrado-1">
-            </div>
-
-            <div id="listado-gastos-filtrado-2">
-            </div>
-
-            <div id="listado-gastos-filtrado-3">
-            </div>
-
-            <div id="listado-gastos-filtrado-4">
-            </div>
-
-            <div id="agrupacion-dia">
-            </div>
-
-            <div id="agrupacion-mes">
-            </div>
-
-            <div id="agrupacion-anyo">
-            </div>
-        </div>
-
-        <!--
+  <!--
              TODO: Cargar el script js/generarDatosEstaticos.js
 
              Cargar script al final para que se haya cargado todo el HTML previo.
              El script se debe cargar con el atributo type="module" porque vamos a utilizar "import"
              https://es.javascript.info/modules-intro#que-es-un-modulo
         -->
-        <script src="./js/generarDatosEstaticos.js" type="module"></script>
-    </body>
+  <script src="./js/generarDatosEstaticos.js" type="module"></script>
+</body>
+
 </html>
