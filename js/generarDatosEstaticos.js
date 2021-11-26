@@ -10,9 +10,10 @@ btnAnyadir.onclick = gestionWeb.nuevoGastoWeb;
 let btnAnyadirGastoFormulario = document.getElementById("anyadirgasto-formulario");
 btnAnyadirGastoFormulario.addEventListener('click', gestionWeb.nuevoGastoWebFormulario);
 
-
 gestionPresupuesto.actualizarPresupuesto(1500);
 gestionWeb.mostrarDatoEnId("presupuesto", gestionPresupuesto.mostrarPresupuesto());
+
+
 let g1= new gestionPresupuesto.CrearGasto("Comprar carne", 23.44,"2021-10-06", "supermercado", "casa");
 let g2= new gestionPresupuesto.CrearGasto("Comprar fruta y verdura", 14.25,"2021-09-06", "supermercado", "comida");
 let g3= new gestionPresupuesto.CrearGasto("Bonobús", 18.60,"2020-05-26", "supermercado");

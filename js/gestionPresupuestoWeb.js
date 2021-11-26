@@ -1,5 +1,12 @@
 import * as gestionPresupuesto from './gestionPresupuesto.js'
 
+function cargarGastosWeb(){
+
+}
+
+function guardarGastosWeb(){
+
+}
 function nuevoGastoWebFormulario(){
     
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
@@ -7,6 +14,7 @@ function nuevoGastoWebFormulario(){
     let boton = document.getElementById("anyadirgasto-formulario");
     boton.disabled = true;
     document.getElementById("controlesprincipales").append(formulario);
+    
 
     let anyadirGastoFromHandler = new AnyadirGastoFormularioHandler();
     anyadirGastoFromHandler.formulario = formulario;
@@ -27,7 +35,13 @@ function nuevoGastoWebFormulario(){
 }
 
 function repintar(){
+    let divGasto = document.createElement('div');
+    divGasto.className = 'gasto';
+    let h1 = document.createElement('h1');
+    let texto = "Presupuesto actual"
+    h1.append(texto);
     document.getElementById('presupuesto').innerHTML = '';
+    divGasto.append(h1);
     document.getElementById('balance-total').innerHTML = '';
     document.getElementById('gastos-totales').innerHTML = '';
     mostrarDatoEnId('presupuesto', gestionPresupuesto.mostrarPresupuesto());
@@ -62,11 +76,12 @@ function repintar(){
 
     document.getElementById("agrupacion-anyo").innerHTML = "";
     mostrarGastosAgrupadosWeb("agrupacion-anyo", gestionPresupuesto.agruparGastos("anyo"), "año");
+
     
 }
  function actualizarPresupuestoWeb(){
     let pres = parseFloat(prompt('Introduce un nuevo presupuesto:'));
-    gestionPresupuesto.actualizarPresupuesto(pres);
+    gestionPresupuesto.actualizarPresupuesto(pres);    
     repintar();
  }
 
@@ -198,10 +213,19 @@ function mostrarDatoEnId(idElemento, valor){
 }
 
 function mostrarGastoWeb(idElemento, gasto){
-    let elem = document.getElementById(idElemento);  
+    let elem = document.getElementById(idElemento); 
     
     let divGasto = document.createElement('div');
     divGasto.className = 'gasto';
+
+    let texto = "<h2> Presupuesto </h2>";
+
+    let divPresupuesto = document.createElement('div');
+    divPresupuesto.className = 'presupuesto';
+
+    let divGastoPresupuesto = document.createElement('div');
+    divGastoPresupuesto.className = 'presupuesto';
+    divGastoPresupuesto.textContent = texto;
 
     let divGastoDescripcion = document.createElement('div');
     divGastoDescripcion.className = 'gasto-descripcion'; 
@@ -222,28 +246,30 @@ function mostrarGastoWeb(idElemento, gasto){
     divGasto.append(divGastoDescripcion);
     divGasto.append(divGastoFecha);
     divGasto.append(divGastoValor);
-
+    divGasto.append(divPresupuesto);
+    let spanH = document.createElement('span');
+    let spacio = "______________________________________________________"
+    let br = document.createElement('br');
     gasto.etiquetas.forEach(label =>
         {
             let borraEti = new BorrarEtiquetasHandle();
             borraEti.gasto = gasto;
             borraEti.etiqueta = label;
             
-             
-
-            let spanH = document.createElement('span');
             spanH.className = 'gasto-etiquetas-etiqueta';
             spanH.textContent = label + '';  
             if(idElemento == "listado-gastos-completo"){
                 spanH.addEventListener("click", borraEti);
             }
 
-            divGastoEtiquetas.append(spanH);         
+            divGastoEtiquetas.append(spanH);   
+                 
         });
-
-    divGasto.append(divGastoEtiquetas); 
-
-
+    
+    
+    divGasto.append(divGastoEtiquetas);
+    
+     
     let botonEditar = document.createElement('button');
     botonEditar.className = 'gasto-editar';
     botonEditar.type = 'button';
@@ -262,7 +288,6 @@ function mostrarGastoWeb(idElemento, gasto){
     borrarHandle.gasto = gasto;
     botonBorrar.addEventListener('click', borrarHandle);
     
-
     let botonEditarF=document.createElement("button");
     botonEditarF.className="gasto-editar-formulario";
     botonEditarF.type="button";
@@ -280,7 +305,14 @@ function mostrarGastoWeb(idElemento, gasto){
         divGasto.append(botonEditar);
         divGasto.append(botonBorrar);
         divGasto.append(botonEditarF);
+        divGasto.append(br);
+        divGasto.append(spacio);
+        divGasto.append(br);
+        
     } 
+    divGasto.append(br);
+    divGasto.append(spacio);
+    divGasto.append(br);
 }    
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -307,5 +339,7 @@ export   {
     repintar,
     nuevoGastoWeb,
     nuevoGastoWebFormulario,
-    EditarHandleFormulario
+    EditarHandleFormulario,
+    cargarGastosWeb,
+    guardarGastosWeb
 }
