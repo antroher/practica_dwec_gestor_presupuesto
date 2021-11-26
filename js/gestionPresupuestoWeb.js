@@ -151,8 +151,9 @@ function CancelarGastoHandle() {
         repintar();
     }
 }
-function FiltrarGastosWebHandle(){
-    this.handleEvent = function(event){
+
+function FiltrarGastosWebHandle() {
+    this.handleEvent = function (event) {
         event.preventDefault();
         let elForm = this.formulario.elements;
         let desc = elForm["formulario-filtrado-descripcion"].value;
@@ -161,7 +162,7 @@ function FiltrarGastosWebHandle(){
         let fDesd = elForm["formulario-filtrado-fecha-desde"].value;
         let fHast = elForm["formulario-filtrado-fecha-hasta"].value;
         let etiqTien = elForm["formulario-filtrado-etiquetas-tiene"].value;
-        if(etiqTien){
+        if (etiqTien) {
             etiqTien = gestionPresupuesto.transformarListadoEtiquetas(etiqTien);
         }
         let objetoFiltro = {
@@ -173,10 +174,34 @@ function FiltrarGastosWebHandle(){
             etiquetasTiene: etiqTien
         }
         let gastosFiltrados = gestionPresupuesto.filtrarGastos(objetoFiltro);
-        mostrarDatoEnId("listado-gastos-completo","")
+        mostrarDatoEnId("listado-gastos-completo", "")
         gastosFiltrados.forEach(g => {
-            mostrarGastoWeb("listado-gastos-completo",g);
+            mostrarGastoWeb("listado-gastos-completo", g);
         });
+    }
+}
+
+function GuardarGastoHandle() {
+    this.handleEvent = function (event) {
+        event.preventDefault();
+        let listaGastos = gestionPresupuesto.listarGastos();
+        if (listaGastos.length != 0) {
+            listaGastos = JSON.stringify(listaGastos);
+        }
+        localStorage.GestorGastosDWEC = listaGastos;
+    }
+}
+
+function CargarGastoHandle() {
+    this.handleEvent = function (event) {
+        event.preventDefault();
+        if(localStorage.getItem("GestorGastosDWEC") === null){
+            gestionPresupuesto.cargarGastos([])
+        }else{
+        let listaGastos = JSON.parse(localStorage.getItem("GestorGastosDWEC"));
+        gestionPresupuesto.cargarGastos(listaGastos);
+        }
+        repintar();
     }
 }
 
@@ -299,7 +324,7 @@ function crearBoton(tipoBoton, gast, clase, padre, formulario = undefined) {
 /**
  * Función que mostrará una agrupación de gastos en un elemento HTML indicado.
  * @param {string} idElemento - ID del elemento que se le quiere añadir un texto.
- * @function @param {Enumerator} agrup - Objeto con los periodos de agupación y sus valores (Resultado de la función gestionPresupuesto.obtenerPeriodoAgrupacion).
+ * @param {Enumerator} agrup - Objeto con los periodos de agupación y sus valores (Resultado de la función gestionPresupuesto.obtenerPeriodoAgrupacion).
  * @param {string} periodo - Periodo de agupación que se le añadirá al titulo al mostrar la etiqueta HTML.
  */
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
@@ -386,20 +411,28 @@ function repintar() {
 
 //* MANEJADORES DE EVENTOS *//
 
+//Manejador del botón Actualizar Presuspuesto
 let btnActualizarPresupuesto = document.getElementById("actualizarpresupuesto");
 btnActualizarPresupuesto.addEventListener("click", () => actualizarPresupuestoWeb());
-
+//Manejador del botón Añadir Gasto
 let btnAnyadirgasto = document.getElementById("anyadirgasto");
 btnAnyadirgasto.addEventListener("click", nuevoGastoWeb);
-
+//Manejador del botón Añadir Gasto Formulario
 let btnAnyadirgastoFormulario = document.getElementById("anyadirgasto-formulario");
 btnAnyadirgastoFormulario.addEventListener("click", nuevoGastoWebFormulario);
-
+//Manejador del formulario de Filtrar Gastos 
 let formularoFiltrarGastos = document.getElementById("formulario-filtrado");
 let eventoFormularioFiltratGasto = new FiltrarGastosWebHandle();
 eventoFormularioFiltratGasto.formulario = formularoFiltrarGastos;
 formularoFiltrarGastos.addEventListener("submit", eventoFormularioFiltratGasto);
-
+//Manejador del botón Guardar Gastos
+let btnGuardarGasto = document.getElementById("guardar-gastos");
+let eventoGuardarGasto = new GuardarGastoHandle();
+btnGuardarGasto.addEventListener("click", eventoGuardarGasto);
+//
+let btnCargarGastos = document.getElementById("cargar-gastos");
+let eventoCargar = new CargarGastoHandle();
+btnCargarGastos.addEventListener("click", eventoCargar);
 
 /**
  * Función que actualiza el presupuesto desde un botón de la web.
@@ -425,6 +458,9 @@ function nuevoGastoWeb() {
     repintar();
 }
 
+/**
+ * Función que añade un nuevo Gasto desde el formulario del botón de Añadir Gastos.
+ */
 function nuevoGastoWebFormulario() {
     let divControlesPrincipales = document.getElementById("controlesprincipales");
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
@@ -443,7 +479,6 @@ function nuevoGastoWebFormulario() {
     formulario.querySelector(".cancelar").addEventListener("click", eventoCancelar);
     repintar();
 }
-
 
 export {
     mostrarDatoEnId,

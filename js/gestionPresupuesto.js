@@ -224,25 +224,9 @@ function filtrarGastos(objetoFiltro) {
   }
 }
 
-function agruparGastos(
-  periodo = "mes",
-  etiquetas = [],
-  fechDesd,
-  fechaHas = Date.now()
-) {
-  //if (fechDesd == undefined){
-  //let aux = new Date(Date.now()).getFullYear();
-  //fechDesd = 0;
-  //}
-  let listaResultadoFiltros = filtrarGastos({
-    fechaDesde: fechDesd,
-    fechaHasta: fechaHas,
-    etiquetasTiene: etiquetas,
-  });
-  let gastosAgrupados = listaResultadoFiltros.reduce(function (
-    acumulador,
-    gast
-  ) {
+function agruparGastos(periodo = "mes", etiquetas = [], fechDesd, fechaHas = Date.now()) {
+  let listaResultadoFiltros = filtrarGastos({fechaDesde: fechDesd,fechaHasta: fechaHas,etiquetasTiene: etiquetas});
+  let gastosAgrupados = listaResultadoFiltros.reduce(function (acumulador,gast) {
     let perAgrup = gast.obtenerPeriodoAgrupacion(periodo);
     if (acumulador.hasOwnProperty(perAgrup)) {
       acumulador[perAgrup] = acumulador[perAgrup] + gast.valor;
@@ -254,12 +238,24 @@ function agruparGastos(
   return gastosAgrupados;
 }
 
-function transformarListadoEtiquetas(cadena){
+/**
+ ** Función que transforma una caena en un Array.
+ * @param {string} cadena -Cadena a transformar a un Array.
+ * @returns {Array} -Arrary con los elementos diferenciados en la caena.
+ */
+function transformarListadoEtiquetas(cadena) {
   cadena = cadena.split(/[ ,;:\.~]+/g);
   console.log(cadena)
   return cadena;
 }
 
+/**
+ ** Función que carga cambia el valor de la variable global gastos a los del Parametro de tipo Array.
+ * @param {Array} arrayGastos - Array con gastos nuevos.
+ */
+function cargarGastos(arrayGastos) {
+  gastos = arrayGastos;
+}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -275,6 +271,7 @@ export {
   calcularBalance,
   filtrarGastos,
   agruparGastos,
-  transformarListadoEtiquetas
+  transformarListadoEtiquetas,
+  cargarGastos
   //MODIFICACIÓN EXPORT
 };
