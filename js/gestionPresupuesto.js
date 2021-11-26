@@ -82,7 +82,10 @@ function CrearGasto(des, v, fec=Date.now(), ...etiq){
             }
             return texto;
         };
-
+}
+//Funcion Formulario Filtrar
+function transformarListadoEtiquetas(etiq){
+    return etiq.match(/\w+/g);//.split(/[,\.;~:]+/g);
 }
 //Funciones
     //Acciones con el array "gastos"
@@ -180,8 +183,6 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechaDes, fechaHas=Date.
 
     return gastosAgrupados;
 }
-
-    
     //Acciones con la variable global "presupuesto"
 function actualizarPresupuesto(pre){
     if(pre>=0)
@@ -200,7 +201,6 @@ function mostrarPresupuesto() {
 }
 
 
-
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
@@ -214,6 +214,7 @@ export   {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    transformarListadoEtiquetas
 }
 
