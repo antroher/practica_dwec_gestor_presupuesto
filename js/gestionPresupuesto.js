@@ -223,12 +223,14 @@ function agruparGastos(periodoAgrupar, etiquetasArupar, fechaDesdeAgrupar, fecha
     
     return gastosAAgrupar.reduce(function(prev, current){
 
-        let fechaReduce = current.obtenerPeriodoAgrupacion(periodoAgrupar);
+        if(current.hasOwnProperty("obtenerPeriodoAgrupacion")){
+            let fechaReduce = current.obtenerPeriodoAgrupacion(periodoAgrupar);
 
-        if(prev.hasOwnProperty(fechaReduce))prev[fechaReduce] += current.valor;
-        else prev[fechaReduce] = current.valor;
-        
+            if(prev.hasOwnProperty(fechaReduce))prev[fechaReduce] += current.valor;
+            else prev[fechaReduce] = current.valor;
+        }
         return prev;
+        
     }, {})
     
 }

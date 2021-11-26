@@ -373,6 +373,8 @@ function cargarGastosWeb(){
         let gastosCargados = JSON.parse(localStorage.getItem("GestorGastosDWEC"));
         if(gastosCargados !== null){
             metodosGastos.cargarGastos(gastosCargados);
+        }else{
+            metodosGastos.cargarGastos([]);
         }
         repintar();
     }
