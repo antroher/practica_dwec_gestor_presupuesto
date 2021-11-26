@@ -391,9 +391,8 @@ function repintar() {
     for (let gast of filtro) {
         mostrarGastoWeb("listado-gastos-filtrado-4", gast)
     }
-
-
-    let agrupacion = gestionPresupuesto.agruparGastos("dia");
+    //!ERROR
+    /*let agrupacion = gestionPresupuesto.agruparGastos("dia");
     mostrarDatoEnId("agrupacion-dia", "");
     mostrarGastosAgrupadosWeb("agrupacion-dia", agrupacion, "día");
 
@@ -405,7 +404,7 @@ function repintar() {
     //Mostrar el total de gastos agrupados por año
     agrupacion = gestionPresupuesto.agruparGastos("anyo");
     mostrarDatoEnId("agrupacion-anyo", "");
-    mostrarGastosAgrupadosWeb("agrupacion-anyo", agrupacion, "año");
+    mostrarGastosAgrupadosWeb("agrupacion-anyo", agrupacion, "año");*/
 }
 
 
