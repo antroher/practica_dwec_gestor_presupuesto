@@ -404,6 +404,8 @@ function EditarHandleFormulario(){
 
 }
 }
+
+
   
 
 
@@ -421,4 +423,5 @@ export{
     BorrarEtiquetasHandle,
     nuevoGastoWebFormulario,
     EditarHandleFormulario
+    
 }
