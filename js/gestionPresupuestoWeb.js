@@ -105,6 +105,12 @@ function mostrarGastoWeb(idElemento ,gasto){
     botonBorrar.textContent = "Borrar";
     botonBorrar.type = 'button';
 
+    //Botón añadir formulario----------------------------------------------------------------
+    let botonAddFormulario = document.createElement("button");
+    botonAddFormulario.className += 'anyadirgasto-formulario';
+    botonAddFormulario.textContent = "Añadir formulario";
+    botonAddFormulario.type = 'button';
+
     //Creamos objetos editarHandle y borrarHandle para asignarle un parametro gasto con el valor del gasto actual---------------------------------------.
     let edit = new EditarHandle();
     let delet = new BorrarHandle();
@@ -114,11 +120,13 @@ function mostrarGastoWeb(idElemento ,gasto){
     //Añadimos los eventos a los botones--------------------------------------------------------------------
     botonEditar.addEventListener('click', edit);
     botonBorrar.addEventListener('click', delet);
+    botonAddFormulario.addEventListener('click',nuevoGastoWebFormulario);
 
     //Que lo añada
     if(idElemento === "listado-gastos-completo"){
         divGasto.append(botonEditar);
         divGasto.append(botonBorrar);
+        divGasto.append(botonAddFormulario);
     }
 
 
@@ -227,6 +235,57 @@ function nuevoGastoWeb ()
     let elementoAnyadir = document.getElementById("anyadirgasto");
     elementoAnyadir.addEventListener('click',nuevoGastoWeb);
 
+    //Ejercicio Formulario----------------------------------------------------
+
+    function nuevoGastoWebFormulario (){
+
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+        var formulario = plantillaFormulario.querySelector("form");
+
+        let contPrincip = document.getElementById("controlesprincipales");
+        contPrincip.append(formulario);
+
+
+    }
+    
+    function EditarHandleFormulario () {
+
+    }
+    
+    function FormSubmitHandle () {
+        this.handleEvent = function(event){
+            event.preventDefault;
+            let form = event.CurrentTarget;
+            let descripcion = form.elements.descripcion.value;
+            let valor = parseFloat(form.elements.valor.value);
+            let fecha = form.elements.fecha.value;
+            let etiquetas = form.elements.etiquetas.value;
+
+            let newGasto = new gestionPresupuesto.CrearGasto(descripcion,valor,fecha,etiquetas);
+            gestionPresupuesto.CrearGasto(newGasto);
+            repintar();
+            document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+
+
+        }
+    }
+
+    //HANDLE PARA EL BOTÓN DE ARRIBA AÑADIR GASTO (FORMULARIO).
+    function EnviarHandle () {
+        this.handleEvent = function(event) {
+            event.preventDefault;
+            let form = event.CurrentTarget;
+            let descripcion = form.elements.descripcion.value;
+            this.gasto.actualizarDescripcion(descripcion);
+            let valor = parseFloat(form.elements.valor.value);
+            this.gasto.actualizarValor(valor);
+            let fecha = form.elements.fecha.value;
+            this.gasto.actualizarFecha(fecha);
+            let etiquetas = form.elements.etiquetas.value;
+            this.gasto.anyadirEtiquetas(etiquetas);
+            repintar();
+        }
+    }
 
     function EditarHandle (){
         this.handleEvent = function(event){
