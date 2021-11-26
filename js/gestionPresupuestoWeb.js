@@ -169,7 +169,10 @@ function nuevoGastoWeb() {
 function nuevoGastoWebFormulario() {
     //Copia del formulario/template
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
-    // variable con el formulario
+                                /* Node.cloneNode() ==> método que devuelve una copia del nodo que lo llama, en este caso el
+                                    <div id='formulario-template'>
+                                */
+    // variable con el formulario -- acceso al <form> dentro de ese fragmento de documento
     var formulario = plantillaFormulario.querySelector("form");
     // inserción en el DOM
     let divControlesPrincipales = document.getElementById("controlesprincipales")
@@ -183,6 +186,7 @@ function nuevoGastoWebFormulario() {
     formulario.addEventListener('submit', enviarObj); // el botón de tipo submit (type="submit") recoge la acción submit, no click
     //botón cancelar
     let cancelarObj = new CancelarFormHandle();
+    // localizar el botón en el documento
     let btnCancelar = formulario.querySelector("button.cancelar");  // selecciona <button class="cancelar"> 
     btnCancelar.addEventListener("click", cancelarObj);
 }
@@ -265,16 +269,22 @@ function EnviarHandle(){
 // Manejador del evento 'submit' de añadir gasto con formulario
 function EnviarGastoFormHandle(){
     this.handleEvent = function(event){
-        //Evitamos que se haga el submit
+        //Evitamos que se haga el submit (comportamiento por defecto)
         event.preventDefault();
-         let formulario = event.currentTarget;
-         let descripcion = formulario.elements.descripcion.value;
-         let valor = parseFloat(formulario.elements.valor.value);
-         let fecha = formulario.elements.fecha.value;
-         let etiquetas = formulario.elements.etiquetas.value;
+        // crear nuevo gasto con los valores del form
+        // la función manejadora tiene acceso al evento, que a su vez tiene acceso al elemento que lo ha provocado (formulario)
+        //  desde 'event.currentTarget'.
+        let formulario = event.currentTarget;
+        let descripcion = formulario.elements.descripcion.value;
+        let valor = parseFloat(formulario.elements.valor.value);
+        let fecha = formulario.elements.fecha.value;
+        let etiquetas = formulario.elements.etiquetas.value;
+        // añadir el gasto a la lista de gastos
         let gastoNuevo = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, etiquetas);
         gestionPresupuesto.anyadirGasto(gastoNuevo);
+        // llamar a repintar
         repintar();
+        // activar el botón
         document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
     }
 }
