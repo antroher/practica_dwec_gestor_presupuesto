@@ -1,20 +1,7 @@
 import * as metodosGastos from "./gestionPresupuesto.js"
 import * as metodosGastosWeb from "./gestionPresupuestoWeb.js"
 
-let botonPresupuesto = document.getElementById("actualizarpresupuesto");
-botonPresupuesto.onclick = metodosGastosWeb.actualizarPresupuestoWeb;
 
-let botonAnyadirGasto = document.getElementById("anyadirgasto");
-botonAnyadirGasto.onclick = metodosGastosWeb.nuevoGastoWeb;
-
-let botonAnyadirGastoFormulario = document.getElementById("anyadirgasto-formulario");
-botonAnyadirGastoFormulario.addEventListener('click', metodosGastosWeb.nuevoGastoWebFormulario);
-
-let botonGuardarGastos = document.getElementById("guardar-gastos");
-botonGuardarGastos.addEventListener('click',new metodosGastosWeb.guardarGastosWeb);
-
-let botonCargarGastos = document.getElementById("cargar-gastos");
-botonCargarGastos.addEventListener('click',new metodosGastosWeb.cargarGastosWeb);
 
 //let arrayEditarHandlers = new Array();
 //let arrayBorrarHandlers = new Array();

@@ -1,5 +1,20 @@
 import * as metodosGastos from "./gestionPresupuesto.js"
 
+let botonPresupuesto = document.getElementById("actualizarpresupuesto");
+botonPresupuesto.onclick = actualizarPresupuestoWeb;
+
+let botonAnyadirGasto = document.getElementById("anyadirgasto");
+botonAnyadirGasto.onclick = nuevoGastoWeb;
+
+let botonAnyadirGastoFormulario = document.getElementById("anyadirgasto-formulario");
+botonAnyadirGastoFormulario.addEventListener('click', nuevoGastoWebFormulario);
+
+let botonGuardarGastos = document.getElementById("guardar-gastos");
+botonGuardarGastos.addEventListener('click',new guardarGastosWeb);
+
+let botonCargarGastos = document.getElementById("cargar-gastos");
+botonCargarGastos.addEventListener('click',new cargarGastosWeb);
+
 
 function mostrarDatoEnId(idElemento, valor){
     let elemento = document.getElementById(idElemento);
@@ -369,10 +384,5 @@ export {
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     repintar,
-    actualizarPresupuestoWeb,
-    nuevoGastoWeb,
-    nuevoGastoWebFormulario,
-    EditarHandleFormulario,
-    guardarGastosWeb,
-    cargarGastosWeb
+    EditarHandleFormulario
 }
