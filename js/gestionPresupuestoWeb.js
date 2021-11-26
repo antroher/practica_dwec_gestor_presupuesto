@@ -1,5 +1,9 @@
 import * as gp from './gestionPresupuesto.js'
 
+/*Cypress.on('uncaught:exception', (err, runnable) => {
+    return false;
+  });
+*/
 function mostrarDatoEnId(valor, idElemento){
     if(idElemento!==undefined){
         let elem= document.getElementById(idElemento);
@@ -340,14 +344,16 @@ function FiltrarGastosWeb(){
 
 function guardarGastosWeb(){
     localStorage.GestorGastosDWEC=JSON.stringify(gp.listarGastos());
+    
 }
 
 function cargarGastosWeb(){
-    let gastosCargar=JSON.parse(localStorage.GestorGastosDWEC);
-    if(gastosCargar.length>0){
-        gp.cargarGastos(gastosCargar);
-    }else{
-        gp.cargarGastos([]);
+    let gastosCargar=JSON.parse(localStorage.getItem("GestorGastosDWEC"));
+    if(gastosCargar!==null){
+        if(gastosCargar.length>=0){
+            gp.cargarGastos(gastosCargar);
+        }
+
     }
     console.log(gastosCargar);
     repintar();
@@ -366,8 +372,8 @@ formulario.addEventListener("submit",fhandler);
 let botonGuardar = document.getElementById("guardar-gastos");
 botonGuardar.onclick=guardarGastosWeb;
 let botonCargar = document.getElementById("cargar-gastos");
-botonCargar.onclick=cargarGastosWeb;
-
+botonCargar.addEventListener('click',cargarGastosWeb);
+//localStorage.clear()
 
 
 export   {
