@@ -349,15 +349,16 @@ function guardarGastosWeb(){
     this.handleEvent = function(event){
         event.preventDefault();
         localStorage.GestorGastosDWEC = JSON.stringify(metodosGastos.listarGastos());
-        console.log(localStorage.GestorGastosDWEC);
     }
 }
 
 function cargarGastosWeb(){
     this.handleEvent = function(event){
         event.preventDefault();
-        let gastosCargados = JSON.parse(localStorage.GestorGastosDWEC);
-        metodosGastos.cargarGastos(gastosCargados);
+        let gastosCargados = JSON.parse(localStorage.getItem("GestorGastosDWEC"));
+        if(gastosCargados !== null){
+            metodosGastos.cargarGastos(gastosCargados);
+        }
         repintar();
     }
 }

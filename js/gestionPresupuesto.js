@@ -240,9 +240,8 @@ function transformarListadoEtiquetas(cadena){
 
 function cargarGastos(gastosCargar){
     if(gastosCargar.length >= 0){
-        gastos = [...gastosCargar];
+        gastos = gastosCargar;
     }
-    console.log(gastosCargar);
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
