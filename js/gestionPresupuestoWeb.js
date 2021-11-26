@@ -36,7 +36,7 @@ function mostrarGastoWeb(idElemento, gasto){
     botonEditar.id = "gasto-editar";
     botonEditar.type = "button";
     botonEditar.textContent = "Editar gasto";
-    // evento del botonEditar
+    // evento editar
     let eventoEditar = new EditarHandle();
     eventoEditar.gasto = gasto;
     botonEditar.addEventListener("click", eventoEditar);
@@ -47,11 +47,11 @@ function mostrarGastoWeb(idElemento, gasto){
     botonBorrar.id = "gasto-borrar";
     botonBorrar.type = "button";
     botonBorrar.textContent = "Borrar gasto";
-    // evento boton borrar
+    // evento borrar
     let eventoBorrar = new BorrarHandle();
     eventoBorrar.gasto = gasto;
     botonBorrar.addEventListener("click", eventoBorrar);
-     // segundo boton editar form
+     // boton editar form
     let botonEditarForm = document.createElement("button");
     botonEditarForm.className = "gasto-editar-formulario";
     botonEditarForm.id = "gasto-editar-formulario";
@@ -146,13 +146,12 @@ function nuevoGastoWebFormulario(){
     let formularioAbajo = document.getElementById("formulario-template").content.cloneNode(true);
     var formulario = formularioAbajo.querySelector("form");
     let controlesprincipales = document.getElementById("controlesprincipales");
-   
+    document.getElementById("anyadirgasto-formulario").disabled = true;
+    
     controlesprincipales.append(formulario);
 
-    document.getElementById("anyadirgasto-formulario").disabled = true;
-
     let enviarGasto = new EnviarGastoHandle();
-    enviarGasto.formulario = formulario; // le creamos una propiedad al manejador que se llame formulario y le asignamos el elemento formulario
+    enviarGasto.formulario = formulario; 
     formulario.addEventListener("submit", enviarGasto);
 
     let botonCancelar = formulario.querySelector("button.cancelar");
@@ -180,6 +179,37 @@ function EditarHandle() {
     repintar()
     }
 }
+function filtrarGastoWeb(){
+    this.handleEvent = function(e){
+
+        e.preventDefault();
+
+        let plantillaForm = document.getElementById("filtrar-gastos");
+        let datosForm = plantillaForm.querySelector("form");
+        let objeto = {
+            etiquetasTiene : gestionPresupuesto.transformarListadoEtiquetas(datosForm.elements["formulario-filtrado-etiquetas-tiene"].value),
+            descripcionContiene : datosForm.elements["formulario-filtrado-descripcion"].value,
+            valorMinimo : datosForm.elements["formulario-filtrado-valor-minimo"].value,
+            valorMaximo : datosForm.elements["formulario-filtrado-valor-maximo"].value,
+            fechaDesde : datosForm.elements["formulario-filtrado-fecha-desde"].value,
+            fechaHasta : datosForm.elements["formulario-filtrado-fecha-hasta"].value
+        }
+
+        
+        
+        let gastosFiltrados = filtrarGastos(objeto);
+
+        document.getElementById("listado-gastos-completo").innerHTML = "";
+
+        for(let filtro of gastosFiltrados)
+        {
+            mostrarGastoWeb("listado-gastos-completo", filtro);
+        }
+    }
+}
+let formularioFiltrado = document.getElementById("formulario-filtrado");
+formularioFiltrado.addEventListener("submit", filtrarGastoWeb);
+
 function BorrarHandle(){
 
     this.handleEvent = function(e){
@@ -222,7 +252,7 @@ function CancelarFormularioHandle(){
     this.handleEvent = function(e){
         
         document.getElementById("anyadirgasto-formulario").disabled = false;
-        e.currentTarget.parentNode.remove(); // con parentNode borramos el formulario que es el padre del boton
+        e.currentTarget.parentNode.remove(); // borras formulario
         repintar();
     }
 }
@@ -244,7 +274,7 @@ function EditarHandleFormulario(){
         formulario.elements.etiquetas.value = this.gasto.etiquetas;
 
         let enviarGasto = new SubmitHandle();
-        enviarGasto.formulario = formulario; // le creamos una propiedad al manejador que se llame formulario y le asignamos el elemento formulario
+        enviarGasto.formulario = formulario; 
         enviarGasto.gasto = this.gasto;
         formulario.addEventListener("submit", enviarGasto);
 
@@ -283,5 +313,6 @@ export   {
     repintar,
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
-    nuevoGastoWebFormulario
+    nuevoGastoWebFormulario,
+    filtrarGastoWeb
 }
