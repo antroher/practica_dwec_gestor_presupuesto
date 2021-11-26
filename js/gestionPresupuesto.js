@@ -197,7 +197,7 @@ function transformarListadoEtiquetas(cadena){
 }
 
 function cargarGastos(gastosCargar){
-    if(gastosCargar.length>=0) gastos = [...gastosCargar];
+    if(gastosCargar.length>=0) gastos = gastosCargar;
    // console.log("gastos = " + gastos);
 }
 

@@ -344,19 +344,34 @@ function FiltrarGastosWeb(){
 
 function guardarGastosWeb(){
     localStorage.GestorGastosDWEC=JSON.stringify(gp.listarGastos());
-    
+}
+
+function CargarGastosWeb(){
+    this.handleEvent=function(){
+        let gastosCargar=JSON.parse(localStorage.getItem("GestorGastosDWEC"));
+        if(gastosCargar!==null){
+            if(gastosCargar.length>=0){
+                gp.cargarGastos(gastosCargar);
+            }
+
+        }
+        console.log(gastosCargar);
+        repintar();
+    }
 }
 
 function cargarGastosWeb(){
     let gastosCargar=JSON.parse(localStorage.getItem("GestorGastosDWEC"));
-    if(gastosCargar!==null){
-        if(gastosCargar.length>=0){
-            gp.cargarGastos(gastosCargar);
-        }
+        if(gastosCargar!==null){
+            if(gastosCargar.length>=0){
+                gp.cargarGastos(gastosCargar);
+            }
 
-    }
-    console.log(gastosCargar);
-    repintar();
+        }else{
+            gp.cargarGastos([]);
+        }
+        console.log(gastosCargar);
+        repintar();
 }
 
 
@@ -372,7 +387,9 @@ formulario.addEventListener("submit",fhandler);
 let botonGuardar = document.getElementById("guardar-gastos");
 botonGuardar.onclick=guardarGastosWeb;
 let botonCargar = document.getElementById("cargar-gastos");
-botonCargar.addEventListener('click',cargarGastosWeb);
+/*let fCargar= new CargarGastosWeb();
+botonCargar.addEventListener('click',fCargar);*/
+botonCargar.onclick=cargarGastosWeb;
 //localStorage.clear()
 
 
