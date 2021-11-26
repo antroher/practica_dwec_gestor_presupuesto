@@ -227,6 +227,7 @@ function filtrarGastos(objetoFiltro) {
 function agruparGastos(periodo = "mes", etiquetas = [], fechDesd, fechaHas = Date.now()) {
   let listaResultadoFiltros = filtrarGastos({fechaDesde: fechDesd,fechaHasta: fechaHas,etiquetasTiene: etiquetas});
   let gastosAgrupados = listaResultadoFiltros.reduce(function (acumulador,gast) {
+    if(gast.hasOwnProperty("obtenerPeriodoAgrupacion")){
     let perAgrup = gast.obtenerPeriodoAgrupacion(periodo);
     if (acumulador.hasOwnProperty(perAgrup)) {
       acumulador[perAgrup] = acumulador[perAgrup] + gast.valor;
@@ -234,6 +235,7 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechDesd, fechaHas = Dat
       acumulador[perAgrup] = gast.valor;
     }
     return acumulador;
+  }
   }, {});
   return gastosAgrupados;
 }
