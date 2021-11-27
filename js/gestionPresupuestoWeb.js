@@ -4,6 +4,7 @@ import * as gestionPresupuesto from "./gestionPresupuesto.js";
 
 document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb);
+document.getElementById("anyadirgasto-formulario").addEventListener("click", nuevoGastoWebFormulario);
 
 function mostrarDatoEnId(idElemento, valor) {
     let elemento = document.getElementById(idElemento);
@@ -13,59 +14,72 @@ function mostrarDatoEnId(idElemento, valor) {
 }
 
 function mostrarGastoWeb(idElemento, gasto) {
-    let divG = document.createElement('div');
-    divG.className += 'gasto';
+    let elemento = document.getElementById(idElemento);
 
-    let divGD = document.createElement('div');
-    divGD.className += 'gasto-descripcion';
-    divGD.textContent = gasto.descripcion;
+    let divG1 = document.createElement('div');
+    divG1.className = 'gasto';
+    let divGastoDescri = document.createElement('div');
+    divGastoDescri.className = 'gasto-descripcion';
+    divGastoDescri.textContent = gasto.descripcion;
+    divG1.append(divGastoDescri);
 
-    let divGF = document.createElement('div');
-    divGF.className += 'gasto-fecha';
-    divGF.textContent = gasto.fecha;
 
-    let divGV = document.createElement('div');
-    divGV.className += 'gasto-valor';
-    divGF.textContent = gasto.valor;
+    let divGastoFech = document.createElement('div');
+    divGastoFech.className = 'gasto-fecha';
+    divGastoFech.textContent = new Date(gasto.fecha).toLocaleDateString();
+    divG1.append(divGastoFech);
 
-    let divGE = document.createElement('div');
-    divGE.className += 'gasto-etiquetas';
+    let divGastoV1 = document.createElement('div');
+    divGastoV1.className = 'gasto-valor';
+    divGastoV1.textContent = gasto.valor + '';
+    divG1.append(divGastoV1);
 
-    for (let et of gasto.etiquetas) {
-        let spanE = document.createElement('span');
-        spanE.className += 'gasto-etiqueta-etiquetas';
-        spanE.textContent += et + ' ';
-
-        if (idElemento === 'listado-gastos-completo') {
-            let objBorrarEtiq = new BorrarEtiquetasHandle();
-            objBorrarEtiq.gasto = gasto;
-            objBorrarEtiq.etiqueta = et;
-            spanE.addEventListener('click', objBorrarEtiq)
-        }
-        divGF.append(spanE);
+    let divGastoEtiq = document.createElement('div');
+    divGastoEtiq.className = 'gasto-etiquetas';
+    gasto.etiquetas.forEach(label => {
+        let spanetiq = document.createElement('span');
+        spanetiq.className = 'gasto-etiquetas-etiqueta';
+        spanetiq.textContent = label + '';
+        let borraEti = new BorrarEtiquetasHandle();
+        borraEti.gasto = gasto;
+        borraEti.etiqueta = label;
+        spanetiq.addEventListener('click', borraEti);
+        divGastoEtiq.append(spanetiq);
     }
+    );
+    divG1.append(divGastoEtiq);
+    if (idElemento == 'listado-gastos-completo') {
+        let btnEditar = document.createElement('button');
+        btnEditar.className = 'gasto-editar';
+        btnEditar.type = 'button';
+        btnEditar.textContent = 'Editar';
+        let editarHandle = new EditarHandle();
+        editarHandle.gasto = gasto;
+        btnEditar.addEventListener('click', editarHandle);
+        divG1.append(btnEditar);
 
-    let buttonEdit = document.createElement("button");
-    buttonEdit.className += 'gasto-editar'
-    buttonEdit.textContent = "Editar";
-    buttonEdit.type = 'button';
+        let btnEditarForm = document.createElement("button");
+        btnEditarForm.className = "gasto-editar-formulario";
+        btnEditarForm.type = "button";
+        btnEditarForm.textContent = "Editar Form";
 
-    let buttonBorr = document.createElement("button");
-    buttonBorr.className += 'gasto-borrar'
-    buttonBorr.textContent = "Borrar";
-    buttonBorr.type = 'button';
+        let editarHandleForm = new EditarHandleFormulario();
+        editarHandleForm.gasto = gasto;
+        editarHandleForm.btnEditarGasto = btnEditarForm;
+        editarHandleForm.divG1 = divG1;
+        btnEditarForm.addEventListener("click", editarHandleForm);
+        divG1.append(btnEditarForm);
 
-    let edit = new EditarHandle();
-    let delet = new BorrarHandle();
-    edit.gasto = gasto;
-    delet.gasto = gasto;
-    
-    buttonEdit.addEventListener('click', edit);
-    buttonBorr.addEventListener('click', delet);
-    gastoEtiquetas.addEventListener('click',nuevoObjEtiqueta);
-    
-    divGasto.append(buttonEdit);
-    divGasto.append(buttonBorr);
+        let btnBorrar = document.createElement('button');
+        btnBorrar.className = 'gasto-borrar';
+        btnBorrar.type = 'button';
+        btnBorrar.textContent = 'Borrar';
+        let borrarHandle = new BorrarHandle();
+        borrarHandle.gasto = gasto;
+        btnBorrar.addEventListener('click', borrarHandle);
+        divG1.append(btnBorrar);
+    }
+    elemento.append(divG1);
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
@@ -106,7 +120,7 @@ function repintar() {
 
 function actualizarPresupuestoWeb() {
     gestionPresupuesto.actualizarPresupuesto(parseFloat(prompt("Introduce un nuevo presupuesto:")));
-    
+
     repintar();
 }
 
@@ -119,7 +133,7 @@ function nuevoGastoWeb() {
     let fecha = Date.parse(prompt("Introduzca la fecha del nuevo gasto: "));
     let etiquetas = prompt("Introduzca las etiquetas del nuevo gasto separadas por , : ").split(', ');
 
-    gestionPresupuesto.anyadirGasto(gestionPresupuesto.CrearGasto(descripcion,valor,fecha,etiquetas));
+    gestionPresupuesto.anyadirGasto(gestionPresupuesto.CrearGasto(descripcion, valor, fecha, etiquetas));
 
     repintar();
 }
@@ -127,8 +141,39 @@ function nuevoGastoWeb() {
 let btnAddGasto = document.getElementById("anyadirgasto");
 btnAddGasto.addEventListener("click", nuevoGastoWeb);
 
+function nuevoGastoWebFormulario() {
+    document.getElementById("anyadirgasto-formulario").disabled = true;
+
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+    let form = plantillaFormulario.querySelector("form");
+    form.addEventListener("submit", this.handleEvent = function (evento) {
+        evento.preventDefault();
+        let descrip = form.elements.descripcion;
+        let valor = form.elements.valor;
+        let fecha = form.elements.fecha;
+        let etiq = form.elements.etiquetas;
+        etiq = etiq.value.split(",");
+        let gasto = new gestionpre.CrearGasto(descrip.value, parseFloat(valor.value), fecha.value, ...etiq);
+        gestionpre.anyadirGasto(gasto);
+        document.getElementById("anyadirgasto-formulario").disabled = false;
+        document.getElementById("controlesprincipales").removeChild(form);
+        repintar();
+
+    });
+    document.getElementById("controlesprincipales").append(form);
+
+    let btnCancelar = form.querySelector("button.cancelar");
+    btnCancelar.addEventListener("click", this.handleEvent = function () {
+
+        document.getElementById("anyadirgasto-formulario").disabled = false;
+        document.getElementById("controlesprincipales").removeChild(form);
+        repintar();
+
+    });
+}
+
 function EditarHandle() {
-    this.handleEvent = function (event) {
+    this.handleEvent = function (evento) {
         let descripcion = prompt("Escriba la descripción");
         let valor1 = parseFloat(prompt("Escriba el valor"));
         let fecha = prompt("Escriba la fecha. Formato yyyy-mm-dd");
@@ -144,18 +189,18 @@ function EditarHandle() {
 }
 
 function BorrarHandle() {
-    this.handleEvent = function (event){
-      let num = this.gasto.id;
-      gestionPresupuesto.borrarGasto(num);
-      repintar();
+    this.handleEvent = function (evento) {
+        let num = this.gasto.id;
+        gestionPresupuesto.borrarGasto(num);
+        repintar();
     }
 }
 
 function BorrarEtiquetasHandle() {
-    this.handleEvent = function (event){
-    this.gasto.borrarEtiquetas(this.etiqueta);
-    repintar();
-   }
+    this.handleEvent = function (evento) {
+        this.gasto.borrarEtiquetas(this.etiqueta);
+        repintar();
+    }
 }
 
 export {
