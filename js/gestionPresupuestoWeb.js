@@ -203,6 +203,49 @@ function BorrarEtiquetasHandle() {
     }
 }
 
+function EditarHandleFormulario()
+{
+    this.handleEvent=function()
+    {
+        let g0=this.gasto;
+        let btnEditG=this.btnEditarGasto;
+        let divG0=this.divG1;
+
+        this.btnEditarGasto.disabled=true;
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+        let form = plantillaFormulario.querySelector("form");
+
+        form.elements.descripcion.value=g0.descripcion;
+        form.elements.valor.value=g0.valor;
+        form.elements.fecha.value=new Date(g0.fecha).toLocaleDateString();
+        form.elements.etiquetas.value=g0.etiquetas.toString();
+        divG0.appendChild(form);
+
+
+        form.addEventListener("submit",this.handleEvent=function(event)
+        {
+            event.preventDefault();
+            g0.actualizarDescripcion(form.elements.descripcion.value);
+            g0.actualizarValor(parseFloat(form.elements.valor.value));
+            g0.actualizarFecha(form.elements.fecha.value);
+            let etiquetas=form.elements.etiquetas;
+            etiquetas=etiquetas.value.split(",");
+            g0.anyadirEtiquetas(...etiquetas);
+            btnEditG.disabled=false;
+            divG0.removeChild(form);
+            repintar();
+        });
+
+        let btnCancelar=form.querySelector("button.cancelar");
+        btnCancelar.addEventListener("click",this.handleEvent=function()
+        {
+            btnEditG.disabled=false;
+            divG0.removeChild(form);
+            repintar();
+        });
+    }
+}
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -210,7 +253,9 @@ export {
     repintar,
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
+    nuevoGastoWebFormulario,
     EditarHandle,
     BorrarHandle,
-    BorrarEtiquetasHandle
+    BorrarEtiquetasHandle,
+    EditarHandleFormulario
 }
