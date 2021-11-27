@@ -333,6 +333,39 @@ function filtrarGastosWeb(){
 let filtGastForm = new filtrarGastosWeb();
 document.getElementById('formulario-filtrado').addEventListener('submit', filtGastForm);
 
+function guardarGastosWeb(){
+
+    this.handleEvent = function(event){
+
+        localStorage.setItem('GestorGastosDWEC', JSON.stringify(gP.listarGastos()));
+        //localStorage.GestorGastosDWEC = JSON.stringify(gP.listarGastos());
+
+    }
+
+}
+
+document.getElementById('guardar-gastos').addEventListener('click', new guardarGastosWeb);
+
+function cargarGastosWeb(){
+
+    this.handleEvent = function(event){
+
+        let clave = JSON.parse(localStorage.getItem('GestorGastosDWEC'));
+        if (clave !== null){
+            if (clave.length >= 0)
+            gP.cargarGastos(clave);
+        }
+        else{
+            gP.cargarGastos([]);
+        }
+        repintar();
+
+    }
+
+}
+
+document.getElementById('cargar-gastos').addEventListener('click', new cargarGastosWeb);
+
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
