@@ -146,7 +146,8 @@ function nuevoGastoWeb() {
     let fecha = Date.parse(prompt("Introduzca la fecha del nuevo gasto: "));
     let etiquetas = prompt("Introduzca las etiquetas del nuevo gasto separadas por , : ").split(', ');
 
-    gestionPresupuesto.anyadirGasto(gestionPresupuesto.CrearGasto(descripcion, valor, fecha, etiquetas));
+    let g = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, etiquetas);
+    gestionPresupuesto.anyadirGasto(g);
 
     repintar();
 }
