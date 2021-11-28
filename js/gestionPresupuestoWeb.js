@@ -318,18 +318,15 @@ function filtrarGastoWeb()
         event.preventDefault();
         
         let accesoFormFilt = event.currentTarget;
-        let desc = accesoFormFilt.elements['formulario-filtrado-descripcion'].value;
-        let vMinimo = parseInt(accesoFormFilt.elements['formulario-filtrado-valor-minimo'].value);
-        let vMaximo = parseInt(accesoFormFilt.elements['formulario-filtrado-valor-maximo'].value);
-        let fDesde = accesoFormFilt.elements['formulario-filtrado-fecha-desde'].value;
-        let fHasta = accesoFormFilt.elements['formulario-filtrado-fecha-hasta'].value;
-        let etiq = accesoFormFilt.elements['formulario-filtrado-etiquetas-tiene'].value;
+        let desc = accesoFormFilt['formulario-filtrado-descripcion'].value;
+        let vMinimo = parseInt(accesoFormFilt['formulario-filtrado-valor-minimo'].value);
+        let vMaximo = parseInt(accesoFormFilt['formulario-filtrado-valor-maximo'].value);
+        let fDesde = accesoFormFilt['formulario-filtrado-fecha-desde'].value;
+        let fHasta = accesoFormFilt['formulario-filtrado-fecha-hasta'].value;
+        let etiq = accesoFormFilt['formulario-filtrado-etiquetas-tiene'].value;
 
-        if (etiq != null)
-        {
-            etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
-        }        
-
+        etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
+               
         let crearObjeto =
         {
             fechaDesde: fDesde,
@@ -349,9 +346,13 @@ function filtrarGastoWeb()
         {
             mostrarGastoWeb('listado-gastos-completo', gasto);
         }
-    }  
-    
+    }      
 }
+
+//BOTON ENVIAR a filtrarGastoWeb
+let eventFiltrGasto = new filtrarGastoWeb();
+let formFiltrGasto = document.getElementById("formulario-filtrado");
+formFiltrGasto.addEventListener('submit', eventFiltrGasto);
 
 
 //********** NO TOCAR **************
