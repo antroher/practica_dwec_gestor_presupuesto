@@ -325,7 +325,10 @@ function filtrarGastoWeb()
         let fHasta = accesoFormFilt.elements['formulario-filtrado-fecha-hasta'].value;
         let etiq = accesoFormFilt.elements['formulario-filtrado-etiquetas-tiene'].value;
 
-        gestionPresupuesto.transformarListadoEtiquetas(etiq);
+        if (etiq != null)
+        {
+            etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
+        }        
 
         let crearObjeto =
         {
@@ -337,9 +340,16 @@ function filtrarGastoWeb()
             etiquetasTiene: etiq
         }
 
-        gestionPresupuesto.filtrarGastos(crearObjeto);
-    }
-    
+        let listaFiltrarObjeto = gestionPresupuesto.filtrarGastos(crearObjeto);
+
+        let listaGastos = document.getElementById('listado-gastos-completo');
+        listaGastos.innerHTML = '';
+
+        for (let gasto of listaFiltrarObjeto)
+        {
+            mostrarGastoWeb('listado-gastos-completo', gasto);
+        }
+    }  
     
 }
 

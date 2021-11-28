@@ -402,7 +402,7 @@ function agruparGastos(periodo = 'mes', etiquetas = [], fDesde, fHasta)
 //PRACTICA 7
 function transformarListadoEtiquetas(etiquetas)
 {
-    let ArrayEtiquetas = etiquetas.match(/[a-zA-Z0-9]/gi);
+    let ArrayEtiquetas = etiquetas.match(/[a-zA-Z0-9]+/gi);
     return ArrayEtiquetas;
 }
 
