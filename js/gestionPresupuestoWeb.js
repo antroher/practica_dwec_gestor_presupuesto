@@ -245,9 +245,6 @@ function EnviarFormularioHandle() //PRACTICA 6 - a y b
     }    
 }
 
-//PRACTICA 7
-
-
 function CancelarFormularioHandle() //PRACTICA 6 - a y b
 {
     this.handleEvent = function(event)
@@ -310,6 +307,40 @@ function EnviarHandle() //PRACTICA 6 - c y d
 
         repintar();
     }
+}
+
+//PRACTICA 7
+
+function filtrarGastoWeb()
+{
+    this.handleEvent = function(event)
+    {
+        event.preventDefault();
+        
+        let accesoFormFilt = event.currentTarget;
+        let desc = accesoFormFilt.elements['formulario-filtrado-descripcion'].value;
+        let vMinimo = parseInt(accesoFormFilt.elements['formulario-filtrado-valor-minimo'].value);
+        let vMaximo = parseInt(accesoFormFilt.elements['formulario-filtrado-valor-maximo'].value);
+        let fDesde = accesoFormFilt.elements['formulario-filtrado-fecha-desde'].value;
+        let fHasta = accesoFormFilt.elements['formulario-filtrado-fecha-hasta'].value;
+        let etiq = accesoFormFilt.elements['formulario-filtrado-etiquetas-tiene'].value;
+
+        gestionPresupuesto.transformarListadoEtiquetas(etiq);
+
+        let crearObjeto =
+        {
+            fechaDesde: fDesde,
+            fechaHasta: fHasta,
+            valorMinimo: vMinimo, 
+            valorMaximo: vMaximo,
+            descripcionContiene: desc,
+            etiquetasTiene: etiq
+        }
+
+        gestionPresupuesto.filtrarGastos(crearObjeto);
+    }
+    
+    
 }
 
 
