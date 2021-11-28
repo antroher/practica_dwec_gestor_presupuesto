@@ -399,6 +399,13 @@ function agruparGastos(periodo = 'mes', etiquetas = [], fDesde, fHasta)
     return agruparReduce;
 }
 
+//PRACTICA 7
+function transformarListadoEtiquetas(etiquetas)
+{
+    let ArrayEtiquetas = etiquetas.match(/[a-zA-Z0-9]/gi);
+    return ArrayEtiquetas;
+}
+
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
@@ -412,5 +419,6 @@ export   {
     calcularTotalGastos,
     calcularBalance, 
     filtrarGastos, 
-    agruparGastos
+    agruparGastos,
+    transformarListadoEtiquetas
 }

@@ -245,6 +245,9 @@ function EnviarFormularioHandle() //PRACTICA 6 - a y b
     }    
 }
 
+//PRACTICA 7
+
+
 function CancelarFormularioHandle() //PRACTICA 6 - a y b
 {
     this.handleEvent = function(event)
