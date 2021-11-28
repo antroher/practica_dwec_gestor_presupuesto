@@ -5,6 +5,8 @@ import * as gestionpre from './gestionPresupuesto.js';
 document.getElementById("actualizarpresupuesto").addEventListener("click", actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener("click", nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario").addEventListener("click", nuevoGastoWebFormulario);
+let erFiltrar = new filtrarGastosWeb();
+document.getElementById("formulario-filtrado").addEventListener("submit", erFiltrar);
 
 function mostrarDatoEnId(idElemento, valor)
 {
@@ -304,6 +306,52 @@ function EditarHandleFormulario()
     }
 }
 
+function filtrarGastosWeb()
+{
+    this.handleEvent = function(event)
+    {
+        event.preventDefault();
+        
+        let form = event.currentTarget;
+        let descrip = form.elements['formulario-filtrado-descripcion'].value;
+        let valMinimo = form.elements['formulario-filtrado-valor-minimo'].value;
+        let valMaximo = form.elements['formulario-filtrado-valor-maximo'].value;
+        let fecDesde = form.elements['formulario-filtrado-fecha-desde'].value;
+        let fecHasta = form.elements['formulario-filtrado-fecha-hasta'].value;
+        let etiq = form.elements['formulario-filtrado-etiquetas-tiene'].value;
+
+        valMinimo = parseFloat(valMinimo);
+        valMaximo = parseFloat(valMaximo);
+
+        if(etiq != null){
+            etiq = gestionpre.transformarListadoEtiquetas(etiq);
+        }
+
+        let filtro = {
+            etiquetasTiene: etiq,
+            fechaDesde: fecDesde,
+            fechaHasta: fecHasta,
+            valorMinimo: valMinimo,
+            valorMaximo: valMaximo,
+            descripcionContiene: descrip,
+        }
+
+        let gastosFiltro = gestionpre.filtrarGastos(filtro);
+
+        console.log(gastosFiltro);
+
+        //Borramos todos los gastos
+        let lista = document.getElementById('listado-gastos-completo');
+
+        lista.innerHTML = '';
+
+        gastosFiltro.forEach(gastoFiltrado => 
+        {
+            mostrarGastoWeb("listado-gastos-completo",gastoFiltrado);
+        });
+    }
+}
+
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
@@ -318,5 +366,6 @@ export   {
     BorrarHandle,
     BorrarEtiquetasHandle,
     EditarHandleFormulario,
-    EditarHandle
+    EditarHandle,
+    filtrarGastosWeb
 }
