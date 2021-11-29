@@ -347,6 +347,54 @@ botonNuevoGasto.addEventListener("click", nuevoGastoWeb);
 let botonAnyadirGastoFormulario = document.getElementById("anyadirgasto-formulario");
 botonAnyadirGastoFormulario.addEventListener("click", nuevoGastoWebFormulario);
 
+
+
+//Practica 7
+function filtrarGastosWeb(){
+  
+  this.handleEvent = function(event) 
+  {
+    event.preventDefault();
+    //coge el valor del evento, del formulario, te da acceso al contenido del formulario
+    let formulario = event.currentTarget;
+    //cogemos el valor de la descripcion dada por el usuario
+    let descripcion1 = formulario["formulario-filtrado-descripcion"].value;
+    let fechaInicio = formulario["formulario-filtrado-fecha-desde"].value;
+    let fechaFinal = formulario["formulario-filtrado-fecha-hasta"].value;
+    let valorMin1 = formulario["formulario-filtrado-valor-minimo"].value;
+    let valorMax1 = formulario["formulario-filtrado-valor-maximo"].value;
+    let etiquetas = formulario["formulario-filtrado-etiquetas-tiene"].value;
+    
+    console.log(typeof valorMax1);
+    etiquetas = datosPresupuesto.transformarListadoEtiquetas(etiquetas);
+
+    let ObjetoNuevo = {
+
+      fechaDesde: (fechaInicio === "") ? undefined : fechaInicio,
+      fechaHasta: (fechaFinal === "") ? undefined : fechaFinal,
+      valorMinimo: (valorMin1 === "") ? undefined : valorMin1,
+      valorMaximo: (valorMax1 === "") ? undefined : valorMax1,
+      descripcionContiene: (descripcion1 === "") ? undefined : descripcion1,
+      etiquetasTiene: (etiquetas === "") ? undefined : etiquetas
+    }
+    let filtrar = datosPresupuesto.filtrarGastos(ObjetoNuevo);
+    console.log(filtrar);
+
+    let listarGastos = document.getElementById("listado-gastos-completo");
+    listarGastos.innerHTML="";
+
+    for (let gasto of filtrar)
+    {
+      mostrarGastoWeb("listado-gastos-completo", gasto);
+    }
+      
+  }
+}
+//boton para filtrar 
+let eviarGasto = new filtrarGastosWeb();
+let formFiltr = document.getElementById("formulario-filtrado");
+formFiltr.addEventListener('submit', eviarGasto);
+
 export{
   mostrarDatoEnId,
   mostrarGastoWeb,
