@@ -314,8 +314,10 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         },{}); //valor inicial del acumulador
         return Reduce;
     }
-    
-
+    //transformar el listado de etiquetas que introduzca el usuario en el formulario
+    function transformarListadoEtiquetas(etiquetas) {
+        return etiquetas.match(/[a-zA-Z0-9]+/gi); //busca todas las letras del alfabeto y números del 0 al 9 tanto en minúscula cómo en mayuscula
+    }
 //las funciones y objetos deben tener los nombres que indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
 export   {
@@ -328,10 +330,13 @@ export   {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    transformarListadoEtiquetas
 }
 /*
  - padStart(2,0) si es de longitud 2 añade a la izquierda un 0
  - console.log(JSON.stringify(objeto))  --> muestra el objeto/parámetro/método completo
  - substring()método devuelve un subconjunto de un objeto String
+ - modificador i: insensitif busca tanto mayuscula cómo minúscula
+ - global g: incluye todo en un rango
 */

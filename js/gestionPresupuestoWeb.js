@@ -313,6 +313,44 @@ btnActualizarPres.addEventListener('click',actualizarPresupuestoWeb);
 btnAnyadirgasto.addEventListener('click',nuevoGastoWeb);
 anyadirgastoFirmulario.addEventListener('click',nuevoGastoWebFormulario);
 
+//recoje los datos del formulario de filtrado y actualiza la lista de listado-gastos-completo
+function filtrarGastosWeb() {
+    this.handleEvent = function (event) {
+        
+        event.preventDefault();
+
+        let formularioFiltrado = event.currentTarget;
+        let desc = formularioFiltrado.elements["formulario-filtrado-descripcion"].value;
+        let valorMin = parseFloat(formularioFiltrado.elements["formulario-filtrado-valor-minimo"].value);
+        let valorMax = parseFloat(formularioFiltrado.elements["formulario-filtrado-valor-maximo"].value);
+        let fechInicial = formularioFiltrado.elements["formulario-filtrado-fecha-desde"].value;
+        let fechFinal = formularioFiltrado.elements["formulario-filtrado-fecha-hasta"].value;
+        let Etiquetas = formularioFiltrado.elements["formulario-filtrado-etiquetas-tiene"].value;
+
+        if(Etiquetas !== undefined){
+            gestionPresupuesto.transformarListadoEtiquetas(Etiquetas);
+        }
+        let Obj = {
+            DateInitial: fechInicial,
+            DateFinal: fechFinal,
+            valueMin: valorMin,
+            valueMax: valorMax,
+            Desc: desc,
+            Etiquetas: Etiquetas
+        }
+        let gastosFiltrado = gestionPresupuesto.filtrarGastos(Obj);
+        document.getElementById("listado-gastos-completo").innerHTML = " ";
+        for (let gastico of gastosFiltrado) { //muestro el listado pro cada gasto filtrado
+            mostrarGastoWeb("listado-gastos-completo",gastico); //al ser una lista tiene que recorrer un array
+        }
+        
+    }
+}
+//boton enviar de FiltrarGastoWeb
+let btnEditarFormulario = document.getElementById("formulario-filtrado");
+let eventoFiltrarGasto = new filtrarGastosWeb();
+btnEditarFormulario.addEventListener('submit',eventoFiltrarGasto);
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
