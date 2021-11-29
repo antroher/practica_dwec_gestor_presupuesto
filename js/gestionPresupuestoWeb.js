@@ -48,25 +48,25 @@ function mostrarGastoWeb(idElemento, gasto)
 
     if (idElemento == 'listado-gastos-completo')
     {
-        let botonEditar = document.createElement('button');
-        botonEditar.className = 'gasto-editar';
-        botonEditar.type = 'button';
-        botonEditar.textContent = 'Editar';
+        let btnEdit = document.createElement('button');
+        btnEdit.className = 'gasto-editar';
+        btnEdit.type = 'button';
+        btnEdit.textContent = 'Editar';
 
-        let editarHa = new EditarHandle();
-        editarHa.gasto = gasto;
-        botonEditar.addEventListener('click', editarHa);
-        divGasto.append(botonEditar);
+        let editHandle = new EditarHandle();
+        editHandle.gasto = gasto;
+        btnEdit.addEventListener('click', editHandle);
+        divGasto.append(btnEdit);
 
-        let botonBorrar = document.createElement('button');
-        botonBorrar.className = 'gasto-borrar';
-        botonBorrar.type = 'button';
-        botonBorrar.textContent = 'Borrar';
+        let btnRemove = document.createElement('button');
+        btnRemove.className = 'gasto-borrar';
+        btnRemove.type = 'button';
+        btnRemove.textContent = 'Borrar';
 
-        let borrarHa = new BorrarHandle();
-        borrarHa.gasto = gasto;
-        botonBorrar.addEventListener('click', borrarHa);
-        divGasto.append(botonBorrar);
+        let removeHandle = new BorrarHandle();
+        removeHandle.gasto = gasto;
+        btnRemove.addEventListener('click', removeHandle);
+        divGasto.append(btnRemove);
     }
     
     elem.append(divGasto);
