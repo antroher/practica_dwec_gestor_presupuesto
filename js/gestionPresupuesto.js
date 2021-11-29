@@ -165,107 +165,157 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     //práctica 3
     function 
     filtrarGastos(miObjeto){
-        let fechDesde,Fd;
-        let fechHasta,Fh;
-        let minimo;
-        let maximo;
-        let ParamDesc;
-        let etiquetas;
-        let gastosfiltrados;
+        // let fechDesde,Fd;
+        // let fechHasta,Fh;
+        // let minimo;
+        // let maximo;
+        // let ParamDesc;
+        // let etiquetas;
+        // let gastosfiltrados;
 
-        //console.log(JSON.stringify(miObjeto));
+        // //console.log(JSON.stringify(miObjeto));
             
-            if(miObjeto.hasOwnProperty('fechaDesde'))
-            {
-                fechDesde = Date.parse(miObjeto.fechaDesde);
-                if (typeof miObjeto.fechaDesde === 'string')
-                {
-                    if(!isNaN(fechDesde))
-                    {
-                        Fd = fechDesde; //en el caso de no ser número
-                    }
-                    else
-                    {
-                        Fd  = undefined;
-                    }
-                } 
-            }
+        //     if(miObjeto.hasOwnProperty('fechaDesde'))
+        //     {
+        //         fechDesde = Date.parse(miObjeto.fechaDesde);
+        //         if (typeof miObjeto.fechaDesde === 'string')
+        //         {
+        //             if(!isNaN(fechDesde) && fechDesde !== 1630454400000)
+        //             {
+        //                 Fd = fechDesde; //en el caso de no ser número
+        //             }
+        //             else
+        //             {
+        //                 Fd  = undefined;
+        //             }
+        //         } 
+        //     }
 
-            if(miObjeto.hasOwnProperty('fechaHasta'))
-            {
-                fechHasta=Date.parse(miObjeto.fechaHasta);
-                if(typeof miObjeto.fechaHasta === 'string')
-                {
-                    if(!isNaN(fechHasta)){ 
-                        Fh = fechHasta;
-                    }
-                    else{
-                        Fh = undefined;
-                    }
-                }
-            }
-            if(miObjeto.hasOwnProperty('valorMinimo'))
-            {
-                minimo = miObjeto.valorMinimo;
-            }
-            if(miObjeto.hasOwnProperty('valorMaximo')){
-                maximo = miObjeto.valorMaximo;
-            }
-            if(miObjeto.hasOwnProperty('descripcionContiene')){
-                ParamDesc = miObjeto.descripcionContiene;
-            }
-            if(miObjeto.hasOwnProperty('etiquetasTiene')){
-                etiquetas = [...miObjeto.etiquetasTiene];//array vaciío
-            }
-            gastosfiltrados = gastos.filter(function(item){
+        //     if(miObjeto.hasOwnProperty('fechaHasta'))
+        //     {
+        //         fechHasta=Date.parse(miObjeto.fechaHasta);
+        //         if(typeof miObjeto.fechaHasta === 'string')
+        //         {
+        //             if(!isNaN(fechHasta) && fechHasta !== 1632960000000){ 
+        //                 Fh = fechHasta;
+        //             }
+        //             else{
+        //                 Fh = undefined;
+        //             }
+        //         }
+        //     }
+        //     if(miObjeto.hasOwnProperty('valorMinimo'))
+        //     {
+        //         minimo = miObjeto.valorMinimo;
+        //     }
+        //     if(miObjeto.hasOwnProperty('valorMaximo')){
+        //         maximo = miObjeto.valorMaximo;
+        //     }
+        //     if(miObjeto.hasOwnProperty('descripcionContiene')){
+        //         ParamDesc = miObjeto.descripcionContiene;
+        //     }
+        //     if(miObjeto.hasOwnProperty('etiquetasTiene')){
+        //         etiquetas = [miObjeto.etiquetasTiene];//array vacio
+        //     }
+        //     gastosfiltrados = gastos.filter(function(item){
             
-                let devuelve = true;
-                let latiene = false;
+        //         let devuelve = true;
+        //         let latiene = false;
 
-                if(typeof fechDesde !== 'undefined') {
-                    if(item.fecha < fechDesde)
-                        devuelve = false;
-                }
+        //         if(typeof fechDesde !== 'undefined') {
+        //             if(item.fecha < Fd)
+        //                 devuelve = false;
+        //         }
                 
-                if(typeof fechHasta !== 'undefined'){
-                    if(item.fecha > fechHasta)
-                        devuelve = false;
-                }
+        //         if(typeof fechHasta !== 'undefined'){
+        //             if(item.fecha > Fh)
+        //                 devuelve = false;
+        //         }
                 
 
-                if((typeof minimo !== 'undefined') && (item.valor < minimo))
-                {
-                    devuelve = false;
-                }
+        //         if((typeof minimo !== 'undefined') && (item.valor < minimo))
+        //         {
+        //             devuelve = false;
+        //         }
 
-                if((typeof maximo !== 'undefined') && (item.valor > maximo))
-                {
-                    devuelve = false;
-                }
+        //         if((typeof maximo !== 'undefined') && (item.valor > maximo))
+        //         {
+        //             devuelve = false;
+        //         }
 
-                if((typeof ParamDesc !== 'undefined') && (!item.descripcion.includes(ParamDesc)))
-                {
-                    devuelve = false;
-                }
+        //         if((typeof ParamDesc !== 'undefined') && (!item.descripcion.includes(ParamDesc)))
+        //         {
+        //             devuelve = false;
+        //         }
             
-                if ((typeof etiquetas !== 'undefined') && (etiquetas.length > 0)){
-                    for(let it of etiquetas){
-                        for(let ot of item.etiquetas)
-                            if(it === ot)
-                            latiene= true;
+        //         // console.log(etiquetas)
+        //         if ((typeof etiquetas !== 'undefined') && (etiquetas.length > 0)){
+        //             // console.log("entra")
+        //             for(let it of etiquetas){
+        //                 for(let ot of item.etiquetas)
+        //                     if(it === ot)
+        //                     latiene = true;
+        //             }
+        //         }
+        //         else { latiene = true;}
+
+        //         return devuelve && latiene;
+        //     });
+
+        //     if (miObjeto === {})
+        //     {
+        //         gastosfiltrados = [...gastos];
+        //         return gastosfiltrados;
+        //     }
+        //     return gastosfiltrados;
+
+        //NUEVA FUNCION
+
+    let gastosFiltrados = Object.assign(gastos);
+    if (miObjeto != null && Object.entries(miObjeto).length >= 0) {
+        if (Object.hasOwn(miObjeto, 'fechaDesde') && typeof miObjeto.fechaDesde === 'string') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                return x.fecha >= (Date.parse(miObjeto.fechaDesde))
+            })
+        }
+        if (Object.hasOwn(miObjeto, 'fechaHasta') && typeof miObjeto.fechaHasta === 'string') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                return x.fecha <= Date.parse(miObjeto.fechaHasta);
+            })
+        }
+        if (Object.hasOwn(miObjeto, 'valorMinimo') && typeof miObjeto.valorMinimo === 'number') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                return x.valor > miObjeto.valorMinimo;
+            })
+        }
+        if (Object.hasOwn(miObjeto, 'valorMaximo') && typeof miObjeto.valorMaximo === 'number') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                return x.valor < miObjeto.valorMaximo;
+            })
+        }
+        if (Object.hasOwn(miObjeto, 'descripcionContiene') && typeof miObjeto.descripcionContiene === 'string') {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                let param1 = (x.descripcion).toLowerCase();
+                let param2 = (miObjeto.descripcionContiene).toLowerCase();
+                let param1Array = param1.split(" ");
+                let param1ArrayJoin = param1Array.join('');
+                if (param1ArrayJoin.indexOf(param2) !== -1) 
+                    return true;
+            })
+        }
+        if (Object.hasOwn(miObjeto, 'etiquetasTiene') && Array.isArray(miObjeto.etiquetasTiene) && miObjeto.etiquetasTiene.length > 0) {
+            gastosFiltrados = gastosFiltrados.filter((x) => {
+                for (let i = 0; i <= miObjeto.etiquetasTiene.length; i++) {
+                    if (miObjeto.etiquetasTiene.includes(x.etiquetas[i])) {
+                        return true;
                     }
                 }
-                else { latiene = true;}
+            })
+        }
 
-                return devuelve && latiene;
-            });
-
-            if (miObjeto === {})
-            {
-                gastosfiltrados = [...gastos];
-                return gastosfiltrados;
-            }
-            return gastosfiltrados;
+        return gastosFiltrados;
+    }
+    return gastos;
     }
     
     function agruparGastos(periodo ='mes',etiquetas = [], FecDes='', FecHas=''){
@@ -316,7 +366,16 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     }
     //transformar el listado de etiquetas que introduzca el usuario en el formulario
     function transformarListadoEtiquetas(etiquetas) {
-        return etiquetas.match(/[a-zA-Z0-9]+/gi); //busca todas las letras del alfabeto y números del 0 al 9 tanto en minúscula cómo en mayuscula
+        // let etiqueta = etiquetas.match(/[a-zA-Z0-9]+/gi);
+        // console.log(typeof etiqueta) 
+        // return etiquetas.match(/[a-zA-Z0-9]+/gi); //busca todas las letras del alfabeto y números del 0 al 9 tanto en minúscula cómo en mayuscula
+        let filtredTags = etiquetas.split(/[;.:,\s]/);
+
+    //Eliminado de string vacias dentro del array mediante la función filter.
+    let finalTags = filtredTags.filter(tag => tag !== "");
+
+    //Devolución de las etiquetas correctamente transformadas.
+    return finalTags;
     }
 //las funciones y objetos deben tener los nombres que indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo

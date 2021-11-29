@@ -320,30 +320,34 @@ function filtrarGastosWeb() {
         event.preventDefault();
 
         let formularioFiltrado = event.currentTarget;
-        let desc = formularioFiltrado.elements["formulario-filtrado-descripcion"].value;
-        let valorMin = parseFloat(formularioFiltrado.elements["formulario-filtrado-valor-minimo"].value);
-        let valorMax = parseFloat(formularioFiltrado.elements["formulario-filtrado-valor-maximo"].value);
-        let fechInicial = formularioFiltrado.elements["formulario-filtrado-fecha-desde"].value;
-        let fechFinal = formularioFiltrado.elements["formulario-filtrado-fecha-hasta"].value;
-        let Etiquetas = formularioFiltrado.elements["formulario-filtrado-etiquetas-tiene"].value;
+        let desc = formularioFiltrado["formulario-filtrado-descripcion"].value;
+        let valorMinimo = formularioFiltrado["formulario-filtrado-valor-minimo"].value;
+        let valorMaximo = formularioFiltrado["formulario-filtrado-valor-maximo"].value;
+        let fechInicial = formularioFiltrado["formulario-filtrado-fecha-desde"].value;
+        let fechFinal = formularioFiltrado["formulario-filtrado-fecha-hasta"].value;
+        let Etiquetas = formularioFiltrado["formulario-filtrado-etiquetas-tiene"].value;
 
-        if(Etiquetas !== undefined){
-            gestionPresupuesto.transformarListadoEtiquetas(Etiquetas);
-        }
+        
+        
+        Etiquetas = gestionPresupuesto.transformarListadoEtiquetas(Etiquetas);
+        
         let Obj = {
-            DateInitial: fechInicial,
-            DateFinal: fechFinal,
-            valueMin: valorMin,
-            valueMax: valorMax,
-            Desc: desc,
-            Etiquetas: Etiquetas
+            fechaDesde: (fechInicial === "") ? undefined : fechInicial,
+            fechaHasta: (fechFinal === "") ? undefined : fechFinal,
+            valorMinimo: (valorMinimo === "") ? undefined : parseFloat(valorMinimo),
+            valorMaximo: (valorMaximo === "") ? undefined : parseFloat(valorMaximo),
+            descripcionContiene: (desc === "") ? undefined : desc,
+            etiquetasTiene: (Etiquetas === "") ? undefined : Etiquetas
         }
+        
         let gastosFiltrado = gestionPresupuesto.filtrarGastos(Obj);
-        document.getElementById("listado-gastos-completo").innerHTML = " ";
+        
+        let listarGasto = document.getElementById("listado-gastos-completo");
+        listarGasto.innerHTML = "";
+
         for (let gastico of gastosFiltrado) { //muestro el listado pro cada gasto filtrado
             mostrarGastoWeb("listado-gastos-completo",gastico); //al ser una lista tiene que recorrer un array
         }
-        
     }
 }
 //boton enviar de FiltrarGastoWeb
