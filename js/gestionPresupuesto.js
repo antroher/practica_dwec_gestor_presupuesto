@@ -120,6 +120,11 @@ function CrearGasto(desc, val, fec = Date.now(), ...etiq)
         }
     }
 
+function transformarListadoEtiquetas(etiq)
+{
+        return etiq.match(/\w+/g);
+}
+
 //Acciones con el Array de gastos
 function listarGastos(){
     return gastos;
@@ -219,7 +224,7 @@ function agruparGastos(periodo = 'mes' ,etiquetas = [],fechaD,fechaH=Date.now())
     return gastosAgrupados;
         
 }
-// Acciones con la variable global Gastos
+// Acciones con la variable global Presupuestos
 function actualizarPresupuesto(presup) 
 {
     if(presup>=0)
@@ -252,6 +257,7 @@ export   {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    transformarListadoEtiquetas
 
 }

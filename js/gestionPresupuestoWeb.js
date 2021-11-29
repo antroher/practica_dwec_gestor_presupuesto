@@ -194,6 +194,82 @@ function BorrarEtiquetasHandle()
     }
 }
 
+function EnviarFormHandle(){
+
+    this.handleEvent = function(event){
+
+        event.preventDefault();
+
+        let form = event.currentTarget;
+
+        let desc = form.descripcion.value;
+        let val = parseFloat(form.valor.value);
+        let fech = form.fecha.value;
+        let etiq = form.etiquetas.value;
+            etiq = etiq.split(', ');
+
+        let gasto = new gestionPresupuesto.CrearGasto(desc, val, fech, etiq);
+
+        gestionPresupuesto.anyadirGasto(gasto);
+
+        document.getElementById('anyadirgasto-formulario').removeAttribute('disabled');
+        form.remove();
+
+        repintar();
+    }
+}
+
+function CancelarFormHandle(){
+    this.handleEvent = function(event){
+
+        event.currentTarget.parentNode.remove();
+
+        document.getElementById("anyadirgasto-formulario").removeAttribute('disabled');
+
+        repintar();
+    }
+}
+
+
+function EditarFormHandle(){
+    this.handleEvent=function(event){
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true); //clonar plantilla (template)
+        let formulario = plantillaFormulario.querySelector("form"); //extraer el form de la plantilla (template) a una variable
+
+        formulario.descripcion.value = this.gasto.descripcion;
+        formulario.valor.value = parseFloat(this.gasto.valor);
+        formulario.fecha.value = new Date(this.gasto.fecha).toString().substr(0,10);//.toISOString?
+        formulario.etiquetas.value = this.gasto.etiquetas;
+
+        event.currentTarget.append(formulario);
+        event.currentTarget.setAttribute('disabled', '');
+
+        //evento btn enviar
+        let objBtnEnviar = new enviarHandle();
+        objBtnEnviar.gasto = this.gasto;
+        formulario.addEventListener('submit',objBtnEnviar);
+
+        //evento btn cancelar
+        let objBtnCancelar = new CancelarFormHandle();
+        formulario.querySelector("button.cancelar").addEventListener('click',objBtnCancelar);
+    }
+}
+
+function enviarHandle(){
+    this.handleEvent=function(event){
+        event.preventDefault();
+
+        let form = event.currentTarget;
+
+        this.gasto.actualizarDescripcion(form.descripcion.value);
+        this.gasto.actualizarValor(parseFloat(form.valor.value));
+        this.gasto.actualizarFecha(form.fecha.value);
+        this.gasto.anyadirEtiquetas(form.etiquetas.value.split(', '));
+
+        repintar();
+    }
+}
+
 
 export{ mostrarDatoEnId,
         mostrarGastoWeb,
