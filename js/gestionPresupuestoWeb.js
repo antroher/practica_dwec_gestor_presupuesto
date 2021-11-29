@@ -345,19 +345,9 @@ function filtrarGastosWeb(){
 
         console.log(gastosFiltro);
 
-        //Borramos todos los gastos
         let lista = document.getElementById('listado-gastos-completo');
 
         lista.innerHTML = '';
-
-        //Otras opciones para borrar los gastos
-        /*
-        while(lista.firstChild){
-            lista.removeChild(lista.firstChild);
-        }
-
-        document.querySelectorAll(".gasto").forEach(el => el.remove());
-        */
 
         for(let gasto of gastosFiltro){
             mostrarGastoWeb("listado-gastos-completo", gasto);
@@ -388,11 +378,11 @@ export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    /*repintar,
+    repintar,
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
     EditarHandle,
     BorrarHandle,
     BorrarEtiquetasHandle,
-    nuevoGastoWebFormulario,*/
+    nuevoGastoWebFormulario
 }

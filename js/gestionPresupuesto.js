@@ -85,7 +85,6 @@ function CrearGasto(descripcion = "No hay descripción", valor = 0, fecha = "", 
         }
     }
 
-    //Comprobamos que las etiquetas que se introducen en el objeto no estén repetidas
     this.anyadirEtiquetas(...etiquetas);
 
     this.borrarEtiquetas = function(...etiquetas){
