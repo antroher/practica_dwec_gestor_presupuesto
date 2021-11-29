@@ -140,7 +140,7 @@ function actualizarPresupuestoWeb()
 
 let botonActualizarP=document.getElementById("actualizarpresupuesto");
 botonActualizarP.addEventListener('click', actualizarPresupuestoWeb);
-/*
+
 function nuevoGastoWeb()
 {
     let descripcion= prompt('Escriba la descripción del nuevo gasto: ');
@@ -156,84 +156,6 @@ function nuevoGastoWeb()
 
 let botonAnyadirG= document.getElementById('anyadirgasto');
 botonAnyadirG.addEventListener('click', nuevoGastoWeb);
-*/
-
-
-//Funciones y eventos botones principales
-    //boton actulizar
-    function actualizarPresupuestoWeb(){
-        let presu = parseInt(prompt('Introduce un presupuesto nuevo.'));
-        gestionPresupuesto.actualizarPresupuesto(presu);
-        document.getElementById('presupuesto').innerHTML="";
-        document.getElementById('gastos-totales').innerHTML="";
-        document.getElementById('balance-total').innerHTML="";
-        repintar();
-    }
-        //boton añadir gasto
-    function nuevoGastoWeb(){
-        let desc = prompt('Escriba la descripción del nuevo gasto');
-        let val = parseFloat(prompt('Escriba el valor del nuevo gasto'));
-        let fech = new Date(prompt('Escriba la fecha del nuevo gasto')).toLocaleDateString();//arreglar?
-        let etiq = prompt('Escriba las etiquetas (seguidas por coma) del nuevo gasto');
-        etiq = etiq.split(', ');
-        let gasto = new gestionPresupuesto.CrearGasto(desc, val, fech, etiq);
-        gestionPresupuesto.anyadirGasto(gasto);
-        repintar();
-    }
-        //boton añadir gasto formulario
-    function nuevoGastoWebFormulario(){
-        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true); //clonar plantilla (template)
-        let formulario = plantillaFormulario.querySelector("form"); //extraer el form de la plantilla (template) a una variable
-        //Desacivar boton
-        document.getElementById('anyadirgasto-formulario').setAttribute('disabled', '');
-    
-        document.getElementById('controlesprincipales').append(formulario);
-    
-        //evento boton
-        formulario.addEventListener('submit', new EnviarFormHandle());
-        formulario.querySelector("button.cancelar").addEventListener('click',new CancelarFormHandle());
-    
-    
-    }
-    //Eventos
-    document.getElementById('actualizarpresupuesto').addEventListener('click', actualizarPresupuestoWeb);
-    document.getElementById('anyadirgasto').addEventListener('click', nuevoGastoWeb);  
-    document.getElementById('anyadirgasto-formulario').addEventListener('click', nuevoGastoWebFormulario)
-    
-        //boton filtrarGastos
-    function filtrarGastosWeb(){
-    
-            let desc = document.getElementById('formulario-filtrado-descripcion').value;
-            let valMin = parseFloat(document.getElementById('formulario-filtrado-valor-minimo').value);
-            let valMax = parseFloat(document.getElementById('formulario-filtrado-valor-maximo').value);
-            let fechDesde = document.getElementById('formulario-filtrado-fecha-desde').value;
-            let fechHasta = document.getElementById('formulario-filtrado-fecha-hasta').value;
-            let etiq = document.getElementById('formulario-filtrado-etiquetas-tiene').value;
-    
-            let objFiltro={
-                descripcionContiene:desc,
-                fechaHasta:fechHasta,
-                fechaDesde:fechDesde,
-                valorMinimo:valMin,
-                valorMaximo:valMax
-            };
-            if(etiq.length > 0)
-            {
-                objFiltro.etiquetasTiene = gestionPresupuesto.transformarListadoEtiquetas(etiq);
-            }
-    
-            let gastosFiltrados = gestionPresupuesto.filtrarGastos(objFiltro);
-    
-            document.getElementById('listado-gastos-completo').innerHTML="";
-    
-            gastosFiltrados.forEach(i => {
-                mostrarGastoWeb('listado-gastos-completo', i);
-            });
-    }
-        //Evento boton filtrarGastos
-    document.getElementById('formulario-filtrado').addEventListener('submit', filtrarGastosWeb);
-    
-    
 
 function EditarHandle()
 {
