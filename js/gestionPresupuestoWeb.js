@@ -97,7 +97,8 @@ function mostrarGastoWeb(idElemento, gasto){
         divG.append(btnEditar);
         divG.append(btnBorrar);
         divG.append(btnEditarF);
-    }    
+    }
+    
 }
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     let elem = document.getElementById(idElemento);
@@ -117,7 +118,6 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     elem.innerHTML += cad;
     
 }
-
 function repintar(){
     document.getElementById('presupuesto').innerHTML='';
     document.getElementById('gastos-totales').innerHTML="";
@@ -184,14 +184,24 @@ document.getElementById('anyadirgasto-formulario').addEventListener('click', nue
 
     //Funcion boton filtrarGastos
 function filtrarGastosWeb(){
-    this.handleEvent=function(event){
-        event.preventDefault();
+    //this.handleEvent=function(event){
+        //event.preventDefault();
+        /*let form = event.currentTarget;
+
+        let desc = form.elements["formulario-filtrado-descripcion"].value;
+        let valMin = parseFloat(form.elements["formulario-filtrado-valor-minimo"]).value;
+        let valMax = parseFloat(form.elements["formulario-filtrado-valor-maximo"].value);
+        let fechDesde = form.elements["formulario-filtrado-fecha-desde"].value;
+        let fechHasta = form.elements["formulario-filtrado-fecha-hasta"].value;
+        let etiq = form.elements["formulario-filtrado-etiquetas-tiene"].value;*/
+
         let desc = document.getElementById('formulario-filtrado-descripcion').value;
         let valMin = parseFloat(document.getElementById('formulario-filtrado-valor-minimo').value);
         let valMax = parseFloat(document.getElementById('formulario-filtrado-valor-maximo').value);
         let fechDesde = document.getElementById('formulario-filtrado-fecha-desde').value;
         let fechHasta = document.getElementById('formulario-filtrado-fecha-hasta').value;
         let etiq = document.getElementById('formulario-filtrado-etiquetas-tiene').value;
+        
         let objFiltro={
             descripcionContiene:desc,
             fechaHasta:fechHasta,
@@ -211,10 +221,10 @@ function filtrarGastosWeb(){
         gastosFiltrados.forEach(i => {
             mostrarGastoWeb('listado-gastos-completo', i);
         });
-    }
+    //}
 }
     //Evento boton filtrarGastos
-document.getElementById('formulario-filtrado').addEventListener('submit', new filtrarGastosWeb);
+document.getElementById('formulario-filtrado').addEventListener('submit', filtrarGastosWeb);
 
 
 

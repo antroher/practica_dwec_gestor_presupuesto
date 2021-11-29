@@ -1,5 +1,5 @@
 'use strict';
-//Variables global
+//Variables globales
 var presupuesto=0, idGasto=0;
 var gastos=[];
 
