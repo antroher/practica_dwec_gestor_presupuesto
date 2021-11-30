@@ -242,6 +242,24 @@ function BorrarEtiquetasHandle() {
     }
 }
 
+function filtrarGastosWeb(){
+    this.handleEvent = function(event)
+    {
+        event.preventDefault();
+        let form = event.currentTarget;
+        let descripcion = form["formulario-filtrado-descripcion"].value;
+        let valorMinimo = form["formulario-filtrado-valor-minimo"].value;
+        let valorMaximo = form["formulario-filtrado-valor-maximo"].value;
+        let fechaDesde = form["formulario-filtrado-fecha-desde"].value;
+        let fechaHasta = form["formulario-filtrado-fecha-hasta"].value;
+        let etiq = form["formulario-filtrado-etiquetas-tiene"].value;
+
+        if(etiq != null){
+            etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
+        }
+    }
+}
+
 const btnActualizarPresupuesto = document.getElementById("actualizarpresupuesto");
 btnActualizarPresupuesto.addEventListener("click", actualizarPresupuestoWeb);
 const btnNuevoGasto = document.getElementById("anyadirgasto");
