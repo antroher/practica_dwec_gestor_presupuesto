@@ -269,15 +269,33 @@ function filtrarGastosWeb(){
         event.preventDefault();
         let form = event.currentTarget;
         let desc = form["formulario-filtrado-descripcion"].value;
-        let valMin = form["formulario-filtrado-valor-minimo"];
-        let valMax = form["formulario-filtrado-valor-maximo"];
-        let fecDesd = form["formulario-filtrado-fecha-desde"];
-        let fecHast = form["formulario-filtrado-fecha-hasta"];
-        let etiq = form["formulario-filtrado-etiquetas-tiene"];
+        let valMin = form["formulario-filtrado-valor-minimo"].value;
+        let valMax = form["formulario-filtrado-valor-maximo"].value;
+        let fecDesd = form["formulario-filtrado-fecha-desde"].value;
+        let fecHast = form["formulario-filtrado-fecha-hasta"].value;
+        let etiq = form["formulario-filtrado-etiquetas-tiene"].value;
 
-        if(etiq != null){
-            etiq = GestPres.transformarListadoEtiquetas(etiq);
+        console.log(typeof valMax);
+        etiq = GestPres.transformarListadoEtiquetas(etiq);
+
+        let objNecesario = {
+            descripcionContenida: (desc === "") ? undefined : desc,
+            valorMinimo: (valMin === "") ? undefined : valMin,
+            valorMaximo: (valMax === "") ? undefined : valMax,
+            fechaDesde: (fecDesd === "") ? undefined : fecDesd,
+            fechaHasta: (fecHast === "") ? undefined : fecHast,
+            etiquetasTiene: (etiq === "") ? undefined : etiq
         }
+
+        let filtrado = GestPres.filtrarGastos(objNecesario);
+        console.log(filtrado);
+
+        let listarGastos = document.getElementById("listado-gastos-completo");
+        listarGastos.innerHTML = "";
+
+        for (let gasto of filtrado){
+            mostrarGastoWeb("listado-gastos-completo", gasto);
+        }       
     }
 }
 
@@ -285,6 +303,8 @@ function filtrarGastosWeb(){
 document.getElementById("actualizarpresupuesto").addEventListener("click", actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener("click", nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario").addEventListener("click", nuevoGastoWebFormulario);
+let enviarGasto = new filtrarGastosWeb();
+document.getElementById("formulario-filtrado").addEventListener("submit", enviarGasto);
 
 //Los exports 
 
