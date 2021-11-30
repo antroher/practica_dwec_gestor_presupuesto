@@ -211,7 +211,7 @@ function nuevoGastoWebFormulario() {
 }
 
 const anyadirgastoFormulario = document.getElementById("anyadirgasto-formulario");
-anyadirgastoFormulario.addEventListener('click', nuevoGastoWebFormulario)
+anyadirgastoFormulario.addEventListener("click", nuevoGastoWebFormulario);S
 
 
 function EditarHandleformulario() {
@@ -244,9 +244,7 @@ function EditarHandleformulario() {
 }
 function EnviarHandle(){
     this.handleEvent = function(e){
-
         e.preventDefault();
-
         let formulario = e.currentTarget;
         let descripcion = formulario.elements.descripcion.value;
         this.gasto.actualizarDescripcion(descripcion);
@@ -293,5 +291,6 @@ btnFiltrar.addEventListener("submit", sendGaso);
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar
 }
