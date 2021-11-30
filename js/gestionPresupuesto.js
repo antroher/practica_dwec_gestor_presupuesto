@@ -222,7 +222,7 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
 }
 
 function transformarListadoEtiquetas(etiq) {
-    let etiArray = etiq.match(/[a-zA-Z0-9]+/gi);
+    let etiArray = etiq.match(/[a-z0-9]+/gi);
     return etiArray;
 }
 

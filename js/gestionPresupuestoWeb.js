@@ -262,31 +262,32 @@ function EnviarHandle(){
 
 function filtrarGastoWeb() {
     event.preventDefault() 
-        let formulario = document.getElementById("formulario-filtrado");
-        let filDescripcion = formulario.elements["formulario-filtrado-descripcion"].value;
-        let filMin = formulario.elements["formulario-filtrado-valor-minimo"].value;
-        let filMax = formulario.elements["formulario-filtrado-valor-maximo"].value;
-        let filFecha = formulario.elements["formulario-filtrado-fecha-desde"].value;
-        let filHastaFecha = formulario.elements["formulario-filtrado-fecha-hasta"].value;
-        let filEtiquetas = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
     
-        if(filEtiquetas === ""){
-            filEtiquetas = [];
-        }
+    let formulario = document.getElementById("formulario-filtrado");
+    let filDescripcion = formulario.elements["formulario-filtrado-descripcion"].value;
+    let filMin = formulario.elements["formulario-filtrado-valor-minimo"].value;
+    let filMax = formulario.elements["formulario-filtrado-valor-maximo"].value;
+    let filFecha = formulario.elements["formulario-filtrado-fecha-desde"].value;
+    let filHastaFecha = formulario.elements["formulario-filtrado-fecha-hasta"].value;
+    let filEtiquetas = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
 
-        let filtrar ={
-            descripcionContiene: (filDescripcion === "")? undefined : filDescripcion,
-            valorMinimo: (filMin === "")? undefined : parseFloat(filMin),
-            valorMaximo:(filMax === "")? undefined: parseFloat(filMax),
-            fechaDesde:(filFecha === "")? undefined : filFecha,
-            fechaHasta: (filHastaFecha === "")? undefined : filHastaFecha,
-            etiquetasTiene:(filEtiquetas.length === 0)? [] : gestionPresupuesto.transformarListadoEtiquetas(filEtiquetas)
-        }
+    if(filEtiquetas === ""){
+        filEtiquetas = [];
+    }
 
-        let gastosFiltrar = gestionPresupuesto.filtrarGastos(filtrar);
-        document.getElementById("listado-gastos-completo").innerHTML = "";
+    let filtrar ={
+        descripcionContiene: (filDescripcion === "")? undefined : filDescripcion,
+        valorMinimo: (filMin === "")? undefined : parseFloat(filMin),
+        valorMaximo:(filMax === "")? undefined: parseFloat(filMax),
+        fechaDesde:(filFecha === "")? undefined : filFecha,
+        fechaHasta: (filHastaFecha === "")? undefined : filHastaFecha,
+        etiquetasTiene:(filEtiquetas.length === 0)? [] : gestionPresupuesto.transformarListadoEtiquetas(filEtiquetas)
+    }
 
-        mostrarGastoWeb("listado-gastos-completo",gastosFiltrar);
+    let gastosFiltrar = gestionPresupuesto.filtrarGastos(filtrar);
+    document.getElementById("listado-gastos-completo").innerHTML = "";
+
+    mostrarGastoWeb("listado-gastos-completo",gastosFiltrar);
 }
 
 export {
