@@ -405,7 +405,11 @@ function mostrarDatoEnId(idElemento,valor){
 
             let formulario = document.getElementById("formulario-filtrado");
             let filDescripcion = formulario.elements["formulario-filtrado-descripcion"].value;
-            let filMin = parseFloat(formulario.)
+            let filMin = parseFloat(formulario.elements["formulario-filtrado-valor-minimo"].value);
+            let filMax = parseFloat(formulario.elements["formulario-filtrado-valor-maximo"].value);
+            let filFecha = formulario.elements["formulario-filtrado-fecha-desde"].value;
+            let filHastaFecha = formulario.elements["formulario-filtrado-fecha-hasta"].value;
+            let filEtiquetas = formulario.elements["formulario-filtrado-etiquetas-tiene"].value
         }
 
 //El export de las funciones
