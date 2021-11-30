@@ -263,48 +263,47 @@ function EnviarGastoHandleFormulario(){
 
 //Práctica 7 -- función filtrarGastosWeb.
 
-function filtrarGastosWeb(){
-    this.handleEvent = function(event)
-    {
-        event.preventDefault();
-        let form = event.currentTarget;
-        let desc = form["formulario-filtrado-descripcion"].value;
-        let valMin = form["formulario-filtrado-valor-minimo"].value;
-        let valMax = form["formulario-filtrado-valor-maximo"].value;
-        let fecDesd = form["formulario-filtrado-fecha-desde"].value;
-        let fecHast = form["formulario-filtrado-fecha-hasta"].value;
-        let etiq = form["formulario-filtrado-etiquetas-tiene"].value;
+function filtrarGastoWeb (){
 
-        console.log(typeof valMax);
-        etiq = GestPres.transformarListadoEtiquetas(etiq);
+    event.preventDefault();
 
-        let objNecesario = {
-            descripcionContenida: (desc === "") ? undefined : desc,
-            valorMinimo: (valMin === "") ? undefined : valMin,
-            valorMaximo: (valMax === "") ? undefined : valMax,
-            fechaDesde: (fecDesd === "") ? undefined : fecDesd,
-            fechaHasta: (fecHast === "") ? undefined : fecHast,
-            etiquetasTiene: (etiq === "") ? undefined : etiq
-        }
+    let formulario = document.getElementById("formulario-filtrado");
+    let descripcionfiltro = formulario.elements["formulario-filtrado-descripcion"].value;
+    let valorMinimofiltro = formulario.elements["formulario-filtrado-valor-minimo"].value;
+    let valorMaximofiltro = formulario.elements["formulario-filtrado-valor-maximo"].value;
+    let fechaDesdefiltro = formulario.elements["formulario-filtrado-fecha-desde"].value;
+    let fechaHastafiltro = formulario.elements["formulario-filtrado-fecha-hasta"].value;
+    let etiquetasfiltro = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
 
-        let filtrado = GestPres.filtrarGastos(objNecesario);
-        console.log(filtrado);
-
-        let listarGastos = document.getElementById("listado-gastos-completo");
-        listarGastos.innerHTML = "";
-
-        for (let gasto of filtrado){
-            mostrarGastoWeb("listado-gastos-completo", gasto);
-        }       
+    if(etiquetasfiltro === ""){
+        etiquetasfiltro = [];
     }
+
+    let filtrar ={
+        descripcionContiene: (descripcionfiltro === "") ? undefined : descripcionfiltro,
+        valorMinimo: (valorMinimofiltro === "") ? undefined : parseFloat(valorMinimofiltro),
+        valorMaximo:(valorMaximofiltro === "") ? undefined: parseFloat(valorMaximofiltro),
+        fechaDesde:(fechaDesdefiltro === "") ? undefined : fechaDesdefiltro,
+        fechaHasta: (fechaHastafiltro === "") ? undefined : fechaHastafiltro,
+        etiquetasTiene:(etiquetasfiltro.length === 0) ? [] : GestPres.transformarListadoEtiquetas(etiquetasfiltro)
+    }
+        
+    console.log(filtrar)
+
+    let gastosFiltrar = GestPres.filtrarGastos(filtrar);
+
+    console.log(gastosFiltrar)
+
+    document.getElementById("listado-gastos-completo").innerHTML = "";
+
+    mostrarGastoWeb("listado-gastos-completo", gastosFiltrar);
 }
 
 //Botones
 document.getElementById("actualizarpresupuesto").addEventListener("click", actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener("click", nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario").addEventListener("click", nuevoGastoWebFormulario);
-let enviarGasto = new filtrarGastosWeb();
-document.getElementById("formulario-filtrado").addEventListener("submit", enviarGasto);
+document.getElementById("formulario-filtrado").addEventListener("submit", filtrarGastoWeb);
 
 //Los exports 
 
