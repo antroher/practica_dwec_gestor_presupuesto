@@ -261,35 +261,26 @@ function EnviarHandle(){
 }
 
 function filtrarGastoWeb() {
-    event.preventDefault() 
-    
-    let formulario = document.getElementById("formulario-filtrado");
-    let filDescripcion = formulario.elements["formulario-filtrado-descripcion"].value;
-    let filMin = formulario.elements["formulario-filtrado-valor-minimo"].value;
-    let filMax = formulario.elements["formulario-filtrado-valor-maximo"].value;
-    let filFecha = formulario.elements["formulario-filtrado-fecha-desde"].value;
-    let filHastaFecha = formulario.elements["formulario-filtrado-fecha-hasta"].value;
-    let filEtiquetas = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
+    this.handleEvent = function(event) {
+        event.preventDefault() 
+        let formulario = document.getElementById("formulario-filtrado");
+        let descripcion = formulario.elements["formulario-filtrado-descripcion"].value;
+        let valMin = parseFloat(formulario.elements["formulario-filtrado-valor-minimo"].value);
+        let valMax = parseFloat(formulario.elements["formulario-filtrado-valor-maximo"].value);
+        let fechaDesde = formulario.elements["formulario-filtrado-fecha-desde"].value;
+        let fechaHasta = formulario.elements["formulario-filtrado-fecha-hasta"].value;
+        let etiquetas = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
 
-    if(filEtiquetas === ""){
-        filEtiquetas = [];
-    }
+        if(etiquetas === ""){
+            etiquetas = gestionPresupuesto.transformarListadoEtiquetas(etiquetas);
+        }
 
-    let filtrar ={
-        descripcionContiene: (filDescripcion === "")? undefined : filDescripcion,
-        valorMinimo: (filMin === "")? undefined : parseFloat(filMin),
-        valorMaximo:(filMax === "")? undefined: parseFloat(filMax),
-        fechaDesde:(filFecha === "")? undefined : filFecha,
-        fechaHasta: (filHastaFecha === "")? undefined : filHastaFecha,
-        etiquetasTiene:(filEtiquetas.length === 0)? [] : gestionPresupuesto.transformarListadoEtiquetas(filEtiquetas)
-    }
+        let gastosFiltrar = gestionPresupuesto.filtrarGastos(filtrar);
+        document.getElementById("listado-gastos-completo").innerHTML = "";
 
-    let gastosFiltrar = gestionPresupuesto.filtrarGastos(filtrar);
-    document.getElementById("listado-gastos-completo").innerHTML = "";
-
-    mostrarGastoWeb("listado-gastos-completo",gastosFiltrar);
+        mostrarGastoWeb("listado-gastos-completo",gastosFiltrar);
 }
-
+}
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
