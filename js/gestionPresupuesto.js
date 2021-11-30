@@ -212,7 +212,12 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
         }
         return acc;
     }, {});
-    return agrupar;
+    return agrupar;    
+}
+
+function transformarListadoEtiquetas(eti) {
+    let etiArray = eti.match(/[a-zA-Z0-9]+/gi);
+    return etiArray;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -228,5 +233,6 @@ export   {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    transformarListadoEtiquetas
 }

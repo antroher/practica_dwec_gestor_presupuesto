@@ -220,6 +220,32 @@ function cancelFormHandle() {
     }
 }
 
+function filtrarGastosWeb() {
+    this.handleEvent = function(event) {
+        event.preventDefault();
+        let form = event.currentTarget();
+        let des = form.elements["formulario-filtrado-descripcion"].value;
+        let minVal = parseFloat(form.elements["formulario-filtrado-valor-minimo"].value);
+        let maxVal = parseFloat(form.elements["formulario-filtrado-valor-maximo"].value);
+        let fecDes = form.elements["formulario-filtrado-fecha-desde"].value;
+        let fecHas = form.elements["formulario-filtrado-fecha-hasta"].value;
+        let etiq = form.elements["formulario-filtrado-etiquetas-tiene"].value;
+        if (etiq !== null) {
+            gesPres.transformarListadoEtiquetas(etiq);
+        }
+
+        let obj = {
+            descripcion: des,
+            minvalue: minVal,
+            maxvalue: maxVal,
+            fechadesde: fecDes,
+            fechahasta: fecHas,
+            etiquetas: etiq
+        }
+    }
+    
+}
+
 //Botones
 const btnAddGas = document.getElementById("anyadirgasto");
 const btnActPres = document.getElementById("actualizarpresupuesto");
