@@ -18,7 +18,7 @@ function CrearGasto(des, v, fec=Date.now(), ...etiq){
         };
         this.actualizarDescripcion=function(des){
             this.descripcion=des;
-        },
+        };
         this.actualizarValor=function(val){
             if(parseFloat(val)>0)
             this.valor=val;  
