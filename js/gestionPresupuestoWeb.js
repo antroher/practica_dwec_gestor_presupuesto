@@ -195,7 +195,6 @@ function EditarHandleFormulario() {
    }
 }
 
-
 //Botones
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
