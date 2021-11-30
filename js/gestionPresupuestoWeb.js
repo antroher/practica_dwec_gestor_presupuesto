@@ -199,9 +199,13 @@ function EditarHandleFormulario() {
 //Botones
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
+const btnGastForm = document.getElementById("anyadirgasto-formulario");
+
 //Eventos
 actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
 anyadirgasto.addEventListener('click', nuevoGastoWeb);
+btnGastForm.addEventListener("click", nuevoGastoWebFormulario);
+
 
 export {
     mostrarDatoEnId,
