@@ -154,6 +154,12 @@ function nuevoGastoWebFormulario(){
     let divControlesPrincipales = document.getElementById("controlesprincipales");
     divControlesPrincipales.appendChild(formulario);
     let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
+
+    let enviarObj = new EnviarGastoFormHandle();
+    formulario.addEventListener('submit', enviarObj);
+    let cancelarObj = new CancelarFormHandle();
+    let btnCancelar = formulario.querySelector("button.cancelar");
+    btnCancelar.addEventListener("click", cancelarObj);
 }
 
 function anyadirGastoFormulario(){
