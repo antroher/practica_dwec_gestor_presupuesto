@@ -37,22 +37,12 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
     if(etiquetas.length == 0){
         etiquetas = [];
     }
-<<<<<<< Updated upstream
 
     // let gasto = {
         this.descripcion = descripcion,
         this.valor = valor,
         this.fecha = (typeof fecha === "string") ? Date.parse(fecha) : fecha,
         this.etiquetas = [...etiquetas],
-=======
-    
-    let gasto = {
-        descripcion: descripcion,
-        valor: valor,
-        fecha: (typeof fecha === "string") ? Date.parse(fecha) : fecha,
-        etiquetas: [...etiquetas],
-        
->>>>>>> Stashed changes
 
         this.mostrarGasto = function(){
             return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
@@ -325,27 +315,27 @@ function filtrarGastos(objetoDelGasto){
     //Primera comprobacion
     if(objetoDelGasto != undefined && objetoDelGasto !=null){  //Si el objetoDelGasto esta indefinido o es nulo que entre en el if, si no se va al else
         let gastosFil = gastos.filter((gasto)=>{
-            if(objetoDelGasto.hasOwnProperty("fechaDesde")){
+            if(objetoDelGasto.hasOwnProperty("fechaDesde") && objetoDelGasto.fechaDesde !== undefined){
                 if(gasto.fecha < Date.parse(objetoDelGasto.fechaDesde)){
                     return;
                 }
             }
-            if(objetoDelGasto.hasOwnProperty("fechaHasta")){
+            if(objetoDelGasto.hasOwnProperty("fechaHasta") && objetoDelGasto.fechaHasta !== undefined){
                 if(gasto.fecha > Date.parse(objetoDelGasto.fechaHasta)){
                     return;
                 }
             }
-            if (objetoDelGasto.hasOwnProperty("valorMaximo")) {
+            if (objetoDelGasto.hasOwnProperty("valorMaximo") && objetoDelGasto.valorMaximo !== undefined) {
                 if (gasto.valor > objetoDelGasto.valorMaximo) {
                   return;
                 }
               }
-            if(objetoDelGasto.hasOwnProperty("valorMinimo")){
+            if(objetoDelGasto.hasOwnProperty("valorMinimo") && objetoDelGasto.valorMinimo !== undefined){
                 if(gasto.valor < objetoDelGasto.valorMinimo){
                     return;
                 }
             }
-            if (objetoDelGasto.hasOwnProperty("descripcionContiene")) {
+            if (objetoDelGasto.hasOwnProperty("descripcionContiene") && objetoDelGasto.descripcionContiene !== undefined) {
 
                 if (!gasto.descripcion.includes(objetoDelGasto.descripcionContiene))
                         return;
@@ -393,9 +383,15 @@ function agruparGastos(periodo = "mes", etiquetas = [],fechaDes,fechaHas) {
 
     return gastAgrup;
 }
-// NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
-// Las funciones y objetos deben tener los nombres que se indican en el enunciado
-// Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
+
+//7. Convertir Etiquetas en una array aceptando solo letras y números
+function transformarListadoEtiquetas(etiquetas){
+
+    //match busca los elemento que sean letras o números y /g los mete en una array, i es para que valga tanto minusculas como mayusculas
+    let listaEtiquetas = etiquetas.match(/[a-z0-9]+/gi);
+    return listaEtiquetas;
+}
+
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
@@ -407,4 +403,5 @@ export   {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
+    transformarListadoEtiquetas
 }

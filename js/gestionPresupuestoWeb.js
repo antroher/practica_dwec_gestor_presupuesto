@@ -304,9 +304,45 @@ function submitFormGastoHandle(){
         repintar();
     }
 }
+
+//7.
+function filtrarGastoWeb (){
+    event.preventDefault();
+
+    let formulario = document.getElementById("formulario-filtrado");
+    let filFormDescripcion = formulario.elements["formulario-filtrado-descripcion"].value;
+    let filFormMin = formulario.elements["formulario-filtrado-valor-minimo"].value;
+    let filFormMax = formulario.elements["formulario-filtrado-valor-maximo"].value;
+    let filFormFecha = formulario.elements["formulario-filtrado-fecha-desde"].value;
+    let filFormHastaFecha = formulario.elements["formulario-filtrado-fecha-hasta"].value;
+    let filFormEtiquetas = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
+
+    //Creación del objeto para filtrar gastos
+    let filtrarParametros ={
+        descripcionContiene: (filFormDescripcion === "")? undefined : filFormDescripcion,
+        valorMinimo: (filFormMin === "")? undefined : parseFloat(filFormMin),
+        valorMaximo:(filFormMax === "")? undefined: parseFloat(filFormMax),
+        fechaDesde:(filFormFecha === "")? undefined : filFormFecha,
+        fechaHasta: (filFormHastaFecha === "")? undefined : filFormHastaFecha,
+        etiquetasTiene:(filFormEtiquetas === "")? [] : gesPre.transformarListadoEtiquetas(filFormEtiquetas)
+    }
+    console.log(filtrarParametros)
+    
+    let gastosFiltrados = gesPre.filtrarGastos(filtrarParametros);
+    //console.log(gastosFiltrados)
+
+    //Resetear la impresion de gastos listados.
+    document.getElementById("listado-gastos-completo").innerHTML = "";
+    mostrarGastoWeb("listado-gastos-completo",gastosFiltrados);
+}
+
+//Evento boton enviar en form Filtrar Gastos.
+document.getElementById("formulario-filtrado").addEventListener("submit",filtrarGastoWeb);
+
 //El export de las funciones
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
+    filtrarGastoWeb
 }
