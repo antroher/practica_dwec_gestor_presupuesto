@@ -164,8 +164,8 @@ function enviarGastoFormHandle(){
          let valor = parseFloat(formulario.elements.valor.value);
          let fecha = formulario.elements.fecha.value;
          let etiquetas = formulario.elements.etiquetas.value;
-        let gastoNuevo = new gesPres.CrearGasto(descripcion, valor, fecha, etiquetas);
-        gesPres.anyadirGasto(gastoNuevo);
+        let gastoNuevo = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, etiquetas);
+        gestionPresupuesto.anyadirGasto(gastoNuevo);
         repintar();
         document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
     }
@@ -180,19 +180,27 @@ function cancelFormHandle() {
     }
 }
 
-function EditarHandleFormulario() {
-    this.handleEvent = function (e){    
-        let des = prompt("¿Cuál va a ser la nueva descripción del gasto?");
-        let val = parseFloat(prompt("¿Y de cuánto dices que es?"));
-        let fec = prompt("Dime cuándo hiciste ese gasto anda, recuerda que sólo entiendo el formato yyyy-mm-dd");
-        let etiquetas = prompt("Etiqueta el gasto como te venga en gana, pero separa cada etiqueta con una coma (,)");
-        let etiArray = etiquetas.split(',');
-        this.gasto.actualizarValor(val);
-        this.gasto.actualizarDescripcion(des);
-        this.gasto.actualizarFecha(fec);
-        this.gasto.anyadirEtiquetas(...etiArray);
-        repintar();
-   }
+function editHandleForm() {
+    this.handleEvent = function (event){
+
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+        var formulario = plantillaFormulario.querySelector("form");
+        let divMainControls = document.getElementById("controlesprincipales")
+        divMainControls.appendChild(formulario);
+        let btnEditForm = event.currentTarget;
+        btnEditForm.appendChild(formulario);
+        formulario.elements.descripcion.value  = this.gasto.descripcion;
+        formulario.elements.valor.value = this.gasto.valor;
+        formulario.elements.fecha.value = new Date(this.gasto.fecha).toISOString().substr(0,10);
+        formulario.elements.etiquetas.value = this.gasto.etiquetas;
+        let editFormHandle = new submitHandle();
+        editFormHandle.gasto = this.gasto;
+        formulario.addEventListener('submit', editFormHandle);
+        let btnCancel = formulario.querySelector("button.cancelar");
+        let cancelObject = new cancelFormHandle();
+        btnCancel.addEventListener("click", cancelObject);
+        btnEditForm.setAttribute("disabled", "");
+    }
 }
 
 //Botones
