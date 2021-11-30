@@ -415,7 +415,7 @@ function mostrarDatoEnId(idElemento,valor){
             //filtramos etiquetas vacias
 
             if(filEtiquetas === ""){
-                filEtiquetas = undefined;
+                filEtiquetas = [];
             }
 
             //Objeto filtrar
@@ -426,22 +426,19 @@ function mostrarDatoEnId(idElemento,valor){
                 valorMaximo:(filMax === "")? undefined: parseFloat(filMax),
                 fechaDesde:(filFecha === "")? undefined : filFecha,
                 fechaHasta: (filHastaFecha === "")? undefined : filHastaFecha,
-                etiquetas:(filEtiquetas === "")? undefined : filEtiquetas
+                etiquetasTiene:(filEtiquetas.length === 0)? [] : GesPresu.transformarListadoEtiquetas(filEtiquetas)
             }
 console.log(filtrar)
-                //Filtramos etiquetas
-            if(typeof filtrar.etiquetas !== "undefined"){
-                filtrar.etiquetas = GesPresu.transformarListadoEtiquetas(filtrar.etiquetas)
-            }
+
                 //Filtramos  gastos
             
                 let gastosFiltrar = GesPresu.filtrarGastos(filtrar);
             console.log(gastosFiltrar)
                 document.getElementById("listado-gastos-completo").innerHTML = "";
 
-                for(let gasto of gastosFiltrar){
-                    mostrarGastoWeb("listado-gastos-completo",gasto);
-                }
+                
+                    mostrarGastoWeb("listado-gastos-completo",gastosFiltrar);
+                
         }
 
 //El export de las funciones
