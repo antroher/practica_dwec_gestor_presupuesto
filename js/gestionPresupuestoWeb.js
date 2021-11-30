@@ -5,6 +5,7 @@ document.getElementById("actualizarpresupuesto").addEventListener('click', actua
 // button.addEventListener("click",actualizarPresupuestoWeb) otra opción
 document.getElementById("anyadirgasto").addEventListener("click",nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario").addEventListener("click",nuevoGastoWebFormulario);
+document.getElementById("formulario-filtrado").addEventListener('submit', filtrarGastoWeb);
 
 function mostrarDatoEnId(idElemento,valor){
     let elemento = document.getElementById(idElemento);
@@ -65,7 +66,7 @@ function mostrarGastoWeb(idElemento,gastos){
         let divSeparador = document.createElement('div');
         divSeparador.className = 'salto';
         divSeparador.textContent = "------------------------------"
-
+            //manejador de eventos
         let editar = new EditarHandle();
         let borrar = new BorrarHandle();
         let editarform = new EditarHandleFormulario();
@@ -73,10 +74,12 @@ function mostrarGastoWeb(idElemento,gastos){
         editar.gasto = gasto;
         borrar.gasto = gasto;
         editarform.gasto = gasto;
-
+          //asignas el eventol
         btnEdit.addEventListener('click',editar);
         btnBorrar.addEventListener('click',borrar);
         btnEditGastos.addEventListener('click',editarform);
+
+          //metes el boton en el html
         elGasto.append(btnEdit);
         elGasto.append(btnBorrar);
         elGasto.append(btnEditGastos);
@@ -107,7 +110,7 @@ function repintar(){
     mostrarDatoEnId("presupuesto",GesPresu.mostrarPresupuesto());
     mostrarDatoEnId("gastos-totales",GesPresu.calcularTotalGastos());
     mostrarDatoEnId("balance-total",GesPresu.calcularBalance());
-    document.getElementById("listado-gastos-completo").innerHTML = "";//borra el listado-gastos-completos y lo cambia a string"vacio"
+    document.getElementById("listado-gastos-completo").innerHTML = "";//borra el listado-gastos-comp                
     mostrarGastoWeb("listado-gastos-completo",GesPresu.listarGastos());
 }
 
@@ -169,8 +172,8 @@ function BorrarHandle() {
         repintar();
     }}
 function nuevoGastoWebFormulario(){
-    let form = document.getElementById("formulario-template").content.cloneNode(true).querySelector("form");
-    document.getElementById("controlesprincipales").append(form);
+    let form = document.getElementById("formulario-template").content.cloneNode(true).querySelector(                
+    document.getElementById("controlesprincipales").append(form));
 
     //cancelar el botón una vez lo pulsamos
     document.getElementById("anyadirgasto-formulario").disabled = true;
@@ -218,8 +221,8 @@ function cancelarHandle(){
 function EditarHandleFormulario() {
     this.handleEvent = function(event) {
         //Clonación y creación del formulario por  el template "plantilla"
-        let form = document.getElementById("formulario-template").content.cloneNode(true).querySelector("form");
-        document.getElementById(`gasto-${this.gasto.id}`).append(form);//esto ahce que al hacerse el gasto poner gasto.0 o gasto.1 gasto + la id
+        let form = document.getElementById("formulario-template").content.cloneNode(true).querySelec                
+        document.getElementById(`gasto-${this.gasto.id}`).append(form);//esto ahce que al hacerse el                
 
         //Deshabilitar el boton de editar gasto.
         document.getElementById(`gasto-editar-formulario-${this.gasto.id}`).disabled = true;
@@ -255,7 +258,7 @@ function EditarHandleFormulario() {
         let submitEvent = new submitEditHandle();
         submitEvent.gasto = this.gasto;
         form.addEventListener('submit', submitEvent);
-}
+}}
 function submitEditHandle () {
     this.handleEvent = function(event) {
         event.preventDefault();
@@ -281,6 +284,49 @@ function cancelarEditHandle () {
     }
 }
 
+function filtrarGastoWeb () {
+    //Prevenir el evento por defecto.
+    event.preventDefault();
+
+    //Recogida de datos del formulario.
+    let form = document.getElementById("formulario-filtrado")
+    let filterDescription = form.elements["formulario-filtrado-descripcion"].value;
+    let filterMinValue = parseFloat(form.elements["formulario-filtrado-valor-minimo"].value);
+    let filterMaxValue = parseFloat(form.elements["formulario-filtrado-valor-maximo"].value);
+    let filterFromDate = form.elements["formulario-filtrado-fecha-desde"].value;
+    let filterUntilDate = form.elements["formulario-filtrado-fecha-hasta"].value;
+    let filterContainTags = form.elements["formulario-filtrado-etiquetas-tiene"].value;
+
+    //Si las etiquetas estan vacias diremos que las etiquetas estan "undefined".
+    if (filterContainTags === "") {
+        filterContainTags = undefined;
+    }
+
+    //Creación del objeto a filtrar.
+    let filtro = {
+        descripcionContiene: (filterDescription === "") ? undefined : filterDescription,
+        valorMinimo: (isNaN(filterMinValue)) ? undefined : filterMinValue,
+        valorMaximo: (isNaN(filterMaxValue)) ? undefined : filterMaxValue,
+        fechaDesde: (filterFromDate === "") ? undefined : filterFromDate,
+        fechaHasta: (filterUntilDate === "") ? undefined : filterUntilDate,
+        etiquetasTiene: (filterContainTags === "") ? undefined : filterContainTags  
+    }
+
+    //Realización de la transformación de las etiquetas.
+    if (typeof filtro.etiquetasTiene !== "undefined") {
+        filtro.etiquetasTiene = GesPresu.transformarListadoEtiquetas(filtro.etiquetasTiene);
+    }
+
+    //Filtrado de gastos.
+    let gastosFiltrados = GesPresu.filtrarGastos(filtro);
+
+    //Borrado del listado de gastos para mostrar los gastos filtrados.
+    document.getElementById("listado-gastos-completo").innerHTML = "";
+
+    //Mostrar los gastos filtrados en el div "listado-gastos-completo".
+    for (let gasto of gastosFiltrados) {
+        mostrarGastoWeb("listado-gastos-completo", gasto);    
+    }
 }
 
 
