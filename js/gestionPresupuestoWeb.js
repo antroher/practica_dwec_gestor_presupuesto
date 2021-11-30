@@ -148,6 +148,12 @@ function nuevoGastoWebFormulario() {
     var formulario = plantillaFormulario.querySelector("form");
     let controls = document.getElementById("controlesprincipales")
     controls.appendChild(formulario);
+    let btnAddGastForm = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
+    let sendObject = new enviarGastoFormHandle();
+    formulario.addEventListener('submit', sendObject);
+    let cancelObject = new cancelFormHandle();
+    let btnCancel = formulario.querySelector("button.cancelar");
+    btnCancel.addEventListener("click", cancelObject);
 }
  
 
