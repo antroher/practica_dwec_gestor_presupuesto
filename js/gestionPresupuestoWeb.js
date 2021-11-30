@@ -155,7 +155,30 @@ function nuevoGastoWebFormulario() {
     let btnCancel = formulario.querySelector("button.cancelar");
     btnCancel.addEventListener("click", cancelObject);
 }
- 
+
+function enviarGastoFormHandle(){
+    this.handleEvent = function(e){
+        e.preventDefault();
+         let formulario = e.currentTarget;
+         let descripcion = formulario.elements.descripcion.value;
+         let valor = parseFloat(formulario.elements.valor.value);
+         let fecha = formulario.elements.fecha.value;
+         let etiquetas = formulario.elements.etiquetas.value;
+        let gastoNuevo = new gesPres.CrearGasto(descripcion, valor, fecha, etiquetas);
+        gesPres.anyadirGasto(gastoNuevo);
+        repintar();
+        document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+    }
+}
+
+
+function cancelFormHandle() {
+    this.handleEvent = function (e){
+        e.currentTarget.parentNode.remove();
+        let btnAddGastForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+        repintar();
+    }
+}
 
 //Botones
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
