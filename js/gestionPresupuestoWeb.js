@@ -412,8 +412,16 @@ guardarGastos.addEventListener('click', eventGuardar);
 
 function cargarGastosWeb()
 {
-
+  this.handleEvent = function(e)
+  {
+    let listarGasto = datosPresupuesto.listarGastos();
+    localStorage.GestorGastosDWEC = JSON.stringify(listarGasto);
+  }
 }
+//boton cargar gastos
+let eventCargar = new cargarGastosWeb();
+let cargarGastosWeb = document.getElementById("cargar-gastos");
+cargarGastosWeb.addEventListener('click', eventCargar);
 
 export{
   mostrarDatoEnId,
