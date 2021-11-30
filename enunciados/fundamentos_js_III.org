@@ -83,8 +83,8 @@ El repositorio se ha configurado para que se *ejecuten los tests automáticament
      - ~fechaHasta~ - Fecha máxima de creación del gasto. Su valor deberá ser un ~string~ con formato válido que pueda entender la función ~Date.parse~.
      - ~valorMinimo~ - Valor mínimo del gasto.
      - ~valorMaximo~ - Valor máximo del gasto.
-     - ~descripcionContiene~ - *Trozo de texto* que deberá aparecer en la descripción.
-     - ~etiquetasTiene~ - *Array de etiquetas*: si un gasto contiene *alguna de las etiquetas* indicadas en este parámetro, se deberá devolver en el resultado.
+     - ~descripcionContiene~ - *Trozo de texto* que deberá aparecer en la descripción. Deberá hacerse la comparación de manera que [[https://es.javascript.info/string#cambiando-mayusculas-y-minusculas][no se distingan mayúsculas de minúsculas]].
+     - ~etiquetasTiene~ - *Array de etiquetas*: si un gasto contiene *alguna de las etiquetas* indicadas en este parámetro, se deberá devolver en el resultado.  Deberá hacerse la comparación de manera que [[https://es.javascript.info/string#cambiando-mayusculas-y-minusculas][no se distingan mayúsculas de minúsculas]].
      
     Algunos ejemplos de llamadas de función ~filtrarGastos~ podrían ser:
     #+begin_src javascript
