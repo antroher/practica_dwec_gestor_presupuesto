@@ -125,30 +125,30 @@ function filtrarGastos(objeto) {
         let devuelve = gastos.filter(item => {
             if (objeto.hasOwnProperty("fechaDesde")) 
             {
-                if (item.fecha < Date.parse(objeto.fechaDesde)) 
+                if (item.fecha < Date.parse(objeto.fechaDesde) && typeof objeto.fechaDesde !== "undefined") 
                     return;
             }
-            if (objeto.hasOwnProperty("fechaHasta")) 
+            if (objeto.hasOwnProperty("fechaHasta") && typeof objeto.fechaHasta !== "undefined") 
             {
                 if (item.fecha > Date.parse(objeto.fechaHasta)) 
                     return;
             }
-            if (objeto.hasOwnProperty("valorMinimo")) 
+            if (objeto.hasOwnProperty("valorMinimo") && typeof objeto.valorMinimo !== "undefined") 
             {
                 if (item.valor < objeto.valorMinimo) 
                     return;
             }
-            if (objeto.hasOwnProperty("valorMaximo")) 
+            if (objeto.hasOwnProperty("valorMaximo") && typeof objeto.valorMaximo !== "undefined") 
             {
                 if (item.valor > objeto.valorMaximo)
                     return;
             }
-            if (objeto.hasOwnProperty("descripcionContiene")) 
+            if (objeto.hasOwnProperty("descripcionContiene") && typeof objeto.descripcionContiene !== "undefined") 
             {
             if (!item.descripcion.includes(objeto.descripcionContiene))
                 return;
             }
-            if (objeto.hasOwnProperty("etiquetasTiene") && Array.isArray(objeto.etiquetasTiene)) 
+            if (objeto.hasOwnProperty("etiquetasTiene") && Array.isArray(objeto.etiquetasTiene) && objeto.etiquetasTiene.length !== 0) 
             {
                 if (objeto.etiquetasTiene.length != 0)
                 {

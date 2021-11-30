@@ -299,7 +299,7 @@ function filtrarGastoWeb () {
 
     //Si las etiquetas estan vacias diremos que las etiquetas estan "undefined".
     if (filterContainTags === "") {
-        filterContainTags = undefined;
+        filterContainTags = [];
     }
 
     //Creación del objeto a filtrar.
@@ -309,24 +309,24 @@ function filtrarGastoWeb () {
         valorMaximo: (isNaN(filterMaxValue)) ? undefined : filterMaxValue,
         fechaDesde: (filterFromDate === "") ? undefined : filterFromDate,
         fechaHasta: (filterUntilDate === "") ? undefined : filterUntilDate,
-        etiquetasTiene: (filterContainTags === "") ? undefined : filterContainTags  
+        etiquetasTiene: (filterContainTags.length === 0) ? [] : GesPresu.transformarListadoEtiquetas(filterContainTags)  
     }
 
+    console.log(filtro)
     //Realización de la transformación de las etiquetas.
-    if (typeof filtro.etiquetasTiene !== "undefined") {
-        filtro.etiquetasTiene = GesPresu.transformarListadoEtiquetas(filtro.etiquetasTiene);
-    }
+    
 
     //Filtrado de gastos.
     let gastosFiltrados = GesPresu.filtrarGastos(filtro);
 
+    console.log(gastosFiltrados)
     //Borrado del listado de gastos para mostrar los gastos filtrados.
     document.getElementById("listado-gastos-completo").innerHTML = "";
 
     //Mostrar los gastos filtrados en el div "listado-gastos-completo".
-    for (let gasto of gastosFiltrados) {
-        mostrarGastoWeb("listado-gastos-completo", gasto);    
-    }
+    
+    mostrarGastoWeb("listado-gastos-completo", gastosFiltrados);    
+    
 }
 
 
