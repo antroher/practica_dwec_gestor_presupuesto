@@ -399,6 +399,14 @@ function mostrarDatoEnId(idElemento,valor){
             }
         }
 
+        //practica7 
+        function filtrarGastoWeb (){
+            event.preventDefault();
+
+            let formulario = document.getElementById("formulario-filtrado");
+            let filDescripcion = formulario.elements["formulario-filtrado-descripcion"].value;
+            let filMin = parseFloat(formulario.)
+        }
 
 //El export de las funciones
 export{

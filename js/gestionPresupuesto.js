@@ -222,6 +222,14 @@ function filtrarGastos(objetoDelGasto){
                                     return gastAgrup;
                                 }
 
+            //Practica 7
+            function transformarListadoEtiquetas (etiquetasTiene){
+                //filtrado de etiquetas
+
+                let etiquetasFiltradas = etiquetasTiene.match(/[a-z0-9]+/gi);
+                return etiquetasFiltradas;
+            }
+
                                 
 
 
@@ -239,5 +247,6 @@ export   {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    transformarListadoEtiquetas
 }
