@@ -398,8 +398,10 @@ function transformarListadoEtiquetas(etiqueta){
 
 }
 
-
-
+//Practica 8
+function cargarGastos(Arraygastos){
+    gastos = Arraygastos;
+}
 
 
 /*function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
@@ -431,5 +433,6 @@ export   {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
-    transformarListadoEtiquetas
+    transformarListadoEtiquetas,
+    cargarGastos
 }

@@ -395,6 +395,26 @@ let eviarGasto = new filtrarGastosWeb();
 let formFiltr = document.getElementById("formulario-filtrado");
 formFiltr.addEventListener('submit', eviarGasto);
 
+//Practica 8
+function guardarGastosWeb()
+{
+  this.handleEvent = function(e)
+  {
+    let listarGasto = datosPresupuesto.listarGastos();
+    localStorage.GestorGastosDWEC = JSON.stringify(listarGasto);
+  }
+}
+//boton guardar gastos
+let eventGuardar = new guardarGastosWeb();
+let guardarGastos = document.getElementById("guardar-gastos");
+guardarGastos.addEventListener('click', eventGuardar);
+
+
+function cargarGastosWeb()
+{
+
+}
+
 export{
   mostrarDatoEnId,
   mostrarGastoWeb,
