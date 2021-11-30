@@ -5,7 +5,7 @@ import * as GesPresu from "./gestionPresupuesto.js";
 document.getElementById("actualizarpresupuesto").addEventListener("click",actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener("click",nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario").addEventListener("click",nuevoGastoWebFormulario);
-
+document.getElementById("formulario-filtrado").addEventListener("submit",filtrarGastoWeb)
 
 
 function mostrarDatoEnId(idElemento,valor){
@@ -409,7 +409,38 @@ function mostrarDatoEnId(idElemento,valor){
             let filMax = parseFloat(formulario.elements["formulario-filtrado-valor-maximo"].value);
             let filFecha = formulario.elements["formulario-filtrado-fecha-desde"].value;
             let filHastaFecha = formulario.elements["formulario-filtrado-fecha-hasta"].value;
-            let filEtiquetas = formulario.elements["formulario-filtrado-etiquetas-tiene"].value
+            let filEtiquetas = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
+
+            //filtramos etiquetas vacias
+
+            if(filEtiquetas === ""){
+                filEtiquetas = undefined;
+            }
+
+            //Objeto filtrar
+
+            let filtrar ={
+                descripcionContiene: (filDescripcion === "")? undefined : filDescripcion,
+                valorMinimo: (isNaN(filMin === "")? undefined : filMin),
+                valorMaximo:(isNaN(filMax === "")? undefined:filMax),
+                fechaDesde:(filFecha === "")? undefined : filFecha,
+                fechaHasta: (filHastaFecha === "")? undefined : filHastaFecha,
+                etiquetas:(filEtiquetas === "")? undefined : filEtiquetas
+            }
+
+                //Filtramos etiquetas
+            if(typeof filtrar.etiquetas !== "undefined"){
+                filtrar.etiquetas = GesPresu.transformarListadoEtiquetas(filtrar.etiquetas)
+            }
+                //Filtramos  gastos
+            
+                let gastosFiltrar = GesPresu.filtrarGastos(filtrar);
+
+                document.getElementById("listado-gastos-completo").innerHTML = "";
+
+                for(let gasto of gastosFiltrar){
+                    mostrarGastoWeb("listado-gastos-completo",gasto);
+                }
         }
 
 //El export de las funciones
