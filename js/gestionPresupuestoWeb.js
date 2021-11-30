@@ -351,9 +351,23 @@ function filtrarGastoWeb()
 
 //BOTON ENVIAR a filtrarGastoWeb
 let eventFiltrGasto = new filtrarGastoWeb();
-let formFiltrGasto = document.getElementById("formulario-filtrado");
+let formFiltrGasto = document.getElementById('formulario-filtrado');
 formFiltrGasto.addEventListener('submit', eventFiltrGasto);
 
+//PRACTICA 8
+function guardarGastoWeb()
+{
+    this.handleEvent = function(event)
+    {   
+        let listaGuardar = gestionPresupuesto.listarGastos();
+        localStorage.GestorGastosDWEC = JSON.stringify(listaGuardar);
+    }
+}
+
+//BOTON GUARDAR
+let eventSaveGasto = new guardarGastoWeb();
+let SaveGast = document.getElementById('guardar-gastos');
+SaveGast.addEventListener('click', eventSaveGasto );
 
 //********** NO TOCAR **************
 export   {
