@@ -2,9 +2,9 @@ import * as gestionPresupuesto from "./gestionPresupuesto.js";
 import * as gestionPresupuestoWeb from "./gestionPresupuestoWeb.js";
 
 
-let number = gestionPresupuesto.actualizarPresupuesto(1500);
+gestionPresupuesto.actualizarPresupuesto(1500);
 let mostrar = gestionPresupuesto.mostrarPresupuesto();
-let datoPresupuesto = gestionPresupuestoWeb.mostrarDatoEnId("presupuesto",mostrar);
+gestionPresupuestoWeb.mostrarDatoEnId("presupuesto",mostrar);
 
 let gasto1 = new gestionPresupuesto.CrearGasto("Compra carne",23.44,"2021-10-06","casa","comida");
 let gasto2 = new gestionPresupuesto.CrearGasto("Compra fruta y verdura",14.25,"2021-09-06","supermercado","comida");
