@@ -261,6 +261,16 @@ function EnviarGastoHandleFormulario(){
     }
 }
 
+//Práctica 7 -- función filtrarGastosWeb.
+
+function filtrarGastosWeb(){
+    this.handleEvent = function(event)
+    {
+        event.preventDefault();
+        let form = event.currentTarget;
+        let desc = form[]
+    }
+}
 
 //Botones
 document.getElementById("actualizarpresupuesto").addEventListener("click", actualizarPresupuestoWeb);
@@ -274,11 +284,4 @@ export{
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
 }
-
-
-
-
-
-
-
 
