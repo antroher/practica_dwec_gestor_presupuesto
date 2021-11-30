@@ -176,53 +176,37 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 
-function filtrarGastos(FiltrarGastos) {
-
-    let gastosFiltrados = Object.assign(gastos);
-    if (typeof FiltrarGastos === 'object' && FiltrarGastos != null && Object.entries(FiltrarGastos).length > 0) {
-        if (Object.hasOwn(FiltrarGastos, 'fechaDesde') && typeof FiltrarGastos.fechaDesde === 'string') {
-            gastosFiltrados = gastosFiltrados.filter((x) => {
-                return x.fecha >= (Date.parse(FiltrarGastos.fechaDesde))
-            })
-        }
-        if (Object.hasOwn(FiltrarGastos, 'fechaHasta') && typeof FiltrarGastos.fechaHasta === 'string') {
-            gastosFiltrados = gastosFiltrados.filter((x) => {
-                return x.fecha <= Date.parse(FiltrarGastos.fechaHasta);
-            })
-        }
-        if (Object.hasOwn(FiltrarGastos, 'valorMinimo') && typeof FiltrarGastos.valorMinimo === 'number') {
-            gastosFiltrados = gastosFiltrados.filter((x) => {
-                return x.valor >= FiltrarGastos.valorMinimo
-            })
-        }
-        if (Object.hasOwn(FiltrarGastos, 'valorMaximo') && typeof FiltrarGastos.valorMaximo === 'number') {
-            gastosFiltrados = gastosFiltrados.filter((x) => {
-                return x.valor <= FiltrarGastos.valorMaximo
-            })
-        }
-        if (Object.hasOwn(FiltrarGastos, 'descripcionContiene') && typeof FiltrarGastos.descripcionContiene === 'string') {
-            gastosFiltrados = gastosFiltrados.filter((x) => {
-                let param1 = (x.descripcion).toLowerCase();
-                let param2 = (FiltrarGastos.descripcionContiene).toLowerCase();
-                let param1Array = param1.split(" ");
-                let param1ArrayJoin = param1Array.join('');
-                if (param1ArrayJoin.indexOf(param2) !== -1) 
-                    return true;
-            })
-        }
-        if (Object.hasOwn(FiltrarGastos, 'etiquetasTiene') && Array.isArray(FiltrarGastos.etiquetasTiene)) {
-            gastosFiltrados = gastosFiltrados.filter((x) => {
-                for (let i = 0; i <= FiltrarGastos.etiquetasTiene.length; i++) {
-                    if (FiltrarGastos.etiquetasTiene.includes(x.etiquetas[i])) {
-                        return true;
-                    }
-                }
-            })
-        }
-
-        return gastosFiltrados;
-    }
-    return gastos;
+function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}){
+    let gastosFiltrados;
+    gastosFiltrados = gastos.filter(function(gasto){
+     let exist = true;
+     if(fechaDesde){
+         if(gasto.fecha < Date.parse(fechaDesde)) exist = false;
+     }
+     if(fechaHasta){
+         if(gasto.fecha > Date.parse(fechaHasta)) exist = false;
+     }
+     if(valorMinimo){
+         if(gasto.valor < valorMinimo) exist = false;
+     }
+     if(valorMaximo){
+         if(gasto.valor > valorMaximo) exist = false;
+     }
+     if(descripcionContiene){
+             if(!gasto.descripcion.includes(descripcionContiene)) exist = false;
+     }
+     if(etiquetasTiene){
+         let inside = false;                   
+             for (let i = 0; i < gasto.etiquetas.length; i++) {                   
+                 for (let j= 0; j < etiquetasTiene.length; j++) {
+                     if(gasto.etiquetas[i] == etiquetasTiene[j]) inside = true;                  
+                 }
+             }
+        if(inside == false) exist = false;
+     }
+         return exist;
+    });
+return gastosFiltrados;  
 }
     /*function filtrarGastos(parametro) {
             var fd;

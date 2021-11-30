@@ -243,22 +243,28 @@ function BorrarEtiquetasHandle() {
 }
 
 function filtrarGastosWeb(){
-    this.handleEvent = function(event)
-    {
+    this.handleEvent = function(event) {
         event.preventDefault();
         let form = event.currentTarget;
-        let descripcion = form["formulario-filtrado-descripcion"].value;
-        let valorMinimo = form["formulario-filtrado-valor-minimo"].value;
-        let valorMaximo = form["formulario-filtrado-valor-maximo"].value;
-        let fechaDesde = form["formulario-filtrado-fecha-desde"].value;
-        let fechaHasta = form["formulario-filtrado-fecha-hasta"].value;
-        let etiq = form["formulario-filtrado-etiquetas-tiene"].value;
-
-        if(etiq != null){
+        let des = form.elements["formulario-filtrado-descripcion"].value;
+        let minVal = parseFloat(form.elements["formulario-filtrado-valor-minimo"].value);
+        let maxVal = parseFloat(form.elements["formulario-filtrado-valor-maximo"].value);
+        let fecDes = form.elements["formulario-filtrado-fecha-desde"].value;
+        let fecHas = form.elements["formulario-filtrado-fecha-hasta"].value;
+        let etiq = form.elements["formulario-filtrado-etiquetas-tiene"].value;
+        if (etiq !== null) {
             etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
+        }
+        let filter = ({fechaDesde : fecDes, fechaHasta : fecHas, valorMinimo : minVal, valorMaximo : maxVal, descripcionContiene : des, etiquetasTiene : etiq});
+        let filterForm = gestionPresupuesto.filtrarGastos(filter);
+        document.getElementById("listado-gastos-completo").innerHTML=" ";
+
+        for (let gasto of filterForm){
+            mostrarGastoWeb("listado-gastos-completo", gasto);
         }
     }
 }
+let gastoSend = new filtrarGastosWeb();
 
 const btnActualizarPresupuesto = document.getElementById("actualizarpresupuesto");
 btnActualizarPresupuesto.addEventListener("click", actualizarPresupuestoWeb);
@@ -266,6 +272,8 @@ const btnNuevoGasto = document.getElementById("anyadirgasto");
 btnNuevoGasto.addEventListener("click", nuevoGastoWeb);
 const btnNuevoGastoFormulario = document.getElementById("anyadirgasto-formulario");
 btnNuevoGastoFormulario.addEventListener("click", nuevoGastoWebFormulario);
+const btnFilter = document.getElementById("formulario-filtrado");
+btnFilter.addEventListener("submit", gastoSend)
 
 export {
     mostrarDatoEnId,
