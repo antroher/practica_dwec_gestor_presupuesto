@@ -242,17 +242,28 @@ function filtrarGastosWeb() {
             fechahasta: fecHas,
             etiquetas: etiq
         }
-    }
-    
-}
 
+        let filter = gesPres.filtrarGastos(obj);
+
+        let listed = document.getElementById("listado-gastos-completo");
+        listed.innerHTML="";
+
+        for (let gasto of filter)
+        {
+        mostrarGastoWeb("listado-gastos-completo", gasto);
+        }
+    }
+}
+let gastoSend = new filtrarGastosWeb();
 //Botones
 const btnAddGas = document.getElementById("anyadirgasto");
 const btnActPres = document.getElementById("actualizarpresupuesto");
 const btnGastForm = document.getElementById("anyadirgasto-formulario");
+const btnFilter = document.getElementById("formulario-filtrado");
 btnAddGas.addEventListener("click", nuevoGastoWeb);
 btnActPres.addEventListener("click", actualizarPresupuestoWeb);
 btnGastForm.addEventListener("click", nuevoGastoWebFormulario);
+btnFilter.addEventListener("submit", gastoSend);
 
 //https://www.youtube.com/watch?v=3zrGjc0UEgU
 export {
