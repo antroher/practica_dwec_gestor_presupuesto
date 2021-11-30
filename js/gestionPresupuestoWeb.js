@@ -223,34 +223,32 @@ function cancelFormHandle() {
 function filtrarGastosWeb() {
     this.handleEvent = function(event) {
         event.preventDefault();
-        let form = event.currentTarget();
+        let form = event.currentTarget;
         let des = form.elements["formulario-filtrado-descripcion"].value;
         let minVal = parseFloat(form.elements["formulario-filtrado-valor-minimo"].value);
         let maxVal = parseFloat(form.elements["formulario-filtrado-valor-maximo"].value);
         let fecDes = form.elements["formulario-filtrado-fecha-desde"].value;
         let fecHas = form.elements["formulario-filtrado-fecha-hasta"].value;
         let etiq = form.elements["formulario-filtrado-etiquetas-tiene"].value;
-        if (etiq !== null) {
+        if (etiq !== undefined) {
             gesPres.transformarListadoEtiquetas(etiq);
         }
 
-        let obj = {
+        /*let obj = {
             descripcion: des,
-            minvalue: minVal,
-            maxvalue: maxVal,
+            valorMinimo: minVal,
+            valorMaximo: maxVal,
             fechadesde: fecDes,
             fechahasta: fecHas,
-            etiquetas: etiq
-        }
+            etiquetasTiene: etiq
+        }*/
 
-        let filter = gesPres.filtrarGastos(obj);
+        let filter = ({fechaDesde : fecDes, fechaHasta : fecHas, valorMinimo : minVal, valorMaximo : maxVal, descripcionContiene : des, etiquetasTiene : etiq});
+        let filterForm = gesPres.filtrarGastos(filter);
+        document.getElementById("listado-gastos-completo").innerHTML=" ";
 
-        let listed = document.getElementById("listado-gastos-completo");
-        listed.innerHTML="";
-
-        for (let gasto of filter)
-        {
-        mostrarGastoWeb("listado-gastos-completo", gasto);
+        for (let gasto of filterForm){
+            mostrarGastoWeb("listado-gastos-completo", gasto);
         }
     }
 }
