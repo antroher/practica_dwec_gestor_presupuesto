@@ -414,14 +414,27 @@ function cargarGastosWeb()
 {
   this.handleEvent = function(e)
   {
-    let listarGasto = datosPresupuesto.listarGastos();
-    localStorage.GestorGastosDWEC = JSON.stringify(listarGasto);
+     let listarGasto = JSON.parse(localStorage.getItem('GestorGastosDWEC'));
+     //comprobar que si da un array vacio
+      if (listarGasto !== null)
+      {
+          if (listarGasto.length >= 0)
+            datosPresupuesto.cargarGastos(listarGasto);
+      }
+      else
+      {
+        datosPresupuesto.cargarGastos([]);
+      }
+      repintar();
   }
 }
+
 //boton cargar gastos
 let eventCargar = new cargarGastosWeb();
-let cargarGastosWeb = document.getElementById("cargar-gastos");
-cargarGastosWeb.addEventListener('click', eventCargar);
+let cargarGastos = document.getElementById("cargar-gastos");
+cargarGastos.addEventListener('click', eventCargar);
+
+
 
 export{
   mostrarDatoEnId,
