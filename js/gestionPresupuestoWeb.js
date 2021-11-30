@@ -320,6 +320,8 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
         }
         
     }
+
+    
   
 export   {
     mostrarDatoEnId,

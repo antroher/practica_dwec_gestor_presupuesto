@@ -319,10 +319,16 @@ function agruparGastos(periodo, etiquetasTiene, fechaDesde, fechaHasta)
     return acc;
 },
 {});
+
+
     
 
     return groupBy;
    
+}
+
+function transformarListadoEtiquetas(etiquetas) {
+    return etiquetas.match(/[A-zÀ-ÿ0-9]+/g) || null;
 }
 
 
@@ -357,5 +363,6 @@ export   {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    transformarListadoEtiquetas
 }
