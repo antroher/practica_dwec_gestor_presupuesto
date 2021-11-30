@@ -444,7 +444,15 @@ function transformarListadoEtiquetas(etiquetasEntrantes) {
 
 function cargarGastos (newGastos) {
     //Sobrescribimos la variable global "gastos" con los nuevos gastos -> "newGastos".
-    gastos = newGastos;
+    if (newGastos === null || newGastos === undefined) {
+        console.log("entra")
+        gastos = Object.assign([]);
+    }
+    else {
+        console.log("entra2")
+        gastos = Object.assign(newGastos);
+    }
+
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ:exportación de funciones y objetos creados para poder ejecutar los tests.

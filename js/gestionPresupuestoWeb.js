@@ -415,10 +415,14 @@ function guardarGastoWeb () {
 
 function cargarGastosWeb() {
     if (!localStorage.hasOwnProperty("GestorGastosDWEC")) {
-        gP.cargarGastos([]);
+        let array = new Array();
+        gP.cargarGastos(array);
     }
     else {
+        let hola = JSON.parse(localStorage.getItem('GestorGastosDEWC'))
+        console.log(hola)
         gP.cargarGastos(JSON.parse(localStorage.getItem('GestorGastosDEWC')));
+
     }
     
     //Llamada a la función repintar.
