@@ -438,7 +438,6 @@ console.log(filtrar)
 
                 
                     mostrarGastoWeb("listado-gastos-completo",gastosFiltrar);
-                
         }
 
 //El export de las funciones
