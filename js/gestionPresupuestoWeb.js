@@ -148,6 +148,18 @@ function BorrarEtiquetasHandle(){
     }
 }
 
+function nuevoGastoWebFormulario(){
+    let plantillaFormulario = document.getElementById("formulario-template").contentEditable.cloneNode(true);
+    var formulario = plantillaformulario.querySelector("form");
+    let divControlesPrincipales = document.getElementById("controlesprincipales");
+    divControlesPrincipales.appendChild(formulario);
+    let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
+}
+
+function anyadirGastoFormulario(){
+
+}
+
 
 const btnActualizarPresupuesto = document.getElementById("actualizarpresupuesto");
 btnActualizarPresupuesto.addEventListener("click", actualizarPresupuestoWeb);
