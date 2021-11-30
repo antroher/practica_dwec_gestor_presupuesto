@@ -268,7 +268,16 @@ function filtrarGastosWeb(){
     {
         event.preventDefault();
         let form = event.currentTarget;
-        let desc = form[]
+        let desc = form["formulario-filtrado-descripcion"].value;
+        let valMin = form["formulario-filtrado-valor-minimo"];
+        let valMax = form["formulario-filtrado-valor-maximo"];
+        let fecDesd = form["formulario-filtrado-fecha-desde"];
+        let fecHast = form["formulario-filtrado-fecha-hasta"];
+        let etiq = form["formulario-filtrado-etiquetas-tiene"];
+
+        if(etiq != null){
+            etiq = GestPres.transformarListadoEtiquetas(etiq);
+        }
     }
 }
 
