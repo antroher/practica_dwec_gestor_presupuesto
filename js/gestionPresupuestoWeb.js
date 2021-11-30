@@ -366,8 +366,38 @@ function guardarGastoWeb()
 
 //BOTON GUARDAR
 let eventSaveGasto = new guardarGastoWeb();
-let SaveGast = document.getElementById('guardar-gastos');
-SaveGast.addEventListener('click', eventSaveGasto );
+let saveGast = document.getElementById('guardar-gastos');
+saveGast.addEventListener('click', eventSaveGasto );
+
+//--------------------------
+
+function cargarGastoWeb()
+{
+    this.handleEvent = function(event)
+    {   
+        
+        let carg = JSON.parse(localStorage.getItem('GestorGastosDWEC'));
+
+        if (carg !== null)
+        {
+            if (carg.length > 0)
+            {
+                gestionPresupuesto.cargarGastos(carg);
+            }            
+        }
+        else
+        {
+            gestionPresupuesto.cargarGastos([]);
+        }
+        
+        repintar();
+    }
+}
+
+//BOTON CARGAR
+let eventLoadGasto = new cargarGastoWeb();
+let loadGast = document.getElementById('cargar-gastos');
+loadGast.addEventListener('click', eventLoadGasto);
 
 //********** NO TOCAR **************
 export   {
