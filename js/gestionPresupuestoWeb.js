@@ -90,7 +90,7 @@ function repintar() {
     let balance = gestionPresupuesto.calcularBalance().toFixed(2);
     mostrarDatoEnId("balance-total",balance);
 
-    document.getElementById("listado-gastos-completo").innerHTML = " ";
+    let borrar = document.getElementById("listado-gastos-completo").innerHTML = " ";
 
     let listaGastos = gestionPresupuesto.listarGastos();
     for (const gasto of listaGastos) {
@@ -173,6 +173,21 @@ function BorrarEtiquetasHandle() {
         repintar();
     }
 }
+
+function nuevoGastoWebFormulario() {
+
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+
+    var formulario = plantillaFormulario.querySelector("form");
+
+    let control = document.getElementById("controlesprincipales");
+
+    control.appendChild(formulario);
+
+    let botonAnyadir = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
+}
+
+
 
 //botones
 const botonactulizarpresupuesto = document.getElementById('actualizarpresupuesto')
