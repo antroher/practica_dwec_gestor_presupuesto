@@ -150,12 +150,12 @@ El repositorio se ha configurado para que se *ejecuten los tests automáticament
     - Actualizar el presupuesto a 1500€ (función ~actualizarPresupuesto~)
     - Mostrar el presupuesto en el ~div#presupuesto~ (funciones ~mostrarPresupuesto~ y ~mostrarDatoEnId~)
     - *Crear* los siguientes *gastos* (función ~crearGasto~):
-      - ~"Compra carne", 23.44, "2021-10-06", "casa", "comida"~
-      - ~"Compra fruta y verdura", 14.25, "2021-09-06", "supermercado", "comida"~
-      - ~"Bonobús", 18.60, "2020-05-26", "transporte"~
-      - ~"Gasolina", 60.42, "2021-10-08", "transporte", "gasolina"~
-      - ~"Seguro hogar", 206.45, "2021-09-26", "casa", "seguros"~
-      - ~"Seguro coche", 195.78, "2021-10-06", "transporte", "seguros"~
+      - ~("Compra carne", 23.44, "2021-10-06", "casa", "comida")~
+      - ~("Compra fruta y verdura", 14.25, "2021-09-06", "supermercado", "comida")~
+      - ~("Bonobús", 18.60, "2020-05-26", "transporte")~
+      - ~("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina")~
+      - ~("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros")~
+      - ~("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros")~
     - Añadir los gastos creados (función ~anyadirGasto~)
     - Mostrar los gastos totales en ~div#gastos-totales~ (funciones ~calcularTotalGastos~ y ~mostrarDatoEnId~)
     - Mostrar el balance total en ~div#balance-total~ (funciones ~calcularBalance~ y ~mostrarDatoEnId~)

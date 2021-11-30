@@ -4,7 +4,7 @@
 'use strict'
 
 var presupuesto = 0;
-var gastos = [];
+var gastos = new Array();
 var  idGasto = 0; 
 
 
@@ -32,31 +32,37 @@ function mostrarPresupuesto() {
 
 }
 
-function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
-    {
-        if(valor1 < 0 || isNaN(valor1)){
+function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas)
+{
+        if (valor1 < 0 || isNaN(valor1))
+        {
+
             valor1 = 0;
         }    
 
 	    this.descripcion = descripcion1;
         this.valor = valor1;
         this.fecha = (typeof fecha1 === "string") ? Date.parse(fecha1) : fecha1;
-        this.etiquetas = [...etiquetas1];      
+        this.etiquetas = [...etiquetas];      
 
 
-        this.mostrarGasto = function() {
+        this.mostrarGasto = function() 
+        {
 
-            return(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+            console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.`);
+            return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
         
         };
 
-        this.actualizarDescripcion = function(newDes) {
+        this.actualizarDescripcion = function(newDes) 
+        {
 
             this.descripcion = newDes;
 
         };
 
-        this.actualizarValor = function (newValor) {
+        this.actualizarValor = function (newValor) 
+        {
 
             let value = parseFloat(newValor);
 
@@ -83,7 +89,8 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
 
         };
 
-        this.mostrarGastoCompleto = function (){
+        this.mostrarGastoCompleto = function ()
+        {
             
             let acumulador = "";
             var fechanueva = new Date(this.fecha);
@@ -107,27 +114,29 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
             }
         };
 
-        this.borrarEtiquetas = function(...etiquetas2)
+        this.borrarEtiquetas = function(...etiquetas)
         {
-            let eliminarEtiqueta = 0;
-            for (let i = 0; i < etiquetas2.length; i++)
-            {
-                eliminarEtiqueta = this.etiquetas.indexOf(etiquetas2[i]);
-                if(eliminarEtiqueta != -1)
-                {
-                    this.etiquetas.splice(eliminarEtiqueta, 1);
-                }
-            } 
+            etiquetas.forEach((i) =>{
+
+                this.etiquetas.forEach((j, position) =>{
+
+                    if(j.includes(i)){
+
+                        this.etiquetas.splice(position, 1);
+                    }
+                })
+            }) 
         };
         
         
         this.obtenerPeriodoAgrupacion = function (periodo)
-            {
-                //El +1 en el mes porque enero empieza en 0
+        {
+          //El +1 en el mes porque enero empieza en 0
                 let MostrarFecha = new Date(this.fecha);
                 let resultado="";
                 //let dd = String (MostrarFecha.getDate()).padstart(2,'0'); ----- agregame un 0 al principio si no tiene 2 caracters
-                switch(periodo) {
+                switch(periodo)
+                {
                     case "dia":
                         if (MostrarFecha.getDate() < 10) 
                         {
@@ -160,7 +169,7 @@ function CrearGasto(descripcion1, valor1, fecha1 = Date.now(), ...etiquetas1)
                     default:
                         return `Has Introducido un error`;
                 };
-            };
+        };
 
 }
 
