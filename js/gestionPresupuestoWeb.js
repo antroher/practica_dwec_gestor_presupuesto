@@ -271,15 +271,17 @@ function filtrarGastoWeb() {
         let fechaHasta = formulario.elements["formulario-filtrado-fecha-hasta"].value;
         let etiquetas = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
 
-        if(etiquetas === ""){
+        if(etiquetas == null){
             etiquetas = gestionPresupuesto.transformarListadoEtiquetas(etiquetas);
         }
 
-        let gastosFiltrar = gestionPresupuesto.filtrarGastos(filtrar);
-        document.getElementById("listado-gastos-completo").innerHTML = "";
-
-        mostrarGastoWeb("listado-gastos-completo",gastosFiltrar);
-}
+        let gastosFiltrar =({fechaDesde : fechaDesde, fechaHasta : fechaHasta, valorMinimo : valMin, valorMaximo : valMax, descripcionContiene : descripcion, etiquetasTiene : etiquetas});
+        let gastosFiltrados = gestionPresupuesto.filtrarGastos(gastosFiltrar);
+        document.getElementById("listado-gastos-completo").innerHTML = " ";
+        for (let gastoForm of gastosFiltrados) {
+            mostrarGastoWeb("listado-gastos-completo",gastoForm);
+        }
+    }
 }
 export {
     mostrarDatoEnId,
