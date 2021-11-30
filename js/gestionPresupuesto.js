@@ -144,14 +144,14 @@ function filtrarGastos(filtro){
                 valorMaximoBool=true;
             } else if(!filtro.hasOwnProperty("valorMaximo") )valorMaximoBool=true;
 
-            if(filtro.hasOwnProperty("descripcionContiene") && g.descripcion.includes(filtro.descripcionContiene)){
+            if(filtro.hasOwnProperty("descripcionContiene") && g.descripcion.toLowerCase().includes(filtro.descripcionContiene.toLowerCase())){
                 descBool=true;
             } else if(!filtro.hasOwnProperty("descripcionContiene") )descBool=true;
             
             if(filtro.hasOwnProperty("etiquetasTiene")){
                 if(filtro.etiquetasTiene.length!=0){
                     filtro.etiquetasTiene.forEach(et => {
-                            if(g.etiquetas.includes(et) && etiquetasBool==false)etiquetasBool=true;
+                            if(g.etiquetas.includes(et.toLowerCase()) && etiquetasBool==false)etiquetasBool=true;
                     });
                 }else {
                     etiquetasBool=true;
