@@ -235,6 +235,10 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
     return agrupar;
 }
 
+function transformarListadoEtiquetas() {
+
+}
+
     
 
 
@@ -252,5 +256,6 @@ export   {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    transformarListadoEtiquetas
 }
