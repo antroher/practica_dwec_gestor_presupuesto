@@ -231,7 +231,7 @@ function filtrarGastosWeb() {
         let fecHas = form.elements["formulario-filtrado-fecha-hasta"].value;
         let etiq = form.elements["formulario-filtrado-etiquetas-tiene"].value;
         if (etiq !== undefined) {
-            gesPres.transformarListadoEtiquetas(etiq);
+            etiq = gesPres.transformarListadoEtiquetas(etiq);
         }
 
         /*let obj = {
