@@ -135,6 +135,95 @@ function calcularBalance(){
     return balance;
 }
 
+function filtrarGastos(condicionesFiltrado){
+
+    let gastosFiltro = gastos;
+
+    if(typeof(condicionesFiltrado) == "object"){
+
+        if(Object.keys(condicionesFiltrado).length != 0){
+
+            gastosFiltro = gastos.filter(function(gasto){
+
+                let existe = true;
+
+                if(condicionesFiltrado.fechaDesde){
+                    let fDesde = Date.parse(condicionesFiltrado.fechaDesde);
+                    if(gasto.fecha < fDesde){
+                        existe = false;
+                    }
+                }
+
+                if(condicionesFiltrado.fechaHasta){
+                    let fHasta = Date.parse(condicionesFiltrado.fechaHasta);
+                    if(gasto.fecha > fHasta){
+                        existe = false;
+                    }
+                }
+
+                if(condicionesFiltrado.valorMinimo){
+                    if(gasto.valor < condicionesFiltrado.valorMinimo){
+                        existe = false;
+                    }
+                }
+
+                if(condicionesFiltrado.valorMaximo){
+                    if(gasto.valor > condicionesFiltrado.valorMaximo){
+                        existe = false;
+                    }
+                }
+
+                if(condicionesFiltrado.descripcionContiene){
+                    if(!gasto.descripcion.includes(condicionesFiltrado.descripcionContiene)){
+                        existe = false;
+                    }
+                }
+
+                
+                if(condicionesFiltrado.etiquetasTiene){
+                    let etiqTiene = condicionesFiltrado.etiquetasTiene;
+                    let contiene = false;
+                    for(let g of gasto.etiquetas){
+                        for(let t of etiqTiene){
+                            if(g === t){
+                                    contiene = true;
+                            }
+                        }
+                    }
+                    if(contiene === false){
+                        existe = false;
+                    }                                          
+                }
+
+                return existe;
+       
+            });
+
+        }
+    }
+
+    return gastosFiltro;
+}
+
+function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta = new Date(Date.now()).toISOString().substring(0,10)){
+
+    let filtro = {
+        etiquetasTiene: etiquetas,
+        fechaDesde: fechaDesde,
+        fechaHasta: fechaHasta
+    }
+
+    let gastosFiltro = filtrarGastos(filtro);
+
+    let gastosAgrupar = gastosFiltro.reduce((acc, gasto) => {
+        acc[gasto.obtenerPeriodoAgrupacion(periodo)] = (acc[gasto.obtenerPeriodoAgrupacion(periodo)] || 0) + gasto.valor;
+        return acc;
+    },{});
+
+    return gastosAgrupar;
+}
+
+
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
