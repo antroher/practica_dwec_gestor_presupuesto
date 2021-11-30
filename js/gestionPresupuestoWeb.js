@@ -401,12 +401,13 @@ function mostrarDatoEnId(idElemento,valor){
 
         //practica7 
         function filtrarGastoWeb (){
+
             event.preventDefault();
 
             let formulario = document.getElementById("formulario-filtrado");
             let filDescripcion = formulario.elements["formulario-filtrado-descripcion"].value;
-            let filMin = parseFloat(formulario.elements["formulario-filtrado-valor-minimo"].value);
-            let filMax = parseFloat(formulario.elements["formulario-filtrado-valor-maximo"].value);
+            let filMin = formulario.elements["formulario-filtrado-valor-minimo"].value;
+            let filMax = formulario.elements["formulario-filtrado-valor-maximo"].value;
             let filFecha = formulario.elements["formulario-filtrado-fecha-desde"].value;
             let filHastaFecha = formulario.elements["formulario-filtrado-fecha-hasta"].value;
             let filEtiquetas = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
@@ -421,13 +422,13 @@ function mostrarDatoEnId(idElemento,valor){
 
             let filtrar ={
                 descripcionContiene: (filDescripcion === "")? undefined : filDescripcion,
-                valorMinimo: (isNaN(filMin === "")? undefined : filMin),
-                valorMaximo:(isNaN(filMax === "")? undefined:filMax),
+                valorMinimo: (filMin === "")? undefined : parseFloat(filMin),
+                valorMaximo:(filMax === "")? undefined: parseFloat(filMax),
                 fechaDesde:(filFecha === "")? undefined : filFecha,
                 fechaHasta: (filHastaFecha === "")? undefined : filHastaFecha,
                 etiquetas:(filEtiquetas === "")? undefined : filEtiquetas
             }
-
+console.log(filtrar)
                 //Filtramos etiquetas
             if(typeof filtrar.etiquetas !== "undefined"){
                 filtrar.etiquetas = GesPresu.transformarListadoEtiquetas(filtrar.etiquetas)
@@ -435,7 +436,7 @@ function mostrarDatoEnId(idElemento,valor){
                 //Filtramos  gastos
             
                 let gastosFiltrar = GesPresu.filtrarGastos(filtrar);
-
+            console.log(gastosFiltrar)
                 document.getElementById("listado-gastos-completo").innerHTML = "";
 
                 for(let gasto of gastosFiltrar){

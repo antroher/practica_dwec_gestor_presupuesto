@@ -116,27 +116,27 @@ function filtrarGastos(objetoDelGasto){
     //Primera comprobacion
     if(objetoDelGasto != undefined && objetoDelGasto !=null){  //Si el objetoDelGasto esta indefinido o es nulo que entre en el if, si no se va al else
         let gastosFil = gastos.filter((gasto)=>{
-            if(objetoDelGasto.hasOwnProperty("fechaDesde")){
+            if(objetoDelGasto.hasOwnProperty("fechaDesde") && typeof objetoDelGasto.fechaDesde !== "undefined"){
                 if(gasto.fecha < Date.parse(objetoDelGasto.fechaDesde)){
                     return;
                 }
             }
-            if(objetoDelGasto.hasOwnProperty("fechaHasta")){
+            if(objetoDelGasto.hasOwnProperty("fechaHasta") && typeof objetoDelGasto.fechaHasta !== "undefined"){
                 if(gasto.fecha > Date.parse(objetoDelGasto.fechaHasta)){
                     return;
                 }
             }
-            if (objetoDelGasto.hasOwnProperty("valorMaximo")) {
+            if (objetoDelGasto.hasOwnProperty("valorMaximo") && typeof objetoDelGasto.valorMaximo !== "undefined") {
                 if (gasto.valor > objetoDelGasto.valorMaximo) {
                   return;
                 }
               }
-            if(objetoDelGasto.hasOwnProperty("valorMinimo")){
+            if(objetoDelGasto.hasOwnProperty("valorMinimo") && typeof objetoDelGasto.valorMinimo !== "undefined"){
                 if(gasto.valor < objetoDelGasto.valorMinimo){
                     return;
                 }
             }
-            if (objetoDelGasto.hasOwnProperty("descripcionContiene")) {
+            if (objetoDelGasto.hasOwnProperty("descripcionContiene") && typeof objetoDelGasto.descripcionContiene !== "undefined") {
 
                 if (!gasto.descripcion.includes(objetoDelGasto.descripcionContiene))
                         return;
