@@ -37,12 +37,22 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
     if(etiquetas.length == 0){
         etiquetas = [];
     }
+<<<<<<< Updated upstream
 
     // let gasto = {
         this.descripcion = descripcion,
         this.valor = valor,
         this.fecha = (typeof fecha === "string") ? Date.parse(fecha) : fecha,
         this.etiquetas = [...etiquetas],
+=======
+    
+    let gasto = {
+        descripcion: descripcion,
+        valor: valor,
+        fecha: (typeof fecha === "string") ? Date.parse(fecha) : fecha,
+        etiquetas: [...etiquetas],
+        
+>>>>>>> Stashed changes
 
         this.mostrarGasto = function(){
             return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
