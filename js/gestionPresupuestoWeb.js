@@ -5,6 +5,7 @@ import * as gestionPresupuesto from "./gestionPresupuesto.js";
 document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario").addEventListener("click", nuevoGastoWebFormulario);
+document.getElementById("formulario-filtrado").addEventListener("submit", filtrarGastoWeb)
 
 function mostrarDatoEnId(idElemento, valor) {
     let elemento = document.getElementById(idElemento);
@@ -254,6 +255,14 @@ function EditarHandleFormulario() {
     }
 }
 
+function filtrarGastoWeb() {
+    .preventDefault();
+
+    let formulario = document.getElementById("formulario-filtrado");
+    let filDescripcion = formulario.elements["formulario-filtrado-descripcion"].value;
+    let filMin = parseFloat(formulario);
+}
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -265,5 +274,6 @@ export {
     EditarHandle,
     BorrarHandle,
     BorrarEtiquetasHandle,
-    EditarHandleFormulario
+    EditarHandleFormulario,
+    filtrarGastoWeb
 }
