@@ -211,7 +211,7 @@ function nuevoGastoWebFormulario() {
 }
 
 const anyadirgastoFormulario = document.getElementById("anyadirgasto-formulario");
-anyadirgastoFormulario.addEventListener("click", nuevoGastoWebFormulario);S
+anyadirgastoFormulario.addEventListener("click", nuevoGastoWebFormulario);
 
 
 function EditarHandleformulario() {
