@@ -137,13 +137,13 @@ function calcularBalance(){
 
 function filtrarGastos(condicionesFiltrado){
 
-    let gastosFiltro = gastos;
+    let gastosFiltrados = gastos;
 
     if(typeof(condicionesFiltrado) == "object"){
 
         if(Object.keys(condicionesFiltrado).length != 0){
 
-            gastosFiltro = gastos.filter(function(gasto){
+            gastosFiltrados = gastos.filter(function(gasto){
 
                 let existe = true;
 
@@ -202,20 +202,20 @@ function filtrarGastos(condicionesFiltrado){
         }
     }
 
-    return gastosFiltro;
+    return gastosFiltrados;
 }
 
 function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta = new Date(Date.now()).toISOString().substring(0,10)){
 
-    let filtro = {
+    let condicionesFiltrado = {
         etiquetasTiene: etiquetas,
         fechaDesde: fechaDesde,
         fechaHasta: fechaHasta
     }
 
-    let gastosFiltro = filtrarGastos(filtro);
+    let gastosFiltrados = filtrarGastos(condicionesFiltrado);
 
-    let gastosAgrupar = gastosFiltro.reduce((acc, gasto) => {
+    let gastosAgrupar = gastosFiltrados.reduce((acc, gasto) => {
         acc[gasto.obtenerPeriodoAgrupacion(periodo)] = (acc[gasto.obtenerPeriodoAgrupacion(periodo)] || 0) + gasto.valor;
         return acc;
     },{});
