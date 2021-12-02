@@ -124,7 +124,7 @@ function nuevoGastoWebFormulario() {
     formulario.addEventListener('submit', sendObject);
     let cancelObject = new cancelFormHandle();
     let btnCancel = formulario.querySelector("button.cancelar");
-    btnCancel.addEventListener("click", cancelObject);
+    btnCancel.addEventListener("click", cancelObject);    
 }
 
 //Manejadores
@@ -253,15 +253,44 @@ function filtrarGastosWeb() {
     }
 }
 let gastoSend = new filtrarGastosWeb();
+
+function guardarGastosWeb() {
+    this.handleEvent = function(e) {
+        let list = gesPres.listarGastos();
+        localStorage.GestorGastosDWEC = JSON.stringify(list);
+    }
+}
+let saveGastWeb = new guardarGastosWeb();
+
+function cargarGastosWeb() {
+    this.handleEvent = function(e) {
+        if (localStorage.GestorGastosDWEC == null) {
+            gesPres.cargarGastos([]);
+        } else {
+            gesPres.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
+        }
+        repintar();
+    }
+}
+let chrgGastWeb = new cargarGastosWeb();
+
 //Botones
 const btnAddGas = document.getElementById("anyadirgasto");
 const btnActPres = document.getElementById("actualizarpresupuesto");
 const btnGastForm = document.getElementById("anyadirgasto-formulario");
 const btnFilter = document.getElementById("formulario-filtrado");
+const btnSaveGast = document.getElementById("guardar-gastos");
+const btnChargeGast = document.getElementById("cargar-gastos");
+
 btnAddGas.addEventListener("click", nuevoGastoWeb);
 btnActPres.addEventListener("click", actualizarPresupuestoWeb);
 btnGastForm.addEventListener("click", nuevoGastoWebFormulario);
 btnFilter.addEventListener("submit", gastoSend);
+btnSaveGast.addEventListener("click", saveGastWeb);
+btnChargeGast.addEventListener("click", chrgGastWeb);
+
+
+
 
 //https://www.youtube.com/watch?v=3zrGjc0UEgU
 export {
