@@ -278,9 +278,9 @@ function filtrarGastosWeb() {
 
     let gastosFiltrados = gestionPresupuesto.filtrarGastos(filtrarParametros);
     document.getElementById("listado-gastos-completo").innerHTML = "";
-    mostrarGastoWeb("listado-gastos-completo",gastosFiltrados);
+    mostrarGastoWeb("listado-gastos-completo", gastosFiltrados);
 
-    document.getElementById("formulario-filtrado").addEventListener("submit",filtrarGastosWeb);
+    document.getElementById("formulario-filtrado").addEventListener("submit", filtrarGastosWeb);
 }
 
 
