@@ -149,16 +149,16 @@ function borrarGasto(id) {
 }
 
 function calcularTotalGastos() {
-    let resulul = 0;
+    let resul = 0;
     gastos.forEach((x) => {
-        resulul = resulul + x.valor;
+        resul = resul + x.valor;
     })
-    return resulul;
+    return resul;
 }
 
 function calcularBalance() {
-    let resulul = calcularTotalGastos();
-    let balance = presupuesto - resulul;
+    let resul = calcularTotalGastos();
+    let balance = presupuesto - resul;
     return balance;
 }
 

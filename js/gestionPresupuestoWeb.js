@@ -5,7 +5,7 @@ import * as gestionPresupuesto from "./gestionPresupuesto.js";
 document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario").addEventListener("click", nuevoGastoWebFormulario);
-document.getElementById("formulario-filtrado").addEventListener("submit", filtrarGastoWeb)
+document.getElementById("formulario-filtrado").addEventListener("submit", filtrarGastosWeb)
 
 function mostrarDatoEnId(idElemento, valor) {
     let elemento = document.getElementById(idElemento);
@@ -255,7 +255,7 @@ function EditarHandleFormulario() {
     }
 }
 
-function filtrarGastoWeb() {
+function filtrarGastosWeb() {
     event.preventDefault();
 
     let formulario = document.getElementById("formulario-filtrado");
@@ -272,29 +272,20 @@ function filtrarGastoWeb() {
         valorMaximo: (filMax === "") ? undefined : parseFloat(filMax),
         fechaDesde: (filFecha === "") ? undefined : filFecha,
         fechaHasta: (filHastaFecha === "") ? undefined : filHastaFecha,
-        etiquetasTiene: (filEtiquetas === "") ? [] : gesPre.transformarListadoEtiquetas(filEtiquetas)
+        etiquetasTiene: (filEtiquetas === "") ? [] : gestionPresupuesto.transformarListadoEtiquetas(filEtiquetas)
     }
     console.log(filtrarParametros)
 
-    let gastosFiltrados = gesPre.filtrarGastos(filtrarParametros);
+    let gastosFiltrados = gestionPresupuesto.filtrarGastos(filtrarParametros);
     document.getElementById("listado-gastos-completo").innerHTML = "";
     mostrarGastoWeb("listado-gastos-completo",gastosFiltrados);
 
-    document.getElementById("formulario-filtrado").addEventListener("submit",filtrarGastoWeb);
+    document.getElementById("formulario-filtrado").addEventListener("submit",filtrarGastosWeb);
 }
 
 
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb,
-    repintar,
-    actualizarPresupuestoWeb,
-    nuevoGastoWeb,
-    nuevoGastoWebFormulario,
-    EditarHandle,
-    BorrarHandle,
-    BorrarEtiquetasHandle,
-    EditarHandleFormulario,
-    filtrarGastoWeb
+    mostrarGastosAgrupadosWeb
 }
