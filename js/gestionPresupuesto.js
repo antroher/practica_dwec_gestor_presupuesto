@@ -185,7 +185,7 @@ function filtrarGastos(condicionesFiltrado){
                     let contiene = false;
                     for(let g of gasto.etiquetas){
                         for(let t of etiqTiene){
-                            if(g === t){
+                            if(g.toLowerCase() === t.toLowerCase()){
                                     contiene = true;
                             }
                         }
