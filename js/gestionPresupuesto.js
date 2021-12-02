@@ -392,6 +392,12 @@ function transformarListadoEtiquetas(etiquetas){
     return listaEtiquetas;
 }
 
+
+//T.8
+function cargarGastos (listarGastos){
+    gastos = listarGastos;
+}
+
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
@@ -403,5 +409,6 @@ export   {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
-    transformarListadoEtiquetas
+    transformarListadoEtiquetas,
+    cargarGastos
 }
