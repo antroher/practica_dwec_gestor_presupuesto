@@ -89,8 +89,6 @@ function mostrarGastoWeb(idElemento, gasto){
     mostrar.append(div);  
 }
 
-
-
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     let mostrar = document.getElementById(idElemento);
 
@@ -226,7 +224,7 @@ function cancelarGastoHandle(){
 function EditarHandle(){
 
     this.handleEvent = function(e){
-       //Pedir datos al usuario
+       //Pedida de datos al usuario
        let desc = prompt("Introduce la descripción nueva", this.gasto.descripcion);
        let val = prompt("Introduce el valor nuevo", this.gasto.valor);
        let fech = prompt("Introduce la fecha nueva", this.gasto.fecha);
@@ -272,7 +270,7 @@ function EditarHandleFormulario(){
         final.after(formulario); //Añadir el formulario debajo del botón
 
         final.disabled = true;
-
+        //nota//
         /***** Valores formulario por defecto ****/
         formulario.elements.descripcion.value = this.gasto.descripcion;
         formulario.elements.valor.value = this.gasto.valor;
@@ -352,7 +350,6 @@ function filtrarGastosWeb(){
         for(let gasto of gastosFiltro){
             mostrarGastoWeb("listado-gastos-completo", gasto);
         }
-
     }
 }
 

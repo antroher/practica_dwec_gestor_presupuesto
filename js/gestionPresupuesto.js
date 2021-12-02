@@ -1,12 +1,8 @@
 "use strict";
 
-// TODO: Crear las funciones, objetos y variables indicadas en el enunciado
-
-// TODO: Variable global
-
-let presupuesto = 0;
-let gastos = [];
-let idGasto = 0;
+var presupuesto = 0;
+var gastos = [];
+var idGasto = 0;
 
 function actualizarPresupuesto(cantidad) {
     if(cantidad >= 0){
@@ -14,7 +10,6 @@ function actualizarPresupuesto(cantidad) {
     }else if(cantidad < 0){
         presupuesto = -1;
     }
-
     return presupuesto;
 }
 
@@ -52,7 +47,6 @@ function CrearGasto(descripcion = "No hay descripción", valor = 0, fecha = "", 
         for(let etiqueta of this.etiquetas){
             listaEtiquetas += `- ${etiqueta}\n`;
         }
-
         let fechalocale = new Date(this.fecha).toLocaleString();
 
         let mensaje = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\n`;
@@ -142,7 +136,6 @@ function calcularTotalGastos(){
     for(let gasto of gastos){
         total = total + gasto.valor;
     }
-
     return total;
 }
 
@@ -211,14 +204,10 @@ function filtrarGastos(filtro){
                         existe = false;
                     }                                          
                 }
-
                 return existe;
-       
             });
-
         }
     }
-
     return gastosFiltro;
 }
 
@@ -236,12 +225,11 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta = new 
         acc[gasto.obtenerPeriodoAgrupacion(periodo)] = (acc[gasto.obtenerPeriodoAgrupacion(periodo)] || 0) + gasto.valor;
         return acc;
     },{});
-
     return gastosAgrupar;
 }
 
 function transformarListadoEtiquetas(etiquetas){
-    let regexp = /[a-zA-Z0-9]+/gi;  //Solo palabras
+    let regexp = /[a-zA-Z0-9]+/gi;  //palabras
     let resultado = etiquetas.match(regexp);
     return resultado;
 }
