@@ -51,6 +51,14 @@ function mostrarGastoWeb(idElemento, gasto) {
             btnBorrar.addEventListener('click', borrar);
             divGasto.append(btnEditar);
             divGasto.append(btnBorrar);
+                btnEditarGastoFormulario = document.createElement("button");
+                btnEditarGastoFormulario.className += 'gasto-editar-formulario';
+                btnEditarGastoFormulario.textContent = 'Editar (formulario)';
+                btnEditarGastoFormulario.type = 'button';
+            let editarFormulario = new EditarHandleFormulario();
+            editarFormulario.gasto = gasto;
+            btnEditarGastoFormulario.addEventListener('click', editarFormulario)
+            divGasto.append(btnEditarGastoFormulario);
 }
 
 
@@ -162,9 +170,7 @@ function nuevoGastoWebFormulario(){
     btnCancelar.addEventListener("click", cancelarObj);
 }
 
-function anyadirGastoFormulario(){
 
-}
 
 
 const btnActualizarPresupuesto = document.getElementById("actualizarpresupuesto");
