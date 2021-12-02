@@ -414,15 +414,15 @@ function guardarGastoWeb () {
 }
 
 function cargarGastosWeb() {
+    //Comprobación de si el almacenamiento local tiene la propiedad o clave "GestorGastosDWEC"
     if (!localStorage.hasOwnProperty("GestorGastosDWEC")) {
-        let array = new Array();
-        gP.cargarGastos(array);
+        //Carga de array vacio en la variable global gastos si la clave es null.
+        gP.cargarGastos([]);
     }
+    //Si la clave no es null.
     else {
-        let hola = JSON.parse(localStorage.getItem('GestorGastosDEWC'))
-        console.log(hola)
-        gP.cargarGastos(JSON.parse(localStorage.getItem('GestorGastosDEWC')));
-
+        //Carga de gastos al almacenamiento local.
+        gP.cargarGastos(JSON.parse(localStorage.getItem('GestorGastosDWEC')));
     }
     
     //Llamada a la función repintar.
