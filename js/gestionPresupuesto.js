@@ -197,12 +197,14 @@ function filtrarGastos(filtrarG) {
 function agruparGastos(per = "mes", etiquetas = [], fechaDD, fechS = Date.now()) {
 let listRes = filtrarGastos({fechaDesde: fechaDD, fechaHasta:fechS, etiquetasTiene: etiquetas});
 let gastosAgr = listRes.reduce(function(agrup, gastFil){
+    if(gastFil.hasOwnProperty("obtenerPeriodoAgrupacion")){
     let paraAgr = gastFil.obtenerPeriodoAgrupacion(per);
     if(agrup.hasOwnProperty(paraAgr)){
         agrup[paraAgr] = agrup[paraAgr] + gastFil.valor;
     }else{
         agrup[paraAgr] = gastFil.valor
     }
+}
     return agrup
 }, {});
 return gastosAgr;
@@ -210,6 +212,11 @@ return gastosAgr;
 function transformarListadoEtiquetas(input){
     let etiquetasFiltradas = input.match(/[a-z0-9]+/gi);
     return etiquetasFiltradas;
+}
+function cargarGastos(gastosCargar){
+    if(gastosCargar.length >= 0){
+        gastos = gastosCargar;
+    }
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -226,5 +233,6 @@ export {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
-    transformarListadoEtiquetas
+    transformarListadoEtiquetas,
+    cargarGastos
 }

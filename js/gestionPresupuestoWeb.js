@@ -62,6 +62,12 @@ function mostrarGastoWeb(idElemento, gasto){
     btnBorrar.textContent = "Borrar";
     btnBorrar.addEventListener("click", borrarHandler);
 
+    let botonGuardarGastos = document.getElementById("guardar-gastos");
+    botonGuardarGastos.addEventListener('click',new guardarGastosWeb);
+    
+    let botonCargarGastos = document.getElementById("cargar-gastos");
+    botonCargarGastos.addEventListener('click',new cargarGastosWeb);
+
     if(idElemento == "listado-gastos-completo"){
         divGasto.append(btnEditar);
         divGasto.append(btnBorrar);
@@ -323,6 +329,26 @@ const formularioFiltrador = document.getElementById("formulario-filtrado");
 
 let filtGastForm = new filtrarGastosWeb();
 formularioFiltrador.addEventListener('submit', filtGastForm);
+
+function guardarGastosWeb(){
+    this.handleEvent = function(event){
+        event.preventDefault();
+        localStorage.GestorGastosDWEC = JSON.stringify(genDatEst.listarGastos());
+    }
+}
+
+function cargarGastosWeb(){
+    this.handleEvent = function(event){
+        event.preventDefault();
+        let gastosCargados = JSON.parse(localStorage.getItem("GestorGastosDWEC"));
+        if(gastosCargados !== null){
+            genDatEst.cargarGastos(gastosCargados);
+        }else{
+            genDatEst.cargarGastos([]);
+        }
+        repintar();
+    }
+}
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
