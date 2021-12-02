@@ -242,8 +242,8 @@ function EditarHandleFormulario() {
 
 }
 
-function FormitHandle(e) {
-    this.handleEvent = function(e){
+function FormitHandle(b) {
+    this.handleEvent = function(a){
         e.preventDefault();
         let form = e.currentTarget;
         let des = form.elements.descripcion.value;
@@ -258,13 +258,13 @@ function FormitHandle(e) {
     }
 }
 
-function cancelarFormHandle() {
-    this.handleEvent = function (e){
-        e.currentTarget.parentNode.remove();
+/*function cancelarFormHandle() {
+    this.handleEvent = function (a){
+        a.currentTarget.parentNode.remove();
         let btnAddGastForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
         repintar();
     }
-}
+}*/
 
 //Botones
 const botonactulizarpresupuesto = document.getElementById('actualizarpresupuesto')
@@ -279,6 +279,5 @@ botonGastoForm.addEventListener("click", nuevoGastoWebFormulario);
 export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb,
-    repintar
+    mostrarGastosAgrupadosWeb
 }
