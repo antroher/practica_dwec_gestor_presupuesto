@@ -269,7 +269,8 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
         //     }
         //     return gastosfiltrados;
 
-        //NUEVA FUNCION
+        /*He tenido que cambiar el código a este puesto que he tenido muchos conflictos con
+        el que he realizado anteriormente*/
 
     let gastosFiltrados = Object.assign(gastos);
     if (miObjeto != null && Object.entries(miObjeto).length >= 0) {
@@ -304,6 +305,7 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
             })
         }
         if (Object.hasOwn(miObjeto, 'etiquetasTiene') && Array.isArray(miObjeto.etiquetasTiene) && miObjeto.etiquetasTiene.length > 0) {
+            etiquetasTiene.toLowerCase();
             gastosFiltrados = gastosFiltrados.filter((x) => {
                 for (let i = 0; i <= miObjeto.etiquetasTiene.length; i++) {
                     if (miObjeto.etiquetasTiene.includes(x.etiquetas[i])) {
