@@ -396,6 +396,74 @@ function BorrarEtiquetasHandle()
     }
 }
 
+//Ejercicio 7----------
+function filtrarGastosWeb(){
+
+    this.handleEvent = function(event){
+
+        event.preventDefault();
+
+        let des = document.getElementById("formulario-filtrado-descripcion").value;
+        let vMin = parseFloat(document.getElementById("formulario-filtrado-valor-minimo").value);
+        let vMax = parseFloat(document.getElementById("formulario-filtrado-valor-maximo").value);
+        let fecDes = document.getElementById("formulario-filtrado-fecha-desde").value;
+        let fecHas = document.getElementById("formulario-filtrado-fecha-hasta").value;
+        let etiTiene = document.getElementById("formulario-filtrado-etiquetas-tiene").value;
+        let filtro = {};
+
+        if (etiTiene.length > 0){
+            filtro.etiquetasTiene = gestionPresupuesto.transformarListadoEtiquetas(etiTiene);
+        }
+        filtro.fechaDesde = fecDes;
+        filtro.fechaHasta = fecHas;
+        filtro.valorMinimo = vMin;
+        filtro.valorMaximo = vMax;
+        filtro.descripcionContiene = des;
+
+        document.getElementById("listado-gastos-completo").innerHTML="";
+        let objsFiltrGastos = gestionPresupuesto.filtrarGastos(filtro);
+
+        for (let gasto of objsFiltrGastos){
+            mostrarGastoWeb('listado-gastos-completo', gasto);
+        }
+
+    }
+
+}
+document.getElementById('formulario-filtrado').addEventListener("submit", new filtrarGastosWeb());
+
+function guardarGastosWeb(){
+
+    this.handleEvent = function(event){
+
+        localStorage.setItem('GestorGastosDWEC', JSON.stringify(gestionPresupuesto.listarGastos()));
+        //localStorage.GestorGastosDWEC = JSON.stringify(gestionPresupuesto.listarGastos());
+
+    }
+
+}
+
+document.getElementById('guardar-gastos').addEventListener('click', new guardarGastosWeb);
+
+function cargarGastosWeb(){
+
+    this.handleEvent = function(event){
+
+        let txt = JSON.parse(localStorage.getItem('GestorGastosDWEC'));
+        if (txt !== null){
+            if (txt.length >= 0)
+            gestionPresupuesto.cargarGastos(txt);
+        }
+        else{
+            gestionPresupuesto.cargarGastos([]);
+        }
+        repintar();
+    }
+}
+
+document.getElementById('cargar-gastos').addEventListener('click', new cargarGastosWeb);
+
+
 /*Exportar las funciones necesarias.*/ 
 export {
     mostrarDatoEnId,
@@ -406,5 +474,6 @@ export {
     nuevoGastoWeb,
     repintar,
     BorrarHandle,
-    BorrarEtiquetasHandle
+    BorrarEtiquetasHandle,
+    filtrarGastosWeb
 }

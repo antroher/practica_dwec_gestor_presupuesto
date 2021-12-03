@@ -319,7 +319,20 @@ gasto2.obtenerPeriodoAgrupacion("dia");
         return gastosAgrupados;
     }
   
+    //Ejercicio 7------
+    function cargarGastos(arrGastos)
+    {
+        gastos = arrGastos;
+        return gastos;
+    }
 
+    function transformarListadoEtiquetas(eti){
+
+        let a = eti.match(/\w+/g);
+    
+        return a;
+    
+    }
 
     filtrarGastos({});
     filtrarGastos({fechaDesde: "2021-10-10"});
@@ -346,6 +359,8 @@ export   {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    cargarGastos,
+    transformarListadoEtiquetas
 
 }
