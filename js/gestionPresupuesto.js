@@ -317,9 +317,10 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
     return grupos;
 }
 
-function transformarListadoEtiquetas() {
+function transformarListadoEtiquetas(valor) {
 
-
+    let etiquetas = valor.match(/[a-z0-9]+/gi);
+    return etiquetas;
     
 }
 
@@ -338,5 +339,6 @@ export   {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    transformarListadoEtiquetas
 }
