@@ -28,8 +28,10 @@ gestionPresupuesto.anyadirGasto(gasto6);
 
 
 
-gestionPresupuestoWeb.mostrarDatoEnId('gastos-totales', gestionPresupuesto.calcularTotalGastos());
-gestionPresupuestoWeb.mostrarDatoEnId('balance-total', gestionPresupuesto.calcularBalance());
+let GastosTotales = gestionPresupuesto.calcularTotalGastos();
+gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales", GastosTotales);
+let balance = gestionPresupuesto.calcularBalance();
+gestionPresupuestoWeb.mostrarDatoEnId("balance-total", balance);
 
 
 //Listado de Gastos
@@ -80,9 +82,14 @@ gestionPresupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-4', gestionPresup
 */
 
 //Listado de gastos por año,mes,dia
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-dia',gestionPresupuesto.agruparGastos('dia') ,'día');
-let xMes = gestionPresupuesto.agruparGastos('mes');
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-mes', xMes, 'mes');
-let xAnyo = gestionPresupuesto.agruparGastos('anyo');
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb('agrupacion-anyo', xAnyo, 'año');
 
+let agrupDia = gestionPresupuesto.agruparGastos("dia");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", agrupDia, "día");
+
+
+let agrupMes = gestionPresupuesto.agruparGastos("mes");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", agrupMes, "mes");
+
+
+let agrupAnyo = gestionPresupuesto.agruparGastos("anyo");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", agrupAnyo, "año"); 

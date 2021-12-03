@@ -10,28 +10,22 @@ document.getElementById("anyadirgasto").addEventListener("click",nuevoGastoWeb);
 
 function mostrarDatoEnId (idElemento, valor)
 {
-  let datId = document.getElementById(idElemento);
-  datId.innerHTML = `<p>${valor}</p>`
+  let div = document.getElementById(idElemento);
+  let p = document.createElement('p');
+  p.textContent = valor;
+  div.append(p);
 }
 
 
-function mostrarGastoWeb(idElemento, gastos)
+function mostrarGastoWeb(idElemento, gasto)
 {
-  let element = document.getElementById(idElemento);
-
-    gastos.forEach((gasto) => {
-        let etiquetas = "";
-
-        gasto.etiquetas.forEach((etiqueta) => {
-            etiquetas += 
-
-                `<span class="gasto-etiquetas-etiqueta"> 
-                    ${etiqueta}
-                </span>`;
-        });
-
-
-        element.innerHTML +=
+   let elemento = document.getElementById(idElemento);
+   let divGasto = document.createElement("div");
+    divGasto.className = "gasto";
+    elemento.append(divGasto); 
+  
+        divGasto.innerHTML +=
+        
         `<div class="gasto">
             <div class="gasto-descripcion">${gasto.descripcion}</div>
             <div class="gasto-fecha">${gasto.fecha}</div> 
@@ -44,10 +38,10 @@ function mostrarGastoWeb(idElemento, gastos)
         <button type="button" class="gasto-editar" id="editar-${gasto.id}">Editar</button>
         <button type="button" class="gasto-borrar" id="borrar-${gasto.id}">Eliminar</button>`;
 
-        // let objetoDel = new BorrarHandle()
+        let objetoDel = new BorrarHandle()
 
-        // objetoDel.gasto = gasto;
-        // document.getElementById(`borrar-${gasto.id}`).addEventListener("click",objetoDel);//boton que borra
+        objetoDel.gasto = gasto;
+         document.getElementById(`borrar-${gasto.id}`).addEventListener("click",objetoDel); //boton que borra
 
         let objetoEdit = new EditarHandle()
 

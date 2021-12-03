@@ -10,18 +10,17 @@ var  idGasto = 0;
 
 function actualizarPresupuesto(actualizar) {
 
-    let devolverValor;
+    let devolverValor = parseFloat(actualizar);
     
 
     if(actualizar >= 0)
     {
-        presupuesto = actualizar;
-        devolverValor = presupuesto;
+       presupuesto = devolverValor;
     }
     else
     {
-        console.log("Es inferior a 0");
-        devolverValor= -1;
+        console.log('Error. Presupuesto negativo');
+        devolverValor = -1;
     }
     return devolverValor; 
 }
