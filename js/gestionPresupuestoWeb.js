@@ -75,7 +75,6 @@ function mostrarGastoWeb(idElemento, gasto) {
         let gastoactual= document.getElementById(gasto.id);
         gastoactual.append(botonEdit, botonBorr); 
         
-        
         let gastoActual = document.getElementById(gasto.id);; 
         let botonEditForm = document.createElement('button');
         botonEditForm.className += 'gasto-editar-formulario';
@@ -87,66 +86,6 @@ function mostrarGastoWeb(idElemento, gasto) {
         gastoActual.append(botonEditForm);
       }
     }
-
-
-    /* gastos.forEach((gasto) => {
-        let gast = document.createElement("div");
-        gast.className = "gasto";
-        gast.setAttribute('id', `gasto-${gasto.id}`)
-        elemento.append(gast);
-
-        gast.innerHTML += `
-        <div class="gasto-descripcion">${gasto.descripcion}</div>
-        <div class="gasto-fecha">${new Date(gasto.fecha).toLocaleString()}</div> 
-        <div class="gasto-valor">${gasto.valor}</div>
-         `
-        let EtiqGasto = document.createElement("div")
-        EtiqGasto.className = "gasto-etiquetas";
-        gast.append(EtiqGasto);
-
-        for (let etiqueta of gasto.etiquetas) {
-            let EtiquetaNueva = new BorrarEtiquetasHandle();
-            EtiquetaNueva.gasto = gasto;
-            let gastEtiqueta = document.createElement("span");
-            gastEtiqueta.className = "gasto-etiquetas-etiqueta";
-            gastEtiqueta.textContent = etiqueta + " ";
-            EtiquetaNueva.etiqueta = etiqueta;
-            EtiqGasto.append(gastEtiqueta);
-            gastEtiqueta.addEventListener("click", EtiquetaNueva);
-        }
-
-        if (idElemento === "listado-gastos-completo") {
-            let botonEditar = document.createElement("button");
-            botonEditar.className += 'gasto-editar'
-            botonEditar.textContent = "Editar";
-            botonEditar.type = 'button';
-
-            let botonBorrar = document.createElement("button");
-            botonBorrar.className += 'gasto-borrar'
-            botonBorrar.textContent = "Borrar";
-            botonBorrar.type = 'button';
-            let botonEditarForm = document.createElement("button");
-            botonEditarForm.setAttribute('id', `gasto-editar-formulario-${gasto.id}`)
-            botonEditarForm.className += 'gasto-editar-formulario';
-            botonEditarForm.textContent = "Editar (formulario)";
-            botonEditarForm.type = "button";
-
-            let editarForm = new EditarHandleFormulario();
-            editarForm.gasto = gasto;
-            botonEditarForm.addEventListener('click', editarForm);
-            let editar = new EditarHandle();
-            let borrar = new BorrarHandle();
-            editar.gasto = gasto;
-            borrar.gasto = gasto;
-            botonEditar.addEventListener('click', editar);
-            botonBorrar.addEventListener('click', borrar);
-
-            Gasto.append(botonEditar);
-            Gasto.append(botonBorrar);
-            Gasto.append(botonEditarForm);
-        }
-    }) */
-//}
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     let elemento = document.getElementById(idElemento);
@@ -340,5 +279,6 @@ function filtrarGastosWeb() {
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    filtrarGastosWeb
 }
