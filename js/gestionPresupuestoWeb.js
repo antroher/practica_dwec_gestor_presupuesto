@@ -146,7 +146,7 @@ function mostrarGastoWeb(idElemento, gasto) {
             Gasto.append(botonEditarForm);
         }
     }) */
-}
+//}
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     let elemento = document.getElementById(idElemento);
