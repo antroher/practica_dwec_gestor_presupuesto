@@ -1,12 +1,5 @@
 import * as gestionPresupuesto from './gestionPresupuesto.js'
 
-function cargarGastosWeb(){
-
-}
-
-function guardarGastosWeb(){
-
-}
 function nuevoGastoWebFormulario(){
     
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
@@ -159,16 +152,13 @@ function EditarHandleFormulario(){
         
         formulario.addEventListener("submit", aplicarEdit);
         this.boton.disabled = true;
-        
-
+    
         let botonCancelar = formulario.querySelector("button.cancelar");
         let handlerBotonCancelar = new CancelarBotonFormulario();
         handlerBotonCancelar.formulario = formulario;
         handlerBotonCancelar.boton = this.boton;
         handlerBotonCancelar.elem = this.elem;
-        botonCancelar.addEventListener("click", handlerBotonCancelar);
-        
-
+        botonCancelar.addEventListener("click", handlerBotonCancelar);       
     }
 }
 
@@ -218,7 +208,7 @@ function mostrarGastoWeb(idElemento, gasto){
     let divGasto = document.createElement('div');
     divGasto.className = 'gasto';
 
-    let texto = "<h2> Presupuesto </h2>";
+    let texto = "<h2> Presupuesto </h2>";                                                                          
 
     let divPresupuesto = document.createElement('div');
     divPresupuesto.className = 'presupuesto';
@@ -326,6 +316,55 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     elem.innerHTML += "<div class='agrupacion'><h1>Gastos agrupados por " + periodo + " </h1>" + texto;
     
 }
+let formularioFiltro = document.getElementById("formulario-filtrado");
+
+let handlerFiltro = new filtrarGastosWeb();
+formularioFiltro.addEventListener("submit", handlerFiltro);
+
+function filtrarGastosWeb(){
+    this.handleEvent = function(event){
+        event.preventDefault();
+        let d = document.getElementById("formulario-filtrado-descripcion").value;
+        let vm = parseFloat(document.getElementById("formulario-filtrado-valor-minimo").value);
+        let vmax =  parseFloat(document.getElementById("formulario-filtrado-valor-maximo").value);
+        let etF = document.getElementById("formulario-filtrado-etiquetas-tiene").value;
+        let fechH = document.getElementById("formulario-filtrado-fecha-hasta").value;
+        let fechD = document.getElementById("formulario-filtrado-fecha-desde").value;
+
+        let filtro = {};
+
+        if(etF.length > 0){
+            filtro.etiquetasTiene = gestionPresupuesto.transformarListadoEtiquetas(etF);
+        }
+        if(d != ""){
+            filtro.descripcionContiene = d;
+        }
+        if(vm != "" && typeof vm !== "undefined" && !isNaN(vm)){
+            filtro.valorMinimo = vm;
+        }
+
+        if(vmax != "" && typeof vmax !== "undefined" && !isNaN(vmax)){
+            filtro.valorMaximo = vmax;
+        }
+
+        if(Date.parse(fechD)){
+            filtro.fechaDesde = fechD;
+        }
+
+        if(Date.parse(fechH)){
+            filtro.fechaHasta = fechH;
+        }
+
+        console.log(filtro);
+
+        document.getElementById("listado-gastos-completo").innerHTML="";
+        let gastosFiltrado = gestionPresupuesto.filtrarGastos(filtro);
+        gastosFiltrado.forEach(g => {
+            mostrarGastoWeb("listado-gastos-completo" , g);
+        });
+
+    }
+}
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -339,7 +378,6 @@ export   {
     repintar,
     nuevoGastoWeb,
     nuevoGastoWebFormulario,
-    EditarHandleFormulario,
-    cargarGastosWeb,
-    guardarGastosWeb
+    filtrarGastosWeb,
+    EditarHandleFormulario
 }

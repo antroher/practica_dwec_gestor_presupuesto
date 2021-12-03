@@ -122,6 +122,11 @@ Etiquetas:\n`
         }
     }
 }
+
+function transformarListadoEtiquetas(cadena){
+
+    return cadena.split(/[ ,;:\.~]+/g); 
+}
 function listarGastos(){
     return gastos;
 }
@@ -254,8 +259,8 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta)
 
     return res;
 }
-function cargarGastos(gasto2){
-    gasto2.forEach(element =>{
+function cargarGastos(g){
+    g.forEach(element =>{
         gasto += element;
     })
     return gasto;
@@ -275,6 +280,7 @@ export   {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
-    cargarGastos
+    cargarGastos,
+    transformarListadoEtiquetas
     
 }
