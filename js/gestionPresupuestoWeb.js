@@ -275,7 +275,6 @@ function filtrarGastosWeb() {
     document.getElementById("formulario-filtrado").addEventListener("submit", filtrarGastosWeb);
 }
 
-
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
