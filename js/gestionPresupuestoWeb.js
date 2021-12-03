@@ -179,7 +179,7 @@ function EditarHandle() {
     repintar()
     }
 }
-function filtrarGastoWeb(){
+function filtrarGastosWeb(){
     this.handleEvent = function(e){
 
         e.preventDefault();
@@ -197,7 +197,7 @@ function filtrarGastoWeb(){
 
         
         
-        let gastosFiltrados = filtrarGastos(objeto);
+        let gastosFiltrados = gestionPresupuesto.filtrarGastos(objeto);
 
         document.getElementById("listado-gastos-completo").innerHTML = "";
 
@@ -207,8 +207,9 @@ function filtrarGastoWeb(){
         }
     }
 }
+let eventoFormularioFiltrado = new filtrarGastosWeb();
 let formularioFiltrado = document.getElementById("formulario-filtrado");
-formularioFiltrado.addEventListener("submit", filtrarGastoWeb);
+formularioFiltrado.addEventListener("submit", eventoFormularioFiltrado);
 
 function BorrarHandle(){
 
@@ -306,6 +307,8 @@ function SubmitHandle(){
         repintar();
     }
 } 
+
+
 export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -314,5 +317,5 @@ export   {
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
     nuevoGastoWebFormulario,
-    filtrarGastoWeb
+    filtrarGastosWeb
 }
