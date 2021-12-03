@@ -206,7 +206,7 @@ function mostrarGastoWeb(idElemento, gasto){
     let elem = document.getElementById(idElemento); 
     
     let divGasto = document.createElement('div');
-    divGasto.className = 'gasto';
+    divGasto.className += 'gasto';
 
     let texto = "<h2> Presupuesto </h2>";                                                                          
 
