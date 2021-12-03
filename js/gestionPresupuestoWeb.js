@@ -308,48 +308,53 @@ function EditarHandleFormulario()
 
 function filtrarGastosWeb()
 {
-    this.handleEvent = function(event)
-    {
+    this.handleEvent=function(event){
         event.preventDefault();
-        
-        let form = event.currentTarget;
-        let descrip = form.elements['formulario-filtrado-descripcion'].value;
-        let valMinimo = form.elements['formulario-filtrado-valor-minimo'].value;
-        let valMaximo = form.elements['formulario-filtrado-valor-maximo'].value;
-        let fecDesde = form.elements['formulario-filtrado-fecha-desde'].value;
-        let fecHasta = form.elements['formulario-filtrado-fecha-hasta'].value;
-        let etiq = form.elements['formulario-filtrado-etiquetas-tiene'].value;
-
-        valMinimo = parseFloat(valMinimo);
-        valMaximo = parseFloat(valMaximo);
-
-        if(etiq != null){
-            etiq = gestionpre.transformarListadoEtiquetas(etiq);
+        let descrip=document.getElementById("formulario-filtrado-descripcion").value;
+        let valormin = parseFloat(document.getElementById("formulario-filtrado-valor-minimo").value);
+        let valormax = parseFloat(document.getElementById("formulario-filtrado-valor-maximo").value);
+        let fecDesde = document.getElementById("formulario-filtrado-fecha-desde").value;
+        let fecHasta=document.getElementById("formulario-filtrado-fecha-hasta").value;
+        let etiq=document.getElementById("formulario-filtrado-etiquetas-tiene").value;
+        let etiqBuscar=[];
+        if(etiq!=="" && typeof etiq !== 'undefined'){
+            etiqBuscar=gestionpre.transformarListadoEtiquetas(etiq);
         }
-
-        let filtro = {
-            etiquetasTiene: etiq,
-            fechaDesde: fecDesde,
-            fechaHasta: fecHasta,
-            valorMinimo: valMinimo,
-            valorMaximo: valMaximo,
-            descripcionContiene: descrip,
-        }
-
-        let gastosFiltro = gestionpre.filtrarGastos(filtro);
-
-        console.log(gastosFiltro);
-
-        //Borramos todos los gastos
-        let lista = document.getElementById('listado-gastos-completo');
-
-        lista.innerHTML = '';
-
-        gastosFiltro.forEach(gastoFiltrado => 
+       
+        let filtro={};
+        if(descrip!=="" && typeof descrip !== 'undefined')
         {
-            mostrarGastoWeb("listado-gastos-completo",gastoFiltrado);
+            filtro.descripcionContiene=descrip;
+        }
+        if(valormin!=="" && typeof valormin !== 'undefined' && !isNaN(valormin))
+        {
+            filtro.valorMinimo=valormin;
+        }
+        if(valormax!=="" && typeof valormax !== 'undefined'&& !isNaN(valormax))
+        {
+            filtro.valorMaximo=valormax;
+        }
+        if(fecDesde!=="" && typeof fecDesde !== 'undefined')
+        {
+            filtro.fechaDesde=fecDesde;
+        }
+        if(fecHasta!=="" && typeof fecHasta !== 'undefined')
+        {
+            filtro.fechaHasta=fecHasta;
+        }
+        if(etiqBuscar.length>0)
+        {
+            filtro.etiquetasTiene=etiqBuscar;
+        }
+        
+        console.log(filtro);
+        let filtroG=gestionpre.filtrarGastos(filtro);
+        document.getElementById("listado-gastos-completo").innerHTML="<hr>";
+        filtroG.forEach(FG => {
+            mostrarGastoWeb("listado-gastos-completo",FG);
         });
-    }
+        document.getElementById("listado-gastos-completo").innerHTML+="<hr>";
+    };
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.

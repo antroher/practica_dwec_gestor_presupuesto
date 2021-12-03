@@ -277,9 +277,10 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta)
 
 function transformarListadoEtiquetas(etiquetas)
 {
-    let regexp = /[a-zA-Z0-9]+/gi;  //Solo palabras
-    let resultado = etiquetas.match(regexp);
-    return resultado;
+    /*let regexp = /[a-zA-Z0-9]+/gi;  //Solo palabras
+    let resultado = etiquetas.match(regexp);*/
+    return etiquetas.split(/[ ,.:;~]+/g);
+    //return resultado;
 }
 
 
