@@ -71,19 +71,19 @@ function CrearGasto(descrip, valor = 0, fecha = Date.now(), ...etiquetas) {
             this.fecha = Date.parse(newFecha);
         }
     };
-    this.anyadirEtiquetas = function (...etiquetas) {
-        const valoresulUnicos = etiquetas.filter((x) => {
-            if (!this.etiquetas.includes(x)) {
+    this.anyadirEtiquetas = function (...etiquetasFiltradas) {
+        const valoresulUnicos = etiquetasFiltradas.filter((x) => {
+            if (!this.etiquetasFiltradas.includes(x)) {
                 return x;
             }
         });
-        this.etiquetas.push(...valoresulUnicos);
+        this.etiquetasFiltradas.push(...valoresulUnicos);
     };
-    this.borrarEtiquetas = function (...etiquetas) {
-        etiquetas.forEach((x) => {
-            for (let i = 0; i < this.etiquetas.length; i++) {
-                if (this.etiquetas[i] === x) {
-                    this.etiquetas.splice(i, 1);
+    this.borrarEtiquetas = function (...etiquetasFiltradas) {
+        etiquetasFiltradas.forEach((x) => {
+            for (let i = 0; i < this.etiquetasFiltradas.length; i++) {
+                if (this.etiquetasFiltradas[i] === x) {
+                    this.etiquetasFiltradas.splice(i, 1);
                 }
             }
         })
