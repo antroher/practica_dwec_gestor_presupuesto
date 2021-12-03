@@ -282,11 +282,11 @@ function nuevoGastoWeb ()
     
     function CancelarFormHandle(){
         this.handleEvent = function(event){
-    //ELIMINAR EL FORMULARIO QUE HEMOS SACADO PARA EDITAR UN GASTO.
+    //ELIMINAR EL FORMULARIO QUE HEMOS SACADO PARA EDITAR UN GASTO.-----------------------------------
             event.currentTarget.parentNode.remove();
-            //DESHABLITAR EL BOTÓN PARA AÑADIR FORMULARIOS.
+            //DESHABLITAR EL BOTÓN PARA AÑADIR FORMULARIOS.---------------------------
             document.getElementById("anyadirgasto-formulario").removeAttribute('disabled');
-    
+    //ACTUALIZAMOS LA INFORMACIÓN CON REPINTAR------------------------------------------
             repintar();
         }
     }
