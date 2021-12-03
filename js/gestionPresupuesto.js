@@ -207,6 +207,7 @@ function filtrarGastos(objeto){
     }
     if (objeto.hasOwnProperty('descripcionContiene')){
         dc = objeto.descripcionContiene;
+        dc.toLowerCase();
     }
     if (objeto.hasOwnProperty('etiquetasTiene')){
         et = [...objeto.etiquetasTiene];
@@ -243,7 +244,9 @@ function filtrarGastos(objeto){
         }
         if (typeof et !== 'undefined' && (et.length > 0)){
             for (let it of et){
+                it.toLowerCase();
                 for (let ot of gasto.etiquetas){
+                    ot.toLowerCase();
                     if (it == ot){
                         latiene ||= true;
                     }
