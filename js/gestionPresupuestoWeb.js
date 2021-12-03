@@ -215,9 +215,7 @@ function filtrarGastosWeb(){
         }
     }
 }
-
-let filtGastForm = new filtrarGastosWeb();
-document.getElementById('formulario-filtrado').addEventListener('submit', filtGastForm);
+document.getElementById('formulario-filtrado').addEventListener('submit', new filtrarGastosWeb());
 
 function EditarHandle()
 {
