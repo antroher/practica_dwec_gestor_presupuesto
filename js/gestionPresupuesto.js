@@ -226,6 +226,9 @@ function transformarListadoEtiquetas(etiq) {
     return etiArray;
 }
 
+function cargarGastos(gasto) {
+    gastos = gasto;
+}
     
 
 
@@ -244,5 +247,6 @@ export   {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
-    transformarListadoEtiquetas
+    transformarListadoEtiquetas,
+    cargarGastos
 }
