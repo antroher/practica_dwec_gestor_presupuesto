@@ -264,7 +264,7 @@ function filtrarGastosWeb(){
         }
     }
 }
-let gastoSend = new filtrarGastosWeb();
+let filtroEnviar = new filtrarGastosWeb();
 
 const btnActualizarPresupuesto = document.getElementById("actualizarpresupuesto");
 btnActualizarPresupuesto.addEventListener("click", actualizarPresupuestoWeb);
@@ -272,8 +272,8 @@ const btnNuevoGasto = document.getElementById("anyadirgasto");
 btnNuevoGasto.addEventListener("click", nuevoGastoWeb);
 const btnNuevoGastoFormulario = document.getElementById("anyadirgasto-formulario");
 btnNuevoGastoFormulario.addEventListener("click", nuevoGastoWebFormulario);
-const btnFilter = document.getElementById("formulario-filtrado");
-btnFilter.addEventListener("submit", gastoSend)
+const btnFiltro = document.getElementById("formulario-filtrado");
+btnFiltro.addEventListener("submit", filtroEnviar)
 
 export {
     mostrarDatoEnId,
