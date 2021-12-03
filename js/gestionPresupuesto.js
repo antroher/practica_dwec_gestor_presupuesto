@@ -54,6 +54,7 @@ function CrearGasto(descripcion = "No hay descripción", valor = 0, fecha = "", 
         mensaje += `Etiquetas:\n${listaEtiquetas}`;
         return mensaje;
     }
+// hola hola
 
     this.actualizarDescripcion = function(descripcion = this.descripcion){
         this.descripcion = descripcion;
