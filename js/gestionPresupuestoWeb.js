@@ -73,7 +73,7 @@ function mostrarGastoWeb(idElemento, gasto) {
         botonBorr.addEventListener('click', evBorrar);
         botonEdit.addEventListener('click', evEditar);
         let gastoactual= document.getElementById(gasto.id);
-        gastoactual.append(buttomE, buttomB); 
+        gastoactual.append(botonEdit, botonBorr); 
         
         
         let gastoActual = document.getElementById(gasto.id);; 
