@@ -5,7 +5,10 @@ import * as gestionPresupuesto from "./gestionPresupuesto.js";
 document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario").addEventListener("click", nuevoGastoWebFormulario);
-document.getElementById("formulario-filtrado").addEventListener("submit", filtrarGastosWeb)
+document.getElementById("formulario-filtrado").addEventListener("submit", filtrarGastosWeb);
+document.getElementById("guardar-gastos").addEventListener('click', guardarGastosWeb);
+document.getElementById("cargar-gastos").addEventListener('click', cargarGastosWeb);
+
 
 function mostrarDatoEnId(idElemento, valor) {
     let elemento = document.getElementById(idElemento);
@@ -15,74 +18,73 @@ function mostrarDatoEnId(idElemento, valor) {
 }
 
 function mostrarGastoWeb(idElemento, gasto) {
-    let elemento = document.getElementById(idElemento);
-    let divGasto = document.createElement("div");
-    divGasto.className += "gasto";
+    let mostrar = document.getElementById(idElemento);
 
-    if (idElemento.includes('completo')) {
-        divGasto.id = gasto.id;
+    let evEditar = new EditarHandle();
+    evEditar.gasto = gasto;
+
+    let evBorrar = new BorrarHandle();
+    evBorrar.gasto = gasto;
+
+    let evEditarFormulario = new EditarHandleFormulario();
+    evEditarFormulario.gasto = gasto;
+
+    let div = document.createElement("div");
+    div.className = "gasto";
+
+    let divDesc = document.createElement("div");
+    divDesc.className = "gasto-descripcion";
+    divDesc.textContent = `${gasto.descripcion}`;
+
+    let divFech = document.createElement("div");
+    divFech.className = "gasto-fecha";
+    divFech.textContent = `${gasto.fecha}`;
+
+    let divVal = document.createElement("div");
+    divVal.className = "gasto-valor";
+    divVal.textContent = `${gasto.valor}`;
+
+    let divEtiq = document.createElement("div");
+    divEtiq.className = "gasto-etiquetas";
+
+    for (let etiqueta of gasto.etiquetas) {
+        let spanEtiq = document.createElement("span");
+        spanEtiq.className = "gasto-etiquetas-etiqueta";
+        spanEtiq.textContent = `${etiqueta}`;
+        divEtiq.append(spanEtiq);
+
+        let evEtiqueta = new BorrarEtiquetasHandle();
+        evEtiqueta.gasto = gasto;
+        evEtiqueta.etiqueta = etiqueta;
+        spanEtiq.addEventListener("click", evEtiqueta);
     }
-    let gastoDescripcion = document.createElement("div");
-    gastoDescripcion.className += "gasto-descripcion";
-    gastoDescripcion.textContent = `${gasto.descripcion}`;
 
-    let gastoValor = document.createElement("div");
-    gastoValor.className += "gasto-valor";
-    gastoValor.textContent = `${gasto.valor}`;
+    let btnEditar = document.createElement("button");
+    btnEditar.className = "gasto-editar";
+    btnEditar.type = "button";
+    btnEditar.textContent = "Editar";
+    btnEditar.addEventListener("click", evEditar);
 
-    let gastoFecha = document.createElement("div");
-    gastoFecha.className += "gasto-fecha";
-    gastoFecha.textContent = `${gasto.fecha}`;
+    let btnBorrar = document.createElement("button");
+    btnBorrar.className = "gasto-borrar";
+    btnBorrar.type = "button";
+    btnBorrar.textContent = "Borrar";
+    btnBorrar.addEventListener("click", evBorrar);
 
-    let gastoEtiquetas = document.createElement("div");
-    gastoEtiquetas.className += "gasto-etiquetas";
+    let btnEditaFormulario = document.createElement("button");
+    btnEditaFormulario.className = "gasto-editar-formulario";
+    btnEditaFormulario.type = "button";
+    btnEditaFormulario.textContent = "Editar (formulario)";
+    btnEditaFormulario.addEventListener("click", evEditarFormulario);
 
-    for (let x of gasto.etiquetas) {
-        let gastoEtiqueta = document.createElement("span");
-        gastoEtiqueta.className += "gasto-etiquetas-etiqueta";
-        gastoEtiqueta.textContent = `${x} `;
-        gastoEtiquetas.append(gastoEtiqueta);
-        if (idElemento.includes('completo')) {
-            let newObjEtiquet = new BorrarEtiquetasHandle();
-            newObjEtiquet.gasto = gasto;
-            newObjEtiquet.etiqueta = x;
-            gastoEtiqueta.addEventListener('click', newObjEtiquet);
-        }
-
-    }
-
-    divGasto.append(gastoDescripcion, gastoValor, gastoFecha, gastoEtiquetas);
-    elemento.append(divGasto);
-    if (idElemento === 'listado-gastos-completo') {
-        let botonEdit = document.createElement("button");
-        botonEdit.className += "gasto-editar";
-        botonEdit.textContent = 'Editar';
-        botonEdit.type = 'button';
-        let botonBorr = document.createElement("button");
-        botonBorr.className += "gasto-borrar";
-        botonBorr.textContent = 'Borrar';
-        botonBorr.type = 'button';
-
-        let evEditar = new EditarHandle();
-        evEditar.gasto = gasto;
-
-        let evBorrar = new BorrarHandle();
-        evBorrar.gasto = gasto;
-        botonBorr.addEventListener('click', evBorrar);
-        botonEdit.addEventListener('click', evEditar);
-        let gastoactual = document.getElementById(gasto.id);
-        gastoactual.append(botonEdit, botonBorr);
-
-        let gastoActual = document.getElementById(gasto.id);;
-        let botonEditForm = document.createElement('button');
-        botonEditForm.className += 'gasto-editar-formulario';
-        botonEditForm.textContent = 'Editar (formulario)';
-        botonEditForm.type = 'button';
-        let evEditForm = new EditarHandleFormulario();
-        evEditForm.gasto = gasto;
-        botonEditForm.addEventListener('click', evEditForm);
-        gastoActual.append(botonEditForm);
-    }
+    div.append(divDesc);
+    div.append(divFech);
+    div.append(divVal);
+    div.append(divEtiq);
+    div.append(btnEditar);
+    div.append(btnBorrar);
+    div.append(btnEditaFormulario);
+    mostrar.append(div);
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
@@ -188,8 +190,8 @@ function enviarGastoHandle() {
     }
 }
 
-function cancelarGastoHandle(){
-    this.handleEvent = function(evento){
+function cancelarGastoHandle() {
+    this.handleEvent = function (evento) {
         evento.currentTarget.remove();
         document.getElementById("anyadirgasto-formulario").removeAttribute('disabled');
     }
@@ -259,8 +261,30 @@ function EditarHandleFormulario() {
     }
 }
 
+function SubmitHandleGasto() {
+    this.handleEvent = function (evento) {
+        evento.preventDefault();
+
+        let form = evento.currentTarget;
+        let desc = form.elements.descripcion.value;
+        let val = form.elements.valor.value;
+        let fech = form.elements.fecha.value;
+        let etiq = form.elements.etiquetas.value;
+
+        val = parseFloat(val);
+        etiq = etiq.split(',');
+
+        this.gasto.actualizarDescripcion(desc);
+        this.gasto.actualizarValor(val);
+        this.gasto.actualizarFecha(fech);
+        this.gasto.anyadirEtiquetas(...etiq);
+
+        repintar();
+    }
+}
+
 function filtrarGastosWeb() {
-    event.preventDefault();
+    evento.preventDefault();
 
     let formulario = document.getElementById("formulario-filtrado");
     let filDescrip = formulario.elements["formulario-filtrado-descripcion"].value;
@@ -285,6 +309,23 @@ function filtrarGastosWeb() {
     mostrarGastoWeb("listado-gastos-completo", gastosFiltrados);
 
     document.getElementById("formulario-filtrado").addEventListener("submit", filtrarGastosWeb);
+}
+
+function guardarGastosWeb() {
+    localStorage.GestorGastosDWEC = JSON.stringify(gestionPresupuesto.listarGastos());
+}
+
+function cargarGastosWeb() {
+    let gastosLS;
+
+    if (localStorage.getItem('GestorGastosDWEC')) {
+        gastosLS = JSON.parse(localStorage.getItem('GestorGastosDWEC'));
+    } else {
+        gastosLS = [];
+    }
+
+    gestionPresupuesto.cargarGastos(gastosLS);
+    repintar();
 }
 
 export {
