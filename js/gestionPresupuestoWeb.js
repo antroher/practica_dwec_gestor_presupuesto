@@ -296,7 +296,7 @@ function filtrarGastosWeb() {
         vMaximo = parseFloat(vMaximo);
 
         if (etiq != null) {
-            etiq = gp.transformarListadoEtiquetas(etiq);
+            etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
         }
 
         let filtro = {
@@ -308,7 +308,7 @@ function filtrarGastosWeb() {
             descripcionContiene: desc,
         }
 
-        let gastosFiltro = gp.filtrarGastos(filtro);
+        let gastosFiltro = gestionPresupuesto.filtrarGastos(filtro);
         console.log(gastosFiltro);
         let lista = document.getElementById('listado-gastos-completo');
         lista.innerHTML = '';
