@@ -5,7 +5,8 @@ import * as gestionPresupuesto from "./gestionPresupuesto.js";
 document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario").addEventListener("click", nuevoGastoWebFormulario);
-document.getElementById("formulario-filtrado").addEventListener("submit", filtrarGastosWeb);
+let evFiltrar = new filtrarGastosWeb();
+document.getElementById("formulario-filtrado").addEventListener("submit", evFiltrar);
 document.getElementById("guardar-gastos").addEventListener('click', guardarGastosWeb);
 document.getElementById("cargar-gastos").addEventListener('click', cargarGastosWeb);
 
