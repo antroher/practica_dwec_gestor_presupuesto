@@ -216,7 +216,7 @@ function EditarHandle() {
 }
 
 function BorrarHandle() {
-    this.handleEvent = function () {
+    this.handleEvent = function (evento) {
         let num = this.gasto.id;
         gestionPresupuesto.borrarGasto(num);
         repintar();
@@ -224,40 +224,36 @@ function BorrarHandle() {
 }
 
 function BorrarEtiquetasHandle() {
-    this.handleEvent = function () {
+    this.handleEvent = function (evento) {
         this.gasto.borrarEtiquetas(this.etiqueta);
         repintar();
     }
 }
 
 function EditarHandleFormulario() {
-    this.handleEvent = function () {
-        repintar();
-
-        document.querySelector("button[id='anyadirgasto-formulario']").disabled = true;
-        document.querySelector(`button[id='gasto-editar-formulario-${this.gasto.id}']`).disabled = true;
-
-        let idElemento = document.querySelector(`[id='gasto-${this.gasto.id}']`);
+    this.handleEvent = function (evento) {
         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
         var formulario = plantillaFormulario.querySelector("form");
-        idElemento.append(formulario);
 
-        document.querySelector(`input[id='descripcion']`).value = this.gasto.descripcion;
-        document.querySelector(`input[id='valor']`).value = this.gasto.valor;
-        document.querySelector(`input[id='etiquetas']`).value = this.gasto.etiquetas;
+        let final = evento.currentTarget;
+        final.after(formulario);
 
-        let fecha = new Date(this.gasto.fecha);
-        let fechaFormato = fecha.toISOString().substring(0, 10);
-        document.querySelector(`input[id='fecha']`).value = fechaFormato;
+        final.disabled = true;
 
-        let EventBotonCancelar = new cancelarFromHandle();
-        EventBotonCancelar.formulario = formulario;
-        formulario.querySelector(`button[class='cancelar']`).addEventListener('click', EventBotonCancelar);
+        formulario.elements.descripcion.value = this.gasto.descripcion;
+        formulario.elements.valor.value = this.gasto.valor;
+        formulario.elements.fecha.value = new Date(this.gasto.fecha).toISOString().substr(0, 10);
+        formulario.elements.etiquetas.value = this.gasto.etiquetas;
 
-        let EventBotonSubmit = new submitFormGastoHandle();
-        EventBotonSubmit.formulario = formulario;
-        EventBotonSubmit.gasto = this.gasto;
-        formulario.addEventListener('submit', EventBotonSubmit);
+        let enviar = new SubmitHandleGasto();
+        enviar.gasto = this.gasto;
+
+        formulario.addEventListener("submit", enviar);
+
+        let cancelar = new cancelarGastoHandle();
+
+        let btnCancelar = formulario.querySelector("button.cancelar");
+        btnCancelar.addEventListener("click", cancelar);
     }
 }
 
@@ -284,31 +280,42 @@ function SubmitHandleGasto() {
 }
 
 function filtrarGastosWeb() {
-    evento.preventDefault();
+    this.handleEvent = function (evento) {
+        evento.preventDefault();
 
-    let formulario = document.getElementById("formulario-filtrado");
-    let filDescrip = formulario.elements["formulario-filtrado-descripcion"].value;
-    let filMin = formulario.elements["formulario-filtrado-valor-minimo"].value;
-    let filMax = formulario.elements["formulario-filtrado-valor-maximo"].value;
-    let filFecha = formulario.elements["formulario-filtrado-fecha-desde"].value;
-    let filHastaFecha = formulario.elements["formulario-filtrado-fecha-hasta"].value;
-    let filEtiquetas = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
+        let form = evento.currentTarget;
+        let desc = form.elements['formulario-filtrado-descripcion'].value;
+        let vMinimo = form.elements['formulario-filtrado-valor-minimo'].value;
+        let vMaximo = form.elements['formulario-filtrado-valor-maximo'].value;
+        let fDesde = form.elements['formulario-filtrado-fecha-desde'].value;
+        let fHasta = form.elements['formulario-filtrado-fecha-hasta'].value;
+        let etiq = form.elements['formulario-filtrado-etiquetas-tiene'].value;
 
-    let filtrarParametros = {
-        descripcionContiene: (filDescrip === "") ? undefined : filDescrip,
-        valorMinimo: (filMin === "") ? undefined : parseFloat(filMin),
-        valorMaximo: (filMax === "") ? undefined : parseFloat(filMax),
-        fechaDesde: (filFecha === "") ? undefined : filFecha,
-        fechaHasta: (filHastaFecha === "") ? undefined : filHastaFecha,
-        etiquetasTiene: (filEtiquetas === "") ? [] : gestionPresupuesto.transformarListadoEtiquetas(filEtiquetas)
+        vMinimo = parseFloat(vMinimo);
+        vMaximo = parseFloat(vMaximo);
+
+        if (etiq != null) {
+            etiq = gp.transformarListadoEtiquetas(etiq);
+        }
+
+        let filtro = {
+            etiquetasTiene: etiq,
+            fechaDesde: fDesde,
+            fechaHasta: fHasta,
+            valorMinimo: vMinimo,
+            valorMaximo: vMaximo,
+            descripcionContiene: desc,
+        }
+
+        let gastosFiltro = gp.filtrarGastos(filtro);
+        console.log(gastosFiltro);
+        let lista = document.getElementById('listado-gastos-completo');
+        lista.innerHTML = '';
+
+        for (let gasto of gastosFiltro) {
+            mostrarGastoWeb("listado-gastos-completo", gasto);
+        }
     }
-    console.log(filtrarParametros)
-
-    let gastosFiltrados = gestionPresupuesto.filtrarGastos(filtrarParametros);
-    document.getElementById("listado-gastos-completo").innerHTML = "";
-    mostrarGastoWeb("listado-gastos-completo", gastosFiltrados);
-
-    document.getElementById("formulario-filtrado").addEventListener("submit", filtrarGastosWeb);
 }
 
 function guardarGastosWeb() {
@@ -332,5 +339,11 @@ export {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    filtrarGastosWeb
+    repintar,
+    actualizarPresupuestoWeb,
+    nuevoGastoWeb,
+    EditarHandle,
+    BorrarHandle,
+    BorrarEtiquetasHandle,
+    nuevoGastoWebFormulario
 }
