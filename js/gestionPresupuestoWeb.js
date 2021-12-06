@@ -67,6 +67,18 @@ function mostrarGastoWeb(idElemento, gasto)
         removeHandle.gasto = gasto;
         btnRemove.addEventListener('click', removeHandle);
         divGasto.append(btnRemove);
+
+        let btnEditForm = document.createElement('button');
+        btnEditForm.className = 'gasto-editar-formulario';
+        btnEditForm.type = 'button';
+        btnEditForm.textContent = 'Editar Form';
+
+        let editFormHandle = new EditarHandleFormulario();
+        editFormHandle.gasto = gasto;
+        editFormHandle.btnEditGasto = btnEditForm;
+        editFormHandle.divGasto = divGasto;
+        btnEditForm.addEventListener('click',editFormHandle);
+        divGasto.append(btnEditForm);       
     }
     
     elem.append(divGasto);
@@ -80,9 +92,9 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
 
     for (let i in agrup)
     {
-        txt +=  '<div class="agrupacion-dato">' +
-                '<span class="agrupacion-dato-clave">' + i + '</span>' +
-                '<span class="agrupacion-dato-valor">' + agrup[i] + '</span>' +
+        txt +=  '<div class= "agrupacion-dato">' +
+                '<span class= "agrupacion-dato-clave">' + i + '</span>' +
+                '<span class= "agrupacion-dato-valor">' + agrup[i] + '</span>' +
                 '</div>';
     }
 
@@ -108,11 +120,11 @@ function repintar()
     gastosFilt.forEach(gastoFiltrado => {mostrarGastoWeb('listado-gastos-filtrado-1', gastoFiltrado);});
 
     document.getElementById('listado-gastos-filtrado-2').innerHTML = '';
-    gastosFilt = gestionPresupuesto.filtrarGastos({valorMinimo:50});
+    gastosFilt = gestionPresupuesto.filtrarGastos({valorMin:50});
     gastosFilt.forEach(gastoFiltrado => {mostrarGastoWeb('listado-gastos-filtrado-2', gastoFiltrado);});
 
     document.getElementById('listado-gastos-filtrado-3').innerHTML = '';
-    gastosFilt = gestionPresupuesto.filtrarGastos({valorMinimo:200, etiquetasTiene:['seguros']});
+    gastosFilt = gestionPresupuesto.filtrarGastos({valorMin:200, etiquetasTiene:['seguros']});
     gastosFilt.forEach(gastoFiltrado => {mostrarGastoWeb('listado-gastos-filtrado-3', gastoFiltrado);});
 
     document.getElementById('listado-gastos-filtrado-4').innerHTML = '';
@@ -131,8 +143,8 @@ function nuevoGastoWeb()
     let desc = prompt('Introduce la descripción del nuevo gasto:');
     let valor = parseFloat(prompt('Introduce el valor del nuevo gasto:'));
     let fecha = prompt('Introduce una fecha para el nuevo gasto con este formato(aaaa-mm-dd):');
-    let etiq = prompt('Introduce las etiquetas(etiqueta1, etiqueta2, etiqueta3):');
-    let etiquetas = etiq.split(',');
+    let etiquetasTiene = prompt('Introduce las etiquetas(etiqueta1, etiqueta2, etiqueta3):');
+    let etiquetas = etiquetasTiene.split(',');
     let gasto = new gestionPresupuesto.CrearGasto(desc, valor, fecha);
 
     etiquetas.forEach(label => {gasto.anyadirEtiquetas(label);});
@@ -149,13 +161,13 @@ function EditarHandle()
         let desc = prompt('Introduce la descripción:');
         let valor = parseFloat(prompt('Introduce el valor:'));
         let fecha = prompt('Introduce una fecha con este formato (aaaa-mm-dd):');
-        let etiq = prompt('Introduce las etiquetas(etiqueta1, etiqueta2, etiqueta3):');
+        let etiquetasTiene = prompt('Introduce las etiquetas(etiqueta1, etiqueta2, etiqueta3):');
         
-        etiquetas = etiq.split(',');
+        etiquetas = etiquetasTiene.split(',');
         
-        desc !== '' && this.gasto.actualizarDescripcion(desc);
+        desc != '' && this.gasto.actualizarDescripcion(desc);
         valor >= 0 && this.gasto.actualizarValor(valor);
-        fecha !=='' && this.gasto.actualizarFecha(fecha);
+        fecha !='' && this.gasto.actualizarFecha(fecha);
 
         this.gasto.etiquetas = etiquetas;
         repintar();
@@ -180,6 +192,155 @@ function BorrarEtiquetasHandle()
     };
 }
 
+function nuevoGastoWebFormulario()
+{
+    document.getElementById('anyadirgasto-formulario').disabled = true;
+
+    let formTemplate = document.getElementById('formulario-template').content.cloneNode(true);;
+    let formulario = formTemplate.querySelector('form');
+
+    formulario.addEventListener('submit', this.handleEvent = function(event)
+    {
+        event.preventDefault();
+        let desc = formulario.elements.descripcion;
+        let valor = formulario.elements.valor;
+        let fecha = formulario.elements.fecha;
+        let etiquetas = formulario.elements.etiquetas;
+        etiquetas = etiquetas.value.split(',');
+        let gasto = new gestionPresupuesto.CrearGasto(desc.value, parseFloat(valor.value), fecha.value, ...etiquetas);
+        gestionPresupuesto.anyadirGasto(gasto);
+        document.getElementById('anyadirgasto-formulario').disabled = false;
+        document.getElementById('controlesprincipales').removeChild(formulario);
+        repintar();
+    });
+
+    document.getElementById('controlesprincipales').append(formulario);    
+    formulario.querySelector('button.cancelar').addEventListener('click', this.handleEvent = function()
+    {
+        document.getElementById('anyadirgasto-formulario').disabled = false;
+        document.getElementById('controlesprincipales').removeChild(formulario);
+        repintar();
+    });
+}
+
+function EditarHandleFormulario()
+{    
+    this.handleEvent = function()
+    {
+        let expense = this.gasto;
+        let btnEditExpense = this.btnEditGasto;
+        let divExpense = this.divGasto;
+
+        this.btnEditGasto.disabled = true;
+        let formTemplate = document.getElementById("formulario-template").content.cloneNode(true);;
+        let formulario = formTemplate.querySelector("form");
+
+        formulario.elements.descripcion.value = expense.descripcion;
+        formulario.elements.valor.value = expense.valor;
+        formulario.elements.fecha.value = new Date(expense.fecha).toISOString().substring(0,10);
+        formulario.elements.etiquetas.value = expense.etiquetas.toString();
+        divExpense.appendChild(formulario);
+        
+        formulario.addEventListener("submit", this.handleEvent = function(event)
+        {
+            let etiquetasFormulario = formulario.elements.etiquetas;          
+
+            event.preventDefault();
+            expense.actualizarDescripcion(formulario.elements.descripcion.value);
+            expense.actualizarValor(parseFloat(formulario.elements.valor.value));
+            expense.actualizarFecha(formulario.elements.fecha.value);   
+
+            etiquetasFormulario = etiquetasFormulario.value.split(",");
+            expense.borrarEtiquetas(...expense.etiquetas);
+            expense.anyadirEtiquetas(...etiquetasFormulario);
+
+            btnEditExpense.disabled = false;
+            divExpense.removeChild(formulario);
+
+            repintar();
+        });
+
+        formulario.querySelector("button.cancelar").addEventListener("click", this.handleEvent = function()
+        {
+            btnEditExpense.disabled = false;
+            divExpense.removeChild(formulario);
+            repintar();
+        });
+    }
+}
+
+function FiltrarGastosWeb()
+{
+    this.handleEvent = function(event)
+    {
+        event.preventDefault();
+
+        let desc = document.getElementById('formulario-filtrado-descripcion').value;
+        let valorMin = parseFloat(document.getElementById('formulario-filtrado-valor-minimo').value);
+        let valorMax = parseFloat(document.getElementById('formulario-filtrado-valor-maximo').value);
+        let fechaDesde = document.getElementById('formulario-filtrado-fecha-desde').value;
+        let fechaHasta = document.getElementById('formulario-filtrado-fecha-hasta').value;
+        let etiquetasTiene = document.getElementById('formulario-filtrado-etiquetas-tiene').value;
+        let etiquetasBuscar = new Array();
+        etiquetasTiene != '' && typeof etiquetasTiene != 'undefined' && (etiquetasBuscar = gestionPresupuesto.transformarListadoEtiquetas(etiquetasTiene));
+                
+        let filtro = {};
+        (desc != '' && typeof desc != 'undefined') && (filtro.descripcionContiene = desc);        
+        (valorMin != '' && typeof valorMin != 'undefined' && !isNaN(valorMin)) && (filtro.valorMin = valorMin);
+        (valorMax != '' && typeof valorMax != 'undefined'&& !isNaN(valorMax)) && (filtro.valorMaximo = valorMax); 
+        (fechaDesde != '' && typeof fechaDesde != 'undefined') && (filtro.fechaDesde = fechaDesde);
+        (fechaHasta != '' && typeof fechaHasta != 'undefined') && (filtro.fechaHasta = fechaHasta);        
+        (etiquetasBuscar.length > 0) && (filtro.etiquetasTiene = etiquetasBuscar);        
+
+        document.getElementById('listado-gastos-completo').innerHTML = '<hr>';
+        gestionPresupuesto.filtrarGastos(filtro).forEach(gastoFiltrado => {mostrarGastoWeb('listado-gastos-completo',gastoFiltrado);});
+        document.getElementById('listado-gastos-completo').innerHTML += '<hr>';
+    };    
+}
+
+function guardarGastosWeb()
+{
+    localStorage.GestorGastosDWEC=JSON.stringify(gestionPresupuesto.listarGastos());
+}
+
+function CargarGastosWeb()
+{
+    this.handleEvent = function()
+    {
+        let chargeExpenses = JSON.parse(localStorage.getItem('GestorGastosDWEC'));
+        (chargeExpenses != null) && ((chargeExpenses.length >=0 ) && (gestionPresupuesto.cargarGastos(chargeExpenses)));
+        repintar();
+    }
+}
+
+function cargarGastosWeb()
+{
+    let chargeExpenses = JSON.parse(localStorage.getItem('GestorGastosDWEC'));
+    chargeExpenses != null ? (chargeExpenses.length >= 0) && (gestionPresupuesto.cargarGastos(chargeExpenses)) : gestionPresupuesto.cargarGastos([]);
+    repintar();
+}
+
+let btnActualizar = document.getElementById('actualizarpresupuesto'); 
+btnActualizar.onclick = actualizarPresupuestoWeb;
+
+let btnAnyadir = document.getElementById('anyadirgasto');
+btnAnyadir.onclick = nuevoGastoWeb;
+
+let btnAddForm = document.getElementById('anyadirgasto-formulario');
+btnAddForm.onclick = nuevoGastoWebFormulario;
+
+let FormHandler = new FiltrarGastosWeb();
+
+let form = document.getElementById('formulario-filtrado');
+form.addEventListener('submit',FormHandler);
+
+let btnSave = document.getElementById('guardar-gastos');
+btnSave.onclick = guardarGastosWeb;
+
+let btnCharge = document.getElementById('cargar-gastos');
+
+btnCharge.onclick = cargarGastosWeb;
+
 export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -189,5 +350,11 @@ export   {
     nuevoGastoWeb,
     EditarHandle,
     BorrarHandle,
-    BorrarEtiquetasHandle    
+    BorrarEtiquetasHandle,
+    nuevoGastoWebFormulario,
+    EditarHandleFormulario,
+    FiltrarGastosWeb,
+    guardarGastosWeb,
+    CargarGastosWeb,
+    cargarGastosWeb    
 }

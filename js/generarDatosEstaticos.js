@@ -1,16 +1,6 @@
 import * as gestionPresupuesto from './gestionPresupuesto.js';
 import * as gestionPresupuestoWeb from './gestionPresupuestoWeb.js';
 
-// Controladores
-let btnActualizar = document.getElementById('actualizarpresupuesto'); 
-btnActualizar.onclick = gestionPresupuestoWeb.actualizarPresupuestoWeb;
-
-let btnAnyadir = document.getElementById('anyadirgasto');
-btnAnyadir.onclick = gestionPresupuestoWeb.nuevoGastoWeb;
-
-let btnFormulario = document.getElementById('anyadirgasto-formulario');
-btnFormulario.onclick = gestionPresupuestoWeb.nuevoGastoWebFormulario;
-
 gestionPresupuesto.actualizarPresupuesto(1500);
 gestionPresupuestoWeb.mostrarDatoEnId('presupuesto', gestionPresupuesto.mostrarPresupuesto());
 
