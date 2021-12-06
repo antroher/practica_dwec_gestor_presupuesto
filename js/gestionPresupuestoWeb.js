@@ -290,7 +290,6 @@ function CancelarFormHandle(){
     }
 }
 
-
 function EditarFormHandle(){
     this.handleEvent=function(event){
         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true); //clonar plantilla (template)
@@ -329,7 +328,6 @@ function enviarHandle(){
         repintar();
     }
 }
-
 
 export{ mostrarDatoEnId,
         mostrarGastoWeb,
