@@ -365,7 +365,28 @@ function filtrarGastosWeb(){
 
     }
 }
+function cargarGastosWeb(){
+    this.handleEvent = function(event){
+        event.preventDefault();
 
+        let g = JSON.parse(localStorage.getItem("GestorGastosDWEC"));
+        
+        if(g !== null){
+            gestionPresupuesto.cargarGastos(g);
+        }else{
+            gestionPresupuesto.cargarGastos([]);
+        }
+
+        repintar();
+    }
+}
+
+function guardarGastosWeb(){
+    this.handleEvent = function(event){
+        event.preventDefault();
+        localStorage.GestorGastosDWEC = JSON.stringify(metodosGastos.listarGastos());
+    }
+}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado

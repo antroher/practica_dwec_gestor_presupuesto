@@ -261,9 +261,9 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta)
 }
 function cargarGastos(g){
     g.forEach(element =>{
-        gasto += element;
+        g += element;
     })
-    return gasto;
+    return g;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
