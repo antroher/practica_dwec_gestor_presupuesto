@@ -149,7 +149,6 @@ function EditarHandleFormulario(){
         aplicarEdit.boton = this.boton;
         aplicarEdit.elem = this.elem;
 
-        
         formulario.addEventListener("submit", aplicarEdit);
         this.boton.disabled = true;
     
@@ -161,8 +160,6 @@ function EditarHandleFormulario(){
         botonCancelar.addEventListener("click", handlerBotonCancelar);       
     }
 }
-
-
  function EditarHandle(){
     this.handleEvent = function()
     {

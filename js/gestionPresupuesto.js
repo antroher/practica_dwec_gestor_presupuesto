@@ -232,7 +232,47 @@ function filtrarGastos(filt){
         }
     }
 }
-function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) 
+
+function agruparGastos(pAgrupar, EtiAgrupar, fDesdeA, fHastaA){
+    
+    if(!Date.parse(fDesdeA) || typeof fDesdeA !== "string"){
+        fDesdeA = undefined;
+    }
+    
+    if(!Date.parse(fHastaA) || typeof fHastaA !== "string"){
+        fHastaA = new Date(Date.now()).toISOString().substring(0,10);
+    }
+
+    
+    if(pAgrupar != "dia" && pAgrupar != "anyo") pAgrupar = "mes";
+
+    let filtroAgrupar = {
+        fechaDesde : fDesdeA,
+        fechaHasta : fHastaA,
+        etiquetasTiene : EtiAgrupar
+
+    }
+
+    let gAAgrupar = new Array();
+
+    gAAgrupar = filtrarGastos(filtroAgrupar);
+
+    
+    return gAAgrupar.reduce(function(prev, current){
+
+        if(current.hasOwnProperty("obtenerPeriodoAgrupacion")){
+
+            let fReduce = current.obtenerPeriodoAgrupacion(pAgrupar);
+
+            if(prev.hasOwnProperty(fReduce))prev[fReduce] += current.valor;
+            else prev[fReduce] = current.valor;
+        }
+        return prev;
+        
+    }, {})
+    
+}
+/*function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) 
 {
     let filtrar = {
         etiquetasTiene : etiquetas,
@@ -261,6 +301,8 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta)
 
     return res;
 }
+*/
+
 function cargarGastos(g){
     if(g.length >= 0){
         gastos = g;
