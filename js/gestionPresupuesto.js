@@ -109,23 +109,25 @@ Etiquetas:\n`
         });
     }
     this.obtenerPeriodoAgrupacion = function (periodo) {
-        switch(periodo){
-
-            case "dia":
-                return new Date(this.fecha).toISOString().substring(0, 10);
-                
-            case "mes":
-                return new Date(this.fecha).toISOString().substring(0, 7);
-
-            case "anyo":
-                return new Date(this.fecha).toISOString().substring(0, 4);
+        
+        if(periodo !== undefined){
+            switch(periodo){
+                case "dia":
+                    return new Date(this.fecha).toISOString().substring(0, 10);
+                case "mes":
+                    return new Date(this.fecha).toISOString().substring(0, 7);
+                case "anyo":
+                    return new Date(this.fecha).toISOString().substring(0, 4);
+            }
+            
         }
-    }
+    };
+        
 }
 
-function transformarListadoEtiquetas(cadena){
+function transformarListadoEtiquetas(c){
 
-    return cadena.split(/[ ,;:\.~]+/g); 
+    return c.split(/[ ,;:\.~]+/g); 
 }
 function listarGastos(){
     return gastos;
@@ -260,10 +262,9 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta)
     return res;
 }
 function cargarGastos(g){
-    g.forEach(element =>{
-        g += element;
-    })
-    return g;
+    if(g.length >= 0){
+        gastos = g;
+    }
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.

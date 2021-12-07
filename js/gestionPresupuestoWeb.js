@@ -237,7 +237,6 @@ function mostrarGastoWeb(idElemento, gasto){
     divGasto.append(divGastoFecha);
     divGasto.append(divGastoValor);
     divGasto.append(divPresupuesto);
-    let spanH = document.createElement('span');
     let spacio = "______________________________________________________"
     let br = document.createElement('br');
     gasto.etiquetas.forEach(label =>
@@ -246,6 +245,7 @@ function mostrarGastoWeb(idElemento, gasto){
             borraEti.gasto = gasto;
             borraEti.etiqueta = label;
             
+            let spanH = document.createElement('span');
             spanH.className = 'gasto-etiquetas-etiqueta';
             spanH.textContent = label + '';  
             if(idElemento == "listado-gastos-completo"){
@@ -384,7 +384,8 @@ function cargarGastosWeb(){
 function guardarGastosWeb(){
     this.handleEvent = function(event){
         event.preventDefault();
-        localStorage.GestorGastosDWEC = JSON.stringify(metodosGastos.listarGastos());
+
+        localStorage.GestorGastosDWEC = JSON.stringify(gestionPresupuesto.listarGastos());
     }
 }
 
@@ -400,5 +401,8 @@ export   {
     nuevoGastoWeb,
     nuevoGastoWebFormulario,
     filtrarGastosWeb,
-    EditarHandleFormulario
+    EditarHandleFormulario,
+    guardarGastosWeb,
+    cargarGastosWeb,
+    
 }
