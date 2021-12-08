@@ -21,18 +21,36 @@ divGasto.classList.add('gasto');
 // divTarget.append(divGasto);
 
 let elemento = document.getElementById('presupuesto')
-let etiquetas = 'etiquetas 0';
+// let etiquetas = 'etiquetas 0';
+// elemento.innerHTML +=
+//     `<div class="gasto">
+//                     <div class="gasto-descripcion">${gasto.descripcion}</div>
+//                     <div class="gasto-fecha">${new Date(gasto.fecha).toLocaleString()}</div> 
+//                     <div class="gasto-valor">${gasto.valor}</div> 
+//                     <div class="gasto-etiquetas">
+//                         ${etiquetas}
+//                     </div>
+//         </div>`;
+
+// console.log(Object.entries(gasto));
+let periodo = "fake";
+
+let gastosAgrupados = "";
+for (let key in gasto) {
+    gastosAgrupados +=
+        `<div class='agrupacion-dato'>
+        <span class='agrupacion-dato-clave'> ${key}: </span>
+        <span class='agrupacion-dato-valor'> ${gasto[key]} </span>
+        </div>
+        `;
+}
+
 elemento.innerHTML +=
-    `<div class="gasto">
-                    <div class="gasto-descripcion">${gasto.descripcion}</div>
-                    <div class="gasto-fecha">${new Date(gasto.fecha).toLocaleString()}</div> 
-                    <div class="gasto-valor">${gasto.valor}</div> 
-                    <div class="gasto-etiquetas">
-                        ${etiquetas}
-                    </div>
-        </div>`;
-
-
+    `<div class='agrupacion'> 
+            <h1>Gastos agrupados por ${periodo} </h1>
+            ${gastosAgrupados}
+    </div>
+    `;
 
 
 

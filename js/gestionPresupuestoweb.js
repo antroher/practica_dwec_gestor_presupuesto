@@ -36,6 +36,22 @@ function mostrarGastoWeb(idElemento, gasto){
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
-    
+    let elemento = document.getElementById(idElemento); // captura del div con id dado
+    let gastosAgrupados = ""; // contenedor de los datos agrupados con los pares clave-valor
+    for (let key in agrup) {
+        gastosAgrupados +=
+            `<div class='agrupacion-dato'>
+        <span class='agrupacion-dato-clave'> ${key}: </span>
+        <span class='agrupacion-dato-valor'> ${agrup[key]} </span>
+        </div>
+        `;
+    }
+    // insertar toda la estructura en el div
+    elemento.innerHTML +=
+        `<div class='agrupacion'> 
+            <h1>Gastos agrupados por ${periodo} </h1>
+            ${gastosAgrupados}
+        </div>
+        `;
 }
 
