@@ -4,9 +4,9 @@ import * as gestionP from "./gestionPresupuesto.js";
 
 // FUNCIONES
 
-function mostrarDatoEnId(idElemento,valor){
+function mostrarDatoEnId(idElemento, valor){
     let item = document.getElementById(idElemento);
-    item.innerHTML = `<p>${valor}</p>`  
+    item.innerHTML = `<p>${valor}</p>`;  
 }
 
 function mostrarGastoWeb(idElemento, gasto){
@@ -53,5 +53,17 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
             ${gastosAgrupados}
         </div>
         `;
+}
+
+export function mostrarDatoEnId(arg0, arg1) {
+    throw new Error("Function not implemented.");
+}
+
+export function mostrarGastoWeb(arg0, gasto) {
+    throw new Error("Function not implemented.");
+}
+
+export function mostrarGastosAgrupadosWeb(arg0, arg1, arg2) {
+    throw new Error("Function not implemented.");
 }
 
