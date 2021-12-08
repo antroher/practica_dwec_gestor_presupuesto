@@ -235,9 +235,9 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechDesd, fechaHas = Dat
   return gastosAgrupados;
 }
 
-function transformarListadoEtiquetas(input) {
-  let etiquetasFiltradas = input.match(/[a-z0-9]+/gi);
-  return etiquetasFiltradas;
+function transformarListadoEtiquetas(etiq)
+{
+        return etiq.match(/\w+/g);
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.

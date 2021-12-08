@@ -191,29 +191,6 @@ function nuevoGastoWebFormulario() {
     btnCancelar.addEventListener("click", cancelarObj);
 }
 
-function filtrarGastosWeb() {
-    this.handleEvent = function(event) {
-        event.preventDefault();
-        let formulario = event.currentTarget;
-        let descr = formulario.elements["formulario-filtrado-descripcion"].value;
-        let minVal = parseFloat(formulario.elements["formulario-filtrado-valor-minimo"].value);
-        let maxVal = parseFloat(formulario.elements["formulario-filtrado-valor-maximo"].value);
-        let fechaDesde1 = formulario.elements["formulario-filtrado-fecha-desde"].value;
-        let fechaHasta1 = formulario.elements["formulario-filtrado-fecha-hasta"].value;
-        let etiq = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
-        
-        if (etiq !== undefined) {
-            etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
-        }
-        let gastosFilter = ({fechaDesde : fechaDesde1, fechaHasta : fechaHasta1, valorMinimo : minVal, valorMaximo : maxVal, descripcionContiene : descr, etiquetasTiene : etiq});
-        let gastosFiltradosForm = gestionPresupuesto.filtrarGastos(gastosFilter);
-        document.getElementById("listado-gastos-completo").innerHTML = " ";
-        for (let gastoForm of gastosFiltradosForm) {
-            mostrarGastoWeb("listado-gastos-completo", gastoForm);
-        }
-    }
-}
-
 function EditarHandle() {   // Botón Editar del GASTO
     this.handleEvent = function (event){
         let descripcion = prompt("Escribe la nueva descripción del gasto");
@@ -265,6 +242,40 @@ function EditarHandleformulario() { //Manejador del evento Editar(formulario)
         btnEditarFormulario.setAttribute("disabled", "");
     }
 }
+
+function filtrarGastosWeb(){
+
+    this.handleEvent = function(event){
+
+        event.preventDefault();
+
+        let des = document.getElementById("formulario-filtrado-descripcion").value;
+        let vMin = parseFloat(document.getElementById("formulario-filtrado-valor-minimo").value);
+        let vMax = parseFloat(document.getElementById("formulario-filtrado-valor-maximo").value);
+        let fecDes = document.getElementById("formulario-filtrado-fecha-desde").value;
+        let fecHas = document.getElementById("formulario-filtrado-fecha-hasta").value;
+        let etiTiene = document.getElementById("formulario-filtrado-etiquetas-tiene").value;
+        let filtro = {};
+
+        if (etiTiene.length > 0){
+            filtro.etiquetasTiene = gestionPresupuesto.transformarListadoEtiquetas(etiTiene);
+        }
+        filtro.fechaDesde = fecDes;
+        filtro.fechaHasta = fecHas;
+        filtro.valorMinimo = vMin;
+        filtro.valorMaximo = vMax;
+        filtro.descripcionContiene = des;
+
+        document.getElementById("listado-gastos-completo").innerHTML="";
+        let objsFiltrGastos = gestionPresupuesto.filtrarGastos(filtro);
+
+        for (let gasto of objsFiltrGastos){
+            mostrarGastoWeb('listado-gastos-completo', gasto);
+        }
+    }
+}
+document.getElementById('formulario-filtrado').addEventListener('submit', new filtrarGastosWeb());
+
 function BorrarEtiquetasHandle() { 
     this.handleEvent = function (event){
     this.gasto.borrarEtiquetas(this.etiqueta);
@@ -330,15 +341,17 @@ function CancelarFormHandle() {
 let btnActualizar = document.getElementById('actualizarpresupuesto');
 let btnAnyadirgasto = document.getElementById('anyadirgasto');
 let anyadirgastoFormulario = document.getElementById("anyadirgasto-formulario");
-let formularioFiltrador = document.getElementById("formulario-filtrado");
+// let formularioFiltrador = document.getElementById("formulario-filtrado");
 
 //Eventos de los botones principales
 btnActualizar.addEventListener('click', actualizarPresupuestoWeb);
 btnAnyadirgasto.addEventListener('click', nuevoGastoWeb);
 anyadirgastoFormulario.addEventListener('click', nuevoGastoWebFormulario);
 // anyadirgastoFormulario.onclick=nuevoGastoWebFormulario;  hacen lo mismo
+
+/*
 let filtGastForm = new filtrarGastosWeb();
-formularioFiltrador.addEventListener('submit', filtGastForm);
+formularioFiltrador.addEventListener('submit', filtGastForm); */
 
 export {
     mostrarDatoEnId,
