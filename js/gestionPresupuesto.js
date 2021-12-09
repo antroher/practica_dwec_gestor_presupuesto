@@ -328,7 +328,9 @@ function agruparGastos(periodo, etiquetasTiene, fechaDesde, fechaHasta)
 }
 
 function transformarListadoEtiquetas(etiquetas) {
-    return etiquetas.match(/[A-zÀ-ÿ0-9]+/g) || null;
+    
+    return etiquetas.match(/[A-zÀ-ÿ0-9]+/g );
+    
 }
 
 

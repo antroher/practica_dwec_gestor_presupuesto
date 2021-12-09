@@ -8,7 +8,7 @@ import {calcularBalance} from './gestionPresupuesto.js';
 import {filtrarGastos} from './gestionPresupuesto.js';
 import {agruparGastos} from './gestionPresupuesto.js';
 import {actualizarPresupuesto} from './gestionPresupuesto.js';
-
+import {transformarListadoEtiquetas} from './gestionPresupuesto.js';
 
 
 function mostrarDatoEnId(idElemento,valor){
@@ -321,7 +321,50 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
         
     }
 
-    
+    function filtrarGastoWeb() 
+{
+    this.handleEvent = function(e)
+    {
+       
+        e.preventDefault();
+
+        
+        let plantillaFormulario = document.getElementById("filtrar-gastos");
+        var formulario = plantillaFormulario.querySelector("form");
+
+        let fechaDesde = formulario.elements["formulario-filtrado-fecha-desde"].value;
+        let fechaHasta = formulario.elements["formulario-filtrado-fecha-hasta"].value;
+        let valorMinimo = formulario.elements["formulario-filtrado-valor-minimo"].value;
+        let valorMaximo = formulario.elements["formulario-filtrado-valor-maximo"].value;  
+        let descripcionContiene = formulario.elements["formulario-filtrado-descripcion"].value;    
+        let etiquetasTiene = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
+
+       
+        if (etiquetasTiene != "")
+        {
+            etiquetasTiene = transformarListadoEtiquetas(etiquetasTiene);
+        }
+
+       
+        let opciones = ({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene});
+
+        
+        document.getElementById("listado-gastos-completo").innerHTML = "";
+
+        
+        let gastosFiltrados = filtrarGastos(opciones);
+
+       
+        for (let g of gastosFiltrados)
+        {   
+            mostrarGastoWeb("listado-gastos-completo", g);
+        }
+    }   
+}
+
+    let manejadorFiltrado = new filtrarGastoWeb();
+     let filtrado_Formulario = document.getElementById("formulario-filtrado");
+     filtrado_Formulario.addEventListener("submit", manejadorFiltrado);
   
 export   {
     mostrarDatoEnId,
