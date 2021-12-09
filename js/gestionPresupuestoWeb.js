@@ -304,6 +304,19 @@ function guardarGastosWeb(){
     localStorage.GestorGastosDWEC = JSON.stringify(GestPres.listarGastos());
 }
 
+function cargarGastosWeb(){
+    let listGasto = JSON.parse(localStorage.getItem("GestorGastosDWEC"));
+
+    if(listGasto !== null){
+        GestPres.cargarGastos(listGasto);
+    }
+    else{
+        GestPres.cargarGastos([]);
+    }
+
+    repintar();
+}
+
 //Botones
 document.getElementById("actualizarpresupuesto").addEventListener("click", actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener("click", nuevoGastoWeb);
