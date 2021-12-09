@@ -332,6 +332,9 @@ function transformarListadoEtiquetas(etiquetas) {
     return etiquetas.match(/[A-zÀ-ÿ0-9]+/g );
     
 }
+function cargarGastos(arrayGastos) {
+    gastos = arrayGastos;
+}
 
 
 
