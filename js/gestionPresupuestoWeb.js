@@ -259,6 +259,31 @@ function EnviarHandle(){
         repintar();
     }
 }
+
+function filtrarGastosWeb() {
+    this.handleEvent = function(event) {
+        event.preventDefault();
+        let form = event.currentTarget;
+        let des = form.elements["formulario-filtrado-descripcion"].value;
+        let minVal = parseFloat(form.elements["formulario-filtrado-valor-minimo"].value);
+        let maxVal = parseFloat(form.elements["formulario-filtrado-valor-maximo"].value);
+        let fecDes = form.elements["formulario-filtrado-fecha-desde"].value;
+        let fecHas = form.elements["formulario-filtrado-fecha-hasta"].value;
+        let etiq = form.elements["formulario-filtrado-etiquetas-tiene"].value;
+        if (etiq !== undefined) {
+            etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
+        }
+
+        let filter = ({fechaDesde : fecDes, fechaHasta : fecHas, valorMinimo : minVal, valorMaximo : maxVal, descripcionContiene : des, etiquetasTiene : etiq});
+        let filterForm = gestionPresupuesto.filtrarGastos(filter);
+        document.getElementById("listado-gastos-completo").innerHTML=" ";
+
+        for (let gasto of filterForm){
+            mostrarGastoWeb("listado-gastos-completo", gasto);
+        }
+    }
+}
+
 let cargarGastWeb = new cargarGastosWeb();
 
 
