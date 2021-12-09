@@ -55,15 +55,12 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
         `;
 }
 
-export function mostrarDatoEnId(arg0, arg1) {
-    throw new Error("Function not implemented.");
-}
 
-export function mostrarGastoWeb(arg0, gasto) {
-    throw new Error("Function not implemented.");
-}
 
-export function mostrarGastosAgrupadosWeb(arg0, arg1, arg2) {
-    throw new Error("Function not implemented.");
+export {
+    mostrarDatoEnId,
+    mostrarGastoWeb,
+    mostrarGastosAgrupadosWeb
+    
 }
 
