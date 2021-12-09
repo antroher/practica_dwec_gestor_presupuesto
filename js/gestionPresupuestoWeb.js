@@ -299,11 +299,19 @@ function filtrarGastoWeb (){
     mostrarGastoWeb("listado-gastos-completo", gastosFiltrar);
 }
 
+//Practica 8
+function guardarGastosWeb(){
+    localStorage.GestorGastosDWEC = JSON.stringify(GestPres.listarGastos());
+}
+
 //Botones
 document.getElementById("actualizarpresupuesto").addEventListener("click", actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener("click", nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario").addEventListener("click", nuevoGastoWebFormulario);
 document.getElementById("formulario-filtrado").addEventListener("submit", filtrarGastoWeb);
+//Boton pract 8
+document.getElementById("guardar-gastos").addEventListener("click", guardarGastosWeb);
+document.getElementById("cargar-gastos").addEventListener("click", cargarGastosWeb);
 
 //Los exports 
 
