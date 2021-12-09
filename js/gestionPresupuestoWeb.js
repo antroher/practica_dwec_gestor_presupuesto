@@ -363,9 +363,18 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
 }
 
     let manejadorFiltrado = new filtrarGastoWeb();
-     let filtrado_Formulario = document.getElementById("formulario-filtrado");
-     filtrado_Formulario.addEventListener("submit", manejadorFiltrado);
-  
+    let filtrado_Formulario = document.getElementById("formulario-filtrado");
+    filtrado_Formulario.addEventListener("submit", manejadorFiltrado);
+    
+
+    function guardarGastosWeb() 
+    {
+        
+        localStorage.setItem("GestorGastosDWEC", JSON.stringify(listarGastos()));
+    }
+    
+    let añadir_GastoWeb = document.getElementById("guardar-gastos");
+    añadir_GastoWeb.addEventListener("click", guardarGastosWeb);
 export   {
     mostrarDatoEnId,
     mostrarGastoWeb,

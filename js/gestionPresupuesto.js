@@ -369,5 +369,6 @@ export   {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
-    transformarListadoEtiquetas
+    transformarListadoEtiquetas,
+    cargarGastos
 }
