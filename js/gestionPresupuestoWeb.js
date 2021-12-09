@@ -266,6 +266,23 @@ function EditarHandleformulario() {
     }
 }
 
+function filtrarGastoWeb(){
+    this.handleEvent = function(event){
+        event.preventDefault();
+        let formulario = event.currentTarget;
+        let descr = formulario.elements["formulario-filtrado-descripcion"].value;
+        let minVal = parseFloat(formulario.elements["formulario-filtrado-valor-minimo"].valor);
+        let maxVal = parseFloat(formulario.elements["formulario-filtrado-valor-maximo"].valor);
+        let fechaDesde1 = formulario.elements["formulario-filtrado-fecha-desde"].value;
+        let fechaHasta1 = formulario.elements["formulario-filtrado-fecha-hasta"].value;
+        let etiq = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
+
+        if(etiq !== undefined) {
+            etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
+        }
+    }
+}
+
 //Botones
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
