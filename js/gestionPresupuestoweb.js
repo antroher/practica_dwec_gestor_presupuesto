@@ -55,12 +55,74 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
         `;
 }
 
+function repintar() {
+    // Mostrar el presupuesto en div#presupuesto
+    document.getElementById("presupuesto").innerHTML = "";
+    mostrarDatoEnId("presupuesto", gestionP.mostrarPresupuesto());
+
+    // Mostrar los gastos totales en div#gastos - totales
+    document.getElementById("gastos-totales").innerHTML = "";
+    mostrarDatoEnId("gastos-totales", gestionP.calcularTotalGastos());
+
+    // Mostrar el balance total en div#balance - total
+    document.getElementById("balance-total").innerHTML = "";
+    mostrarDatoEnId("balance-total", gestionP.calcularBalance());
+
+    // Borrar el contenido de div#listado - gastos - completo y repintar
+    document.getElementById("listado-gastos-completo").innerHTML = "";
+    for (let gasto of gestionP.listarGastos()) {
+        mostrarGastoWeb('listado-gastos-completo', gasto);
+    }
+
+}
+
+function actualizarPresupuestoWeb() {
+    // Actualiza el presupuesto
+    gestionP.actualizarPresupuesto(parseFloat(prompt("Introduzca un nuevo presupuesto:")));
+
+    // Limpia y vuelve a pintar con los nuevos datos
+    repintar();
+}
+
+function nuevoGastoWeb() {
+    // Pedir al usuario la información necesaria para crear un nuevo gasto
+    let descripcion = prompt("Introduzca la descripción del nuevo gasto: ");
+    let valor = parseFloat(prompt("Introduzca el valor del nuevo gasto: "));
+    let fecha = Date.parse(prompt("Introduzca la fecha del nuevo gasto: "));
+    let etiquetas = prompt("Introduzca las etiquetas del nuevo gasto: ").split(',');
+
+    // Crear un nuevo gasto
+    gestionP.anyadirGasto(new gestionP.CrearGasto(descripcion, valor, fecha, etiquetas));
+
+    // Limpia y vuelve a pintar con los nuevos datos
+    repintar();
+}
+
+function EditarHandle() {
+
+}
+
+function BorrarHandle() {
+
+}
+
+function BorrarEtiquetasHandle() {
+
+}
+
+
 
 
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
-    
+    mostrarGastosAgrupadosWeb,
+    repintar,
+    actualizarPresupuestoWeb,
+    nuevoGastoWeb,
+    EditarHandle,
+    BorrarHandle,
+    BorrarEtiquetasHandle
+
 }
 

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <input id="elem" type="button" value="Haz click en mí" /> -->
+    <!-- <button id="elem">Haz click en mí</button> -->
+    <div id="text">Texto</div>
+    <div id="elem">
+        <p>Texto párrafo</p>
+    </div>
+    
+
+    <script>
+        
+        const handler1 = e => elem.remove();
+        elem.insertAdjacentHTML("afterbegin", "<button id='eliminar'>[X]</button>");
+        eliminar.addEventListener('click', handler1);
+        
+            
+        // function handler1(e){
+        //     elem.remove();
+        // }
+
+
+        // elem.onclick = function(){
+        //     this.hidden = true;
+        // }
+
+
+        // class Menu {
+        //         handleEvent(e) {
+        //             switch (e.type) {
+        //                 case 'mousedown':
+        //                     elem.innerHTML = "Botón del mouse presionado";
+        //                     break;
+        //                 case 'mouseup':
+        //                     elem.innerHTML += "...y soltado.";
+        //                     break;
+        //             }
+        //         }
+        //     }
+
+        //     let menu = new Menu();
+        //     elem.addEventListener('mousedown', menu);
+        //     elem.addEventListener('mouseup', menu);
+
+
+
+
+        // const manu2 = elem.addEventListener('click', handler2);
+        // const manu3 = document.addEventListener('DOMContentLoaded', handler3);
+
+        // // FUNCIONES
+
+        // function handler1(){
+        //     alert("Gracias!");
+        // }
+
+        // function handler2() {
+        //     alert("Gracias de nuevo!");
+        // }
+
+        // function handler3() {
+        //         alert("DOM construido");
+        //     }
+        
+
+    //    let handler1 = {
+    //         handleEvent(e) {
+    //             alert(e.type + " en " + e.currentTarget);
+    //         },
+    //     };
+
+    //     elem.addEventListener('click', handler1);
+
+    
+        
+
+
+    </script>
+</body>
+</html>
