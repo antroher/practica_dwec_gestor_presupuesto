@@ -274,10 +274,6 @@ function filtrarGastosWeb() {
         let formularioFiltradoFechHasta = formularioFiltrado.getElementById("formulario-filtrado-fecha-hasta").value;
         let formularioFiltradoEti = formularioFiltrado.getElementById("formulario-filtrado-etiquetas-tiene").value;
         
-        
-        // if (formularioFiltradoDescr != null && formularioFiltradoDescr != "") {
-        //     filtrador
-        // }
         if (formularioFiltradoEti != undefined) {
             formularioFiltradoEti = gestionPresupuesto.transformarListadoEtiquetas(formularioFiltradoEti);
         }
@@ -299,7 +295,6 @@ actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
 anyadirgasto.addEventListener('click', nuevoGastoWeb);
 anyadirgastoFirmulario.addEventListener('click', nuevoGastoWebFormulario)
 formularioFiltrador.addEventListener('submit', filtrarGastosWeb);
-
 
 export   {
     mostrarDatoEnId,
