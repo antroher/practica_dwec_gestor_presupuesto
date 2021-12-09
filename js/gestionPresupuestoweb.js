@@ -86,10 +86,10 @@ function actualizarPresupuestoWeb() {
 
 function nuevoGastoWeb() {
     // Pedir al usuario la información necesaria para crear un nuevo gasto
-    let descripcion = prompt("Introduzca la descripción del nuevo gasto: ");
-    let valor = parseFloat(prompt("Introduzca el valor del nuevo gasto: "));
-    let fecha = Date.parse(prompt("Introduzca la fecha del nuevo gasto: "));
-    let etiquetas = prompt("Introduzca las etiquetas del nuevo gasto: ").split(',');
+    const descripcion = prompt("Introduzca la descripción del nuevo gasto: ");
+    const valor = parseFloat(prompt("Introduzca el valor del nuevo gasto: "));
+    const fecha = Date.parse(prompt("Introduzca la fecha del nuevo gasto: "));
+    const etiquetas = prompt("Introduzca las etiquetas del nuevo gasto: ").split(',');
 
     // Crear un nuevo gasto
     gestionP.anyadirGasto(new gestionP.CrearGasto(descripcion, valor, fecha, etiquetas));
@@ -98,13 +98,38 @@ function nuevoGastoWeb() {
     repintar();
 }
 
-function EditarHandle() {
+function EditarHandle () {
+    this.handleEvent = function() {
+        // Pedir al usuario la información necesaria para editar el gasto
+        this.gasto.actualizarDescripcion( 
+            prompt("Introduzca la descripción nueva: "));
+        
+        this.gasto.actualizarValor( 
+            parseFloat(prompt("Introduzca el valor nuevo: ")));
+        
+        this.gasto.actualizarFecha( 
+            Date.parse(prompt("Introduzca la fecha nueva: ")));
 
+        let etiquetas = prompt("Introduzca las nuevas etiquetas: ");
+            
+        if(typeof etiquetas != "undefined" ) {
+            this.gasto.anyadirEtiquetas(etiquetas.split(','))
+        }
+    
+        // Llamar a la función repintar para que se muestre la lista de gastos con los datos actualizados de la edición
+        repintar();
+    }
 }
 
 function BorrarHandle() {
-
-}
+    this.handleEvent = function(event) {
+        // Borrar objeto gasto
+        gestionP.borrarGasto(this.gasto.id);
+        
+        // Llamar a la función repintar para que se muestre la lista de gastos con los datos actualizados tras el borrado
+        repintar();
+    }
+ }
 
 function BorrarEtiquetasHandle() {
 
