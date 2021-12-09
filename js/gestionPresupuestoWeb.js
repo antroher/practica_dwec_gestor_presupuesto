@@ -1,4 +1,4 @@
-import {mostrarPresupuesto}    from './gestionPresupuesto.js';
+import {cargarGastos, mostrarPresupuesto}    from './gestionPresupuesto.js';
 import {CrearGasto} from './gestionPresupuesto.js';
 import {listarGastos} from './gestionPresupuesto.js';
 import {anyadirGasto} from './gestionPresupuesto.js';
@@ -368,13 +368,35 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
     
 
     function guardarGastosWeb() 
-    {
-        
+    {    
         localStorage.setItem("GestorGastosDWEC", JSON.stringify(listarGastos()));
     }
     
     let añadir_GastoWeb = document.getElementById("guardar-gastos");
     añadir_GastoWeb.addEventListener("click", guardarGastosWeb);
+
+    function cargarGastoWeb() 
+    { 
+        let arraycargar;
+        
+        arraycargar = JSON.parse(localStorage.getItem("GestorGastosDWEC")) ;
+        if (arraycargar)
+        {
+            cargarGastos(arraycargar);
+        }
+        else
+        {
+            arraycargar = [];
+
+            cargarGastos(arraycargar);
+        }
+        repintar();
+    }
+    
+    let cargar_GastoWeb = document.getElementById("cargar-gastos");
+    cargar_GastoWeb.addEventListener("click", cargarGastoWeb);
+
+
 export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
