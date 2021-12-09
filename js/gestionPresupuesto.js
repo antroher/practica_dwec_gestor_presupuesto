@@ -230,8 +230,11 @@ function filtrarGastos(objetoDelGasto){
                 return etiquetasFiltradas;
             }
 
-                                
+//Practica 8
 
+function cargarGastos(ArrayDeGastos){
+    gastos = ArrayDeGastos;
+}
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -248,5 +251,6 @@ export   {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
-    transformarListadoEtiquetas
+    transformarListadoEtiquetas,
+    cargarGastos
 }

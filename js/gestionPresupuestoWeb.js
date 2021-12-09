@@ -111,24 +111,18 @@ function mostrarDatoEnId(idElemento,valor){
     
         gastos.forEach((gasto) => {
             let etiquetas = "";
-
             let listDeEtiqueta = [];
             let etiquetaLista = [];
-
             gasto.etiquetas.forEach((etiqueta) => {
                 etiquetas += 
                     `<span class="gasto-etiquetas-etiqueta" id="${gasto.id}-${etiqueta}">
                         ${etiqueta}
                     </span>`;
-
                         //Hace el push de las etiquetas
                     listDeEtiqueta.push(`${gasto.id}-${etiqueta}`);
                     etiquetaLista.push(`${etiqueta}`);
-
             });    
             
-
-
             element.innerHTML +=
                 `<div class="gasto">
                     <div class="gasto-descripcion">${gasto.descripcion}</div>
@@ -141,17 +135,12 @@ function mostrarDatoEnId(idElemento,valor){
                 <!--Creamos boton-->
                 <button type="button" class="gasto-editar" id="editar-${gasto.id}">Editar</button>
                 <button type="button" class="gasto-borrar" id="borrar-${gasto.id}">Eliminar</button>`;
-
                 let objetoDel = new BorrarHandle()
-
                 objetoDel.gasto = gasto;
                 document.getElementById(`borrar-${gasto.id}`).addEventListener("click",objetoDel);//boton que borra
-
                 let objetoEdit = new EditarHandle()
-
                 objetoEdit.gasto = gasto;
                 document.getElementById(`editar-${gasto.id}`).addEventListener("click",objetoEdit);//boton que edita
-
                     
                 listDeEtiqueta.forEach((tags, search) => {
                     let etiHandle = new BorrarEtiquetasHandle();
