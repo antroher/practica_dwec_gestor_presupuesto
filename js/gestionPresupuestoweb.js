@@ -129,7 +129,7 @@ function BorrarHandle() {
         // Llamar a la función repintar para que se muestre la lista de gastos con los datos actualizados tras el borrado
         repintar();
     }
- }
+}
 
 function BorrarEtiquetasHandle() {
 
