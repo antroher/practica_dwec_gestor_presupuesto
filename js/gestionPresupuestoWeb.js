@@ -280,6 +280,9 @@ function filtrarGastoWeb(){
         if(etiq !== undefined) {
             etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
         }
+
+        let gastoFilter = ({fechaDesde : fechaDesde1, fechaHasta : fechaHasta1, valorMinimo: minVal, valorMaximo : maxVal, descripcionContiene : descr, etiquetasTiene : etiq});
+        let gastosFiltradosFirn = 
     }
 }
 
