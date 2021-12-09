@@ -299,5 +299,6 @@ btnFilter.addEventListener("submit", gastoSend);
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar
 }
