@@ -156,58 +156,59 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         return balance;
     }
 
-    function filtrarGastos(param1PRO) {
-        let resultado = Object.assign(gastos);
-        if (typeof param1PRO === 'object' && param1PRO !== null && param1PRO !== undefined && Object.entries(param1PRO).length > 0) {
-            if (param1PRO.hasOwnProperty('fechaDesde') && typeof param1PRO.fechaDesde === 'string') 
-            {
-                resultado = resultado.filter((variable) => { 
-                    return variable.fecha >= (Date.parse(param1PRO.fechaDesde))
-                })
+    function filtrarGastos(param1PRO){
+
+    if(param1PRO != undefined && param1PRO !=null){  
+        let resultado = gastos.filter((gasto)=>{
+            if(param1PRO.hasOwnProperty("fechaDesde") && typeof param1PRO.fechaDesde !== "undefined"){
+                if(gasto.fecha < Date.parse(param1PRO.fechaDesde)){
+                    return;
+                }
             }
-            if (param1PRO.hasOwnProperty('fechaHasta') && typeof param1PRO.fechaHasta === 'string') 
-            {
-                resultado = resultado.filter((variable) => {
-                    return variable.fecha <= Date.parse(param1PRO.fechaHasta);
-                })
+            if(param1PRO.hasOwnProperty("fechaHasta") && typeof param1PRO.fechaHasta !== "undefined"){
+                if(gasto.fecha > Date.parse(param1PRO.fechaHasta)){
+                    return;
+                }
             }
-            if (param1PRO.hasOwnProperty('valorMinimo') && typeof param1PRO.valorMinimo === 'number') 
-            {
-                resultado = resultado.filter((variable) => {
-                    return variable.valor >= param1PRO.valorMinimo
-                })
+            if (param1PRO.hasOwnProperty("valorMaximo") && typeof param1PRO.valorMaximo !== "undefined") {
+                if (gasto.valor > param1PRO.valorMaximo) {
+                  return;
+                }
+              }
+            if(param1PRO.hasOwnProperty("valorMinimo") && typeof param1PRO.valorMinimo !== "undefined"){
+                if(gasto.valor < param1PRO.valorMinimo){
+                    return;
+                }
             }
-            if (param1PRO.hasOwnProperty('valorMaximo') && typeof param1PRO.valorMaximo === 'number') 
-            {
-                resultado = resultado.filter((variable) => {                
-                    return variable.valor <= param1PRO.valorMaximo
-                })
+            if (param1PRO.hasOwnProperty("descripcionContiene") && typeof param1PRO.descripcionContiene !== "undefined") {
+
+                if (!gasto.descripcion.includes(param1PRO.descripcionContiene))
+                        return;
+    
             }
-            if (param1PRO.hasOwnProperty('descripcionContiene') && typeof param1PRO.descripcionContiene === 'string') 
-            {
-                resultado = resultado.filter((variable) => {
-                    let var1able = (variable.descripcion).toLowerCase();
-                    let var2able = (param1PRO.descripcionContiene).toLowerCase();
-                    let arr1 = var1able.split(" ");
-                    let arr1join = arr1.join('');
-                    if (arr1join.indexOf(var2able) !== -1) 
-                        return true;
-                })
-            }
-            if (param1PRO.hasOwnProperty('etiquetasTiene') && Array.isArray(param1PRO.etiquetasTiene)) 
-            {
-                resultado = resultado.filter((variable) => {
-                    for (let i = 0; i < param1PRO.etiquetasTiene.length; i++) {
-                        if (param1PRO.etiquetasTiene.includes(variable.etiquetas[i])) {
-                            return true;
+            if(param1PRO.hasOwnProperty("etiquetasTiene") && Array.isArray(param1PRO.etiquetasTiene) && param1PRO.etiquetasTiene.length !== 0){
+                if(param1PRO.etiquetasTiene.length != 0){
+
+                    let valorDevuelto = false;
+                    for(let descrip of param1PRO.etiquetasTiene){
+                        if(gasto.etiquetas.includes(descrip)){
+                            valorDevuelto = true;
                         }
                     }
-                })
+                    if(!valorDevuelto){
+                        return;
+                    }
+                }
             }
-            return resultado;
-        }
+            return gasto;
+        });
+        return resultado;
+    }
+    else{
         return gastos;
     }
+}
+
 
     //                                      LA FUNCIÓN NO FUNCIONA CORRECTAMENTE (COPIADA DEL PROFESOR)
     // function filtrarGastos(param1PRO){
@@ -260,7 +261,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
     //         eT = [...objeto.etiquetasTiene];
     //     }
 
-    //     let gastosfiltrados = gastos.filter(function(item)
+    //     let resultadotrados = gastos.filter(function(item)
     //     {
     //         let devuelve = true;
     //         let latiene = false;
@@ -312,7 +313,7 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
     //         return devuelve && latiene;
     //         });    
 
-    //     return gastosfiltrados;              
+    //     return resultadotrados;              
     // }
 
     function agruparGastos(periodo = 'mes', etiquetas, fd, fh){
@@ -345,6 +346,11 @@ function CrearGasto(descripcion, valor, fecha = Date.now(), ...etiquetas) {
         return Netiquetas;
     }
 
+    //PRACTICA 8
+
+    function cargarGastos(arrayGastos){
+        gastos = arrayGastos;
+    }
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
@@ -359,5 +365,7 @@ export   {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
-    transformarListadoEtiquetas
+    transformarListadoEtiquetas,
+    cargarGastos
 }
+
