@@ -300,6 +300,7 @@ function calcularBalance() {
     return gastos;
 }*/
 
+
 function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}){
     let gastosFiltrados;
     gastosFiltrados = gastos.filter(function(gasto){
@@ -311,10 +312,10 @@ function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descri
          if(gasto.fecha > Date.parse(fechaHasta)) exist = false;
      }
      if(valorMinimo){
-         if(gasto.valor < valorMinimo) exist = false;
+         if(gasto.valor < Date.parse(valorMinimo)) exist = false;
      }
      if(valorMaximo){
-         if(gasto.valor > valorMaximo) exist = false;
+         if(gasto.valor > Date.parse(valorMaximo)) exist = false;
      }
      if(descripcionContiene){
              if(!gasto.descripcion.includes(descripcionContiene)) exist = false;
@@ -332,7 +333,44 @@ function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descri
     });
 return gastosFiltrados;  
 }
+/*
+function filtrarGastos(objeto){
+    let gastosFiltrados;
 
+    if(objeto.hasOwnProperty(fecha, valor, descripcion, etiquetas)){
+        
+        gastosFiltrados = gastos.filter(function(gasto){
+            let exist = true;
+            if(fechaDesde){
+                if(gasto.fecha < Date.parse(fechaDesde)) exist = false;
+            }
+            if(fechaHasta){
+                if(gasto.fecha > Date.parse(fechaHasta)) exist = false;
+            }
+            if(valorMinimo){
+                if(gasto.valor < valorMinimo) exist = false;
+            }
+            if(valorMaximo){
+                if(gasto.valor > valorMaximo) exist = false;
+            }
+            if(descripcionContiene){
+                    if(!gasto.descripcion.includes(descripcionContiene)) exist = false;
+            }
+            if(etiquetasTiene){
+                let inside = false;                   
+                    for (let i = 0; i < gasto.etiquetas.length; i++) {                   
+                        for (let j= 0; j < etiquetasTiene.length; j++) {
+                            if(gasto.etiquetas[i] == etiquetasTiene[j]) inside = true;                  
+                        }
+                    }
+               if(inside == false) exist = false;
+            }
+                return exist;
+           });
+    } 
+return gastosFiltrados;
+}
+*/
 function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
 
     let filtro = {etiquetasTiene : etiquetas, fechaDesde : fechaDesde, fechaHasta : fechaHasta};
