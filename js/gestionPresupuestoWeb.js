@@ -7,6 +7,9 @@ document.getElementById("anyadirgasto").addEventListener("click", nuevoGastoWeb)
 document.getElementById("anyadirgasto-formulario").addEventListener("click", nuevoGastoWebFormulario);
 let erFiltrar = new filtrarGastosWeb();
 document.getElementById("formulario-filtrado").addEventListener("submit", erFiltrar);
+document.getElementById("guardar-gastos").addEventListener('click', guardarGastosWeb);
+document.getElementById("cargar-gastos").addEventListener('click', cargarGastosWeb);
+
 
 function mostrarDatoEnId(idElemento, valor)
 {
@@ -356,6 +359,30 @@ function filtrarGastosWeb()
         document.getElementById("listado-gastos-completo").innerHTML+="<hr>";
     };
 }
+
+function guardarGastosWeb()
+{
+    localStorage.GestorGastosDWEC = JSON.stringify(gestionpre.listarGastos());
+}
+
+function cargarGastosWeb()
+{
+    let gastosLG;
+    
+    if(localStorage.getItem('GestorGastosDWEC'))
+    {
+        gastosLG = JSON.parse(localStorage.getItem('GestorGastosDWEC'));   
+    }
+    else
+    {
+        gastosLG = [];
+    }
+
+    gestionpre.cargarGastos(gastosLG);
+
+    repintar();
+}
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
