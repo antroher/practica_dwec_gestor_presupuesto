@@ -271,11 +271,11 @@ function filtrarGastosWeb() {
         let fecHas = form.elements["formulario-filtrado-fecha-hasta"].value;
         let etiq = form.elements["formulario-filtrado-etiquetas-tiene"].value;
         if (etiq !== undefined) {
-            etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
+            etiq = gesPres.transformarListadoEtiquetas(etiq);
         }
 
         let filter = ({fechaDesde : fecDes, fechaHasta : fecHas, valorMinimo : minVal, valorMaximo : maxVal, descripcionContiene : des, etiquetasTiene : etiq});
-        let filterForm = gestionPresupuesto.filtrarGastos(filter);
+        let filterForm = gesPres.filtrarGastos(filter);
         document.getElementById("listado-gastos-completo").innerHTML=" ";
 
         for (let gasto of filterForm){
@@ -283,23 +283,18 @@ function filtrarGastosWeb() {
         }
     }
 }
-
-let cargarGastWeb = new cargarGastosWeb();
+let gastoSend = new filtrarGastosWeb();
 
 
 const btnAddGas = document.getElementById("anyadirgasto");
 const btnActPres = document.getElementById("actualizarpresupuesto");
 const btnGastForm = document.getElementById("anyadirgasto-formulario");
 const btnFilter = document.getElementById("formulario-filtrado");
-const btnGuardarGastWeb = document.getElementById("guardar-gastos");
-const btncargarGastWeb = document.getElementById("cargar-gastos");
 
 btnAddGas.addEventListener("click", nuevoGastoWeb);
 btnActPres.addEventListener("click", actualizarPresupuestoWeb);
 btnGastForm.addEventListener("click", nuevoGastoWebFormulario);
 btnFilter.addEventListener("submit", gastoSend);
-btnGuardarGastWeb.addEventListener("click", guardarGastWeb);
-btncargarGastWeb.addEventListener("click", cargarGastWeb);
 
 export {
     mostrarDatoEnId,
