@@ -20,13 +20,21 @@ function mostrarGastoWeb(idElemento, gasto){
     
     let elemento = document.getElementById(idElemento); // Captura del div con id dado
     let spanEtiquetas = ""; 
-
+    let idEtiqueta = 0;
     // Generar el span de etiquetas iterando la prop etiquetas del objeto gasto
     gasto.etiquetas.forEach((etiqueta) => {
         spanEtiquetas +=
-            `<span class="gasto-etiquetas-etiqueta">
-            ${ etiqueta }
+            `<span class="gasto-etiquetas-etiqueta" id="${idEtiqueta}">
+              ${ etiqueta }
             </span>`;
+            idEtiqueta++
+
+        // Crear evt borrar en span de etiquetas y el objeto manejador evt asociado
+        let borraEtiquetasHandler = new BorrarEtiquetasHandle();
+         borraEtiquetasHandler.gasto = gasto;                        // Vincular puntero al objeto gasto en la propiedad gasto
+        borraEtiquetasHandler.etiqueta = etiqueta;                  // Vincular puntero a la etiqueta en la propiedad etiqueta
+        idEtiqueta.addEventListener('click', borraEtiquetasHandler);
+
     });
 
     // Crear la estructura pedida, con divs para mostrar las prop y el str de spanEtiquetas
@@ -39,6 +47,8 @@ function mostrarGastoWeb(idElemento, gasto){
                         ${spanEtiquetas}
                     </div>
         </div>`;
+    
+   
 
     // Agrega botones en caso de que el id dado sea el del listado de gastos
     if (idElemento === 'listado-gastos-completo') {
