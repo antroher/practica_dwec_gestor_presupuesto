@@ -334,6 +334,16 @@ function CancelarFormHandle() {
     }
 }
 
+function guardarGastosWeb() {
+    this.handleEvent = function(event) {
+    // Se encargará de guardar el listado de gastos (disponible en la función listarGastos del paquete js/gestionPresupuesto.js
+        let listadoGastos = gestionPresupuesto.listarGastos();
+    //  en la clave de almacenamiento de localstorage denominada GestorGastosDWEC. Ten en cuenta que solo se pueden almacenar strings.
+        localStorage.GestorGastosDWEC = JSON.stringify(listadoGastos);
+    }
+}
+
+
 //_________________________________________________________________________________________________//
 
 
@@ -342,12 +352,16 @@ let btnActualizar = document.getElementById('actualizarpresupuesto');
 let btnAnyadirgasto = document.getElementById('anyadirgasto');
 let anyadirgastoFormulario = document.getElementById("anyadirgasto-formulario");
 // let formularioFiltrador = document.getElementById("formulario-filtrado");
+let btnGuardarGastos = document.getElementById("guardar-gastos");
 
 //Eventos de los botones principales
 btnActualizar.addEventListener('click', actualizarPresupuestoWeb);
 btnAnyadirgasto.addEventListener('click', nuevoGastoWeb);
 anyadirgastoFormulario.addEventListener('click', nuevoGastoWebFormulario);
 // anyadirgastoFormulario.onclick=nuevoGastoWebFormulario;  hacen lo mismo
+
+let objGuardarGastosWeb = new guardarGastosWeb();
+btnGuardarGastos.addEventListener('click', objGuardarGastosWeb);
 
 /*
 let filtGastForm = new filtrarGastosWeb();
