@@ -343,6 +343,20 @@ function guardarGastosWeb() {
     }
 }
 
+function cargarGastosWeb() {
+    this.handleEvent = function(event) {
+    // Se encargará de cargar el listado de gastos (función cargarGastos del paquete js/gestionPresupuesto.js) 
+    // desde la clave de almacenamiento de localstorage denominada GestorGastosDWEC. 
+    // Si no existe la clave en el almacenamiento, llamará a cargarGastos con un array vacío
+        if (localStorage.GestorGastosDWEC == null) 
+            gestionPresupuesto.cargarGastos([]);
+        else 
+            gestionPresupuesto.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
+
+        // Una vez cargados los gastos deberá llamar a la función repintar para que se muestren correctamente en el HTML.
+        repintar();    
+    }
+}
 
 //_________________________________________________________________________________________________//
 
@@ -353,6 +367,7 @@ let btnAnyadirgasto = document.getElementById('anyadirgasto');
 let anyadirgastoFormulario = document.getElementById("anyadirgasto-formulario");
 // let formularioFiltrador = document.getElementById("formulario-filtrado");
 let btnGuardarGastos = document.getElementById("guardar-gastos");
+let btnCargarGastos = document.getElementById("cargar-gastos");
 
 //Eventos de los botones principales
 btnActualizar.addEventListener('click', actualizarPresupuestoWeb);
@@ -360,12 +375,15 @@ btnAnyadirgasto.addEventListener('click', nuevoGastoWeb);
 anyadirgastoFormulario.addEventListener('click', nuevoGastoWebFormulario);
 // anyadirgastoFormulario.onclick=nuevoGastoWebFormulario;  hacen lo mismo
 
+/* let filtGastForm = new filtrarGastosWeb();
+formularioFiltrador.addEventListener('submit', filtGastForm); */
+
 let objGuardarGastosWeb = new guardarGastosWeb();
 btnGuardarGastos.addEventListener('click', objGuardarGastosWeb);
 
-/*
-let filtGastForm = new filtrarGastosWeb();
-formularioFiltrador.addEventListener('submit', filtGastForm); */
+let objCargarGastosWeb = new cargarGastosWeb();
+btnCargarGastos.addEventListener('click', objCargarGastosWeb);
+
 
 export {
     mostrarDatoEnId,
