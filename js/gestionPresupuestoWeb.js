@@ -260,6 +260,8 @@ function cargarGastosWeb() {
         repintar();
     }
 }
+let cargarGastWeb = new cargarGastosWeb();
+
 const btnAddGas = document.getElementById("anyadirgasto");
 const btnActPres = document.getElementById("actualizarpresupuesto");
 const btnGastForm = document.getElementById("anyadirgasto-formulario");
