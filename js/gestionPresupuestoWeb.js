@@ -1,3 +1,6 @@
+//Ejemplo detallado de como hacer la práctica: https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley
+
+
 import * as gestionPresupuesto from './gestionPresupuesto.js';
 
 //Para iterar sobre un collection del node usar for...of
@@ -14,7 +17,6 @@ function mostrarGastoWeb(idElemento, gasto) {
     let divGasto = document.createElement("div");
     divGasto.className = "gasto";
     elemento.append(divGasto);
-        
     divGasto.innerHTML += 
     `
         <div class="gasto-descripcion">${gasto.descripcion}</div>
@@ -199,11 +201,11 @@ function CancelarFormHandle() {
 
 //Este handle actualizará los valores del gasto que nosotros estemos manejando
 function EnviarHandle(){
-    this.handleEvent = function(e){
+    this.handleEvent = function(event){
         //Evitamos que se haga el submit
-        e.preventDefault();
+        event.preventDefault();
         //Recogemos el evento que ha realizado el evento y actualizamos los valores del gasto
-        let formulario = e.currentTarget;
+        let formulario = event.currentTarget;
         let descripcion = formulario.elements.descripcion.value;
         this.gasto.actualizarDescripcion(descripcion);
         let valor = parseFloat(formulario.elements.valor.value);
@@ -267,21 +269,39 @@ function filtrarGastosWeb() {
     this.handleEvent = function(event) {
         event.preventDefault();
         let formulario = event.currentTarget;
-        let formularioFiltradoDescr = formularioFiltrado.getElementById("formulario-filtrado-descripcion").value;
-        let formularioFiltradoMinVal = parseFloat(formularioFiltrado.getElementById("formulario-filtrado-valor-minimo").value);
-        let formularioFiltradoMaxVal = parseFloat(formularioFiltrado.getElementById("formulario-filtrado-valor-maximo")).value;
-        let formularioFiltradoFechDesde = formularioFiltrado.getElementById("formulario-filtrado-fecha-desde").value;
-        let formularioFiltradoFechHasta = formularioFiltrado.getElementById("formulario-filtrado-fecha-hasta").value;
-        let formularioFiltradoEti = formularioFiltrado.getElementById("formulario-filtrado-etiquetas-tiene").value;
+        let descr = formulario.elements["formulario-filtrado-descripcion"].value;
+        let minVal = parseFloat(formulario.elements["formulario-filtrado-valor-minimo"].value);
+        let maxVal = parseFloat(formulario.elements["formulario-filtrado-valor-maximo"].value);
+        let fechaDesde1 = formulario.elements["formulario-filtrado-fecha-desde"].value;
+        let fechaHasta1 = formulario.elements["formulario-filtrado-fecha-hasta"].value;
+        let etiq = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
         
-        if (formularioFiltradoEti != undefined) {
-            formularioFiltradoEti = gestionPresupuesto.transformarListadoEtiquetas(formularioFiltradoEti);
+        if (etiq !== undefined) {
+            etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
         }
-        let filtrador = {etiquetasTiene : formularioFiltradoEti, fechaDesde : formularioFiltradoFechDesde, fechaHasta : formularioFiltradoFechHasta, 
-                         descripcionContiene : formularioFiltradoDescr, valorMinimo : formularioFiltradoMinVal, valorMaximo : formularioFiltradoMaxVal};
-        gestionPresupuesto.filtrarGastos(filtrador);
+        let gastosFilter = ({fechaDesde : fechaDesde1, fechaHasta : fechaHasta1, valorMinimo : minVal, valorMaximo : maxVal, descripcionContiene : descr, etiquetasTiene : etiq});
+        let gastosFiltradosForm = gestionPresupuesto.filtrarGastos(gastosFilter);
         document.getElementById("listado-gastos-completo").innerHTML = " ";
-        mostrarGastoWeb();
+        for (let gastoForm of gastosFiltradosForm) {
+            mostrarGastoWeb("listado-gastos-completo", gastoForm);
+        }
+    }
+}
+
+function guardarGastosWeb() {
+    this.handleEvent = function(event) {
+        let listadoGastos = gestionPresupuesto.listarGastos();
+        localStorage.GestorGastosDWEC = JSON.stringify(listadoGastos);
+    }
+}
+
+function cargarGastosWeb() {
+    this.handleEvent = function(event) {
+        if (localStorage.GestorGastosDWEC == null) 
+            gestionPresupuesto.cargarGastos([]);
+        else 
+            gestionPresupuesto.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
+        repintar();    
     }
 }
 
@@ -290,12 +310,22 @@ const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
 const anyadirgastoFirmulario = document.getElementById("anyadirgasto-formulario");
 const formularioFiltrador = document.getElementById("formulario-filtrado");
+const btnGuardarGastos = document.getElementById("guardar-gastos");
+const btnCargarGastos = document.getElementById("cargar-gastos");
 //Eventos
 actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
 anyadirgasto.addEventListener('click', nuevoGastoWeb);
 anyadirgastoFirmulario.addEventListener('click', nuevoGastoWebFormulario)
+//Al tener que trabajar con el propio nodo que manifiesta el evento deberemos crear un objeto manejador... o eso creo yo despúes de 3 horas sin saber que falla jeje
 let filtGastForm = new filtrarGastosWeb();
 formularioFiltrador.addEventListener('submit', filtGastForm);
+
+//Práctica 8
+let objGuardarGastosWeb = new guardarGastosWeb();
+let objCargarGastosWeb = new cargarGastosWeb();
+btnGuardarGastos.addEventListener('click', objGuardarGastosWeb);
+btnCargarGastos.addEventListener('click', objCargarGastosWeb);
+
 
 export   {
     mostrarDatoEnId,
