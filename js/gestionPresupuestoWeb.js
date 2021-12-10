@@ -241,6 +241,11 @@ function filtrarGastosWeb() {
 }
 let gastoSend = new filtrarGastosWeb();
 
+function guardarGastosWeb() {
+    this.handleEvent = function(e) {
+        let list = gestionPresupuesto.listarGastos();
+        localStorage.GestorGastosDWEC = JSON.stringify(list);
+
 const btnAddGas = document.getElementById("anyadirgasto");
 const btnActPres = document.getElementById("actualizarpresupuesto");
 const btnGastForm = document.getElementById("anyadirgasto-formulario");
