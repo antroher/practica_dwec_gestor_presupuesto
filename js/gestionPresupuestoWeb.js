@@ -245,7 +245,21 @@ function guardarGastosWeb() {
     this.handleEvent = function(e) {
         let list = gestionPresupuesto.listarGastos();
         localStorage.GestorGastosDWEC = JSON.stringify(list);
+    }
+}
+let guardarGastWeb = new guardarGastosWeb();
 
+function cargarGastosWeb() {
+    this.handleEvent = function(e) {
+        if(localStorage.GestorGastosDWEC == null) {
+            gestionPresupuesto.cargarGastos([]);
+        }
+        else {
+            gestionPresupuesto.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
+        }
+        repintar();
+    }
+}
 const btnAddGas = document.getElementById("anyadirgasto");
 const btnActPres = document.getElementById("actualizarpresupuesto");
 const btnGastForm = document.getElementById("anyadirgasto-formulario");
