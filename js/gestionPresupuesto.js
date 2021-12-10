@@ -226,7 +226,9 @@ function transformarListadoEtiquetas(etiq) {
     return etiArray;
 }
 
-    
+function cargarGastos(gasto) {
+    gastos = gasto;
+}
 
 
 
