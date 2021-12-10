@@ -7,19 +7,29 @@
     <title>Document</title>
 </head>
 <body>
-    <!-- <input id="elem" type="button" value="Haz click en mí" /> -->
-    <!-- <button id="elem">Haz click en mí</button> -->
-    <div id="text">Texto</div>
-    <div id="elem">
+    
+    <div class="elem">
         <p>Texto párrafo</p>
     </div>
     
 
     <script>
         
-        const handler1 = e => elem.remove();
-        elem.insertAdjacentHTML("afterbegin", "<button id='eliminar'>[X]</button>");
-        eliminar.addEventListener('click', handler1);
+
+
+        let editorBtn = document.createElement("button");  
+            editorBtn.className = 'gasto-editar';
+            editorBtn.textContent = 'Editar';
+        let borradorBtn = document.createElement("button");
+            borradorBtn.className = 'gasto-borrar';
+            borradorBtn.textContent = 'Borrar';
+        document.querySelector(".elem").append(editorBtn, borradorBtn);
+        // elem.append( editorBtn);
+
+
+        // const handler1 = e => elem.remove();
+        // elem.insertAdjacentHTML("afterbegin", "<button id='eliminar'>[X]</button>");
+        // eliminar.addEventListener('click', handler1);
         
             
         // function handler1(e){

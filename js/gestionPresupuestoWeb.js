@@ -2,11 +2,18 @@
 import * as gestionP from "./gestionPresupuesto.js";
 
 
+
+// Cargar escuchadores
+
+document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb);
+document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb);
+
+
 // FUNCIONES
 
 function mostrarDatoEnId(idElemento, valor){
-    let item = document.getElementById(idElemento);
-    item.innerHTML = `<p>${valor}</p>`;  
+    document.getElementById(idElemento).innerHTML = `<p>${valor}</p>`;
+    
 }
 
 function mostrarGastoWeb(idElemento, gasto){
@@ -32,6 +39,32 @@ function mostrarGastoWeb(idElemento, gasto){
                         ${spanEtiquetas}
                     </div>
         </div>`;
+
+    // Agrega botones en caso de que el id dado sea el del listado de gastos
+    if (idElemento === 'listado-gastos-completo') {
+        // Crear boton de editar un gasto y el objeto manejador evt asociado
+        let editorBtn = document.createElement("button");  
+        editorBtn.className = 'gasto-editar';
+        editorBtn.textContent = 'Editar';
+
+        let editorHandler = new EditarHandle();
+        editorHandler.gasto = gasto;                  // Vincular puntero al objeto gasto en la propiedad gasto
+        editorBtn.addEventListener('click', editorHandler);     // Cargar escuchador
+
+        // Crear boton de borrar un gasto y el objeto manejador evt asociado
+        let borradorBtn = document.createElement("button");
+        borradorBtn.className = 'gasto-borrar'
+        borradorBtn.textContent = 'Borrar';
+
+        let borradorHandler = new BorrarHandle();
+        borradorHandler.gasto = gasto;
+        borradorBtn.addEventListener('click', borradorHandler);     // Cargar escuchador
+
+        
+
+        // Colgar los botones al final del div .gasto
+        document.querySelector(".gasto").append(editorBtn, borradorBtn);
+    }
 
 }
 
@@ -80,7 +113,7 @@ function actualizarPresupuestoWeb() {
     // Actualiza el presupuesto
     gestionP.actualizarPresupuesto(parseFloat(prompt("Introduzca un nuevo presupuesto:")));
 
-    // Limpia y vuelve a pintar con los nuevos datos
+    // Limpia y vuelve a pintar con los datos actuales incluyendo los cambios en el presupuesto
     repintar();
 }
 
@@ -122,16 +155,23 @@ function EditarHandle () {
 }
 
 function BorrarHandle() {
-    this.handleEvent = function(event) {
+    this.handleEvent = function(e) {
         // Borrar objeto gasto
         gestionP.borrarGasto(this.gasto.id);
-        
+      
         // Llamar a la función repintar para que se muestre la lista de gastos con los datos actualizados tras el borrado
         repintar();
     }
 }
 
 function BorrarEtiquetasHandle() {
+    this.handleEvent = function (e) {
+        // Borrar etiqueta sobre la que se actúa
+        this.gasto.borrarEtiquetas(this.etiqueta);
+
+        // Llamar a la función repintar para que se muestre la lista de gastos con los datos actualizados tras el borrado
+        repintar();
+    }
 
 }
 
@@ -141,13 +181,6 @@ function BorrarEtiquetasHandle() {
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb,
-    repintar,
-    actualizarPresupuestoWeb,
-    nuevoGastoWeb,
-    EditarHandle,
-    BorrarHandle,
-    BorrarEtiquetasHandle
-
+    mostrarGastosAgrupadosWeb
 }
 
