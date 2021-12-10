@@ -280,7 +280,7 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta){
     return groupBy;
 }
 
-function transformarListadoEtiquetas(){
+function transformarListadoEtiquetas(input){
     let etiquetasFiltradas = input.match(/[a-z0-9]+/gi)
     return etiquetasFiltradas;
 }

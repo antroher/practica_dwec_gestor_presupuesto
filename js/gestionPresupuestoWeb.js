@@ -299,8 +299,13 @@ const formularioFiltrador = document.getElementById("formulario-filtrado");
 actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
 anyadirgasto.addEventListener('click', nuevoGastoWeb);
 anyadirgastoFirmulario.addEventListener('click', nuevoGastoWebFormulario)
+
 let filtGastForm = new filtrarGastosWeb();
 formularioFiltrador.addEventListener('submit', filtGastForm);
+
+
+
+
 
 export   {
     mostrarDatoEnId,
