@@ -240,6 +240,12 @@ function transformarListadoEtiquetas(etiq)
         return etiq.match(/\w+/g);
 }
 
+/*La función será extremadamente sencilla: tomará como parámetro un array de gastos 
+que se utilizará para sobreescribir la variable global gastos.*/
+function cargarGastos(nuevosGastos) {
+  gastos = nuevosGastos;
+}
+
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
@@ -254,5 +260,6 @@ export   {
     calcularBalance,
     agruparGastos,
     filtrarGastos,
-    transformarListadoEtiquetas
+    transformarListadoEtiquetas,
+    cargarGastos
 }
