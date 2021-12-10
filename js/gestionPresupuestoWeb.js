@@ -216,7 +216,7 @@ function cancelFormHandle() {
     }
 }
 
-
+function filtrarGastosWeb() {
     this.handleEvent = function(event) {
         event.preventDefault();
         let form = event.currentTarget;
