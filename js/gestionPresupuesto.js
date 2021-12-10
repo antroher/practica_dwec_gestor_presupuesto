@@ -319,16 +319,15 @@ gasto2.obtenerPeriodoAgrupacion("dia");
         return gastosAgrupados;
     }
   
-    //Ejercicio 7------
+    //Ejercicio 8------
     function cargarGastos(arrGastos)
     {
         gastos = arrGastos;
-        return gastos;
     }
 
     function transformarListadoEtiquetas(eti){
 
-        let a = eti.match(/\w+/g);
+        let a = eti.match(/\w+/g); // AYUDA DE COMPAÑERO Buscar bien el funcionamiento
     
         return a;
     

@@ -432,31 +432,34 @@ function filtrarGastosWeb(){
 }
 document.getElementById('formulario-filtrado').addEventListener("submit", new filtrarGastosWeb());
 
-function guardarGastosWeb(){
+function guardarGastosWeb()
+{
 
-    this.handleEvent = function(event){
-
-        localStorage.setItem('GestorGastosDWEC', JSON.stringify(gestionPresupuesto.listarGastos()));
-        //localStorage.GestorGastosDWEC = JSON.stringify(gestionPresupuesto.listarGastos());
-
+    this.handleEvent = function(event)
+    {
+        localStorage.setItem('GestorGastosDWEC',
+        JSON.stringify(gestionPresupuesto.listarGastos()));
     }
 
 }
 
 document.getElementById('guardar-gastos').addEventListener('click', new guardarGastosWeb);
 
-function cargarGastosWeb(){
+function cargarGastosWeb(){ //AYUDADO POR COMPAÑERO
 
     this.handleEvent = function(event){
 
         let txt = JSON.parse(localStorage.getItem('GestorGastosDWEC'));
-        if (txt !== null){
+
+        if (txt !== null)
+        {
             if (txt.length >= 0)
             gestionPresupuesto.cargarGastos(txt);
         }
-        else{
+
+        else        
             gestionPresupuesto.cargarGastos([]);
-        }
+        
         repintar();
     }
 }
