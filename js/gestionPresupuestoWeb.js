@@ -1,4 +1,4 @@
-import * as gesPres from "./gestionPresupuesto.js";
+import * as gestionPresupuesto  from "./gestionPresupuesto.js";
 
 function mostrarDatoEnId(idElemento, valor) {
     let elem = document.getElementById(idElemento);
@@ -78,18 +78,18 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 }
 
 function repintar() {
-    let pres = gesPres.mostrarPresupuesto();
+    let pres = gestionPresupuesto.mostrarPresupuesto();
     mostrarDatoEnId( "presupuesto", pres);
     
-    let gasTot = gesPres.calcularTotalGastos().toFixed(2);
+    let gasTot = gestionPresupuesto.calcularTotalGastos().toFixed(2);
     mostrarDatoEnId( "gastos-totales", gasTot);
     
-    let balTot = gesPres.calcularBalance().toFixed(2);
+    let balTot = gestionPresupuesto.calcularBalance().toFixed(2);
     mostrarDatoEnId("balance-total", balTot);
     
     let borrarDatos = document.getElementById("listado-gastos-completo").innerHTML = "";
     
-    let gasList = gesPres.listarGastos();
+    let gasList = gestionPresupuesto.listarGastos();
     for (const x of gasList) {
         mostrarGastoWeb("listado-gastos-completo", x);
     }
@@ -97,7 +97,7 @@ function repintar() {
 
 function actualizarPresupuestoWeb()  {
     let pres = parseFloat(prompt(`Hey amigo, introduce tu presupuesto`));
-    gesPres.actualizarPresupuesto(pres);
+    gestionPresupuesto.actualizarPresupuesto(pres);
     repintar();
 }
 
@@ -107,8 +107,8 @@ function nuevoGastoWeb() {
     let fec = prompt(`¿Y cuándo fue eso? Dímelo siguiendo el formato yyyy-mm-dd que si no no te entiendo, figura`);
     let eti = prompt(`Etiqueta ese rico gasto tuyo con todas las etiquetas que quieras, pero sepáralas con comas (,) para poder yo distinguir entre una y otra`);
     let etiArray = eti.split(',');
-    let gasto = new gesPres.CrearGasto(des, val, fec, ...etiArray);
-    gesPres.anyadirGasto(gasto);
+    let gasto = new gestionPresupuesto.CrearGasto(des, val, fec, ...etiArray);
+    gestionPresupuesto.anyadirGasto(gasto);
     repintar();
 }
 
@@ -142,7 +142,7 @@ function EditarHandle() {
 
 function BorrarHandle() {
     this.handleEvent = function (e) {
-        gesPres.borrarGasto(this.gasto.id);
+        gestionPresupuesto.borrarGasto(this.gasto.id);
         repintar();
     }        
 }
@@ -178,8 +178,8 @@ function enviarGastoFormHandle(){
          let valor = parseFloat(formulario.elements.valor.value);
          let fecha = formulario.elements.fecha.value;
          let etiquetas = formulario.elements.etiquetas.value;
-        let gastoNuevo = new gesPres.CrearGasto(descripcion, valor, fecha, etiquetas);
-        gesPres.anyadirGasto(gastoNuevo);
+        let gastoNuevo = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, etiquetas);
+        gestionPresupuesto.anyadirGasto(gastoNuevo);
         repintar();
         document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
     }
@@ -227,11 +227,11 @@ function filtrarGastosWeb() {
         let fecHas = form.elements["formulario-filtrado-fecha-hasta"].value;
         let etiq = form.elements["formulario-filtrado-etiquetas-tiene"].value;
         if (etiq !== undefined) {
-            etiq = gesPres.transformarListadoEtiquetas(etiq);
+            etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
         }
 
         let filter = ({fechaDesde : fecDes, fechaHasta : fecHas, valorMinimo : minVal, valorMaximo : maxVal, descripcionContiene : des, etiquetasTiene : etiq});
-        let filterForm = gesPres.filtrarGastos(filter);
+        let filterForm = gestionPresupuesto.filtrarGastos(filter);
         document.getElementById("listado-gastos-completo").innerHTML=" ";
 
         for (let gasto of filterForm){
@@ -262,6 +262,7 @@ function cargarGastosWeb() {
 }
 let cargarGastWeb = new cargarGastosWeb();
 
+
 const btnAddGas = document.getElementById("anyadirgasto");
 const btnActPres = document.getElementById("actualizarpresupuesto");
 const btnGastForm = document.getElementById("anyadirgasto-formulario");
@@ -275,6 +276,7 @@ btnGastForm.addEventListener("click", nuevoGastoWebFormulario);
 btnFilter.addEventListener("submit", gastoSend);
 btnGuardarGastWeb.addEventListener("click", guardarGastWeb);
 btncargarGastWeb.addEventListener("click", cargarGastWeb);
+
 
 export {
     mostrarDatoEnId,
