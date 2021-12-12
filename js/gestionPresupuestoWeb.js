@@ -329,6 +329,35 @@ function enviarHandle(){
     }
 }
 
+function guardarGastosWeb(){
+    this.handleEvent = function(e){
+        let gastosListados= gestionPresupuesto.listarGastos();
+        localStorage.setItem('GestorGastosDWEC', JSON.stringify(gastosListados));
+    }
+}
+
+let botonGuardarGastos= document.getElementById('guardar-gastos');
+let ggw= new guardarGastosWeb;
+botonGuardarGastos.addEventListener('click', ggw);
+
+function cargarGastosWeb(){
+    this.handleEvent = function(e){
+        let clave = JSON.parse(localStorage.getItem('GestorGastosDWEC'));
+        if (clave !== null){
+            if (clave.length >= 0)
+            gestionPresupuesto.cargarGastos(clave);
+        }
+        else{
+            gestionPresupuesto.cargarGastos([]);
+        }
+        repintar();
+    }
+}
+
+let botonCargarGastos= document.getElementById('cargar-gastos');
+let cgw = new cargarGastosWeb;
+botonCargarGastos.addEventListener('click', cgw);
+
 export{ mostrarDatoEnId,
         mostrarGastoWeb,
         mostrarGastosAgrupadosWeb}
