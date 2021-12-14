@@ -119,6 +119,15 @@ function listarGastos(){
     return gastos;
 }
 
+
+function mostrarPresupuesto() {
+    
+   
+    let x = presupuesto;    
+     return `Tu presupuesto actual es de ${x} €`;
+}
+
+
 function anyadirGasto(gasto){
     gasto.id = idGasto;
     idGasto++
