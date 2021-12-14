@@ -6,6 +6,7 @@ function mostrarDatoEnId(idElemento,valor){
     let textBox = document.getElementById(idElemento);
     textBox.textContent = valor;
 }
+
 function mostrarGastoWeb (idElemento, gasto){
 
     
@@ -412,6 +413,9 @@ this.handleEvent = function(event){
 
 }
 }
+
+
+
 
 export  {
     mostrarDatoEnId,
