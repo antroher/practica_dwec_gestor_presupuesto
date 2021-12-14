@@ -128,6 +128,13 @@ function anyadirGasto(gasto){
     gastos.push(gasto);
 }
 
+function transformarListadoEtiquetas(etiquetas){
+
+    let filtroEtiquetas = /[a-z0-9]+/gi; 
+    let etiquetasSeparadas = etiquetas.match(filtroEtiquetas);
+
+    return etiquetasSeparadas;
+}
 
 
 function borrarGasto(id){
@@ -236,4 +243,5 @@ export   {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
+    transformarListadoEtiquetas
 }
