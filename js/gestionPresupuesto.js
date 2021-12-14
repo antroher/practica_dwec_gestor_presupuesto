@@ -119,7 +119,11 @@ function listarGastos(){
     return gastos;
 }
 
+function cargarGastos(gatosarray){
 
+ arraygastos = gatosarray
+
+}
 
 
 function anyadirGasto(gasto){
@@ -243,5 +247,7 @@ export   {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
-    transformarListadoEtiquetas
+    transformarListadoEtiquetas,
+    cargarGastos
+    
 }
