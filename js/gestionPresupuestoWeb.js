@@ -416,19 +416,8 @@ this.handleEvent = function(event){
 export  {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb,
+    mostrarGastosAgrupadosWeb
     
 }
 
 
-export {
-    mostrarDatoEnId,
-    mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb,
-    repintar,
-    nuevoGastoWeb,
-    actualizarPresupuestoWeb,
-    EditarHandle,
-    BorrarHandle,
-    BorrarEtiquetasHandle
-}
