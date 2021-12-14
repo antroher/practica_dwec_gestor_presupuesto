@@ -1,78 +1,35 @@
-import {mostrarDatoEnId, mostrarGastoWeb,mostrarGastosAgrupadosWeb} from './gestionPresupuestoWeb.js';
-import {mostrarPresupuesto}    from './gestionPresupuesto.js';
-import {CrearGasto} from './gestionPresupuesto.js';
-import {listarGastos} from './gestionPresupuesto.js';
-import {anyadirGasto} from './gestionPresupuesto.js';
-import {calcularTotalGastos} from './gestionPresupuesto.js';
-import {calcularBalance} from './gestionPresupuesto.js';
-import {filtrarGastos} from './gestionPresupuesto.js';
-import {agruparGastos} from './gestionPresupuesto.js';
-import {actualizarPresupuesto} from './gestionPresupuesto.js';
+"use strict"
 
-actualizarPresupuesto(1500);
+//Este me convencio mas
+import * as gesPre from "./gestionPresupuesto.js";
+import * as gesPreWeb from "./gestionPresupuestoWeb.js";
 
-mostrarDatoEnId('presupuesto', mostrarPresupuesto());
+gesPre.actualizarPresupuesto(1500);
+gesPreWeb.mostrarDatoEnId("presupuesto",gesPre.mostrarPresupuesto());
 
-let gasto1 = new CrearGasto("Compra carne", 23.44, "2021-10-06", "casa", "comida" );
-let gasto2 = new CrearGasto("Compra fruta y verdura", 14.25, "2021-09-06", "supermercado", "comida" );
-let gasto3 = new CrearGasto("Bonobús", 18.60, "2020-05-26", "transporte" );
-let gasto4 = new CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina" );
-let gasto5 = new CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros" );
-let gasto6 = new CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros" );
-anyadirGasto(gasto1);
-anyadirGasto(gasto2);
-anyadirGasto(gasto3);
-anyadirGasto(gasto4);
-anyadirGasto(gasto5);
-anyadirGasto(gasto6);
+ gesPre.anyadirGasto(new gesPre.CrearGasto("Compra carne",23.44, "2021-10-06", "casa", "comida"));
+ gesPre.anyadirGasto(new gesPre.CrearGasto("Compra fruta y verdura", 14.25, "2021-09-06", "supermercado", "comida"));
+ gesPre.anyadirGasto(new gesPre.CrearGasto("Bonobús", 18.60, "2020-05-26", "transporte"));
+ gesPre.anyadirGasto(new gesPre.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina"));
+ gesPre.anyadirGasto(new gesPre.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros"));
+ gesPre.anyadirGasto(new gesPre.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros"));
 
-mostrarDatoEnId("gastos-totales", calcularTotalGastos());
-mostrarDatoEnId("balance-total", calcularBalance());
+gesPreWeb.mostrarDatoEnId("gastos-totales", gesPre.calcularTotalGastos());
+gesPreWeb.mostrarDatoEnId("balance-total",gesPre.calcularBalance());
 
+gesPreWeb.mostrarGastoWeb("listado-gastos-completo", gesPre.listarGastos())
 
-let gastosLista = listarGastos();
+gesPreWeb.mostrarGastoWeb("listado-gastos-filtrado-1",gesPre.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"}))
+gesPreWeb.mostrarGastoWeb("listado-gastos-filtrado-2",gesPre.filtrarGastos({valorMinimo:50}))
+gesPreWeb.mostrarGastoWeb("listado-gastos-filtrado-3",gesPre.filtrarGastos({valorMinimo: 200, etiquetasTiene:["seguros"]}))
+gesPreWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gesPre.filtrarGastos({valorMaximo: 50, etiquetasTiene:["comida","transporte"]}));
 
-for (let gasto of gastosLista)
-  {
-   mostrarGastoWeb("listado-gastos-completo", gasto);
-  }
+let gastoAgrup1 = gesPre.agruparGastos("dia")
+gesPreWeb.mostrarGastosAgrupadosWeb("agrupacion-dia",gastoAgrup1,"día")
 
-  let gastosFechas = filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"});
-  
-  for (let gasto of gastosFechas)
-  {
-    mostrarGastoWeb("listado-gastos-filtrado-1", gasto);
-  }
-  
-  let gastosValores = filtrarGastos({valorMinimo: 50});
-  
-  for (let gasto of gastosValores)
-  {
-    mostrarGastoWeb("listado-gastos-filtrado-2", gasto);
-  }
+let gastoAgrup2 = gesPre.agruparGastos("mes")
+gesPreWeb.mostrarGastosAgrupadosWeb("agrupacion-mes",gastoAgrup2,"mes")
 
-  let gastosValoresEtiqueta = filtrarGastos({valorMinimo: 200, etiquetas:"seguros"});
-  
-  for (let gasto of gastosValoresEtiqueta)
-  {
-    mostrarGastoWeb("listado-gastos-filtrado-3", gasto);
-  }
+let gastoAgrup3 = gesPre.agruparGastos("anyo")
 
-  let gastosValoresEtiquetas = filtrarGastos({valorMaximo: 50, etiquetasTiene: ["comida", "transporte"]});
-  
-  for (let gasto of gastosValoresEtiquetas)
-  {
-    mostrarGastoWeb("listado-gastos-filtrado-4", gasto);
-  }
-  
-
-let gastosdia = agruparGastos("dia");
-mostrarGastosAgrupadosWeb("agrupacion-dia", gastosdia, "día");
-
-
-let gastosmes = agruparGastos("mes");
-mostrarGastosAgrupadosWeb("agrupacion-mes", gastosmes, "mes");
-
-
-let gastosanyo = agruparGastos("anyo");
-mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosanyo, "año");
+gesPreWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo",gastoAgrup3,"año")
