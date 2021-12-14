@@ -8,28 +8,31 @@ function crearObjeto (x, y) {
     },
 
     this.copia = function () {
-        return {x: this.x, y: this.y};
+        return new crearObjeto(this.x, this.y);
     }, 
 
-    this.iguales = function (compX, compY) {
-        if ((compX + compY) === (this.x + this.y)) {
+    this.iguales = function (puntoComp) {
+        if ((puntoComp.x + puntoComp.y) === (this.x + this.y)) {
             console.log("Ambos puntos son iguales.")
+            return `Ambos puntos son iguales.`
         }
         else {
             console.log("Los puntos no son iguales.")
+            return `Los puntos no son iguales.`
         }
     }, 
 
-    this.suma = function (sumX, sumY) {
+    this.suma = function (puntoSum) {
         return {
-            x: sumX + this.x,
-            y: sumY + this.y
+            x: puntoSum.x + this.x,
+            y: puntoSum.y + this.y
         };
     }, 
 
-    this.obtenerDistancia = function (newX, newY) {
-        return Math.sqrt((Math.abs(newX - this.x))^2 + Math.abs((newY - this.y))^2);
+    this.obtenerDistancia = function (puntoDist) {
+        return Math.sqrt(Math.pow(Math.abs(puntoDist.x - this.x),2) + Math.pow(Math.abs(puntoDist.y - this.y),2));
     },
+
     this.toString = function() {
         return `${this.x},${this.y}`;
     }

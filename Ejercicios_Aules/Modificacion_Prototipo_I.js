@@ -5,5 +5,5 @@ Array.prototype.mediaAritmetica = function () {
         acumulado += item;
     })
 
-    return acumulado/this.length;
+    return (acumulado/this.length);
 }
