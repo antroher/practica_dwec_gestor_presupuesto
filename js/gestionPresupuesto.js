@@ -120,12 +120,6 @@ function listarGastos(){
 }
 
 
-function mostrarPresupuesto() {
-    
-   
-    let x = presupuesto;    
-     return `Tu presupuesto actual es de ${x} €`;
-}
 
 
 function anyadirGasto(gasto){
