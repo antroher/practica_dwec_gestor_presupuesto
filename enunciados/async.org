@@ -1,0 +1,164 @@
+* Comunicación asíncrona
+  En esta práctica estudiaremos la comunicación asíncrona. Ello nos permitirá trabajar con el método ~fetch~ para enviar los datos de nuestra aplicación a un servidor externo.
+
+** Repositorio de la práctica
+   El *repositorio base* de la práctica está disponible en: https://github.com/pedroprieto/practica_dwec_gestor_presupuesto
+
+   Se supone que ya está configurado el *repositorio personal* y el *remoto secundario* (~profesor~). Si no es así, revisa las instrucciones de las prácticas anteriores. En el apartado de *Preparación* se indica cómo proceder.
+   
+** Requisitos de software
+Para poder realizar esta práctica será necesario *instalar el siguiente software* en el equipo:
+- Navegador [[https://www.google.com/intl/es/chrome/][Chrome]].
+- Entorno de ejecución [[https://nodejs.org/es/][NodeJS]].
+
+** Desarrollo guiado por test
+   En esta práctica *no hay tests*. Se tendrá que comprobar el funcionamiento de manera manual. Para ver si se han creado los gastos se puede hacer una petición a la API introduciendo la URL en el navegador.
+
+** Preparación
+1. Instalar los requisitos de software indicados
+2. Abrir un terminal
+3. Situarse en la carpeta del repositorio personal de la práctica
+4. *Incorporar a tu repositorio personal los cambios* realizados por el profesor correspondientes a los archivos de esta práctica. Para ello hay que ejecutar:
+   #+begin_src shell
+     git pull profesor master
+   #+end_src
+5. Este comando *descarga* los cambios que ha realizado el *profesor* en el *repositorio base* y los *integra* en tu repositorio personal. Tras realizar este paso, seguramente git *abra el editor configurado por defecto* para que introduzcas un *mensaje para crear un nuevo commit* que integre tus cambios y los cambios del profesor. Debes introducir el texto y guardar los cambios.
+6. En principio no deben producirse *conflictos*. En caso de que se produzcan (por ejemplo, porque has editado el fichero ~.gitignore~ y yo también porque lo exigía la práctica), *resuélvelos y notifícamelo a través de un Issue*.
+7. Ejecuta el comando ~git push~ para subir los cambios a tu repositorio personal (el remoto principal) en GitHub y que queden guardados ahí también.
+
+    #+begin_quote
+   Recuerda que puedes utilizar el navegador para *visualizar el trabajo* que vas haciendo. Como la carga de scripts la realizamos a través de *módulos*, no basta con hacer doble clic en el archivo ~HTML~, sino que es necesario visualizar la página *desde un servidor*. Para ello puedes utilizar la extensión [[https://ritwickdey.github.io/vscode-live-server/][Live Server]] de Vísual Studio Code.
+    #+end_quote
+
+** Tareas a realizar
+*** Lectura
+    Lee atentamente los siguientes artículos y sus correspondientes subsecciones en caso de que las tengan:
+    - https://es.javascript.info/async
+    - https://es.javascript.info/fetch
+    - https://es.javascript.info/formdata
+    - https://es.javascript.info/fetch-crossorigin
+    - https://es.javascript.info/network (resto de secciones: opcional)
+      
+*** Ficheros de la aplicación
+    Vamos a utilizar los ficheros de la práctica anterior realizando modificaciones sobre el archivo ~js/gestionPresupuestoWeb.js~.
+
+    Utilizaremos de nuevo el fichero ~interaccionHTML.html~ para mostrar los datos e interactuar con la aplicación a través del navegador.
+    
+    La aplicación funcionará de la siguiente manera:
+    - El usuario abrirá el archivo ~interaccionHTML.html~ en el navegador (a través de un servidor web, tal como se ha comentado en la sección de *Preparación*).
+    - El archivo ~interaccionHTML.html~ cargará el programa ~js/generarDatosEstaticos.js~. Dicho programa *hará uso de dos programas* (que se utilizarán como librerías):
+      - Librería ~js/gestionPresupuestoWeb.js~, que definirá una serie de *funciones* para interactuar con el [[https://es.javascript.info/dom-nodes][DOM]] de la página y mostrar los datos en HTML. En esta práctica *realizaremos modificaciones* en este fichero para añadir *nuevos botones* para guardar y leer los gastos a través de una *API de servidor*.
+      - Librería ~js/gestionPresupuesto.js~, que contiene la lógica de negocio de la aplicación (funciones para crear, editar, borrar y mostrar gastos).
+
+    El archivo ~js/generarDatosEstaticos.js~ se utilizará para crear unos gastos iniciales para poder hacer *pruebas durante el desarrollo* (para que no aparezca la aplicación vacía). Por tanto, en una aplicación en producción *no sería necesario*: el archivo HTML funcionaría cargando el archivo ~/js/gestionPresupuestoWeb.js~ directamente.
+    
+*** API
+    La API que se utilizará está disponible en esta URL: https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest. Se trata de una API [[https://en.wikipedia.org/wiki/Create,_read,_update_and_delete][CRUD]] para *gestionar el listado de gastos* de un conjunto de usuarios.
+
+    La API dispone de las siguientes *URLs*:
+    - ~/{USUARIO}~ - Permitirá leer el *listado de gastos* de un usuario y *crear* nuevos gastos. El parámetro ~{USUARIO}~ deberá sustituirse por tu *nombre+primer apellido*, sin espacios ni caracteres especiales. Por ejemplo, en mi caso trabajaría con https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/pedroprieto.
+    - ~/{USUARIO}/{GASTOID}~ - Permitirá leer *un determinado gasto* indicando su ~id~, así como *modificar* y *borrar* dicho gasto. De nuevo, el parámetro ~{USUARIO}~ deberá sustituirse por tu *nombre+primer apellido*, sin espacios ni caracteres especiales, mientras que el parámetro ~{GASTOID}~ deberá sustituirse por el ~id~ del gasto que se quiera acceder. Por ejemplo, en mi caso, para acceder al gasto *0* utilizaría la URL https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/pedroprieto/0.
+
+    Sobre las URLs indicadas se podrán ejecutar las siguientes *peticiones HTTP*:
+    - ~GET /{USUARIO}~ - La API devolverá un *array* con el listado de gastos del usuario. Cada elemento del array será un *objeto gasto*.
+    - ~POST /{USUARIO}~ - Al hacer una petición de este tipo se deberán *enviar los datos del gasto* que se quiera crear.
+    - ~GET /{USUARIO}/{GASTOID}~ - La API devolverá un *objeto* con los datos del gasto correspondiente al ~id~ indicado en ~GASTOID~.
+    - ~PUT/{USUARIO}/{GASTOID}~ - La API *actualizará* el gasto indicado en ~GASTOID~ con los datos que se envíen.
+    - ~DELETE /{USUARIO}/{GASTOID}~ - La API *borrará* el gasto indicado en ~GASTOID~.
+    
+    #+begin_quote
+    ¡IMPORTANTE! La API será compartida por todas las personas que estén realizando la práctica, por lo que cada persona deberá realizar las operaciones y pruebas *exclusivamente* sobre su *identificador de usuario*. Se debe evitar en todo momento borrar o modificar datos de otras personas o poner textos o contenido inadecuado.
+    #+end_quote
+
+    Para los interesados en el código de la API (hecha con NodeJS, [[https://www.claudiajs.com/][ClaudiaJS]] y alojada en AWS), está disponible en el siguiente repositorio: https://github.com/pedroprieto/practica_dwec_gestor_presupuesto_api_server
+    
+*** Fichero ~interaccionHTML.html~
+**** Modificación de controles principales
+    Vamos a añadir *dos controles* a la capa ~<div id="controlesprincipales">~:
+    - Un botón de tipo ~button~ con ~id~ ~cargar-gastos-api~ y texto ~Cargar gastos (API)~.
+    - Un cuadro de texto con ~id~ ~nombre_usuario~.
+    
+    El botón se utilizará para cargar [[https://es.javascript.info/fetch][mediante AJAX]] el listado de gastos desde la API de servidor.
+
+    El cuadro de texto permitirá introducir el nombre de usuario que se utilizará al realizar las peticiones AJAX a la API de servidor.
+    
+**** Modificación de la plantilla para crear un formulario
+     Vamos a añadir un tercer botón a la plantilla ~#formulario-template~:
+     #+begin_src html
+       <button type="button" class="gasto-enviar-api">Enviar (API)</button>
+     #+end_src
+     
+     Este botón se utilizará para *enviar los datos del gasto* que se esté editando (o creando) a la API de servidor.
+     
+*** Fichero ~js/gestionPresupuestoWeb.js~ 
+    Vamos a hacer una serie de modificaciones sobre este fichero con respecto a la práctica anterior.
+
+**** Nueva función ~cargarGastosApi~
+     Esta función se utilizará como [[https://es.javascript.info/introduction-browser-events#addeventlistener][manejadora de eventos]] del evento ~click~ del botón ~cargar-gastos-api~.
+     
+     Se encargará de obtener mediante [[https://es.javascript.info/fetch][fetch]] el listado de gastos *a través de la API de servidor*. Para ello tendrá que hacer una solicitud ~GET~ a la URL correspondiente de la API. Se deberá crear la URL correspondiente utilizando el *nombre de usuario* que se haya introducido en el control ~input#nombre_usuario~.
+
+     Una vez obtenida la lista de gastos de la API deberá llamar a la función ~cargarGastos~ del paquete ~js/gestionPresupuesto.js~ para actualizar el array de gastos.
+
+     Por último, una vez cargados los gastos deberá llamar a la función ~repintar~ para que se muestren correctamente en el HTML.
+     
+**** Modificación de la función ~mostrarGastoWeb~
+     Añade un *segundo botón de borrado* a la estructura HTML de cada gasto.
+
+     La estructura HTML final que debe quedar para cada gasto es la siguiente:
+     #+begin_src html
+       <div class="gasto">
+         <div class="gasto-descripcion">DESCRIPCIÓN DEL GASTO</div>
+         <div class="gasto-fecha">FECHA DEL GASTO</div> 
+         <div class="gasto-valor">VALOR DEL GASTO</div> 
+         <div class="gasto-etiquetas">
+           <!-- Este elemento span tendrá un manejador de eventos -->
+           <span class="gasto-etiquetas-etiqueta">
+             ETIQUETA 1
+           </span>
+           <!-- Este elemento span tendrá un manejador de eventos -->
+           <span class="gasto-etiquetas-etiqueta">
+             ETIQUETA 2
+           </span>
+           <!-- Etcétera -->
+         </div> 
+         <!-- Este botón tendrá un manejador de eventos -->
+         <button class="gasto-editar" type="button">Editar</button>
+         <!-- Este botón tendrá un manejador de eventos -->
+         <button class="gasto-borrar" type="button">Borrar</button>
+         <!-- Este botón tendrá un manejador de eventos -->
+         <button class="gasto-borrar-api" type="button">Borrar (API)</button>
+         <!-- Este botón tendrá un manejador de eventos -->
+         <button class="gasto-editar-formulario" type="button">Editar (formulario)</button>
+       </div>
+     #+end_src
+     
+     Este botón se utilizará para *borrar el gasto seleccionado* a través de la API de servidor.
+
+**** Manejador de eventos de los botones ~.gasto-borrar-api~
+     Añade un [[https://es.javascript.info/introduction-browser-events#objetos-handlers-handleevent][objeto manejador de eventos]] necesario para gestionar el evento ~click~ de los botones ~.gasto-borrar-api~.
+
+     Se encargará de realizar mediante [[https://es.javascript.info/fetch][fetch]] una solicitud ~DELETE~ a la URL correspondiente de la API. Se deberá crear la URL correspondiente utilizando el *nombre de usuario* que se haya introducido en el control ~input#nombre_usuario~ y el ~id~ del gasto actual.
+
+     Una vez completada la petición, se deberá llamar a la función ~cargarGastosApi~ para actualizar la lista en la página.
+
+**** Manejador de eventos del botón ~.gasto-enviar-api~ dentro de ~nuevoGastoWebFormulario~
+     Añade un [[https://es.javascript.info/introduction-browser-events#controladores-de-eventos][manejador de eventos]] necesario para gestionar el evento ~click~ del botón ~.gasto-enviar-api~.
+
+     Se encargará de realizar mediante [[https://es.javascript.info/fetch][fetch]] una solicitud ~POST~ a la URL correspondiente de la API. Se deberá crear la URL correspondiente utilizando el *nombre de usuario* que se haya introducido en el control ~input#nombre_usuario~. El contenido de la petición ~POST~ se obtendrá a partir del formulario de creación.
+
+     Una vez completada la petición, se deberá llamar a la función ~cargarGastosApi~ para actualizar la lista en la página.
+
+**** Manejador de eventos del botón ~.gasto-enviar-api~ dentro de ~EditarHandleFormulario~
+     Añade un [[https://es.javascript.info/introduction-browser-events#objetos-handlers-handleevent][objeto manejador de eventos]] necesario para gestionar el evento ~click~ del botón ~.gasto-enviar-api~.
+
+     Se encargará de realizar mediante [[https://es.javascript.info/fetch][fetch]] una solicitud ~PUT~ a la URL correspondiente de la API. Se deberá crear la URL correspondiente utilizando el *nombre de usuario* que se haya introducido en el control ~input#nombre_usuario~ y el ~id~ del gasto actual. El contenido de la petición ~PUT~ se obtendrá a partir del formulario de edición.
+
+     Una vez completada la petición, se deberá llamar a la función ~cargarGastosApi~ para actualizar la lista en la página.
+
+** Formato de la entrega
+- Cada persona trabajará en su *repositorio personal* que habrá creado tras realizar el /fork/ del repositorio base.
+- Todos los archivos de la práctica se guardarán en el repositorio y se subirán a GitHub periódicamente. Es conveniente ir subiendo los cambios aunque no sean definitivos. *No se admitirán entregas de tareas que tengan un solo commit*.
+- *Como mínimo* se debe realizar *un commit* por *cada elemento de la lista de tareas* a realizar (si es que estas exigen crear código, claro está).
+- Para cualquier tipo de *duda o consulta* se pueden abrir ~Issues~ haciendo referencia al profesor mediante el texto ~@pedroprieto~ dentro del texto del ~Issue~. Los ~issues~ deben crearse en *tu repositorio*: si no se muestra la pestaña de ~Issues~ puedes activarla en los ~Settings~ de tu repositorio.
+- Una vez *finalizada* la tarea se debe realizar una ~Pull Request~ al repositorio base indicando tu *nombre y apellidos* en el mensaje.
