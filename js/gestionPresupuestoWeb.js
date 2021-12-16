@@ -207,8 +207,9 @@ function nuevoGastoWebFormulario()
         let fecha = formulario.elements.fecha;
         let etiquetas = formulario.elements.etiquetas;
         etiquetas = etiquetas.value.split(',');
-        let gasto = new gestionPresupuesto.CrearGasto(desc.value, parseFloat(valor.value), fecha.value, ...etiquetas);
+        let gasto = new gestionPresupuesto.CrearGasto(desc.value, parseFloat(valor.value), fecha.value, ...etiquetas);        
         gestionPresupuesto.anyadirGasto(gasto);
+        
         document.getElementById('anyadirgasto-formulario').disabled = false;
         document.getElementById('controlesprincipales').removeChild(formulario);
         repintar();
@@ -334,7 +335,7 @@ btnAddForm.onclick = nuevoGastoWebFormulario;
 let FormHandler = new FiltrarGastosWeb();
 
 let form = document.getElementById('formulario-filtrado');
-form.addEventListener('submit',FormHandler);
+form.addEventListener('submit', FormHandler);
 
 let btnSave = document.getElementById('guardar-gastos');
 btnSave.onclick = guardarGastosWeb;
