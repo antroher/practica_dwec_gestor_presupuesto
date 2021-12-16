@@ -275,27 +275,29 @@ function FiltrarGastosWeb()
     {
         event.preventDefault();
 
-        let desc = document.getElementById('formulario-filtrado-descripcion').value;
-        let valorMin = parseFloat(document.getElementById('formulario-filtrado-valor-minimo').value);
-        let valorMax = parseFloat(document.getElementById('formulario-filtrado-valor-maximo').value);
-        let fechaDesde = document.getElementById('formulario-filtrado-fecha-desde').value;
-        let fechaHasta = document.getElementById('formulario-filtrado-fecha-hasta').value;
-        let etiquetasTiene = document.getElementById('formulario-filtrado-etiquetas-tiene').value;
+        let desc = document.getElementById("formulario-filtrado-descripcion").value;
+        let valorMin = parseFloat(document.getElementById("formulario-filtrado-valor-minimo").value);
+        let valorMax = parseFloat(document.getElementById("formulario-filtrado-valor-maximo").value);
+        let dateSince = document.getElementById("formulario-filtrado-fecha-desde").value;
+        let dateUntill = document.getElementById("formulario-filtrado-fecha-hasta").value;
+        let etiquetasTiene = document.getElementById("formulario-filtrado-etiquetas-tiene").value;
         let etiquetasBuscar = new Array();
-        etiquetasTiene != '' && typeof etiquetasTiene != 'undefined' && (etiquetasBuscar = gestionPresupuesto.transformarListadoEtiquetas(etiquetasTiene));
-                
-        let filtro = {};
-        (desc != '' && typeof desc != 'undefined') && (filtro.descripcionContiene = desc);        
-        (valorMin != '' && typeof valorMin != 'undefined' && !isNaN(valorMin)) && (filtro.valorMin = valorMin);
-        (valorMax != '' && typeof valorMax != 'undefined'&& !isNaN(valorMax)) && (filtro.valorMaximo = valorMax); 
-        (fechaDesde != '' && typeof fechaDesde != 'undefined') && (filtro.fechaDesde = fechaDesde);
-        (fechaHasta != '' && typeof fechaHasta != 'undefined') && (filtro.fechaHasta = fechaHasta);        
-        (etiquetasBuscar.length > 0) && (filtro.etiquetasTiene = etiquetasBuscar);        
 
-        document.getElementById('listado-gastos-completo').innerHTML = '<hr>';
-        gestionPresupuesto.filtrarGastos(filtro).forEach(gastoFiltrado => {mostrarGastoWeb('listado-gastos-completo',gastoFiltrado);});
-        document.getElementById('listado-gastos-completo').innerHTML += '<hr>';
-    };    
+        etiquetasTiene != '' && typeof etiquetasTiene != 'undefined' && (etiquetasBuscar = gestionPresupuesto.transformarListadoEtiquetas(etiquetasTiene));
+        let filtro = {};
+
+        (desc != '' && typeof desc != 'undefined') && (filtro.descripcionContiene = desc);        
+        (valorMin != "" && typeof valorMin != 'undefined' && !isNaN(valorMin)) && (filtro.valorMinimo = valorMin);
+        (valorMax!= "" && typeof valorMax != 'undefined'&& !isNaN(valorMax)) && (filtro.valorMaximo = valorMax);        
+        (dateSince != "" && typeof dateSince != 'undefined') && (filtro.fechaDesde = dateSince);
+        (dateUntill !="" && typeof dateUntill != 'undefined') && (filtro.fechaHasta = dateUntill);
+        (etiquetasBuscar.length > 0) && (filtro.etiquetasTiene = etiquetasBuscar);       
+        
+        let filteredExpense = gestionPresupuesto.filtrarGastos(filtro);
+        document.getElementById("listado-gastos-completo").innerHTML = "<hr>";
+        filteredExpense.forEach(gastoFiltrado => {mostrarGastoWeb("listado-gastos-completo", gastoFiltrado);});
+        document.getElementById("listado-gastos-completo").innerHTML += "<hr>";
+    };
 }
 
 function guardarGastosWeb()
@@ -338,7 +340,6 @@ let btnSave = document.getElementById('guardar-gastos');
 btnSave.onclick = guardarGastosWeb;
 
 let btnCharge = document.getElementById('cargar-gastos');
-
 btnCharge.onclick = cargarGastosWeb;
 
 export   {
