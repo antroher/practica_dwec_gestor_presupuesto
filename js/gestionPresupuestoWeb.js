@@ -232,8 +232,8 @@ function EditarHandleFormulario()
         let divExpense = this.divGasto;
 
         this.btnEditGasto.disabled = true;
-        let formTemplate = document.getElementById("formulario-template").content.cloneNode(true);;
-        let formulario = formTemplate.querySelector("form");
+        let formTemplate = document.getElementById('formulario-template').content.cloneNode(true);;
+        let formulario = formTemplate.querySelector('form');
 
         formulario.elements.descripcion.value = expense.descripcion;
         formulario.elements.valor.value = expense.valor;
@@ -241,7 +241,7 @@ function EditarHandleFormulario()
         formulario.elements.etiquetas.value = expense.etiquetas.toString();
         divExpense.appendChild(formulario);
         
-        formulario.addEventListener("submit", this.handleEvent = function(event)
+        formulario.addEventListener('submit', this.handleEvent = function(event)
         {
             let etiquetasFormulario = formulario.elements.etiquetas;          
 
@@ -250,7 +250,7 @@ function EditarHandleFormulario()
             expense.actualizarValor(parseFloat(formulario.elements.valor.value));
             expense.actualizarFecha(formulario.elements.fecha.value);   
 
-            etiquetasFormulario = etiquetasFormulario.value.split(",");
+            etiquetasFormulario = etiquetasFormulario.value.split(',');
             expense.borrarEtiquetas(...expense.etiquetas);
             expense.anyadirEtiquetas(...etiquetasFormulario);
 
@@ -260,7 +260,7 @@ function EditarHandleFormulario()
             repintar();
         });
 
-        formulario.querySelector("button.cancelar").addEventListener("click", this.handleEvent = function()
+        formulario.querySelector('button.cancelar').addEventListener('click', this.handleEvent = function()
         {
             btnEditExpense.disabled = false;
             divExpense.removeChild(formulario);
@@ -275,28 +275,28 @@ function FiltrarGastosWeb()
     {
         event.preventDefault();
 
-        let desc = document.getElementById("formulario-filtrado-descripcion").value;
-        let valorMin = parseFloat(document.getElementById("formulario-filtrado-valor-minimo").value);
-        let valorMax = parseFloat(document.getElementById("formulario-filtrado-valor-maximo").value);
-        let dateSince = document.getElementById("formulario-filtrado-fecha-desde").value;
-        let dateUntill = document.getElementById("formulario-filtrado-fecha-hasta").value;
-        let etiquetasTiene = document.getElementById("formulario-filtrado-etiquetas-tiene").value;
+        let desc = document.getElementById('formulario-filtrado-descripcion').value;
+        let valorMin = parseFloat(document.getElementById('formulario-filtrado-valor-minimo').value);
+        let valorMax = parseFloat(document.getElementById('formulario-filtrado-valor-maximo').value);
+        let dateSince = document.getElementById('formulario-filtrado-fecha-desde').value;
+        let dateUntill = document.getElementById('formulario-filtrado-fecha-hasta').value;
+        let etiquetasTiene = document.getElementById('formulario-filtrado-etiquetas-tiene').value;
         let etiquetasBuscar = new Array();
 
         etiquetasTiene != '' && typeof etiquetasTiene != 'undefined' && (etiquetasBuscar = gestionPresupuesto.transformarListadoEtiquetas(etiquetasTiene));
         let filtro = {};
 
         (desc != '' && typeof desc != 'undefined') && (filtro.descripcionContiene = desc);        
-        (valorMin != "" && typeof valorMin != 'undefined' && !isNaN(valorMin)) && (filtro.valorMinimo = valorMin);
-        (valorMax!= "" && typeof valorMax != 'undefined'&& !isNaN(valorMax)) && (filtro.valorMaximo = valorMax);        
-        (dateSince != "" && typeof dateSince != 'undefined') && (filtro.fechaDesde = dateSince);
-        (dateUntill !="" && typeof dateUntill != 'undefined') && (filtro.fechaHasta = dateUntill);
+        (valorMin != '' && typeof valorMin != 'undefined' && !isNaN(valorMin)) && (filtro.valorMinimo = valorMin);
+        (valorMax!= '' && typeof valorMax != 'undefined'&& !isNaN(valorMax)) && (filtro.valorMaximo = valorMax);        
+        (dateSince != '' && typeof dateSince != 'undefined') && (filtro.fechaDesde = dateSince);
+        (dateUntill !='' && typeof dateUntill != 'undefined') && (filtro.fechaHasta = dateUntill);
         (etiquetasBuscar.length > 0) && (filtro.etiquetasTiene = etiquetasBuscar);       
         
         let filteredExpense = gestionPresupuesto.filtrarGastos(filtro);
-        document.getElementById("listado-gastos-completo").innerHTML = "<hr>";
-        filteredExpense.forEach(gastoFiltrado => {mostrarGastoWeb("listado-gastos-completo", gastoFiltrado);});
-        document.getElementById("listado-gastos-completo").innerHTML += "<hr>";
+        document.getElementById('listado-gastos-completo').innerHTML = '<hr>';
+        filteredExpense.forEach(gastoFiltrado => {mostrarGastoWeb('listado-gastos-completo', gastoFiltrado);});
+        document.getElementById('listado-gastos-completo').innerHTML += '<hr>';
     };
 }
 

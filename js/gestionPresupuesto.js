@@ -196,9 +196,9 @@ function transformarListadoEtiquetas(txt)
     return txt.split(/[ ,;:\.~]+/g);
 }
 
-function cargarGastos(gastosCargar)
+function cargarGastos(expenseLoad)
 {
-    gastosCargar.length >=0 && (gastos = gastosCargar);
+    expenseLoad.length >=0 && (gastos = expenseLoad);
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
