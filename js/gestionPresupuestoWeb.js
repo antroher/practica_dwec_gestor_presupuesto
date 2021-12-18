@@ -9,6 +9,7 @@ document.getElementById("anyadirgasto-formulario").addEventListener('click', nue
 document.getElementById("formulario-filtrado").addEventListener('submit', filtrarGastoWeb);
 document.getElementById("cargar-gastos").addEventListener('click', cargarGastosWeb);
 document.getElementById("guardar-gastos").addEventListener('click', guardarGastoWeb);
+document.getElementById("cargar-gastos-api").addEventListener('click', cargarGastosApi)
 
 //Funciones de gestionPresupuestoWeb
 function mostrarDatoEnId(idElemento, valor) {
@@ -429,6 +430,25 @@ function cargarGastosWeb() {
     repintar();
 }
 
+async function cargarGastosApi () {
+    //Obtener el nombre de usuario mediante la propiedad "value" del input.
+    let nombreUsuario = document.getElementById("nombre_usuario").value;
+    
+    //Obtener mediante fetch la lista de gastos de la API con nuestra URL personal.
+    let respuestaFetch = await fetch("https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/pedroprieto", {method: 'GET'})
+
+    //Comprobación de si la respuesta ha sido correcta.
+    if (respuestaFetch.ok) {
+        let listaGastoJSON = await respuestaFetch.json();
+        console.log(listaGastoJSON);
+        let listaGastos = JSON.parse(listaGastoJSON);
+        console.log(listaGastoJSON);
+    }
+    else {
+        console.log(`Error de HTTP -> ${respuestaFetch.status}`);
+    }
+    
+}
 //Funciones a exportar para el test.
 export {
     mostrarDatoEnId,
