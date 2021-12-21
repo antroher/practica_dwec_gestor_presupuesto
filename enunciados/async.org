@@ -71,6 +71,14 @@ Para poder realizar esta práctica será necesario *instalar el siguiente softwa
     #+end_quote
 
     Para los interesados en el código de la API (hecha con NodeJS, [[https://www.claudiajs.com/][ClaudiaJS]] y alojada en AWS), está disponible en el siguiente repositorio: https://github.com/pedroprieto/practica_dwec_gestor_presupuesto_api_server
+
+    #+begin_quote
+    *¡IMPORTANTE!* La funcionalidad de interactuar con la API es *independiente* de la *gestión de gastos locales* que hemos hecho hasta ahora. Al crear gastos a través de la API, el servidor *asignará un id* de manera automática a cada gasto. Dícho ~id~ tendrá un formato distinto del utilizado hasta ahora (que era un ~id~ basada en números correlativos).
+
+    Los *gastos creados de manera local* (como los 6 gastos de ejemplo que se cargan al arrancar la aplicación) *no son accesibles ni se pueden editar o borrar a través de la API*. Por tanto, para *borrar* un gasto a través de la API habrá que *crearlo* previamente a través de la API.
+
+    De nuevo, dejar claro que estamos trabajando sobre una aplicación con carácter educativo. En una aplicación real no existiría esta duplicidad: o bien trabajaríamos solamente a través de la API o bien habría una manera de sincronizar los datos creados en local con la API (si, por ejemplo, la aplicación permitiera el trabajo sin conexión y luego permitiera la sincronización cuando la comunicación se restableciese).
+    #+end_quote
     
 *** Fichero ~interaccionHTML.html~
 **** Modificación de controles principales
