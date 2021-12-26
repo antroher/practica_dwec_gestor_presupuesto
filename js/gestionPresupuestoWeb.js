@@ -195,6 +195,9 @@ function nuevoGastoWebFormulario() {
     let cancelarObj = new CancelarFormHandle();
     let btnCancelar = formulario.querySelector("button.cancelar");
     btnCancelar.addEventListener("click", cancelarObj);
+
+    let apiEnviar = formulario.querySelector("button.gasto-enviar-api");
+    enviarApi.addEventListener("click", enviarGastoApi);
 }
 
 //Manejador del evento cancelar del formulario
@@ -273,6 +276,11 @@ function EditarHandleformulario() {
 
         //Desactivar -añadir atributo disabled- al botón anyadirgasto-formulario
         btnEditarFormulario.setAttribute("disabled", "");
+
+        let editarFormularioApi = formulario.querySelector("button.gasto-enviar-api");
+        let evenEditar = new EditarGastoApi();
+        evenEditar.gasto = this.gasto;
+        editarFormularioApi.addEventListener("click", evenEditar);
     }
 }
 
@@ -309,14 +317,14 @@ function guardarGastosWeb() {
 function cargarGastosWeb() {
     this.handleEvent = function(event) {
         if (localStorage.GestorGastosDWEC == null) 
-            gestionPresupuesto.cargarGastos([]);
+            gestionPresupuesto.CargarGastos([]);
         else 
-            gestionPresupuesto.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
+            gestionPresupuesto.CargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
         repintar();    
     }
 }
 
-async function cargarGastosApi() {
+function CargarGastosApi() {
     let usuario = document.querySelector("#nombre_usuario").value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/`;
     
@@ -349,7 +357,7 @@ function BorrarGastoApiHandle(){
             .then(response => response.json())
             .then(datos => {
                 if(!datos.errorMessage){
-                    cargarGastosApi();
+                    CargarGastosApi();
                 }else{
                     console.log(datos.errorMessage);
                 }
@@ -359,7 +367,7 @@ function BorrarGastoApiHandle(){
     }
 }
 
-function enviarGastoApi(event){
+function EnviarGastoApi(event){
     let usuario = document.getElementById("nombre_usuario").value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
     
@@ -395,7 +403,7 @@ function enviarGastoApi(event){
             
             if(response.ok){
                 console.log("La peticion de añadir ha sido correcta");
-                cargarGastosApi();
+                CargarGastosApi();
             }else{
                 console.log("La peticion de añadir ha sido erronea");
             }
@@ -440,7 +448,7 @@ function EditarGastoApi(){
                 
                 if(response.ok){
                     console.log("Peticion de modificacion correcta");
-                    cargarGastosApi();
+                    CargarGastosApi();
                 }else{
                     console.log("Peticion de modificacion incorrecta");
                 }
@@ -459,7 +467,7 @@ const formularioFiltrador = document.getElementById("formulario-filtrado");
 const btnGuardarGastos = document.getElementById("guardar-gastos");
 const btnCargarGastos = document.getElementById("cargar-gastos");
 const btnGastosApi = document.getElementById("cargar-gastos-api");
-btnGastosApi.addEventListener("click", cargarGastosApi);
+btnGastosApi.addEventListener("click", CargarGastosApi);
 //Eventos
 actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
 anyadirgasto.addEventListener('click', nuevoGastoWeb);
@@ -468,7 +476,6 @@ anyadirgastoFirmulario.addEventListener('click', nuevoGastoWebFormulario)
 let filtGastForm = new filtrarGastosWeb();
 formularioFiltrador.addEventListener('submit', filtGastForm);
 
-//Práctica 8
 let objGuardarGastosWeb = new guardarGastosWeb();
 let objCargarGastosWeb = new cargarGastosWeb();
 btnGuardarGastos.addEventListener('click', objGuardarGastosWeb);
