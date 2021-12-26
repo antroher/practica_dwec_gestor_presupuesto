@@ -348,7 +348,6 @@ function BorrarGastoApiHandle(){
             fetch(url, {method: 'DELETE'})
             .then(response => response.json())
             .then(datos => {
-                //console.log(datos);
                 if(!datos.errorMessage){
                     cargarGastosApi();
                 }else{
@@ -395,7 +394,6 @@ function enviarGastoApi(event){
         .then(response => {
             
             if(response.ok){
-                //response.JSON.stringify(nuevoObjeto);
                 console.log("La peticion de añadir ha sido correcta");
                 cargarGastosApi();
             }else{
