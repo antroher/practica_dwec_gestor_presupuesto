@@ -69,6 +69,16 @@ function mostrarGastoWeb(idElemento, gasto) {
     divGasto.append(buttonEdit);
     divGasto.append(buttonBorr);
 
+    let btnBorrarGastoApi = document.createElement("button");
+                            btnBorrarGastoApi.className += 'gasto-borrar-api';
+                            btnBorrarGastoApi.textContent = 'Borrar (API)';
+                            btnBorrarGastoApi.type = 'button';
+
+
+
+
+
+    divGasto.append(btnBorrarGastoApi);
 
     //Práctica 6:
     let btnEditGastoForm = document.createElement("button");
@@ -306,6 +316,32 @@ function cargarGastosWeb() {
     }
 }
 
+async function cargarGastosApi() {
+    let usuario = document.querySelector("#nombre_usuario").value;
+    let urlApi = "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + usuario;
+    
+    if (usuario !== '') {
+        fetch(urlApi, {method: 'GET'})
+            .then(respuesta => respuesta.json())
+            .then((result) => {
+                let resultado = result;
+                if(resultado == "") {
+                    console.log("No existen gastos en la api para el usuario")
+                } else {
+                    gestionPresupuesto.cargarGastos(resultado);
+                    repintar();
+                }
+                })
+            .catch(err => console.error(err));
+    }
+}
+
+function BorrarGastoApiHandle() {
+    this.handleEvent = function (event) {
+        let deleteUrl = "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/senenrodenas";
+    }
+}
+
 //Botones
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
@@ -326,6 +362,7 @@ let objGuardarGastosWeb = new guardarGastosWeb();
 let objCargarGastosWeb = new cargarGastosWeb();
 btnGuardarGastos.addEventListener('click', objGuardarGastosWeb);
 btnCargarGastos.addEventListener('click', objCargarGastosWeb);
+
 
 
 export   {
