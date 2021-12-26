@@ -74,9 +74,9 @@ function mostrarGastoWeb(idElemento, gasto) {
                             btnBorrarGastoApi.textContent = 'Borrar (API)';
                             btnBorrarGastoApi.type = 'button';
 
-
-
-
+    let objBorrarGastoApi = new BorrarGastoApiHandle();
+    objBorrarGastoApi.gasto = gasto;
+    btnBorrarGastoApi.addEventListener("click", objBorrarGastoApi);
 
     divGasto.append(btnBorrarGastoApi);
 
@@ -360,6 +360,99 @@ function BorrarGastoApiHandle(){
     }
 }
 
+function enviarGastoApi(event){
+    let usuario = document.getElementById("nombre_usuario").value;
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
+    
+    let formulario = event.currentTarget.form;
+    let descripcionN = formulario.elements.descripcion.value;
+    let valorN = formulario.elements.valor.value;
+    let fechaN = formulario.elements.fecha.value;
+    let etiquetasN = formulario.elements.etiquetas.value;
+
+    valorN = parseFloat(valorN);
+    etiquetasN = etiquetasN.split(",");
+
+    let nuevoObjeto = {
+        descripcion: descripcionN,
+        fecha: fechaN,
+        valor: valorN,
+        etiquetas: etiquetasN
+    }
+
+    console.log(nuevoObjeto);
+
+    if(usuario == ""){
+        console.log("El input del nombre de usuario esta vacio");
+    }else{
+        fetch(url, {
+            method: 'POST', 
+            body: JSON.stringify(nuevoObjeto),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            
+            if(response.ok){
+                //response.JSON.stringify(nuevoObjeto);
+                console.log("La peticion de añadir ha sido correcta");
+                cargarGastosApi();
+            }else{
+                console.log("La peticion de añadir ha sido erronea");
+            }
+        })
+        .catch(err => console.error(err));
+    }
+}
+
+function EditarGastoApi(){
+
+    this.handleEvent = function(event){
+        let usuario = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+        
+        let formulario = event.currentTarget.form;
+        let descripcionN = formulario.elements.descripcion.value;
+        let valorN = formulario.elements.valor.value;
+        let fechaN = formulario.elements.fecha.value;
+        let etiquetasN = formulario.elements.etiquetas.value;
+
+        valorN = parseFloat(valorN);
+        etiquetasN = etiquetasN.split(",");
+    
+        let nuevoObjeto = {
+            descripcion: descripcionN,
+            fecha: fechaN,
+            valor: valorN,
+            etiquetas: etiquetasN
+        }
+
+        if(usuario == ""){
+            console.log("El input del nombre de usuario esta vacio");
+        }else{
+            fetch(url, {
+                method: 'PUT', 
+                body: JSON.stringify(nuevoObjeto),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                
+                if(response.ok){
+                    console.log("Peticion de modificacion correcta");
+                    cargarGastosApi();
+                }else{
+                    console.log("Peticion de modificacion incorrecta");
+                }
+            })
+            .catch(err => console.error(err));
+        }
+    }
+}
+
+
 //Botones
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
@@ -367,6 +460,8 @@ const anyadirgastoFirmulario = document.getElementById("anyadirgasto-formulario"
 const formularioFiltrador = document.getElementById("formulario-filtrado");
 const btnGuardarGastos = document.getElementById("guardar-gastos");
 const btnCargarGastos = document.getElementById("cargar-gastos");
+const btnGastosApi = document.getElementById("cargar-gastos-api");
+btnGastosApi.addEventListener("click", cargarGastosApi);
 //Eventos
 actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
 anyadirgasto.addEventListener('click', nuevoGastoWeb);
