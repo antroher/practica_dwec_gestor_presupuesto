@@ -329,7 +329,7 @@ function CargarGastosApi() {
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/`;
     
     if (usuario !== '') {
-        fetch(urlApi, {method: 'GET'})
+        fetch(url, {method: 'GET'})
             .then(respuesta => respuesta.json())
             .then((result) => {
                 let resultado = result;
@@ -350,15 +350,15 @@ function BorrarGastoApiHandle(){
         let usuario = document.getElementById("nombre_usuario").value;
         let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
 
-        if(usuario == ""){
+        if (usuario == "") {
             console.log("El input del nombre de usuario esta vacio");
-        }else{
+        } else {
             fetch(url, {method: 'DELETE'})
             .then(response => response.json())
             .then(datos => {
                 if(!datos.errorMessage){
                     CargarGastosApi();
-                }else{
+                } else {
                     console.log(datos.errorMessage);
                 }
             })
