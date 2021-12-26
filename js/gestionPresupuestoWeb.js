@@ -318,7 +318,7 @@ function cargarGastosWeb() {
 
 async function cargarGastosApi() {
     let usuario = document.querySelector("#nombre_usuario").value;
-    let urlApi = "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + usuario;
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/`;
     
     if (usuario !== '') {
         fetch(urlApi, {method: 'GET'})
@@ -336,9 +336,27 @@ async function cargarGastosApi() {
     }
 }
 
-function BorrarGastoApiHandle() {
-    this.handleEvent = function (event) {
-        let deleteUrl = "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/senenrodenas";
+function BorrarGastoApiHandle(){
+    
+    this.handleEvent = function(event){
+        let usuario = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+
+        if(usuario == ""){
+            console.log("El input del nombre de usuario esta vacio");
+        }else{
+            fetch(url, {method: 'DELETE'})
+            .then(response => response.json())
+            .then(datos => {
+                //console.log(datos);
+                if(!datos.errorMessage){
+                    cargarGastosApi();
+                }else{
+                    console.log(datos.errorMessage);
+                }
+            })
+            .catch(err => console.error(err));
+        }
     }
 }
 
@@ -362,8 +380,6 @@ let objGuardarGastosWeb = new guardarGastosWeb();
 let objCargarGastosWeb = new cargarGastosWeb();
 btnGuardarGastos.addEventListener('click', objGuardarGastosWeb);
 btnCargarGastos.addEventListener('click', objCargarGastosWeb);
-
-
 
 export   {
     mostrarDatoEnId,
