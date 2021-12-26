@@ -326,9 +326,9 @@ function cargarGastosWeb() {
 
 function CargarGastosApi() {
     let usuario = document.querySelector("#nombre_usuario").value;
-    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/`;
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
     
-    if (usuario !== '') {
+    if (usuario != '') {
         fetch(url, {method: 'GET'})
             .then(respuesta => respuesta.json())
             .then((result) => {
