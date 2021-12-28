@@ -399,6 +399,12 @@ let eventLoadGasto = new cargarGastoWeb();
 let loadGast = document.getElementById('cargar-gastos');
 loadGast.addEventListener('click', eventLoadGasto);
 
+//PRACTICA 9
+function cargarGastosApi ()
+{
+    
+}
+
 //********** NO TOCAR **************
 export   {
     mostrarDatoEnId,
