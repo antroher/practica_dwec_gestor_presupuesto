@@ -372,9 +372,9 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
 //las funciones y objetos deben tener los nombres que indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
 
-function cargarGastos(array) {
-    gastos = array;
-}
+    function cargarGastos(array) {
+        gastos = array;
+    }
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
