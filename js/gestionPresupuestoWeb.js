@@ -358,9 +358,7 @@ btnEditarFormulario.addEventListener('submit',eventoFiltrarGasto);
 function guardarGastosWeb() {
     this.handleEvent = function(event) {
         let guardaListadoGastos = gestionPresupuesto.listarGastos();
-        //console.log(guardaListadoGastos);
         localStorage.GestorGastosDWEC = JSON.stringify(guardaListadoGastos);
-        //console.log(localStorage.GestorGastosDWEC);
     }
 }
 //boton
@@ -370,7 +368,7 @@ btnGatosGuardados.addEventListener('click',evetGuardarGastosWeb);
 
 function cargarGastosWeb(){
     this.handleEvent = function(e) {
-        let listarGasto = JSON.parse(localStorage.getItem('GestorGastosDWEC'));
+        let listarGasto = JSON.parse(localStorage.getItem('GestorGastosDWEC')); 
 
         if(listarGasto === null){
             gestionPresupuesto.cargarGastos([]);
@@ -383,7 +381,7 @@ function cargarGastosWeb(){
         repintar();
     }
 }
-//console.log(cargarGastosWeb());
+
 //boton
 let cargarGastos = new cargarGastosWeb();
 let btnCargarGatos = document.getElementById("cargar-gastos");
@@ -406,6 +404,7 @@ export {
     event.currentTarget -> permite acceder a todos los elementos de un fomulario en este caso
     element -> hace referencia al nombre del elemento que se va a seleccionar
     value -> saca el valor introducido en el elemento
-    JSON.stringify -> para que el objeto se lea mejor
-    JSON.parse -> lo convierte en string
+    JSON.stringify -> Convierte objetos en string
+    JSON.parse -> Convierte un string en un objeto
+    localStorage.getItem -> obtiene en forma de string el objeto
 */
