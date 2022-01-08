@@ -68,7 +68,41 @@ El repositorio se ha configurado para que se *ejecuten los tests automáticament
     La lógica de la aplicación que hemos desarrollado nos permite obtener el listado completo de gastos (función ~listarGastos~), pero no nos permite sobreescribir el listado completo de gastos desde una copia de seguridad. Es por ello que vamos a crear una función que implemente dicha funcionalidad.
 
 **** Función ~cargarGastos~
-     Vamos a añadir esta función al paquete ~gestionPresupuesto.js~. La función será extremadamente sencilla: tomará como parámetro un array de gastos que se utilizará para *sobreescribir la variable global* ~gastos~.
+     Vamos a añadir esta función al paquete ~gestionPresupuesto.js~. La función deberá realizar las *siguientes tareas*:
+     - Tomará como *parámetro* un *array de gastos*. Dicho array de gastos *procederá del almacenamiento*. Los gastos que contiene son objetos que previamente se habían convertido a [[https://es.javascript.info/json#json-stringify][formato JSON]]. Cuando la función ~cargarGastosWeb~ los recupere, los objetos solo contendrán las *propiedades*: no tendrán acceso a los métodos disponibles en un objeto creado mediante ~CrearGasto~ (~anyadirEtiquetas~, ~actualizarValor~, etc.). Por tanto, la función ~cargarGastos~ tendrá que transformar ese array de objetos "planos" (sin funcionalidad) en objetos de tipo ~CrearGasto~. A este proceso se le suele llamar *rehidratación* de objetos.
+     - Inicializará la variable global ~gastos~ asignándole un *array vacío*.
+     - *Para cada gasto recibido*, realizará las siguientes acciones:
+       - Creará un nuevo objeto mediante el constructor ~CrearGasto~.
+       - A continuación, copiará las propiedades existentes en el gasto obtenido del almacenamiento a ese nuevo objeto creado.
+       - Por último, añadirá el nuevo gasto rehidratado a la variable global ~gastos~.
+     - El código necesario se muestra a continuación:
+       #+begin_src javascript
+         function cargarGastos(gastosAlmacenamiento) {
+             // gastosAlmacenamiento es un array de objetos "planos"
+             // No tienen acceso a los métodos creados con "CrearGasto":
+             // "anyadirEtiquetas", "actualizarValor",...
+             // Solo tienen guardadas sus propiedades: descripcion, valor, fecha y etiquetas
+           
+             // Reseteamos la variable global "gastos"
+             gastos = [];
+             // Procesamos cada gasto del listado pasado a la función
+             for (let g of gastosAlmacenamiento) {
+                 // Creamos un nuevo objeto mediante el constructor
+                 // Este objeto tiene acceso a los métodos "anyadirEtiquetas", "actualizarValor",...
+                 // Pero sus propiedades (descripcion, valor, fecha y etiquetas) están sin asignar
+                 let gastoRehidratado = new CrearGasto();
+                 // Copiamos los datos del objeto guardado en el almacenamiento
+                 // al gasto rehidratado
+                 // https://es.javascript.info/object-copy#cloning-and-merging-object-assign
+                 Object.assign(gastoRehidratado, g);
+                 // Ahora "gastoRehidratado" tiene las propiedades del gasto
+                 // almacenado y además tiene acceso a los métodos de "CrearGasto"
+                   
+                 // Añadimos el gasto rehidratado a "gastos"
+                 gastos.push(gastoRehidratado)
+             }
+         }
+       #+end_src
      
      Por último, se deberá [[https://es.javascript.info/import-export#export-separado-de-la-declaracion][exportar]] la función ~cargarGastos~.
      
