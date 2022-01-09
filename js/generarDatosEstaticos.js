@@ -1,21 +1,6 @@
 import * as gestionPresupuesto from './gestionPresupuesto.js'
 import * as gestionWeb from './gestionPresupuestoWeb.js'
 
-let btnActualizar = document.getElementById('actualizarpresupuesto')
-btnActualizar.onclick = gestionWeb.actualizarPresupuestoWeb;
-
-let btnAnyadir = document.getElementById('anyadirgasto')
-btnAnyadir.onclick = gestionWeb.nuevoGastoWeb;
-
-let btnAnyadirGastoFormulario = document.getElementById("anyadirgasto-formulario");
-btnAnyadirGastoFormulario.addEventListener('click', gestionWeb.nuevoGastoWebFormulario);
-
-let btnGuardarGastos = document.getElementById("guardar-gastos");
-btnGuardarGastos.addEventListener('click', new gestionWeb.guardarGastosWeb);
-
-let btnCargarGastos = document.getElementById("cargar-gastos");
-btnCargarGastos.addEventListener('click', new gestionWeb.cargarGastosWeb);
-
 gestionPresupuesto.actualizarPresupuesto(1500);
 gestionWeb.mostrarDatoEnId("presupuesto", gestionPresupuesto.mostrarPresupuesto());
 

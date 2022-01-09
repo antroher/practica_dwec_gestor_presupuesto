@@ -1,5 +1,20 @@
 import * as gestionPresupuesto from './gestionPresupuesto.js'
 
+let btnActualizar = document.getElementById('actualizarpresupuesto')
+btnActualizar.onclick = actualizarPresupuestoWeb;
+
+let btnAnyadir = document.getElementById('anyadirgasto')
+btnAnyadir.onclick = nuevoGastoWeb;
+
+let btnAnyadirGastoFormulario = document.getElementById("anyadirgasto-formulario");
+btnAnyadirGastoFormulario.addEventListener('click', nuevoGastoWebFormulario);
+
+let btnGuardarGastos = document.getElementById("guardar-gastos");
+btnGuardarGastos.addEventListener('click', new guardarGastosWeb);
+
+let btnCargarGastos = document.getElementById("cargar-gastos");
+btnCargarGastos.addEventListener('click', new cargarGastosWeb);
+
 function nuevoGastoWebFormulario(){
     
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
@@ -358,31 +373,30 @@ function filtrarGastosWeb(){
         let gastosFiltrado = gestionPresupuesto.filtrarGastos(filtro);
         gastosFiltrado.forEach(g => {
             mostrarGastoWeb("listado-gastos-completo" , g);
-        });
+        });intar
 
     }
 }
 function cargarGastosWeb(){
     this.handleEvent = function(event){
-        event.preventDefault();
+    let listaGastosStorage = localStorage.getItem('GestorGastosDWEC');
+    listaGastosStorage = JSON.parse(listaGastosStorage);
 
-        let g = JSON.parse(localStorage.getItem("GestorGastosDWEC"));
-        
-        if(g !== null){
-            gestionPresupuesto.cargarGastos(g);
-        }else{
-            gestionPresupuesto.cargarGastos([]);
-        }
-
-        repintar();
+    if(listaGastosStorage){
+        gestionPresupuesto.cargarGastos(listaGastosStorage);
+    }else{
+        listaGastosStorage = [];
+        gestionPresupuesto.cargarGastos(listaGastosStorage);
+    }
+    repintar();
     }
 }
 
 function guardarGastosWeb(){
     this.handleEvent = function(event){
-        event.preventDefault();
-
-        localStorage.GestorGastosDWEC = JSON.stringify(gestionPresupuesto.listarGastos());
+      
+    let listaGastos = gestionPresupuesto.listarGastos();
+    localStorage.setItem('GestorGastosDWEC', JSON.stringify(listaGastos));
     }
 }
 
@@ -398,8 +412,7 @@ export   {
     nuevoGastoWeb,
     nuevoGastoWebFormulario,
     filtrarGastosWeb,
-    EditarHandleFormulario,
-    guardarGastosWeb,
-    cargarGastosWeb,
+    EditarHandleFormulario
+
     
 }
