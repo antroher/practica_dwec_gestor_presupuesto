@@ -362,7 +362,7 @@ function EditarHandleFormulario()
         let btnEditG=this.btnEditarGasto;
         let divG0=this.divG1;
 
-        this.btnEditarGasto.disabled=false;
+        this.btnEditarGasto.disabled=true;
         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
         let form = plantillaFormulario.querySelector("form");
 
