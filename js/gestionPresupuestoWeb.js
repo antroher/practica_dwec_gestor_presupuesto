@@ -342,7 +342,7 @@ function filtrarGastosWeb(){
         let etF = document.getElementById("formulario-filtrado-etiquetas-tiene").value;
         let fechH = document.getElementById("formulario-filtrado-fecha-hasta").value;
         let fechD = document.getElementById("formulario-filtrado-fecha-desde").value;
-
+        
         let filtro = {};
 
         if(etF.length > 0){
@@ -373,7 +373,7 @@ function filtrarGastosWeb(){
         let gastosFiltrado = gestionPresupuesto.filtrarGastos(filtro);
         gastosFiltrado.forEach(g => {
             mostrarGastoWeb("listado-gastos-completo" , g);
-        });intar
+        });
 
     }
 }
@@ -413,6 +413,4 @@ export   {
     nuevoGastoWebFormulario,
     filtrarGastosWeb,
     EditarHandleFormulario
-
-    
 }

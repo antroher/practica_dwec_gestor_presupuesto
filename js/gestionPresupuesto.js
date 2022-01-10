@@ -123,9 +123,10 @@ Etiquetas:\n`
         
 }
 
-function transformarListadoEtiquetas(c){
+function transformarListadoEtiquetas(etiquetas){
 
-    return c.split(/[ ,;:\.~]+/g); 
+    let arrayFiltrado = etiquetas.match(/[a-zA-Z0-9]+/gi);
+    return arrayFiltrado;
 }
 function listarGastos(){
     return gastos;
