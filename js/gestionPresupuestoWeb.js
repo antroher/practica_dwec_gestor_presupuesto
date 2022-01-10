@@ -304,7 +304,7 @@ function nuevoGastoWebFormulario()
     let btnCancelar=form.querySelector("button.cancelar");
     btnCancelar.addEventListener("click",this.handleEvent=function(){
 
-    let btnEnviarAPI = formulario.querySelector("button.gasto-enviar-api");
+    let btnEnviarAPI = form.querySelector("button.gasto-enviar-api");
     btnEnviarAPI.addEventListener("click", enviarAPIHandle);    
         
         document.getElementById("anyadirgasto-formulario").disabled=false;
@@ -331,6 +331,16 @@ function BorrarHandle()
     };
  }
 
+ function cancelarGastoHandle(){
+    this.handleEvent = function(e){
+
+        e.currentTarget.parentNode.remove();
+        document.getElementById("anyadirgasto-formulario").removeAttribute('disabled');
+
+        repintar();      
+    }
+}
+
  function EditarHandle()
  {
 
@@ -356,48 +366,60 @@ function BorrarHandle()
 
 function EditarHandleFormulario()
 {
-    this.handleEvent=function()
+    this.handleEvent=function(e)
     {
-        let g0=this.gasto;
-        let btnEditG=this.btnEditarGasto;
-        let divG0=this.divG1;
-
-        this.btnEditarGasto.disabled=true;
         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
         let form = plantillaFormulario.querySelector("form");
 
-        form.elements.descripcion.value=g0.descripcion;
-        form.elements.valor.value=g0.valor;
-        form.elements.fecha.value=new Date(g0.fecha).toLocaleDateString();
-        form.elements.etiquetas.value=g0.etiquetas.toString();
-        divG0.appendChild(form);
-        
+        let final = e.currentTarget; 
 
-        form.addEventListener("submit",this.handleEvent=function(event)
-        {
-            event.preventDefault();
-            g0.actualizarDescripcion(form.elements.descripcion.value);
-            g0.actualizarValor(parseFloat(form.elements.valor.value));
-            g0.actualizarFecha(form.elements.fecha.value);
-            let etiquetas=form.elements.etiquetas;
-            etiquetas=etiquetas.value.split(",");
-            g0.anyadirEtiquetas(...etiquetas);
-            btnEditG.disabled=false;
-            divG0.removeChild(form);
-            repintar();
-        });
+        final.after(form); 
 
-        let btnCancelar=form.querySelector("button.cancelar");
-        btnCancelar.addEventListener("click",this.handleEvent=function()
-        {
-            btnEditG.disabled=false;
-            divG0.removeChild(form);
-            repintar();
-        });
+        final.disabled = true;
+
+
+        form.elements.descripcion.value=this.gasto.descripcion;
+        form.elements.valor.value=this.gasto.valor;
+        form.elements.fecha.value=new Date(this.gasto.fecha).toISOString().substr(0,10);
+        form.elements.etiquetas.value=this.gasto.etiquetas;       
+
+        let enviar = new SubmitHandleGasto();
+        enviar.gasto = this.gasto;
+    
+        form.addEventListener("submit", enviar);
+    
+        let cancelar = new cancelarGastoHandle();
+    
+        let btnCancelar = form.querySelector("button.cancelar");
+        btnCancelar.addEventListener("click", cancelar);
+
         let actualizarAPI = new ActualizarAPIHandle();
         actualizarAPI.gasto = this.gasto;
-        let btnActualizarAPI = formulario.querySelector("button.gasto-enviar-api");
+        
+        let btnActualizarAPI = form.querySelector("button.gasto-enviar-api");
         btnActualizarAPI.addEventListener("click", actualizarAPI);
+    }
+}
+
+function SubmitHandleGasto(){
+    this.handleEvent = function(e){
+    e.preventDefault();
+        
+        let form = e.currentTarget;
+        let descrip= form.elements.descripcion.value;
+       let val = form.elements.valor.value;
+       let fech = form.elements.fecha.value;
+       let etiq = form.elements.etiquetas.value;
+
+       val = parseFloat(val);
+       etiq = etiq.split(',');
+
+       this.gasto.actualizarDescripcion(descrip);
+       this.gasto.actualizarValor(val);
+       this.gasto.actualizarFecha(fech);
+       this.gasto.anyadirEtiquetas(...etiq);
+
+       repintar();
     }
 }
 
@@ -657,13 +679,4 @@ export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    repintar,
-    actualizarPresupuestoWeb,
-    nuevoGastoWeb,
-    nuevoGastoWebFormulario,
-    BorrarHandle,
-    BorrarEtiquetasHandle,
-    EditarHandleFormulario,
-    EditarHandle,
-    filtrarGastosWeb
 }
