@@ -362,7 +362,7 @@ function EditarHandleFormulario()
         let btnEditG=this.btnEditarGasto;
         let divG0=this.divG1;
 
-        this.btnEditarGasto.disabled=true;
+        this.btnEditarGasto.disabled=false;
         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
         let form = plantillaFormulario.querySelector("form");
 
@@ -536,7 +536,6 @@ function BorrarAPIHandle()
         {
             alert('No ha introducido un nombre de Usuario');
         }
-
 
     }
 }
