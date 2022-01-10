@@ -24,114 +24,93 @@ function mostrarDatoEnId(idElemento, valor)
 
 function mostrarGastoWeb(idElemento, gasto)
 {
-    /*let div = `<div class="gasto">
-                            <div class="gasto-descripcion"> ${gasto.descripcion} </div>
-                            <div class="gasto-fecha"> ${gasto.fecha} </div>
-                            <div class="gasto-valor"> ${gasto.valor} </div>
-                            <div class="gasto-etiquetas">`;
+    let mostrar = document.getElementById(idElemento);
 
-    for(let gast of gasto.etiquetas)       
-            div += ` <span class="gasto-etiquetas-etiqueta"> ${gast} </span> `;
-        
-    div += `</div></div>`;
+    //Botón editar gasto
+    let evEditar = new EditarHandle();
+    evEditar.gasto = gasto;
 
-    document.getElementById(idElemento).innerHTML += div;*/
+    //Botón borrar gasto
+    let evBorrar = new BorrarHandle();
+    evBorrar.gasto = gasto;
 
-    let ele = document.getElementById(idElemento);  
-    
-    let divG1 = document.createElement('div');
-    divG1.className = 'gasto';
+    //Botón editar gasto formulario
+    let evEditarFormulario = new EditarHandleFormulario();
+    evEditarFormulario.gasto = gasto;
 
-    let divGastoDescri = document.createElement('div');
-    divGastoDescri.className = 'gasto-descripcion'; // Le asignamos el id 'gasto-descripcion'
-    divGastoDescri.textContent = gasto.descripcion;
-    divG1.append(divGastoDescri); //divGastoDescripcion hijo de divGasto
-    
-    
-    let divGastoFech = document.createElement('div');
-    divGastoFech.className = 'gasto-fecha'; 
-    divGastoFech.textContent = new Date(gasto.fecha).toLocaleDateString();
-    divG1.append(divGastoFech); 
-
-    
-    let divGastoV1 = document.createElement('div');
-    divGastoV1.className = 'gasto-valor'; 
-    divGastoV1.textContent = gasto.valor + '';
-    divG1.append(divGastoV1); 
-
+    //Botón borrar API
     let evBorrarAPI = new BorrarAPIHandle();
     evBorrarAPI.gasto = gasto;
 
-    
-    let divGastoEtiq = document.createElement('div');
-    divGastoEtiq.className = 'gasto-etiquetas'; 
-    gasto.etiquetas.forEach(label =>
-        {
-            let spanetiq = document.createElement('span');
-            spanetiq.className = 'gasto-etiquetas-etiqueta';
-            spanetiq.textContent = label + '';
+    let div = document.createElement("div");
+    div.className = "gasto";
 
-            let borraEti = new BorrarEtiquetasHandle();
-            borraEti.gasto = gasto;
-            borraEti.etiqueta = label;
-            spanetiq.addEventListener('click', borraEti);
-            divGastoEtiq.append(spanetiq);            
-        }
-    );
+    let divDesc = document.createElement("div");
+    divDesc.className = "gasto-descripcion";
+    divDesc.textContent = `${gasto.descripcion}`;
 
-    divG1.append(divGastoEtiq); 
+    let divFech = document.createElement("div");
+    divFech.className = "gasto-fecha";
+    divFech.textContent = `${gasto.fecha}`;
 
-    if(idElemento == 'listado-gastos-completo')
-    {
-        let btnEditar = document.createElement('button');
-        btnEditar.className = 'gasto-editar';
-        btnEditar.type = 'button';
-        btnEditar.textContent = 'Editar';
+    let divVal = document.createElement("div");
+    divVal.className = "gasto-valor";
+    divVal.textContent = `${gasto.valor}`;
 
-        let editarHandle = new EditarHandle();
-        editarHandle.gasto = gasto;
-        btnEditar.addEventListener('click', editarHandle);
-        divG1.append(btnEditar);
+    let divEtiq = document.createElement("div");
+    divEtiq.className = "gasto-etiquetas";
 
-        let btnEditarForm=document.createElement("button");
-        btnEditarForm.className="gasto-editar-formulario";
-        btnEditarForm.type="button";
-        btnEditarForm.textContent="Editar Form";
+    for(let etiqueta of gasto.etiquetas){
+        let spanEtiq = document.createElement("span");
+        spanEtiq.className = "gasto-etiquetas-etiqueta";
+        spanEtiq.textContent = `${etiqueta}`;
+        divEtiq.append(spanEtiq);
+        //Borrar etiqueta
+        let evEtiqueta = new BorrarEtiquetasHandle();
+        evEtiqueta.gasto = gasto;
+        evEtiqueta.etiqueta = etiqueta;
+        spanEtiq.addEventListener("click", evEtiqueta);
+    }
 
-        let editarHandleForm = new EditarHandleFormulario();
-        editarHandleForm.gasto=gasto;
-        editarHandleForm.btnEditarGasto=btnEditarForm;
-        editarHandleForm.divG1=divG1;
-        btnEditarForm.addEventListener("click",editarHandleForm);
-        divG1.append(btnEditarForm);
+    let btnEditar = document.createElement("button");
+    btnEditar.className = "gasto-editar";
+    btnEditar.type = "button";
+    btnEditar.textContent = "Editar";
+    btnEditar.addEventListener("click", evEditar);
 
+    let btnBorrar = document.createElement("button");
+    btnBorrar.className = "gasto-borrar";
+    btnBorrar.type = "button";
+    btnBorrar.textContent = "Borrar";
+    btnBorrar.addEventListener("click", evBorrar);
 
-        let btnBorrar = document.createElement('button');
-        btnBorrar.className = 'gasto-borrar';
-        btnBorrar.type = 'button';
-        btnBorrar.textContent = 'Borrar';
+    let btnBorrarAPI = document.createElement("button");
+    btnBorrarAPI.className = "gasto-borrar-api";
+    btnBorrarAPI.type = "button";
+    btnBorrarAPI.textContent = "Borrar (API)";
+    btnBorrarAPI.addEventListener('click', evBorrarAPI);
 
-        let btnBorrarAPI = document.createElement("button");
-        btnBorrarAPI.className = "gasto-borrar-api";
-        btnBorrarAPI.type = "button";
-        btnBorrarAPI.textContent = "Borrar (API)";
-        btnBorrarAPI.addEventListener('click', evBorrarAPI);
-        div.append(btnBorrarAPI);
+    let btnEditaFormulario = document.createElement("button");
+    btnEditaFormulario.className = "gasto-editar-formulario";
+    btnEditaFormulario.type = "button";
+    btnEditaFormulario.textContent = "Editar (formulario)";
+    btnEditaFormulario.addEventListener("click", evEditarFormulario);
 
-        let borrarHandle = new BorrarHandle();
-        borrarHandle.gasto = gasto;
-        btnBorrar.addEventListener('click', borrarHandle);
-        divG1.append(btnBorrar);
-    }   
-    
-    ele.append(divG1);
-
+    div.append(divDesc);
+    div.append(divFech);
+    div.append(divVal);
+    div.append(divEtiq);
+    div.append(btnEditar);
+    div.append(btnBorrar);
+    div.append(btnBorrarAPI);
+    div.append(btnEditaFormulario);
+    mostrar.append(div);  
 }
         
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
 {
-    let elemento = document.getElementById(idElemento);
+    /*let elemento = document.getElementById(idElemento);
     let mensaje= 
     "<div class='agrupacion'>\n" + 
     "<h1>Gastos agrupados por " + periodo + "</h1>\n";
@@ -144,38 +123,132 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
         "</div>\n";
     }
     mensaje += "</div>\n";
-    elemento.innerHTML += mensaje;
+    elemento.innerHTML += mensaje;*/
 
+    var divP = document.getElementById(idElemento);
+    divP.innerHTML = '';
+
+    let mostrar = document.getElementById(idElemento);
+
+    let div = document.createElement("div");
+    div.className = "agrupacion";
+
+    let h1 = document.createElement("h1");
+    h1.textContent = `Gastos agrupados por ${periodo}`;
+
+    div.append(h1);
+
+    for(const [key, value] of Object.entries(agrup)){
+        let divAgrupacion = document.createElement("div");
+        divAgrupacion.className = "agrupacion-dato";
+
+        let spanClave = document.createElement("span");
+        spanClave.className = "agrupacion-dato-clave";
+        spanClave.textContent = `${key}`;
+
+        let spanValor = document.createElement("span");
+        spanValor.className = "agrupacion-dato-valor";
+        spanValor.textContent = `${value}`;
+
+        divAgrupacion.append(spanClave);
+        divAgrupacion.append(spanValor);
+
+        div.append(divAgrupacion);
+    }
+
+    mostrar.append(div);
+
+    //*//
+    // Estilos
+    divP.style.width = "33%";
+    divP.style.display = "inline-block";
+    // Crear elemento <canvas> necesario para crear la gráfica
+    // https://www.chartjs.org/docs/latest/getting-started/
+    let chart = document.createElement("canvas");
+    // Variable para indicar a la gráfica el período temporal del eje X
+    // En función de la variable "periodo" se creará la variable "unit" (anyo -> year; mes -> month; dia -> day)
+    let unit = "";
+    switch (periodo) 
+    {
+    case "anyo":
+        unit = "year";
+        break;
+    case "mes":
+        unit = "month";
+        break;
+    case "dia":
+    default:
+        unit = "day";
+        break;
+    }
+
+    // Creación de la gráfica
+    // La función "Chart" está disponible porque hemos incluido las etiquetas <script> correspondientes en el fichero HTML
+    const myChart = new Chart(chart.getContext("2d"), {
+        // Tipo de gráfica: barras. Puedes cambiar el tipo si quieres hacer pruebas: https://www.chartjs.org/docs/latest/charts/line.html
+        type: 'bar',
+        data: {
+            datasets: [
+                {
+                    // Título de la gráfica
+                    label: `Gastos por ${periodo}`,
+                    // Color de fondo
+                    backgroundColor: "#555555",
+                    // Datos de la gráfica
+                    // "agrup" contiene los datos a representar. Es uno de los parámetros de la función "mostrarGastosAgrupadosWeb".
+                    data: agrup
+                }
+            ],
+        },
+        options: {
+            scales: {
+                x: {
+                    // El eje X es de tipo temporal
+                    type: 'time',
+                    time: {
+                        // Indicamos la unidad correspondiente en función de si utilizamos días, meses o años
+                        unit: unit
+                    }
+                },
+                y: {
+                    // Para que el eje Y empieza en 0
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    // Añadimos la gráfica a la capa
+    divP.append(chart);
 }
 
 function repintar()
 {
-    document.getElementById('presupuesto').innerHTML = '';
-    document.getElementById('balance-total').innerHTML = '';
-    document.getElementById('gastos-totales').innerHTML = '';
-    mostrarDatoEnId('presupuesto', gestionpre.mostrarPresupuesto());
-    mostrarDatoEnId('gastos-totales', gestionpre.calcularTotalGastos());
-    mostrarDatoEnId('balance-total', gestionpre.calcularBalance());
-
-    document.getElementById('listado-gastos-completo').innerHTML = '';
-    let lisgas = gestionpre.listarGastos();
-    lisgas.forEach(exp => {mostrarGastoWeb('listado-gastos-completo', exp);});
+    let presupuesto = gestionpre.mostrarPresupuesto();
+    mostrarDatoEnId("presupuesto", presupuesto);
     
-    document.getElementById('listado-gastos-filtrado-1').innerHTML = '';
-    let gastosFlt = gestionpre.filtrarGastos({fechaDesde:'2021-09-01', fechaHasta:'2021-09-30'});
-    gastosFlt.forEach(gastoFiltrado => {mostrarGastoWeb('listado-gastos-filtrado-1', gastoFiltrado);});
+    let gasTotales = gestionpre.calcularTotalGastos();
+    mostrarDatoEnId("gastos-totales", gasTotales);
+    
+    let balTotal = gestionpre.calcularBalance();
+    mostrarDatoEnId("balance-total", balTotal);
+    
+    document.getElementById("listado-gastos-completo").innerHTML = '';
+    
+    let lisgastos = gestionpre.listarGastos();
+    
+    for(let gasto of lisgastos)
+    {
+        mostrarGastoWeb("listado-gastos-completo", gasto);
+    }
+    
+    let gastosAgruparDia = gestionpre.agruparGastos("dia");
+    mostrarGastosAgrupadosWeb("agrupacion-dia", gastosAgruparDia, "día");
 
-    document.getElementById('listado-gastos-filtrado-2').innerHTML = '';
-    gastosFlt = gestionpre.filtrarGastos({valorMinimo:50});
-    gastosFlt.forEach(gastoFiltrado => {mostrarGastoWeb('listado-gastos-filtrado-2', gastoFiltrado);});
+    let gastosAgruparMes = gestionpre.agruparGastos("mes");
+    mostrarGastosAgrupadosWeb("agrupacion-mes", gastosAgruparMes, "mes");
 
-    document.getElementById('listado-gastos-filtrado-3').innerHTML = '';
-    gastosFlt = gestionpre.filtrarGastos({valorMinimo:200,etiquetasTiene:['seguros']});
-    gastosFlt.forEach(gastoFiltrado => {mostrarGastoWeb('listado-gastos-filtrado-3', gastoFiltrado);});
-
-    document.getElementById('listado-gastos-filtrado-4').innerHTML = '';
-    gastosFlt = gestionpre.filtrarGastos({valorMaximo:50,etiquetasTiene:['comida','transporte']});
-    gastosFlt.forEach(gastoFiltrado => {mostrarGastoWeb('listado-gastos-filtrado-4', gastoFiltrado);});
+    let gastosAgruparAnyo = gestionpre.agruparGastos("anyo");
+    mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAgruparAnyo, "año");
     
 }
 

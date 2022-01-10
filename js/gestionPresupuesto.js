@@ -283,8 +283,18 @@ function transformarListadoEtiquetas(etiquetas)
     //return resultado;
 }
 
-function cargarGastos(cargas){
-    gastos = cargas;
+function cargarGastos(gastosAR)
+{
+    gastos = [];
+
+    for (let gast of gastosAR) 
+    {
+        let gastoR = new CrearGasto();
+
+        Object.assign(gastoR, gast);
+
+        gastos.push(gastoR);
+    }
 }
 
 
