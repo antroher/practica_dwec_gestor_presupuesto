@@ -1,0 +1,161 @@
+* Librerías externas
+  En esta práctica veremos cómo utilizar librerías de terceros en nuestra aplicación.
+
+** Repositorio de la práctica
+   El *repositorio base* de la práctica está disponible en: https://github.com/pedroprieto/practica_dwec_gestor_presupuesto
+
+   Se supone que ya está configurado el *repositorio personal* y el *remoto secundario* (~profesor~). Si no es así, revisa las instrucciones de las prácticas anteriores. En el apartado de *Preparación* se indica cómo proceder.
+   
+** Requisitos de software
+Para poder realizar esta práctica será necesario *instalar el siguiente software* en el equipo:
+- Navegador [[https://www.google.com/intl/es/chrome/][Chrome]].
+- Entorno de ejecución [[https://nodejs.org/es/][NodeJS]].
+
+** Desarrollo guiado por test
+   En esta práctica *no hay tests*. Se tendrá que comprobar el funcionamiento de manera manual viendo que se cargan las gráficas correspondientes.
+
+** Preparación
+1. Instalar los requisitos de software indicados
+2. Abrir un terminal
+3. Situarse en la carpeta del repositorio personal de la práctica
+4. *Incorporar a tu repositorio personal los cambios* realizados por el profesor correspondientes a los archivos de esta práctica. Para ello hay que ejecutar:
+   #+begin_src shell
+     git pull profesor master
+   #+end_src
+5. Este comando *descarga* los cambios que ha realizado el *profesor* en el *repositorio base* y los *integra* en tu repositorio personal. Tras realizar este paso, seguramente git *abra el editor configurado por defecto* para que introduzcas un *mensaje para crear un nuevo commit* que integre tus cambios y los cambios del profesor. Debes introducir el texto y guardar los cambios.
+6. En principio no deben producirse *conflictos*. En caso de que se produzcan (por ejemplo, porque has editado el fichero ~.gitignore~ y yo también porque lo exigía la práctica), *resuélvelos y notifícamelo a través de un Issue*.
+7. Ejecuta el comando ~git push~ para subir los cambios a tu repositorio personal (el remoto principal) en GitHub y que queden guardados ahí también.
+
+    #+begin_quote
+   Recuerda que puedes utilizar el navegador para *visualizar el trabajo* que vas haciendo. Como la carga de scripts la realizamos a través de *módulos*, no basta con hacer doble clic en el archivo ~HTML~, sino que es necesario visualizar la página *desde un servidor*. Para ello puedes utilizar la extensión [[https://ritwickdey.github.io/vscode-live-server/][Live Server]] de Vísual Studio Code.
+    #+end_quote
+
+** Tareas a realizar
+*** Lectura
+    Lee atentamente los siguientes artículos y sus correspondientes subsecciones en caso de que las tengan:
+    - https://es.javascript.info/loading
+
+    Videotutoriales:
+    - [[https://youtu.be/NFGztTbk9Hs][Introducción a WebPack]]
+      
+*** Ficheros de la aplicación
+    Vamos a utilizar los ficheros de la práctica anterior realizando modificaciones sobre el archivo ~js/gestionPresupuestoWeb.js~.
+
+    Utilizaremos de nuevo el fichero ~interaccionHTML.html~ para mostrar los datos e interactuar con la aplicación a través del navegador.
+    
+    La aplicación funcionará de la siguiente manera:
+    - El usuario abrirá el archivo ~interaccionHTML.html~ en el navegador (a través de un servidor web, tal como se ha comentado en la sección de *Preparación*).
+    - El archivo ~interaccionHTML.html~ cargará el programa ~js/generarDatosEstaticos.js~. Dicho programa *hará uso de dos programas* (que se utilizarán como librerías) y *3 librerías extra que añadiremos en esta práctica*:
+      - Librería ~js/gestionPresupuestoWeb.js~, que definirá una serie de *funciones* para interactuar con el [[https://es.javascript.info/dom-nodes][DOM]] de la página y mostrar los datos en HTML. En esta práctica *realizaremos modificaciones* en este fichero para *mostrar datos mediante gráficas* utilizando una librería externa.
+      - Librería ~js/gestionPresupuesto.js~, que contiene la lógica de negocio de la aplicación (funciones para crear, editar, borrar y mostrar gastos).
+      - Librerías extra que añadiremos en esta práctica (se explicarán más adelante).
+
+    El archivo ~js/generarDatosEstaticos.js~ se utilizará para crear unos gastos iniciales para poder hacer *pruebas durante el desarrollo* (para que no aparezca la aplicación vacía). Por tanto, en una aplicación en producción *no sería necesario*: el archivo HTML funcionaría cargando el archivo ~/js/gestionPresupuestoWeb.js~ directamente.
+    
+*** Fichero ~interaccionHTML.html~
+    Vamos a añadir *3 scripts* adicionales para cargar librerías externas que nos permitan *generar gráficas* para mostrar los datos agrupados.
+
+    Idealmente podríamos importar las librerías a través de ~import~, como hemos hecho con nuestros scripts. Desgraciadamente, la mayoría de las librerías disponibles todavía no ofrecen la posibilidad de ser usadas mediante módulos de manera sencilla. Así que procederemos a cargar las librerías a través de etiquetas ~<script>~ tradicionales.
+    
+    Utilizaremos el [[https://en.wikipedia.org/wiki/Content_delivery_network][CDN]] https://www.jsdelivr.com. Los scripts que tendremos que cargar se indican a continuación. Deberemos cargarlos *antes de la carga del script* ~js/generarDatosEstaticos.js~.
+
+    #+begin_src html
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0/dist/chartjs-adapter-moment.min.js"></script>
+    #+end_src
+
+    La primera librería importa [[https://www.chartjs.org/docs/latest/][Chart.js]], una librería para generar *gráficas*. La segunda es [[https://momentjs.com/][moment]], una librería para manipular fechas de manera avanzada. Y la última es un adaptador para poder utilizar ejes de tiempo en las gráficas.
+
+    Al importar las librerías mediante etiquetas ~script~, sus funciones estarán disponibles en el objeto global, y por tanto disponibles en nuestro script ~js/gestionPresupuestoWeb.js~ sin necesidad de hacer ningún ~import~ adicional.
+
+    #+begin_quote
+    Una alternativa al método de utilizar etiquetas ~<script>~ es emplear una herramienta como WebPack para empaquetar las dependencias. Tienes disponible un [[https://youtu.be/NFGztTbk9Hs][tutorial de Introducción a Webpack]] en Youtube.
+    #+end_quote
+    
+*** Fichero ~js/gestionPresupuestoWeb.js~ 
+    Vamos a hacer una serie de modificaciones sobre este fichero con respecto a la práctica anterior.
+     
+**** Modificar función ~mostrarGastosAgrupadosWeb~
+     Modifica la función para que añada el siguiente código *al principio*:
+     #+begin_src javascript
+       // Obtener la capa donde se muestran los datos agrupados por el período indicado.
+       // Seguramente este código lo tengas ya hecho pero el nombre de la variable sea otro.
+       // Puedes reutilizarlo, por supuesto. Si lo haces, recuerda cambiar también el nombre de la variable en el siguiente bloque de código
+       var divP = document.getElementById(id);
+       // Borrar el contenido de la capa para que no se duplique el contenido al repintar
+       divP.innerHTML = "";
+     #+end_src
+     
+     Modifica la función para que añada el siguiente código *al final*:
+     #+begin_src javascript
+       // Estilos
+       divP.style.width = "33%";
+       divP.style.display = "inline-block";
+       // Crear elemento <canvas> necesario para crear la gráfica
+       // https://www.chartjs.org/docs/latest/getting-started/
+       let chart = document.createElement("canvas");
+       // Variable para indicar a la gráfica el período temporal del eje X
+       // En función de la variable "periodo" se creará la variable "unit" (anyo -> year; mes -> month; dia -> day)
+       let unit = "";
+       switch (periodo) {
+       case "anyo":
+           unit = "year";
+           break;
+       case "mes":
+           unit = "month";
+           break;
+       case "dia":
+       default:
+           unit = "day";
+           break;
+       }
+       
+       // Creación de la gráfica
+       // La función "Chart" está disponible porque hemos incluido las etiquetas <script> correspondientes en el fichero HTML
+       const myChart = new Chart(chart.getContext("2d"), {
+           // Tipo de gráfica: barras. Puedes cambiar el tipo si quieres hacer pruebas: https://www.chartjs.org/docs/latest/charts/line.html
+           type: 'bar',
+           data: {
+               datasets: [
+                   {
+                       // Título de la gráfica
+                       label: `Gastos por ${periodo}`,
+                       // Color de fondo
+                       backgroundColor: "#555555",
+                       // Datos de la gráfica
+                       // "agrup" contiene los datos a representar. Es uno de los parámetros de la función "mostrarGastosAgrupadosWeb".
+                       data: agrup
+                   }
+               ],
+           },
+           options: {
+               scales: {
+                   x: {
+                       // El eje X es de tipo temporal
+                       type: 'time',
+                       time: {
+                           // Indicamos la unidad correspondiente en función de si utilizamos días, meses o años
+                           unit: unit
+                       }
+                   },
+                   y: {
+                       // Para que el eje Y empieza en 0
+                       beginAtZero: true
+                   }
+               }
+           }
+       });
+       // Añadimos la gráfica a la capa
+       divP.append(chart);
+     #+end_src
+
+**** Modificar función ~repintar~
+     Modifica la función ~repintar~ para que actualice los datos de las capas ~div#agrupacion-dia~, ~div#agrupacion-mes~ y ~div#agrupacion-anyo~ mediante las funciones ~agruparGastos~ y ~mostrarGastosAgrupadosWeb~ (tal como hiciste en la práctica de [[./interaccionHTML.org#fichero-jsgenerardatosestaticosjs][Interacción con HTML]]).
+
+** Formato de la entrega
+- Cada persona trabajará en su *repositorio personal* que habrá creado tras realizar el /fork/ del repositorio base.
+- Todos los archivos de la práctica se guardarán en el repositorio y se subirán a GitHub periódicamente. Es conveniente ir subiendo los cambios aunque no sean definitivos. *No se admitirán entregas de tareas que tengan un solo commit*.
+- *Como mínimo* se debe realizar *un commit* por *cada elemento de la lista de tareas* a realizar (si es que estas exigen crear código, claro está).
+- Para cualquier tipo de *duda o consulta* se pueden abrir ~Issues~ haciendo referencia al profesor mediante el texto ~@pedroprieto~ dentro del texto del ~Issue~. Los ~issues~ deben crearse en *tu repositorio*: si no se muestra la pestaña de ~Issues~ puedes activarla en los ~Settings~ de tu repositorio.
+- Una vez *finalizada* la tarea se debe realizar una ~Pull Request~ al repositorio base indicando tu *nombre y apellidos* en el mensaje.
