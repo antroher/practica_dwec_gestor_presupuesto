@@ -240,7 +240,12 @@ function mostrarPresupuesto() {
 
 //CargarGastos
 function cargarGastos(arrayGastos){
-    gastos = arrayGastos;
+    gastos = [];
+    for (let g of arrayGastos) {
+        let gastoRehidratado = new CrearGasto();
+        Object.assign(gastoRehidratado, g);
+        gastos.push(gastoRehidratado)
+    }
 }
 
 
