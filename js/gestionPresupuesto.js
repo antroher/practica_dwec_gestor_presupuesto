@@ -197,7 +197,15 @@ function transformarListadoEtiquetas(cadena){
 }
 
 function cargarGastos(gastosCargar){
-    if(gastosCargar.length>=0) gastos = gastosCargar;
+    if(gastosCargar.length>=0)
+    {
+        gastos = [];
+        for (let g of gastosCargar) {
+            let gastoRehidratado = new CrearGasto();
+            Object.assign(gastoRehidratado, g);
+            gastos.push(gastoRehidratado);
+        }
+    } 
    // console.log("gastos = " + gastos);
 }
 
