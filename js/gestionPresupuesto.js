@@ -369,11 +369,16 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     function transformarListadoEtiquetas(etiquetas) {
         return etiquetas.match(/[a-zA-Z0-9]+/gi); //busca todas las letras del alfabeto y números del 0 al 9 tanto en minúscula cómo en mayuscula
     }
-//las funciones y objetos deben tener los nombres que indican en el enunciado
-// Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
 
-    function cargarGastos(array) {
-        gastos = array;
+    /*gastosAlmacenamiento es un array de objetos "planos" que contiene: descripcion, valor, fecha y etiquetas*/
+    function cargarGastos(gastosAlmacenamiento){
+        gastos = [];
+        for (let g of gastosAlmacenamiento) {
+            let gastoRehidratado = new CrearGasto(gastosAlmacenamiento.descripcion,gastosAlmacenamiento.valor,gastosAlmacenamiento.fecha,gastosAlmacenamiento.etiquetas);
+            Object.assign(gastoRehidratado, g);/*"gastoRehidratado" tiene las propiedades del gasto y tiene acceso a los métodos de "CrearGasto*/
+            // Añadimos el gasto rehidratado a "gastos"
+            gastos.push(gastoRehidratado)
+        }
     }
 
     export{

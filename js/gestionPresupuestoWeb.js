@@ -355,33 +355,32 @@ let btnEditarFormulario = document.getElementById("formulario-filtrado");
 let eventoFiltrarGasto = new filtrarGastosWeb();
 btnEditarFormulario.addEventListener('submit',eventoFiltrarGasto);
 
-function guardarGastosWeb() {
+function GuardarGastosWeb() {
     this.handleEvent = function(event) {
         localStorage.GestorGastosDWEC = JSON.stringify(gestionPresupuesto.listarGastos());
     }
 }
 //boton
-let evetGuardarGastosWeb = new guardarGastosWeb();
+let evetGuardarGastosWeb = new GuardarGastosWeb();
 let btnGatosGuardados = document.getElementById("guardar-gastos");
 btnGatosGuardados.addEventListener('click',evetGuardarGastosWeb);
 
-function cargarGastosWeb(){
+function CargarGastosWeb(){
     this.handleEvent = function(e) {
         let listarGasto = localStorage.GestorGastosDWEC; 
         if(listarGasto === null){
             gestionPresupuesto.cargarGastos([]);
         }
         else{
-            
-                gestionPresupuesto.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
-            
+
+            gestionPresupuesto.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
         }
         repintar();
     }
 }
 
 //boton
-let cargarGastos = new cargarGastosWeb();
+let cargarGastos = new CargarGastosWeb();
 let btnCargarGatos = document.getElementById("cargar-gastos");
 btnCargarGatos.addEventListener('click',cargarGastos);
 
