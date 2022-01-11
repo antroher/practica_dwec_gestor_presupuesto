@@ -91,6 +91,19 @@ function mostrarGastoWeb(idElemento, gasto )/*HAY Q PASARLE UN ARRAY DE GASTO*/
     let gastoactual= document.getElementById(gasto.id);
     gastoactual.append(buttomE, buttomB); 
     
+    //boton borrar (API) Practica 9
+    let gastoActual1 = document.getElementById(gasto.id);; 
+
+    let buttomAPI = document.createElement('button');
+    buttomAPI.className += 'gasto-borrar-api';
+    buttomAPI.textContent = 'Borrar (API)';
+    buttomAPI.type = 'button';
+
+    let evAPI = new BorrarHandleAPI();
+    evAPI.gasto = gasto;
+
+    buttomAPI.addEventListener('click', evAPI); 
+    gastoActual1.append(buttomAPI);
     //Botón editar formulario
     
     let gastoActual = document.getElementById(gasto.id);; 
@@ -435,6 +448,27 @@ let eventCargar = new cargarGastosWeb();
 let cargarGastos = document.getElementById("cargar-gastos");
 cargarGastos.addEventListener('click', eventCargar);
 
+//Practica 9
+function cargarGastosApi()
+{
+  this.handleEvent = function(e)
+  {
+    
+      repintar();
+  }
+}
+function BorrarHandleAPI() {
+  
+  this.handleEvent = function (e){
+  
+    let number = this.gasto.id;
+  
+    datosPresupuesto.borrarGasto(number);
+  
+    repintar();
+    
+  }
+}
 
 
 export{
