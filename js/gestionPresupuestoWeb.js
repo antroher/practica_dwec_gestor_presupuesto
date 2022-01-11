@@ -440,6 +440,39 @@ function filtrarGastosWeb(){
 }
 document.getElementById('formulario-filtrado').addEventListener('submit', new filtrarGastosWeb());
 
+/*sta función se utilizará como manejadora de eventos del evento click del botón guardar-gastos.
+
+Se encargará de guardar el listado de gastos (disponible en la función listarGastos del paquete js/gestionPresupuesto.js)
+ en la clave de almacenamiento de localstorage denominada GestorGastosDWEC.
+ Ten en cuenta que solo se pueden almacenar strings. */
+ function guardarGastosWeb(){
+  this.handleEvent = function(event){
+      localStorage.setItem('GestorGastosDWEC', JSON.stringify(gp.listarGastos()));    
+  }
+}
+
+document.getElementById('guardar-gastos').addEventListener('click', new guardarGastosWeb);
+
+/*Esta función se utilizará como manejadora de eventos del evento click del botón cargar-gastos.
+Se encargará de cargar el listado de gastos (función cargarGastos del paquete js/gestionPresupuesto.js) 
+desde la clave de almacenamiento de localstorage denominada GestorGastosDWEC. Ten en cuenta que solo se pueden almacenar strings.
+Si no existe la clave en el almacenamiento, llamará a cargarGastos con un array vacío.
+Una vez cargados los gastos deberá llamar a la función repintar para que se muestren correctamente en el HTML. */
+function cargarGastosWeb(){
+this.handleEvent = function(event){
+  let clave = JSON.parse(localStorage.getItem('GestorGastosDWEC'));
+  if (clave !== null){
+      if (clave.length >= 0)
+      gp.cargarGastos(clave);
+  }
+  else{
+      gp.cargarGastos([]);
+  }
+  repintar();
+}
+}
+
+document.getElementById('cargar-gastos').addEventListener('click', new cargarGastosWeb);
   
 
 
@@ -458,6 +491,4 @@ export{
     nuevoGastoWebFormulario,
     EditarHandleFormulario,
     filtrarGastosWeb
-
-    
 }
