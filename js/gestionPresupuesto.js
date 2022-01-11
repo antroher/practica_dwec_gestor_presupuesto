@@ -305,7 +305,6 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
             })
         }
         if (Object.hasOwn(miObjeto, 'etiquetasTiene') && Array.isArray(miObjeto.etiquetasTiene) && miObjeto.etiquetasTiene.length > 0) {
-            etiquetasTiene.toLowerCase();
             gastosFiltrados = gastosFiltrados.filter((x) => {
                 for (let i = 0; i <= miObjeto.etiquetasTiene.length; i++) {
                     if (miObjeto.etiquetasTiene.includes(x.etiquetas[i])) {
@@ -368,23 +367,14 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     }
     //transformar el listado de etiquetas que introduzca el usuario en el formulario
     function transformarListadoEtiquetas(etiquetas) {
-        // let etiqueta = etiquetas.match(/[a-zA-Z0-9]+/gi);
-        // console.log(typeof etiqueta) 
-        // return etiquetas.match(/[a-zA-Z0-9]+/gi); //busca todas las letras del alfabeto y números del 0 al 9 tanto en minúscula cómo en mayuscula
-        let filtredTags = etiquetas.split(/[;.:,\s]/);
-
-    //Eliminado de string vacias dentro del array mediante la función filter.
-    let finalTags = filtredTags.filter(tag => tag !== "");
-
-    //Devolución de las etiquetas correctamente transformadas.
-    return finalTags;
+        return etiquetas.match(/[a-zA-Z0-9]+/gi); //busca todas las letras del alfabeto y números del 0 al 9 tanto en minúscula cómo en mayuscula
     }
 //las funciones y objetos deben tener los nombres que indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
 
-function cargarGastos(array) {
-    gastos = array;
-}
+    function cargarGastos(array) {
+        gastos = array;
+    }
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
