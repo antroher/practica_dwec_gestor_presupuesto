@@ -405,6 +405,10 @@ function cargarGastosApi ()
     
 }
 
+//BOTON CARGAR API
+let loadGastApi = document.getElementById('cargar-gastos-api');
+loadGastApi.addEventListener('click', cargarGastosApi);
+
 //********** NO TOCAR **************
 export   {
     mostrarDatoEnId,
