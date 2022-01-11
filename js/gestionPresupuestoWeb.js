@@ -309,8 +309,9 @@ function EnviarHandle() //PRACTICA 6 - c y d
     }
 }
 
-//PRACTICA 7
-
+//******************************************************
+//********************* PRACTICA 7 *********************
+//******************************************************
 function filtrarGastoWeb()
 {
     this.handleEvent = function(event)
@@ -354,7 +355,9 @@ let eventFiltrGasto = new filtrarGastoWeb();
 let formFiltrGasto = document.getElementById('formulario-filtrado');
 formFiltrGasto.addEventListener('submit', eventFiltrGasto);
 
-//PRACTICA 8
+//******************************************************
+//********************* PRACTICA 8 *********************
+//******************************************************
 function guardarGastoWeb()
 {
     this.handleEvent = function(event)
@@ -399,10 +402,37 @@ let eventLoadGasto = new cargarGastoWeb();
 let loadGast = document.getElementById('cargar-gastos');
 loadGast.addEventListener('click', eventLoadGasto);
 
-//PRACTICA 9
+//******************************************************
+//********************* PRACTICA 9 *********************
+//******************************************************
 function cargarGastosApi ()
 {
+    let usuario = document.getElementById("nombre_usuario");
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
     
+    if (usuario == '')
+    {
+        console.log("No existen gastos");
+    }
+    else
+    {
+        fetch (url, {method: 'GET'})
+        .then(response => response.json())
+        .then((result) => 
+        {
+            let resp = result;
+            if (resp == '')
+            {
+                console.log('No existen gastos');
+            }
+            else 
+            {
+                gestionPresupuesto.cargarGastos(resp);
+                repintar();
+            }
+        })
+        .catch(error => console.error(error));
+    }
 }
 
 //BOTON CARGAR API
