@@ -2,6 +2,8 @@
 
 import * as gP from './gestionPresupuesto.js';
 
+var gastoId = 0;
+
 //Manejador de eventos de los botones
 document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb);
@@ -246,6 +248,10 @@ function nuevoGastoWebFormulario() {
     let cancelarEvent = new cancelarHandle();
     cancelarEvent.formulario = form;
     form.querySelector("button[class='cancelar']").addEventListener('click', cancelarEvent);
+
+    let submitApiEvent = new submitApiHandle();
+    submitApiEvent.formulario = form;
+    form.querySelector("button[class='gasto-enviar-api']").addEventListener('click', submitApiEvent);
 }
 
 function submitHandle() {
@@ -449,6 +455,38 @@ async function cargarGastosApi () {
     }
     
 }
+
+function submitApiHandle() {
+    this.handleEvent = async function(event) {
+        //Obtener el nombre de usuario mediante la propiedad "value" del input.
+        if (document.getElementById("nombre_usuario").value === "") {
+            let nombreUsuario = prompt("Introduzca el nombre de usuario");
+            document.getElementById("nombre_usuario").value = nombreUsuario;
+        }
+        else {
+            let nombreUsuario = document.getElementById("nombre_usuario").value;
+        }
+
+        //Obtener el cuerpo del gasto mediante la propiedad "value" de los inputs del formulario y crear un objeto con los valores.
+        let gasto = {
+            descripcion: this.formulario.descripcion.value,
+            valor: this.formulario.valor.value,
+            fecha: this.formulario.fecha.value,
+            etiquetas: (typeof this.formulario.etiquetas.value !== "undefined") ? this.formulario.etiquetas.value.split(",") : undefined
+        }
+        
+        //Realización del POST del gasto mediante el metodo fecth.
+        await fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            }, 
+            body: JSON.stringify(gasto)
+        });
+    }
+    
+
+} 
 //Funciones a exportar para el test.
 export {
     mostrarDatoEnId,
