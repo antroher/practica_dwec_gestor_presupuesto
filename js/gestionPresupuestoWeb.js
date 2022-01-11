@@ -414,6 +414,7 @@ function cargarGastosWeb()
 {
   this.handleEvent = function(e)
   {
+    //GUARDAME EN listarGasto en formato string lo que encuntres guardado en el item GestorGastosDWEC
      let listarGasto = JSON.parse(localStorage.getItem('GestorGastosDWEC'));
      //comprobar que si da un array vacio
       if (listarGasto !== null)
