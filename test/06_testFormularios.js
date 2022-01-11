@@ -139,36 +139,36 @@ describe("Formularios", () => {
 
     });
 
-    // it("Borrar gasto", () => {
-    //     cy.visit('/interaccionHTML.html');
-    //     // Hacer clic en borrar gasto
-    //     cy.get("#listado-gastos-completo .gasto button.gasto-borrar").eq(5).click();
+    it("Borrar gasto", () => {
+        cy.visit('/interaccionHTML.html');
+        // Hacer clic en borrar gasto
+        cy.get("#listado-gastos-completo .gasto button.gasto-borrar").eq(5).click();
 
-    //     // Se deben actualizar los gastos totales
-    //     cy.get("#gastos-totales").should(($p) => {
-    //         expect($p, "Se debe mostrar la cantidad correspondiente a los gastos totales mediante la función 'calcularTotalGastos'").to.contain('323');
-    //     });
-    //     // Se debe actualizar el balance
-    //     cy.get("#balance-total").should(($p) => {
-    //         expect($p, "Se debe mostrar la cantidad correspondiente al balance total mediante la función 'calcularBalance'").to.contain('1176');
-    //     });
-    //     // Se debe haber eliminado el gasto
-    //     cy.get("#listado-gastos-completo > div.gasto").should('have.length', 5);
+        // Se deben actualizar los gastos totales
+        cy.get("#gastos-totales").should(($p) => {
+            expect($p, "Se debe mostrar la cantidad correspondiente a los gastos totales mediante la función 'calcularTotalGastos'").to.contain('323');
+        });
+        // Se debe actualizar el balance
+        cy.get("#balance-total").should(($p) => {
+            expect($p, "Se debe mostrar la cantidad correspondiente al balance total mediante la función 'calcularBalance'").to.contain('1176');
+        });
+        // Se debe haber eliminado el gasto
+        cy.get("#listado-gastos-completo > div.gasto").should('have.length', 5);
 
 
-    // });
+    });
 
-    // it("Borrar etiqueta", () => {
-    //     cy.visit('/interaccionHTML.html');
+    it("Borrar etiqueta", () => {
+        cy.visit('/interaccionHTML.html');
 
-    //     // Inicialmente debe haber 11 etiquetas
-    //     cy.get("#listado-gastos-completo > div.gasto > div.gasto-etiquetas > span.gasto-etiquetas-etiqueta").should('have.length', 11);
+        // Inicialmente debe haber 11 etiquetas
+        cy.get("#listado-gastos-completo > div.gasto > div.gasto-etiquetas > span.gasto-etiquetas-etiqueta").should('have.length', 11);
 
-    //     // Hacer clic en etiqueta para borrarla
-    //     cy.get("#listado-gastos-completo > div.gasto > div.gasto-etiquetas > span.gasto-etiquetas-etiqueta").eq(5).click();
+        // Hacer clic en etiqueta para borrarla
+        cy.get("#listado-gastos-completo > div.gasto > div.gasto-etiquetas > span.gasto-etiquetas-etiqueta").eq(5).click();
 
-    //     // Comprobar que aparece una etiqueta menos
-    //     cy.get("#listado-gastos-completo > div.gasto > div.gasto-etiquetas > span.gasto-etiquetas-etiqueta").should('have.length', 10);
-    // });
+        // Comprobar que aparece una etiqueta menos
+        cy.get("#listado-gastos-completo > div.gasto > div.gasto-etiquetas > span.gasto-etiquetas-etiqueta").should('have.length', 10);
+    });
 
 });
