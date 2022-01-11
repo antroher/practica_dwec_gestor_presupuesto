@@ -163,8 +163,7 @@ function repintar () {
     document.getElementById("listado-gastos-completo").innerHTML = "";
     for (let gasto of gP.listarGastos()) {
         mostrarGastoWeb('listado-gastos-completo', gasto);
-    }
-    
+    }   
 }
 
 function actualizarPresupuestoWeb() {
@@ -437,34 +436,34 @@ function cargarGastosWeb() {
 }
 
 async function cargarGastosApi () {
-    //Obtener el nombre de usuario mediante la propiedad "value" del input.
-    let nombreUsuario = document.getElementById("nombre_usuario").value;
-    
+    //Obtener el nombre de usuario mediante la propiedad "value" del input y si esta vacía pedirla al usuario.
+    if (document.getElementById("nombre_usuario").value === "") {
+        let nombreUsuario = prompt("Introduzca el nombre de usuario");
+        document.getElementById("nombre_usuario").value = nombreUsuario;
+    }
+     
     //Obtener mediante fetch la lista de gastos de la API con nuestra URL personal.
-    let respuestaFetch = await fetch("https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/pedroprieto", {method: 'GET'})
+    let respuestaFetch = await fetch(
+        `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${document.getElementById("nombre_usuario").value}`,
+        {method: 'GET'})
 
     //Comprobación de si la respuesta ha sido correcta.
     if (respuestaFetch.ok) {
         let listaGastoJSON = await respuestaFetch.json();
-        console.log(listaGastoJSON);
-        let listaGastos = JSON.parse(listaGastoJSON);
-        console.log(listaGastoJSON);
+        gP.cargarGastos(listaGastoJSON);
+        repintar();
     }
     else {
         console.log(`Error de HTTP -> ${respuestaFetch.status}`);
     }
-    
 }
 
 function submitApiHandle() {
-    this.handleEvent = async function(event) {
-        //Obtener el nombre de usuario mediante la propiedad "value" del input.
+    this.handleEvent = async function() {
+        //Obtener el nombre de usuario mediante la propiedad "value" del input y si esta vacía pedirla al usuario.
         if (document.getElementById("nombre_usuario").value === "") {
             let nombreUsuario = prompt("Introduzca el nombre de usuario");
             document.getElementById("nombre_usuario").value = nombreUsuario;
-        }
-        else {
-            let nombreUsuario = document.getElementById("nombre_usuario").value;
         }
 
         //Obtener el cuerpo del gasto mediante la propiedad "value" de los inputs del formulario y crear un objeto con los valores.
@@ -476,17 +475,18 @@ function submitApiHandle() {
         }
         
         //Realización del POST del gasto mediante el metodo fecth.
-        await fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`, {
+        await fetch(
+            `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${document.getElementById("nombre_usuario").value}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             }, 
+            //Casteo del objeto a JSON.
             body: JSON.stringify(gasto)
         });
     }
-    
-
 } 
+
 //Funciones a exportar para el test.
 export {
     mostrarDatoEnId,

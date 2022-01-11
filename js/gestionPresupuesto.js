@@ -138,7 +138,7 @@ function calcularTotalGastos() {
     let acumulado = 0;
 
     for (let i = 0; i < gastos.length; i++) {
-        acumulado += gastos[i].valor;
+        acumulado += parseFloat(gastos[i].valor);
     }
 
     return acumulado;
