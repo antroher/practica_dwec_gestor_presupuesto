@@ -241,8 +241,12 @@ function transformarListadoEtiquetas(cadena){
 
 
 function cargarGastos(gastosCargar){
-    if(gastosCargar.length >= 0){
-        gastos = gastosCargar;
+    gastos = [];
+
+    for(let g of gastosCargar){
+        let gastoRehidratado = new CrearGasto();
+        Object.assign(gastoRehidratado, g);
+        gastos.push(gastoRehidratado);
     }
 }
 
