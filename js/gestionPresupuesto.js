@@ -375,7 +375,8 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     function cargarGastos(array) {
         gastos = array;
     }
-export   {
+
+    export{
     mostrarPresupuesto,
     actualizarPresupuesto,
     CrearGasto,
