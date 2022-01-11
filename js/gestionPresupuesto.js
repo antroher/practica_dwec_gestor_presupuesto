@@ -396,10 +396,7 @@ El resultado de reduce será el valor de vuelta de la función agruparGastos.*/
 //Regex
 function transformarListadoEtiquetas(etiqueta){
 
-  let result = etiqueta.match(/\w+/g);
-
-  return result;
-
+  return etiqueta.match(/\w+/g);
 }
 
 
