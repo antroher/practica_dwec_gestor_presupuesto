@@ -443,8 +443,15 @@ function transformarListadoEtiquetas(etiquetasEntrantes) {
 }
 
 function cargarGastos (newGastos) {
-    //Sobrescribimos la variable global "gastos" con los nuevos gastos -> "newGastos".
-    gastos = newGastos;
+    //Reseteamos la variable global gastos.
+    gastos = [];
+
+    //Recorremos el array de gastos pasados y rehidratamos los gastos con los metodos de los mismos.form
+    newGastos.forEach(gasto => {
+        let gastoRehidratado = new CrearGasto();
+        Object.assign(gastoRehidratado, gasto);
+        gastos.push(gastoRehidratado);
+    })
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ:exportación de funciones y objetos creados para poder ejecutar los tests.

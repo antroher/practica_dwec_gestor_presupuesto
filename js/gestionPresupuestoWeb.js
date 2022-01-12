@@ -520,13 +520,12 @@ function editApiHandle() {
             document.getElementById("nombre_usuario").value = nombreUsuario;
         }
 
-        //Obtener el cuerpo del gasto mediante la propiedad "value" de los inputs del formulario y crear un objeto con los valores.
-        let gastoEditado = {
-            descripcion: this.formulario.descripcion.value,
-            valor: this.formulario.valor.value,
-            fecha: this.formulario.fecha.value,
-            etiquetas: (typeof this.formulario.etiquetas.value !== "undefined") ? this.formulario.etiquetas.value.split(",") : undefined
-        }
+        //Actualización de los datos del gasto.
+        this.gasto.actualizarDescripcion(this.formulario.descripcion.value);
+        this.gasto.actualizarValor(this.formulario.valor.value);
+        this.gasto.actualizarFecha(this.formulario.fecha.value);
+        this.gasto.etiquetas = (typeof this.formulario.etiquetas.value !== "undefined") ? this.formulario.etiquetas.value.split(",") : this.gasto.etiquetas;
+        
 
         //Realización del PUT del gasto mediante el metodo fetch.
         let response = await fetch(
@@ -536,7 +535,7 @@ function editApiHandle() {
                 'Content-Type': 'application/json;charset=utf-8'
             }, 
             //Casteo del objeto a JSON.
-            body: JSON.stringify(gastoEditado)
+            body: JSON.stringify(this.gasto)
         });
 
         if(response.ok) {
