@@ -15,6 +15,9 @@ botonGuardarGastos.addEventListener('click',new guardarGastosWeb);
 let botonCargarGastos = document.getElementById("cargar-gastos");
 botonCargarGastos.addEventListener('click',new cargarGastosWeb);
 
+let botonCargarGastosApi = document.getElementById("cargar-gastos-api");
+botonCargarGastosApi.addEventListener('click', new cargarGastosApi);
+
 
 function mostrarDatoEnId(idElemento, valor){
     let elemento = document.getElementById(idElemento);
@@ -42,10 +45,14 @@ function mostrarGastoWeb(idElemento, gasto){
     let divGastoEtiquetas = document.createElement("div");
     divGastoEtiquetas.className += "gasto-etiquetas";
 
+    let objetojson = document.createElement("div");
+    objetojson.textContent = JSON.stringify(gasto);
+
     elemento.append(divGasto);
     divGasto.append(divGastoDesc);
     divGasto.append(divGastoFecha);
     divGasto.append(divGastoValor);
+    divGasto.append(objetojson);
     
 
     gasto.etiquetas.forEach(e => {
@@ -377,6 +384,33 @@ function cargarGastosWeb(){
             metodosGastos.cargarGastos([]);
         }
         repintar();
+    }
+}
+
+async function cargarGastosApi(){
+    this.handleEvent = function(event){
+        event.preventDefault();
+        let usuario = document.getElementById("nombre_usuario");
+        let url = "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/";
+        let response = await fetch(url + usuario.textContent);
+        if(response.ok){
+            let gastosRespuesta = await JSON.parse(response.json());
+            metodosGastos.cargarGastos(gastosRespuesta);
+            repintar();
+        }
+        /*
+
+        let promise = new Promise(function(resolve, reject){
+            resolve(await fetch(url + usuario.textContent));
+        });
+
+        promise.then(function(result){
+            let gastosRespuesta = await JSON.parse(result.json());
+            metodosGastos.cargarGastos(gastosRespuesta);
+            repintar();
+        })*/
+
+
     }
 }
 
