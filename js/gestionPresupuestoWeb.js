@@ -372,7 +372,6 @@ function CargarGastosWeb(){
             gestionPresupuesto.cargarGastos([]);
         }
         else{
-
             gestionPresupuesto.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
         }
         repintar();
@@ -381,8 +380,8 @@ function CargarGastosWeb(){
 
 //boton
 let cargarGastos = new CargarGastosWeb();
-let btnCargarGatos = document.getElementById("cargar-gastos");
-btnCargarGatos.addEventListener('click',cargarGastos);
+let btnCargarGastos = document.getElementById("cargar-gastos");
+btnCargarGastos.addEventListener('click',cargarGastos);
 
 export {
     mostrarDatoEnId,
