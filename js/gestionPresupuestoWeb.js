@@ -2,7 +2,7 @@
 
 import * as gP from './gestionPresupuesto.js';
 
-var gastoId = 0;
+var id = 0;
 
 //Manejador de eventos de los botones
 document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb);
@@ -491,11 +491,12 @@ function submitApiHandle() {
             descripcion: this.formulario.descripcion.value,
             valor: this.formulario.valor.value,
             fecha: this.formulario.fecha.value,
-            etiquetas: (typeof this.formulario.etiquetas.value !== "undefined") ? this.formulario.etiquetas.value.split(",") : undefined
+            etiquetas: (typeof this.formulario.etiquetas.value !== "undefined") ? this.formulario.etiquetas.value.split(",") : undefined,
+            id: id
         }
         
         //Realización del POST del gasto mediante el metodo fecth.
-        await fetch(
+        let response = await fetch(
             `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${document.getElementById("nombre_usuario").value}`, {
             method: 'POST',
             headers: {
@@ -504,6 +505,10 @@ function submitApiHandle() {
             //Casteo del objeto a JSON.
             body: JSON.stringify(gasto)
         });
+        
+        if (response.ok) {
+            id++;
+        }
     }
 } 
 
@@ -544,7 +549,8 @@ function editApiHandle() {
 }
 
 function borrarApiHandle() {
-    //Obtener el nombre de usuario mediante la propiedad "value" del input y si esta vacía pedirla al usuario.
+    this.handleEvent  = async function () {
+        //Obtener el nombre de usuario mediante la propiedad "value" del input y si esta vacía pedirla al usuario.
     if (document.getElementById("nombre_usuario").value === "") {
         let nombreUsuario = prompt("Introduzca el nombre de usuario");
         document.getElementById("nombre_usuario").value = nombreUsuario;
@@ -560,6 +566,7 @@ function borrarApiHandle() {
     }
     else {
         console.log(`Error de HTTP -> ${response.status}`);
+    }
     }
 }
 
