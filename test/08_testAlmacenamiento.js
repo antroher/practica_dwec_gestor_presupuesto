@@ -1,6 +1,6 @@
 // Utiliza cypress (https://docs.cypress.io/) para el testeo en navegador (necesitamos acceder al DOM, que no existe en Node)
 
-import {cargarGastos, listarGastos} from "../js/gestionPresupuesto.js";
+import {CrearGasto, cargarGastos, listarGastos} from "../js/gestionPresupuesto.js";
 
 let clave = "GestorGastosDWEC";
 let gastos = [
@@ -23,7 +23,17 @@ describe("Almacenamiento en navegador", () => {
     // Función cargarGastos
     it("Función cargarGastos", function() {
         cargarGastos(gastos);
-        assert.deepEqual(listarGastos(), gastos);
+        let cargados = listarGastos();
+        assert.equal(CrearGasto.prototype.isPrototypeOf(cargados[0]), true, "No has rehidratado los objetos tal como indica el enunciado.");
+        assert.equal(cargados[0].valor, gastos[0].valor, "El valor del objeto cargado no coincide con el original.");
+        assert.equal(cargados[0].descripcion, gastos[0].descripcion, "La descripción del objeto cargado no coincide con el original.");
+        assert.equal(cargados[0].fecha, gastos[0].fecha, "La fecha del objeto cargado no coincide con el original.");
+        assert.deepEqual(cargados[0].etiquetas, gastos[0].etiquetas, "Las etiquetas no coinciden con las del objeto cargado.");
+        assert.equal(CrearGasto.prototype.isPrototypeOf(cargados[1]), true, "No has rehidratado los objetos tal como indica el enunciado.");
+        assert.equal(cargados[1].valor, gastos[1].valor, "El valor del objeto cargado no coincide con el original.");
+        assert.equal(cargados[1].descripcion, gastos[1].descripcion, "La descripción del objeto cargado no coincide con el original.");
+        assert.equal(cargados[1].fecha, gastos[1].fecha, "La fecha del objeto cargado no coincide con el original.");
+        assert.deepEqual(cargados[1].etiquetas, gastos[1].etiquetas, "Las etiquetas no coinciden con las del objeto cargado.");
     });
 
     it("Función guardarGastosWeb y botón guardar-gastos", () => {
