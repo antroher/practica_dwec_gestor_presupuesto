@@ -79,8 +79,20 @@ function mostrarGastoWeb(idElemento, gasto)
         botonBorrar.addEventListener('click', borrarNew);
 
         let gastoActual = document.getElementById(gasto.id);
-        gastoActual.append(botonEditar,botonBorrar);  
-        
+        gastoActual.append(botonEditar,botonBorrar);    
+
+        //boton borrar API -> PRACTICA 9
+        let botonBorrarApi = document.createElement('button');
+        botonBorrarApi.className += 'gasto-borrar-api';
+        botonBorrarApi.textContent = 'Borrar (API)';
+        botonBorrarApi.type = 'button';
+
+        let borrarApiNew = new borrarGastoApiHandle();
+        borrarApiNew.gasto = gasto;
+
+        botonBorrarApi.addEventListener('click', borrarApiNew);
+        gastoActual.append(botonBorrarApi);
+
         //boton editar formulario -> PRACTICA 6
         let botonEditForm = document.createElement('button');
         botonEditForm.className += 'gasto-editar-formulario';
@@ -91,7 +103,7 @@ function mostrarGastoWeb(idElemento, gasto)
         editarFormNew.gasto = gasto;
 
         botonEditForm.addEventListener('click', editarFormNew); 
-        gastoActual.append(botonEditForm);
+        gastoActual.append(botonEditForm);        
     }      
 }
 
@@ -218,6 +230,10 @@ function nuevoGastoWebFormulario() //PRACTICA 6 - a y b
     let cancelar = new CancelarFormularioHandle();
     let botonCancelar = formulario.querySelector("button.cancelar");
     botonCancelar.addEventListener('click', cancelar);
+
+    //Boton Enviar Api - PRACTICA 9
+    let botonEnviarApi = formulario.querySelector("button.gasto-enviar-api");
+    botonEnviarApi.addEventListener('click', enviarGastoApi)
 }
 
 //BOTON nuevoGastoWebFormulario
@@ -412,7 +428,7 @@ function cargarGastosApi ()
     
     if (usuario == '')
     {
-        console.log("No existen gastos");
+        console.log('No hay el nombre del usuario');
     }
     else
     {
@@ -423,7 +439,7 @@ function cargarGastosApi ()
             let resp = result;
             if (resp == '')
             {
-                console.log('No existen gastos');
+                console.log('No hay el nombre del usuario');
             }
             else 
             {
@@ -438,6 +454,47 @@ function cargarGastosApi ()
 //BOTON CARGAR API
 let loadGastApi = document.getElementById('cargar-gastos-api');
 loadGastApi.addEventListener('click', cargarGastosApi);
+
+function borrarGastoApiHandle()
+{
+    this.handleEvent = function(event)
+    {
+        let usuario = document.getElementById('nombre_usuario');
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+
+        if(usuario == "")
+        {
+            console.log('No hay el nombre del usuario');
+        }
+        else
+        {
+            fetch(url, {method: 'DELETE'})
+            .then(response => response.json())
+            .then(datos => 
+            {
+                if(datos.errorMessage)
+                {
+                    console.log(datos.errorMessage);
+                }
+                else
+                {
+                    cargarGastosApi();
+                }
+            })
+            .catch(error => console.error(error));
+        }
+    }
+}
+
+function enviarGastoApi()
+{
+    this.handleEvent = function(event)
+    {
+        
+    }
+}
+
+
 
 //********** NO TOCAR **************
 export   {
