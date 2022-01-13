@@ -457,6 +457,7 @@ function cargarGastosApi()
       repintar();
   }
 }
+
 function BorrarHandleAPI() {
   
   this.handleEvent = function (e){
