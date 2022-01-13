@@ -368,7 +368,7 @@ btnGatosGuardados.addEventListener('click',evetGuardarGastosWeb);
 function CargarGastosWeb(){
     this.handleEvent = function(e) {
         let listarGasto = localStorage.GestorGastosDWEC; 
-        if(listarGasto === null){
+        if(listarGasto == null){
             gestionPresupuesto.cargarGastos([]);
         }
         else{

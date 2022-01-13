@@ -374,7 +374,7 @@ function CrearGasto(NewDescriptio,NewValu,fec = Date.now(),...etiq) {
     function cargarGastos(gastosAlmacenamiento){
         gastos = [];
         for (let g of gastosAlmacenamiento) {
-            let gastoRehidratado = new CrearGasto(gastosAlmacenamiento.descripcion,gastosAlmacenamiento.valor,gastosAlmacenamiento.fecha,gastosAlmacenamiento.etiquetas);
+            let gastoRehidratado = new CrearGasto();
             Object.assign(gastoRehidratado, g);/*"gastoRehidratado" tiene las propiedades del gasto y tiene acceso a los métodos de "CrearGasto*/
             // Añadimos el gasto rehidratado a "gastos"
             gastos.push(gastoRehidratado)
