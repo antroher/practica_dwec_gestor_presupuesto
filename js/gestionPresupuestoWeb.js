@@ -197,7 +197,7 @@ function nuevoGastoWebFormulario() {
     btnCancelar.addEventListener("click", cancelarObj);
 
     let apiEnviar = formulario.querySelector("button.gasto-enviar-api");
-    enviarApi.addEventListener("click", enviarGastoApi);
+    enviarApi.addEventListener("click", EnviarGastoApi);
 }
 
 //Manejador del evento cancelar del formulario
@@ -337,6 +337,7 @@ function CargarGastosApi() {
                     console.log("No existen gastos en la api para el usuario")
                 } else {
                     gestionPresupuesto.cargarGastos(resultado);
+                    console.log("Miau cargasGastosApi")
                     repintar();
                 }
                 })
@@ -436,7 +437,7 @@ function EditarGastoApi(){
 
         if(usuario == ""){
             console.log("El input del nombre de usuario esta vacio");
-        }else{
+        } else {
             fetch(url, {
                 method: 'PUT', 
                 body: JSON.stringify(nuevoObjeto),
