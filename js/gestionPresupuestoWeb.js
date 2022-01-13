@@ -305,6 +305,12 @@ function cargarGastosWeb() {
     }
 }
 
+function cargarGastosApi() {
+    this.handleEvent = function(event) {
+
+    }
+}
+
 //Botones
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
@@ -312,6 +318,7 @@ const anyadirgastoFirmulario = document.getElementById("anyadirgasto-formulario"
 const formularioFiltrador = document.getElementById("formulario-filtrado");
 const btnGuardarGastos = document.getElementById("guardar-gastos");
 const btnCargarGastos = document.getElementById("cargar-gastos");
+const btncargarGastosApi = document.getElementById("cargar-gastos-api");
 //Eventos
 actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
 anyadirgasto.addEventListener('click', nuevoGastoWeb);
@@ -323,9 +330,10 @@ formularioFiltrador.addEventListener('submit', filtGastForm);
 //Práctica 8
 let objGuardarGastosWeb = new guardarGastosWeb();
 let objCargarGastosWeb = new cargarGastosWeb();
+let objcargarGastosApi = new cargarGastosApi();
 btnGuardarGastos.addEventListener('click', objGuardarGastosWeb);
 btnCargarGastos.addEventListener('click', objCargarGastosWeb);
-
+btncargarGastosApi.addEventListener('click', objcargarGastosApi);
 
 export   {
     mostrarDatoEnId,
