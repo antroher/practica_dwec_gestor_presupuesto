@@ -263,6 +263,9 @@ function cargarGastosWeb() {
 let cargarGastWeb = new cargarGastosWeb();
 
 function cargarGastosApi() {
+    this.handleEvent = function(e) {
+        let promise = fetch("https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/raulmolina")
+    }
 
 }
 let cargarGastosApi = new cargarGastosApi();
