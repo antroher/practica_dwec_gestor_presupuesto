@@ -276,7 +276,7 @@ let GuardarGastosWeb = new guardarGastosWeb();
 
 function cargarGastosWeb() {
     this.handleEvent = function(e) {
-        if (localStorage.GestorGastosDWEC == null) {
+        if (localStorage.GestorGastosDWEC === null) {
             gestionPresupuesto.cargarGastos([]);
         } else {
             gestionPresupuesto.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
