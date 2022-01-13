@@ -173,8 +173,8 @@ function BorrarHandle() {
         repintar();
     }}
 function nuevoGastoWebFormulario(){
-    let form = document.getElementById("formulario-template").content.cloneNode(true).querySelector(                
-    document.getElementById("controlesprincipales").append(form));
+    let form = document.getElementById("formulario-template").content.cloneNode(true).querySelector("form");                
+    document.getElementById("controlesprincipales").append(form);
 
     //cancelar el botón una vez lo pulsamos
     document.getElementById("anyadirgasto-formulario").disabled = true;
@@ -222,7 +222,7 @@ function cancelarHandle(){
 function EditarHandleFormulario() {
     this.handleEvent = function(event) {
         //Clonación y creación del formulario por  el template "plantilla"
-        let form = document.getElementById("formulario-template").content.cloneNode(true).querySelec                
+        let form = document.getElementById("formulario-template").content.cloneNode(true).querySelector("form");             
         document.getElementById(`gasto-${this.gasto.id}`).append(form);//esto ahce que al hacerse el                
 
         //Deshabilitar el boton de editar gasto.
