@@ -269,6 +269,10 @@ function nuevoGastoWebFormulario()
   let botonCancelar =formulario.querySelector("button.cancelar");
   let cancelarEvento = new CancelarFormularioHandle();
   botonCancelar.addEventListener("click",cancelarEvento);
+
+  //
+  let EnviarApi = formulario.querySelector("button.gasto-enviar-api");
+  enviarApi.addEventListener("click", enviarGastoApi);
 }
 
 //OK
