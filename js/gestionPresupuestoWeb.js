@@ -317,9 +317,9 @@ function guardarGastosWeb() {
 function cargarGastosWeb() {
     this.handleEvent = function(event) {
         if (localStorage.GestorGastosDWEC == null) 
-            gestionPresupuesto.CargarGastos([]);
+            gestionPresupuesto.cargarGastos([]);
         else 
-            gestionPresupuesto.CargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
+            gestionPresupuesto.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
         repintar();    
     }
 }

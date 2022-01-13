@@ -276,7 +276,14 @@ function transformarListadoEtiquetas(input) {
 }
 
 function cargarGastos(nuevosGastos) {
-    gastos = nuevosGastos;
+    gastos = [];
+
+    for (let g of nuevosGastos) {
+        let gastoRehidratado = new CrearGasto();
+        Object.assign(gastoRehidratado, g);
+
+        gastos.push(gastoRehidratado)
+    }
 }
 
 
