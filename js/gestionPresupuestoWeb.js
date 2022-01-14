@@ -377,11 +377,26 @@ function CargarGastosWeb(){
         repintar();
     }
 }
-
 //boton
 let cargarGastos = new CargarGastosWeb();
 let btnCargarGastos = document.getElementById("cargar-gastos");
 btnCargarGastos.addEventListener('click',cargarGastos);
+
+async function cargarGastosApi() {
+    let nombreUser = document.querySelector("#nombre_usuario").value;
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUser}`;
+    let respusta = await fetch(url);
+
+    if(input.ok)
+    {
+        let json = await respusta.json(); //convertimos el objeto a json
+    }
+    else{
+            
+    }
+}
+let btnCargarGastosApi = document.getElementById("cargar-gastos-api");
+btnCargarGastosApi.addEventListener("click",cargarGastosApi());
 
 export {
     mostrarDatoEnId,
