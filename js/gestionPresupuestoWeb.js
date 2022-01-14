@@ -524,7 +524,8 @@ function enviarGastoApi(event)
                 'Content-Type': 'application/json'
             }
         })
-        .then(response => {
+        .then(response => 
+        {
             if (response.ok)
             {
                 cargarGastosApi();
@@ -536,6 +537,56 @@ function enviarGastoApi(event)
         })
         .catch(error => console.error(error));
     }    
+}
+
+function EditarGastoApi()
+{
+    this.handleEvent = function(event)
+    {
+        let usuario = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+
+        let formulario = e.currentTarget.form;
+        let descripcionNew = formulario.elements.descripcion;
+        let valorNew = parseFloat(formulario.elements.valor);
+        let fechaNew = formulario.elements.fecha;
+        let etiquetasNew = (formulario.elements.etiquetas).split(',');
+
+        let nuevoG = 
+        {
+            descripcion: descripcionNew,
+            fecha: fechaNew,
+            valor: valorNew,
+            etiquetas: etiquetasNew
+        }
+
+        if(usuario == '')
+        {
+            console.log('No hay el nombre del usuario')
+        }
+        else 
+        {
+            fetch(url, {
+                method: 'PUT', 
+                body: JSON.stringify(nuevoG),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => 
+            {
+                if (response.ok)
+                {
+                    cargarGastosApi();
+                }
+                else
+                {
+                    console.log('Error');
+                }
+            })
+            .catch(error => console.error(error));
+        }  
+    }
 }
 
 
