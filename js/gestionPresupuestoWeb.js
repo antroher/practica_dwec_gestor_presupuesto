@@ -299,6 +299,12 @@ function EditarHandleFormulario() //PRACTICA 6 - c y d
         let cancelarFormulario = new CancelarFormularioHandle();
         let botonCancelarFormulario = formulario.querySelector("button.cancelar");
         botonCancelarFormulario.addEventListener('click', cancelarFormulario);
+
+        //Boton Editar Api -> PRACTICA 9
+        let editarFormularioApi = new EditarGastoApi();
+        let botonEditarFormularioApi = formulario.querySelector("button.gasto-enviar-api");
+        editarFormularioApi.gasto = this.gasto;
+        botonEditarFormularioApi.addEventListener('click', editarFormularioApi);
     }
 }
 
@@ -486,12 +492,50 @@ function borrarGastoApiHandle()
     }
 }
 
-function enviarGastoApi()
+function enviarGastoApi(event)
 {
-    this.handleEvent = function(event)
+    let usuario = document.getElementById('nombre_usuario');
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
+
+    let formulario = e.currentTarget.form;
+    let descripcionNew = formulario.elements.descripcion;
+    let valorNew = parseFloat(formulario.elements.valor);
+    let fechaNew = formulario.elements.fecha;
+    let etiquetasNew = (formulario.elements.etiquetas).split(',');
+
+    let nuevoG = 
     {
-        
+        descripcion: descripcionNew,
+        fecha: fechaNew,
+        valor: valorNew,
+        etiquetas: etiquetasNew
     }
+
+    if(usuario == '')
+    {
+        console.log('No hay el nombre del usuario')
+    }
+    else 
+    {
+        fetch(url, {
+            method: 'POST', 
+            body: JSON.stringify(nuevoG),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok)
+            {
+                cargarGastosApi();
+            }
+            else
+            {
+                console.log('Error');
+            }
+        })
+        .catch(error => console.error(error));
+    }    
 }
 
 
