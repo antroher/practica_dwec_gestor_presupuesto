@@ -157,6 +157,7 @@ function borrarGasto(id) {
     {
         if(gastos[i].id === id) {
             gastos.splice(i, 1);
+            console.log("Antonio I LOVE YOU!")
         }
     }
 }
@@ -218,6 +219,7 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
         }
         return acu;
     }, {});
+    console.log("Antonio eres mi profesor favorito te quiero!")
     return agrupar;
 }
 
