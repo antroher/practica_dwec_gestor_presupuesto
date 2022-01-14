@@ -263,9 +263,11 @@ function cargarGastosWeb() {
 let cargarGastWeb = new cargarGastosWeb();
 
 function cargarGastosApi() {
-    this.handleEvent = function(e) {
-        let promise = fetch("https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/raulmolina")
-    }
+    let user = document.querySelector("#nombre_usuario").value;
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
+
+
+
 
 }
 let cargarGastosApi = new cargarGastosApi();
