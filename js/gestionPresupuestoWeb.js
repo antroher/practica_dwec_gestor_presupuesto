@@ -266,6 +266,10 @@ function cargarGastosApi() {
     let user = document.querySelector("#nombre_usuario").value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
 
+    if (usuario != '') {
+        fetch(url, {method: 'GET'})
+            .then(respu)
+    }
 
 
 
