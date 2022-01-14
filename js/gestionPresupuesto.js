@@ -239,7 +239,6 @@ function transformarListadoEtiquetas (etiquetasTiene) {
 }
 
 function cargarGastos(nGastos) {
-    function cargarGastos(gastosAlmacenamiento) {
         // gastosAlmacenamiento es un array de objetos "planos"
         // No tienen acceso a los métodos creados con "CrearGasto":
         // "anyadirEtiquetas", "actualizarValor",...
@@ -248,7 +247,7 @@ function cargarGastos(nGastos) {
         // Reseteamos la variable global "gastos"
         gastos = [];
         // Procesamos cada gasto del listado pasado a la función
-        for (let g of gastosAlmacenamiento) {
+        for (let g of nGastos) {
             // Creamos un nuevo objeto mediante el constructor
             // Este objeto tiene acceso a los métodos "anyadirEtiquetas", "actualizarValor",...
             // Pero sus propiedades (descripcion, valor, fecha y etiquetas) están sin asignar
@@ -263,7 +262,6 @@ function cargarGastos(nGastos) {
             // Añadimos el gasto rehidratado a "gastos"
             gastos.push(gastoRehidratado)
         }
-    }
     //gastos = nGastos;
 }
 
