@@ -69,7 +69,16 @@ function mostrarGastoWeb(idElemento, gasto) {
     divGasto.append(buttonEdit);
     divGasto.append(buttonBorr);
 
-   
+    let btnBorrarGastoApi = document.createElement("button");
+    btnBorrarGastoApi.className += 'gasto-borrar-api';
+    btnBorrarGastoApi.textContent = 'Borrar (API)';
+    btnBorrarGastoApi.type = 'button';
+
+    let objBorrarGastoApi = new GastoBorrarApiHandle();
+    objBorrarGastoApi.gasto = gasto;
+    btnBorrarGastoApi.addEventListener('click', objBorrarGastoApi); 
+
+    divGasto.append(btnBorrarGastoApi);
 
     //Práctica 6:
     let btnEditGastoForm = document.createElement("button");
@@ -309,7 +318,7 @@ function cargarGastosWeb() {
 
 function cargarGastosApi() {
     let nombre = document.querySelector("#nombre_usuario").value;
-    let url = 'https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombre}';
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombre}`;
 
     if (nombre != '') {
         fetch(url, {method: 'GET'})
@@ -352,6 +361,83 @@ function GastoBorrarApiHandle() {
 function GastoEnviarApiHandle(event) {
     let nombre = document.getElementById("nombre_usuario").value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombre}`;
+
+    let formulario = event.currentTarget.form;
+    let newdescripcion = formulario.elements.descripcion.value;
+    let newvalor = formulario.elements.valor.value;
+    let newfecha = formulario.elements.fecha.value;
+    let newetiquetas = formulario.elements.fecha.value;
+
+    newvalor = parseFloat(newvalor);
+    newetiquetas = etiquetas.split(",");
+
+    let newObjeto = {
+        descripcion: newdescripcion,
+        fecha: newfecha,
+        valor: newvalor,
+        etiquetas: newetiquetas
+    }
+
+    if(nombre != "") {
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(newObjeto),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if(response.ok){
+                cargarGastosApi();
+            }
+            else{
+                console.log("Error al añadir");
+            }
+        })
+        .catch(error => console.error(error));
+    }
+}
+
+function GastoEditarApi(){
+    this.handleEvent = function(event){
+        let nombre = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+        
+        let formulario = event.currentTarget.form;
+        let newdescripcion = formulario.elements.descripcion.value;
+        let newvalor = formulario.elements.valor.value;
+        let newfecha = formulario.elements.fecha.value;
+        let newetiquetas = formulario.elements.fecha.value;
+    
+        newvalor = parseFloat(newvalor);
+        newetiquetas = etiquetas.split(",");
+
+        let newObjeto = {
+        descripcion: newdescripcion,
+        fecha: newfecha,
+        valor: newvalor,
+        etiquetas: newetiquetas
+    }
+
+    if(nombre != "") {
+        fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify(newObjeto),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if(response.ok){
+                cargarGastosApi();
+            }
+            else{
+                console.log("Error al editar");
+            }
+        })
+        .catch(error => console.error(error));
+    }
+    }
 }
 
 //Botones
@@ -373,10 +459,10 @@ formularioFiltrador.addEventListener('submit', filtGastForm);
 //Práctica 8
 let objGuardarGastosWeb = new guardarGastosWeb();
 let objCargarGastosWeb = new cargarGastosWeb();
-let objcargarGastosApi = new cargarGastosApi();
+//let objcargarGastosApi = new cargarGastosApi();
 btnGuardarGastos.addEventListener('click', objGuardarGastosWeb);
 btnCargarGastos.addEventListener('click', objCargarGastosWeb);
-btncargarGastosApi.addEventListener('click', objcargarGastosApi);
+btncargarGastosApi.addEventListener("click", cargarGastosApi);
 
 export   {
     mostrarDatoEnId,
