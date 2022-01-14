@@ -45,14 +45,11 @@ function mostrarGastoWeb(idElemento, gasto){
     let divGastoEtiquetas = document.createElement("div");
     divGastoEtiquetas.className += "gasto-etiquetas";
 
-    let objetojson = document.createElement("div");
-    objetojson.textContent = JSON.stringify(gasto);
 
     elemento.append(divGasto);
     divGasto.append(divGastoDesc);
     divGasto.append(divGastoFecha);
     divGasto.append(divGastoValor);
-    divGasto.append(objetojson);
     
 
     gasto.etiquetas.forEach(e => {
@@ -387,14 +384,14 @@ function cargarGastosWeb(){
     }
 }
 
-async function cargarGastosApi(){
-    this.handleEvent = function(event){
+function  cargarGastosApi(){
+    this.handleEvent =async function(event){
         event.preventDefault();
         let usuario = document.getElementById("nombre_usuario");
         let url = "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/";
-        let response = await fetch(url + usuario.textContent);
+        let response = await fetch(url + usuario.value);
         if(response.ok){
-            let gastosRespuesta = await JSON.parse(response.json());
+            let gastosRespuesta = await response.json();
             metodosGastos.cargarGastos(gastosRespuesta);
             repintar();
         }
