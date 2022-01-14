@@ -2,6 +2,7 @@
 
 
 import * as gestionPresupuesto from './gestionPresupuesto.js';
+import { METHODS } from 'http';
 
 //Para iterar sobre un collection del node usar for...of
 function mostrarDatoEnId(idElemento, valor) {
@@ -68,6 +69,7 @@ function mostrarGastoWeb(idElemento, gasto) {
     divGasto.append(buttonEdit);
     divGasto.append(buttonBorr);
 
+   
 
     //Práctica 6:
     let btnEditGastoForm = document.createElement("button");
@@ -306,9 +308,50 @@ function cargarGastosWeb() {
 }
 
 function cargarGastosApi() {
-    this.handleEvent = function(event) {
+    let nombre = document.querySelector("#nombre_usuario").value;
+    let url = 'https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombre}';
 
+    if (nombre != '') {
+        fetch(url, {method: 'GET'})
+        .then(respuesta => respuesta.json())
+        .then((result) => {
+            let resultado = result;
+            if(resultado == '') {
+                console.log("No existe gastos en la API de ese usuario")
+            } else {
+                gestionPresupuesto.cargarGastos(resultado);
+                console.log("cargando los gastos de la API")
+                repintar();
+            }
+        })
+        .catch(error => console.error(error));
     }
+   
+}
+
+function GastoBorrarApiHandle() {
+    this.handleEvent = function(event){
+        let nombre = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombre}/${this.gasto.gastoId}`;
+        
+        if(nombre != "") {
+        fetch(url, {method: 'DELETE'})
+        .then(response => response.json())
+        .then(datos => {
+            if(!datos.errorMessage){
+                cargarGastosApi();
+            }
+            else{
+                console.log(datos.errorMessage);
+            }
+        })
+        .catch(error => console.error(error));
+    }
+}
+
+function GastoEnviarApiHandle(event) {
+    let nombre = document.getElementById("nombre_usuario").value;
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombre}`;
 }
 
 //Botones
