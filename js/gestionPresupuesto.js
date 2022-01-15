@@ -1,4 +1,3 @@
-
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 //variables globales con VAR
 // TODO: Variable global
