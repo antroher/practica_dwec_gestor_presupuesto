@@ -365,6 +365,7 @@ let evetGuardarGastosWeb = new GuardarGastosWeb();
 let btnGatosGuardados = document.getElementById("guardar-gastos");
 btnGatosGuardados.addEventListener('click',evetGuardarGastosWeb);
 
+//carga el listado de gastos
 function CargarGastosWeb(){
     this.handleEvent = function(e) {
         let listarGasto = localStorage.GestorGastosDWEC; 
@@ -387,12 +388,13 @@ async function cargarGastosApi() {
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUser}`;
     let respusta = await fetch(url);
 
-    if(input.ok)
+    if(nombreUser.ok)
     {
-        let json = await respusta.json(); //convertimos el objeto a json
+        let respusta = await respusta.json(); //convertimos el objeto a json
+        let resultado = result
     }
     else{
-            
+        alert("Error-HTTP: "+response.status)
     }
 }
 let btnCargarGastosApi = document.getElementById("cargar-gastos-api");
@@ -418,4 +420,11 @@ export {
     JSON.stringify -> Convierte objetos en string
     JSON.parse -> Convierte un string en un objeto
     localStorage.getItem -> obtiene en forma de string el objeto
+    response.text() – lee y devuelve la respuesta en formato texto,
+    response.json() – convierte la respuesta como un JSON,
+    response.formData() – devuelve la respuesta como un objeto FormData (explicado en el siguiente capítulo),
+    response.blob() – devuelve la respuesta como Blob (datos binarios tipados),
+    response.arrayBuffer() – devuelve la respuesta como un objeto ArrayBuffer (representación binaria de datos de bajo nivel),
+    Adicionalmente, response.body es un objeto ReadableStream, el cual nos permite acceder al cuerpo como si fuera un stream 
+    y leerlo por partes. Veremos un ejemplo de esto más adelante.
 */
