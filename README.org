@@ -32,3 +32,5 @@
   - [[./enunciados/formularios.org][Formularios y JavaScript]]
   - [[./enunciados/regexp.org][Expresiones regulares]]
   - [[./enunciados/almacenamiento.org][Almacenamiento en el navegador]]
+  - [[./enunciados/async.org][Comunicación asíncrona]]
+  - [[./enunciados/librerias_externas.org][Librerías externas]]
