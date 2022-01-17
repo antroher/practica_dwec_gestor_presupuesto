@@ -178,6 +178,9 @@ function EditarHandleFormulario(){
         handlerBotonCancelar.elem = this.elem;
         botonCancelar.addEventListener("click", handlerBotonCancelar);   
 
+        let actualizarAPI = new ActualizarAPIHandle();
+        actualizarAPI.gasto = this.gasto;
+
         let btnActualizarAPI = formulario.querySelector("button.gasto-enviar-api");
         btnActualizarAPI.addEventListener("click", actualizarAPI);    
     }
@@ -536,6 +539,59 @@ function enviarAPIHandle()
         alert('No has introducido el usuario');
     }
 
+}
+function ActualizarAPIHandle()
+{
+    this.handleEvent = function(e)
+    {
+        let usuario = document.getElementById('nombre_usuario').value;
+
+        if(usuario != '')
+        {
+            let url =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+            var form = document.querySelector(".gasto form");
+            let descrip = form.elements.descripcion.value;
+            let val = form.elements.valor.value;
+            let fech = form.elements.fecha.value;
+            let etiq = form.elements.etiquetas.value;
+            val = parseFloat(val);
+            etiq = etiq.split(',');
+
+            let gastoAPI = 
+            {
+
+                descripcion: descrip,
+                valor: val,
+                fecha: fech,
+                etiquetas: etiq
+            };
+            fetch(url, {
+
+                method: "PUT",
+                headers:
+                {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(gastoAPI)
+            })
+
+            .then(function(response)
+            {
+                if(!response.ok)
+                {
+                    alert("Error "+response.status+": no se ha actualizado el gasto");
+                }else
+                {
+                    alert("Gasto actualizado");
+                    cargarGastosApi();
+                }
+            })
+            .catch(err => alert(err));
+        }else
+        {
+            alert('No has introducido usuario');
+        }
+    }
 }
 
 
