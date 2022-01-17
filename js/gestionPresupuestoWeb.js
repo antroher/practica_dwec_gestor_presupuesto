@@ -161,7 +161,7 @@ function nuevoGastoWebFormulario(){
 
     final.append(formulario);
 
-    document.getElementById("anyadirgasto-formulario").disabled = true;
+    document.getElementById("anyadirgasto-formulario").disabled = false;
 
     let enviar = new enviarGastoHandle();
 
