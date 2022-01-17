@@ -162,56 +162,70 @@ function calcularBalance() {
     return balance;
 }
 
-function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}) 
-{
-    let gastosFiltrados = gastos;  
+function filtrarGastos(filtro){
 
-    gastosFiltrados = gastosFiltrados.filter(function (gasto) {
+    let gastosFiltro = gastos;
 
-        let esta = true;
+    if(typeof(filtro) == "object"){
 
-        if (fechaDesde)
-        {
-            if (gasto.fecha < Date.parse(fechaDesde))
-                esta = false;
-        }
-        if (fechaHasta)
-        {
-            if (gasto.fecha > Date.parse(fechaHasta))
-                esta = false;
-        }
-        if (valorMinimo)
-        {
-            if (gasto.valor < valorMinimo)
-                esta = false;
-        }
-        if (valorMaximo)
-        {
-            if (gasto.valor > valorMaximo)
-                esta = false;
-        }
-        if (descripcionContiene)
-        {
-            if (!gasto.descripcion.includes(descripcionContiene))
-                esta = false;
-        }
-        if (etiquetasTiene)
-        {
-            let tiene = false
-            for (let i = 0; i < gasto.etiquetas.length; i++)
-            {
-                for (let j = 0; j < etiquetasTiene.length; j++)
-                {
-                    if (gasto.etiquetas[i] == etiquetasTiene[j])
-                        tiene = true;
+        if(Object.keys(filtro).length != 0){
+
+            gastosFiltro = gastos.filter(function(gasto){
+
+                let existe = true;
+
+                if(filtro.fechaDesde){
+                    let fDesde = Date.parse(filtro.fechaDesde);
+                    if(gasto.fecha < fDesde){
+                        existe = false;
+                    }
                 }
-            }
-            if (tiene == false)
-                esta = false;
+
+                if(filtro.fechaHasta){
+                    let fHasta = Date.parse(filtro.fechaHasta);
+                    if(gasto.fecha > fHasta){
+                        existe = false;
+                    }
+                }
+
+                if(filtro.valorMinimo){
+                    if(gasto.valor < filtro.valorMinimo){
+                        existe = false;
+                    }
+                }
+
+                if(filtro.valorMaximo){
+                    if(gasto.valor > filtro.valorMaximo){
+                        existe = false;
+                    }
+                }
+
+                if(filtro.descripcionContiene){
+                    if(!gasto.descripcion.includes(filtro.descripcionContiene)){
+                        existe = false;
+                    }
+                }
+                
+                if(filtro.etiquetasTiene){
+                    let eTiene = filtro.etiquetasTiene;
+
+                    let contiene = false;
+                    for(let gast of gasto.etiquetas){
+                        for(let tiene of eTiene){
+                            if(gast == tiene){
+                                    contiene = true;
+                            }
+                        }
+                    }
+                    if(contiene == false){
+                        existe = false;
+                    }                                          
+                }
+                return existe;
+            });
         }
-        return esta;
-    })
-    return gastosFiltrados;
+    }
+    return gastosFiltro;
 }
 
 function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta) {
