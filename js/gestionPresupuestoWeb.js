@@ -161,7 +161,7 @@ function nuevoGastoWebFormulario(){
 
     final.append(formulario);
 
-    document.getElementById("anyadirgasto-formulario").disabled = false;
+    document.getElementById("anyadirgasto-formulario").disabled = true;
 
     let enviar = new enviarGastoHandle();
 
@@ -188,7 +188,7 @@ function enviarGastoHandle() {
         let gasto1 = new gestionPresupuesto.CrearGasto(desc, val, fech, etiq);
 
         gestionPresupuesto.anyadirGasto(gasto1);
-        document.getElementById("anyadirgasto-formulario").disabled = false;
+        document.getElementById("anyadirgasto-formulario").disabled = true;
         repintar();
     }
 }
