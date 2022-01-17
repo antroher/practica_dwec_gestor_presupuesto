@@ -16,7 +16,7 @@ let botonCargarGastos = document.getElementById("cargar-gastos");
 botonCargarGastos.addEventListener('click',new cargarGastosWeb);
 
 let botonCargarGastosApi = document.getElementById("cargar-gastos-api");
-botonCargarGastosApi.addEventListener('click', new cargarGastosApi);
+botonCargarGastosApi.onclick = cargarGastosApi;
 
 
 function mostrarDatoEnId(idElemento, valor){
@@ -96,10 +96,20 @@ function mostrarGastoWeb(idElemento, gasto){
 
     btnEditarForm.addEventListener("click", editarFormHandler);
 
+    let btnBorrarApi = document.createElement("button");
+    btnBorrarApi.className = "gasto-borrar-api";
+    btnBorrarApi.textContent = "Borrar (API)";
+
+    let borrarApiHandler = new borrarGastoApi();
+    borrarApiHandler.gasto = gasto;    
+    btnBorrarApi.addEventListener("click", borrarApiHandler);
+
+
     if(idElemento == "listado-gastos-completo"){
         divGasto.append(btnEditar);
         divGasto.append(btnBorrar);
         divGasto.append(btnEditarForm);
+        divGasto.append(btnBorrarApi);
     }
     
     
@@ -203,6 +213,12 @@ function nuevoGastoWebFormulario(){
     handlerBotonCancelar.elemento = document.getElementById("controlesprincipales");
 
     botonCancelar.addEventListener("click", handlerBotonCancelar);
+
+    let btnNuevoGastoApi = formulario.querySelector("button.gasto-enviar-api");
+    let anyadirGastoApi = new nuevoGastoApi();
+    anyadirGastoApi.formulario = formulario;
+    anyadirGastoApi.boton = boton;
+    btnNuevoGastoApi.addEventListener("click", anyadirGastoApi);
     
 }
 
@@ -256,7 +272,7 @@ function EditarHandleFormulario(){
         this.elemento.append(formulario);
         formulario.elements.descripcion.value = this.gasto.descripcion;
         formulario.elements.valor.value = this.gasto.valor;
-        formulario.elements.fecha.value = new Date(this.gasto.fecha).toLocaleDateString();
+        formulario.elements.fecha.value = new Date(this.gasto.fecha).toISOString().substring(0,10);
         formulario.elements.etiquetas.value = this.gasto.etiquetas.toString();
 
         let aplicarEdit = new AplicarEditForm();
@@ -275,6 +291,14 @@ function EditarHandleFormulario(){
         handlerBotonCancelar.boton = this.boton;
         handlerBotonCancelar.elemento = this.elemento;
         botonCancelar.addEventListener("click", handlerBotonCancelar);
+
+        let botonPutApi = formulario.querySelector("button.gasto-enviar-api");
+        let putApi = new putGastoApi();
+        putApi.formulario = this.formulario;
+        putApi.gasto = this.gasto;
+        putApi.elemento = this.elemento;
+        botonPutApi.addEventListener("click", putApi);
+
 
     }
 }
@@ -384,31 +408,79 @@ function cargarGastosWeb(){
     }
 }
 
-function  cargarGastosApi(){
-    this.handleEvent =async function(event){
+async function cargarGastosApi(){
+    let usuario = document.getElementById("nombre_usuario");
+    let url = "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/";
+    let response = await fetch(url + usuario.value);
+    if(response.ok){
+        let gastosRespuesta = await response.json();
+        metodosGastos.cargarGastos(gastosRespuesta);
+        repintar();
+    }
+}
+
+function borrarGastoApi(){
+    this.handleEvent = async function(event){
         event.preventDefault();
         let usuario = document.getElementById("nombre_usuario");
         let url = "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/";
-        let response = await fetch(url + usuario.value);
+        let response =  await fetch(url + usuario.value + "/" + this.gasto.gastoId, {method: 'DELETE'});
         if(response.ok){
-            let gastosRespuesta = await response.json();
-            metodosGastos.cargarGastos(gastosRespuesta);
-            repintar();
+            cargarGastosApi();
         }
-        /*
-
-        let promise = new Promise(function(resolve, reject){
-            resolve(await fetch(url + usuario.textContent));
-        });
-
-        promise.then(function(result){
-            let gastosRespuesta = await JSON.parse(result.json());
-            metodosGastos.cargarGastos(gastosRespuesta);
-            repintar();
-        })*/
-
-
     }
+}
+
+function nuevoGastoApi(){
+    this.handleEvent = async function(event){
+        event.preventDefault();
+        let usuario = document.getElementById("nombre_usuario");
+        let url = "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/";
+        let descForm = this.formulario.elements.descripcion.value;
+        let valForm = this.formulario.elements.valor.value;
+        let fechForm = this.formulario.elements.fecha.value;
+        let etForm = this.formulario.elements.etiquetas.value;
+        let etiqForm = new Array();
+        etiqForm = etForm.split(",");
+        let gastoForm = new metodosGastos.CrearGasto(descForm,parseFloat(valForm), fechForm, ...etiqForm);
+        let response = await fetch(url + usuario.value, {
+            method: "POST",
+            headers: {"Content-Type" : "application/json"},
+            body: JSON.stringify(gastoForm)
+        });
+        if(response.ok){
+            cargarGastosApi();
+        }
+        this.boton.disabled = false;
+        document.getElementById("controlesprincipales").removeChild(this.formulario);
+    }
+}
+
+function putGastoApi(){
+    this.handleEvent = async function(event){
+        event.preventDefault();
+        let usuario = document.getElementById("nombre_usuario");
+        this.gasto.actualizarDescripcion(this.formulario.elements.descripcion.value);
+        this.gasto.actualizarFecha(this.formulario.elements.fecha.value);
+        this.gasto.actualizarValor(parseFloat(this.formulario.elements.valor.value));
+        let etiqForm = new Array();
+        etiqForm = this.formulario.elements.etiquetas.value.split(",");
+        this.gasto.borrarEtiquetas(...this.gasto.etiquetas);
+        this.gasto.anyadirEtiquetas(...etiqForm);
+        
+        let url = "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/";
+        let response = await fetch(url + usuario.value, {
+            method: "PUT",
+            headers: {"Content-Type" : "application/json"},
+            body: JSON.stringify(this.gasto)
+        });
+        if(response.ok){
+            cargarGastosApi();
+        }
+        this.boton.disabled = false;
+        this.elemento.removeChild(this.formulario);
+    }
+    
 }
 
 
