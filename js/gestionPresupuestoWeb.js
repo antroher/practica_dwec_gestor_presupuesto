@@ -270,10 +270,6 @@ function nuevoGastoWebFormulario()
   let botonCancelar =formulario.querySelector("button.cancelar");
   let cancelarEvento = new CancelarFormularioHandle();
   botonCancelar.addEventListener("click",cancelarEvento);
-
-  //
-  let EnviarApi = formulario.querySelector("button.gasto-enviar-api");
-  enviarApi.addEventListener("click", enviarGastoApi);
 }
 
 //OK
@@ -503,6 +499,14 @@ let eventBorrarAPI = new cargarGastosWeb();
 let BorrarAPIGastos = document.getElementById("gasto-borrar-api");
 BorrarAPIGastos.addEventListener('click', eventBorrarAPI);
 
+//boton cargar gastos api
+let botonObtenerDatosApi = document.getElementById('cargar-gastos-api');
+botonObtenerDatosApi.addEventListener("click", cargarGastosApi);
+
+// boton añadir gasto  API 
+let botonEnviarApi = formulario.querySelector("button.gasto-enviar-api");
+botonEnviarApi.addEventListener("click", AnyadirGastoApiHandle);
+
 function EditarGastoApi() {
   debugger;
   this.handleEvent = function (e) {
@@ -535,6 +539,41 @@ function EditarGastoApi() {
               })
 
       }
+  }
+}
+
+function AnyadirGastoApiHandle(e) {
+  debugger;
+  let usuario = document.getElementById("nombre-usuario").value;
+  // Vamos a obtener los datos del formulario para enviarlos en el body
+  let formulario = e.currentTarget.form;
+  let etiquetasSplit = formulario.elements.etiquetas.value.split(',');
+
+  let bodyGasto =
+  {
+      descripcion: formulario.elements.descripcion.value,
+      fecha: formulario.elements.fecha.value,
+      valor: parseFloat(formulario.elements.valor.value),
+      etiquetas: etiquetasSplit
+  };
+  if (usuario != "") {
+      fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`,
+          {
+              method: 'POST',
+              body: JSON.stringify(bodyGasto),
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          })
+          .then(response => {
+              if (response.ok) {
+                  cargarGastosApi();
+                  console.log('Gasto añadido correctamente');
+              } else {
+                  console.log('Alguno de los campos enviados en la petición no es correcto');
+              }
+          })
+
   }
 }
 
