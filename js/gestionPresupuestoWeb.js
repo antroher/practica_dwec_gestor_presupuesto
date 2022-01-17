@@ -154,15 +154,17 @@ function nuevoGastoWeb() {
     repintar();
 }
 
-function nuevoGastoWebFormulario() {
+function nuevoGastoWebFormulario(){
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
     var formulario = plantillaFormulario.querySelector("form");
     let final = document.getElementById("controlesprincipales");
 
     final.append(formulario);
+
     document.getElementById("anyadirgasto-formulario").disabled = true;
 
     let enviar = new enviarGastoHandle();
+
     formulario.addEventListener("submit", enviar);
 
     let cancelar = new cancelarGastoHandle();
