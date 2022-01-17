@@ -303,7 +303,6 @@ function EditarHandleFormulario()
     botonCancelarFormulario.addEventListener('click', cancelarForm);
 
     //Botón Editar API
-
     let botonEditarApi = formulario.querySelector("button.gasto-enviar-api");
     let editarApi = new EditarGastoApi();
     editarApi.gasto = this.gasto;
