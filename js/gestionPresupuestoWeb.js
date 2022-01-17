@@ -455,24 +455,40 @@ cargarGastos.addEventListener('click', eventCargar);
 //Practica 9
 function cargarGastosApi()
 {
-  this.handleEvent = function(e)
-  {
-    
-      repintar();
-  }
+   // Obtenemos el usuario del que queremos obtener los gastos.
+   debugger;
+   var usuario = document.getElementById('nombre-usuario').value;
+   let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
+   // Ahora realizamos una petición para obtener los datos.
+   if (usuario != "") {
+       fetch(url, { method: 'GET' })
+           .then(response => response.json())
+           .then(result => {
+            datosPresupuesto.cargarGastos(result);
+               repintar();
+           })
+           .catch(error => console.log(error));
+   }
 }
 
 function BorrarHandleAPI() {
   
-  this.handleEvent = function (e){
-  
-    let number = this.gasto.id;
-  
-    datosPresupuesto.borrarGasto(number);
-  
-    repintar();
-    
-  }
+  this.handleEvent = function (e) {
+    let usuario = document.getElementById("nombre-usuario").value;
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+    if (usuario != "") {
+        fetch(url,
+            {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result != "") {
+                    cargarGastosApi();
+                }
+            });
+    }
+}
 }
 //boton borrar gastos API -Práctica 9
 let eventBorrarAPI = new cargarGastosWeb();
