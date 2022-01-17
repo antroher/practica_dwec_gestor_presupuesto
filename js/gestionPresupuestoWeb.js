@@ -474,7 +474,9 @@ this.handleEvent = function(event){
 
 document.getElementById('cargar-gastos').addEventListener('click', new cargarGastosWeb);
   
-
+function CargarGastosApi() {
+  
+}
 
 
 
@@ -490,5 +492,6 @@ export{
     BorrarEtiquetasHandle,
     nuevoGastoWebFormulario,
     EditarHandleFormulario,
-    filtrarGastosWeb
+    filtrarGastosWeb,
+    CargarGastosApi
 }
