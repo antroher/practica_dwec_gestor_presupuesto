@@ -200,9 +200,6 @@ function nuevoGastoWebFormulario() {
 //Manejador del evento cancelar del formulario
 function CancelarFormHandle() {
     this.handleEvent = function (event){
-        //La única forma de borrar el formulario sin que salten mil errores
-        //básicamente recoge el padre del botón cancelar -el formulario- y lo borra
-        //llevo probando combinaciones 2 horas y esto es lo mejor que me ha salido
         event.currentTarget.parentNode.remove();
         let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
         repintar();
