@@ -15,6 +15,7 @@ btnGuardarGastos.addEventListener('click', new guardarGastosWeb);
 let btnCargarGastos = document.getElementById("cargar-gastos");
 btnCargarGastos.addEventListener('click', new cargarGastosWeb);
 
+
 function nuevoGastoWebFormulario(){
     
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
@@ -37,6 +38,9 @@ function nuevoGastoWebFormulario(){
     handlerBotonCancelar.elem = document.getElementById("controlesprincipales");
 
     botonCancelar.addEventListener("click", handlerBotonCancelar);
+
+    let btnEnviarAPI = formulario.querySelector("button.gasto-enviar-api");
+    btnEnviarAPI.addEventListener("click", enviarAPIHandle);    
 
     repintar();
     
@@ -172,7 +176,10 @@ function EditarHandleFormulario(){
         handlerBotonCancelar.formulario = formulario;
         handlerBotonCancelar.boton = this.boton;
         handlerBotonCancelar.elem = this.elem;
-        botonCancelar.addEventListener("click", handlerBotonCancelar);       
+        botonCancelar.addEventListener("click", handlerBotonCancelar);   
+
+        let btnActualizarAPI = formulario.querySelector("button.gasto-enviar-api");
+        btnActualizarAPI.addEventListener("click", actualizarAPI);    
     }
 }
  function EditarHandle(){
@@ -286,6 +293,15 @@ function mostrarGastoWeb(idElemento, gasto){
     botonBorrar.type = 'button';
     botonBorrar.textContent = 'Borrar';
 
+    let evBorrarAPI = new BorrarAPIHandle();
+    evBorrarAPI.gasto = gasto;
+
+    let btnBorrarAPI = document.createElement("button");
+    btnBorrarAPI.className = "gasto-borrar-api";
+    btnBorrarAPI.type = "button";
+    btnBorrarAPI.textContent = "Borrar (API)";
+    btnBorrarAPI.addEventListener('click', evBorrarAPI);
+
     let borrarHandle = new BorrarHandle();
     borrarHandle.gasto = gasto;
     botonBorrar.addEventListener('click', borrarHandle);
@@ -373,7 +389,7 @@ function filtrarGastosWeb(){
         let gastosFiltrado = gestionPresupuesto.filtrarGastos(filtro);
         gastosFiltrado.forEach(g => {
             mostrarGastoWeb("listado-gastos-completo" , g);
-        });
+        })
 
     }
 }
@@ -399,6 +415,129 @@ function guardarGastosWeb(){
     localStorage.setItem('GestorGastosDWEC', JSON.stringify(listaGastos));
     }
 }
+
+let btnCargarGastosApi = document.getElementById("cargar-gastos-api");
+btnCargarGastosApi.addEventListener('click', new cargarGastosApi);
+
+
+
+function cargarGastosApi(){
+    let usuario = document.getElementById('nombre_usuario').value;
+
+    if(usuario != '')
+    {
+        let url =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`;
+
+        fetch(url, {
+
+            method: "GET",
+        })
+        .then(response => response.json())
+
+        .then(function(gastosAPI)
+        {
+
+            gestionPresupuesto.cargarGastos(gastosAPI);
+            repintar();
+        })
+        .catch(err => alert(err));
+    }else
+    {
+        alert('No has introducido usuario');
+    }
+}
+
+function BorrarAPIHandle()
+{
+    this.handleEvent = function(e)
+    {
+        let usuario = document.getElementById('nombre_usuario').value;
+        if(usuario != '')
+        {
+            let url =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}/${this.gasto.gastoId}`;
+            fetch(url, 
+            {
+
+                method: "DELETE",
+            })
+            .then(function(response)
+            {
+                if(!response.ok)
+                {
+                    alert("Error "+ response.status +": no existe gasto con ese id");
+                }
+                else
+                {
+                    alert("GASTO BORRADO");
+
+                    cargarGastosApi();
+
+                }
+            })
+            .catch(err => alert(err));
+        }
+        else
+        {
+            alert('No ha introducido un usuario');
+        }
+    }
+}
+function enviarAPIHandle()
+{
+    let usuario = document.getElementById('nombre_usuario').value;
+
+    if(usuario != '')
+    {
+        let url =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${NUsuario}`;    
+        var form = document.querySelector("#controlesprincipales form");
+        let descrip = form.elements.descripcion.value;
+        let val = form.elements.valor.value;
+        let fech = form.elements.fecha.value;
+        let etiq = form.elements.etiquetas.value;
+
+        val = parseFloat(val);
+        etiq = etiq.split(',');
+
+        let gastoAPI =
+        {
+            descripcion: descrip,
+            valor: val,
+            fecha: fech,
+            etiquetas: etiq
+        };
+
+        fetch(url, {
+            method: "POST",
+            headers:
+            {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(gastoAPI)
+    })
+    .then(function(response)
+    {
+        if(!response.ok)
+        {
+            alert("Error "+response.status+": no se ha creado el gasto");
+        }
+        else
+        {
+
+            alert("Gasto creado");
+            cargarGastosApi();
+        }
+    })
+    .catch(err => alert(err));         
+
+}
+    else
+    {
+
+        alert('No has introducido el usuario');
+    }
+
+}
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
