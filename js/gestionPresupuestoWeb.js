@@ -30,18 +30,28 @@ function mostrarGastoWeb(idElemento,gasto)
   <div class="gasto-fecha">FECHA DEL GASTO</div> 
   <div class="gasto-valor">VALOR DEL GASTO</div> 
   <div class="gasto-etiquetas">
+    <!-- Este elemento span tendrá un manejador de eventos -->
     <span class="gasto-etiquetas-etiqueta">
       ETIQUETA 1
     </span>
+    <!-- Este elemento span tendrá un manejador de eventos -->
     <span class="gasto-etiquetas-etiqueta">
       ETIQUETA 2
     </span>
     <!-- Etcétera -->
   </div> 
+  <!-- Este botón tendrá un manejador de eventos -->
+  <button class="gasto-editar" type="button">Editar</button>
+  <!-- Este botón tendrá un manejador de eventos -->
+  <button class="gasto-borrar" type="button">Borrar</button>
+  <!-- Este botón tendrá un manejador de eventos -->
+  <button class="gasto-borrar-api" type="button">Borrar (API)</button>
+  <!-- Este botón tendrá un manejador de eventos -->
+  <button class="gasto-editar-formulario" type="button">Editar (formulario)</button>
 </div>
                   */
 
-                
+                //faltaaaaa
 
                  let elem = document.getElementById(idElemento);
 
@@ -333,6 +343,12 @@ function cancelarHandle () {
 
 
   function nuevoGastoWebFormulario(){
+
+    /**Añade un manejador de eventos necesario para gestionar el evento click del botón .gasto-enviar-api.
+   Se encargará de realizar mediante fetch una solicitud POST a la URL correspondiente de la API.
+  Se deberá crear la URL correspondiente utilizando el nombre de usuario que se haya introducido en el control input#nombre_usuario.
+  El contenido de la petición POST se obtendrá a partir del formulario de creación.
+  Una vez completada la petición, se deberá llamar a la función cargarGastosApi para actualizar la lista en la página. */
       let cancel = new cancelarHandle();
       let submit = new submitHandle();
       let form ;
@@ -475,7 +491,23 @@ this.handleEvent = function(event){
 document.getElementById('cargar-gastos').addEventListener('click', new cargarGastosWeb);
   
 function CargarGastosApi() {
-  
+
+  let usuario = document.querySelector("#nombre_usuario").value;
+   
+    if (usuario != '' || usuario!=undefined || usuario !=null) {
+      fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`, {method: 'GET'})
+          .then(respuesta => respuesta.json())
+          .then((result) => {
+              let resultado = result;
+              if(resultado == "" || resultado =='') {
+                  console.log("No existe el usuario")
+              } else {
+                  gp.cargarGastos(resultado);
+                  repintar();
+              }
+              })
+          .catch(error => console.error(error));
+    }
 }
 
 
