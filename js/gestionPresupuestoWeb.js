@@ -161,12 +161,8 @@ function nuevoGastoWebFormulario(){
 
     final.append(formulario);
 
-    //document.getElementById("anyadirgasto-formulario").disabled = true;
-    //document.getElementById("button.gasto-editar-formulario").disabled = false;
-    document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
-
+    document.getElementById("anyadirgasto-formulario").disabled = true;
     
-
     let enviar = new enviarGastoHandle();
 
     formulario.addEventListener("submit", enviar);
@@ -198,9 +194,10 @@ function enviarGastoHandle() {
 }
 
 function cancelarGastoHandle() {
-    this.handleEvent = function (evento) {
-        evento.currentTarget.remove();
+    this.handleEvent = function(evento) {
+        evento.currentTarget.parentNode.remove();
         document.getElementById("anyadirgasto-formulario").removeAttribute('disabled');
+        repintar();
     }
 }
 
