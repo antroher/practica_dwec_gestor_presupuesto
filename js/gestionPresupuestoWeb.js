@@ -1,5 +1,4 @@
 import * as gp from './gestionPresupuesto.js'
-
 /*Cypress.on('uncaught:exception', (err, runnable) => {
     return false;
   });
@@ -100,6 +99,16 @@ function mostrarGastoWeb(idElemento, gasto){
             botonBorrar.addEventListener("click",borrarHa);
             divgasto.append(botonBorrar);
 
+            let botonBorrarApi=document.createElement("button");
+            botonBorrarApi.className="gasto-borrar-api";
+            botonBorrarApi.type="button";
+            botonBorrarApi.textContent="Borrar (API)";
+            let borrarApi = new BorrarApiHandle();
+            borrarApi.gasto=gasto;
+            botonBorrarApi.addEventListener("click",borrarApi);
+            divgasto.append(botonBorrarApi);
+
+            //console.log(JSON.stringify(gasto));
             /*etiq+="<button class='gasto-editar' type='button'>Editar</button>\n";
             etiq+="<button class='gasto-borrar' type='button'>Borrar</button>\n";*/
         }
@@ -165,8 +174,15 @@ function repintar(){
     gastosF.forEach(gf => {
         mostrarGastoWeb("listado-gastos-filtrado-4",gf);
     });
+    
+    document.getElementById("agrupacion-dia").innerHTML="";
+    mostrarGastosAgrupadosWeb("agrupacion-dia",gp.agruparGastos("dia"),"día");
 
+    document.getElementById("agrupacion-mes").innerHTML="";
+    mostrarGastosAgrupadosWeb("agrupacion-mes",gp.agruparGastos("mes"),"mes");
 
+    document.getElementById("agrupacion-anyo").innerHTML="";
+    mostrarGastosAgrupadosWeb("agrupacion-anyo",gp.agruparGastos("anyo"),"año");
 
 }
 
@@ -223,6 +239,23 @@ function BorrarEtiquetasHandle(){
         };
 }
 
+function BorrarApiHandle(){
+    this.handleEvent=async function(){
+        if(this.gasto.hasOwnProperty("gastoId")){
+            let nombreUsuario=  document.getElementById("nombre_usuario").value;
+            let gastosApi = await fetch("https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/"+nombreUsuario+"/"+this.gasto.gastoId,{method:'DELETE'});
+            if(gastosApi.ok){
+               cargarGastosApi();
+            }else{
+                alert("Error: "+gastosApi.status);
+            }
+        }else{
+            alert("El gasto no se encuentra en la API")
+        }
+
+    }
+}
+
 function nuevoGastoWebFormulario(){
     document.getElementById("anyadirgasto-formulario").disabled=true;
 
@@ -251,6 +284,30 @@ function nuevoGastoWebFormulario(){
         document.getElementById("controlesprincipales").removeChild(formulario);
         repintar();
 
+    });
+
+    let botonEnviarApi=formulario.querySelector("button.gasto-enviar-api");
+    botonEnviarApi.addEventListener("click",this.handleEvent= async function(){
+        let desc = formulario.elements.descripcion;
+        let valor = formulario.elements.valor;
+        let fecha = formulario.elements.fecha;
+        let etiquetas=formulario.elements.etiquetas;
+        etiquetas=etiquetas.value.split(",");
+        let gasto = new gp.CrearGasto(desc.value,parseFloat(valor.value),fecha.value,...etiquetas);
+        let nombreUsuario=  document.getElementById("nombre_usuario").value;
+        let nuevoGastoApi = await fetch("https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/"+nombreUsuario,{method:'POST',headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+          },body:JSON.stringify(gasto)});
+        if(nuevoGastoApi.ok){
+            document.getElementById("anyadirgasto-formulario").disabled=false;
+            document.getElementById("controlesprincipales").removeChild(formulario);
+            cargarGastosApi()
+        }else{
+            alert("Error: "+nuevoGastoApi.status);
+        }
+
+
+        
     });
 }
 
@@ -294,6 +351,33 @@ function EditarHandleFormulario(){
             repintar();
 
         });
+
+        let botonEnviarApi=formulario.querySelector("button.gasto-enviar-api");
+        botonEnviarApi.addEventListener("click",this.handleEvent= async function(){
+            g.actualizarDescripcion(formulario.elements.descripcion.value);
+            g.actualizarValor(parseFloat(formulario.elements.valor.value));
+            g.actualizarFecha(formulario.elements.fecha.value);
+            let etiquetasForm=formulario.elements.etiquetas;
+            etiquetasForm=etiquetasForm.value.split(",");
+            g.borrarEtiquetas(...g.etiquetas);
+            g.anyadirEtiquetas(...etiquetasForm);
+            botonEditG.disabled=false;
+            divG.removeChild(formulario);
+            let nombreUsuario=  document.getElementById("nombre_usuario").value;
+            let nuevoGastoApi = await fetch("https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/"+nombreUsuario+"/"+g.gastoId,{method:'PUT',headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+              },body:JSON.stringify(g)});
+            if(nuevoGastoApi.ok){
+                cargarGastosApi()
+            }else{
+                alert("Error: "+nuevoGastoApi.status);
+            }
+
+
+        
+    });
+
+
     }
 }
 
@@ -374,6 +458,24 @@ function cargarGastosWeb(){
         repintar();
 }
 
+async function cargarGastosApi(){
+    let nombreUsuario=  document.getElementById("nombre_usuario").value;
+    let gastosApi = await fetch("https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/"+nombreUsuario);
+    if(gastosApi.ok){
+        let json = await gastosApi.json(); 
+        //let cadena =JSON.parse(json);
+        //console.log(cadena);
+        gp.cargarGastos(json);
+        
+        console.log(json);
+        repintar();
+    }else{
+        alert("Error: "+gastosApi.status);
+    }
+}
+
+
+
 
 let boton=document.getElementById("actualizarpresupuesto");
 boton.onclick=actualizarPresupuestoWeb;
@@ -391,6 +493,9 @@ let botonCargar = document.getElementById("cargar-gastos");
 botonCargar.addEventListener('click',fCargar);*/
 botonCargar.onclick=cargarGastosWeb;
 //localStorage.clear()
+let botonCargarApi = document.getElementById("cargar-gastos-api");
+botonCargarApi.onclick=cargarGastosApi;
+
 
 
 export   {
@@ -406,3 +511,8 @@ export   {
    // nuevoGastoWebFormulario
     
 }
+/*,
+                                                            {method: "GET", headers:{ 
+                                                                "Content-Type":"application/json",
+                                                                "Access-Control-Allow-Credentials": "true"
+                                                                }}*/
