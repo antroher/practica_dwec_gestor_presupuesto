@@ -71,22 +71,22 @@ function CrearGasto(descrip, valor = 0, fecha = Date.now(), ...etiquetas) {
             this.fecha = Date.parse(newFecha);
         }
     };
-    this.anyadirEtiquetas = function (...etiquetasFiltradas) {
-        const valoresulUnicos = etiquetasFiltradas.filter((x) => {
-            if (!this.etiquetasFiltradas.includes(x)) {
-                return x;
+    this.anyadirEtiquetas = function(...etiquetas){
+        for(let etiqueta of etiquetas){
+            if(this.etiquetas.includes(etiqueta) == false){
+                this.etiquetas.push(etiqueta);
             }
-        });
-        this.etiquetasFiltradas.push(...valoresulUnicos);
-    };
-    this.borrarEtiquetas = function (...etiquetasFiltradas) {
-        etiquetasFiltradas.forEach((x) => {
-            for (let i = 0; i < this.etiquetasFiltradas.length; i++) {
-                if (this.etiquetasFiltradas[i] === x) {
-                    this.etiquetasFiltradas.splice(i, 1);
+        }
+    }
+    this.anyadirEtiquetas(...etiquetas);
+
+    this.borrarEtiquetas = function(...etiquetas){
+        for(let etiqueta of etiquetas){
+            let index = this.etiquetas.indexOf(etiqueta);
+            if(index != -1){
+                this.etiquetas.splice(index,1);
                 }
             }
-        })
     };
     this.obtenerPeriodoAgrupacion = function (periodo) {
         let validarFech = new Date(this.fecha);
