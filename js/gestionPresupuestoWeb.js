@@ -226,6 +226,12 @@ function EditarHandleFormulario()
         let submitEvent = new submitEditHandle();
         submitEvent.gasto = this.gasto;
         form.addEventListener('submit', submitEvent);
+
+        let actualizarAPI = new ActualizarAPIHandle();
+        actualizarAPI.gasto = this.gasto;
+
+        let btnActualizarAPI = formulario.querySelector("button.gasto-enviar-api");
+        btnActualizarAPI.addEventListener("click", actualizarAPI);    
     }
 }
 
@@ -331,6 +337,8 @@ function cargarGastosWeb(){
 
 //Practica 9 
 
+//Funcion BorrarAPIHandle
+
 function BorrarAPIHandle()
 {
     this.handleEvent = function(e)
@@ -364,6 +372,8 @@ function BorrarAPIHandle()
         }
     }
 }
+
+//Funcion enviarAPIHandle
 
 function enviarAPIHandle()
 {
@@ -417,6 +427,63 @@ function enviarAPIHandle()
     }
 }
 
+//Funcion ActualizarAPIHandle
+
+function ActualizarAPIHandle()
+{
+    this.handleEvent = function(e)
+    {
+        let Nomusuario = document.getElementById('nombre_usuario').value;
+        let direccion =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+
+        if(Nomusuario != '')
+        {
+            var form = document.querySelector(".gasto form");
+            let descrip = form.elements.descripcion.value;
+            let val = form.elements.valor.value;
+            let fech = form.elements.fecha.value;
+            let etiq = form.elements.etiquetas.value;
+            val = parseFloat(val);
+            etiq = etiq.split(',');
+
+            let gastoAPI = 
+            {
+
+                descripcion: descrip,
+                valor: val,
+                fecha: fech,
+                etiquetas: etiq
+            };
+            fetch(direccion, {
+                method: "PUT",
+                headers:
+                {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(gastoAPI)
+            })
+
+            .then(function(resp)
+            {
+                if(!resp.ok)
+                {
+                    alert("Error " + resp.status + ": no se ha actualizado el gasto");
+                }else
+                {
+                    alert("GASTO ACTUALIZADO");
+                    cargarGastosApi();
+                }
+            })
+            .catch(err => alert(err));
+        }else
+        {
+            alert('Falta nombre usuario');
+        }
+    }
+}
+
+//Función cargarGastosApi
+
 function cargarGastosApi(){
     let NomUsuario = document.querySelector("#nombre_usuario").value;
     let direccion = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${NomUsuario}`;
@@ -437,6 +504,7 @@ function cargarGastosApi(){
         alert('Falta nombre usuario');
     }
 }
+
 //Botones
 document.getElementById("actualizarpresupuesto").addEventListener("click", actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener("click", nuevoGastoWeb);
