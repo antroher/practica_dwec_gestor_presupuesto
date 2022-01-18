@@ -275,7 +275,7 @@ function cargarGastosWeb() {
 let cargarGastWeb = new cargarGastosWeb();
 
 function cargarGastosApi() {
-    let user = document.querySelector("#nombre_usuario").value;
+    let usuario = document.querySelector("#nombre_usuario").value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
 
     if (usuario != '') {
@@ -293,11 +293,30 @@ function cargarGastosApi() {
                 })
             .catch(err => console.error(err));
     }
-
-
-
 }
-let cargarGastosApi = new cargarGastosApi();
+
+function BorrarGastoApiHandle(){
+    
+    this.handleEvent = function(event){
+        let usuario = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+
+        if (usuario == "") {
+            console.log("El input del nombre de usuario esta vacio");
+        } else {
+            fetch(url, {method: 'DELETE'})
+            .then(response => response.json())
+            .then(datos => {
+                if(!datos.errorMessage){
+                    CargarGastosApi();
+                } else {
+                    console.log(datos.errorMessage);
+                }
+            })
+            .catch(err => console.error(err));
+        }
+    }
+}
 
 
 const btnAddGas = document.getElementById("anyadirgasto");
