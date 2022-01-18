@@ -55,6 +55,13 @@ function mostrarGastoWeb(idElemento, gasto) {
                             btnBorrarGastoApi.textContent = 'Borrar (API)';
                             btnBorrarGastoApi.type = 'button';
 
+    let objBorrarGastoApi = new BorrarGastoApiHandle();
+    objBorrarGastoApi.gasto = gasto;
+    btnBorrarGastoApi.addEventListener("click", objBorrarGastoApi);
+
+    divGasto.append(btnBorrarGastoApi);
+
+
     let btnEditGastoForm = document.createElement("button");
     btnEditGastoForm.className += 'gasto-editar-formulario';
     btnEditGastoForm.textContent = 'Editar (formulario)';
@@ -299,7 +306,7 @@ const btnGastForm = document.getElementById("anyadirgasto-formulario");
 const btnFilter = document.getElementById("formulario-filtrado");
 const btnGuardarGastWeb = document.getElementById("guardar-gastos");
 const btncargarGastWeb = document.getElementById("cargar-gastos");
-const btncargarGastosApi = document.getElementById("cargasr-gastos-api";)
+const btncargarGastosApi = document.getElementById("cargasr-gastos-api");
 
 btnAddGas.addEventListener("click", nuevoGastoWeb);
 btnActPres.addEventListener("click", actualizarPresupuestoWeb);
