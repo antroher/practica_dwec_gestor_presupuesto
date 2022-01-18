@@ -186,6 +186,8 @@ function nuevoGastoWebFormulario(){
     let cancO = new CancelarHandleFormulario();
     let btnCancel = formulario.querySelector("button.cancelar");
     btnCancel.addEventListener("click", cancO);
+    let btnEnviarAPI = formulario.querySelector("button.gasto-enviar-api");
+    btnEnviarAPI.addEventListener("click", enviarAPIHandle);  
 }
 
 
@@ -363,6 +365,57 @@ function BorrarAPIHandle()
     }
 }
 
+function enviarAPIHandle()
+{
+    let Nomusuario = document.getElementById('nombre_usuario').value;
+    let direccion =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${NUsuario}`;    
+
+    if(Nomusuario != '')
+    {
+        var form = document.querySelector("#controlesprincipales form");
+        let descrip = form.elements.descripcion.value;
+        let val = form.elements.valor.value;
+        let fech = form.elements.fecha.value;
+        let etiqueta = form.elements.etiquetas.value;
+
+        val = parseFloat(val);
+        etiqueta = etiqueta.split(',');
+
+        let gastoAPI =
+        {
+            descripcion: descrip,
+            valor: val,
+            fecha: fech,
+            etiquetas: etiqueta
+        };
+
+        fetch(direccion, {
+            method: "POST",
+            headers:
+            {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(gastoAPI)
+    })
+    .then(function(resp)
+    {
+        if(!resp.ok)
+        {
+            alert("Error "+resp.status+": no se creo el gasto");
+        }
+        else
+        {
+            alert("Gasto creado");
+            cargarGastosApi();
+        }
+    })
+    .catch(err => alert(err));         
+}
+    else
+    {
+        alert('Falta nombre usuario');
+    }
+}
 
 function cargarGastosApi(){
     let NomUsuario = document.querySelector("#nombre_usuario").value;
