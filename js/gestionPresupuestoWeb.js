@@ -66,6 +66,12 @@ function mostrarGastoWeb(idElemento, gasto) {
                             btnBorrarGastoApi.className += 'gasto-borrar-api';
                             btnBorrarGastoApi.textContent = 'Borrar (API)';
                             btnBorrarGastoApi.type = 'button';
+
+    let obBorrarGastoApi = new BorrarGastoApiHandle();
+                            obBorrarGastoApi.gasto = gasto;
+                            btnBorrarGastoApi.addEventListener("click", obBorrarGastoApi);
+
+    div.append(btnBorrarGastoApi);
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
