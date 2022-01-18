@@ -135,6 +135,9 @@ function nuevoGastoWebFormulario() {
     let cancelObject = new cancelFormHandle();
     let btnCancel = formulario.querySelector("button.cancelar");
     btnCancel.addEventListener("click", cancelObject);
+
+    let apiEnviar = formulario.querySelector("button.gasto-enviar-api");
+    enviarApi.addEventListener("click", EnviarGastoApi);
 }
 
 function EditarHandle() {
