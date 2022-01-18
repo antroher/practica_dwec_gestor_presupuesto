@@ -54,6 +54,16 @@ function mostrarGastoWeb(idElemento,gastos){
         botonBorrar.textContent = "Borrar";
         botonBorrar.type = 'button';
 
+        let evBorrarAPI = new BorrarAPIHandle();
+        evBorrarAPI.gasto = gasto;
+
+        let btnBorrarAPI = document.createElement("button");
+        btnBorrarAPI.className = "gasto-borrar-api";
+        btnBorrarAPI.type = "button";
+        btnBorrarAPI.textContent = "Borrar (API)";
+
+        btnBorrarAPI.addEventListener('click', evBorrarAPI);
+
         let botonEditarForm = document.createElement("button");
         botonEditarForm.setAttribute('id', `gasto-editar-formulario-${gasto.id}`)
         botonEditarForm.className += 'gasto-editar-formulario';
@@ -318,6 +328,42 @@ function cargarGastosWeb(){
 }
 
 //Practica 9 
+
+function BorrarAPIHandle()
+{
+    this.handleEvent = function(e)
+    {
+        let usuario = document.getElementById('nombre_usuario').value;
+        let direccion =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}/${this.gasto.gastoId}`;
+
+        if(usuario != '')
+        {
+            fetch(direccion, 
+            {
+                method: "DELETE",
+            })
+            .then(function(resp)
+            {
+                if(!resp.ok)
+                {
+                    alert("Error "+ resp.status +": no existe el id de ese gasto");
+                }
+                else
+                {
+                    alert("GASTO BORRADO");
+                    cargarGastosApi();
+                }
+            })
+            .catch(err => alert(err));
+        }
+        else
+        {
+            alert('Falta nombre usuario');
+        }
+    }
+}
+
+
 function cargarGastosApi(){
     let NomUsuario = document.querySelector("#nombre_usuario").value;
     let direccion = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${NomUsuario}`;
