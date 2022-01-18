@@ -134,7 +134,9 @@ function nuevoGastoWebFormulario() {
     formulario.addEventListener('submit', sendObject);
     let cancelObject = new cancelFormHandle();
     let btnCancel = formulario.querySelector("button.cancelar");
-    btnCancel.addEventListener("click", cancelObject);    
+    btnCancel.addEventListener("click", cancelObject);
+    let sendApi = formulario.querySelector("button.gasto-enviar-api");
+    enviarApi.addEventListener("click", apiGastSend);
 }
 
 //Manejadores
@@ -219,6 +221,10 @@ function editHandleForm() {
         let cancelObject = new cancelFormHandle();
         btnCancel.addEventListener("click", cancelObject);
         btnEditForm.setAttribute("disabled", "");
+        let apiFormEdit = formulario.querySelector("button.gasto-enviar-api");
+        let editEvent = new apiGastEdit();
+        editEvent.gasto = this.gasto;
+        apiFormEdit.addEventListener("click", editEvent);
     }
 }
 
@@ -303,6 +309,98 @@ function cargarGastosApi(e) {
             .catch(error => console.error(error));
     }
 }
+
+function apiGastSend(event){
+    let user = document.getElementById("nombre_usuario").value;
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
+    
+    let form = event.currentTarget.form;
+    let desc = form.elements.descripcion.value;
+    let value = form.elements.valor.value;
+    let date = form.elements.fecha.value;
+    let eti = form.elements.etiquetas.value;
+
+    value = parseFloat(value);
+    eti = eti.split(",");
+
+    let newObj = {
+        descripcion: desc,
+        fecha: date,
+        valor: value,
+        etiquetas: eti
+    }
+
+    console.log(newObj);
+
+    if(user == ""){
+        console.log("Debes introducir un nombre de usuario en el input");
+    }else{
+        fetch(url, {
+            method: 'POST', 
+            body: JSON.stringify(newObj),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            
+            if(response.ok){
+                console.log("Petición correcta");
+                CargarGastosApi();
+            }else{
+                console.log("Petición errónea");
+            }
+        })
+        .catch(err => console.error(err));
+    }
+}
+
+function apiGastEdit(){
+
+    this.handleEvent = function(event){
+        let user = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}/${this.gasto.gastoId}`;
+        
+        let form = event.currentTarget.form;
+        let desc = form.elements.descripcion.value;
+        let value = form.elements.valor.value;
+        let date = form.elements.fecha.value;
+        let eti = form.elements.etiquetas.value;
+
+        value = parseFloat(value);
+        eti = eti.split(",");
+    
+        let nuevoObjeto = {
+            descripcion: desc,
+            fecha: date,
+            valor: value,
+            etiquetas: eti
+        }
+
+        if(user == ""){
+            console.log("Debes introducir un nombre de usuario en el input");
+        } else {
+            fetch(url, {
+                method: 'PUT', 
+                body: JSON.stringify(nuevoObjeto),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                
+                if(response.ok){
+                    console.log("Petición correcta");
+                    CargarGastosApi();
+                }else{
+                    console.log("Petición errónea");
+                }
+            })
+            .catch(err => console.error(err));
+        }
+    }
+}
+
 
 //Botones
 const btnAddGas = document.getElementById("anyadirgasto");
