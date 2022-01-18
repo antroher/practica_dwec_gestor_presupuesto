@@ -269,17 +269,18 @@ function CargarGastosApi(){
 
     if (usuario != '') {
         fetch(url, {method: 'GET'})
-            .then(respuesta => respuesta.json())
-            .then((result) => {
-                let resultado = result;
-                if(resultado == "") {
-                    console.log("No hay gastos en la API para este usuario")
-                }
-                else {
-                    gestionPresupuesto.cargarGastos(resultado);
-                    repintar();
-                }
-            })
+        .then(respuesta => respuesta.json())
+        .then((result) => {
+            let resultado = result;
+            if(resultado == "") {
+                console.log("No hay gastos en la API para este usuario")
+            }
+            else {
+                gestionPresupuesto.cargarGastos(resultado);
+                repintar();
+            }
+        })
+        .catch(error => console.error(error));
     }
 }
 
