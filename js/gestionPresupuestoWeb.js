@@ -281,7 +281,7 @@ function cargarGastosWeb() {
 }
 let cargarGastWeb = new cargarGastosWeb();
 
-function cargarGastosApi() {
+function CargarGastosApi() {
     let usuario = document.querySelector("#nombre_usuario").value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
 
@@ -320,7 +320,7 @@ function BorrarGastoApiHandle(){
                     console.log(datos.errorMessage);
                 }
             })
-            .catch(err => console.error(err));
+            .catch(error => console.error(error));
         }
     }
 }
