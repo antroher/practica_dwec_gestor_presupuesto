@@ -128,14 +128,20 @@ function nuevoGastoWeb() {
 function nuevoGastoWebFormulario() {
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
     var formulario = plantillaFormulario.querySelector("form");
+    
     let controls = document.getElementById("controlesprincipales")
     controls.appendChild(formulario);
     let btnAddGastForm = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
+   
     let sendObject = new enviarGastoFormHandle();
     formulario.addEventListener('submit', sendObject);
+    
     let cancelObject = new cancelFormHandle();
     let btnCancel = formulario.querySelector("button.cancelar");
     btnCancel.addEventListener("click", cancelObject);
+
+    let apiEnviar = formulario.querySelector("button.gasto-enviar-api");
+    enviarApi.addEventListener("click", EnviarGastoApi);
 }
 
 function EditarHandle() {
@@ -430,12 +436,15 @@ const btnFilter = document.getElementById("formulario-filtrado");
 const btnGuardarGastWeb = document.getElementById("guardar-gastos");
 const btncargarGastWeb = document.getElementById("cargar-gastos");
 
+
 btnAddGas.addEventListener("click", nuevoGastoWeb);
 btnActPres.addEventListener("click", actualizarPresupuestoWeb);
 btnGastForm.addEventListener("click", nuevoGastoWebFormulario);
 btnFilter.addEventListener("submit", gastoSend);
 btnGuardarGastWeb.addEventListener("click", guardarGastWeb);
 btncargarGastWeb.addEventListener("click", cargarGastWeb);
+btnGastosApi.addEventListener("click", CargarGastosApi);
+
 
 
 export {
