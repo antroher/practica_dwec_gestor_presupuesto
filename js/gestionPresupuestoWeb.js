@@ -263,6 +263,28 @@ function cargarGastosWeb() {
 let cargarGastWeb = new cargarGastosWeb();
 
 
+function CargarGastosApi(){
+    let usuario = document.querySelector("#nombre_suario").value;
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
+
+    if (usuario != '') {
+        fetch(url, {method: 'GET'})
+            .then(respuesta => respuesta.json())
+            .then((result) => {
+                let resultado = result;
+                if(resultado == "") {
+                    console.log("No hay gastos en la API para este usuario")
+                }
+                else {
+                    gestionPresupuesto.cargarGastos(resultado);
+                    
+                }
+            })
+    }
+}
+
+
+
 const btnAddGas = document.getElementById("anyadirgasto");
 const btnActPres = document.getElementById("actualizarpresupuesto");
 const btnGastForm = document.getElementById("anyadirgasto-formulario");
