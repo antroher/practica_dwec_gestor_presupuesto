@@ -1,8 +1,5 @@
 "use strict"
 
-// TODO: Crear las funciones, objetos y variables indicadas en el enunciado
-
-// TODO: Variable global
 var presupuesto = 0;
 var gastos = [];
 var idGasto = 0;
@@ -54,57 +51,6 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 
-/*
-¿Funciona el código de abajo? SÍ, pero si no pasa los test esta mal... así que adiós a mis horas de trabajo.
-*/
-
-// function filtrarGastos(gastosFilter) {
-//     let gastosFiltrados = Object.assign(gastos);
-//     if (gastosFilter != null && Object.entries(gastosFilter).length >= 0) {
-//         if (Object.hasOwn(gastosFilter, 'fechaDesde') && typeof gastosFilter.fechaDesde === 'string') {
-//             gastosFiltrados = gastosFiltrados.filter((x) => {
-//                 return x.fecha >= (Date.parse(gastosFilter.fechaDesde))
-//             })
-//         }
-//         if (Object.hasOwn(gastosFilter, 'fechaHasta') && typeof gastosFilter.fechaHasta === 'string') {
-//             gastosFiltrados = gastosFiltrados.filter((x) => {
-//                 return x.fecha <= Date.parse(gastosFilter.fechaHasta);
-//             })
-//         }
-//         if (Object.hasOwn(gastosFilter, 'valorMinimo') && typeof gastosFilter.valorMinimo === 'number') {
-//             gastosFiltrados = gastosFiltrados.filter((x) => {
-//                 return x.valor > gastosFilter.valorMinimo;
-//             })
-//         }
-//         if (Object.hasOwn(gastosFilter, 'valorMaximo') && typeof gastosFilter.valorMaximo === 'number') {
-//             gastosFiltrados = gastosFiltrados.filter((x) => {
-//                 return x.valor < gastosFilter.valorMaximo;
-//             })
-//         }
-//         if (Object.hasOwn(gastosFilter, 'descripcionContiene') && typeof gastosFilter.descripcionContiene === 'string') {
-//             gastosFiltrados = gastosFiltrados.filter((x) => {
-//                 let param1 = (x.descripcion).toLowerCase();
-//                 let param2 = (gastosFilter.descripcionContiene).toLowerCase();
-//                 let param1Array = param1.split(" ");
-//                 let param1ArrayJoin = param1Array.join('');
-//                 if (param1ArrayJoin.indexOf(param2) !== -1) 
-//                     return true;
-//             })
-//         }
-//         if (Object.hasOwn(gastosFilter, 'etiquetasTiene') && Array.isArray(gastosFilter.etiquetasTiene)) {
-//             gastosFiltrados = gastosFiltrados.filter((x) => {
-//                 for (let i = 0; i <= gastosFilter.etiquetasTiene.length; i++) {
-//                     if (gastosFilter.etiquetasTiene.includes(x.etiquetas[i])) {
-//                         return true;
-//                     }
-//                 }
-//             })
-//         }
-
-//         return gastosFiltrados;
-//     }
-//     return gastos;
-// }
 function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}){
     let gastosFiltrados;
     gastosFiltrados = gastos.filter(function(gasto){
@@ -138,7 +84,6 @@ function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descri
 return gastosFiltrados;  
 }
 
-
 function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
     let filtrador = {etiquetasTiene : etiquetas, fechaDesde : fechaDesde, fechaHasta : fechaHasta}
     let returnFiltrarGastos = filtrarGastos(filtrador);
@@ -154,14 +99,13 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
     return groupBy;
 }
 
-//Función constructora
 function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
     valor = parseFloat(valor);
     
     if (isNaN(valor) || valor < 0) {
         valor = 0;
     }
-    // if (etiquetas.length == 0) { etiquetas = [] };
+
     this.valor = valor
     this.descripcion = descripcion
     this.etiquetas = [...etiquetas]
@@ -181,7 +125,6 @@ function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
         }
     }
 
-    //Falta probar si funciona
     this.mostrarGastoCompleto = function() {
         let fecha1;
         if(typeof this.fecha === 'string')
@@ -286,10 +229,6 @@ function cargarGastos(nuevosGastos) {
     }
 }
 
-
-// NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
-// Las funciones y objetos deben tener los nombres que se indican en el enunciado
-// Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
