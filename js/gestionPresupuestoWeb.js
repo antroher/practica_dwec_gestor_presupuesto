@@ -294,9 +294,10 @@ function EditarHandleFormulario(){
 
         let botonPutApi = formulario.querySelector("button.gasto-enviar-api");
         let putApi = new putGastoApi();
-        putApi.formulario = this.formulario;
+        putApi.formulario = formulario;
         putApi.gasto = this.gasto;
         putApi.elemento = this.elemento;
+        putApi.boton = this.boton;
         botonPutApi.addEventListener("click", putApi);
 
 
@@ -469,7 +470,7 @@ function putGastoApi(){
         this.gasto.anyadirEtiquetas(...etiqForm);
         
         let url = "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/";
-        let response = await fetch(url + usuario.value, {
+        let response = await fetch(url + usuario.value + "/" + this.gasto.gastoId, {
             method: "PUT",
             headers: {"Content-Type" : "application/json"},
             body: JSON.stringify(this.gasto)
