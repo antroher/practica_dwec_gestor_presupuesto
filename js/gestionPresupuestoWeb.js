@@ -291,6 +291,29 @@ function CargarGastosApi(){
     }
 }
 
+function BorrarGastoApiHandle(){
+    
+    this.handleEvent = function(event){
+        let usuario = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+
+        if (usuario == "") {
+            console.log("El input del nombre de usuario esta vacio");
+        } else {
+            fetch(url, {method: 'DELETE'})
+            .then(response => response.json())
+            .then(datos => {
+                if(!datos.errorMessage){
+                    CargarGastosApi();
+                } else {
+                    console.log(datos.errorMessage);
+                }
+            })
+            .catch(error => console.error(error));
+        }
+    }
+}
+
 
 
 const btnAddGas = document.getElementById("anyadirgasto");
