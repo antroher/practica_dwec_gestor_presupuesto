@@ -48,7 +48,6 @@ function mostrarGastoWeb(idElemento, gastos) {
         span.addEventListener('click', EventBorrarEtiqueta);
         }
     }
-
     divgasto.append(divGD, divGV, divGF, divEtiquetas);
     elemento.append(divgasto);
     
@@ -76,9 +75,20 @@ function mostrarGastoWeb(idElemento, gastos) {
         HandEvent()) tiene que ser un objeto que tenga definida una propiedad y que sea una funcion*/
         ButtonBorrar.addEventListener('click',EvenBorrar);
         ButtonEditar.addEventListener('click',eventEditar);
-       
+
         divgasto.append(ButtonEditar,ButtonBorrar);
 
+        /* PRÁCTICA 9*/
+
+        let btnBorrarApi = document.createElement("button");
+        btnBorrarApi.className += `gasto-borrar-api`;
+        btnBorrarApi.type = "button";
+        btnBorrarApi.textContent = "Borrar (API)";
+
+        let eventoBorrarApi = new BorrarGastoApiHandle()
+        btnBorrarApi.addEventListener("click",)
+
+        /************/
         /*
         práctica 6: Añade un segundo botón de edición a la estructura HTML de cada gasto
         
@@ -386,20 +396,51 @@ btnCargarGastos.addEventListener('click',cargarGastos);
 async function cargarGastosApi() {
     let nombreUser = document.querySelector("#nombre_usuario").value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUser}`;
-    let respusta = await fetch(url);
+    try{
+        if(nombreUser.ok)
+        {
+            await fetch(url, {method: 'GET'})
+                .then(respusta => respusta.json())
+                .then(resultado => {
 
-    if(nombreUser.ok)
-    {
-        let respusta = await respusta.json(); //convertimos el objeto a json
-        let resultado = result
+                    if(resultado.ok)
+                    {
+                        gestionPresupuesto.cargarGastos(resp);
+                        repintar();
+                    }
+                    else{
+                        alert("Error-HTTP: "+response.status)
+                    }
+                });
+        }
+        else{
+            alert("Error-HTTP: "+response.status);
+        }
     }
-    else{
-        alert("Error-HTTP: "+response.status)
+    catch{
+        alert("Error-HTTP: "+response.status);
     }
 }
 let btnCargarGastosApi = document.getElementById("cargar-gastos-api");
 btnCargarGastosApi.addEventListener("click",cargarGastosApi());
 
+function BorrarGastoApiHandle() {
+    this.handleEvent = function(e){
+        let UserName = document.querySelector("#nombre_usuario");
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${UserName}`;
+        
+        await fetch(url, {method:'DELETE'})
+        .then(responde => responde.json())
+        .then(respuesta => {
+            if(respuesta.ok){
+                gestionPresupuesto.cargarGastosApi();
+            }
+            else{
+                alert("Error-HTTP: "+response.status);
+            }
+        })
+    };
+}
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
