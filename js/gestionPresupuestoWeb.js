@@ -220,6 +220,10 @@ function editHandleForm() {
         let cancelObject = new cancelFormHandle();
         btnCancel.addEventListener("click", cancelObject);
         btnEditForm.setAttribute("disabled", "");
+        let editarFormularioApi = formulario.querySelector("button.gasto-enviar-api");
+        let evenEditar = new EditarGastoApi();
+        evenEditar.gasto = this.gasto;
+        editarFormularioApi.addEventListener("click", evenEditar);
     }
 }
 
@@ -363,6 +367,52 @@ function EnviarGastoApi(event){
             }
         })
         .catch(err => console.error(err));
+    }
+}
+
+function EditarGastoApi(){
+
+    this.handleEvent = function(event){
+        let usuario = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+        
+        let formulario = event.currentTarget.form;
+        let descripcionN = formulario.elements.descripcion.value;
+        let valorN = formulario.elements.valor.value;
+        let fechaN = formulario.elements.fecha.value;
+        let etiquetasN = formulario.elements.etiquetas.value;
+
+        valorN = parseFloat(valorN);
+        etiquetasN = etiquetasN.split(",");
+    
+        let nuevoObjeto = {
+            descripcion: descripcionN,
+            fecha: fechaN,
+            valor: valorN,
+            etiquetas: etiquetasN
+        }
+
+        if(usuario == ""){
+            console.log("El input del nombre de usuario esta vacio");
+        } else {
+            fetch(url, {
+                method: 'PUT', 
+                body: JSON.stringify(nuevoObjeto),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                
+                if(response.ok){
+                    console.log("Peticion de modificacion correcta");
+                    CargarGastosApi();
+                }else{
+                    console.log("Peticion de modificacion incorrecta");
+                }
+            })
+            .catch(err => console.error(err));
+        }
     }
 }
 
