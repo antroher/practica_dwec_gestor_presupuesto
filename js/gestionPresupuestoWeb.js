@@ -317,6 +317,27 @@ function cargarGastosWeb(){
     repintar();
 }
 
+//Practica 9 
+function cargarGastosApi(){
+    let NomUsuario = document.querySelector("#nombre_usuario").value;
+    let direccion = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${NomUsuario}`;
+    
+    if (NomUsuario != '') {
+        fetch(direccion, {
+            method: 'GET'
+        })
+            .then(resp => resp.json())
+            .then(function(gastosAPI)
+            {
+    
+                gestionPresupuesto.cargarGastos(gastosAPI);
+                repintar();
+            })
+            .catch(err => alert(err));
+    }else{
+        alert('Falta nombre usuario');
+    }
+}
 //Botones
 document.getElementById("actualizarpresupuesto").addEventListener("click", actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener("click", nuevoGastoWeb);
@@ -325,6 +346,7 @@ document.getElementById("formulario-filtrado").addEventListener("submit", filtra
 //Boton pract 8
 document.getElementById("guardar-gastos").addEventListener("click", guardarGastosWeb);
 document.getElementById("cargar-gastos").addEventListener("click", cargarGastosWeb);
+
 
 //Los exports 
 
