@@ -1,40 +1,116 @@
-// TODO: Crear las funciones, objetos y variables indicadas en el enunciado
+"use strict"
 
-var presupuesto;
+var presupuesto = 0;
+var gastos = [];
+var idGasto = 0;
 
-// TODO: Variable global
+function actualizarPresupuesto(newPresupuesto) {
+    let newValor;
 
-
-function actualizarPresupuesto(num) {
-    let ret;
-
-    if( (is_numeric(num)) && (num > 0) )
-    {
-        presupuesto = num; 
-        ret = num;
+    if (newPresupuesto >= 0) {
+        presupuesto = newPresupuesto;
+        newValor = presupuesto;
+    } else {
+        console.log("Error. Valor introducido no valido.");
+        newValor = -1;
     }
-    else
-    {
-        console.log("El valor introducido no es valido");
-        ret = -1;
-    }
-
-    return ret;
+    return newValor;
 }
 
 function mostrarPresupuesto() {
-    console.log("Tu presupuesto actual es de " + presupuesto + "€")
+    return(`Tu presupuesto actual es de ${presupuesto} €`);
 }
 
-function CrearGasto() {
-    // TODO
+function listarGastos() {
+    return gastos;
 }
 
-// NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
-// Las funciones y objetos deben tener los nombres que se indican en el enunciado
-// Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
+function anyadirGasto(gasto) {
+    gasto.id = idGasto;
+    idGasto++;
+    gastos.push(gasto);
+}
+
+function borrarGasto(id) {  
+    for (let i = 0; i < gastos.length; i++) {
+        if (gastos[i].id === id) {
+            gastos.splice(i, 1);
+        }
+    }
+}
+
+function calcularTotalGastos() {
+    let result = 0;
+    gastos.forEach((x) => {
+        result = result + x.valor;
+    })
+    return result;
+}
+
+function calcularBalance() {
+    return presupuesto - calcularTotalGastos();
+}
+
+function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}){
+    let gastosFiltrados;
+    gastosFiltrados = gastos.filter(function(gasto){
+     let exist = true;
+     if(fechaDesde){
+         if(gasto.fecha < Date.parse(fechaDesde)) exist = false;
+     }
+     if(fechaHasta){
+         if(gasto.fecha > Date.parse(fechaHasta)) exist = false;
+     }
+     if(valorMinimo){
+         if(gasto.valor < valorMinimo) exist = false;
+     }
+     if(valorMaximo){
+         if(gasto.valor > valorMaximo) exist = false;
+     }
+     if(descripcionContiene){
+             if(!gasto.descripcion.includes(descripcionContiene)) exist = false;
+     }
+     if(etiquetasTiene){
+         let inside = false;                   
+             for (let i = 0; i < gasto.etiquetas.length; i++) {                   
+                 for (let j= 0; j < etiquetasTiene.length; j++) {
+                     if(gasto.etiquetas[i] == etiquetasTiene[j]) inside = true;                  
+                 }
+             }
+        if(inside == false) exist = false;
+     }
+         return exist;
+    });
+return gastosFiltrados;  
+}
+
+
+function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
+    let filtrador = {etiquetasTiene : etiquetas, fechaDesde : fechaDesde, fechaHasta : fechaHasta}
+    let returnFiltrarGastos = filtrarGastos(filtrador);
+    let groupBy =
+            returnFiltrarGastos.reduce((acc, item) => {
+                let periodoReduce = item.obtenerPeriodoAgrupacion(periodo);
+                if (acc[periodoReduce] == null)
+                    acc[periodoReduce] = item.valor;
+                else 
+                    acc[periodoReduce] += item.valor;
+                return acc;
+            }, {});
+    return groupBy;
+}
+
+
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
+    
 }
