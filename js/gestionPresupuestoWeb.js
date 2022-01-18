@@ -277,7 +277,7 @@ function CargarGastosApi(){
                 }
                 else {
                     gestionPresupuesto.cargarGastos(resultado);
-                    
+                    repintar();
                 }
             })
     }
