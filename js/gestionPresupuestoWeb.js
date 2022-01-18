@@ -50,6 +50,11 @@ function mostrarGastoWeb(idElemento, gasto) {
     div.append(btnEditar);
     div.append(btnBorrar);
 
+    let btnBorrarGastoApi = document.createElement("button");
+                            btnBorrarGastoApi.className += 'gasto-borrar-api';
+                            btnBorrarGastoApi.textContent = 'Borrar (API)';
+                            btnBorrarGastoApi.type = 'button';
+
     let btnEditGastoForm = document.createElement("button");
     btnEditGastoForm.className += 'gasto-editar-formulario';
     btnEditGastoForm.textContent = 'Editar (formulario)';
@@ -272,10 +277,10 @@ function cargarGastosApi() {
             .then((result) => {
                 let resultado = result;
                 if(resultado == "") {
-                    console.log("No existen gastos en la api para el usuario")
+                    console.log("No hay gastos en la api")
                 } else {
                     gestionPresupuesto.cargarGastos(resultado);
-                    console.log("Miau cargasGastosApi")
+                    console.log("cargasGastosApi")
                     repintar();
                 }
                 })
