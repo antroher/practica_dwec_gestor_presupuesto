@@ -423,7 +423,6 @@ const btnGastForm = document.getElementById("anyadirgasto-formulario");
 const btnFilter = document.getElementById("formulario-filtrado");
 const btnGuardarGastWeb = document.getElementById("guardar-gastos");
 const btncargarGastWeb = document.getElementById("cargar-gastos");
-const btncargarGastosApi = document.getElementById("cargasr-gastos-api");
 
 btnAddGas.addEventListener("click", nuevoGastoWeb);
 btnActPres.addEventListener("click", actualizarPresupuestoWeb);
@@ -431,7 +430,7 @@ btnGastForm.addEventListener("click", nuevoGastoWebFormulario);
 btnFilter.addEventListener("submit", gastoSend);
 btnGuardarGastWeb.addEventListener("click", guardarGastWeb);
 btncargarGastWeb.addEventListener("click", cargarGastWeb);
-btncargarGastosApi.addEventListener("click", cargarGastosApi);
+btnGastosApi.addEventListener("click", CargarGastosApi);
 
 export {
     mostrarDatoEnId,
