@@ -1,8 +1,12 @@
 "use strict";
 
-var presupuesto = 0;
-var gastos = [];
-var idGasto = 0;
+// TODO: Crear las funciones, objetos y variables indicadas en el enunciado
+
+// TODO: Variable global
+
+let presupuesto = 0;
+let gastos = [];
+let idGasto = 0;
 
 function actualizarPresupuesto(cantidad) {
     if(cantidad >= 0){
@@ -10,6 +14,7 @@ function actualizarPresupuesto(cantidad) {
     }else if(cantidad < 0){
         presupuesto = -1;
     }
+
     return presupuesto;
 }
 
@@ -47,6 +52,7 @@ function CrearGasto(descripcion = "No hay descripción", valor = 0, fecha = "", 
         for(let etiqueta of this.etiquetas){
             listaEtiquetas += `- ${etiqueta}\n`;
         }
+
         let fechalocale = new Date(this.fecha).toLocaleString();
 
         let mensaje = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\n`;
@@ -54,7 +60,6 @@ function CrearGasto(descripcion = "No hay descripción", valor = 0, fecha = "", 
         mensaje += `Etiquetas:\n${listaEtiquetas}`;
         return mensaje;
     }
-// hola hola
 
     this.actualizarDescripcion = function(descripcion = this.descripcion){
         this.descripcion = descripcion;
@@ -80,6 +85,7 @@ function CrearGasto(descripcion = "No hay descripción", valor = 0, fecha = "", 
         }
     }
 
+    //Comprobamos que las etiquetas que se introducen en el objeto no estén repetidas
     this.anyadirEtiquetas(...etiquetas);
 
     this.borrarEtiquetas = function(...etiquetas){
@@ -137,6 +143,7 @@ function calcularTotalGastos(){
     for(let gasto of gastos){
         total = total + gasto.valor;
     }
+
     return total;
 }
 
@@ -205,10 +212,14 @@ function filtrarGastos(filtro){
                         existe = false;
                     }                                          
                 }
+
                 return existe;
+       
             });
+
         }
     }
+
     return gastosFiltro;
 }
 
@@ -226,17 +237,44 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta = new 
         acc[gasto.obtenerPeriodoAgrupacion(periodo)] = (acc[gasto.obtenerPeriodoAgrupacion(periodo)] || 0) + gasto.valor;
         return acc;
     },{});
+
     return gastosAgrupar;
 }
 
 function transformarListadoEtiquetas(etiquetas){
-    let regexp = /[a-zA-Z0-9]+/gi;  //palabras
+    let regexp = /[a-zA-Z0-9]+/gi;  //Solo palabras
     let resultado = etiquetas.match(regexp);
     return resultado;
 }
 
-function cargarGastos(nGastos){
+/*function cargarGastos(nGastos){
     gastos = nGastos;
+}*/
+
+function cargarGastos(gastosAlmacenamiento) {
+    // gastosAlmacenamiento es un array de objetos "planos"
+    // No tienen acceso a los métodos creados con "CrearGasto":
+    // "anyadirEtiquetas", "actualizarValor",...
+    // Solo tienen guardadas sus propiedades: descripcion, valor, fecha y etiquetas
+  
+    // Reseteamos la variable global "gastos"
+    gastos = [];
+    // Procesamos cada gasto del listado pasado a la función
+    for (let g of gastosAlmacenamiento) {
+        // Creamos un nuevo objeto mediante el constructor
+        // Este objeto tiene acceso a los métodos "anyadirEtiquetas", "actualizarValor",...
+        // Pero sus propiedades (descripcion, valor, fecha y etiquetas) están sin asignar
+        let gastoRehidratado = new CrearGasto();
+        // Copiamos los datos del objeto guardado en el almacenamiento
+        // al gasto rehidratado
+        // https://es.javascript.info/object-copy#cloning-and-merging-object-assign
+        Object.assign(gastoRehidratado, g);
+        // Ahora "gastoRehidratado" tiene las propiedades del gasto
+        // almacenado y además tiene acceso a los métodos de "CrearGasto"
+          
+        // Añadimos el gasto rehidratado a "gastos"
+        gastos.push(gastoRehidratado);
+    }
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.

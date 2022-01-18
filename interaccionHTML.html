@@ -4,7 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="./css/estilos.css">
-        <title> Gestor de Presupuesto - Pablo Peñalver </title>
+        <title>
+            <!-- TODO -->
+            Gestor de Presupuesto - Pablo Peñalver
+        </title>
     </head>
     <body>
         <div id="aplicacion">
@@ -23,7 +26,11 @@
               </button>
               <button type="button" id="cargar-gastos">
                   Cargar gastos
-            </button>
+              </button>
+              <button type="button" id="cargar-gastos-api">
+                  Cargar gastos (API)
+              </button>
+              <input type="text" name="nombre_usuario" id="nombre_usuario" placeholder="Introduce tu nombre">
             </div>
             <div id="presupuesto">
             </div>
@@ -33,6 +40,8 @@
 
             <div id="balance-total">
             </div>
+
+            <!---- -->
 
             <div id="filtrar-gastos">
                 <h2>Filtrar gastos</h2>
@@ -65,27 +74,47 @@
                     <button type="submit">Enviar</button>
                   </div>
                 </form>
+              
               </div>
+            <!------->
 
-            <div id="listado-gastos-completo"></div>
+            <div id="listado-gastos-completo">
+            </div>
+<hr>
+            <div id="listado-gastos-filtrado-1">
+            </div>
 
-            <hr>
+            <div id="listado-gastos-filtrado-2">
+            </div>
 
-            <div id="listado-gastos-filtrado-1"></div>
+            <div id="listado-gastos-filtrado-3">
+            </div>
 
-            <div id="listado-gastos-filtrado-2"></div>
+            <div id="listado-gastos-filtrado-4">
+            </div>
 
-            <div id="listado-gastos-filtrado-3"></div>
+            <div id="agrupacion-dia">
+            </div>
 
-            <div id="listado-gastos-filtrado-4"></div>
+            <div id="agrupacion-mes">
+            </div>
 
-            <div id="agrupacion-dia"></div>
+            <div id="agrupacion-anyo">
+            </div>
 
-            <div id="agrupacion-mes"></div>
-
-            <div id="agrupacion-anyo"></div>
         </div>
 
+        <!--
+             TODO: Cargar el script js/generarDatosEstaticos.js
+
+             Cargar script al final para que se haya cargado todo el HTML previo.
+             El script se debe cargar con el atributo type="module" porque vamos a utilizar "import"
+             https://es.javascript.info/modules-intro#que-es-un-modulo
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0/dist/chartjs-adapter-moment.min.js"></script>
+        
         <script src="js/generarDatosEstaticos.js" type="module"></script>
 
         <template id="formulario-template">
@@ -108,7 +137,9 @@
                 </div>
                 <button type="submit">Enviar</button>
                 <button class="cancelar" type="button">Cancelar</button>
+                <button type="button" id="api" class="gasto-enviar-api">Enviar (API)</button>
             </form>
         </template>
+
     </body>
 </html>
