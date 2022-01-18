@@ -56,16 +56,16 @@ function mostrarGastoWeb(idElemento, gasto) {
                             btnBorrarGastoApi.type = 'button';
 
     let objBorrarGastoApi = new BorrarGastoApiHandle();
-    objBorrarGastoApi.gasto = gasto;
-    btnBorrarGastoApi.addEventListener("click", objBorrarGastoApi);
+                            objBorrarGastoApi.gasto = gasto;
+                            btnBorrarGastoApi.addEventListener("click", objBorrarGastoApi);
 
     divGasto.append(btnBorrarGastoApi);
 
 
     let btnEditGastoForm = document.createElement("button");
-    btnEditGastoForm.className += 'gasto-editar-formulario';
-    btnEditGastoForm.textContent = 'Editar (formulario)';
-    btnEditGastoForm.type = 'button';
+                            btnEditGastoForm.className += 'gasto-editar-formulario';
+                            btnEditGastoForm.textContent = 'Editar (formulario)';
+                            btnEditGastoForm.type = 'button';
 
     let editForm = new editHandleForm();
     editForm.gasto = gasto;
@@ -108,16 +108,16 @@ function repintar() {
 }
 
 function actualizarPresupuestoWeb()  {
-    let pres = parseFloat(prompt(`Hey amigo, introduce tu presupuesto`));
+    let pres = parseFloat(prompt(`Introduce tu presupuesto`));
     gestionPresupuesto.actualizarPresupuesto(pres);
     repintar();
 }
 
 function nuevoGastoWeb() {
-    let des = prompt(`¿Ya estás gastando dinero? ¿En qué te lo has gastado, trozo de mierda?`);
-    let val = parseFloat(prompt(`¿Cuánto ha sido esta vez?`));
-    let fec = prompt(`¿Y cuándo fue eso? Dímelo siguiendo el formato yyyy-mm-dd que si no no te entiendo, figura`);
-    let eti = prompt(`Etiqueta ese rico gasto tuyo con todas las etiquetas que quieras, pero sepáralas con comas (,) para poder yo distinguir entre una y otra`);
+    let des = prompt(`¿Qué tipo de gasto ha sido?`);
+    let val = parseFloat(prompt(`¿Cuánto ha sido el gasto?`));
+    let fec = prompt(`¿Cúando fue el gasto? Dímelo siguiendo el formato yyyy-mm-dd que si no no te entiendo, figura`);
+    let eti = prompt(`Etiqueta el gasto con todas las etiquetas que quieras, pero sepáralas con comas (,) `);
     let etiArray = eti.split(',');
     let gasto = new gestionPresupuesto.CrearGasto(des, val, fec, ...etiArray);
     gestionPresupuesto.anyadirGasto(gasto);
