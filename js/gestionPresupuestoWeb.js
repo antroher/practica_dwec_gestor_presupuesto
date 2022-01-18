@@ -44,21 +44,28 @@ function mostrarGastoWeb(idElemento, gasto) {
     let edit = new EditarHandle();
     let dlt = new BorrarHandle();
     edit.gasto = gasto;
-    dlt.gasto = gasto;    
+    dlt.gasto = gasto;  
+
     btnEditar.addEventListener('click', edit);
     btnBorrar.addEventListener('click', dlt);
+
     div.append(btnEditar);
     div.append(btnBorrar);
 
     let btnEditGastoForm = document.createElement("button");
-    btnEditGastoForm.className += 'gasto-editar-formulario';
-    btnEditGastoForm.textContent = 'Editar (formulario)';
-    btnEditGastoForm.type = 'button';
+                            btnEditGastoForm.className += 'gasto-editar-formulario';
+                            btnEditGastoForm.textContent = 'Editar (formulario)';
+                            btnEditGastoForm.type = 'button';
 
     let editForm = new editHandleForm();
     editForm.gasto = gasto;
     btnEditGastoForm.addEventListener('click', editForm);
     div.append(btnEditGastoForm);  
+
+    let btnBorrarGastoApi = document.createElement("button");
+                            btnBorrarGastoApi.className += 'gasto-borrar-api';
+                            btnBorrarGastoApi.textContent = 'Borrar (API)';
+                            btnBorrarGastoApi.type = 'button';
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
