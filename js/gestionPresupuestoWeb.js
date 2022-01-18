@@ -274,6 +274,26 @@ function cargarGastosWeb() {
 }
 let chrgGastWeb = new cargarGastosWeb();
 
+function cargarGastosApi(e) {
+    let user = document.querySelector("#nombre_usuario").value;
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
+    if (usuer != '') {
+        fetch(url, {method: 'GET'})
+            .then(answer => answer.json())
+            .then((res) => {
+                let result = res;
+                if(result == "") {
+                    console.log("La API no contiene datos para el usuario introducido")
+                } else {
+                    gestionPresupuesto.cargarGastos(result);
+                    console.log("Carga de gastos realizada correctamente")
+                    repintar();
+                }
+                })
+            .catch(error => console.error(error));
+    }
+}
+
 //Botones
 const btnAddGas = document.getElementById("anyadirgasto");
 const btnActPres = document.getElementById("actualizarpresupuesto");
@@ -281,6 +301,7 @@ const btnGastForm = document.getElementById("anyadirgasto-formulario");
 const btnFilter = document.getElementById("formulario-filtrado");
 const btnSaveGast = document.getElementById("guardar-gastos");
 const btnChargeGast = document.getElementById("cargar-gastos");
+const btnApiGast = document.getElementById("cargar-gastos-api");
 
 btnAddGas.addEventListener("click", nuevoGastoWeb);
 btnActPres.addEventListener("click", actualizarPresupuestoWeb);
@@ -288,6 +309,7 @@ btnGastForm.addEventListener("click", nuevoGastoWebFormulario);
 btnFilter.addEventListener("submit", gastoSend);
 btnSaveGast.addEventListener("click", saveGastWeb);
 btnChargeGast.addEventListener("click", chrgGastWeb);
+btnApiGast.addEventListener("click", cargarGastosApi);
 
 
 
