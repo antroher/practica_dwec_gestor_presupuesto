@@ -318,6 +318,51 @@ function BorrarGastoApiHandle(){
     }
 }
 
+function EnviarGastoApi(event){
+    let usuario = document.getElementById("nombre_usuario").value;
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
+    
+    let formulario = event.currentTarget.form;
+    let descripcionN = formulario.elements.descripcion.value;
+    let valorN = formulario.elements.valor.value;
+    let fechaN = formulario.elements.fecha.value;
+    let etiquetasN = formulario.elements.etiquetas.value;
+
+    valorN = parseFloat(valorN);
+    etiquetasN = etiquetasN.split(",");
+
+    let nuevoObjeto = {
+        descripcion: descripcionN,
+        fecha: fechaN,
+        valor: valorN,
+        etiquetas: etiquetasN
+    }
+
+    console.log(nuevoObjeto);
+
+    if(usuario == ""){
+        console.log("El input del nombre de usuario esta vacio");
+    }else{
+        fetch(url, {
+            method: 'POST', 
+            body: JSON.stringify(nuevoObjeto),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            
+            if(response.ok){
+                console.log("La peticion de añadir ha sido correcta");
+                CargarGastosApi();
+            }else{
+                console.log("La peticion de añadir ha sido erronea");
+            }
+        })
+        .catch(err => console.error(err));
+    }
+}
+
 
 const btnAddGas = document.getElementById("anyadirgasto");
 const btnActPres = document.getElementById("actualizarpresupuesto");
