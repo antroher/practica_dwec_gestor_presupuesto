@@ -76,3 +76,4 @@ gpw.mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAgruparAnyo, "año");
 //document.getElementById("anyadirgasto").addEventListener("click", gpw.nuevoGastoWeb);
 
 //document.getElementById("anyadirgasto-formulario").addEventListener("click", gpw.nuevoGastoWebFormulario);
+
