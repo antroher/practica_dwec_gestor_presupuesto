@@ -377,11 +377,17 @@ function CargarGastosWeb(){
         repintar();
     }
 }
-
 //boton
 let cargarGastos = new CargarGastosWeb();
 let btnCargarGastos = document.getElementById("cargar-gastos");
 btnCargarGastos.addEventListener('click',cargarGastos);
+
+/*APIS*/
+function cargarGastosApi() {
+    
+}
+btnCargarGastosApi = document.getElementById("cargar-gastos-api");
+btnCargarGastosApi.addEventListener('click',cargarGastosApi());
 
 export {
     mostrarDatoEnId,
