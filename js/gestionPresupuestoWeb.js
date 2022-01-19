@@ -401,22 +401,56 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
         let usuario = document.getElementById("nombre_usuario").value;
         let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
     
-        fetch(url, {
-            method: 'GET',
-            mode: 'no-cors',
-        })
+        fetch(url, {method: 'GET'})
         .then(response => response.json())
         .then((result) => { 
             let resultado = result;
-            console.log(result);
             gestionPresupuesto.cargarGastos(resultado);
             repintar();
-        });
+        })
+        .catch(err => console.error(err));
     }
 
     let botonGastosApi = document.getElementById("cargar-gastos-api");
         botonGastosApi.addEventListener("click", cargarGastosApi);
 
+    function borrarGastoApi()
+    {
+
+    this.handleEvent = function(e){
+        let usuario = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+
+        if(usuario == "")
+        {
+            console.log("El input del nombre de usuario esta vacio");
+
+        }
+        else
+        {
+            fetch(url, {method: 'DELETE'})
+            .then(response => response.json())
+            .then(datos => {
+                //console.log(datos);
+                if(!datos.errorMessage){
+                    cargarGastosApi();
+                }else{
+                    console.log(datos.errorMessage);
+                }
+            })
+            .catch(err => console.error(err));
+        }
+    }
+    let botonBorrarApi = document.createElement("button");
+    botonBorrarApi.className = "gasto-borrar-api";
+    botonBorrarApi.id = "gasto-borrar-api";
+    botonBorrarApi.type = "button";
+    botonBorrarApi.textContent = "Borrar (Api)";
+    // evento borrar gasto api
+    let eventBorrarGastoApi = new borrarGastoApi();
+    eventBorrarGastoApi.gasto = gasto;
+    botonBorrarApi.addEventListener("click", eventBorrarGastoApi);
+}
 
 export   {
     mostrarDatoEnId,
