@@ -48,7 +48,6 @@ function mostrarGastoWeb(idElemento, gastos) {
         span.addEventListener('click', EventBorrarEtiqueta);
         }
     }
-
     divgasto.append(divGD, divGV, divGF, divEtiquetas);
     elemento.append(divgasto);
     
@@ -76,9 +75,20 @@ function mostrarGastoWeb(idElemento, gastos) {
         HandEvent()) tiene que ser un objeto que tenga definida una propiedad y que sea una funcion*/
         ButtonBorrar.addEventListener('click',EvenBorrar);
         ButtonEditar.addEventListener('click',eventEditar);
-       
+
         divgasto.append(ButtonEditar,ButtonBorrar);
 
+        /* PRÁCTICA 9*/
+
+        let btnBorrarApi = document.createElement("button");
+        btnBorrarApi.className += `gasto-borrar-api`;
+        btnBorrarApi.type = "button";
+        btnBorrarApi.textContent = "Borrar (API)";
+
+        let eventoBorrarApi = new BorrarGastoApiHandle()
+        btnBorrarApi.addEventListener("click",)
+
+        /************/
         /*
         práctica 6: Añade un segundo botón de edición a la estructura HTML de cada gasto
         
@@ -365,6 +375,7 @@ let evetGuardarGastosWeb = new GuardarGastosWeb();
 let btnGatosGuardados = document.getElementById("guardar-gastos");
 btnGatosGuardados.addEventListener('click',evetGuardarGastosWeb);
 
+//carga el listado de gastos
 function CargarGastosWeb(){
     this.handleEvent = function(e) {
         let listarGasto = localStorage.GestorGastosDWEC; 
@@ -382,6 +393,7 @@ let cargarGastos = new CargarGastosWeb();
 let btnCargarGastos = document.getElementById("cargar-gastos");
 btnCargarGastos.addEventListener('click',cargarGastos);
 
+<<<<<<< HEAD
 /*APIS*/
 function cargarGastosApi() {
     
@@ -389,6 +401,56 @@ function cargarGastosApi() {
 btnCargarGastosApi = document.getElementById("cargar-gastos-api");
 btnCargarGastosApi.addEventListener('click',cargarGastosApi());
 
+=======
+async function cargarGastosApi() {
+    let nombreUser = document.querySelector("#nombre_usuario").value;
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUser}`;
+    try{
+        if(nombreUser.ok)
+        {
+            await fetch(url, {method: 'GET'})
+                .then(respusta => respusta.json())
+                .then(resultado => {
+
+                    if(resultado.ok)
+                    {
+                        gestionPresupuesto.cargarGastos(resp);
+                        repintar();
+                    }
+                    else{
+                        alert("Error-HTTP: "+response.status)
+                    }
+                });
+        }
+        else{
+            alert("Error-HTTP: "+response.status);
+        }
+    }
+    catch{
+        alert("Error-HTTP: "+response.status);
+    }
+}
+let btnCargarGastosApi = document.getElementById("cargar-gastos-api");
+btnCargarGastosApi.addEventListener("click",cargarGastosApi());
+
+function BorrarGastoApiHandle() {
+    this.handleEvent = function(e){
+        let UserName = document.querySelector("#nombre_usuario");
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${UserName}`;
+        
+        await fetch(url, {method:'DELETE'})
+        .then(responde => responde.json())
+        .then(respuesta => {
+            if(respuesta.ok){
+                gestionPresupuesto.cargarGastosApi();
+            }
+            else{
+                alert("Error-HTTP: "+response.status);
+            }
+        })
+    };
+}
+>>>>>>> 918ad63a74ee3b8d53c47d1a939457022e71ddf8
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -409,4 +471,11 @@ export {
     JSON.stringify -> Convierte objetos en string
     JSON.parse -> Convierte un string en un objeto
     localStorage.getItem -> obtiene en forma de string el objeto
+    response.text() – lee y devuelve la respuesta en formato texto,
+    response.json() – convierte la respuesta como un JSON,
+    response.formData() – devuelve la respuesta como un objeto FormData (explicado en el siguiente capítulo),
+    response.blob() – devuelve la respuesta como Blob (datos binarios tipados),
+    response.arrayBuffer() – devuelve la respuesta como un objeto ArrayBuffer (representación binaria de datos de bajo nivel),
+    Adicionalmente, response.body es un objeto ReadableStream, el cual nos permite acceder al cuerpo como si fuera un stream 
+    y leerlo por partes. Veremos un ejemplo de esto más adelante.
 */
