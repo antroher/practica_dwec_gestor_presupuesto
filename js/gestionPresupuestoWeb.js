@@ -85,8 +85,9 @@ function mostrarGastoWeb(idElemento, gastos) {
         btnBorrarApi.type = "button";
         btnBorrarApi.textContent = "Borrar (API)";
 
-        let eventoBorrarApi = new BorrarGastoApiHandle()
-        btnBorrarApi.addEventListener("click",)
+        let eventoBorrarApi = new BorrarGastoApiHandle();
+        eventoBorrarApi.gasto = gastos;
+        btnBorrarApi.addEventListener("click",eventoBorrarApi);
 
         /************/
         /*
@@ -393,42 +394,29 @@ let cargarGastos = new CargarGastosWeb();
 let btnCargarGastos = document.getElementById("cargar-gastos");
 btnCargarGastos.addEventListener('click',cargarGastos);
 
-<<<<<<< HEAD
-/*APIS*/
-function cargarGastosApi() {
-    
-}
-btnCargarGastosApi = document.getElementById("cargar-gastos-api");
-btnCargarGastosApi.addEventListener('click',cargarGastosApi());
+async function cargarGastosApi(){
+        let nombreUser = document.querySelector("#nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUser}`;
 
-=======
-async function cargarGastosApi() {
-    let nombreUser = document.querySelector("#nombre_usuario").value;
-    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUser}`;
-    try{
         if(nombreUser.ok)
         {
-            await fetch(url, {method: 'GET'})
+            fetch(url, {method: 'GET'})
                 .then(respusta => respusta.json())
                 .then(resultado => {
-
                     if(resultado.ok)
                     {
-                        gestionPresupuesto.cargarGastos(resp);
+                        gestionPresupuesto.cargarGastos(resultado);
+                        console.log("CargargastosApi");
                         repintar();
                     }
                     else{
-                        alert("Error-HTTP: "+response.status)
+                        alert("Error-HTTP: "+resultado.status)
                     }
                 });
         }
         else{
-            alert("Error-HTTP: "+response.status);
+            alert("Error-HTTP: "+nombreUser.status);
         }
-    }
-    catch{
-        alert("Error-HTTP: "+response.status);
-    }
 }
 let btnCargarGastosApi = document.getElementById("cargar-gastos-api");
 btnCargarGastosApi.addEventListener("click",cargarGastosApi());
@@ -436,21 +424,38 @@ btnCargarGastosApi.addEventListener("click",cargarGastosApi());
 function BorrarGastoApiHandle() {
     this.handleEvent = function(e){
         let UserName = document.querySelector("#nombre_usuario");
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${UserName}`;
-        
-        await fetch(url, {method:'DELETE'})
-        .then(responde => responde.json())
-        .then(respuesta => {
-            if(respuesta.ok){
-                gestionPresupuesto.cargarGastosApi();
-            }
-            else{
-                alert("Error-HTTP: "+response.status);
-            }
-        })
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${UserName}/${this.gasto.gastoId}`;
+
+        if(UserName.ok){
+            fetch(url, {method: 'DELETE'})
+            .then(responde => responde.json())
+            .then(respuesta => {
+                if(respuesta.ok){
+                    cargarGastosApi();
+                    repintar();
+                }
+                else{
+                    alert("Error-HTTP: "+respuesta.status);
+                }
+            })
+            .catch(erro => console.error(erro));
+        }
+        else{
+            alert("Error-HTTP: "+respuesta.status);
+        }
     };
 }
->>>>>>> 918ad63a74ee3b8d53c47d1a939457022e71ddf8
+function EnivarGastoApiHandle() {
+    this.handleEvent = function (e){
+        let UserName = document.querySelector("#nombre_usuario");
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${UserName}/${this.gasto.gastoId}`;
+
+        let Accederformulario = e.currentTarget; //coge los elementos del formulario
+        let descripcion = 
+
+        
+    }
+}
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
