@@ -68,6 +68,14 @@ function mostrarGastoWeb(idElemento, gasto){
     botonEF.addEventListener("click",objEditarForm);
     divGasto.append(botonEF);
 
+    let botonBApi = document.createElement('button');
+    botonBApi.classList.add('gasto-borrar-api');
+    botonBApi.innerHTML = 'Borrar (API)';
+    let objBorrarApi = new borrarApiHandle();
+    objBorrarApi.gasto = gasto;
+    botonBApi.addEventListener('click', objBorrarApi);
+    divGasto.append(botonBApi);
+
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -174,6 +182,116 @@ function BorrarHandle(){
     }
 }
 
+
+//Comunicación asíncrona :)
+
+function borrarApiHandle(){
+    this.handleEvent = function(event){
+
+        let nomApe = document.getElementById('nombre_usuario').value;
+
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${this.gasto.gastoId}`;
+
+        if (nomApe != ''){
+            fetch (url, {method: 'DELETE'})
+                .then(function(gastosApi) {
+                    if(respuesta.ok){
+                        alert('El gasto se ha borrado correctamente');
+                        cargarGastosApi(gastosApi);
+                    }
+                    else{
+                        alert('Error ' + respuesta.status + ': el id introducido del gasto es inexistente');
+                    }
+
+                })
+                .catch(errors => alert(errors));
+        }
+        else{
+            alert('Introduce un nombre.');
+        }
+    }
+}
+
+function enviarAPIHandle(){
+    this.handleEvent = function(event){
+
+        let nomApe = document.getElementById('nombre_usuario').value;
+
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nomApe}`;
+
+        if (nomApe != ''){
+
+            var form = document.querySelector("#controlesprincipales form");
+            let des = form.elements.descripcion.value;
+            let val = parseFloat(form.elements.valor.value);
+            let fec = form.elements.fecha.value;
+            let eti = form.elements.etiquetas.value.split(',');
+
+            let gastoApi = {
+                descripcion: des,
+                valor: val,
+                fecha: fec,
+                etiquetas: eti
+            };
+
+            fetch (url, {method: 'POST', headers:{'Content-Type': 'application/json;charset=utf-8'}, body: JSON.stringify(gastoApi)})
+                .then(function(respuesta) {
+                    if(respuesta.ok){
+                        alert('El gasto se ha creado correctamente');
+                        cargarGastosApi();
+                    }
+                    else{
+                        alert('Error ' + respuesta.status + ': no se ha podido crear el gasto correctamente en la Api');
+                    }   
+                })
+                .catch(errors => alert(errors));
+        }
+        else{
+            alert('Introduce un nombre.');
+        }
+    }
+}
+
+function editarApiHandle(){
+    this.handleEvent = function(event){
+
+        let nomApe = document.getElementById('nombre_usuario').value;
+
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${gasto.gastoId}`;
+
+        if (nomApe != ''){
+
+            var form = document.querySelector('.gasto form');
+            let des = form.elements.descripcion.value;
+            let val = parseFloat(form.elements.valor.value);
+            let fec = form.elements.fecha.value;
+            let eti = form.elements.etiquetas.value.split(',');
+
+            let gastoApi = {
+                descripcion: des,
+                valor: val,
+                fecha: fec,
+                etiquetas: eti
+            };
+            
+            fetch (url, {method: 'POST', headers:{'Content-Type': 'application/json;charset=utf-8'}, body: JSON.stringify(gastoApi)})
+            .then(function(respuesta) {
+                if(respuesta.ok){
+                    alert('El gasto se ha creado correctamente');
+                    cargarGastosApi();
+                }
+                else{
+                    alert('Error ' + respuesta.status + ': no se ha podido crear el gasto correctamente en la Api');
+                }   
+            })
+            .catch(errors => alert(errors));
+        }
+        else{
+            alert('Introduce un nombre.');
+        }
+    }
+}
+
 function BorrarEtiquetasHandle(){
     this.handleEvent = function(event){
 
@@ -199,6 +317,10 @@ function nuevoGastoWebFormulario(){
 
     //Desacivar botón
     document.getElementById('anyadirgasto-formulario').setAttribute('disabled', '');
+
+    //Enviar Api
+    let envApi = formulario.querySelector("button.gasto-enviar-api");
+    envApi.addEventListener('click', new enviarApiHandle());
 
     //Añadir plantilla al final
     document.getElementById('controlesprincipales').append(plantillaFormulario);
@@ -267,6 +389,10 @@ function EditarHandleFormulario(){
         let bCancelarForm = formulario.querySelector("button.cancelar");
         let canForm = new cancelarFormularioHandle();
         bCancelarForm.addEventListener('click', canForm);
+
+        //Editar Api
+        let ediApi = formulario.querySelector("button.gasto-enviar-api");
+        ediApi.addEventListener('click', new editarApiHandle());
 
     }
 
@@ -365,6 +491,33 @@ function cargarGastosWeb(){
 }
 
 document.getElementById('cargar-gastos').addEventListener('click', new cargarGastosWeb);
+
+function cargarGastosApi(){
+
+    this.handleEvent = function(event){
+
+        let nomApe = document.getElementById('nombre_usuario').value;
+
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nomApe}`;
+
+        if (nomApe != ''){
+            fetch (url, {method: 'GET'})
+                .then(respuesta => respuesta.json())
+                .then(function(gastosApi) {
+                    gP.cargarGastos(gastosApi);
+                    repintar();
+                })
+                .catch(errors => alert(errors));
+        }
+        else{
+            alert('Introduce un nombre.');
+        }
+
+    }
+
+}
+
+document.getElementById('cargar-gastos-api').addEventListener('click', new cargarGastosApi);
 
 
 
