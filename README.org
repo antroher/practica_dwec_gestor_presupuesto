@@ -33,4 +33,8 @@
   - [[./enunciados/regexp.org][Expresiones regulares]]
   - [[./enunciados/almacenamiento.org][Almacenamiento en el navegador]]
   - [[./enunciados/async.org][Comunicación asíncrona]]
+<<<<<<< HEAD
   - [[./enunciados/librerias_externas.org][Librerías externas]]
+=======
+  - [[./enunciados/librerias_externas.org][Librerías externas]]
+>>>>>>> eb26fb60bb7dc881d119f1e891491c75c99c3cc8
