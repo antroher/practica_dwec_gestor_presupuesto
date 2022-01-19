@@ -127,6 +127,17 @@ function mostrarGastoWeb(idElemento,gasto)
                  buttonDelete.textContent = "Borrar";
                  buttonDelete.addEventListener("click", borrarHandler);
 
+                 //Objeto borrarApi con evento
+
+                 let objBorrarApi = new borrarApiHandle();
+                 objBorrarApi.gasto = gasto;
+
+                 let botonBorrarApi = document.createElement('button');
+                 botonBorrarApi.className="gasto-borrar-api";
+                 botonBorrarApi.textContent = "Borrar (API)";
+                 
+                 botonBorrarApi.addEventListener("click", objBorrarApi);
+                 
 
                  //Objeto editar formulario con evente
 
@@ -141,6 +152,7 @@ function mostrarGastoWeb(idElemento,gasto)
                  if(idElemento === "listado-gastos-completo"){
                      divPrincipal.append(buttonEdit);
                      divPrincipal.append(buttonDelete);
+                     divPrincipal.append(botonBorrarApi);
                      divPrincipal.append(buttonEditForm);
                  }
 
@@ -249,7 +261,31 @@ function BorrarEtiquetasHandle(){
   }
 }
 
+function borrarApiHandle(){
+  this.handleEvent = function(event){
 
+      let nomApe = document.getElementById('nombre_usuario').value;
+
+      let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${this.gasto.gastoId}`;
+
+      if (nomApe != '' || nomApe!="" || nomApe!=null || nomApe!=undefined){
+          fetch (url, {method: 'DELETE'})
+              .then(function(gastosApi) {
+                  if(respuesta.ok){
+                      cargarGastosApi(gastosApi);
+                  }
+                  else{
+                      console.log('Error '+ respuesta.status);
+                  }
+
+              })
+              .catch(errors => alert(errors));
+      }
+      else{
+         //Error console.log?
+      }
+  }
+}
 
 
 function mostrarGastosAgrupadosWeb(idElemento,agroup,periodo){
