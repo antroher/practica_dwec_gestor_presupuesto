@@ -212,7 +212,7 @@ function borrarApiHandle(){
     }
 }
 
-function enviarAPIHandle(){
+function enviarApiHandle(){
     this.handleEvent = function(event){
 
         let nomApe = document.getElementById('nombre_usuario').value;
