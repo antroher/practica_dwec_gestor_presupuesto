@@ -472,6 +472,10 @@ function cargarGastosApi()
            })
            .catch(error => console.log(error));
    }
+   else
+   {
+     console.log('No existe ese usuario');
+   }
 }
 
 function BorrarHandleAPI() {
@@ -491,6 +495,10 @@ function BorrarHandleAPI() {
                 }
             });
     }
+    else
+   {
+     console.log('No existe ese usuario');
+   }
   }
 }
 //boton borrar gastos API -Práctica 9
