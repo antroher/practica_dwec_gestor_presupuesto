@@ -196,7 +196,8 @@ function filtrarGastos(objetoFiltro) {
 
       //Comporbar descripcionContiene
       if (objetoFiltro.hasOwnProperty("descripcionContiene")) {
-        if (!gast.descripcion.includes(objetoFiltro.descripcionContiene)) {
+        //let gastDescr = gast.descripcion.toLowerCase();
+        if (!gast.descripcion.toLowerCase().includes(objetoFiltro.descripcionContiene.toLowerCase())) {
           return;
         }
       }
@@ -205,11 +206,21 @@ function filtrarGastos(objetoFiltro) {
       if (objetoFiltro.hasOwnProperty("etiquetasTiene")) {
         if (objetoFiltro.etiquetasTiene.length != 0) {
           let check = false;
+          let aux = [];
+        if (gast.etiquetas.length > 0){
+          for (let e of gast.etiquetas) {
+            if (typeof e == "string"){
+              aux.push(e);
+            }else{
+              aux.push(e);
+            }
+          }
           for (let des of objetoFiltro.etiquetasTiene) {
-            if (gast.etiquetas.includes(des)) {
+            if (aux.includes(des)) {
               check = true;
             }
           }
+        }
           if (!check) {
             return;
           }
@@ -225,17 +236,21 @@ function filtrarGastos(objetoFiltro) {
 }
 
 function agruparGastos(periodo = "mes", etiquetas = [], fechDesd, fechaHas = Date.now()) {
-  let listaResultadoFiltros = filtrarGastos({fechaDesde: fechDesd,fechaHasta: fechaHas,etiquetasTiene: etiquetas});
-  let gastosAgrupados = listaResultadoFiltros.reduce(function (acumulador,gast) {
-    if(gast.hasOwnProperty("obtenerPeriodoAgrupacion")){
-    let perAgrup = gast.obtenerPeriodoAgrupacion(periodo);
-    if (acumulador.hasOwnProperty(perAgrup)) {
-      acumulador[perAgrup] = acumulador[perAgrup] + gast.valor;
-    } else {
-      acumulador[perAgrup] = gast.valor;
+  let listaResultadoFiltros = filtrarGastos({
+    fechaDesde: fechDesd,
+    fechaHasta: fechaHas,
+    etiquetasTiene: etiquetas
+  });
+  let gastosAgrupados = listaResultadoFiltros.reduce(function (acumulador, gast) {
+    if (gast.hasOwnProperty("obtenerPeriodoAgrupacion")) {
+      let perAgrup = gast.obtenerPeriodoAgrupacion(periodo);
+      if (acumulador.hasOwnProperty(perAgrup)) {
+        acumulador[perAgrup] = acumulador[perAgrup] + gast.valor;
+      } else {
+        acumulador[perAgrup] = gast.valor;
+      }
+      return acumulador;
     }
-    return acumulador;
-  }
   }, {});
   return gastosAgrupados;
 }
@@ -247,7 +262,6 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechDesd, fechaHas = Dat
  */
 function transformarListadoEtiquetas(cadena) {
   cadena = cadena.split(/[ ,;:\.~]+/g);
-  console.log(cadena)
   return cadena;
 }
 
@@ -256,7 +270,29 @@ function transformarListadoEtiquetas(cadena) {
  * @param {Array} arrayGastos - Array con gastos nuevos.
  */
 function cargarGastos(arrayGastos) {
-  gastos = arrayGastos;
+  // arrayGastos es un array de objetos "planos"
+  // No tienen acceso a los métodos creados con "CrearGasto":
+  // "anyadirEtiquetas", "actualizarValor",...
+  // Solo tienen guardadas sus propiedades: descripcion, valor, fecha y etiquetas
+
+  // Reseteamos la variable global "gastos"
+  gastos = [];
+  // Procesamos cada gasto del listado pasado a la función
+  for (let g of arrayGastos) {
+    // Creamos un nuevo objeto mediante el constructor
+    // Este objeto tiene acceso a los métodos "anyadirEtiquetas", "actualizarValor",...
+    // Pero sus propiedades (descripcion, valor, fecha y etiquetas) están sin asignar
+    let gastoRehidratado = new CrearGasto();
+    // Copiamos los datos del objeto guardado en el almacenamiento
+    // al gasto rehidratado
+    // https://es.javascript.info/object-copy#cloning-and-merging-object-assign
+    Object.assign(gastoRehidratado, g);
+    // Ahora "gastoRehidratado" tiene las propiedades del gasto
+    // almacenado y además tiene acceso a los métodos de "CrearGasto"
+
+    // Añadimos el gasto rehidratado a "gastos"
+    gastos.push(gastoRehidratado)
+  }
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.

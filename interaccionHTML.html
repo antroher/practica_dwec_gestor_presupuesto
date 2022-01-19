@@ -16,19 +16,25 @@
     <div id="controlesprincipales">
       <button type="button" id="actualizarpresupuesto">
         Actualizar presupuesto
-      </button> 
+      </button>
       <button type="button" id="anyadirgasto">
         Añadir gasto
-      </button> 
+      </button>
       <button type="button" id="anyadirgasto-formulario">
         Añadir gasto (formulario)
-      </button>  
+      </button>
       <button type="button" id="guardar-gastos">
         Guardar gastos
-      </button> 
+      </button>
       <button type="button" id="cargar-gastos">
         Cargar gastos
       </button>
+
+      || Usuario: <input type="text" id="nombre_usuario">
+      <button type="button" id="cargar-gastos-api">
+        Cargar gastos (API)
+      </button>
+
     </div>
 
     <hr />
@@ -114,6 +120,9 @@
              El script se debe cargar con el atributo type="module" porque vamos a utilizar "import"
              https://es.javascript.info/modules-intro#que-es-un-modulo
         -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0/dist/chartjs-adapter-moment.min.js"></script>
   <script src="./js/generarDatosEstaticos.js" type="module"></script>
   <template id="formulario-template">
     <form>
@@ -135,6 +144,7 @@
       </div>
       <button type="submit">Enviar</button>
       <button class="cancelar" type="button">Cancelar</button>
+      <button type="button" class="gasto-enviar-api">Enviar (API)</button>
     </form>
   </template>
 </body>

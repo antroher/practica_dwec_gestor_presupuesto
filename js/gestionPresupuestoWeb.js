@@ -4,11 +4,15 @@
 /**** IMPORTS ****/
 import * as gestionPresupuesto from "./gestionPresupuesto.js"
 
+/**** VARIABLES GLOBALES ****/
+var _Nombre_Usuario_API = "";
 /**** CONSTANTES ****/
+
 //ENUM para tipo de botones.
 const BOTON = {
     EDITAR: "Editar",
     BORRAR: "Borrar",
+    BORRAR_API: "Borrar_API",
     EDITAR_FORM: "Editar (Formulario)"
 }
 
@@ -90,6 +94,8 @@ function MostrarFormularioGastoHandle() {
         let form = this.formulario;
         let padr = this.padre;
         let gast = this.gasto;
+        crearEtiquetaHTML("hr", padr, "");
+
         //Desactivamos Boton padre
         padr.querySelector(".gasto-editar-formulario").disabled = true;
         //Añadimos formulario y sus valores
@@ -106,6 +112,40 @@ function MostrarFormularioGastoHandle() {
         //Añadimos los listeners
         form.addEventListener("submit", eventoAnyadir);
         form.querySelector(".cancelar").addEventListener("click", eventoCancelar);
+
+        //? Otra forma de hacer un evento
+        if (_Nombre_Usuario_API != "") {
+            form.querySelector(".gasto-enviar-api").addEventListener("click", this.handleEvent = async function () {
+                let g = gast;
+                let elForm = form.elements;
+                g.actualizarDescripcion(elForm.descripcion.value);
+                g.actualizarValor(elForm.valor.value);
+                g.actualizarFecha(elForm.fecha.value);
+                g.borrarEtiquetas(g.etiquetas);
+                let etiq = elForm.etiquetas.value;
+                // if (etiq.includes(",")) {
+                etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq)
+                // }
+                g.anyadirEtiquetas(etiq);
+                let respuesta = await fetch("https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + _Nombre_Usuario_API + "/" + g.gastoId, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json;charset=utf-8"
+                    },
+                    body: JSON.stringify(g)
+                });
+                if (respuesta.ok) {
+                    let padre = form.parentNode;
+                    let hr = padre.querySelector("hr");
+                    let elementoPadre = form.parentNode;
+
+                    padre.removeChild(hr)
+                    elementoPadre.removeChild(form);
+                    cargarGastosApi();
+                }
+            });
+
+        }
     }
 }
 
@@ -113,7 +153,7 @@ function MostrarFormularioGastoHandle() {
  * * Constructor de evento que edita un gasto. *
  */
 function EditarGastoFormularioHandle() {
-    this.handleEvent = function (event) {
+    this.handleEvent = async function (event) {
         event.preventDefault();
         let g = this.gasto;
         let elForm = this.formulario.elements;
@@ -122,12 +162,13 @@ function EditarGastoFormularioHandle() {
         g.actualizarFecha(elForm.fecha.value);
         g.borrarEtiquetas(g.etiquetas);
         let etiq = elForm.etiquetas.value;
-        if (etiq.includes(",")) {
-            etiq = etiq.split(",")
-        }
+        // if (etiq.includes(",")) {
+        etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq)
+        // }
         g.anyadirEtiquetas(etiq);
         this.formulario.parentNode.querySelector(".gasto-editar-formulario").disabled = false;
         repintar();
+
     }
 }
 
@@ -195,15 +236,61 @@ function GuardarGastoHandle() {
 function CargarGastoHandle() {
     this.handleEvent = function (event) {
         event.preventDefault();
-        if(localStorage.getItem("GestorGastosDWEC") === null){
+        if (localStorage.getItem("GestorGastosDWEC") === null) {
             gestionPresupuesto.cargarGastos([])
-        }else{
-        let listaGastos = JSON.parse(localStorage.getItem("GestorGastosDWEC"));
-        gestionPresupuesto.cargarGastos(listaGastos);
+        } else {
+            let listaGastos = JSON.parse(localStorage.getItem("GestorGastosDWEC"));
+            gestionPresupuesto.cargarGastos(listaGastos);
         }
         repintar();
     }
 }
+
+function BorrarGastoApiHandle() {
+    this.handleEvent = async function (event) {
+        event.preventDefault();
+        let respuesta = await fetch("https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + _Nombre_Usuario_API + "/" + this.gasto.gastoId, {
+            method: "DELETE",
+        });
+        if (respuesta.ok) {
+            await cargarGastosApi();
+        }
+    }
+}
+
+function SubirGastoApiHandle() {
+    this.handleEvent = async function (event) {
+        event.preventDefault();
+        let elementos = this.formulario.elements;
+        let descripcion = elementos.descripcion.value;
+        let valor = elementos.valor.value;
+        let fecha = elementos.fecha.value;
+        let etiquetas = elementos.etiquetas.value;
+        if (etiquetas.includes(",")) {
+            etiquetas = etiquetas.split(",");
+        }
+        let gasto = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, ...etiquetas);
+        let respuesta = await fetch("https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + _Nombre_Usuario_API, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(gasto)
+        });
+        if (respuesta.ok) {
+            await cargarGastosApi();
+            let padre = this.formulario.parentNode;
+            let hr = padre.querySelector("hr");
+            let elementoPadre = this.formulario.parentNode;
+
+            padre.removeChild(hr)
+            elementoPadre.removeChild(this.formulario);
+
+        }
+    }
+}
+
+
 
 //* FUNCIONES *//
 
@@ -279,6 +366,8 @@ function mostrarGastoWeb(idElemento, gasto) {
         crearBoton(BOTON.EDITAR, gasto, "gasto-editar", divGasto);
         //Creamos el botón Borrar
         crearBoton(BOTON.BORRAR, gasto, "gasto-borrar", divGasto);
+        //Creamos el botón Borrar_API
+        crearBoton(BOTON.BORRAR_API, gasto, "gasto-borrar-api", divGasto);
         //Creamos el botón Editar (formulario)
         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
         let formulario = plantillaFormulario.querySelector("form");
@@ -295,7 +384,7 @@ function mostrarGastoWeb(idElemento, gasto) {
  * @param {Element} formulario - Formulario que tiene que aparecer en el evento click del botón.
  * @returns {Element}  Referencia al botón HTML creado.
  */
-function crearBoton(tipoBoton, gast, clase, padre, formulario = undefined) {
+async function crearBoton(tipoBoton, gast, clase, padre, formulario = undefined) {
     let boton = document.createElement("button");
     boton.type = "button";
     boton.textContent = tipoBoton;
@@ -313,6 +402,9 @@ function crearBoton(tipoBoton, gast, clase, padre, formulario = undefined) {
             evento.formulario = formulario;
             evento.padre = padre;
             break;
+        case BOTON.BORRAR_API:
+            evento = new BorrarGastoApiHandle();
+            break;
         default:
             console.log("Botón por defecto")
     }
@@ -329,6 +421,8 @@ function crearBoton(tipoBoton, gast, clase, padre, formulario = undefined) {
  */
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     let elementoPadre = document.getElementById(idElemento);
+    elementoPadre.innerHTML = "";
+
 
     let divAgrupacion = crearEtiquetaHTML("div", elementoPadre, "agrupacion");
     crearEtiquetaHTML("h1", divAgrupacion, "", ("Gastos agrupados por " + periodo));
@@ -339,6 +433,63 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
         crearEtiquetaHTML("span", agrupacionDato, "", " // ");
         crearEtiquetaHTML("span", agrupacionDato, "agrupacion-dato-valor", agrup[propiedad]);
     }
+    // Estilos
+    elementoPadre.style.width = "33%";
+    elementoPadre.style.display = "inline-block";
+    // Crear elemento <canvas> necesario para crear la gráfica
+    // https://www.chartjs.org/docs/latest/getting-started/
+    let chart = document.createElement("canvas");
+    // Variable para indicar a la gráfica el período temporal del eje X
+    // En función de la variable "periodo" se creará la variable "unit" (anyo -> year; mes -> month; dia -> day)
+    let unit = "";
+    switch (periodo) {
+        case "anyo":
+            unit = "year";
+            break;
+        case "mes":
+            unit = "month";
+            break;
+        case "dia":
+        default:
+            unit = "day";
+            break;
+    }
+
+    // Creación de la gráfica
+    // La función "Chart" está disponible porque hemos incluido las etiquetas <script> correspondientes en el fichero HTML
+    const myChart = new Chart(chart.getContext("2d"), {
+        // Tipo de gráfica: barras. Puedes cambiar el tipo si quieres hacer pruebas: https://www.chartjs.org/docs/latest/charts/line.html
+        type: 'line',
+        data: {
+            datasets: [{
+                // Título de la gráfica
+                label: `Gastos por ${periodo}`,
+                // Color de fondo
+                backgroundColor: "cyan",
+                // Datos de la gráfica
+                // "agrup" contiene los datos a representar. Es uno de los parámetros de la función "mostrarGastosAgrupadosWeb".
+                data: agrup
+            }],
+        },
+        options: {
+            scales: {
+                x: {
+                    // El eje X es de tipo temporal
+                    type: 'time',
+                    time: {
+                        // Indicamos la unidad correspondiente en función de si utilizamos días, meses o años
+                        unit: unit
+                    }
+                },
+                y: {
+                    // Para que el eje Y empieza en 0
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    // Añadimos la gráfica a la capa
+    elementoPadre.append(chart);
 }
 
 
@@ -391,7 +542,7 @@ function repintar() {
     for (let gast of filtro) {
         mostrarGastoWeb("listado-gastos-filtrado-4", gast)
     }
-    
+
     let agrupacion = gestionPresupuesto.agruparGastos("dia");
     mostrarDatoEnId("agrupacion-dia", "");
     mostrarGastosAgrupadosWeb("agrupacion-dia", agrupacion, "día");
@@ -428,10 +579,15 @@ formularoFiltrarGastos.addEventListener("submit", eventoFormularioFiltratGasto);
 let btnGuardarGasto = document.getElementById("guardar-gastos");
 let eventoGuardarGasto = new GuardarGastoHandle();
 btnGuardarGasto.addEventListener("click", eventoGuardarGasto);
-//
-let btnCargarGastos = document.getElementById("cargar-gastos");
+//Manejador que carga los gastos con el Local Storage
+let btnCargarGastosLocalStorage = document.getElementById("cargar-gastos");
 let eventoCargar = new CargarGastoHandle();
-btnCargarGastos.addEventListener("click", eventoCargar);
+btnCargarGastosLocalStorage.addEventListener("click", eventoCargar);
+//Manejador que carga los gastos de la API
+let btnCargarGastosApi = document.getElementById("cargar-gastos-api");
+btnCargarGastosApi.onclick = cargarGastosApi;
+
+
 
 /**
  * Función que actualiza el presupuesto desde un botón de la web.
@@ -470,14 +626,77 @@ function nuevoGastoWebFormulario() {
     document.getElementById("anyadirgasto-formulario").disabled = true;
     let eventoAnyadir = new AnyadirGastoFormularioHandle();
     let eventoCancelar = new CancelarGastoHandle()
+    let eventoSubir = new SubirGastoApiHandle();
     eventoAnyadir.formulario = formulario;
     eventoCancelar.padre = divControlesPrincipales;
     eventoCancelar.formulario = formulario;
     eventoCancelar.btnPadre = document.getElementById("anyadirgasto-formulario");
+    eventoSubir.formulario = formulario;
+
+
     formulario.addEventListener("submit", eventoAnyadir);
     formulario.querySelector(".cancelar").addEventListener("click", eventoCancelar);
+
+    if (_Nombre_Usuario_API == "") {
+        formulario.querySelector(".gasto-enviar-api").disabled = true;
+    } else {
+        formulario.querySelector(".gasto-enviar-api").disabled = false;
+        formulario.querySelector(".gasto-enviar-api").addEventListener("click", eventoSubir);
+    }
+
     repintar();
 }
+/**
+ * Función que obtiene el listado de gastos a través de la API del servidor con una solicitud GET
+ */
+async function cargarGastosApi() {
+    // * Forma con async y await* //
+    let usuario = document.getElementById("nombre_usuario").value;
+    let response = await fetch("https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + usuario);
+
+    if (response.ok) {
+        _Nombre_Usuario_API = usuario;
+        let arrayGastos = await response.json();
+        // if (arrayGastos.length > 0) {
+        gestionPresupuesto.cargarGastos(arrayGastos);
+        // }
+        repintar();
+    } else {
+        console.log("Error al cargar los gastos");
+    };
+
+    // * Forma .then()  QUITAR async* //
+    // fetch("https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/carlosramos")
+    // .then(respuesta => respuesta.json())
+    // .then((result)=>{
+    //     gestionPresupuesto.cargarGastos(result);
+    //     repintar();
+    // }).catch(err => console.log(err));
+}
+
+
+/** 
+ * EVENTO POST 
+ * https://hoppscotch.io/es/
+ * Cuerpo:
+{
+  "descripcion": "EjemploCarlos",
+  "valor": 20,
+  "etiquetas": [
+    "e1",
+    "e2"
+  ]
+}
+{
+  "descripcion": "Gasto2",
+  "valor": 30,
+  "etiquetas": [
+    "e4",
+    "e3"
+  ]
+}
+
+ **/
 
 export {
     mostrarDatoEnId,
