@@ -112,6 +112,11 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 import * as gP from './gestionPresupuesto.js';
 
 function repintar(){
+
+    document.getElementById('presupuesto').textContent = '';
+    document.getElementById('gastos-totales').textContent = '';
+    document.getElementById('balance-total').textContent = '';
+
     let texto = gP.mostrarPresupuesto();
     mostrarDatoEnId('presupuesto', texto);
 
@@ -190,7 +195,7 @@ function borrarApiHandle(){
 
         let nomApe = document.getElementById('nombre_usuario').value;
 
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${this.gasto.gastoId}`;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nomApe}/${this.gasto.gastoId}`;
 
         if (nomApe != ''){
             fetch (url, {method: 'DELETE'})
@@ -257,7 +262,7 @@ function editarApiHandle(){
 
         let nomApe = document.getElementById('nombre_usuario').value;
 
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${gasto.gastoId}`;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nomApe}/${gasto.gastoId}`;
 
         if (nomApe != ''){
 
