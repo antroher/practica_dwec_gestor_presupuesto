@@ -396,6 +396,27 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
     let cargar_GastoWeb = document.getElementById("cargar-gastos");
     cargar_GastoWeb.addEventListener("click", cargarGastoWeb);
 
+    function cargarGastosApi(){
+
+        let usuario = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
+    
+        fetch(url, {
+            method: 'GET',
+            mode: 'no-cors',
+        })
+        .then(response => response.json())
+        .then((result) => { 
+            let resultado = result;
+            console.log(result);
+            gestionPresupuesto.cargarGastos(resultado);
+            repintar();
+        });
+    }
+
+    let botonGastosApi = document.getElementById("cargar-gastos-api");
+        botonGastosApi.addEventListener("click", cargarGastosApi);
+
 
 export   {
     mostrarDatoEnId,
