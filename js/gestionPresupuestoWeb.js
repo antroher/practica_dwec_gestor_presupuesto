@@ -11,6 +11,7 @@ let cargarGastosWebObjeto = new cargarGastosWeb();
 document.getElementById("guardar-gastos").addEventListener("click",guardarGastosWebObjeto);
 document.getElementById("cargar-gastos").addEventListener("click",cargarGastosWebObjeto);
 
+var id = 0;
 
 function mostrarDatoEnId(idElemento,valor){
     let datId = document.getElementById(idElemento);
@@ -270,6 +271,12 @@ function mostrarDatoEnId(idElemento,valor){
             formulario.querySelector("button[class='cancelar']").addEventListener('click', cancelForm);
 
             document.getElementById('anyadirgasto-formulario').disabled = true;
+
+            //bton de crear gastos
+
+            let CrearApiEvento = new PostHandle();
+            CrearApiEvento.formulario = formulario;
+            formulario.querySelector("button[class='gasto-enviar-api']").addEventListener('click', CrearApiEvento);
         }
 
         //selecciona los campos para crear el formulario
@@ -449,6 +456,38 @@ console.log(filtrar)
                     GesPresu.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
                 }
                 repintar();
+            }
+        }
+
+        function PostHandle(){
+            this.handleEvent = async function(){
+                let nameUser = document.getElementById("nombre_usuario").value;
+
+                //Me ayudo un compañero a cambio de 5€
+
+                let gasto = {
+                    descripcion: this.formulario.descripcion.value,
+                    valor: this.formulario.valor.value,
+                    fecha: this.formulario.fecha.value,
+                    etiquetas: (typeof this.formulario.etiquetas.value !== "undefined") ? this.formulario.etiquetas.value.split(",") : undefined,
+                    id: id
+                }
+
+                let respuesta = await fetch(
+                    `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nameUser}`,{
+                      method: 'POST',  
+
+                      headers: {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
+
+                      body: JSON.stringify(gasto)
+                    });
+
+                if(respuesta.ok)
+                {
+                    id++;
+                }
             }
         }
 
