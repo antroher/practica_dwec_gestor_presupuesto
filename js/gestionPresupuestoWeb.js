@@ -277,6 +277,26 @@ btnFilter.addEventListener("submit", gastoSend);
 btnGuardarGastWeb.addEventListener("click", guardarGastWeb);
 btncargarGastWeb.addEventListener("click", cargarGastWeb);
 
+function CargarGastosApi() {
+    let user = document.querySelector("#nombre_usuario").value;
+    let page = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
+    
+    if (user != '') {
+        fetch(page, {method: 'GET'})
+            .then(respuesta => respuesta.json())
+            .then((result) => {
+                let resultado = result;
+                if(resultado == "") {
+                    console.log("No existen gastos en la api para este usuario. Esto es solo para rellenar")
+                } else {
+                    gestionPresupuesto.cargarGastos(resultado);
+                    repintar();
+                }
+                })
+            .catch(err => console.error(err));
+    }
+}
+
 
 export {
     mostrarDatoEnId,
