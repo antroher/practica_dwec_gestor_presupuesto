@@ -230,6 +230,12 @@ function EditarHandleFormulario()
         let submitEvent = new submitEditHandle();
         submitEvent.gasto = this.gasto;
         form.addEventListener('submit', submitEvent);
+
+        let actualizarAPI = new ActualizarAPIHandle();
+        actualizarAPI.gasto = this.gasto;
+
+        let btnActualizarAPI = formulario.querySelector("button.gasto-enviar-api");
+        btnActualizarAPI.addEventListener("click", actualizarAPI);    
     }
 }
 
@@ -277,38 +283,41 @@ function EnviarGastoHandleFormulario(){
 
 function filtrarGastoWeb (){
 
-  event.preventDefault();
+  this.handleEvent = function(event) {
+     event.preventDefault();
 
-  let formulario = document.getElementById("formulario-filtrado");
-  let descripcionfiltro = formulario.elements["formulario-filtrado-descripcion"].value;
-  let valorMinimofiltro = formulario.elements["formulario-filtrado-valor-minimo"].value;
-  let valorMaximofiltro = formulario.elements["formulario-filtrado-valor-maximo"].value;
-  let fechaDesdefiltro = formulario.elements["formulario-filtrado-fecha-desde"].value;
-  let fechaHastafiltro = formulario.elements["formulario-filtrado-fecha-hasta"].value;
-  let etiquetasfiltro = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
-
-  if(etiquetasfiltro === ""){
-      etiquetasfiltro = [];
+    let formulario = document.getElementById("formulario-filtrado");
+    let descripcionfiltro = formulario.elements["formulario-filtrado-descripcion"].value;
+    let valorMinimofiltro = formulario.elements["formulario-filtrado-valor-minimo"].value;
+    let valorMaximofiltro = formulario.elements["formulario-filtrado-valor-maximo"].value;
+    let fechaDesdefiltro = formulario.elements["formulario-filtrado-fecha-desde"].value;
+    let fechaHastafiltro = formulario.elements["formulario-filtrado-fecha-hasta"].value;
+    let etiquetasfiltro = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
+  
+    if(etiquetasfiltro === ""){
+        etiquetasfiltro = [];
+    }
+  
+    let filtrar ={
+        descripcionContiene: (descripcionfiltro === "") ? undefined : descripcionfiltro,
+        valorMinimo: (valorMinimofiltro === "") ? undefined : parseFloat(valorMinimofiltro),
+        valorMaximo:(valorMaximofiltro === "") ? undefined: parseFloat(valorMaximofiltro),
+        fechaDesde:(fechaDesdefiltro === "") ? undefined : fechaDesdefiltro,
+        fechaHasta: (fechaHastafiltro === "") ? undefined : fechaHastafiltro,
+        etiquetasTiene:(etiquetasfiltro.length === 0) ? [] : GestPres.transformarListadoEtiquetas(etiquetasfiltro)
+    }
+  
+    console.log(filtrar)
+  
+    let gastosFiltrar = GestPres.filtrarGastos(filtrar);
+  
+    console.log(gastosFiltrar)
+  
+    document.getElementById("listado-gastos-completo").innerHTML = "";
+  
+    mostrarGastoWeb("listado-gastos-completo", gastosFiltrar);
   }
-
-  let filtrar ={
-      descripcionContiene: (descripcionfiltro === "") ? undefined : descripcionfiltro,
-      valorMinimo: (valorMinimofiltro === "") ? undefined : parseFloat(valorMinimofiltro),
-      valorMaximo:(valorMaximofiltro === "") ? undefined: parseFloat(valorMaximofiltro),
-      fechaDesde:(fechaDesdefiltro === "") ? undefined : fechaDesdefiltro,
-      fechaHasta: (fechaHastafiltro === "") ? undefined : fechaHastafiltro,
-      etiquetasTiene:(etiquetasfiltro.length === 0) ? [] : GestPres.transformarListadoEtiquetas(etiquetasfiltro)
-  }
-
-  console.log(filtrar)
-
-  let gastosFiltrar = GestPres.filtrarGastos(filtrar);
-
-  console.log(gastosFiltrar)
-
-  document.getElementById("listado-gastos-completo").innerHTML = "";
-
-  mostrarGastoWeb("listado-gastos-completo", gastosFiltrar);
+ 
 }
 
 //Practica 8
@@ -329,16 +338,248 @@ function cargarGastosWeb(){
   repintar();
 }
 
+//Práctica 9 
+
+function BorrarAPIHandle()
+{
+    this.handleEvent = function(e)
+    {
+        let usuario = document.getElementById('nombre_usuario').value;
+        let direccion =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}/${this.gasto.gastoId}`;
+
+        if(usuario != '')
+        {
+            fetch(direccion, 
+            {
+                method: "DELETE",
+            })
+            .then(function(resp)
+            {
+                if(!resp.ok)
+                {
+                    alert("Error "+ resp.status +": no existe el id de ese gasto");
+                }
+                else
+                {
+                    alert("GASTO BORRADO");
+                    cargarGastosApi();
+                }
+            })
+            .catch(err => alert(err));
+        }
+        else
+        {
+            alert('Falta nombre usuario');
+        }
+    }
+}
+
+function EnviarGastoHandleFormulario(){
+  this.handleEvent = function(event){
+      event.preventDefault();
+      let formulario = event.currentTarget;
+      let descripcion = formulario.elements.descripcion.value;
+      let valor = parseFloat(formulario.elements.valor.value);
+      let fecha = formulario.elements.fecha.value;
+      let etiquetas = formulario.elements.etiquetas.value;
+      let gastoNuevo = new GestPres.CrearGasto(descripcion, valor, fecha, etiquetas);
+      GestPres.anyadirGasto(gastoNuevo);
+
+      repintar();
+      document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+  }
+}
+
+function ActualizarAPIHandle(){
+  this.handleEvent = function(e) {
+    let Nomusuario = document.getElementById('nombre_usuario').value;
+    let direccion =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+
+    if(Nomusuario != '')
+    {
+        var form = document.querySelector(".gasto form");
+        let descrip = form.elements.descripcion.value;
+        let val = form.elements.valor.value;
+        let fech = form.elements.fecha.value;
+        let etiq = form.elements.etiquetas.value;
+        val = parseFloat(val);
+        etiq = etiq.split(',');
+
+        let gastoAPI = 
+        {
+
+            descripcion: descrip,
+            valor: val,
+            fecha: fech,
+            etiquetas: etiq
+        };
+        fetch(direccion, {
+            method: "PUT",
+            headers:
+            {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(gastoAPI)
+        })
+
+        .then(function(resp)
+        {
+            if(!resp.ok)
+            {
+                alert("Error " + resp.status + ": no se ha actualizado el gasto");
+            }else
+            {
+                alert("GASTO ACTUALIZADO");
+                cargarGastosApi();
+            }
+        })
+        .catch(err => alert(err));
+    }else
+    {
+        alert('Falta nombre usuario');
+    }
+  }
+}
+
+
+function cargarGastosApi(){
+  let NomUsuario = document.querySelector("#nombre_usuario").value;
+  let direccion = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${NomUsuario}`;
+  
+  if (NomUsuario != '') {
+      fetch(direccion, {
+          method: 'GET'
+      })
+          .then(resp => resp.json())
+          .then(function(gastosAPI)
+          {
+  
+              gestionPresupuesto.cargarGastos(gastosAPI);
+              repintar();
+          })
+          .catch(err => alert(err));
+  }else{
+      alert('Falta nombre usuario');
+  }
+}
+
+function EnviarGastoApi(event){
+  let nombre_usuario = document.getElementById("nombre_usuario").value;
+  let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombre_usuario}`;
+  
+  let formulario = event.currentTarget.form;
+  let descripcionN = formulario.elements.descripcion.value;
+  let valorN = formulario.elements.valor.value;
+  let fechaN = formulario.elements.fecha.value;
+  let etiquetasN = formulario.elements.etiquetas.value;
+
+  valorN = parseFloat(valorN);
+  etiquetasN = etiquetasN.split(",");
+
+  let nuevoObjeto = {
+      descripcion: descripcionN,
+      fecha: fechaN,
+      valor: valorN,
+      etiquetas: etiquetasN
+  }
+
+  console.log(nuevoObjeto);
+
+  if(nombre_usuario == ""){
+      console.log("El input del nombre de nombre_usuario esta vacio");
+      
+  }else{
+      fetch(url, {
+          method: 'POST', 
+          body: JSON.stringify(nuevoObjeto),
+          headers:{
+              'Content-Type': 'application/json'
+          }
+      })
+      .then(response => {
+          
+          if(response.ok){
+              console.log("La peticion de añadir ha sido correcta");
+              CargarGastosApi();
+          }else{
+              console.log("La peticion de añadir ha sido erronea");
+          }
+      })
+      .catch(err => console.error(err));
+  }
+}
+
+
+function EditarGastoApi(){
+
+  this.handleEvent = function(event){
+      let nombre_usuario = document.getElementById("nombre_usuario").value;
+      let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombre_usuario}/${this.gasto.gastoId}`;
+      
+      let formulario = event.currentTarget.form;
+      let descripcionN = formulario.elements.descripcion.value;
+      let valorN = formulario.elements.valor.value;
+      let fechaN = formulario.elements.fecha.value;
+      let etiquetasN = formulario.elements.etiquetas.value;
+
+      valorN = parseFloat(valorN);
+      etiquetasN = etiquetasN.split(",");
+  
+      let nuevoObjeto = {
+          descripcion: descripcionN,
+          fecha: fechaN,
+          valor: valorN,
+          etiquetas: etiquetasN
+      }
+
+      if(nombre_usuario == ""){
+          console.log("El input del nombre de nombre_usuario esta vacio");
+      } else {
+          fetch(url, {
+              method: 'PUT', 
+              body: JSON.stringify(nuevoObjeto),
+              headers:{
+                  'Content-Type': 'application/json'
+              }
+          })
+          .then(response => {
+              
+              if(response.ok){
+                  console.log("Peticion correcta");
+                  CargarGastosApi();
+              }else{
+                  console.log("Peticion incorrecta");
+              }
+          })
+          .catch(err => console.error(err));
+      }
+  }
+}
+
 
 //Botones
-document.getElementById("actualizarpresupuesto").addEventListener("click", actualizarPresupuestoWeb);
-document.getElementById("anyadirgasto").addEventListener("click", nuevoGastoWeb);
-document.getElementById("anyadirgasto-formulario").addEventListener("click", nuevoGastoWebFormulario);
-document.getElementById("formulario-filtrado").addEventListener("submit", filtrarGastoWeb);
-//Boton pract 8
-document.getElementById("guardar-gastos").addEventListener("click", guardarGastosWeb);
-document.getElementById("cargar-gastos").addEventListener("click", cargarGastosWeb);
+const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
+const anyadirgasto = document.getElementById("anyadirgasto");
+const anyadirgastoFirmulario = document.getElementById("anyadirgasto-formulario");
+const formularioFiltrador = document.getElementById("formulario-filtrado");
+const btnGuardarGastos = document.getElementById("guardar-gastos");
+const btnCargarGastos = document.getElementById("cargar-gastos");
+const btnGastosApi = document.getElementById("cargar-gastos-api");
+btnGastosApi.addEventListener("click", CargarGastosApi);
 
+//Eventos
+actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
+anyadirgasto.addEventListener('click', nuevoGastoWeb);
+anyadirgastoFirmulario.addEventListener('click', nuevoGastoWebFormulario);
+
+
+let filtGastForm = new filtrarGastosWeb();
+formularioFiltrador.addEventListener('submit', filtGastForm);
+
+let objGuardarGastosWeb = new guardarGastosWeb();
+let objCargarGastosWeb = new cargarGastosWeb();
+btnGuardarGastos.addEventListener('click', objGuardarGastosWeb);
+btnCargarGastos.addEventListener('click', objCargarGastosWeb);
 
 export{
   mostrarDatoEnId,
