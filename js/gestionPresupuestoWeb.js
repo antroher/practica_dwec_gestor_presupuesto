@@ -577,6 +577,7 @@ function submitApiHandle() {
         
         if (response.ok) {
             id++;
+            cargarGastosApi();
         }
     }
 } 
