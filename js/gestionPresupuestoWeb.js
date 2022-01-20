@@ -10,6 +10,7 @@ let guardarGastosWebObjeto = new guardarGastosWeb();
 let cargarGastosWebObjeto = new cargarGastosWeb();
 document.getElementById("guardar-gastos").addEventListener("click",guardarGastosWebObjeto);
 document.getElementById("cargar-gastos").addEventListener("click",cargarGastosWebObjeto);
+document.getElementById("cargar-gastos-api").addEventListener('click', cargarGastosApi)
 
 var id = 0;
 
@@ -610,7 +611,7 @@ console.log(filtrar)
                         .then(function(gastosAPI)
                         {
             
-                            gestionPresupuesto.cargarGastos(gastosAPI);
+                            GesPresu.cargarGastos(gastosAPI);
                             repintar();
                         })
                         .catch(err => alert(err));
