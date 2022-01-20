@@ -1,8 +1,7 @@
 import * as gesPres from "./gestionPresupuesto.js";
-//Primera parte de una guía muy útil que encontré https://www.youtube.com/watch?v=ztL8KMLJ9Is
 //Funciones
 
-function mostrarDatoEnId(idElemento, valor) {//https://www.youtube.com/watch?v=DMawWBwHnBU
+function mostrarDatoEnId(idElemento, valor) {
     let elem = document.getElementById(idElemento);
     let p = document.createElement("p");
     p.textContent = valor;
@@ -290,117 +289,272 @@ function cargarGastosWeb() {
 }
 let chrgGastWeb = new cargarGastosWeb();
 
-function cargarGastosApi(e) {
-    let user = document.querySelector("#nombre_usuario").value;
-    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
-    if (usuer != '') {
-        fetch(url, {method: 'GET'})
-            .then(answer => answer.json())
-            .then((res) => {
-                let result = res;
-                if(result == "") {
-                    console.log("La API no contiene datos para el usuario introducido")
-                } else {
-                    gestionPresupuesto.cargarGastos(result);
-                    console.log("Carga de gastos realizada correctamente")
-                    repintar();
-                }
-                })
-            .catch(error => console.error(error));
-    }
-}
+// function cargarGastosApi(e) {
+//     let user = document.querySelector("#nombre_usuario").value;
+//     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
+//     if (usuer != '') {
+//         fetch(url, {method: 'GET'})
+//             .then(answer => answer.json())
+//             .then((res) => {
+//                 let result = res;
+//                 if(result == "") {
+//                     console.log("La API no contiene datos para el usuario introducido")
+//                 } else {
+//                     gestionPresupuesto.cargarGastos(result);
+//                     console.log("Carga de gastos realizada correctamente")
+//                     repintar();
+//                 }
+//                 })
+//             .catch(error => console.error(error));
+//     }
+// }
 
-function apiGastSend(event){
-    let user = document.getElementById("nombre_usuario").value;
-    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
-    
-    let form = event.currentTarget.form;
-    let desc = form.elements.descripcion.value;
-    let value = form.elements.valor.value;
-    let date = form.elements.fecha.value;
-    let eti = form.elements.etiquetas.value;
-
-    value = parseFloat(value);
-    eti = eti.split(",");
-
-    let newObj = {
-        descripcion: desc,
-        fecha: date,
-        valor: value,
-        etiquetas: eti
-    }
-
-    console.log(newObj);
-
-    if(user == ""){
-        console.log("Debes introducir un nombre de usuario en el input");
-    }else{
-        fetch(url, {
-            method: 'POST', 
-            body: JSON.stringify(newObj),
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            
-            if(response.ok){
-                console.log("Petición correcta");
-                CargarGastosApi();
-            }else{
-                console.log("Petición errónea");
-            }
-        })
-        .catch(err => console.error(err));
-    }
-}
-
-function apiGastEdit(){
+function cargarGastosApi(){
 
     this.handleEvent = function(event){
-        let user = document.getElementById("nombre_usuario").value;
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}/${this.gasto.gastoId}`;
-        
-        let form = event.currentTarget.form;
-        let desc = form.elements.descripcion.value;
-        let value = form.elements.valor.value;
-        let date = form.elements.fecha.value;
-        let eti = form.elements.etiquetas.value;
 
-        value = parseFloat(value);
-        eti = eti.split(",");
-    
-        let nuevoObjeto = {
-            descripcion: desc,
-            fecha: date,
-            valor: value,
-            etiquetas: eti
+        let user = document.getElementById('nombre_usuario').value;
+
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
+
+        if (user != ''){
+            fetch (url, {method: 'GET'})
+                .then(respuesta => respuesta.json())
+                .then(function(gastosApi) {
+                    gesPres.cargarGastos(gastosApi);
+                    repintar();
+                })
+                .catch(errors => alert(errors));
         }
+        else{
+            alert('Introduce un nombre.');
+        }
+    }
+}
+document.getElementById('cargar-gastos-api').addEventListener('click', new cargarGastosApi);
 
-        if(user == ""){
-            console.log("Debes introducir un nombre de usuario en el input");
-        } else {
-            fetch(url, {
-                method: 'PUT', 
-                body: JSON.stringify(nuevoObjeto),
-                headers:{
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
+// function apiGastSend(event){
+//     let user = document.getElementById("nombre_usuario").value;
+//     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
+    
+//     let form = event.currentTarget.form;
+//     let desc = form.elements.descripcion.value;
+//     let value = form.elements.valor.value;
+//     let date = form.elements.fecha.value;
+//     let eti = form.elements.etiquetas.value;
+
+//     value = parseFloat(value);
+//     eti = eti.split(",");
+
+//     let newObj = {
+//         descripcion: desc,
+//         fecha: date,
+//         valor: value,
+//         etiquetas: eti
+//     }
+
+//     console.log(newObj);
+
+//     if(user == ""){
+//         console.log("Debes introducir un nombre de usuario en el input");
+//     }else{
+//         fetch(url, {
+//             method: 'POST', 
+//             body: JSON.stringify(newObj),
+//             headers:{
+//                 'Content-Type': 'application/json'
+//             }
+//         })
+//         .then(response => {
+            
+//             if(response.ok){
+//                 console.log("Petición correcta");
+//                 CargarGastosApi();
+//             }else{
+//                 console.log("Petición errónea");
+//             }
+//         })
+//         .catch(err => console.error(err));
+//     }
+// }
+
+// function apiGastEdit(){
+
+//     this.handleEvent = function(event){
+//         let user = document.getElementById("nombre_usuario").value;
+//         let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}/${this.gasto.gastoId}`;
+        
+//         let form = event.currentTarget.form;
+//         let desc = form.elements.descripcion.value;
+//         let value = form.elements.valor.value;
+//         let date = form.elements.fecha.value;
+//         let eti = form.elements.etiquetas.value;
+
+//         value = parseFloat(value);
+//         eti = eti.split(",");
+    
+//         let nuevoObjeto = {
+//             descripcion: desc,
+//             fecha: date,
+//             valor: value,
+//             etiquetas: eti
+//         }
+
+//         if(user == ""){
+//             console.log("Debes introducir un nombre de usuario en el input");
+//         } else {
+//             fetch(url, {
+//                 method: 'PUT', 
+//                 body: JSON.stringify(nuevoObjeto),
+//                 headers:{
+//                     'Content-Type': 'application/json'
+//                 }
+//             })
+//             .then(response => {
                 
-                if(response.ok){
-                    console.log("Petición correcta");
-                    CargarGastosApi();
-                }else{
-                    console.log("Petición errónea");
+//                 if(response.ok){
+//                     console.log("Petición correcta");
+//                     CargarGastosApi();
+//                 }else{
+//                     console.log("Petición errónea");
+//                 }
+//             })
+//             .catch(err => console.error(err));
+//         }
+//     }
+// }
+function apiSendHandle(){
+    this.handleEvent = function(event){
+
+        let user = document.getElementById('nombre_usuario').value;
+
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
+
+        if (user != ''){
+
+            var form = document.querySelector("#controlesprincipales form");
+            let des = form.elements.descripcion.value;
+            let val = parseFloat(form.elements.valor.value);
+            let fec = form.elements.fecha.value;
+            let eti = form.elements.etiquetas.value.split(',');
+
+            let gastoApi = {
+                descripcion: des,
+                valor: val,
+                fecha: fec,
+                etiquetas: eti
+            };
+
+            fetch (url, {method: 'POST', headers:{'Content-Type': 'application/json;charset=utf-8'}, body: JSON.stringify(gastoApi)})
+                .then(function(respuesta) {
+                    if(respuesta.ok){
+                        alert('El gasto se ha creado correctamente');
+                        cargarGastosApi();
+                    }
+                    else{
+                        alert('Error ' + respuesta.status + ': no se ha podido crear el gasto correctamente en la Api');
+                    }   
+                })
+                .catch(errors => alert(errors));
+        }
+        else{
+            alert('Introduce un nombre.');
+        }
+    }
+}
+function apiEditHandle(){
+    this.handleEvent = function(event){
+
+        let user = document.getElementById('nombre_usuario').value;
+
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}/${gasto.gastoId}`;
+
+        if (user != ''){
+
+            var form = document.querySelector('.gasto form');
+            let des = form.elements.descripcion.value;
+            let val = parseFloat(form.elements.valor.value);
+            let fec = form.elements.fecha.value;
+            let eti = form.elements.etiquetas.value.split(',');
+
+            let gastoApi = {
+                descripcion: des,
+                valor: val,
+                fecha: fec,
+                etiquetas: eti
+            };
+            
+            fetch (url, {method: 'POST', headers:{'Content-Type': 'application/json;charset=utf-8'}, body: JSON.stringify(gastoApi)})
+            .then(function(respuesta) {
+                if(respuesta.ok){
+                    alert('Gasto creado correctamente');
+                    cargarGastosApi();
                 }
+                else{
+                    alert('Error ' + respuesta.status + ': el gasto no se ha podido crear correctamente');
+                }   
             })
-            .catch(err => console.error(err));
+            .catch(errors => alert(errors));
+        }
+        else{
+            alert('Introduce un nombre.');
         }
     }
 }
 
+function apiDeleteHandle(){
+    this.handleEvent = function(event){
+
+        let nomApe = document.getElementById('nombre_usuario').value;
+
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nomApe}/${this.gasto.gastoId}`;
+
+        if (nomApe != ''){
+            fetch (url, {method: 'DELETE'})
+                .then(function(gastosApi) {
+                    if(respuesta.ok){
+                        alert('El gasto se ha borrado correctamente');
+                        cargarGastosApi(gastosApi);
+                    }
+                    else{
+                        alert('Error ' + respuesta.status + ': el id introducido del gasto es inexistente');
+                    }
+
+                })
+                .catch(errors => alert(errors));
+        }
+        else{
+            alert('Introduce un nombre.');
+        }
+    }
+}
+
+function apiDeleteHandle(){
+    this.handleEvent = function(event){
+
+        let user = document.getElementById('nombre_usuario').value;
+
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}/${this.gasto.gastoId}`;
+
+        if (user != ''){
+            fetch (url, {method: 'DELETE'})
+                .then(function(gastosApi) {
+                    if(respuesta.ok){
+                        alert('El gasto se ha borrado correctamente');
+                        cargarGastosApi(gastosApi);
+                    }
+                    else{
+                        alert('Error ' + respuesta.status + ': el id introducido del gasto es inexistente');
+                    }
+
+                })
+                .catch(errors => alert(errors));
+        }
+        else{
+            alert('Introduce un nombre.');
+        }
+    }
+}
 
 //Botones
 const btnAddGas = document.getElementById("anyadirgasto");
@@ -419,10 +573,6 @@ btnSaveGast.addEventListener("click", saveGastWeb);
 btnChargeGast.addEventListener("click", chrgGastWeb);
 btnApiGast.addEventListener("click", cargarGastosApi);
 
-
-
-
-//https://www.youtube.com/watch?v=3zrGjc0UEgU
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
