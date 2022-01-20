@@ -12,8 +12,7 @@ document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb)
 // FUNCIONES
 
 function mostrarDatoEnId(idElemento, valor){
-    document.getElementById(idElemento).innerHTML = `<p>${valor}</p>`;
-    
+    document.getElementById(idElemento).innerHTML = `<p>${valor}</p>`;    
 }
 
 function mostrarGastoWeb(idElemento, gasto){
@@ -21,20 +20,20 @@ function mostrarGastoWeb(idElemento, gasto){
     let elemento = document.getElementById(idElemento); // Captura del div con id dado
     let spanEtiquetas = ""; 
     let idEtiqueta = 0;
-    // Generar el span de etiquetas iterando la prop etiquetas del objeto gasto
+    // Generar los span de etiquetas iterando la prop etiquetas del objeto gasto
     gasto.etiquetas.forEach((etiqueta) => {
         spanEtiquetas +=
             `<span class="gasto-etiquetas-etiqueta" id="${idEtiqueta}">
               ${ etiqueta }
             </span>`;
             idEtiqueta++
-
+            
         // Crear evt borrar en span de etiquetas y el objeto manejador evt asociado
         let borraEtiquetasHandler = new BorrarEtiquetasHandle();
-         borraEtiquetasHandler.gasto = gasto;                        // Vincular puntero al objeto gasto en la propiedad gasto
+        borraEtiquetasHandler.gasto = gasto;                        // Vincular puntero al objeto gasto en la propiedad gasto
         borraEtiquetasHandler.etiqueta = etiqueta;                  // Vincular puntero a la etiqueta en la propiedad etiqueta
-        idEtiqueta.addEventListener('click', borraEtiquetasHandler);
-
+        idEtiqueta.addEventListener('click', borraEtiquetasHandler); // Cargar escuchador en la etiqueta
+           
     });
 
     // Crear la estructura pedida, con divs para mostrar las prop y el str de spanEtiquetas
@@ -43,13 +42,11 @@ function mostrarGastoWeb(idElemento, gasto){
                     <div class="gasto-descripcion">${gasto.descripcion}</div>
                     <div class="gasto-fecha">${new Date(gasto.fecha).toLocaleString()}</div> 
                     <div class="gasto-valor">${gasto.valor}</div> 
-                    <div class="gasto-etiquetas">
-                        ${spanEtiquetas}
-                    </div>
+                    <div class="gasto-etiquetas">${spanEtiquetas}</div>
         </div>`;
     
    
-
+    
     // Agrega botones en caso de que el id dado sea el del listado de gastos
     if (idElemento === 'listado-gastos-completo') {
         // Crear boton de editar un gasto y el objeto manejador evt asociado
@@ -74,8 +71,9 @@ function mostrarGastoWeb(idElemento, gasto){
 
         // Colgar los botones al final del div .gasto
         document.querySelector(".gasto").append(editorBtn, borradorBtn);
+        
     }
-
+    
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -132,7 +130,7 @@ function nuevoGastoWeb() {
     const descripcion = prompt("Introduzca la descripción del nuevo gasto: ");
     const valor = parseFloat(prompt("Introduzca el valor del nuevo gasto: "));
     const fecha = Date.parse(prompt("Introduzca la fecha del nuevo gasto: "));
-    const etiquetas = prompt("Introduzca las etiquetas del nuevo gasto: ").split(',');
+    const etiquetas = prompt("Introduzca las etiquetas del nuevo gasto separadas por , : ").split(',');
 
     // Crear un nuevo gasto
     gestionP.anyadirGasto(new gestionP.CrearGasto(descripcion, valor, fecha, etiquetas));
@@ -144,21 +142,14 @@ function nuevoGastoWeb() {
 function EditarHandle () {
     this.handleEvent = function() {
         // Pedir al usuario la información necesaria para editar el gasto
-        this.gasto.actualizarDescripcion( 
-            prompt("Introduzca la descripción nueva: "));
-        
-        this.gasto.actualizarValor( 
-            parseFloat(prompt("Introduzca el valor nuevo: ")));
-        
-        this.gasto.actualizarFecha( 
-            Date.parse(prompt("Introduzca la fecha nueva: ")));
-
-        let etiquetas = prompt("Introduzca las nuevas etiquetas: ");
-            
+        this.gasto.actualizarDescripcion(prompt("Introduzca la descripción nueva: "));     
+        this.gasto.actualizarValor(parseFloat(prompt("Introduzca el valor nuevo: ")));   
+        this.gasto.actualizarFecha(Date.parse(prompt("Introduzca la fecha nueva: ")));
+        let etiquetas = prompt("Introduzca las nuevas etiquetas: ");           
         if(typeof etiquetas != "undefined" ) {
             this.gasto.anyadirEtiquetas(etiquetas.split(','))
         }
-    
+  
         // Llamar a la función repintar para que se muestre la lista de gastos con los datos actualizados de la edición
         repintar();
     }

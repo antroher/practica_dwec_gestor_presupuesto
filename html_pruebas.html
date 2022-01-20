@@ -8,90 +8,52 @@
 </head>
 <body>
     
-    <div class="elem">
-        <p>Texto párrafo</p>
+    <div id="aplicacion">
+    
+        <div id="controlesprincipales">
+            <button type="button" id="actualizarpresupuesto">
+                Actualizar presupuesto
+            </button>
+            <button type="button" id="anyadirgasto">
+                Añadir gasto
+            </button>
+        </div>
+    
+        <div id="presupuesto">
+        </div>
+    
+        <div id="gastos-totales">
+        </div>
+    
+        <div id="balance-total">
+        </div>
+    
+        <div id="listado-gastos-completo">
+        </div>
+    
+        <div id="listado-gastos-filtrado-1">
+        </div>
+    
+        <div id="listado-gastos-filtrado-2">
+        </div>
+    
+        <div id="listado-gastos-filtrado-3">
+        </div>
+    
+        <div id="listado-gastos-filtrado-4">
+        </div>
+    
+        <div id="agrupacion-dia">
+        </div>
+    
+        <div id="agrupacion-mes">
+        </div>
+    
+        <div id="agrupacion-anyo">
+        </div>
+    
     </div>
-    
 
-    <script>
-        
-
-
-        let editorBtn = document.createElement("button");  
-            editorBtn.className = 'gasto-editar';
-            editorBtn.textContent = 'Editar';
-        let borradorBtn = document.createElement("button");
-            borradorBtn.className = 'gasto-borrar';
-            borradorBtn.textContent = 'Borrar';
-        document.querySelector(".elem").append(editorBtn, borradorBtn);
-        // elem.append( editorBtn);
-
-
-        // const handler1 = e => elem.remove();
-        // elem.insertAdjacentHTML("afterbegin", "<button id='eliminar'>[X]</button>");
-        // eliminar.addEventListener('click', handler1);
-        
-            
-        // function handler1(e){
-        //     elem.remove();
-        // }
-
-
-        // elem.onclick = function(){
-        //     this.hidden = true;
-        // }
-
-
-        // class Menu {
-        //         handleEvent(e) {
-        //             switch (e.type) {
-        //                 case 'mousedown':
-        //                     elem.innerHTML = "Botón del mouse presionado";
-        //                     break;
-        //                 case 'mouseup':
-        //                     elem.innerHTML += "...y soltado.";
-        //                     break;
-        //             }
-        //         }
-        //     }
-
-        //     let menu = new Menu();
-        //     elem.addEventListener('mousedown', menu);
-        //     elem.addEventListener('mouseup', menu);
-
-
-
-
-        // const manu2 = elem.addEventListener('click', handler2);
-        // const manu3 = document.addEventListener('DOMContentLoaded', handler3);
-
-        // // FUNCIONES
-
-        // function handler1(){
-        //     alert("Gracias!");
-        // }
-
-        // function handler2() {
-        //     alert("Gracias de nuevo!");
-        // }
-
-        // function handler3() {
-        //         alert("DOM construido");
-        //     }
-        
-
-    //    let handler1 = {
-    //         handleEvent(e) {
-    //             alert(e.type + " en " + e.currentTarget);
-    //         },
-    //     };
-
-    //     elem.addEventListener('click', handler1);
-
-    
-        
-
-
-    </script>
+    <script src="js/pruebas_js.js" type="module"></script>
 </body>
 </html>
