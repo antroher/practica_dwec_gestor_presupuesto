@@ -2,9 +2,9 @@
 
 
 import * as gestionPresupuesto from './gestionPresupuesto.js';
-import { METHODS } from 'http';
 
-//Para iterar sobre un collection del node usar for...of
+
+
 function mostrarDatoEnId(idElemento, valor) {
     let elemento = document.getElementById(idElemento);
     let p = document.createElement("p");
@@ -12,7 +12,7 @@ function mostrarDatoEnId(idElemento, valor) {
     elemento.appendChild(p);
 }
 
-//aqui gasto es un array, con lo que habria que cambiarlo y meterlo todo dentro de una iteracción
+
 function mostrarGastoWeb(idElemento, gasto) {
     let elemento = document.getElementById(idElemento);
     let divGasto = document.createElement("div");
@@ -30,20 +30,20 @@ function mostrarGastoWeb(idElemento, gasto) {
     divGasto.append(gastoEtiquetas);
 
     for (let etiq of gasto.etiquetas) {
-        //Creación del objeto para Borrar Etiquetas
+        
         let nuevoObjEtiqueta = new BorrarEtiquetasHandle(); 
         nuevoObjEtiqueta.gasto = gasto;
 
-        //Creación de la etiqueta
+        
         let gastoEtiqueta = document.createElement("span");
         gastoEtiqueta.className = "gasto-etiquetas-etiqueta";
         gastoEtiqueta.innerHTML = etiq + "<br>";
         nuevoObjEtiqueta.etiqueta = etiq;
 
-        //Adjuntamos la etiqueta al div gasto-etiquetas
+        
         gastoEtiquetas.append(gastoEtiqueta);
 
-        //Creamos el manador para la etiqueta
+       
         gastoEtiqueta.addEventListener('click',nuevoObjEtiqueta);
     }
 
@@ -80,7 +80,7 @@ function mostrarGastoWeb(idElemento, gasto) {
 
     divGasto.append(btnBorrarGastoApi);
 
-    //Práctica 6:
+   
     let btnEditGastoForm = document.createElement("button");
                             btnEditGastoForm.className += 'gasto-editar-formulario';
                             btnEditGastoForm.textContent = 'Editar (formulario)';
@@ -88,9 +88,9 @@ function mostrarGastoWeb(idElemento, gasto) {
 
     let editForm = new EditarHandleformulario();
     editForm.gasto = gasto;
-    //Creamos el manejador de eventos de editar el formulario
+    
     btnEditGastoForm.addEventListener('click', editForm);
-    //adjuntamos al botón a la estructura HTML
+    
     divGasto.append(btnEditGastoForm);  
 }
 
@@ -147,7 +147,7 @@ function nuevoGastoWeb(){
     repintar();
   }
 
-/* https://stackoverflow.com/questions/2230992/javascript-creating-objects-based-on-a-prototype-without-using-new-constructo*/
+
 
 function EditarHandle() {
     this.handleEvent = function (event){
@@ -180,24 +180,23 @@ function BorrarEtiquetasHandle() {
 }
 
 function nuevoGastoWebFormulario() {
-    //Copia del formulario/template
+    
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
     var formulario = plantillaFormulario.querySelector("form");
-    //En la práctica pone que se ponga al final, pero salta error si se hace de ese modo
     let divControlesPrincipales = document.getElementById("controlesprincipales")
     divControlesPrincipales.appendChild(formulario);
     let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
     
-    //botón submit
+    
     let enviarObj = new EnviarGastoFormHandle();
     formulario.addEventListener('submit', enviarObj);
-    //botón cancelar
+    
     let cancelarObj = new CancelarFormHandle();
     let btnCancelar = formulario.querySelector("button.cancelar");
     btnCancelar.addEventListener("click", cancelarObj);
 }
 
-//Manejador del evento cancelar del formulario
+
 function CancelarFormHandle() {
     this.handleEvent = function (event){
         event.currentTarget.parentNode.remove();
@@ -207,7 +206,7 @@ function CancelarFormHandle() {
 }
 
 
-//Este handle actualizará los valores del gasto que nosotros estemos manejando
+
 function EnviarHandle(){
     this.handleEvent = function(event){
         //Evitamos que se haga el submit
@@ -241,17 +240,16 @@ function EnviarGastoFormHandle(){
     }
 }
 
-//Manejador del evento editar gasto formulario
+
 function EditarHandleformulario() {
     this.handleEvent = function (event){
 
         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
         var formulario = plantillaFormulario.querySelector("form");
-        //En el enunciado pone que se ponga al final el añadir el formulario, pero si lo haces así explota
-        //por ello primero selecciono el nodo y después adjunto el formulario al DOM.
+        
         let divControlesPrincipales = document.getElementById("controlesprincipales")
         divControlesPrincipales.appendChild(formulario);
-        //Recogemos el nodo que ha pedido el evento
+        
         let btnEditarFormulario = event.currentTarget;
         btnEditarFormulario.appendChild(formulario);
         formulario.elements.descripcion.value  = this.gasto.descripcion;
@@ -259,16 +257,16 @@ function EditarHandleformulario() {
         formulario.elements.fecha.value = new Date(this.gasto.fecha).toISOString().substr(0,10);
         formulario.elements.etiquetas.value = this.gasto.etiquetas;
 
-        //Evento para el submit del formulario
+        
         let EditarFormHandle1 = new EnviarHandle();
         EditarFormHandle1.gasto = this.gasto;
         formulario.addEventListener('submit', EditarFormHandle1);
-        //botón cancelar
+        
         let btnCancelar = formulario.querySelector("button.cancelar");
         let cancelarObj = new CancelarFormHandle();
         btnCancelar.addEventListener("click", cancelarObj);
 
-        //Desactivar -añadir atributo disabled- al botón anyadirgasto-formulario
+      
         btnEditarFormulario.setAttribute("disabled", "");
     }
 }
@@ -353,6 +351,7 @@ function GastoBorrarApiHandle() {
         })
         .catch(error => console.error(error));
     }
+}
 }
 
 function GastoEnviarApiHandle(event) {
