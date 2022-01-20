@@ -212,7 +212,7 @@ function calcularTotalGastos(){
     let acumulado = 0;
     for(let i = 0; i < gastos.length; i++)
     {
-        acumulado += gastos[i].valor;
+        acumulado += parseFloat(gastos[i].valor);
     }
     return acumulado;
 } 
@@ -236,7 +236,14 @@ function transformarListadoEtiquetas(etiquetas) {
 }
 
 function cargarGastos (listarGastos){
-    gastos = listarGastos;
+    gastos = [];
+
+    listarGastos.forEach((gasto) => {
+        let gastoRehidratado = new CrearGasto();
+        Object.assign(gastoRehidratado, gasto);
+        gastos.push(gastoRehidratado);
+    });
+    
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.

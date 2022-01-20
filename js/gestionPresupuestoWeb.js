@@ -7,6 +7,9 @@ document.getElementById("anyadirgasto").addEventListener("click",nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario").addEventListener("click",nuevoGastoWebFormulario);
 document.getElementById("formulario-filtrado").addEventListener('submit', filtrarGastoWeb);
 document.getElementById("guardar-gastos").addEventListener("click", guardarGastosWeb)
+document.getElementById("cargar-gastos").addEventListener("click", cargarGastosWeb);
+
+var id = 0;
 
 function mostrarDatoEnId(idElemento,valor){
     let elemento = document.getElementById(idElemento);
@@ -185,6 +188,10 @@ function nuevoGastoWebFormulario(){
     let cancelarEvent = new cancelarHandle();
     cancelarEvent.formulario = form;
     form.querySelector("button[class='cancelar']").addEventListener('click', cancelarEvent);
+
+    let createGastoEvent = new PostHandle();
+    createGastoEvent.formulario = form;
+    form.querySelector("button[class='gasto-enviar-api']").addEventListener('click', createGastoEvent);
 }
 
 function submitHandle(){
@@ -334,8 +341,6 @@ function guardarGastosWeb(){
     localStorage.GestorGastosDWEC = JSON.stringify(GesPresu.listarGastos());
 }
 
-document.getElementById("cargar-gastos").addEventListener("click", cargarGastosWeb);
-
 function cargarGastosWeb(){
     let newListadogasto = JSON.parse(localStorage.getItem("GestorGastosDWEC"));
 
@@ -347,6 +352,33 @@ function cargarGastosWeb(){
     }
 
     repintar();
+}
+
+function PostHandle(){
+    this.handleEvent = async function(){
+        let usu = document.getElementById("nombre_usuario").value
+        
+        let gasto = {
+            descripcion: this.formulario.descripcion.value,
+            valor: this.formulario.valor.value,
+            fecha: this.formulario.fecha.value,
+            etiquetas: (typeof this.formulario.etiquetas.value !== "undefined") ? this.formulario.etiquetas.value.split(",") : undefined,
+            id: id
+        }
+
+        let response = await fetch(
+            `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usu}`,{
+                method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            }, 
+            body: JSON.stringify(gasto)
+            });
+
+            if(response.ok){
+                id++;
+            }
+        }   
 }
 
 
