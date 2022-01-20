@@ -58,7 +58,19 @@ function mostrarGastoWeb(idElemento, gasto) {
     let editForm = new editHandleForm();
     editForm.gasto = gasto;
     btnEditGastoForm.addEventListener('click', editForm);
-    div.append(btnEditGastoForm);  
+    div.append(btnEditGastoForm);
+
+    let btnBorrarGastoApi = document.createElement("button");
+                            btnBorrarGastoApi.className += 'gasto-borrar-api';
+                            btnBorrarGastoApi.textContent = 'Borrar (API)';
+                            btnBorrarGastoApi.type = 'button';
+
+    let objBorrarGastoApi = new BorrarGastoApiHandle();
+    objBorrarGastoApi.gasto = gasto;
+    btnBorrarGastoApi.addEventListener("click", objBorrarGastoApi);
+
+    divGasto.append(btnBorrarGastoApi);
+
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -123,6 +135,8 @@ function nuevoGastoWebFormulario() {
     let cancelObject = new cancelFormHandle();
     let btnCancel = formulario.querySelector("button.cancelar");
     btnCancel.addEventListener("click", cancelObject);
+    let apiEnviar = formulario.querySelector("button.gasto-enviar-api");
+    enviarApi.addEventListener("click", EnviarGastoApi);
 }
 
 function EditarHandle() {
@@ -296,6 +310,8 @@ function CargarGastosApi() {
             .catch(err => console.error(err));
     }
 }
+
+
 
 
 export {
