@@ -475,16 +475,16 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
     }
 }
 
-function enviarGastoApi(){
+function enviarGastoApi(e){
 
-    this.handleEvent = function(e)
-    {
+    
+    
 
     
         let usuario = document.getElementById("nombre_usuario").value;
         let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
 
-        let formulario = e.currentTarget;
+        let formulario = e.currentTarget.form;
         let descripcion1 = formulario.elements.descripcion.value;
         let valor1 = formulario.elements.valor.value;
         let fecha1 = formulario.elements.fecha.value;
@@ -529,7 +529,7 @@ function enviarGastoApi(){
             })
             .catch(err => console.error(err));
         }
-    }
+    
 }
 
    
