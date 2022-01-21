@@ -262,7 +262,7 @@ function editarApiHandle(){
 
         let nomApe = document.getElementById('nombre_usuario').value;
 
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nomApe}/${gasto.gastoId}`;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nomApe}/${this.gasto.gastoId}`;
 
         if (nomApe != ''){
 
@@ -279,14 +279,14 @@ function editarApiHandle(){
                 etiquetas: eti
             };
             
-            fetch (url, {method: 'POST', headers:{'Content-Type': 'application/json;charset=utf-8'}, body: JSON.stringify(gastoApi)})
+            fetch (url, {method: 'PUT', headers:{'Content-Type': 'application/json;charset=utf-8'}, body: JSON.stringify(gastoApi)})
             .then(function(respuesta) {
                 if(respuesta.ok){
-                    alert('El gasto se ha creado correctamente');
+                    alert('El gasto se ha editado correctamente');
                     cargarGastosApi();
                 }
                 else{
-                    alert('Error ' + respuesta.status + ': no se ha podido crear el gasto correctamente en la Api');
+                    alert('Error ' + respuesta.status + ': no se ha podido editar el gasto correctamente en la Api');
                 }   
             })
             .catch(errors => alert(errors));
@@ -396,8 +396,10 @@ function EditarHandleFormulario(){
         bCancelarForm.addEventListener('click', canForm);
 
         //Editar Api
+        let objediApi = new editarApiHandle();
+        objediApi.gasto = this.gasto;
         let ediApi = formulario.querySelector("button.gasto-enviar-api");
-        ediApi.addEventListener('click', new editarApiHandle());
+        ediApi.addEventListener('click', objediApi);
 
     }
 
