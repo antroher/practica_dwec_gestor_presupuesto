@@ -347,22 +347,46 @@ btnGuardarGastWeb.addEventListener("click", guardarGastWeb);
 btncargarGastWeb.addEventListener("click", cargarGastWeb);
 
 function CargarGastosApi() {
-    let user = document.querySelector("#nombre_usuario").value;
-    let page = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
+    let usuario = document.querySelector("#nombre_usuario").value;
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
     
-    if (user != '') {
-        fetch(page, {method: 'GET'})
+    if (usuario != '') {
+        fetch(url, {method: 'GET'})
             .then(respuesta => respuesta.json())
             .then((result) => {
                 let resultado = result;
                 if(resultado == "") {
-                    console.log("No existen gastos en la api para este usuario. Esto es solo para rellenar")
+                    console.log("No existen gastos en la api para el usuario")
                 } else {
                     gestionPresupuesto.cargarGastos(resultado);
+                    console.log("Miau cargasGastosApi")
                     repintar();
                 }
                 })
             .catch(err => console.error(err));
+    }
+}
+
+function BorrarGastoApiHandle(){
+    
+    this.handleEvent = function(event){
+        let usuario = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+
+        if (usuario == "") {
+            console.log("Introduzca un nombre");
+        } else {
+            fetch(url, {method: 'DELETE'})
+            .then(response => response.json())
+            .then(datos => {
+                if(!datos.errorMessage){
+                    CargarGastosApi();
+                } else {
+                    console.log(datos.errorMessage);
+                }
+            })
+            .catch(err => console.error(err));
+        }
     }
 }
 
