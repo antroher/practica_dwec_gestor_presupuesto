@@ -10,6 +10,14 @@ botonActualizar.addEventListener('click', actualizarPresupuestoWeb)
 let botonAnyadir = document.getElementById("anyadirgasto");
 botonAnyadir.addEventListener('click', nuevoGastoWeb);
 
+let botonAyadirGastoForm = document.getElementById("anyadirgasto-formulario");
+botonAyadirGastoForm.addEventListener('click', nuevoGastoWebFormulario);
+
+document.getElementById("formulario-filtrado").addEventListener("submit",filtrarGastoWeb);
+document.getElementById("cargar-gastos").addEventListener("click", cargarGastosWeb);
+document.getElementById("guardar-gastos").addEventListener("click", guardarGastosWeb)
+document.getElementById("cargar-gastos-api").addEventListener('click', cargarGastosApi)
+
 function mostrarDatoEnId(idElemento,valor){
     let elemento = document.getElementById(idElemento);
     elemento.innerHTML = `<p>${valor}</p>`
@@ -81,6 +89,14 @@ function mostrarGastoWeb(idElemento,gastos){
             botonEditarForm.setAttribute('id', `gasto-editar-formulario-${gasto.id}`)
             botonEditarForm.textContent = 'Editar (Formulario)'
 
+            //Creación del boton de borrar gastoAPI y su objeto manejador de eventos.
+            let buttonAPIDelete = document.createElement("button");
+            buttonAPIDelete.className = 'gasto-borrar-api'
+            buttonAPIDelete.textContent = 'Borrar (API)';
+
+            let deleteAPIEvent = new borrarApiHandle();
+            deleteAPIEvent.gasto = gasto; 
+            buttonAPIDelete.addEventListener('click', deleteAPIEvent);
             //ELEMENTO VACIO PARA SEPARAR LOS GASTOS
             let divVacio = document.createElement('div');
             divVacio.className = 'salto';
@@ -212,10 +228,12 @@ function nuevoGastoWebFormulario(){
     let EventoSubmitForm = new submitFormHandle();
     EventoSubmitForm.formulario = formulario;
     formulario.addEventListener('submit', EventoSubmitForm);
+
+    let submitApiEvent = new submitApiHandle();
+    submitApiEvent.formulario = form;
+    form.querySelector("button[class='gasto-enviar-api']").addEventListener('click', submitApiEvent);
 }
-//AGREGAR FUNCIÓN AL BOTON AÑADIR GASTO FORMULARIO
-let botonAyadirGastoForm = document.getElementById("anyadirgasto-formulario");
-botonAyadirGastoForm.addEventListener('click', nuevoGastoWebFormulario);
+
 
 //EVENTO BOTÓN CANCELAR
 function cancelarFromHandle(){
@@ -278,6 +296,12 @@ function EditarHandleFormulario(){
         EventoBotonSubmit.gasto = this.gasto;
         formulario.addEventListener('submit', EventoBotonSubmit);
 
+        let editApiEvent = new editApiHandle();
+        editApiEvent.formulario = form;
+        editApiEvent.gasto = this.gasto;
+        form.querySelector("button[class='gasto-enviar-api']").addEventListener('click', editApiEvent);
+
+
     }
 }
 
@@ -336,17 +360,13 @@ function filtrarGastoWeb (){
     mostrarGastoWeb("listado-gastos-completo",gastosFiltrados);
 }
 
-//Evento boton enviar en form Filtrar Gastos.
-document.getElementById("formulario-filtrado").addEventListener("submit",filtrarGastoWeb);
 
 //T.8
-document.getElementById("guardar-gastos").addEventListener("click", guardarGastosWeb)
 
 function guardarGastosWeb(){
     localStorage.GestorGastosDWEC = JSON.stringify(gesPre.listarGastos());
 }
 
-document.getElementById("cargar-gastos").addEventListener("click", cargarGastosWeb);
 
 function cargarGastosWeb(){
     let newListadogasto = JSON.parse(localStorage.getItem("GestorGastosDWEC"));
@@ -360,6 +380,122 @@ function cargarGastosWeb(){
 
     repintar();
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+async function cargarGastosApi () {
+    //Obtener el nombre de usuario mediante la propiedad "value" del input y si esta vacía pedirla al usuario.
+    if (document.getElementById("nombre_usuario").value === "") {
+        let nombreUsuario = prompt("Introduzca el nombre de usuario");
+        document.getElementById("nombre_usuario").value = nombreUsuario;
+    }
+     
+    //Obtener mediante fetch la lista de gastos de la API con nuestra URL personal.
+    let response = await fetch(
+        `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${document.getElementById("nombre_usuario").value}`,
+        {method: 'GET'})
+
+    //Comprobación de si la respuesta ha sido correcta.
+    if (response.ok) {
+        let listaGastoJSON = await response.json();
+        gesPre.cargarGastos(listaGastoJSON);
+        repintar();
+    }
+    else {
+        console.log(`Error de HTTP -> ${response.status}`);
+    }
+}
+
+function submitApiHandle() {
+    this.handleEvent = async function() {
+        //Obtener el nombre de usuario mediante la propiedad "value" del input y si esta vacía pedirla al usuario.
+        if (document.getElementById("nombre_usuario").value === "") {
+            let nombreUsuario = prompt("Introduzca el nombre de usuario");
+            document.getElementById("nombre_usuario").value = nombreUsuario;
+        }
+
+        //Obtener el cuerpo del gasto mediante la propiedad "value" de los inputs del formulario y crear un objeto con los valores.
+        let gasto = {
+            descripcion: this.formulario.descripcion.value,
+            valor: this.formulario.valor.value,
+            fecha: this.formulario.fecha.value,
+            etiquetas: (typeof this.formulario.etiquetas.value !== "undefined") ? this.formulario.etiquetas.value.split(",") : undefined,
+            id: id
+        }
+        
+        //Realización del POST del gasto mediante el metodo fecth.
+        let response = await fetch(
+            `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${document.getElementById("nombre_usuario").value}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            }, 
+            //Casteo del objeto a JSON.
+            body: JSON.stringify(gasto)
+        });
+        
+        if (response.ok) {
+            id++;
+        }
+    }
+} 
+
+function editApiHandle() {
+    this.handleEvent = async function() {
+        //Obtener el nombre de usuario mediante la propiedad "value" del input y si esta vacía pedirla al usuario.
+        if (document.getElementById("nombre_usuario").value === "") {
+            let nombreUsuario = prompt("Introduzca el nombre de usuario");
+            document.getElementById("nombre_usuario").value = nombreUsuario;
+        }
+
+        //Actualización de los datos del gasto.
+        this.gasto.actualizarDescripcion(this.formulario.descripcion.value);
+        this.gasto.actualizarValor(this.formulario.valor.value);
+        this.gasto.actualizarFecha(this.formulario.fecha.value);
+        this.gasto.etiquetas = (typeof this.formulario.etiquetas.value !== "undefined") ? this.formulario.etiquetas.value.split(",") : this.gasto.etiquetas;
+        
+
+        //Realización del PUT del gasto mediante el metodo fetch.
+        let response = await fetch(
+            `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${document.getElementById("nombre_usuario").value}/${this.gasto.gastoId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            }, 
+            //Casteo del objeto a JSON.
+            body: JSON.stringify(this.gasto)
+        });
+
+        if(response.ok) {
+            cargarGastosApi();
+        }
+        else {
+            console.log(`Error de HTTP -> ${response.status}`);
+        }
+    }
+}
+
+function borrarApiHandle() {
+    this.handleEvent  = async function () {
+        //Obtener el nombre de usuario mediante la propiedad "value" del input y si esta vacía pedirla al usuario.
+    if (document.getElementById("nombre_usuario").value === "") {
+        let nombreUsuario = prompt("Introduzca el nombre de usuario");
+        document.getElementById("nombre_usuario").value = nombreUsuario;
+    }
+
+    let response = await fetch(
+        `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${document.getElementById("nombre_usuario").value}/${this.gasto.gastoId}`, {
+        method: 'DELETE'
+    });
+
+    if(response.ok) {
+        cargarGastosApi();
+    }
+    else {
+        console.log(`Error de HTTP -> ${response.status}`);
+    }
+    }
+}
+
 
 //El export de las funciones
 export{
