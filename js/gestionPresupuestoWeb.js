@@ -201,8 +201,6 @@ function cancelarGastoHandle() {
     }
 }
 
-
-
 function EditarHandle() {
     this.handleEvent = function (evento) {
         let descri = prompt("Introduce la descripción nueva: ", this.gasto.descripcion);
