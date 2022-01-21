@@ -55,11 +55,11 @@ function mostrarGastoWeb(idElemento, gasto) {
                             btnApiGastDelete.textContent = 'Borrar (API)';
                             btnApiGastDelete.type = 'button';
 
-    let dltApiObj = new BorrarGastoApiHandle();
+    let dltApiObj = new apiDeleteHandle();
     dltApiObj.gasto = gasto;
     btnApiGastDelete.addEventListener("click", dltApiObj);
 
-    divGasto.append(btnApiGastDelete);
+    div.append(btnApiGastDelete);
 
     let btnEditGastoForm = document.createElement("button");
     btnEditGastoForm.className += 'gasto-editar-formulario';
@@ -72,8 +72,15 @@ function mostrarGastoWeb(idElemento, gasto) {
     div.append(btnEditGastoForm);  
 }
 
-function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
-    const elem = document.getElementById(idElemento);
+function mostrarGastosAgrupadosWeb(id, agrup, periodo){
+    // Obtener la capa donde se muestran los datos agrupados por el período indicado.
+    // Seguramente este código lo tengas ya hecho pero el nombre de la variable sea otro.
+    // Puedes reutilizarlo, por supuesto. Si lo haces, recuerda cambiar también el nombre de la variable en el siguiente bloque de código
+    var divP = document.getElementById(id);
+    // Borrar el contenido de la capa para que no se duplique el contenido al repintar
+    console.log(divP);
+    divP.innerHTML = "";
+    const elem = document.getElementById(id);
     let datos = ""
     for (let [key, val] of Object.entries(agrup)) {
         datos += 
@@ -85,17 +92,76 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     elem.innerHTML += 
     `<div class="agrupacion">
         <h1>Gastos agrupados por ${periodo}</h1>
-        ${datos}`    
+        ${datos}`
+    // Estilos
+    divP.style.width = "33%";
+    divP.style.display = "inline-block";
+    // Crear elemento <canvas> necesario para crear la gráfica
+    // https://www.chartjs.org/docs/latest/getting-started/
+    let chart = document.createElement("canvas");
+    // Variable para indicar a la gráfica el período temporal del eje X
+    // En función de la variable "periodo" se creará la variable "unit" (anyo -> year; mes -> month; dia -> day)
+    let unit = "";
+    switch (periodo) {
+    case "anyo":
+        unit = "year";
+        break;
+    case "mes":
+        unit = "month";
+        break;
+    case "dia":
+    default:
+        unit = "day";
+        break;
+}
+
+// Creación de la gráfica
+// La función "Chart" está disponible porque hemos incluido las etiquetas <script> correspondientes en el fichero HTML
+const myChart = new Chart(chart.getContext("2d"), {
+    // Tipo de gráfica: barras. Puedes cambiar el tipo si quieres hacer pruebas: https://www.chartjs.org/docs/latest/charts/line.html
+    type: 'bar',
+    data: {
+        datasets: [
+            {
+                // Título de la gráfica
+                label: `Gastos por ${periodo}`,
+                // Color de fondo
+                backgroundColor: "#555555",
+                // Datos de la gráfica
+                // "agrup" contiene los datos a representar. Es uno de los parámetros de la función "mostrarGastosAgrupadosWeb".
+                data: agrup
+            }
+        ],
+        },
+        options: {
+            scales: {
+                x: {
+                    // El eje X es de tipo temporal
+                    type: 'time',
+                    time: {
+                        // Indicamos la unidad correspondiente en función de si utilizamos días, meses o años
+                        unit: unit
+                    }
+                },
+                y: {
+                    // Para que el eje Y empieza en 0
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    // Añadimos la gráfica a la capa
+    divP.append(chart); 
 }
 
 function repintar() {
     let pres = gesPres.mostrarPresupuesto();
     mostrarDatoEnId( "presupuesto", pres);
     
-    let gasTot = gesPres.calcularTotalGastos().toFixed(2);
+    let gasTot = gesPres.calcularTotalGastos();
     mostrarDatoEnId( "gastos-totales", gasTot);
     
-    let balTot = gesPres.calcularBalance().toFixed(2);
+    let balTot = gesPres.calcularBalance();
     mostrarDatoEnId("balance-total", balTot);
     
     let borrarDatos = document.getElementById("listado-gastos-completo").innerHTML = "";
@@ -104,6 +170,17 @@ function repintar() {
     for (const x of gasList) {
         mostrarGastoWeb("listado-gastos-completo", x);
     }
+
+    let day = mostrarGastosAgrupadosWeb();
+    mostrarDatoEnId("agrupacion-dia", day);
+
+    let month = mostrarGastosAgrupadosWeb();
+    mostrarDatoEnId("agrupacion-mes", month);
+
+    let year = mostrarGastosAgrupadosWeb();
+    mostrarDatoEnId("agrupacion-anyo", year);
+
+
 }
 
 function actualizarPresupuestoWeb()  {
@@ -310,28 +387,25 @@ let chrgGastWeb = new cargarGastosWeb();
 // }
 
 function cargarGastosApi(){
+    let user = document.getElementById('nombre_usuario').value;
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
 
-    this.handleEvent = function(event){
-
-        let user = document.getElementById('nombre_usuario').value;
-
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
-
-        if (user != ''){
-            fetch (url, {method: 'GET'})
-                .then(respuesta => respuesta.json())
-                .then(function(gastosApi) {
-                    gesPres.cargarGastos(gastosApi);
-                    repintar();
-                })
-                .catch(errors => alert(errors));
-        }
-        else{
-            alert('Introduce un nombre.');
-        }
+    if (user != ''){
+        fetch (url, {method: 'GET'})
+        .then(respuesta => respuesta.json())
+        .then((result) => {
+            let res = result;
+            if(res == '') {
+                console.log(`No existen gastos del usuario ${user}`);
+            } else{
+                gesPres.cargarGastos(res);
+                console.log("Cargando gastos...");
+                repintar();
+            }
+        })
+        .catch(error => console.error(error));
     }
 }
-document.getElementById('cargar-gastos-api').addEventListener('click', new cargarGastosApi);
 
 // function apiGastSend(event){
 //     let user = document.getElementById("nombre_usuario").value;
@@ -424,134 +498,104 @@ document.getElementById('cargar-gastos-api').addEventListener('click', new carga
 //     }
 // }
 function apiSendHandle(){
-    this.handleEvent = function(event){
+    let user = document.getElementById("nombre_usuario").value;
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
 
-        let user = document.getElementById('nombre_usuario').value;
+    let form = event.currentTarget.form;
+    let desc = form.elements.descripcion.value;
+    let value = form.elements.valor.value;
+    let date = form.elements.fecha.value;
+    let eti = form.elements.fecha.value;
 
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
+    value = parseFloat(value);
+    eti = etiquetas.split(",");
 
-        if (user != ''){
+    let newObjeto = {
+        descripcion: desc,
+        fecha: date,
+        valor: value,
+        etiquetas: eti
+    }
 
-            var form = document.querySelector("#controlesprincipales form");
-            let des = form.elements.descripcion.value;
-            let val = parseFloat(form.elements.valor.value);
-            let fec = form.elements.fecha.value;
-            let eti = form.elements.etiquetas.value.split(',');
-
-            let gastoApi = {
-                descripcion: des,
-                valor: val,
-                fecha: fec,
-                etiquetas: eti
-            };
-
-            fetch (url, {method: 'POST', headers:{'Content-Type': 'application/json;charset=utf-8'}, body: JSON.stringify(gastoApi)})
-                .then(function(respuesta) {
-                    if(respuesta.ok){
-                        alert('El gasto se ha creado correctamente');
-                        cargarGastosApi();
-                    }
-                    else{
-                        alert('Error ' + respuesta.status + ': no se ha podido crear el gasto correctamente en la Api');
-                    }   
-                })
-                .catch(errors => alert(errors));
-        }
-        else{
-            alert('Introduce un nombre.');
-        }
+    if(user != "") {
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(newObjeto),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if(response.ok){
+                cargarGastosApi();
+            }
+            else{
+                console.log("Error");
+            }
+        })
+        .catch(error => console.error(error));
     }
 }
+
 function apiEditHandle(){
     this.handleEvent = function(event){
+        let user = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+        
+        let form = event.currentTarget.form;
+        let desc = form.elements.descripcion.value;
+        let value = form.elements.valor.value;
+        let date = form.elements.fecha.value;
+        let eti = form.elements.fecha.value;
+    
+        value = parseFloat(value);
+        eti = etiquetas.split(",");
 
-        let user = document.getElementById('nombre_usuario').value;
+        let newObjeto = {
+            descripcion: desc,
+            fecha: date,
+            valor: value,
+            etiquetas: eti
+        }
 
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}/${gasto.gastoId}`;
-
-        if (user != ''){
-
-            var form = document.querySelector('.gasto form');
-            let des = form.elements.descripcion.value;
-            let val = parseFloat(form.elements.valor.value);
-            let fec = form.elements.fecha.value;
-            let eti = form.elements.etiquetas.value.split(',');
-
-            let gastoApi = {
-                descripcion: des,
-                valor: val,
-                fecha: fec,
-                etiquetas: eti
-            };
-            
-            fetch (url, {method: 'POST', headers:{'Content-Type': 'application/json;charset=utf-8'}, body: JSON.stringify(gastoApi)})
-            .then(function(respuesta) {
-                if(respuesta.ok){
-                    alert('Gasto creado correctamente');
+        if(user != "") {
+            fetch(url, {
+                method: 'PUT',
+                body: JSON.stringify(newObjeto),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if(response.ok){
                     cargarGastosApi();
                 }
                 else{
-                    alert('Error ' + respuesta.status + ': el gasto no se ha podido crear correctamente');
-                }   
+                    console.log("Error al editar");
+                }
             })
-            .catch(errors => alert(errors));
-        }
-        else{
-            alert('Introduce un nombre.');
+            .catch(error => console.error(error));
         }
     }
 }
 
 function apiDeleteHandle(){
     this.handleEvent = function(event){
-
-        let nomApe = document.getElementById('nombre_usuario').value;
-
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nomApe}/${this.gasto.gastoId}`;
-
-        if (nomApe != ''){
-            fetch (url, {method: 'DELETE'})
-                .then(function(gastosApi) {
-                    if(respuesta.ok){
-                        alert('El gasto se ha borrado correctamente');
-                        cargarGastosApi(gastosApi);
-                    }
-                    else{
-                        alert('Error ' + respuesta.status + ': el id introducido del gasto es inexistente');
-                    }
-
-                })
-                .catch(errors => alert(errors));
-        }
-        else{
-            alert('Introduce un nombre.');
-        }
-    }
-}
-
-function apiDeleteHandle(){
-    this.handleEvent = function(event){
-
-        let user = document.getElementById('nombre_usuario').value;
-
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}/${this.gasto.gastoId}`;
-
-        if (user != ''){
-            fetch (url, {method: 'DELETE'})
-                .then(function(gastosApi) {
-                    if(respuesta.ok){
-                        alert('El gasto se ha borrado correctamente');
-                        cargarGastosApi(gastosApi);
-                    }
-                    else{
-                        alert('Error ' + respuesta.status + ': el id introducido del gasto es inexistente');
-                    }
-
-                })
-                .catch(errors => alert(errors));
-        }
-        else{
-            alert('Introduce un nombre.');
+        let nombre = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombre}/${this.gasto.gastoId}`;
+        
+        if(nombre != "") {
+        fetch(url, {method: 'DELETE'})
+        .then(response => response.json())
+        .then(datos => {
+            if(!datos.errorMessage){
+                cargarGastosApi();
+            }
+            else{
+                console.log(datos.errorMessage);
+            }
+        })
+        .catch(error => console.error(error));
         }
     }
 }
