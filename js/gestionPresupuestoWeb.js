@@ -283,7 +283,7 @@ function nuevoGastoWebFormulario() {
     btnCancelar.addEventListener("click", cancelarObj);
 
     let apiEnviar = formulario.querySelector("button.gasto-enviar-api");
-    enviarApi.addEventListener("click", EnviarGastoApi);
+    apiEnviar.addEventListener("click", EnviarGastoApi);
 }
 
 //Manejador del evento cancelar del formulario
