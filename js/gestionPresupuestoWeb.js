@@ -195,6 +195,12 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
         {
             mostrarGastoWeb("listado-gastos-completo", lista);
         }
+
+    mostrarGastosAgrupadosWeb('agrupacion-dia',agruparGastos("dia"),"día");
+
+    mostrarGastosAgrupadosWeb('agrupacion-mes',agruparGastos("mes"),"mes");
+        
+    mostrarGastosAgrupadosWeb('agrupacion-anyo',agruparGastos("anyo"),"año");
     }
 
     function actualizarPresupuestoWeb(){
