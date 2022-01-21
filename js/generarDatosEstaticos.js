@@ -1,3 +1,4 @@
+'use strict';
 import {mostrarDatoEnId, mostrarGastoWeb,mostrarGastosAgrupadosWeb} from './gestionPresupuestoWeb.js';
 import {mostrarPresupuesto}    from './gestionPresupuesto.js';
 import {CrearGasto} from './gestionPresupuesto.js';

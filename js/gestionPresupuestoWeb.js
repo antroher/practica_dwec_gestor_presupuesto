@@ -1,3 +1,4 @@
+'use strict';
 import {cargarGastos, mostrarPresupuesto}    from './gestionPresupuesto.js';
 import {CrearGasto} from './gestionPresupuesto.js';
 import {listarGastos} from './gestionPresupuesto.js';
@@ -82,6 +83,19 @@ function mostrarGastoWeb(idElemento,gasto)
     manejadorEditarForm.gasto = gasto;
     botEditarForm.addEventListener("click", manejadorEditarForm);
     div.append(botEditarForm)
+
+    elemento.append(div);
+
+    let botonBorrarApi = document.createElement("button");
+    botonBorrarApi.className = "gasto-borrar-api";
+    botonBorrarApi.id = "gasto-borrar-api";
+    botonBorrarApi.type = "button";
+    botonBorrarApi.textContent = "Borrar (Api)";
+    // evento borrar gasto api
+    let eventBorrarGastoApi = new borrarGastoApi();
+    eventBorrarGastoApi.gasto = gasto;
+    botonBorrarApi.addEventListener("click", eventBorrarGastoApi);
+    div.append(botonBorrarApi)
 
     elemento.append(div);
 
@@ -216,7 +230,10 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
             let manejadorCancelar = new eventoCancelar();
            
             let botonCancelar = formulario.querySelector("button.cancelar");
-            botonCancelar.addEventListener("click", manejadorCancelar);   
+            botonCancelar.addEventListener("click", manejadorCancelar);
+            
+            let enviarApi = formulario.querySelector("button.gasto-enviar-api");
+            enviarApi.addEventListener("click", enviarGastoApi);
         
     }
 
@@ -401,15 +418,29 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
         let usuario = document.getElementById("nombre_usuario").value;
         let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
     
-        fetch(url, {method: 'GET'})
-        .then(response => response.json())
-        .then((result) => { 
+        if(usuario == "")
+        {
+            console.log("El input del nombre de usuario esta vacio");
+        }
+        else
+        {
+            fetch(url, {method: 'GET'})
+            .then(response => response.json())
+            .then((result) => { 
             let resultado = result;
-            gestionPresupuesto.cargarGastos(resultado);
+        if(resultado == "")
+        {
+            console.log("No existen gastos en la api para el usuario")
+        }
+        else
+        {
+            cargarGastos(resultado);
             repintar();
-        })
-        .catch(err => console.error(err));
+        }
+    })
+    .catch(err => console.error(err));
     }
+}
 
     let botonGastosApi = document.getElementById("cargar-gastos-api");
         botonGastosApi.addEventListener("click", cargarGastosApi);
@@ -417,7 +448,8 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
     function borrarGastoApi()
     {
 
-    this.handleEvent = function(e){
+    this.handleEvent = function(e)
+    {
         let usuario = document.getElementById("nombre_usuario").value;
         let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
 
@@ -441,16 +473,62 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
             .catch(err => console.error(err));
         }
     }
-    let botonBorrarApi = document.createElement("button");
-    botonBorrarApi.className = "gasto-borrar-api";
-    botonBorrarApi.id = "gasto-borrar-api";
-    botonBorrarApi.type = "button";
-    botonBorrarApi.textContent = "Borrar (Api)";
-    // evento borrar gasto api
-    let eventBorrarGastoApi = new borrarGastoApi();
-    eventBorrarGastoApi.gasto = gasto;
-    botonBorrarApi.addEventListener("click", eventBorrarGastoApi);
 }
+
+function enviarGastoApi(e){
+
+        let usuario = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
+
+        let formulario = e.currentTarget.form;
+        let descripcion1 = formulario.elements.descripcion.value;
+        let valor1 = formulario.elements.valor.value;
+        let fecha1 = formulario.elements.fecha.value;
+        let etiquetas1 = formulario.elements.etiquetas.value;
+
+        valor1 = parseFloat(valorN);
+        etiquetas1 = etiquetas1.split(",");
+
+        let objeto = {
+            descripcion: descripcion1,
+            fecha: fecha1,
+            valor: valor1,
+            etiquetas: etiquetas1
+        }
+
+        console.log(objeto);
+
+        if(usuario == "")
+        {
+            console.log("El input del nombre de usuario esta vacio");
+        }
+        else
+        {
+            fetch(url, {
+                method: 'POST', 
+                body: JSON.stringify(objeto),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+
+                if(response.ok)
+                {
+                    console.log("La peticion se ha realizado correctamente");
+                    cargarGastosApi();
+                }
+                else
+                {
+                    console.log("La peticion no se ha realizado correctamente ");
+                }
+            })
+            .catch(err => console.error(err));
+        }
+}
+
+   
+
 
 export   {
     mostrarDatoEnId,
