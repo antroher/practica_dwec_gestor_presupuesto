@@ -186,35 +186,34 @@ function mostrarGastosAgrupadosWeb( idElemento, agrup, periodo ){
     divP.append(chart);
 }
 
-function repintar() {
-    let mostrar = gestionPresupuesto.mostrarPresupuesto();
-    mostrarDatoEnId( "presupuesto",mostrar);
+function repintar(){
     
-    let gastoTotal = gestionPresupuesto.calcularTotalGastos().toFixed(2);
-    mostrarDatoEnId( "gastos-totales",gastoTotal);
-    
-    let balanceTotal = gestionPresupuesto.calcularBalance().toFixed(2);
-    mostrarDatoEnId("balance-total",balanceTotal);
-    
-    let borrarDatos = document.getElementById("listado-gastos-completo").innerHTML = "";
-    
-    let listaGasto = gestionPresupuesto.listarGastos();
-    for (const gasto of listaGasto) {
-        mostrarGastoWeb("listado-gastos-completo", gasto);
-    }
-     
+    mostrarDatoEnId("presupuesto", gesPres.mostrarPresupuesto());
+    mostrarDatoEnId("gastos-totales", gesPres.calcularTotalGastos());
+    mostrarDatoEnId("balance-total", gesPres.calcularBalance());
+
+    document.getElementById("listado-gastos-completo").innerHTML = "";
+
+    let listaGastos = gesPres.listarGastos();
+    for(let gasto of listaGastos){
+    mostrarGastoWeb("listado-gastos-completo", gasto);
+  }
+
     let periodoDia = "dia";
-    let gastosDia = gestionPresupuesto.agruparGastos(periodoDia);
+    let gastosDia = gesPres.agruparGastos(periodoDia);
     mostrarGastosAgrupadosWeb("agrupacion-dia", gastosDia, "día");
 
     let periodoMes = "mes";
-    let gastosMes = gestionPresupuesto.agruparGastos(periodoMes);
+    let gastosMes = gesPres.agruparGastos(periodoMes);
     mostrarGastosAgrupadosWeb("agrupacion-mes", gastosMes, "mes");
 
     let periodoAnyo = "anyo";
-    let gastosAnyo = gestionPresupuesto.agruparGastos(periodoAnyo);
+    let gastosAnyo = gesPres.agruparGastos(periodoAnyo);
     mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAnyo, "año");
+
+
 }
+
 
 function actualizarPresupuestoWeb() {
     let presupuesto = parseFloat(prompt("Introduzca un presupuesto: "))
