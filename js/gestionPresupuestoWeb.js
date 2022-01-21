@@ -69,7 +69,7 @@ function mostrarGastoWeb(idElemento, gasto) {
     objBorrarGastoApi.gasto = gasto;
     btnBorrarGastoApi.addEventListener("click", objBorrarGastoApi);
 
-    divGasto.append(btnBorrarGastoApi);
+    div.append(btnBorrarGastoApi);
 
 }
 
@@ -135,7 +135,7 @@ function nuevoGastoWebFormulario() {
     let cancelObject = new cancelFormHandle();
     let btnCancel = formulario.querySelector("button.cancelar");
     btnCancel.addEventListener("click", cancelObject);
-    let apiEnviar = formulario.querySelector("button.gasto-enviar-api");
+    let enviarApi = formulario.querySelector("button.gasto-enviar-api");
     enviarApi.addEventListener("click", EnviarGastoApi);
 }
 
