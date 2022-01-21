@@ -94,87 +94,96 @@ function mostrarGastoWeb(idElemento, gasto) {
     divGasto.append(btnEditGastoForm);  
 }
 
-function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
+function mostrarGastosAgrupadosWeb( idElemento, agrup, periodo ){
+    // Crea dentro del elemento HTML con id idElemento indicado una estructura HTML para el objeto agrup que se pase como parámetro
+
     // Obtener la capa donde se muestran los datos agrupados por el período indicado.
     // Seguramente este código lo tengas ya hecho pero el nombre de la variable sea otro.
     // Puedes reutilizarlo, por supuesto. Si lo haces, recuerda cambiar también el nombre de la variable en el siguiente bloque de código
-    var divP = document.getElementById(id);
+    var divP = document.getElementById(idElemento);
     // Borrar el contenido de la capa para que no se duplique el contenido al repintar
     divP.innerHTML = "";
-    const elemento = document.getElementById(idElemento);
-    let data = ""
-    for (let [key, value] of Object.entries(agrup)) {
-        data += `
-        <div class="agrupacion-dato">
-            <span class="agrupacion-dato-clave">${key}</span>
-            <span class="agrupacion-dato-valor">${value}</span>
-        </div>`
-    };
-    elemento.innerHTML += 
-    `
-    <div class="agrupacion">
-        <h1>Gastos agrupados por ${periodo}</h1>
-        ${data}
-    `
-    // Estilos
-divP.style.width = "33%";
-divP.style.display = "inline-block";
-// Crear elemento <canvas> necesario para crear la gráfica
-// https://www.chartjs.org/docs/latest/getting-started/
-let chart = document.createElement("canvas");
-// Variable para indicar a la gráfica el período temporal del eje X
-// En función de la variable "periodo" se creará la variable "unit" (anyo -> year; mes -> month; dia -> day)
-let unit = "";
-switch (periodo) {
-case "anyo":
-    unit = "year";
-    break;
-case "mes":
-    unit = "month";
-    break;
-case "dia":
-default:
-    unit = "day";
-    break;
-}
+        
+    //let mostrarAgrupacion = document.getElementById(idElemento);
+        let arrayAgrupacion = "";
 
-// Creación de la gráfica
-// La función "Chart" está disponible porque hemos incluido las etiquetas <script> correspondientes en el fichero HTML
-const myChart = new Chart(chart.getContext("2d"), {
-    // Tipo de gráfica: barras. Puedes cambiar el tipo si quieres hacer pruebas: https://www.chartjs.org/docs/latest/charts/line.html
-    type: 'bar',
-    data: {
-        datasets: [
-            {
-                // Título de la gráfica
-                label: `Gastos por ${periodo}`,
-                // Color de fondo
-                backgroundColor: "#555555",
-                // Datos de la gráfica
-                // "agrup" contiene los datos a representar. Es uno de los parámetros de la función "mostrarGastosAgrupadosWeb".
-                data: agrup
-            }
-        ],
-    },
-    options: {
-        scales: {
-            x: {
-                // El eje X es de tipo temporal
-                type: 'time',
-                time: {
-                    // Indicamos la unidad correspondiente en función de si utilizamos días, meses o años
-                    unit: unit
+        // Añado el array de los gastos agrupados por un periodo
+        for( let [nombre, valor] of Object.entries( agrup ) ){
+            arrayAgrupacion += `
+                <div class="agrupacion-dato">
+                    <span class="agrupacion-dato-clave">${nombre}</span>
+                    <span class="agrupacion-dato-valor">${valor}</span>
+                </div>
+            `;
+        }
+
+        // Voy añadiendo la agrupacones de gastos
+        divP.innerHTML = `
+            <div class="agrupacion">
+                <h1>Gastos agrupados por ${periodo}</h1>
+                ${arrayAgrupacion}
+            </div>
+        `;
+
+    // Estilos
+    divP.style.width = "33%";
+    divP.style.display = "inline-block";
+    // Crear elemento <canvas> necesario para crear la gráfica
+    // https://www.chartjs.org/docs/latest/getting-started/
+    let chart = document.createElement("canvas");
+    // Variable para indicar a la gráfica el período temporal del eje X
+    // En función de la variable "periodo" se creará la variable "unit" (anyo -> year; mes -> month; dia -> day)
+    let unit = "";
+    switch (periodo) {
+    case "anyo":
+        unit = "year";
+        break;
+    case "mes":
+        unit = "month";
+        break;
+    case "dia":
+    default:
+        unit = "day";
+        break;
+    }
+
+    // Creación de la gráfica
+    // La función "Chart" está disponible porque hemos incluido las etiquetas <script> correspondientes en el fichero HTML
+    const myChart = new Chart(chart.getContext("2d"), {
+        // Tipo de gráfica: barras. Puedes cambiar el tipo si quieres hacer pruebas: https://www.chartjs.org/docs/latest/charts/line.html
+        type: 'bar',
+        data: {
+            datasets: [
+                {
+                    // Título de la gráfica
+                    label: `Gastos por ${periodo}`,
+                    // Color de fondo
+                    backgroundColor: "#555555",
+                    // Datos de la gráfica
+                    // "agrup" contiene los datos a representar. Es uno de los parámetros de la función "mostrarGastosAgrupadosWeb".
+                    data: agrup
                 }
-            },
-            y: {
-                // Para que el eje Y empieza en 0
-                beginAtZero: true
+            ],
+        },
+        options: {
+            scales: {
+                x: {
+                    // El eje X es de tipo temporal
+                    type: 'time',
+                    time: {
+                        // Indicamos la unidad correspondiente en función de si utilizamos días, meses o años
+                        unit: unit
+                    }
+                },
+                y: {
+                    // Para que el eje Y empieza en 0
+                    beginAtZero: true
+                }
             }
         }
-    }
-});
-// Añadimos la gráfica a la capa
-divP.append(chart);
+    });
+    // Añadimos la gráfica a la capa
+    divP.append(chart);
 }
 
 function repintar() {
@@ -193,6 +202,18 @@ function repintar() {
     for (const gasto of listaGasto) {
         mostrarGastoWeb("listado-gastos-completo", gasto);
     }
+     
+    let periodoDia = "dia";
+    let gastosDia = gestionPresupuesto.agruparGastos(periodoDia);
+    mostrarGastosAgrupadosWeb("agrupacion-dia", gastosDia, "día");
+
+    let periodoMes = "mes";
+    let gastosMes = gestionPresupuesto.agruparGastos(periodoMes);
+    mostrarGastosAgrupadosWeb("agrupacion-mes", gastosMes, "mes");
+
+    let periodoAnyo = "anyo";
+    let gastosAnyo = gestionPresupuesto.agruparGastos(periodoAnyo);
+    mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAnyo, "año");
 }
 
 function actualizarPresupuestoWeb() {
