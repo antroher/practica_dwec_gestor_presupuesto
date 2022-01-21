@@ -370,13 +370,13 @@ function CargarGastosApi() {
 function BorrarGastoApiHandle(){
     
     this.handleEvent = function(event){
-        let usuario = document.getElementById("nombre_usuario").value;
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+        let user = document.getElementById("nombre_usuario").value;
+        let page = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}/${this.gasto.gastoId}`;
 
-        if (usuario == "") {
+        if (user == "") {
             console.log("Introduzca un nombre");
         } else {
-            fetch(url, {method: 'DELETE'})
+            fetch(page, {method: 'DELETE'})
             .then(response => response.json())
             .then(datos => {
                 if(!datos.errorMessage){
@@ -391,8 +391,8 @@ function BorrarGastoApiHandle(){
 }
 
 function EnviarGastoApi(event){
-    let usuario = document.getElementById("nombre_usuario").value;
-    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
+    let user = document.getElementById("nombre_usuario").value;
+    let page = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
     
     let formulario = event.currentTarget.form;
     let descripcionN = formulario.elements.descripcion.value;
@@ -412,10 +412,10 @@ function EnviarGastoApi(event){
 
     console.log(nuevoObjeto);
 
-    if(usuario == ""){
+    if(user == ""){
         console.log("No hay nombre");
     }else{
-        fetch(url, {
+        fetch(page, {
             method: 'POST', 
             body: JSON.stringify(nuevoObjeto),
             headers:{
@@ -432,6 +432,52 @@ function EnviarGastoApi(event){
             }
         })
         .catch(err => console.error(err));
+    }
+}
+
+function EditarGastoApi(){
+
+    this.handleEvent = function(event){
+        let user = document.getElementById("nombre_usuario").value;
+        let page = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}/${this.gasto.gastoId}`;
+        
+        let formulario = event.currentTarget.form;
+        let descripcionN = formulario.elements.descripcion.value;
+        let valorN = formulario.elements.valor.value;
+        let fechaN = formulario.elements.fecha.value;
+        let etiquetasN = formulario.elements.etiquetas.value;
+
+        valorN = parseFloat(valorN);
+        etiquetasN = etiquetasN.split(",");
+    
+        let nuevoObjeto = {
+            descripcion: descripcionN,
+            fecha: fechaN,
+            valor: valorN,
+            etiquetas: etiquetasN
+        }
+
+        if(user == ""){
+            console.log("No hay nombre de usuario");
+        } else {
+            fetch(page, {
+                method: 'PUT', 
+                body: JSON.stringify(nuevoObjeto),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                
+                if(response.ok){
+                    console.log("mod ok");
+                    CargarGastosApi();
+                }else{
+                    console.log("mod nononononooo");
+                }
+            })
+            .catch(err => console.error(err));
+        }
     }
 }
 
