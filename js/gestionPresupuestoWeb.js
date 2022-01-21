@@ -141,7 +141,7 @@ function nuevoGastoWebFormulario() {
     btnCancel.addEventListener("click", cancelObject);
 
     let apiEnviar = formulario.querySelector("button.gasto-enviar-api");
-    enviarApi.addEventListener("click", EnviarGastoApi);
+    apiEnviar.addEventListener("click", EnviarGastoApi);
 }
 
 function EditarHandle() {
@@ -435,7 +435,7 @@ const btnGastForm = document.getElementById("anyadirgasto-formulario");
 const btnFilter = document.getElementById("formulario-filtrado");
 const btnGuardarGastWeb = document.getElementById("guardar-gastos");
 const btncargarGastWeb = document.getElementById("cargar-gastos");
-
+const btnGastosApi = document.getElementById("cargar-gastos-api");
 
 btnAddGas.addEventListener("click", nuevoGastoWeb);
 btnActPres.addEventListener("click", actualizarPresupuestoWeb);
