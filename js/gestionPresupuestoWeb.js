@@ -347,19 +347,19 @@ btnGuardarGastWeb.addEventListener("click", guardarGastWeb);
 btncargarGastWeb.addEventListener("click", cargarGastWeb);
 
 function CargarGastosApi() {
-    let usuario = document.querySelector("#nombre_usuario").value;
-    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
+    let user = document.querySelector("#nombre_usuario").value;
+    let page = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
     
-    if (usuario != '') {
-        fetch(url, {method: 'GET'})
+    if (user != '') {
+        fetch(page, {method: 'GET'})
             .then(respuesta => respuesta.json())
             .then((result) => {
                 let resultado = result;
                 if(resultado == "") {
-                    console.log("No existen gastos en la api para el usuario")
+                    console.log("por aqui no hay gastos")
                 } else {
                     gestionPresupuesto.cargarGastos(resultado);
-                    console.log("Miau cargasGastosApi")
+                    console.log("por aqui hay gastos")
                     repintar();
                 }
                 })
@@ -390,6 +390,50 @@ function BorrarGastoApiHandle(){
     }
 }
 
+function EnviarGastoApi(event){
+    let usuario = document.getElementById("nombre_usuario").value;
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
+    
+    let formulario = event.currentTarget.form;
+    let descripcionN = formulario.elements.descripcion.value;
+    let valorN = formulario.elements.valor.value;
+    let fechaN = formulario.elements.fecha.value;
+    let etiquetasN = formulario.elements.etiquetas.value;
+
+    valorN = parseFloat(valorN);
+    etiquetasN = etiquetasN.split(",");
+
+    let nuevoObjeto = {
+        descripcion: descripcionN,
+        fecha: fechaN,
+        valor: valorN,
+        etiquetas: etiquetasN
+    }
+
+    console.log(nuevoObjeto);
+
+    if(usuario == ""){
+        console.log("No hay nombre");
+    }else{
+        fetch(url, {
+            method: 'POST', 
+            body: JSON.stringify(nuevoObjeto),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            
+            if(response.ok){
+                console.log("AÑADIR OK");
+                CargarGastosApi();
+            }else{
+                console.log("AÑADIR NONONONOONONONONONO");
+            }
+        })
+        .catch(err => console.error(err));
+    }
+}
 
 
 
