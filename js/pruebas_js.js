@@ -80,8 +80,124 @@ function mostrarGastoWeb(idElemento, gasto) {
 
 */
 
+// let gasto = {id: 12};
+// console.log(gasto);
+
+// let btnEditForm = document.createElement("button");
+// btnEditForm.className = 'gasto-editar-formulario';
+// btnEditForm.id = `gasto-editar-formulario-${gasto.id}`;
+// btnEditForm.textContent = 'Editar (Formulario)';
+
+// aplicacion.append(btnEditForm);
+
+
+
+
+function EditarHandleFormulario() {
+    this.handleEvent = function (event) {
+        //Clonar el formulario del template y acceder a <form>
+        let formulario = document.getElementById("formulario-template").content.cloneNode(true).querySelector("form");
+        //Insertar el formulario en la página
+        document.getElementById(`gasto-${this.gasto.id}`).append(formulario);
+
+        //Deshabilitar el boton de editar gasto
+        document.getElementById(`gasto-editar-formulario-${this.gasto.id}`).disabled = true;
+
+        //Capturar los datos del gasto y asignarlos al formulario
+        formulario.descripcion.value = this.gasto.descripcion;
+        formulario.valor.value = this.gasto.valor;
+        let fecha = new Date(this.gasto.fecha);
+        let fechaFormateda = fecha.toISOString().substring(0, 10);
+        formulario.fecha.value = fechaFormateda;
+        //Extraer del array etiquetas del gasto las etiquetas
+        let etiquetasC = "";
+        this.gasto.etiquetas.forEach((etiqueta, index) => {
+            if (this.gasto.etiquetas.length - 1 === index) {
+                etiquetasC += etiqueta;
+            }
+            else {
+                etiquetasC += etiqueta + ", ";
+            }
+        });
+        formulario.etiquetas.value = etiquetasC;
+
+        //Crear el objeto manejador de eventos del boton cancelar
+        let cancelarHandler = new CancelarEditHandle();
+        cancelarHandler.formulario = formulario;
+        cancelarHandler.gasto = this.gasto;
+        formulario.querySelector("button.cancelar").addEventListener('click', cancelarHandler);
+        
+        //Crear el objeto manejador de eventos del boton enviar
+        let submitHandler = new SubmitEditHandle();
+        submitHandler.gasto = this.gasto;
+        formulario.addEventListener('submit', submitHandler);
+        
+    }
+    
+}
+
+
+function SubmitEditHandle() {
+    this.handleEvent = function (e) {
+        //Actualizar las propiedades del gasto
+        this.gasto.actualizarDescripcion(e.currentTarget.descripcion.value);
+        this.gasto.actualizarValor(parseFloat(e.currentTarget.valor.value));
+        this.gasto.actualizarFecha(e.currentTarget.fecha.value);
+
+        //Comprobar si las nuevas etiquetas están definidas e introducirlas en array etiquetas para editar gasto.etiquetas
+        let etiquetas = e.currentTarget.etiquetas.value;
+        if (typeof etiquetas !== "undefined") {
+            etiquetas = etiquetas.split(",");
+        }
+        this.gasto.etiquetas = etiquetas;
+
+        //Llamar a la función repintar
+        repintar();
+    }
+}
+
+function CancelarEditHandle() {
+    this.handleEvent = function () {
+        //Borrar el formulario
+        this.formulario.remove();
+
+        //Habilitar el boton de editar gastos
+        document.getElementById(`gasto-editar-formulario-${this.gasto.id}`).disabled = false;
+    }
+}
 
 
 
 
 
+/*
+let formulario = document.querySelector('#controlesprincipales');
+formulario.querySelector("button.cancelar").addEventListener('click', cancelarHandler);
+
+function cancelarHandler(e){
+    alert("hola");
+}
+*/
+
+
+
+/*
+var presupuesto = 0;
+var gastos = [];
+var idGasto = 0;
+const gasto1 = new gestionP.CrearGasto("Compra carne", 23.44, "2021-10-06", "casa", "comida");
+const gasto2 = new gestionP.CrearGasto("Compra fruta y verdura", 14.25, "2021-09-06", "supermercado", "comida");
+
+function anyadirGasto(gasto) {
+    if (typeof (gasto) === "object") {
+        gasto.id = idGasto;
+        gastos.push(gasto);
+        idGasto++;
+    }
+}
+
+anyadirGasto(gasto1);
+anyadirGasto(gasto2);
+console.log(gasto1);
+console.log(gasto2);
+*/
