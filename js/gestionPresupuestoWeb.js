@@ -312,6 +312,10 @@ function EditarHandleFormulario() {
 
     function SubmitEditHandle() {
         this.handleEvent = function (e) {
+
+            //Prevenir el comportamiento por defecto del formulario
+            e.preventDefault();
+            
             //Actualizar las propiedades del gasto
             this.gasto.actualizarDescripcion(e.currentTarget.descripcion.value);
             this.gasto.actualizarValor(parseFloat(e.currentTarget.valor.value));
