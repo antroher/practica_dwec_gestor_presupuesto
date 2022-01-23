@@ -223,7 +223,12 @@ function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta = new 
     return gastosAgrupar;
 }
 
-
+function transformarListadoEtiquetas(etiquetas) {
+    //Toma las palabras formadas por letras y dígitos y las mete en el array resultado
+    const regexp = /[a-zA-Z0-9]+/gi;  
+    const resultado = etiquetas.match(regexp);
+    return resultado;
+}
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -239,5 +244,6 @@ export   {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    transformarListadoEtiquetas
 }

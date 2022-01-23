@@ -8,6 +8,7 @@ import * as gestionP from "./gestionPresupuesto.js";
 document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario").addEventListener('click', nuevoGastoWebFormulario);
+document.getElementById("formulario-filtrado").addEventListener('submit', filtrarGastoWeb);
 
 // FUNCIONES
 
@@ -315,7 +316,7 @@ function EditarHandleFormulario() {
 
             //Prevenir el comportamiento por defecto del formulario
             e.preventDefault();
-            
+
             //Actualizar las propiedades del gasto
             this.gasto.actualizarDescripcion(e.currentTarget.descripcion.value);
             this.gasto.actualizarValor(parseFloat(e.currentTarget.valor.value));
@@ -345,39 +346,44 @@ function EditarHandleFormulario() {
 
 }
 
-/*
-function SubmitEditHandle() {
-    this.handleEvent = function (e) {
-        //Actualizar las propiedades del gasto
-        this.gasto.actualizarDescripcion(e.currentTarget.descripcion.value);
-        this.gasto.actualizarValor(parseFloat(e.currentTarget.valor.value));
-        this.gasto.actualizarFecha(e.currentTarget.fecha.value);
+function filtrarGastoWeb(e) {
+    //Prevenir el evento por defecto
+    e.preventDefault();
 
-        //Comprobar si las nuevas etiquetas están definidas e introducirlas en array etiquetas para editar gasto.etiquetas
-        let etiquetas = e.currentTarget.etiquetas.value;
-        if (typeof etiquetas !== "undefined") {
-            etiquetas = etiquetas.split(",");
-        }
-        this.gasto.etiquetas = etiquetas;
+    //Recoger datos del formulario
+    const formulario = document.getElementById("formulario-filtrado")
+    const filtroDescripcion = formulario.elements["formulario-filtrado-descripcion"].value;
+    const filtroValorMin = parseFloat(formulario.elements["formulario-filtrado-valor-minimo"].value);
+    const filtroValorMax = parseFloat(formulario.elements["formulario-filtrado-valor-maximo"].value);
+    const filtroFechaDesde = formulario.elements["formulario-filtrado-fecha-desde"].value;
+    const filtroFechaHasta = formulario.elements["formulario-filtrado-fecha-hasta"].value;
+    const filtroEtiqTiene = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
 
-        //Llamar a la función repintar
-        repintar();
+    //Crear el objeto de condiciones de filtrado
+    const filtroObj = {
+        descripcionContiene: (filtroDescripcion === "") ? undefined : filtroDescripcion,
+        valorMinimo: (isNaN(filtroValorMin)) ? undefined : filtroValorMin,
+        valorMaximo: (isNaN(filtroValorMax)) ? undefined : filtroValorMax,
+        fechaDesde: (filtroFechaDesde === "") ? undefined : filtroFechaDesde,
+        fechaHasta: (filtroFechaHasta === "") ? undefined : filtroFechaHasta,
+        etiquetasTiene: (filtroEtiqTiene === "") ? undefined : filtroEtiqTiene
+    }
+
+    //Devolver un array de etiquetas válidas si el campo formulario-filtrado-etiquetas-tiene tiene datos
+    if (typeof filtroObj.etiquetasTiene !== "undefined") {
+        filtroObj.etiquetasTiene = gestionP.transformarListadoEtiquetas(filtroObj.etiquetasTiene);
+    }
+
+    //Filtrar gastos
+    let gastosFiltrados = gestionP.filtrarGastos(filtroObj);
+    
+    //Borrar el listado de gastos anterior y mostrar los gastos filtrados actualizados
+    document.getElementById("listado-gastos-completo").innerHTML = "";
+
+    for (let gasto of gastosFiltrados) {
+        mostrarGastoWeb("listado-gastos-completo", gasto);
     }
 }
-
-function CancelarEditHandle() {
-    this.handleEvent = function () {
-        //Borrar el formulario
-        this.formulario.remove();
-
-        //Habilitar el boton de editar gastos
-        document.getElementById(`gasto-editar-formulario-${this.gasto.id}`).disabled = false;
-    }
-}
-
-*/
-
-
 
 
 
