@@ -78,6 +78,15 @@ function mostrarGastoWeb(idElemento, gasto) {
     btnEditaFormulario.textContent = "Editar (formulario)";
     btnEditaFormulario.addEventListener("click", evEditarFormulario);
 
+    let btnBorrarApi = document.createElement("button");
+    btnBorrarApi.className += `gasto-borrar-api`;
+    btnBorrarApi.type = "button";
+    btnBorrarApi.textContent = "Borrar (API)";
+
+    let eventoBorrarApi = new BorrarGastoApiHandle();
+    eventoBorrarApi.gasto = gastos;
+    btnBorrarApi.addEventListener("click",eventoBorrarApi);
+
     div.append(divDesc);
     div.append(divFech);
     div.append(divVal);
@@ -335,6 +344,59 @@ function cargarGastosWeb() {
 
     gestionPresupuesto.cargarGastos(gastosLS);
     repintar();
+}
+
+function cargarGastosApi(){
+    let nombreUser = document.querySelector("#nombre_usuario").value;
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUser}`;
+
+            if(nombreUser != ' ')
+            {
+                fetch(url, {method: 'GET'})
+                    .then(respusta => respusta.json())
+                    .then(resultado => {
+                        if(resultado != "")
+                        {
+                            gestionPresupuesto.cargarGastos(resultado);
+                            console.log("CargargastosApi");
+                            repintar();
+                        }
+                        else{
+                            alert("Error-HTTP: "+resultado.status)
+                        }
+                    })
+                    .catch(err => console.error(err));
+            }
+            else{
+                alert("Error-HTTP: 400 ");
+            }  
+}
+let btnCargarGastosApi = document.getElementById("cargar-gastos-api");
+btnCargarGastosApi.addEventListener("click",cargarGastosApi());
+
+function BorrarGastoApiHandle() {
+    this.handleEvent = function(e){
+        let UserName = document.querySelector("#nombre_usuario");
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${UserName}/${this.gasto.gastoId}`;
+
+        if(UserName.ok){
+            fetch(url, {method: 'DELETE'})
+            .then(responde => responde.json())
+            .then(respuesta => {
+                if(respuesta.ok){
+                    cargarGastosApi();
+                    repintar();
+                }
+                else{
+                    alert("Error-HTTP: "+respuesta.status);
+                }
+            })
+            .catch(erro => console.error(erro));
+        }
+        else{
+            alert("Error-HTTP: 404");
+        }
+    };
 }
 
 export {
