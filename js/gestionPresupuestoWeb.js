@@ -13,75 +13,69 @@ function mostrarDatoEnId(idElemento, valor) {
 
 //aqui gasto es un array, con lo que habria que cambiarlo y meterlo todo dentro de una iteracción
 function mostrarGastoWeb(idElemento, gasto) {
-    let elemento = document.getElementById(idElemento);
-    let divGasto = document.createElement("div");
-    divGasto.className = "gasto";
-    elemento.append(divGasto);
-    divGasto.innerHTML += 
-    `
-        <div class="gasto-descripcion">${gasto.descripcion}</div>
-        <div class="gasto-fecha">${gasto.fecha}</div> 
-        <div class="gasto-valor">${gasto.valor}</div>
-        <div class="gastos-etiquetas"> 
-    `;
+    let id = document.getElementById(idElemento);
+    let div = document.createElement("div");
+    div.className = "gasto";
+    id.append(div);        
+    div.innerHTML += `<div class="gasto-descripcion">${gasto.descripcion}</div>
+                      <div class="gasto-fecha">${gasto.fecha}</div> 
+                      <div class="gasto-valor">${gasto.valor}</div>`;
                         
-    let gastoEtiquetas = document.createElement("div");
-    gastoEtiquetas.className = "gasto-etiquetas";
-    divGasto.append(gastoEtiquetas);
+    let etiGas = document.createElement("div");
+    etiGas.className = "gasto-etiquetas";
+    div.append(etiGas);
 
-    for (let etiq of gasto.etiquetas) {
-        //Creación del objeto para Borrar Etiquetas
-        let nuevoObjEtiqueta = new BorrarEtiquetasHandle(); 
-        nuevoObjEtiqueta.gasto = gasto;
-
-        //Creación de la etiqueta
-        let gastoEtiqueta = document.createElement("span");
-        gastoEtiqueta.className = "gasto-etiquetas-etiqueta";
-        gastoEtiqueta.innerHTML = etiq + "<br>";
-        nuevoObjEtiqueta.etiqueta = etiq;
-
-        //Adjuntamos la etiqueta al div gasto-etiquetas
-        gastoEtiquetas.append(gastoEtiqueta);
-
-        //Creamos el manador para la etiqueta
-        gastoEtiqueta.addEventListener('click',nuevoObjEtiqueta);
+    for (let eti of gasto.etiquetas) {
+        let newEti = new BorrarEtiquetasHandle(); 
+        newEti.gasto = gasto;
+        let gastoEtiq = document.createElement("span");
+        gastoEtiq.className = "gasto-etiquetas-etiqueta";
+        gastoEtiq.innerHTML = eti + "<br>";
+        newEti.etiqueta = eti;
+        etiGas.append(gastoEtiq);
+        gastoEtiq.addEventListener('click',newEti);
     }
 
-    let buttonEdit = document.createElement("button");
-                        buttonEdit.className += 'gasto-editar'
-                        buttonEdit.textContent = "Editar";
-                        buttonEdit.type = 'button';
+    let btnEditar = document.createElement("button");
+                     btnEditar.className += 'gasto-editar'
+                     btnEditar.textContent = "Editar";
+                     btnEditar.type = 'button';
 
-    let buttonBorr = document.createElement("button");
-                        buttonBorr.className += 'gasto-borrar'
-                        buttonBorr.textContent = "Borrar";
-                        buttonBorr.type = 'button';
+    let btnBorrar = document.createElement("button");
+                    btnBorrar.className += 'gasto-borrar'
+                    btnBorrar.textContent = "Borrar";
+                    btnBorrar.type = 'button';
 
     let edit = new EditarHandle();
-    let delet = new BorrarHandle();
+    let dlt = new BorrarHandle();
     edit.gasto = gasto;
-    delet.gasto = gasto;
-    
-    buttonEdit.addEventListener('click', edit);
-    buttonBorr.addEventListener('click', delet);
-  
-    
-    divGasto.append(buttonEdit);
-    divGasto.append(buttonBorr);
+    dlt.gasto = gasto;    
+    btnEditar.addEventListener('click', edit);
+    btnBorrar.addEventListener('click', dlt);
+    div.append(btnEditar);
+    div.append(btnBorrar);
 
-
-    //Práctica 6:
     let btnEditGastoForm = document.createElement("button");
-                            btnEditGastoForm.className += 'gasto-editar-formulario';
-                            btnEditGastoForm.textContent = 'Editar (formulario)';
-                            btnEditGastoForm.type = 'button';
+    btnEditGastoForm.className += 'gasto-editar-formulario';
+    btnEditGastoForm.textContent = 'Editar (formulario)';
+    btnEditGastoForm.type = 'button';
 
-    let editForm = new EditarHandleformulario();
+    let editForm = new editHandleForm();
     editForm.gasto = gasto;
-    //Creamos el manejador de eventos de editar el formulario
     btnEditGastoForm.addEventListener('click', editForm);
-    //adjuntamos al botón a la estructura HTML
-    divGasto.append(btnEditGastoForm);  
+    div.append(btnEditGastoForm);
+
+    let btnBorrarGastoApi = document.createElement("button");
+                            btnBorrarGastoApi.className += 'gasto-borrar-api';
+                            btnBorrarGastoApi.textContent = 'Borrar (API)';
+                            btnBorrarGastoApi.type = 'button';
+
+    let objBorrarGastoApi = new BorrarGastoApiHandle();
+    objBorrarGastoApi.gasto = gasto;
+    btnBorrarGastoApi.addEventListener("click", objBorrarGastoApi);
+
+    div.append(btnBorrarGastoApi);
+
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
@@ -326,28 +320,142 @@ function CargarGastosApi(){
     }
 }
 
+function BorrarGastoApiHandle(){
+    
+    this.handleEvent = function(event){
+        let user = document.getElementById("nombre_usuario").value;
+        let page = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}/${this.gasto.gastoId}`;
+
+        if (user == "") {
+            console.log("Introduzca un nombre");
+        } else {
+            fetch(page, {method: 'DELETE'})
+            .then(response => response.json())
+            .then(datos => {
+                if(!datos.errorMessage){
+                    CargarGastosApi();
+                } else {
+                    console.log(datos.errorMessage);
+                }
+            })
+            .catch(err => console.error(err));
+        }
+    }
+}
+
+function EnviarGastoApi(event){
+    let user = document.getElementById("nombre_usuario").value;
+    let page = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
+    
+    let formulario = event.currentTarget.form;
+    let descripcionN = formulario.elements.descripcion.value;
+    let valorN = formulario.elements.valor.value;
+    let fechaN = formulario.elements.fecha.value;
+    let etiquetasN = formulario.elements.etiquetas.value;
+
+    valorN = parseFloat(valorN);
+    etiquetasN = etiquetasN.split(",");
+
+    let nuevoObjeto = {
+        descripcion: descripcionN,
+        fecha: fechaN,
+        valor: valorN,
+        etiquetas: etiquetasN
+    }
+
+    console.log(nuevoObjeto);
+
+    if(user == ""){
+        console.log("No hay nombre");
+    }else{
+        fetch(page, {
+            method: 'POST', 
+            body: JSON.stringify(nuevoObjeto),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            
+            if(response.ok){
+                console.log("AÑADIR OK");
+                CargarGastosApi();
+            }else{
+                console.log("AÑADIR NONONONOONONONONONO");
+            }
+        })
+        .catch(err => console.error(err));
+    }
+}
+
+function EditarGastoApi(){
+
+    this.handleEvent = function(event){
+        let user = document.getElementById("nombre_usuario").value;
+        let page = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}/${this.gasto.gastoId}`;
+        
+        let formulario = event.currentTarget.form;
+        let descripcionN = formulario.elements.descripcion.value;
+        let valorN = formulario.elements.valor.value;
+        let fechaN = formulario.elements.fecha.value;
+        let etiquetasN = formulario.elements.etiquetas.value;
+
+        valorN = parseFloat(valorN);
+        etiquetasN = etiquetasN.split(",");
+    
+        let nuevoObjeto = {
+            descripcion: descripcionN,
+            fecha: fechaN,
+            valor: valorN,
+            etiquetas: etiquetasN
+        }
+
+        if(user == ""){
+            console.log("No hay nombre de usuario");
+        } else {
+            fetch(page, {
+                method: 'PUT', 
+                body: JSON.stringify(nuevoObjeto),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                
+                if(response.ok){
+                    console.log("mod ok");
+                    CargarGastosApi();
+                }else{
+                    console.log("mod nononononooo");
+                }
+            })
+            .catch(err => console.error(err));
+        }
+    }
+}
 
 
 
 
-//Botones
+
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
 const anyadirgastoFirmulario = document.getElementById("anyadirgasto-formulario");
 const formularioFiltrador = document.getElementById("formulario-filtrado");
 const btnGuardarGastos = document.getElementById("guardar-gastos");
 const btnCargarGastos = document.getElementById("cargar-gastos");
-//Eventos
+
 actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
 anyadirgasto.addEventListener('click', nuevoGastoWeb);
 anyadirgastoFirmulario.addEventListener('click', nuevoGastoWebFormulario)
-//Al tener que trabajar con el propio nodo que manifiesta el evento deberemos crear un objeto manejador... o eso creo yo despúes de 3 horas sin saber que falla jeje
+
 let filtGastForm = new filtrarGastosWeb();
 formularioFiltrador.addEventListener('submit', filtGastForm);
 
-//Práctica 8
+
 let objGuardarGastosWeb = new guardarGastosWeb();
 let objCargarGastosWeb = new cargarGastosWeb();
+
 btnGuardarGastos.addEventListener('click', objGuardarGastosWeb);
 btnCargarGastos.addEventListener('click', objCargarGastosWeb);
 
