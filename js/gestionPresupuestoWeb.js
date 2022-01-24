@@ -109,8 +109,6 @@ function repintar(){
 
     repintar();
  }
-
- 
  function AnyadirGastoFormularioHandler(){
     this.handleEvent = function(){
         let descForm = this.formulario.elements.descripcion.value;
@@ -215,7 +213,7 @@ function EditarHandleFormulario(){
  function BorrarEtiquetasHandle(){
     this.handleEvent = function()
     {
-        this.gasto.borrarEtiquetas(this.etiqueta);
+        this.borrarEtiquetas(this.etiqueta);
         repintar();
     };
  }
