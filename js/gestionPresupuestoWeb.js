@@ -21,7 +21,8 @@ function mostrarGastoWeb(idElemento, gasto) {
     `
         <div class="gasto-descripcion">${gasto.descripcion}</div>
         <div class="gasto-fecha">${gasto.fecha}</div> 
-        <div class="gasto-valor">${gasto.valor}</div> 
+        <div class="gasto-valor">${gasto.valor}</div>
+        <div class="gastos-etiquetas"> 
     `;
                         
     let gastoEtiquetas = document.createElement("div");
@@ -305,6 +306,30 @@ function cargarGastosWeb() {
     }
 }
 
+function CargarGastosApi(){
+    let user = document.querySelector("#nombre_usuario").value;
+    let page = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
+
+    if(user !=``){
+        fetch(page, {method: 'GET'})
+            .then(respuest => respuesta.json())
+            .then((result) => {
+                if(result == ""){
+                    console.log("No tiene gastos")
+                } else {
+                    gestionPresupuesto.cargarGastos(resultado);
+                    console.log("Sí tiene gastos")
+                    repintar();
+                }
+            })
+            .catch(err => console.error(err));        
+    }
+}
+
+
+
+
+
 //Botones
 const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
 const anyadirgasto = document.getElementById("anyadirgasto");
@@ -325,6 +350,9 @@ let objGuardarGastosWeb = new guardarGastosWeb();
 let objCargarGastosWeb = new cargarGastosWeb();
 btnGuardarGastos.addEventListener('click', objGuardarGastosWeb);
 btnCargarGastos.addEventListener('click', objCargarGastosWeb);
+
+
+
 
 
 export   {
