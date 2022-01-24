@@ -145,11 +145,23 @@ function mostrarGastoWeb(idElemento ,gasto){
    btnEditarF.textContent = 'Editar (formulario)';
    btnEditarF.addEventListener('click',editarHandlerForm);
 
-   if(idElemento === "listado-gastos-completo"){
-       divG.append(btnEditar);
-       divG.append(btnBorrar);
-       divG.append(btnEditarF);
-   } 
+   //boton-gasto-borrar
+    //API
+        //obj gasto-borrar-api 
+        let objBorrarApi = new borrarGastosApi();
+        objBorrarApi.gasto = gasto;
+            //btn.class gasto-borrar-api
+        let botonBorrarApi = document.createElement('button');
+        botonBorrarApi.className='gasto-borrar-api';
+        botonBorrarApi.innerHTML = 'Borrar (API)';
+        botonBorrarApi.addEventListener('click', objBorrarApi);//evento
+            
+        if(idElemento === "listado-gastos-completo"){
+            divG.append(btnEditar);
+            divG.append(btnBorrar);
+            divG.append(btnEditarF);
+            divG.append(botonBorrarApi);
+        }
 
 
 }
