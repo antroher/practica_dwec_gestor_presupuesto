@@ -79,6 +79,17 @@ function mostrarGastoWeb(idElemento,gasto) {
         btnBorrar.addEventListener('click', borrar);
         divGasto.append(btnBorrar);
 
+        // Botón Borrar API ----------------------------------------------------------------------------------
+        let btnBorrarApi = document.createElement('button');
+        btnBorrarApi.type = 'button';
+        btnBorrarApi.className += 'gasto-borrar-api';
+        btnBorrarApi.textContent = 'Borrar (API)';
+
+        let borrarApi = new BorrarGastoApi();
+        borrarApi.gasto = gasto;
+        btnBorrarApi.addEventListener('click', borrarApi);
+        divGasto.append(btnBorrarApi);
+
         // Botón EditarFormulario ----------------------------------------------------------------------------
         let btnEditarForm = document.createElement('button');
         btnEditarForm.type = 'button';
@@ -358,9 +369,53 @@ function cargarGastosWeb() {
     }
 }
 
-function cargarGastosApi() {
-    this.handleEvent = function(event) {
+function cargarGastosApi(){
+    this.handleEvent=function(event){
+        let NombreUsuario = document.getElementById('nombre_usuario').value;
 
+        if(NombreUsuario != '')
+        {
+            let url =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${NombreUsuario}`;
+
+            fetch(url, {method: "GET",})
+            .then(response => response.json())
+            .then(function(gastosAPI)
+            {
+                gestionPresupuesto.cargarGastos(gastosAPI);
+                repintar();
+            })
+            .catch(err => alert(err));
+        }
+        else
+        {
+            alert(' ¡Introduce un nombre de usuario y prueba suerte de nuevo! ');
+        }
+
+    }
+}
+
+function BorrarGastoApi(){
+    this.handleEvent = async function(event){
+        let NombreUsuario = document.getElementById('nombre_usuario').value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${NombreUsuario}/${this.gasto.gastoId}`;
+        try{
+            if (NombreUsuario != ''){
+                let respuesta = await fetch (url, {method: 'DELETE'})
+                        if(respuesta.ok){
+                            cargarGastosApi();
+                            alert('El gasto se ha borrado correctamente');
+                        }
+                        else{
+                            alert('Error ' + respuesta.status + ': El id introducido del gasto es inexistente');
+                        }
+            }
+            else{
+                alert('Introduce un nombre en el siguiente recuadro: ');
+            }
+        }
+        catch(err){
+            console.log(err);
+        }
     }
 }
 
@@ -394,6 +449,7 @@ btnCargarGastos.addEventListener('click', objCargarGastosWeb);
 
 let objCargarGastosApi = new cargarGastosApi();
 btnCargarGastosApi.addEventListener('click', objCargarGastosApi);
+
 
 export {
     mostrarDatoEnId,
