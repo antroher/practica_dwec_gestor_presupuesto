@@ -213,7 +213,7 @@ function EditarHandleFormulario(){
  function BorrarEtiquetasHandle(){
     this.handleEvent = function()
     {
-        this.borrarEtiquetas(this.etiqueta);
+        this.gasto.borrarEtiquetas(this.etiqueta);
         repintar();
     };
  }
