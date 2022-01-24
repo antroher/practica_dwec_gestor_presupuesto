@@ -542,6 +542,23 @@ function putGastoApi(){
     
 }
 
+/*
+Creación de promesas:
+
+let promesa = new Promise(function(resolve, reject){
+    **CallBack function
+    resolve = fetch();
+
+});
+
+promesa.then{
+    let gastos = promesa.resolve.json();
+    cargarGastos(gastos);
+    repintar();
+}
+
+*/
+
 
 export {
     mostrarDatoEnId,
