@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>
-            Gestor de Presupuesto - Juan Miguel Pérez Sánchez
+            Gestor de Presupuesto - Noelia Pol Rodríguez
         </title>
     </head>
     <body>
@@ -25,6 +25,10 @@
                 <button type="button" id="cargar-gastos">
                   Cargar gastos
                 </button>
+                <button type="button" id="cargar-gastos-api">
+                  Cargar gastos (API)
+                </button>
+                <input type="text" id="nombre_usuario"> 
               </div>
 
             <div id="presupuesto">
@@ -115,7 +119,8 @@
                     <input type="text" name="etiquetas" id="etiquetas">
                 </div>
                 <button type="submit">Enviar</button>
-                <button class="cancelar" type="button">Cancelar</button>
+                    <button type="button" class="gasto-enviar-api">Enviar (API)</button>
+                    <button class="cancelar" type="button">Cancelar</button>
             </form>
         </template>
         
