@@ -9,6 +9,8 @@ document.getElementById("actualizarpresupuesto").addEventListener('click', actua
 document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario").addEventListener('click', nuevoGastoWebFormulario);
 document.getElementById("formulario-filtrado").addEventListener('submit', filtrarGastoWeb);
+document.getElementById("guardar-gastos").addEventListener('click', guardarGastosWeb);
+document.getElementById("cargar-gastos").addEventListener('click', cargarGastosWeb);
 
 // FUNCIONES
 
@@ -385,7 +387,26 @@ function filtrarGastoWeb(e) {
     }
 }
 
+// ------------------------- Almacenando datos en el navegador  ---------------------------------------------------
 
+function guardarGastosWeb() {
+    //Pasar a JSON el listado de gastos y almacenarlo en localStorage
+    localStorage.GestorGastosDWEC = JSON.stringify(gestionP.listarGastos());
+}
+
+function cargarGastosWeb() {
+    //Carga el listado de gastos desde la clave de almacenamiento
+    //Si localStorage no tiene la clave, carga un array vacío
+    if (!localStorage.hasOwnProperty("GestorGastosDWEC")) {
+        gestionP.cargarGastos([]);
+    }
+    else {
+        gestionP.cargarGastos(JSON.parse(localStorage.getItem('GestorGastosDEWC')));
+    }
+
+    //Llamar a repintar
+    repintar();
+}
 
 
 export {
