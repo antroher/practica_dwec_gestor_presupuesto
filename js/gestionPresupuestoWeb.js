@@ -423,10 +423,10 @@ function EditarGastoApi(){
             .then(response => {
                 
                 if(response.ok){
-                    console.log("mod ok");
+                    console.log("Ok");
                     CargarGastosApi();
                 }else{
-                    console.log("mod nononononooo");
+                    console.log("No");
                 }
             })
             .catch(err => console.error(err));
