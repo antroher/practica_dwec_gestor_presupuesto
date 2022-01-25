@@ -229,7 +229,7 @@ function EnviarGastoFormHandle(){
 }
 
 //Manejador del evento editar gasto formulario
-function EditarHandleformulario() {
+function editHandleForm() {
     this.handleEvent = function (event){
 
         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
@@ -423,10 +423,10 @@ function EditarGastoApi(){
             .then(response => {
                 
                 if(response.ok){
-                    console.log("Ok");
+                    console.log("mod ok");
                     CargarGastosApi();
                 }else{
-                    console.log("No");
+                    console.log("mod nononononooo");
                 }
             })
             .catch(err => console.error(err));
