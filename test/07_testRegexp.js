@@ -103,5 +103,4 @@ describe("Expresiones regulares", () => {
             expect(divs, "Filtrado por etiquetas con varios separadores no funciona").to.have.length(5);
         });
     });
-
 });
