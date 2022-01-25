@@ -104,6 +104,7 @@ function mostrarGastoWeb(idElemento, gasto )/*HAY Q PASARLE UN ARRAY DE GASTO*/
 
     buttomAPI.addEventListener('click', evAPI); 
     gastoActual1.append(buttomAPI);
+    
     //Botón editar formulario
     
     let gastoActual = document.getElementById(gasto.id);; 
@@ -269,42 +270,44 @@ function nuevoGastoWebFormulario()
   let botonCancelar =formulario.querySelector("button.cancelar");
   let cancelarEvento = new CancelarFormularioHandle();
   botonCancelar.addEventListener("click",cancelarEvento);
-
-  //
-  let EnviarApi = formulario.querySelector("button.gasto-enviar-api");
-  enviarApi.addEventListener("click", enviarGastoApi);
 }
 
 //OK
 function EditarHandleFormulario() 
 {
-    this.handleEvent = function(event) 
-    {
-      let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
-      var formulario = plantillaFormulario.querySelector("form");
+  this.handleEvent = function(event) 
+  {
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+    var formulario = plantillaFormulario.querySelector("form");
 
-      let controlesPrincipales = document.getElementById("controlesprincipales");
-      controlesPrincipales.append(formulario);
+    let controlesPrincipales = document.getElementById("controlesprincipales");
+    controlesPrincipales.append(formulario);
 
-      let accesoEditForm = event.currentTarget;
-      accesoEditForm.append(formulario);
-      accesoEditForm.disabled = true;
+    let accesoEditForm = event.currentTarget;
+    accesoEditForm.append(formulario);
+    accesoEditForm.disabled = true;
 
-      formulario.descripcion.value = this.gasto.descripcion;
-      formulario.valor.value = parseFloat(this.gasto.valor);
-      formulario.fecha.value = new Date(this.gasto.fecha).toISOString().substr(0,10);
-      formulario.etiquetas.value = this.gasto.etiquetas; 
+    formulario.descripcion.value = this.gasto.descripcion;
+    formulario.valor.value = parseFloat(this.gasto.valor);
+    formulario.fecha.value = new Date(this.gasto.fecha).toISOString().substr(0,10);
+    formulario.etiquetas.value = this.gasto.etiquetas; 
 
-      //Boton Enviar
-      let enviarForm = new EnviarHandle();
-      enviarForm.gasto = this.gasto;
-      formulario.addEventListener('submit', enviarForm);
+    //Boton Enviar
+    let enviarForm = new EnviarHandle();
+    enviarForm.gasto = this.gasto;
+    formulario.addEventListener('submit', enviarForm);
 
-      //Boton Cancelar
-      let cancelarForm = new CancelarFormularioHandle();
-      let botonCancelarFormulario = formulario.querySelector("button.cancelar");
-      botonCancelarFormulario.addEventListener('click', cancelarForm);
-    }
+    //Boton Cancelar
+    let cancelarForm = new CancelarFormularioHandle();
+    let botonCancelarFormulario = formulario.querySelector("button.cancelar");
+    botonCancelarFormulario.addEventListener('click', cancelarForm);
+
+    //Botón Editar API
+    let botonEditarApi = formulario.querySelector("button.gasto-enviar-api");
+    let editarApi = new EditarGastoApi();
+    editarApi.gasto = this.gasto;
+    botonEditarApi.addEventListener("click", editarApi);
+  }
 }
 
 //OK
@@ -455,29 +458,131 @@ cargarGastos.addEventListener('click', eventCargar);
 //Practica 9
 function cargarGastosApi()
 {
-  this.handleEvent = function(e)
-  {
-    
-      repintar();
-  }
+   // Obtenemos el usuario del que queremos obtener los gastos.
+   debugger;
+   var usuario = document.getElementById('nombre-usuario').value;
+   let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
+   // Ahora realizamos una petición para obtener los datos.
+   if (usuario != "") {
+       fetch(url, { method: 'GET' })
+           .then(response => response.json())
+           .then(result => {
+            datosPresupuesto.cargarGastos(result);
+               repintar();
+           })
+           .catch(error => console.log(error));
+   }
+   else
+   {
+     console.log('No existe ese usuario');
+   }
 }
 
 function BorrarHandleAPI() {
   
-  this.handleEvent = function (e){
-  
-    let number = this.gasto.id;
-  
-    datosPresupuesto.borrarGasto(number);
-  
-    repintar();
-    
+  this.handleEvent = function (e) {
+    let usuario = document.getElementById("nombre-usuario").value;
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+    if (usuario != "") {
+        fetch(url,
+            {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result != "") {
+                    cargarGastosApi();
+                }
+            });
+    }
+    else
+   {
+     console.log('No existe ese usuario');
+   }
   }
 }
 //boton borrar gastos API -Práctica 9
 let eventBorrarAPI = new cargarGastosWeb();
 let BorrarAPIGastos = document.getElementById("gasto-borrar-api");
 BorrarAPIGastos.addEventListener('click', eventBorrarAPI);
+
+//boton cargar gastos api
+let botonObtenerDatosApi = document.getElementById('cargar-gastos-api');
+botonObtenerDatosApi.addEventListener("click", cargarGastosApi);
+
+// boton añadir gasto  API 
+let botonEnviarApi = formulario.querySelector("button.gasto-enviar-api");
+botonEnviarApi.addEventListener("click", AnyadirGastoApiHandle);
+
+function EditarGastoApi() {
+  debugger;
+  this.handleEvent = function (e) {
+      let usuario = document.getElementById("nombre-usuario").value;
+      let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+      // Vamos a obtener los datos del formulario para enviarlos en el body
+      let formulario = e.currentTarget.form;
+      let bodyGasto = {
+          descripcion: formulario.elements.descripcion.value,
+          valor: formulario.elements.valor.value,
+          fecha: formulario.elements.fecha.value,
+          etiquetas: formulario.elements.etiquetas.value
+      };
+      if (usuario != "") {
+          fetch(url,
+              {
+                  method: 'PUT',
+                  body: JSON.stringify(bodyGasto),
+                  headers: {
+                      'Content-Type': 'application/json'
+                  }
+              })
+              .then(response => {
+                  if (response.ok) {
+                      cargarGastosApi();
+                      console.log('Gasto modificado correctamente');
+                  } else {
+                      console.log('Alguno de los campos enviados en la petición no es correcto');
+                  }
+              })
+
+      }
+  }
+}
+
+function AnyadirGastoApiHandle(e) {
+  debugger;
+  let usuario = document.getElementById("nombre-usuario").value;
+  // Vamos a obtener los datos del formulario para enviarlos en el body
+  let formulario = e.currentTarget.form;
+  let etiquetasSplit = formulario.elements.etiquetas.value.split(',');
+
+  let bodyGasto =
+  {
+      descripcion: formulario.elements.descripcion.value,
+      fecha: formulario.elements.fecha.value,
+      valor: parseFloat(formulario.elements.valor.value),
+      etiquetas: etiquetasSplit
+  };
+  if (usuario != "") {
+      fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`,
+          {
+              method: 'POST',
+              body: JSON.stringify(bodyGasto),
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          })
+          .then(response => {
+              if (response.ok) {
+                  cargarGastosApi();
+                  console.log('Gasto añadido correctamente');
+              } else {
+                  console.log('Alguno de los campos enviados en la petición no es correcto');
+              }
+          })
+
+  }
+}
 
 
 export{
