@@ -85,8 +85,9 @@ function mostrarGastoWeb(idElemento, gastos) {
         btnBorrarApi.type = "button";
         btnBorrarApi.textContent = "Borrar (API)";
 
-        let eventoBorrarApi = new BorrarGastoApiHandle()
-        btnBorrarApi.addEventListener("click",)
+        let eventoBorrarApi = new BorrarGastoApiHandle();
+        eventoBorrarApi.gasto = gastos;
+        btnBorrarApi.addEventListener("click",eventoBorrarApi);
 
         /************/
         /*
@@ -393,33 +394,30 @@ let cargarGastos = new CargarGastosWeb();
 let btnCargarGastos = document.getElementById("cargar-gastos");
 btnCargarGastos.addEventListener('click',cargarGastos);
 
-async function cargarGastosApi() {
-    let nombreUser = document.querySelector("#nombre_usuario").value;
-    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUser}`;
-    try{
-        if(nombreUser.ok)
-        {
-            await fetch(url, {method: 'GET'})
-                .then(respusta => respusta.json())
-                .then(resultado => {
+function cargarGastosApi(){
+        let nombreUser = document.querySelector("#nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUser}`;
 
-                    if(resultado.ok)
-                    {
-                        gestionPresupuesto.cargarGastos(resp);
-                        repintar();
-                    }
-                    else{
-                        alert("Error-HTTP: "+response.status)
-                    }
-                });
-        }
-        else{
-            alert("Error-HTTP: "+response.status);
-        }
-    }
-    catch{
-        alert("Error-HTTP: "+response.status);
-    }
+                if(nombreUser != ' ')
+                {
+                    fetch(url, {method: 'GET'})
+                        .then(respusta => respusta.json())
+                        .then(resultado => {
+                            if(resultado != "")
+                            {
+                                gestionPresupuesto.cargarGastos(resultado);
+                                console.log("CargargastosApi");
+                                repintar();
+                            }
+                            else{
+                                alert("Error-HTTP: "+resultado.status)
+                            }
+                        })
+                        .catch(err => console.error(err));
+                }
+                else{
+                    alert("Error-HTTP: 400 ");
+                }  
 }
 let btnCargarGastosApi = document.getElementById("cargar-gastos-api");
 btnCargarGastosApi.addEventListener("click",cargarGastosApi());
@@ -427,19 +425,103 @@ btnCargarGastosApi.addEventListener("click",cargarGastosApi());
 function BorrarGastoApiHandle() {
     this.handleEvent = function(e){
         let UserName = document.querySelector("#nombre_usuario");
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${UserName}`;
-        
-        await fetch(url, {method:'DELETE'})
-        .then(responde => responde.json())
-        .then(respuesta => {
-            if(respuesta.ok){
-                gestionPresupuesto.cargarGastosApi();
-            }
-            else{
-                alert("Error-HTTP: "+response.status);
-            }
-        })
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${UserName}/${this.gasto.gastoId}`;
+
+        if(UserName.ok){
+            fetch(url, {method: 'DELETE'})
+            .then(responde => responde.json())
+            .then(respuesta => {
+                if(respuesta.ok){
+                    cargarGastosApi();
+                    repintar();
+                }
+                else{
+                    alert("Error-HTTP: "+respuesta.status);
+                }
+            })
+            .catch(erro => console.error(erro));
+        }
+        else{
+            alert("Error-HTTP: 404");
+        }
     };
+}
+function EnivarGastoApiHandle() {
+    this.handleEvent = function (e){
+        let UserName = document.querySelector("#nombre_usuario");
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${UserName}/${this.gasto.gastoId}`;
+
+        let Accederformulario = e.currentTarget; //coge los elementos del formulario
+        let descripcion = Accederformulario.descipcion.value;
+        let valor = parseFloat(Accederformulario.valor.value);
+        let fecha = Accederformulario.fecha.value;
+        let etiquetas = Accederformulario.etiquetas.value.split(",");
+
+        this.gastos = {
+            descripcion:descripcion,
+            valor:valor,
+            fecha:fecha,
+            etiqueta:etiquetas
+        } 
+
+        if(UserName != " "){
+            fetch(url,{
+                method: 'POST',
+                body: JSON.stringify(), //convierto el objeto a string
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(respuesta => {
+                if(respuesta.ok){
+                    cargarGastosApi();
+                }
+                else{
+                    alert(respuesta.status);
+                }
+            })
+            .catch(err => console.error(err));
+        }
+    }
+}
+function UpdateDataApi() {
+    this.handleEvent = function (e) {
+        let UserName = document.querySelector("#nombre_usuario");
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${UserName}/${this.gasto.gastoId}`;
+
+        let Accederformulario = e.currentTarget; //coge los elementos del formulario
+        let descripcion = Accederformulario.descipcion.value;
+        let valor = parseFloat(Accederformulario.valor.value);
+        let fecha = Accederformulario.fecha.value;
+        let etiquetas = Accederformulario.etiquetas.value.split(",");
+
+        this.gastos = {
+            descripcion:descripcion,
+            valor:valor,
+            fecha:fecha,
+            etiqueta:etiquetas
+        } 
+
+        if(usuario != ""){
+            fetch(url, {
+                method: 'PUT', 
+                body: JSON.stringify(this.gastos),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if(response.ok){
+                    CargarGastosApi();
+                }else{
+                    console.log(response.status);
+                }
+            })
+            .catch(err => console.error(err));
+        } else {
+            alert("Error HTTP: 404");
+        }
+    }
 }
 export {
     mostrarDatoEnId,
