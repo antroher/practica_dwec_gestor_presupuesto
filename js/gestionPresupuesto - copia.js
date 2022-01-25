@@ -394,3 +394,4 @@ export   {
     agruparGastos,
     transformarListadoEtiquetas
 }
+}
