@@ -230,7 +230,7 @@ function EditarHandleFormulario()
         let actualizarAPI = new ActualizarAPIHandle();
         actualizarAPI.gasto = this.gasto;
 
-        let btnActualizarAPI = formulario.querySelector("button.gasto-enviar-api");
+        let btnActualizarAPI = form.querySelector("button.gasto-enviar-api");
         btnActualizarAPI.addEventListener("click", actualizarAPI);    
     }
 }
@@ -448,7 +448,6 @@ function ActualizarAPIHandle()
 
             let gastoAPI = 
             {
-
                 descripcion: descrip,
                 valor: val,
                 fecha: fech,
