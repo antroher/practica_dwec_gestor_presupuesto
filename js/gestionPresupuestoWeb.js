@@ -171,6 +171,16 @@ function repintar() {
     for (const x of gasList) {
         mostrarGastoWeb("listado-gastos-completo", x);
     }
+
+    let agrupDia = gestionPresupuesto.agruparGastos("dia");
+    mostrarGastosAgrupadosWeb("agrupacion-dia", agrupDia, "dia" )
+
+    let agrupMes = gestionPresupuesto.agruparGastos("mes");
+    mostrarGastosAgrupadosWeb("agrupacion-mes", agrupMes, "mes" )
+
+    let agrupAnyo = gestionPresupuesto.agruparGastos("año");
+    mostrarGastosAgrupadosWeb("agrupacion-anyo", agrupAnyo, "año" )
+
 }
 
 function actualizarPresupuestoWeb()  {
