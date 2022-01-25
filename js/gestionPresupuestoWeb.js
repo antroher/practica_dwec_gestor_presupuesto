@@ -252,7 +252,7 @@ function BorrarEtiquetasHandle() {
 
 //Funcion nuevoGastoWebFormulario()
 function nuevoGastoWebFormulario(){
-    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
     var formulario = plantillaFormulario.querySelector("form");
 
     let controls = document.getElementById("controlesprincipales")
