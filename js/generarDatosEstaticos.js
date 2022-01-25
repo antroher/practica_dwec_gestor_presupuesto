@@ -58,3 +58,8 @@ let xMes = gestionPresupuesto.agruparGastos("mes");
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", xMes, "mes");
 let xAnyo = gestionPresupuesto.agruparGastos("anyo");
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", xAnyo, "año");
+
+//Práctica 10
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0/dist/chartjs-adapter-moment.min.js"></script>
