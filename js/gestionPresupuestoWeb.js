@@ -116,6 +116,66 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
         <h1>Gastos agrupados por ${periodo}</h1>
         ${data}
     `
+
+    // Estilos
+    divP.style.width = "33%";
+    divP.style.display = "inline-block";
+    // Crear elemento <canvas> necesario para crear la gráfica
+    // https://www.chartjs.org/docs/latest/getting-started/
+    let chart = document.createElement("canvas");
+    // Variable para indicar a la gráfica el período temporal del eje X
+    // En función de la variable "periodo" se creará la variable "unit" (anyo -> year; mes -> month; dia -> day)
+    let unit = "";
+    switch (periodo) {
+    case "anyo":
+        unit = "year";
+        break;
+    case "mes":
+        unit = "month";
+        break;
+    case "dia":
+    default:
+        unit = "day";
+        break;
+    }
+
+    // Creación de la gráfica
+    // La función "Chart" está disponible porque hemos incluido las etiquetas <script> correspondientes en el fichero HTML
+    const myChart = new Chart(chart.getContext("2d"), {
+    // Tipo de gráfica: barras. Puedes cambiar el tipo si quieres hacer pruebas: https://www.chartjs.org/docs/latest/charts/line.html
+    type: 'bar',
+    data: {
+        datasets: [
+            {
+                // Título de la gráfica
+                label: `Gastos por ${periodo}`,
+                // Color de fondo
+                backgroundColor: "#555555",
+                // Datos de la gráfica
+                // "agrup" contiene los datos a representar. Es uno de los parámetros de la función "mostrarGastosAgrupadosWeb".
+                data: agrup
+            }
+        ],
+    },
+        options: {
+            scales: {
+                x: {
+                    // El eje X es de tipo temporal
+                    type: 'time',
+                    time: {
+                    // Indicamos la unidad correspondiente en función de si utilizamos días, meses o años
+                        unit: unit
+                    }
+                },
+                y: {
+                    // Para que el eje Y empieza en 0
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+// Añadimos la gráfica a la capa
+    divP.append(chart);
 }
 
 function repintar() {
@@ -128,12 +188,24 @@ function repintar() {
     let balanceTotal = gestionPresupuesto.calcularBalance().toFixed(2);
     mostrarDatoEnId("balance-total",balanceTotal);
     
-    let borrarDatos = document.getElementById("listado-gastos-completo").innerHTML = "";
+    document.getElementById("listado-gastos-completo").innerHTML = "";
     
     let listaGasto = gestionPresupuesto.listarGastos();
     for (const gasto of listaGasto) {
         mostrarGastoWeb("listado-gastos-completo", gasto);
     }
+
+    let dia = "dia";
+    let diaGasto = gestionPresupuesto.agruparGastos(dia);
+    mostrarGastosAgrupadosWeb("agrupacion-dia", diaGasto, "día");
+
+    let mes = "mes";
+    let mesGasto = gestionPresupuesto.agruparGastos(mes);
+    mostrarGastosAgrupadosWeb("agrupacion-mes", mesGasto, "mes");
+
+    let anyo = "anyo";
+    let anyoGasto = gestionPresupuesto.agruparGastos(anyo);
+    mostrarGastosAgrupadosWeb("agrupacion-anyo", anyoGasto, "año");
 }
 
 function actualizarPresupuestoWeb() {
