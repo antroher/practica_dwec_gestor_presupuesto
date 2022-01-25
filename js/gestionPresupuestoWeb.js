@@ -206,7 +206,17 @@ function repintar()
     for (let gasto of listaGasto)
     {
         mostrarGastoWeb('listado-gastos-completo', gasto);
-    }    
+    } 
+    
+    //PRACTICA 10
+    let DiaG = gestionPresupuesto.agruparGastos("dia");
+    mostrarGastosAgrupadosWeb("agrupacion-dia", DiaG, "día");
+
+    let MesG = gestionPresupuesto.agruparGastos("mes");
+    mostrarGastosAgrupadosWeb("agrupacion-mes", MesG, "mes");
+
+    let AnyoG = gestionPresupuesto.agruparGastos("anyo");
+    mostrarGastosAgrupadosWeb("agrupacion-anyo", AnyoG, "año");
 }
 
 function actualizarPresupuestoWeb()
