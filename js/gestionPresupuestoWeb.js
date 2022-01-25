@@ -258,6 +258,25 @@ function repintar(){
   for (const gasto of listGasto) {
     mostrarGastoWeb("listado-gastos-completo", gasto);
   }
+  actualizaGraficosPeriodo("agrupacion-dia","dia");
+  actualizaGraficosPeriodo("agrupacion-mes","mes");
+  actualizaGraficosPeriodo("agrupacion-anyo","anyo");
+
+}
+
+function actualizaGraficosPeriodo(id,periodo){
+  let grupoGastos = gestion.agruparGastos(periodo);
+  if(periodo == "dia")
+  {
+      mostrarGastosAgrupadosWeb(id,grupoGastos,"día");
+  }
+  else if(periodo == "anyo")
+  {
+      mostrarGastosAgrupadosWeb(id,grupoGastos,"año");
+  } else{
+      mostrarGastosAgrupadosWeb(id,grupoGastos,periodo);
+  }
+
 }
 
 //ok
