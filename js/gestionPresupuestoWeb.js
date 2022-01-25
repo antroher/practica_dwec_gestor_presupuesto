@@ -124,15 +124,21 @@ function repintar() {
     document.getElementById("presupuesto").innerHTML = "";
     mostrarDatoEnId("presupuesto", gestionP.mostrarPresupuesto());
 
-    // Mostrar los gastos totales en div#gastos - totales
+    // Mostrar los gastos totales en div#gastos-totales
     document.getElementById("gastos-totales").innerHTML = "";
     mostrarDatoEnId("gastos-totales", gestionP.calcularTotalGastos());
 
-    // Mostrar el balance total en div#balance - total
+    // Mostrar el balance total en div#balance-total
     document.getElementById("balance-total").innerHTML = "";
     mostrarDatoEnId("balance-total", gestionP.calcularBalance());
 
-    // Borrar el contenido de div#listado - gastos - completo y repintar
+    // Mostrar gastos agrupados por periodos: dia - mes - anyo
+    mostrarGastosAgrupadosWeb("agrupacion-dia", gestionP.agruparGastos("dia"), "dia");
+    mostrarGastosAgrupadosWeb("agrupacion-mes", gestionP.agruparGastos("mes"), "mes");
+    mostrarGastosAgrupadosWeb("agrupacion-anyo", gestionP.agruparGastos("anyo"), "anyo");
+
+
+    // Borrar el contenido de div#listado-gastos-completo y repintar
     document.getElementById("listado-gastos-completo").innerHTML = "";
     for (let gasto of gestionP.listarGastos()) {
         mostrarGastoWeb('listado-gastos-completo', gasto);
@@ -389,20 +395,18 @@ function filtrarGastoWeb(e) {
 
 // ------------------------- Almacenando datos en el navegador  ---------------------------------------------------
 
-function guardarGastosWeb() {
+function guardarGastosWeb(e) {
     //Pasar a JSON el listado de gastos y almacenarlo en localStorage
     localStorage.GestorGastosDWEC = JSON.stringify(gestionP.listarGastos());
 }
 
-function cargarGastosWeb() {
+function cargarGastosWeb(e) {
     //Carga el listado de gastos desde la clave de almacenamiento
     //Si localStorage no tiene la clave, carga un array vacío
-    if (!localStorage.hasOwnProperty("GestorGastosDWEC")) {
-        gestionP.cargarGastos([]);
-    }
-    else {
-        gestionP.cargarGastos(JSON.parse(localStorage.getItem('GestorGastosDEWC')));
-    }
+
+    let gastosLocal = [];
+    if (localStorage.hasOwnProperty("GestorGastosDWEC")) gastosLocal = JSON.parse(localStorage.getItem('GestorGastosDWEC'));
+    gestionP.cargarGastos(gastosLocal);
 
     //Llamar a repintar
     repintar();

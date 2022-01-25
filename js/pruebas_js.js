@@ -55,3 +55,4 @@ localStorage.user = JSON.stringify({ name: "John" });
 console.log(localStorage.user);
 let user = JSON.parse(localStorage.user);
 console.log(user.name);
+
