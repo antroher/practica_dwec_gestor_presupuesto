@@ -90,23 +90,18 @@ function mostrarGastoWeb(idElemento, gasto )/*HAY Q PASARLE UN ARRAY DE GASTO*/
 
     let gastoactual= document.getElementById(gasto.id);
     gastoactual.append(buttomE, buttomB); 
-    
-    //boton borrar (API) Practica 9 //ok
-    //let gastoActual1 = document.getElementById(gasto.id);; 
+    //boton borrar API -> PRACTICA 9
+    let botonBorrarApi = document.createElement('button');
+    botonBorrarApi.className += 'gasto-borrar-api';
+    botonBorrarApi.textContent = 'Borrar (API)';
+    botonBorrarApi.type = 'button';
 
-    let buttomAPI = document.createElement('button');
-    buttomAPI.className += 'gasto-borrar-api';
-    buttomAPI.textContent = 'Borrar (API)';
-    buttomAPI.type = 'button';
+    let borrarApiNew = new borrarGastoApiHandle();
+    borrarApiNew.gasto = gasto;
 
-    let evAPI = new BorrarHandleAPI();
-    evAPI.gasto = gasto;
+    botonBorrarApi.addEventListener('click', borrarApiNew);
+    gastoActual.append(botonBorrarApi);
 
-    buttomAPI.addEventListener('click', evAPI); 
-
-    gastoActual.append(buttomAPI);
-
-    
     //Botón editar formulario
     
     let gastoActual = document.getElementById(gasto.id);; 
@@ -126,89 +121,85 @@ function mostrarGastoWeb(idElemento, gasto )/*HAY Q PASARLE UN ARRAY DE GASTO*/
 }
 
 //ok
-function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
+function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
+{
+    let divP = document.getElementById(idElemento);
+    divP.innerHTML = "";
+    
+    let lista = "";
+    for (let [nombre, valor] of Object.entries(agrup))
+    {
+        lista +=    `<div class="agrupacion-dato">
+                        <span class="agrupacion-dato-clave"> ${nombre} </span>
+                        <span class="agrupacion-dato-valor"> ${valor} </span>
+                    </div>`
+    };
 
-  
-  // Obtener la capa donde se muestran los datos agrupados por el período indicado.
-  // Seguramente este código lo tengas ya hecho pero el nombre de la variable sea otro.
-  // Puedes reutilizarlo, por supuesto. Si lo haces, recuerda cambiar también el nombre de la variable en el siguiente bloque de código
-  var divP = document.getElementById(idElemento);
-  // Borrar el contenido de la capa para que no se duplique el contenido al repintar
-  divP.innerHTML = "";
+    divP.innerHTML +=   `<div class="agrupacion">
+                                <h1> Gastos agrupados por ${periodo} </h1>
+                            ${lista}`
 
-  let Element = document.getElementById(idElemento);
-  let datos = ""
-  for (let [llave, val] of Object.entries(agrup)) {
-      datos += 
-      `<div class="agrupacion-dato">
-          <span class="agrupacion-dato-clave">${llave}</span>
-          <span class="agrupacion-dato-valor">${val}</span>
-      </div>`
-  };
-  Element.innerHTML += 
-  `<div class="agrupacion">
-      <h1>Gastos agrupados por ${periodo} </h1>
-      
-       ${datos}`
-       // Estilos
-divP.style.width = "33%";
-divP.style.display = "inline-block";
-// Crear elemento <canvas> necesario para crear la gráfica
-// https://www.chartjs.org/docs/latest/getting-started/
-let chart = document.createElement("canvas");
-// Variable para indicar a la gráfica el período temporal del eje X
-// En función de la variable "periodo" se creará la variable "unit" (anyo -> year; mes -> month; dia -> day)
-let unit = "";
-switch (periodo) {
-case "anyo":
-    unit = "year";
-    break;
-case "mes":
-    unit = "month";
-    break;
-case "dia":
-default:
-    unit = "day";
-    break;
-}
+    //PRACTICA 10
+    // Estilos
+    divP.style.width = "33%";
+    divP.style.display = "inline-block";
+    // Crear elemento <canvas> necesario para crear la gráfica
+    // https://www.chartjs.org/docs/latest/getting-started/
+    let chart = document.createElement("canvas");
+    // Variable para indicar a la gráfica el período temporal del eje X
+    // En función de la variable "periodo" se creará la variable "unit" (anyo -> year; mes -> month; dia -> day)
+    let unit = "";
+    switch (periodo) {
+    case "anyo":
+        unit = "year";
+        break;
+    case "mes":
+        unit = "month";
+        break;
+    case "dia":
+    default:
+        unit = "day";
+        break;
+    }
 
-// Creación de la gráfica
-// La función "Chart" está disponible porque hemos incluido las etiquetas <script> correspondientes en el fichero HTML
-const myChart = new Chart(chart.getContext("2d"), {
-    // Tipo de gráfica: barras. Puedes cambiar el tipo si quieres hacer pruebas: https://www.chartjs.org/docs/latest/charts/line.html
-    type: 'bar',
-    data: {
-        datasets: [
-            {
-                // Título de la gráfica
-                label: `Gastos por ${periodo}`,
-                // Color de fondo
-                backgroundColor: "#555555",
-                // Datos de la gráfica
-                // "agrup" contiene los datos a representar. Es uno de los parámetros de la función "mostrarGastosAgrupadosWeb".
-                data: agrup
-            }
-        ],
-    },
-    options: {
-        scales: {
-            x: {
-                // El eje X es de tipo temporal
-                type: 'time',
-                time: {
-                    // Indicamos la unidad correspondiente en función de si utilizamos días, meses o años
-                    unit: unit
+    // Creación de la gráfica
+    // La función "Chart" está disponible porque hemos incluido las etiquetas <script> correspondientes en el fichero HTML
+    const myChart = new Chart(chart.getContext("2d"), {
+        // Tipo de gráfica: barras. Puedes cambiar el tipo si quieres hacer pruebas: https://www.chartjs.org/docs/latest/charts/line.html
+        type: 'bar',
+        data: {
+            datasets: [
+                {
+                    // Título de la gráfica
+                    label: `Gastos por ${periodo}`,
+                    // Color de fondo
+                    backgroundColor: "#555555",
+                    // Datos de la gráfica
+                    // "agrup" contiene los datos a representar. Es uno de los parámetros de la función "mostrarGastosAgrupadosWeb".
+                    data: agrup
                 }
-            },
-            y: {
-                // Para que el eje Y empieza en 0
-                beginAtZero: true
+            ],
+        },
+        options: {
+            scales: {
+                x: {
+                    // El eje X es de tipo temporal
+                    type: 'time',
+                    time: {
+                        // Indicamos la unidad correspondiente en función de si utilizamos días, meses o años
+                        unit: unit
+                    }
+                },
+                y: {
+                    // Para que el eje Y empieza en 0
+                    beginAtZero: true
+                }
             }
         }
-    }
-});
-// Añadimos la gráfica a la capa
-divP.append(chart);
+    });
+    // Añadimos la gráfica a la capa
+    divP.append(chart);
+
 }
 
 //ok
@@ -259,26 +250,17 @@ function repintar(){
   for (const gasto of listGasto) {
     mostrarGastoWeb("listado-gastos-completo", gasto);
   }
-  actualizaGraficosPeriodo("agrupacion-dia","dia");
-  actualizaGraficosPeriodo("agrupacion-mes","mes");
-  actualizaGraficosPeriodo("agrupacion-anyo","anyo");
+  //PRACTICA 10
+  let DiaG = gestionPresupuesto.agruparGastos("dia");
+  mostrarGastosAgrupadosWeb("agrupacion-dia", DiaG, "día");
 
+  let MesG = gestionPresupuesto.agruparGastos("mes");
+  mostrarGastosAgrupadosWeb("agrupacion-mes", MesG, "mes");
+
+  let AnyoG = gestionPresupuesto.agruparGastos("anyo");
+  mostrarGastosAgrupadosWeb("agrupacion-anyo", AnyoG, "año");
 }
 
-function actualizaGraficosPeriodo(id,periodo){
-  let grupoGastos = gestion.agruparGastos(periodo);
-  if(periodo == "dia")
-  {
-      mostrarGastosAgrupadosWeb(id,grupoGastos,"día");
-  }
-  else if(periodo == "anyo")
-  {
-      mostrarGastosAgrupadosWeb(id,grupoGastos,"año");
-  } else{
-      mostrarGastosAgrupadosWeb(id,grupoGastos,periodo);
-  }
-
-}
 
 //ok
 function EditarHandle() {
@@ -358,6 +340,10 @@ function nuevoGastoWebFormulario()
   let botonCancelar =formulario.querySelector("button.cancelar");
   let cancelarEvento = new CancelarFormularioHandle();
   botonCancelar.addEventListener("click",cancelarEvento);
+
+   //Boton Enviar Api - PRACTICA 9
+   let botonEnviarApi = formulario.querySelector("button.gasto-enviar-api");
+   botonEnviarApi.addEventListener('click', enviarGastoApi)
 }
 
 //OK
@@ -390,11 +376,11 @@ function EditarHandleFormulario()
     let botonCancelarFormulario = formulario.querySelector("button.cancelar");
     botonCancelarFormulario.addEventListener('click', cancelarForm);
 
-    //Botón Editar API
-    let botonEditarApi = formulario.querySelector("button.gasto-enviar-api");
-    let editarApi = new EditarGastoApi();
-    editarApi.gasto = this.gasto;
-    botonEditarApi.addEventListener("click", editarApi);
+    /*Botón Editar API*/
+        let editarFormularioApi = new EditarGastoApi();
+        let botonEditarFormularioApi = formulario.querySelector("button.gasto-enviar-api");
+        editarFormularioApi.gasto = this.gasto;
+        botonEditarFormularioApi.addEventListener('click', editarFormularioApi);
   }
 }
 
@@ -543,133 +529,177 @@ let eventCargar = new cargarGastosWeb();
 let cargarGastos = document.getElementById("cargar-gastos");
 cargarGastos.addEventListener('click', eventCargar);
 
-//Practica 9
-function cargarGastosApi()
-{
-   // Obtenemos el usuario del que queremos obtener los gastos.
-   debugger;
-   var usuario = document.getElementById('nombre-usuario').value;
-   let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
-   // Ahora realizamos una petición para obtener los datos.
-   if (usuario != "") {
-       fetch(url, { method: 'GET' })
-           .then(response => response.json())
-           .then(result => {
-            datosPresupuesto.cargarGastos(result);
-               repintar();
-           })
-           .catch(error => console.log(error));
-   }
-   else
-   {
-     console.log('No existe ese usuario');
-   }
-}
 
-function BorrarHandleAPI() {
-  
-  this.handleEvent = function (e) {
-    let usuario = document.getElementById("nombre-usuario").value;
-    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
-    if (usuario != "") {
-        fetch(url,
-            {
-                method: 'DELETE'
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result != "") {
-                    cargarGastosApi();
-                }
-            });
+
+
+
+
+
+
+
+//******************************************************
+//********************* PRACTICA 9 *********************
+//******************************************************
+function cargarGastosApi ()
+{
+    let usuario = document.getElementById("nombre_usuario");
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
+    
+    if (usuario == '')
+    {
+        console.log('No hay el nombre del usuario');
     }
     else
-   {
-     console.log('No existe ese usuario');
-   }
-  }
-}
-//boton borrar gastos API -Práctica 9
-let eventBorrarAPI = new cargarGastosWeb();
-let BorrarAPIGastos = document.getElementById("gasto-borrar-api");
-BorrarAPIGastos.addEventListener('click', eventBorrarAPI);
-
-//boton cargar gastos api
-let botonObtenerDatosApi = document.getElementById('cargar-gastos-api');
-botonObtenerDatosApi.addEventListener("click", cargarGastosApi);
-
-// boton añadir gasto  API 
-let botonEnviarApi = formulario.querySelector("button.gasto-enviar-api");
-botonEnviarApi.addEventListener("click", AnyadirGastoApiHandle);
-
-function EditarGastoApi() {
-  debugger;
-  this.handleEvent = function (e) {
-      let usuario = document.getElementById("nombre-usuario").value;
-      let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
-      // Vamos a obtener los datos del formulario para enviarlos en el body
-      let formulario = e.currentTarget.form;
-      let bodyGasto = {
-          descripcion: formulario.elements.descripcion.value,
-          valor: formulario.elements.valor.value,
-          fecha: formulario.elements.fecha.value,
-          etiquetas: formulario.elements.etiquetas.value
-      };
-      if (usuario != "") {
-          fetch(url,
-              {
-                  method: 'PUT',
-                  body: JSON.stringify(bodyGasto),
-                  headers: {
-                      'Content-Type': 'application/json'
-                  }
-              })
-              .then(response => {
-                  if (response.ok) {
-                      cargarGastosApi();
-                      console.log('Gasto modificado correctamente');
-                  } else {
-                      console.log('Alguno de los campos enviados en la petición no es correcto');
-                  }
-              })
-
-      }
-  }
+    {
+        fetch (url, {method: 'GET'})
+        .then(response => response.json())
+        .then((result) => 
+        {
+            let resp = result;
+            if (resp == '')
+            {
+                console.log('No hay el nombre del usuario');
+            }
+            else 
+            {
+                gestionPresupuesto.cargarGastos(resp);
+                repintar();
+            }
+        })
+        .catch(error => console.error(error));
+    }
 }
 
-function AnyadirGastoApiHandle(e) {
-  debugger;
-  let usuario = document.getElementById("nombre-usuario").value;
-  // Vamos a obtener los datos del formulario para enviarlos en el body
-  let formulario = e.currentTarget.form;
-  let etiquetasSplit = formulario.elements.etiquetas.value.split(',');
+//BOTON CARGAR API
+let loadGastApi = document.getElementById('cargar-gastos-api');
+loadGastApi.addEventListener('click', cargarGastosApi);
 
-  let bodyGasto =
-  {
-      descripcion: formulario.elements.descripcion.value,
-      fecha: formulario.elements.fecha.value,
-      valor: parseFloat(formulario.elements.valor.value),
-      etiquetas: etiquetasSplit
-  };
-  if (usuario != "") {
-      fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`,
-          {
-              method: 'POST',
-              body: JSON.stringify(bodyGasto),
-              headers: {
-                  'Content-Type': 'application/json'
-              }
-          })
-          .then(response => {
-              if (response.ok) {
-                  cargarGastosApi();
-                  console.log('Gasto añadido correctamente');
-              } else {
-                  console.log('Alguno de los campos enviados en la petición no es correcto');
-              }
-          })
+function borrarGastoApiHandle()
+{
+    this.handleEvent = function(event)
+    {
+        let usuario = document.getElementById('nombre_usuario');
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
 
-  }
+        if(usuario == "")
+        {
+            console.log('No hay el nombre del usuario');
+        }
+        else
+        {
+            fetch(url, {method: 'DELETE'})
+            .then(response => response.json())
+            .then(datos => 
+            {
+                if(datos.errorMessage)
+                {
+                    console.log(datos.errorMessage);
+                }
+                else
+                {
+                    cargarGastosApi();
+                }
+            })
+            .catch(error => console.error(error));
+        }
+    }
+}
+
+function enviarGastoApi(event)
+{
+    let usuario = document.getElementById('nombre_usuario');
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
+
+    let formulario = e.currentTarget.form;
+    let descripcionNew = formulario.elements.descripcion;
+    let valorNew = parseFloat(formulario.elements.valor);
+    let fechaNew = formulario.elements.fecha;
+    let etiquetasNew = (formulario.elements.etiquetas).split(',');
+
+    let nuevoG = 
+    {
+        descripcion: descripcionNew,
+        fecha: fechaNew,
+        valor: valorNew,
+        etiquetas: etiquetasNew
+    }
+
+    if(usuario == '')
+    {
+        console.log('No hay el nombre del usuario')
+    }
+    else 
+    {
+        fetch(url, {
+            method: 'POST', 
+            body: JSON.stringify(nuevoG),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => 
+        {
+            if (response.ok)
+            {
+                cargarGastosApi();
+            }
+            else
+            {
+                console.log('Error');
+            }
+        })
+        .catch(error => console.error(error));
+    }    
+}
+
+function EditarGastoApi()
+{
+    this.handleEvent = function(event)
+    {
+        let usuario = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+
+        let formulario = e.currentTarget.form;
+        let descripcionNew = formulario.elements.descripcion;
+        let valorNew = parseFloat(formulario.elements.valor);
+        let fechaNew = formulario.elements.fecha;
+        let etiquetasNew = (formulario.elements.etiquetas).split(',');
+
+        let nuevoG = 
+        {
+            descripcion: descripcionNew,
+            fecha: fechaNew,
+            valor: valorNew,
+            etiquetas: etiquetasNew
+        }
+
+        if(usuario == '')
+        {
+            console.log('No hay el nombre del usuario')
+        }
+        else 
+        {
+            fetch(url, {
+                method: 'PUT', 
+                body: JSON.stringify(nuevoG),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => 
+            {
+                if (response.ok)
+                {
+                    cargarGastosApi();
+                }
+                else
+                {
+                    console.log('Error');
+                }
+            })
+            .catch(error => console.error(error));
+        }  
+    }
 }
 
 
