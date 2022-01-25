@@ -155,32 +155,28 @@ const myChart = new Chart(chart.getContext("2d"), {
 }
 
 function repintar() {
-    let pres = gesPres.mostrarPresupuesto();
-    mostrarDatoEnId( "presupuesto", pres);
-    
-    let gasTot = gesPres.calcularTotalGastos();
-    mostrarDatoEnId( "gastos-totales", gasTot);
-    
-    let balTot = gesPres.calcularBalance();
-    mostrarDatoEnId("balance-total", balTot);
-    
-    let borrarDatos = document.getElementById("listado-gastos-completo").innerHTML = "";
-    
-    let gasList = gesPres.listarGastos();
-    for (const x of gasList) {
-        mostrarGastoWeb("listado-gastos-completo", x);
-    }
+    mostrarDatoEnId("presupuesto", gesPres.mostrarPresupuesto());
+    mostrarDatoEnId("gastos-totales", gesPres.calcularTotalGastos());
+    mostrarDatoEnId("balance-total", gesPres.calcularBalance());
 
-    let day = mostrarGastosAgrupadosWeb();
-    mostrarDatoEnId("agrupacion-dia", day);
+    document.getElementById("listado-gastos-completo").innerHTML = "";
 
-    let month = mostrarGastosAgrupadosWeb();
-    mostrarDatoEnId("agrupacion-mes", month);
+    let gastList = gesPres.listarGastos();
+    for(let gasto of gastList){
+    mostrarGastoWeb("listado-gastos-completo", gasto);
+  }
 
-    let year = mostrarGastosAgrupadosWeb();
-    mostrarDatoEnId("agrupacion-anyo", year);
+    let day = "dia";
+    let gastDay = gesPres.agruparGastos(day);
+    mostrarGastosAgrupadosWeb("agrupacion-dia", gastDay, "día");
 
+    let month = "mes";
+    let gastMonth = gesPres.agruparGastos(month);
+    mostrarGastosAgrupadosWeb("agrupacion-mes", gastMonth, "mes");
 
+    let year = "anyo";
+    let gastYear = gesPres.agruparGastos(year);
+    mostrarGastosAgrupadosWeb("agrupacion-anyo", gastYear, "año");
 }
 
 function actualizarPresupuestoWeb()  {
@@ -212,7 +208,7 @@ function nuevoGastoWebFormulario() {
     let btnCancel = formulario.querySelector("button.cancelar");
     btnCancel.addEventListener("click", cancelObject);
     let sendApi = formulario.querySelector("button.gasto-enviar-api");
-    enviarApi.addEventListener("click", apiGastSend);
+    sendApi.addEventListener("click", apiSendHandle);
 }
 
 //Manejadores
@@ -298,7 +294,7 @@ function editHandleForm() {
         btnCancel.addEventListener("click", cancelObject);
         btnEditForm.setAttribute("disabled", "");
         let apiFormEdit = formulario.querySelector("button.gasto-enviar-api");
-        let editEvent = new apiGastEdit();
+        let editEvent = new apiEditHandle();
         editEvent.gasto = this.gasto;
         apiFormEdit.addEventListener("click", editEvent);
     }
