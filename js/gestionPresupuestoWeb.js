@@ -114,6 +114,14 @@ function mostrarGastoWeb(idElemento, gastos) {
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
+
+    // Obtener la capa donde se muestran los datos agrupados por el período indicado.
+    // Seguramente este código lo tengas ya hecho pero el nombre de la variable sea otro.
+    // Puedes reutilizarlo, por supuesto. Si lo haces, recuerda cambiar también el nombre de la variable en el siguiente bloque de código
+    var divP = document.getElementById(idElemento);
+    // Borrar el contenido de la capa para que no se duplique el contenido al repintar
+    divP.innerHTML = "";
+
     let element = document.getElementById(idElemento);
     let agrupacion = '';
     for (let [param,value] of Object.entries(agrup)) {
@@ -128,6 +136,65 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
         <h1>Gastos agrupados por ${periodo}</h1>
         ${agrupacion}
     `
+    // Estilos
+    divP.style.width = "33%";
+    divP.style.display = "inline-block";
+    // Crear elemento <canvas> necesario para crear la gráfica
+    // https://www.chartjs.org/docs/latest/getting-started/
+    let chart = document.createElement("canvas");
+    // Variable para indicar a la gráfica el período temporal del eje X
+    // En función de la variable "periodo" se creará la variable "unit" (anyo -> year; mes -> month; dia -> day)
+    let unit = "";
+    switch (periodo) {
+    case "anyo":
+        unit = "year";
+        break;
+    case "mes":
+        unit = "month";
+        break;
+    case "dia":
+    default:
+        unit = "day";
+        break;
+    }
+
+    // Creación de la gráfica
+    // La función "Chart" está disponible porque hemos incluido las etiquetas <script> correspondientes en el fichero HTML
+    const myChart = new Chart(chart.getContext("2d"), {
+        // Tipo de gráfica: barras. Puedes cambiar el tipo si quieres hacer pruebas: https://www.chartjs.org/docs/latest/charts/line.html
+        type: 'bar',
+        data: {
+            datasets: [
+                {
+                    // Título de la gráfica
+                    label: `Gastos por ${periodo}`,
+                    // Color de fondo
+                    backgroundColor: "#555555",
+                    // Datos de la gráfica
+                    // "agrup" contiene los datos a representar. Es uno de los parámetros de la función "mostrarGastosAgrupadosWeb".
+                    data: agrup
+                }
+            ],
+        },
+        options: {
+            scales: {
+                x: {
+                    // El eje X es de tipo temporal
+                    type: 'time',
+                    time: {
+                        // Indicamos la unidad correspondiente en función de si utilizamos días, meses o años
+                        unit: unit
+                    }
+                },
+                y: {
+                    // Para que el eje Y empieza en 0
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    // Añadimos la gráfica a la capa
+    divP.append(chart);
 }
 
 //manejadora de eventos del botón actualizarpresupuesto del código HTML
@@ -173,6 +240,20 @@ function repintar() { //inner HTML faltan filtrados vaciar y volver a llamarlos
     let Listagastos = gestionPresupuesto.listarGastos();
     for (let k of Listagastos)
         mostrarGastoWeb("listado-gastos-completo", k);
+
+    //actualizar las capas div#agrupacion-dia, div#agrupacion-mes y div#agrupacion-anyo
+    let dia = document.getElementById('agrupacion-dia');
+    let mes = document.getElementById('agrupacion-mes');
+    let año = document.getElementById('agrupacion-anyo');
+
+    let agrupacionDIA = gestionPresupuesto.agruparGastos('dia');
+    gestionPresupuesto.mostrarGastosAgrupadosWeb(dia,agrupacionDIA,'día');
+
+    let agrupacionMES = gestionPresupuesto.agruparGastos('dia');
+    gestionPresupuesto.mostrarGastosAgrupadosWeb(mes,agrupacionMES,'mes');
+
+    let agrupacionANO = gestionPresupuesto.agruparGastos('dia');
+    gestionPresupuesto.mostrarGastosAgrupadosWeb(año,agrupacionANO,'año');
 }
 
 function BorrarHandle() {
