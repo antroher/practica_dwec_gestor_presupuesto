@@ -79,6 +79,7 @@ function repintar(){
     document.getElementById('listado-gastos-filtrado-4').innerHTML = '';
     gastosFilt = gestionPresupuesto.filtrarGastos({valorMaximo:50,etiquetasTiene:['comida','transporte']});
     gastosFilt.forEach(gastoFiltrado => {mostrarGastoWeb('listado-gastos-filtrado-4', gastoFiltrado);});
+    
 
     document.getElementById("agrupacion-dia").innerHTML="";
     mostrarGastosAgrupadosWeb("agrupacion-dia", gestionPresupuesto.agruparGastos("dia"), "día");
