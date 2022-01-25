@@ -410,8 +410,9 @@ function filtrarGastoWeb()
     this.handleEvent = function(event)
     {
         event.preventDefault();
-        
+        //coge el valor del evento, del formulario, te da acceso al contenido del formulario
         let accesoFormFilt = event.currentTarget;
+        //cogemos el valor de la descripcion dada por el usuario
         let desc = accesoFormFilt['formulario-filtrado-descripcion'].value;
         let vMinimo = parseInt(accesoFormFilt['formulario-filtrado-valor-minimo'].value);
         let vMaximo = parseInt(accesoFormFilt['formulario-filtrado-valor-maximo'].value);
@@ -423,12 +424,12 @@ function filtrarGastoWeb()
                
         let crearObjeto =
         {
-            fechaDesde: fDesde,
-            fechaHasta: fHasta,
-            valorMinimo: vMinimo, 
-            valorMaximo: vMaximo,
-            descripcionContiene: desc,
-            etiquetasTiene: etiq
+          fechaDesde: (fDesde === "") ? undefined : fDesde,
+          fechaHasta: (fHasta === "") ? undefined : fHasta,
+          valorMinimo: (vMinimo === "") ? undefined : vMinimo,
+          valorMaximo: (vMaximo === "") ? undefined : vMaximo,
+          descripcionContiene: (desc === "") ? undefined : desc,
+          etiquetasTiene: (etiq === "") ? undefined : etiq
         }
 
         let listaFiltrarObjeto = gestionPresupuesto.filtrarGastos(crearObjeto);
@@ -437,11 +438,12 @@ function filtrarGastoWeb()
         listaGastos.innerHTML = '';
 
         for (let gasto of listaFiltrarObjeto)
-        {
-            mostrarGastoWeb('listado-gastos-completo', gasto);
+        {  
+          mostrarGastoWeb('listado-gastos-completo', gasto);
         }
     }      
 }
+
 
 //BOTON ENVIAR a filtrarGastoWeb
 let eventFiltrGasto = new filtrarGastoWeb();
