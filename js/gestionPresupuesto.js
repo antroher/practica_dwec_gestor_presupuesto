@@ -138,9 +138,9 @@ function anyadirGasto(gasto){
 
 function borrarGasto(id)
 {
-    for (let i = 0; i < gastos.length; i++) 
+    for (var i = 0; i < gastos.length; i++) 
     {
-        if (gastos[i].id === id) 
+        if(id == gastos[i].id) 
         {
             gastos.splice(i, 1);
         }
@@ -150,6 +150,7 @@ function borrarGasto(id)
 
 function calcularTotalGastos(){
     var totalGastos = 0;
+
     for(var i = 0; i < gastos.length; i++)
     {
         totalGastos = totalGastos + gastos[i].valor;
@@ -249,11 +250,24 @@ function agruparGastos(periodo = 'mes', etiquetas, fd, fh){
     }
 // Práctica 8 
  
-function cargarGastos(gatosarray){
-
-    arraygastos = gatosarray;
+    function cargarGastos(gastosarray) {
+        // gastosarray es un array de objetos "planos"
+      
+        // Reseteamos la variable global "gastos"
+        gastos = [];
+        // Procesamos cada gasto del listado pasado a la función
+        for (let g of gastosarray) {
+            // Creamos un nuevo objeto mediante el constructor
+            let gastoRehidratado = new CrearGasto();
+            // Copiamos los datos del objeto guardado en el almacenamiento
+        
+            Object.assign(gastoRehidratado, g);
+            // Ahora "gastoRehidratado" tiene las propiedades del gasto    
+            // Añadimos el gasto 
+            gastos.push(gastoRehidratado);
+        }
+    }
    
-   }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
