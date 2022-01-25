@@ -103,7 +103,9 @@ function mostrarGastoWeb(idElemento, gasto )/*HAY Q PASARLE UN ARRAY DE GASTO*/
     evAPI.gasto = gasto;
 
     buttomAPI.addEventListener('click', evAPI); 
-    gastoActual1.append(buttomAPI);
+
+    gastoActual.append(buttomAPI);
+
     
     //Botón editar formulario
     
@@ -147,9 +149,8 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
   `<div class="agrupacion">
       <h1>Gastos agrupados por ${periodo} </h1>
       
-       ${datos}
-  `
-  // Estilos
+       ${datos}`
+       // Estilos
 divP.style.width = "33%";
 divP.style.display = "inline-block";
 // Crear elemento <canvas> necesario para crear la gráfica
