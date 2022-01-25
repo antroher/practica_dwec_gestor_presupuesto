@@ -220,18 +220,15 @@ function nuevoGastoWeb() {
 
 function repintar() { //inner HTML faltan filtrados vaciar y volver a llamarlos 
     //Mostrar el presupuesto 
-    document.getElementById('presupuesto').innerHTML ='';
     let presupuesto = gestionPresupuesto.mostrarPresupuesto();
     mostrarDatoEnId("presupuesto",presupuesto);
 
     //Mostrar los gastos totales
-    document.getElementById('gastos-totales').innerHTML ='';
-    let Calculogastos = gestionPresupuesto.calcularTotalGastos().toFixed(2);
+    let Calculogastos = gestionPresupuesto.calcularTotalGastos();
     mostrarDatoEnId("gastos-totales",Calculogastos);
 
     //Mostrar el balance total
-    document.getElementById('balance-total').innerHTML ='';
-    let BalancePresupuesto = gestionPresupuesto.calcularBalance().toFixed(2);
+    let BalancePresupuesto = gestionPresupuesto.calcularBalance();
     mostrarDatoEnId("balance-total",BalancePresupuesto);
 
     //Borrar el contenido de div#listado-gastos-completo --> innerHTML para borrar el contenido de dicha capa
@@ -242,18 +239,14 @@ function repintar() { //inner HTML faltan filtrados vaciar y volver a llamarlos
         mostrarGastoWeb("listado-gastos-completo", k);
     }
     //actualizar las capas div#agrupacion-dia, div#agrupacion-mes y div#agrupacion-anyo
-    let dia = document.getElementById('agrupacion-dia');
-    let mes = document.getElementById('agrupacion-mes');
-    let año = document.getElementById('agrupacion-anyo');
+    let gastosDia = gestionPresupuesto.agruparGastos("dia");
+    mostrarGastosAgrupadosWeb("agrupacion-dia", gastosDia, "día");
 
-    let agrupacionDIA = gestionPresupuesto.agruparGastos('dia');
-    mostrarGastosAgrupadosWeb(dia,agrupacionDIA,'día');
+    let gastosMes = gestionPresupuesto.agruparGastos("mes");
+    mostrarGastosAgrupadosWeb("agrupacion-mes", gastosMes, "mes");
 
-    let agrupacionMES = gestionPresupuesto.agruparGastos('mes');
-    mostrarGastosAgrupadosWeb(mes,agrupacionMES,'mes');
-
-    let agrupacionANO = gestionPresupuesto.agruparGastos('anyo');
-    mostrarGastosAgrupadosWeb(año,agrupacionANO,'año');
+    let gastosAnyo = gestionPresupuesto.agruparGastos("anyo");
+    mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAnyo, "año");
 }
 
 function BorrarHandle() {
