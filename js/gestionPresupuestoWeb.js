@@ -238,22 +238,22 @@ function repintar() { //inner HTML faltan filtrados vaciar y volver a llamarlos
     document.getElementById("listado-gastos-completo").innerHTML = "";
     //Mostrar el listado completo de gastos
     let Listagastos = gestionPresupuesto.listarGastos();
-    for (let k of Listagastos)
+    for (let k of Listagastos){
         mostrarGastoWeb("listado-gastos-completo", k);
-
+    }
     //actualizar las capas div#agrupacion-dia, div#agrupacion-mes y div#agrupacion-anyo
     let dia = document.getElementById('agrupacion-dia');
     let mes = document.getElementById('agrupacion-mes');
     let año = document.getElementById('agrupacion-anyo');
 
     let agrupacionDIA = gestionPresupuesto.agruparGastos('dia');
-    gestionPresupuesto.mostrarGastosAgrupadosWeb(dia,agrupacionDIA,'día');
+    mostrarGastosAgrupadosWeb(dia,agrupacionDIA,'día');
 
-    let agrupacionMES = gestionPresupuesto.agruparGastos('dia');
-    gestionPresupuesto.mostrarGastosAgrupadosWeb(mes,agrupacionMES,'mes');
+    let agrupacionMES = gestionPresupuesto.agruparGastos('mes');
+    mostrarGastosAgrupadosWeb(mes,agrupacionMES,'mes');
 
-    let agrupacionANO = gestionPresupuesto.agruparGastos('dia');
-    gestionPresupuesto.mostrarGastosAgrupadosWeb(año,agrupacionANO,'año');
+    let agrupacionANO = gestionPresupuesto.agruparGastos('anyo');
+    mostrarGastosAgrupadosWeb(año,agrupacionANO,'año');
 }
 
 function BorrarHandle() {
@@ -464,9 +464,8 @@ function CargarGastosWeb(){
         if(listarGasto == null){
             gestionPresupuesto.cargarGastos([]);
         }
-        else{
+        else
             gestionPresupuesto.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
-        }
         repintar();
     }
 }
