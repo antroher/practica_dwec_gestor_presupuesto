@@ -272,8 +272,6 @@ function cargarGastos(gastosAlmacenamiento) {
         // Ahora "gastoRehidratado" tiene las propiedades del gasto
         // almacenado y además tiene acceso a los métodos de "CrearGasto"
           
-
-        
         // Añadimos el gasto rehidratado a "gastos"
         gastos.push(gastoRehidratado);
     }

@@ -58,8 +58,6 @@ describe("Almacenamiento en navegador", () => {
         cy.visit('/interaccionHTML.html');
 
 
-
-        
         // Comprobar que existe botón
         cy.get("#cargar-gastos").should("exist");
 
