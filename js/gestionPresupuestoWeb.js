@@ -195,6 +195,11 @@ function nuevoGastoWebFormulario() {
     //botón submit
     let enviarObj = new EnviarGastoFormHandle();
     formulario.addEventListener('submit', enviarObj); // el botón de tipo submit (type="submit") recoge la acción submit, no click
+
+    //Api
+    let enviarAPI = formulario.querySelector("button.gasto-enviar-api");
+    enviarAPI.addEventListener('click', new enviarGastosApi());
+
     //botón cancelar
     let cancelarObj = new CancelarFormHandle();
     // localizar el botón en el documento
@@ -248,6 +253,11 @@ function EditarHandleformulario() { //Manejador del evento Editar(formulario)
         let btnCancelar = formulario.querySelector("button.cancelar");
         let cancelarObj = new CancelarFormHandle();
         btnCancelar.addEventListener("click", cancelarObj);
+
+        //Editar Api
+        let objEditarAPI = new editarApiHandle();
+        objEditarAPI.gasto = this.gasto;
+        formulario.querySelector("button.gasto-enviar-api").addEventListener('click', objEditarAPI);
 
         //Desactivar -añadir atributo disabled- al botón anyadirgasto-formulario
         btnEditarFormulario.setAttribute("disabled", "");
@@ -415,6 +425,80 @@ function BorrarGastoApi(){
         }
         catch(err){
             console.log(err);
+        }
+    }
+}
+
+function enviarGastosApi(){
+    this.handleEvent = function(event){
+        let NombreUsuario = document.getElementById('nombre_usuario').value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${NombreUsuario}`;
+        if (NombreUsuario != ''){
+            var form = document.querySelector("#controlesprincipales form");
+            let des = form.elements.descripcion.value;
+            let val = parseFloat(form.elements.valor.value);
+            let fec = form.elements.fecha.value;
+            let eti = form.elements.etiquetas.value.split(',');
+            //obj
+            let gastoEnviar = {
+                descripcion: des,
+                valor: val,
+                fecha: fec,
+                etiquetas: eti
+            };
+            fetch (url, {method: 'POST', headers:{'Content-Type': 'application/json;charset=utf-8'}, body: JSON.stringify(gastoEnviar)})
+                .then(function(respuesta) {
+                    if(respuesta.ok){
+                        alert('¡El gasto se ha creado correctamente!');
+                        cargarGastosApi();
+                    }
+                    else{
+                        alert('Error ' + respuesta.status + ': NO se ha podido crear el gasto correctamente en la Api');
+                    }   
+                })
+                .catch(errors => alert(errors));
+        }
+        else{
+            alert('Introduce un nombre: ');
+        }
+    }
+}
+
+function editarApiHandle(){
+    this.handleEvent = function(event){
+
+        let NombreUsuario = document.getElementById('nombre_usuario').value;
+
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${NombreUsuario}/${this.gasto.gastoId}`;
+
+        if (NombreUsuario != ''){
+            var form = event.currentTarget.form;
+            let des = form.elements.descripcion.value;
+            let val = parseFloat(form.elements.valor.value);
+            let fec = form.elements.fecha.value;
+            let eti = form.elements.etiquetas.value.split(',');
+
+            let gastoApi = {
+                descripcion: des,
+                valor: val,
+                fecha: fec,
+                etiquetas: eti
+            };
+            console.log("hola usuario");
+            fetch (url, {method: 'PUT', body: JSON.stringify(gastoApi), headers:{'Content-Type': 'application/json;charset=utf-8'}})
+            .then(function(respuesta) {
+                if(respuesta.ok){
+                    alert(' ¡ El gasto se ha editado correctamente! ');
+                    cargarGastosApi();
+                }
+                else{
+                    alert('Error ' + respuesta.status + ': NO se ha podido crear el gasto correctamente en la Api');
+                }   
+            })
+            .catch(errors => alert(errors));
+        }
+        else{
+            alert('Introduce un nombre.');
         }
     }
 }
