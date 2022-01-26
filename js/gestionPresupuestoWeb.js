@@ -179,6 +179,9 @@ function nuevoGastoWebFormulario(){
     let cancelar = new cancelarGastoHandle();
     let btnCancelar = formulario.querySelector("button.cancelar");
     btnCancelar.addEventListener("click", cancelar);
+
+    let btnEnviarAPI = formulario.querySelector("button.gasto-enviar-api");
+    btnEnviarAPI.addEventListener("click", enviarAPIHandle);
 }
 
 function enviarGastoHandle() {
@@ -265,6 +268,11 @@ function EditarHandleFormulario() {
 
         let btnCancelar = formulario.querySelector("button.cancelar");
         btnCancelar.addEventListener("click", cancelar);
+
+        let actualizarAPI = new ActualizarAPIHandle();
+        actualizarAPI.gasto = this.gasto;
+        let btnActualizarAPI = formulario.querySelector("button.gasto-enviar-api");
+        btnActualizarAPI.addEventListener("click", actualizarAPI);
     }
 }
 
@@ -350,27 +358,28 @@ function cargarGastosApi(){
     let nombreUser = document.querySelector("#nombre_usuario").value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUser}`;
 
-            if(nombreUser != ' ')
-            {
-                fetch(url, {method: 'GET'})
-                    .then(respusta => respusta.json())
-                    .then(resultado => {
-                        if(resultado != "")
-                        {
-                            gestionPresupuesto.cargarGastos(resultado);
-                            console.log("CargargastosApi");
-                            repintar();
-                        }
-                        else{
-                            alert("Error-HTTP: "+resultado.status)
-                        }
-                    })
-                    .catch(err => console.error(err));
-            }
-            else{
-                alert("Error-HTTP: 400 ");
-            }  
+        if(nombreUser != ' ')
+        {
+            fetch(url, {method: 'GET'})
+                .then(respuesta => respuesta.json())
+                .then(resultado => {
+                    if(resultado != "")
+                    {
+                        gestionPresupuesto.cargarGastos(resultado);
+                        console.log("CargargastosApi");
+                        repintar();
+                    }
+                    else{
+                        alert("Error-HTTP: " + resultado.status)
+                    }
+                })
+                .catch(err => console.error(err));
+        }
+        else{
+            alert("Error-HTTP: 400 ");
+        }  
 }
+
 let btnCargarGastosApi = document.getElementById("cargar-gastos-api");
 btnCargarGastosApi.addEventListener("click",cargarGastosApi());
 
@@ -391,7 +400,7 @@ function BorrarGastoApiHandle() {
                     alert("Error-HTTP: "+respuesta.status);
                 }
             })
-            .catch(erro => console.error(erro));
+            .catch(err => console.error(err));
         }
         else{
             alert("Error-HTTP: 404");
