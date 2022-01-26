@@ -198,7 +198,17 @@ function transformarListadoEtiquetas(txt)
 
 function cargarGastos(expenseLoad)
 {
-    expenseLoad.length >=0 && (gastos = expenseLoad);
+    // expenseLoad.length >=0 && (gastos = expenseLoad);
+    if(expenseLoad.length>=0)
+    {
+        gastos = new Array();
+        for (let expense of expenseLoad)
+        {
+            let gastoRehidratado = new CrearGasto();
+            Object.assign(gastoRehidratado, expense);
+            gastos.push(gastoRehidratado);
+        }
+    } 
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
