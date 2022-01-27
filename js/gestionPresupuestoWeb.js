@@ -80,6 +80,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     var divP = document.getElementById(idElemento);
     // Borrar el contenido de la capa para que no se duplique el contenido al repintar
     divP.innerHTML = "";
+    let datos = "";
 
     for (let [key, val] of Object.entries(agrup)) {
         datos += 
@@ -92,7 +93,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     `<div class="agrupacion">
         <h1>Gastos agrupados por ${periodo}</h1>
         ${datos}`
-    
+
     // Estilos
     divP.style.width = "33%";
     divP.style.display = "inline-block";
@@ -152,7 +153,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     });
     // Añadimos la gráfica a la capa
     divP.append(chart);
-    }
+}
 
 function repintar() {
     let pres = gestionPresupuesto.mostrarPresupuesto();
@@ -164,15 +165,24 @@ function repintar() {
     let balTot = gestionPresupuesto.calcularBalance().toFixed(2);
     mostrarDatoEnId("balance-total", balTot);
     
-    let borrarDatos = document.getElementById("listado-gastos-completo").innerHTML = "";
+    document.getElementById("listado-gastos-completo").innerHTML = "";
     
     let gasList = gestionPresupuesto.listarGastos();
     for (const x of gasList) {
         mostrarGastoWeb("listado-gastos-completo", x);
     }
-    mostrarGastosAgrupadosWeb('agrupacion-dia',agruparGastos("dia"),"día");
-    mostrarGastosAgrupadosWeb('agrupacion-mes',agruparGastos("mes"),"mes")
-    mostrarGastosAgrupadosWeb('agrupacion-anyo',agruparGastos("anyo"),"año");
+
+    let dia = "dia";
+    let diaGasto = gestionPresupuesto.agruparGastos(dia);
+    mostrarGastosAgrupadosWeb('agrupacion-dia',diaGasto,"dia");
+
+    let mes = "mes";
+    let mesGasto = gestionPresupuesto.agruparGastos(mes);
+    mostrarGastosAgrupadosWeb('agrupacion-mes',mesGasto,"mes")
+
+    let anyo = "anyo";
+    let anyoGasto = gestionPresupuesto.agruparGastos(anyo);
+    mostrarGastosAgrupadosWeb('agrupacion-anyo',anyoGasto,"año");
 
 }
 
