@@ -77,7 +77,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     // Obtener la capa donde se muestran los datos agrupados por el período indicado.
     // Seguramente este código lo tengas ya hecho pero el nombre de la variable sea otro.
     // Puedes reutilizarlo, por supuesto. Si lo haces, recuerda cambiar también el nombre de la variable en el siguiente bloque de código
-    var divP = document.getElementById(id);
+    var divP = document.getElementById(idElemento);
     // Borrar el contenido de la capa para que no se duplique el contenido al repintar
     divP.innerHTML = "";
 
@@ -170,6 +170,10 @@ function repintar() {
     for (const x of gasList) {
         mostrarGastoWeb("listado-gastos-completo", x);
     }
+    mostrarGastosAgrupadosWeb('agrupacion-dia',agruparGastos("dia"),"día");
+    mostrarGastosAgrupadosWeb('agrupacion-mes',agruparGastos("mes"),"mes")
+    mostrarGastosAgrupadosWeb('agrupacion-anyo',agruparGastos("anyo"),"año");
+
 }
 
 function actualizarPresupuestoWeb()  {
