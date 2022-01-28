@@ -3,29 +3,23 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./css/estilos.css">
         <title>
-            <!-- TODO -->
             Gestor de Presupuesto - Víctor Carlos Sánchez Socorro
         </title>
     </head>
 
     <body>
         <div id="aplicacion">
-                <div id="controlesprincipales">
-                    <button type="button" id="actualizarpresupuesto">
-                        Actualizar presupuesto
-                    </button>
-                    <button type="button" id="anyadirgasto">
-                        Añadir gasto
-                    </button>                        
-                    <button type="button" id="anyadirgasto-formulario">
-                        Añadir gasto (formulario)
-                    </button>
-                    <button id="guardar-gastos">Guardar gastos</button>
-                    <button id="cargar-gastos">Cargar gastos</button>
-                    <button id="cargar-gastos-api">Cargar gastos (API)</button>
-                    <input type="text" id="nombre_usuario">id</input>
-                </div>
+          <div id="controlesprincipales">
+              <button type="button" id="actualizarpresupuesto">Actualizar presupuesto</button>
+              <button type="button" id="anyadirgasto">Añadir gasto</button>
+              <button type="button" id="anyadirgasto-formulario">Añadir gasto (formulario)</button>
+              <button id="guardar-gastos">Guardar gastos</button>
+              <button id="cargar-gastos">Cargar gastos</button>
+              <button id="cargar-gastos-api">Cargar gastos (API)</button>
+              <input type="text" id="nombre_usuario">id</input>
+          </div>
             <div id="presupuesto">
             </div>
 
@@ -34,6 +28,40 @@
 
             <div id="balance-total">
             </div>
+            
+            <div id="filtrar-gastos">
+                <h2>Filtrar gastos</h2>
+                <form id="formulario-filtrado">
+                  <div class="form-control">
+                    <label for="formulario-filtrado-descripcion">Descripción</label>
+                    <input type="text" name="formulario-filtrado-descripcion" id="formulario-filtrado-descripcion">
+                  </div>
+                  <div class="form-control">
+                    <label for="formulario-filtrado-valor-minimo">Valor mínimo</label>
+                    <input type="number" name="formulario-filtrado-valor-minimo" id="formulario-filtrado-valor-minimo" step="0.01">
+                  </div>
+                  <div class="form-control">
+                    <label for="formulario-filtrado-valor-maximo">Valor máximo</label>
+                    <input type="number" name="formulario-filtrado-valor-maximo" id="formulario-filtrado-valor-maximo" step="0.01">
+                  </div>
+                  <div class="form-control">
+                    <label for="formulario-filtrado-fecha-desde">Fecha inicial</label>
+                    <input type="date" name="formulario-filtrado-fecha-desde" id="formulario-filtrado-fecha-desde">
+                  </div>
+                  <div class="form-control">
+                    <label for="formulario-filtrado-fecha-hasta">Fecha final</label>
+                    <input type="date" name="formulario-filtrado-fecha-hasta" id="formulario-filtrado-fecha-hasta">
+                  </div>
+                  <div class="form-control">
+                    <label for="formulario-filtrado-etiquetas-tiene">Etiquetas</label>
+                    <input type="text" name="formulario-filtrado-etiquetas-tiene" id="formulario-filtrado-etiquetas-tiene">
+                  </div>
+                  <div class="form-control">
+                    <button type="submit">Enviar</button>
+                  </div>
+                </form>
+              
+              </div>
 
             <div id="listado-gastos-completo">
             </div>
@@ -60,32 +88,34 @@
             </div>
 
         </div>
-
-        <script src="./js/generarDatosEstaticos.js" type="module"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0/dist/chartjs-adapter-moment.min.js"></script>
+            <script src="./js/generarDatosEstaticos.js" type="module"></script>
     
-        <template id="formulario-template">
-          <form>
-              <div class="form-control">
-                  <label for="descripcion">Descripción</label>
-                  <input type="text" name="descripcion" id="descripcion">
-              </div>
-              <div class="form-control">
-                  <label for="valor">Valor</label>
-                  <input type="number" step="0.01" name="valor" id="valor">
-              </div>
-              <div class="form-control">
-                  <label for="fecha">Fecha</label>
-                  <input type="date" name="fecha" id="fecha">
-              </div>
-              <div class="form-control">
-                  <label for="etiquetas">Etiquetas</label>
-                  <input type="text" name="etiquetas" id="etiquetas">
-              </div>
-              <button type="submit">Enviar</button>
-              <button class="cancelar" type="button">Cancelar</button>
-              <button type="button" class="gasto-enviar-api">Enviar (API)</button>
-          </form>
-      </template>
-
-    </body>
+            <template id="formulario-template">
+              <form>
+                  <div class="form-control">
+                      <label for="descripcion">Descripción</label>
+                      <input type="text" name="descripcion" id="descripcion">
+                  </div>
+                  <div class="form-control">
+                      <label for="valor">Valor</label>
+                      <input type="number" step="0.01" name="valor" id="valor">
+                  </div>
+                  <div class="form-control">
+                      <label for="fecha">Fecha</label>
+                      <input type="date" name="fecha" id="fecha">
+                  </div>
+                  <div class="form-control">
+                      <label for="etiquetas">Etiquetas</label>
+                      <input type="text" name="etiquetas" id="etiquetas">
+                  </div>
+                  <button type="submit">Enviar</button>
+                  <button class="cancelar" type="button">Cancelar</button>
+                  <button type="button" class="gasto-enviar-api">Enviar (API)</button>
+              </form>
+          </template>
+          
+      </body>
 </html>
