@@ -84,6 +84,7 @@ function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descri
 return gastosFiltrados;  
 }
 
+
 function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
     let filtrador = {etiquetasTiene : etiquetas, fechaDesde : fechaDesde, fechaHasta : fechaHasta}
     let returnFiltrarGastos = filtrarGastos(filtrador);
@@ -105,7 +106,7 @@ function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
     if (isNaN(valor) || valor < 0) {
         valor = 0;
     }
-
+    
     this.valor = valor
     this.descripcion = descripcion
     this.etiquetas = [...etiquetas]

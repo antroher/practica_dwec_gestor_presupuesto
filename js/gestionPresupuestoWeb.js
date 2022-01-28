@@ -24,6 +24,7 @@ function mostrarGastoWeb(idElemento, gasto) {
     divGasto.append(gastoEtiquetas);
 
     for (let etiq of gasto.etiquetas) {
+
         let nuevoObjEtiqueta = new BorrarEtiquetasHandle(); 
         nuevoObjEtiqueta.gasto = gasto;
 
@@ -83,40 +84,105 @@ function mostrarGastoWeb(idElemento, gasto) {
     divGasto.append(btnEditGastoForm);  
 }
 
-function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
-    const elemento = document.getElementById(idElemento);
-    let data = ""
-    for (let [key, value] of Object.entries(agrup)) {
-        data += `
-        <div class="agrupacion-dato">
-            <span class="agrupacion-dato-clave">${key}</span>
-            <span class="agrupacion-dato-valor">${value}</span>
-        </div>`
-    };
-    elemento.innerHTML += 
-    `
-    <div class="agrupacion">
-        <h1>Gastos agrupados por ${periodo}</h1>
-        ${data}
-    `
+function mostrarGastosAgrupadosWeb( idElemento, agrup, periodo ){
+
+    var divP = document.getElementById(idElemento);
+
+    divP.innerHTML = "";
+        
+        let arrayAgrupacion = "";
+
+        for( let [nombre, valor] of Object.entries( agrup ) ){
+            arrayAgrupacion += `
+                <div class="agrupacion-dato">
+                    <span class="agrupacion-dato-clave">${nombre}</span>
+                    <span class="agrupacion-dato-valor">${valor}</span>
+                </div>
+            `;
+        }
+
+        divP.innerHTML = `
+            <div class="agrupacion">
+                <h1>Gastos agrupados por ${periodo}</h1>
+                ${arrayAgrupacion}
+            </div>
+        `;
+
+    divP.style.width = "33%";
+    divP.style.display = "inline-block";
+
+    let chart = document.createElement("canvas");
+    let unit = "";
+    switch (periodo) {
+    case "anyo":
+        unit = "year";
+        break;
+    case "mes":
+        unit = "month";
+        break;
+    case "dia":
+    default:
+        unit = "day";
+        break;
+    }
+
+    const myChart = new Chart(chart.getContext("2d"), {
+        type: 'bar',
+        data: {
+            datasets: [
+                {
+                    label: `Gastos por ${periodo}`,
+
+                    backgroundColor: "#555555",
+
+                    data: agrup
+                }
+            ],
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'time',
+
+                    time: {
+                        unit: unit
+                    }
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    divP.append(chart);
 }
 
-function repintar() {
-    let mostrar = gestionPresupuesto.mostrarPresupuesto();
-    mostrarDatoEnId( "presupuesto",mostrar);
+function repintar(){
     
-    let gastoTotal = gestionPresupuesto.calcularTotalGastos().toFixed(2);
-    mostrarDatoEnId( "gastos-totales",gastoTotal);
-    
-    let balanceTotal = gestionPresupuesto.calcularBalance().toFixed(2);
-    mostrarDatoEnId("balance-total",balanceTotal);
-    
-    let borrarDatos = document.getElementById("listado-gastos-completo").innerHTML = "";
-    
-    let listaGasto = gestionPresupuesto.listarGastos();
-    for (const gasto of listaGasto) {
-        mostrarGastoWeb("listado-gastos-completo", gasto);
-    }
+    mostrarDatoEnId("presupuesto", gestionPresupuesto.mostrarPresupuesto());
+    mostrarDatoEnId("gastos-totales", gestionPresupuesto.calcularTotalGastos());
+    mostrarDatoEnId("balance-total", gestionPresupuesto.calcularBalance());
+
+    document.getElementById("listado-gastos-completo").innerHTML = "";
+
+    let listaGastos = gestionPresupuesto.listarGastos();
+    for(let gasto of listaGastos){
+    mostrarGastoWeb("listado-gastos-completo", gasto);
+  }
+
+    let periodoDia = "dia";
+    let gastosDia = gestionPresupuesto.agruparGastos(periodoDia);
+    mostrarGastosAgrupadosWeb("agrupacion-dia", gastosDia, "día");
+
+    let periodoMes = "mes";
+    let gastosMes = gestionPresupuesto.agruparGastos(periodoMes);
+    mostrarGastosAgrupadosWeb("agrupacion-mes", gastosMes, "mes");
+
+    let periodoAnyo = "anyo";
+    let gastosAnyo = gestionPresupuesto.agruparGastos(periodoAnyo);
+    mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAnyo, "año");
+
 }
 
 function actualizarPresupuestoWeb() {
@@ -167,6 +233,7 @@ function BorrarEtiquetasHandle() {
 }
 
 function nuevoGastoWebFormulario() {
+
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
     var formulario = plantillaFormulario.querySelector("form");
 
@@ -182,7 +249,7 @@ function nuevoGastoWebFormulario() {
     btnCancelar.addEventListener("click", cancelarObj);
 
     let apiEnviar = formulario.querySelector("button.gasto-enviar-api");
-    enviarApi.addEventListener("click", EnviarGastoApi);
+    apiEnviar.addEventListener("click", EnviarGastoApi);
 }
 
 function CancelarFormHandle() {
