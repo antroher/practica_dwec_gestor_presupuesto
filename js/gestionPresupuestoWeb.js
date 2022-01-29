@@ -9,7 +9,7 @@ let evFiltrar = new filtrarGastosWeb();
 document.getElementById("formulario-filtrado").addEventListener("submit", evFiltrar);
 document.getElementById("guardar-gastos").addEventListener('click', guardarGastosWeb);
 document.getElementById("cargar-gastos").addEventListener('click', cargarGastosWeb);
-
+document.getElementById("cargar-gastos-api").addEventListener('click', cargarGastosApi);
 
 function mostrarDatoEnId(idElemento, valor) {
     let elemento = document.getElementById(idElemento);
@@ -29,6 +29,27 @@ function mostrarGastoWeb(idElemento, gasto) {
 
     let evEditarFormulario = new EditarHandleFormulario();
     evEditarFormulario.gasto = gasto;
+
+    let div = document.createElement("div");
+    div.className = "gasto";
+
+    let divDesc = document.createElement("div");
+    divDesc.className = "gasto-descripcion";
+    divDesc.textContent = `${gasto.descripcion}`;
+
+    let divFech = document.createElement("div");
+    divFech.className = "gasto-fecha";
+    divFech.textContent = `${gasto.fecha}`;
+
+    let divVal = document.createElement("div");
+    divVal.className = "gasto-valor";
+    divVal.textContent = `${gasto.valor}`;
+
+    let divEtiq = document.createElement("div");
+    divEtiq.className = "gasto-etiquetas";
+
+    let evBorrarAPI = new BorrarAPIHandle();
+    evBorrarAPI.gasto = gasto;
 
     let div = document.createElement("div");
     div.className = "gasto";
@@ -78,14 +99,11 @@ function mostrarGastoWeb(idElemento, gasto) {
     btnEditaFormulario.textContent = "Editar (formulario)";
     btnEditaFormulario.addEventListener("click", evEditarFormulario);
 
-    let btnBorrarApi = document.createElement("button");
-    btnBorrarApi.className += `gasto-borrar-api`;
-    btnBorrarApi.type = "button";
-    btnBorrarApi.textContent = "Borrar (API)";
-
-    let eventoBorrarApi = new BorrarGastoApiHandle();
-    eventoBorrarApi.gasto = gastos;
-    btnBorrarApi.addEventListener("click",eventoBorrarApi);
+    let btnBorrarAPI = document.createElement("button");
+    btnBorrarAPI.className = "gasto-borrar-api";
+    btnBorrarAPI.type = "button";
+    btnBorrarAPI.textContent = "Borrar (API)";
+    btnBorrarAPI.addEventListener('click', evBorrarAPI);
 
     div.append(divDesc);
     div.append(divFech);
@@ -93,6 +111,7 @@ function mostrarGastoWeb(idElemento, gasto) {
     div.append(divEtiq);
     div.append(btnEditar);
     div.append(btnBorrar);
+    div.append(btnBorrarAPI);
     div.append(btnEditaFormulario);
     mostrar.append(div);
 }
