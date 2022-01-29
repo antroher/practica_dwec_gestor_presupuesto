@@ -117,20 +117,40 @@ function mostrarGastoWeb(idElemento, gasto) {
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
-    let elemento = document.getElementById(idElemento);
-    let mensaje =
-        "<div class='agrupacion'>\n" +
-        "<h1>Gastos agrupados por " + periodo + "</h1>\n";
+    var divP = document.getElementById(idElemento);
+    divP.innerHTML = '';
 
-    for (let etiq in agrup) {
-        mensaje +=
-            "<div class='agrupacion-dato'>\n" +
-            "<span class='agrupacion-dato-clave'>" + etiq + "</span>\n" +
-            "<span class='agrupacion-dato-valor'>" + agrup[etiq] + "</span>\n" +
-            "</div>\n";
+    let mostrar = document.getElementById(idElemento);
+
+    let div = document.createElement("div");
+    div.className = "agrupacion";
+
+    let h1 = document.createElement("h1");
+    h1.textContent = `Gastos agrupados por ${periodo}`;
+
+    div.append(h1);
+
+    for (const [key, value] of Object.entries(agrup)) {
+        let divAgrupacion = document.createElement("div");
+        divAgrupacion.className = "agrupacion-dato";
+
+        let spanClave = document.createElement("span");
+        spanClave.className = "agrupacion-dato-clave";
+        spanClave.textContent = `${key}`;
+
+        let spanValor = document.createElement("span");
+        spanValor.className = "agrupacion-dato-valor";
+        spanValor.textContent = `${value}`;
+
+        divAgrupacion.append(spanClave);
+        divAgrupacion.append(spanValor);
+
+        div.append(divAgrupacion);
     }
-    mensaje += "</div>\n";
-    elemento.innerHTML += mensaje;
+    mostrar.append(div);
+
+
+
 }
 
 function repintar() {
@@ -182,7 +202,7 @@ function nuevoGastoWeb() {
     repintar();
 }
 
-function nuevoGastoWebFormulario(){
+function nuevoGastoWebFormulario() {
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
     var formulario = plantillaFormulario.querySelector("form");
     let final = document.getElementById("controlesprincipales");
@@ -190,7 +210,7 @@ function nuevoGastoWebFormulario(){
     final.append(formulario);
 
     document.getElementById("anyadirgasto-formulario").disabled = true;
-    
+
     let enviar = new enviarGastoHandle();
 
     formulario.addEventListener("submit", enviar);
@@ -225,7 +245,7 @@ function enviarGastoHandle() {
 }
 
 function cancelarGastoHandle() {
-    this.handleEvent = function(evento) {
+    this.handleEvent = function (evento) {
         evento.currentTarget.parentNode.remove();
         document.getElementById("anyadirgasto-formulario").removeAttribute('disabled');
         repintar();
@@ -373,55 +393,53 @@ function cargarGastosWeb() {
     repintar();
 }
 
-function cargarGastosApi(){
+function cargarGastosApi() {
     let nombreUser = document.querySelector("#nombre_usuario").value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUser}`;
 
-        if(nombreUser != ' ')
-        {
-            fetch(url, {method: 'GET'})
-                .then(respuesta => respuesta.json())
-                .then(resultado => {
-                    if(resultado != "")
-                    {
-                        gestionPresupuesto.cargarGastos(resultado);
-                        console.log("CargargastosApi");
+    if (nombreUser != ' ') {
+        fetch(url, { method: 'GET' })
+            .then(respuesta => respuesta.json())
+            .then(resultado => {
+                if (resultado != "") {
+                    gestionPresupuesto.cargarGastos(resultado);
+                    console.log("CargargastosApi");
+                    repintar();
+                }
+                else {
+                    alert("Error-HTTP: " + resultado.status)
+                }
+            })
+            .catch(err => console.error(err));
+    }
+    else {
+        alert("Error-HTTP: 400 ");
+    }
+}
+
+let btnCargarGastosApi = document.getElementById("cargar-gastos-api");
+btnCargarGastosApi.addEventListener("click", cargarGastosApi());
+
+function BorrarGastoApiHandle() {
+    this.handleEvent = function (e) {
+        let UserName = document.querySelector("#nombre_usuario");
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${UserName}/${this.gasto.gastoId}`;
+
+        if (UserName.ok) {
+            fetch(url, { method: 'DELETE' })
+                .then(responde => responde.json())
+                .then(respuesta => {
+                    if (respuesta.ok) {
+                        cargarGastosApi();
                         repintar();
                     }
-                    else{
-                        alert("Error-HTTP: " + resultado.status)
+                    else {
+                        alert("Error-HTTP: " + respuesta.status);
                     }
                 })
                 .catch(err => console.error(err));
         }
-        else{
-            alert("Error-HTTP: 400 ");
-        }  
-}
-
-let btnCargarGastosApi = document.getElementById("cargar-gastos-api");
-btnCargarGastosApi.addEventListener("click",cargarGastosApi());
-
-function BorrarGastoApiHandle() {
-    this.handleEvent = function(e){
-        let UserName = document.querySelector("#nombre_usuario");
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${UserName}/${this.gasto.gastoId}`;
-
-        if(UserName.ok){
-            fetch(url, {method: 'DELETE'})
-            .then(responde => responde.json())
-            .then(respuesta => {
-                if(respuesta.ok){
-                    cargarGastosApi();
-                    repintar();
-                }
-                else{
-                    alert("Error-HTTP: "+respuesta.status);
-                }
-            })
-            .catch(err => console.error(err));
-        }
-        else{
+        else {
             alert("Error-HTTP: 404");
         }
     };
