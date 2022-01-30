@@ -533,6 +533,52 @@ function enviarAPIHandle() {
     }
 }
 
+function ActualizarAPIHandle(){
+    this.handleEvent = function(e){
+        let nombreUsuario = document.getElementById('nombre_usuario').value;
+
+        if(nombreUsuario != ''){
+            let url =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}/${this.gasto.gastoId}`;
+
+            var form = document.querySelector(".gasto form");
+            let desc = form.elements.descripcion.value;
+            let val = form.elements.valor.value;
+            let fech = form.elements.fecha.value;
+            let etiq = form.elements.etiquetas.value;
+    
+            val = parseFloat(val);
+            etiq = etiq.split(',');
+    
+            let gastoAPI = {
+                descripcion: desc,
+                valor: val,
+                fecha: fech,
+                etiquetas: etiq
+            };
+
+            fetch(url, {
+                method: "PUT",
+                headers:{
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(gastoAPI)
+            })
+            .then(function(response){
+                if(!response.ok){
+                    alert("Error "+response.status+": no se ha podido actualizar el gasto de la API");
+                }else{
+                    alert("Gasto actualizado correctamente");
+                    cargarGastosApi();
+                }
+            })
+            .catch(err => alert(err));
+    
+        }else{
+            alert('No has introducido un nombre de usuario');
+        }
+    }
+}
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
