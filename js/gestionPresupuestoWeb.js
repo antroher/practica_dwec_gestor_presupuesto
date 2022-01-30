@@ -149,8 +149,51 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     }
     mostrar.append(div);
 
+    divP.style.width = "33%";
+    divP.style.display = "inline-block";
 
+    let chart = document.createElement("canvas");
 
+    let unit = "";
+    switch (periodo) {
+        case "anyo":
+            unit = "year";
+            break;
+        case "mes":
+            unit = "month";
+            break;
+        case "dia":
+        default:
+            unit = "day";
+            break;
+    }
+
+    const myChart = new Chart(chart.getContext("2d"), {
+        type: 'bar',
+        data: {
+            datasets: [
+                {
+                    label: `Gastos por ${periodo}`,
+                    backgroundColor: "#555555",
+                    data: agrup
+                }
+            ],
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: unit
+                    }
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    divP.append(chart);
 }
 
 function repintar() {
@@ -443,6 +486,51 @@ function BorrarGastoApiHandle() {
             alert("Error-HTTP: 404");
         }
     };
+}
+
+function enviarAPIHandle() {
+
+    let nombreUsuario = document.getElementById('nombre_usuario').value;
+
+    if (nombreUsuario != '') {
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`;
+
+        var form = document.querySelector("#controlesprincipales form");
+        let desc = form.elements.descripcion.value;
+        let val = form.elements.valor.value;
+        let fech = form.elements.fecha.value;
+        let etiq = form.elements.etiquetas.value;
+
+        val = parseFloat(val);
+        etiq = etiq.split(',');
+
+        let gastoAPI = {
+            descripcion: desc,
+            valor: val,
+            fecha: fech,
+            etiquetas: etiq
+        };
+
+        fetch(url, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(gastoAPI)
+        })
+            .then(function (response) {
+                if (!response.ok) {
+                    alert("Error " + response.status + ": no se ha podido crear el gasto en la API");
+                } else {
+                    alert("Gasto creado correctamente");
+                    cargarGastosApi();
+                }
+            })
+            .catch(err => alert(err));
+
+    } else {
+        alert('No has introducido un nombre de usuario');
+    }
 }
 
 export {
