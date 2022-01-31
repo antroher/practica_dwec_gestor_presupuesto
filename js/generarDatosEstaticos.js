@@ -68,6 +68,6 @@ gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", gastosAgruparM
 let gastosAgruparAnyo = gestionPresupuesto.agruparGastos("anyo");
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAgruparAnyo, "año");
 
-document.getElementById("actualizarpresupuesto").addEventListener("click", gestionPresupuestoWeb.actualizarPresupuestoWeb);
-document.getElementById("anyadirgasto").addEventListener("click", gestionPresupuestoWeb.nuevoGastoWeb);
-document.getElementById("anyadirgasto-formulario").addEventListener("click", gestionPresupuestoWeb.nuevoGastoWebFormulario);
+//document.getElementById("actualizarpresupuesto").addEventListener("click", gestionPresupuestoWeb.actualizarPresupuestoWeb);
+//document.getElementById("anyadirgasto").addEventListener("click", gestionPresupuestoWeb.nuevoGastoWeb);
+//document.getElementById("anyadirgasto-formulario").addEventListener("click", gestionPresupuestoWeb.nuevoGastoWebFormulario);
