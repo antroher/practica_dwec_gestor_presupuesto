@@ -148,7 +148,7 @@ function calcularTotalGastos(){
     let resultado = 0;
 
     gastos.forEach((i) =>{
-        resultado += i.valor;
+        resultado += parseFloat(i.valor);
     });
 
     // for(let i = 0; i < gastos.length; i++){
