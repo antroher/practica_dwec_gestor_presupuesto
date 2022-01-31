@@ -82,6 +82,8 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     divP.innerHTML = "";
     let datos = "";
 
+    const elem = document.getElementById(idElemento);
+
     for (let [key, val] of Object.entries(agrup)) {
         datos += 
         `<div class="agrupacion-dato">
