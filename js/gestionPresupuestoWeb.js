@@ -666,5 +666,8 @@ export   {
     nuevoGastoWeb,
     nuevoGastoWebFormulario,
     filtrarGastosWeb,
-    EditarHandleFormulario
+    EditarHandleFormulario,
+    guardarGastosWeb,
+    cargarGastosWebf
+
 }
