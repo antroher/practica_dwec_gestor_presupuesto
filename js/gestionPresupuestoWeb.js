@@ -1,6 +1,6 @@
 "use strict";
 
-import * as gestionPresupuesto from "./gestionPresupuesto.js";
+import * as gestionPresupuesto from './gestionPresupuesto.js';
 
 document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb);
@@ -27,24 +27,6 @@ function mostrarGastoWeb(idElemento, gasto) {
 
     let evEditarFormulario = new EditarHandleFormulario();
     evEditarFormulario.gasto = gasto;
-
-    let div = document.createElement("div");
-    div.className = "gasto";
-
-    let divDesc = document.createElement("div");
-    divDesc.className = "gasto-descripcion";
-    divDesc.textContent = `${gasto.descripcion}`;
-
-    let divFech = document.createElement("div");
-    divFech.className = "gasto-fecha";
-    divFech.textContent = `${gasto.fecha}`;
-
-    let divVal = document.createElement("div");
-    divVal.className = "gasto-valor";
-    divVal.textContent = `${gasto.valor}`;
-
-    let divEtiq = document.createElement("div");
-    divEtiq.className = "gasto-etiquetas";
 
     let evBorrarAPI = new BorrarAPIHandle();
     evBorrarAPI.gasto = gasto;
@@ -91,17 +73,17 @@ function mostrarGastoWeb(idElemento, gasto) {
     btnBorrar.textContent = "Borrar";
     btnBorrar.addEventListener("click", evBorrar);
 
-    let btnEditaFormulario = document.createElement("button");
-    btnEditaFormulario.className = "gasto-editar-formulario";
-    btnEditaFormulario.type = "button";
-    btnEditaFormulario.textContent = "Editar (formulario)";
-    btnEditaFormulario.addEventListener("click", evEditarFormulario);
-
     let btnBorrarAPI = document.createElement("button");
     btnBorrarAPI.className = "gasto-borrar-api";
     btnBorrarAPI.type = "button";
     btnBorrarAPI.textContent = "Borrar (API)";
     btnBorrarAPI.addEventListener('click', evBorrarAPI);
+
+    let btnEditaFormulario = document.createElement("button");
+    btnEditaFormulario.className = "gasto-editar-formulario";
+    btnEditaFormulario.type = "button";
+    btnEditaFormulario.textContent = "Editar (formulario)";
+    btnEditaFormulario.addEventListener("click", evEditarFormulario);
 
     div.append(divDesc);
     div.append(divFech);
@@ -145,13 +127,18 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
 
         div.append(divAgrupacion);
     }
+
     mostrar.append(div);
 
+    //*//
+    // Estilos
     divP.style.width = "33%";
     divP.style.display = "inline-block";
-
+    // Crear elemento <canvas> necesario para crear la gráfica
+    // https://www.chartjs.org/docs/latest/getting-started/
     let chart = document.createElement("canvas");
-
+    // Variable para indicar a la gráfica el período temporal del eje X
+    // En función de la variable "periodo" se creará la variable "unit" (anyo -> year; mes -> month; dia -> day)
     let unit = "";
     switch (periodo) {
         case "anyo":
@@ -166,13 +153,20 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
             break;
     }
 
+    // Creación de la gráfica
+    // La función "Chart" está disponible porque hemos incluido las etiquetas <script> correspondientes en el fichero HTML
     const myChart = new Chart(chart.getContext("2d"), {
+        // Tipo de gráfica: barras. Puedes cambiar el tipo si quieres hacer pruebas: https://www.chartjs.org/docs/latest/charts/line.html
         type: 'bar',
         data: {
             datasets: [
                 {
+                    // Título de la gráfica
                     label: `Gastos por ${periodo}`,
+                    // Color de fondo
                     backgroundColor: "#555555",
+                    // Datos de la gráfica
+                    // "agrup" contiene los datos a representar. Es uno de los parámetros de la función "mostrarGastosAgrupadosWeb".
                     data: agrup
                 }
             ],
@@ -180,17 +174,21 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
         options: {
             scales: {
                 x: {
+                    // El eje X es de tipo temporal
                     type: 'time',
                     time: {
+                        // Indicamos la unidad correspondiente en función de si utilizamos días, meses o años
                         unit: unit
                     }
                 },
                 y: {
+                    // Para que el eje Y empieza en 0
                     beginAtZero: true
                 }
             }
         }
     });
+    // Añadimos la gráfica a la capa
     divP.append(chart);
 }
 
@@ -234,9 +232,12 @@ function repintar() {
 
     function nuevoGastoWeb() {
         let descripcion = prompt("Introduzca la descripción del nuevo gasto: ");
-        let valor = parseFloat(prompt("Introduzca el valor del nuevo gasto: "));
-        let fecha = Date.parse(prompt("Introduzca la fecha del nuevo gasto: "));
+        let valor = prompt("Introduzca el valor del nuevo gasto: ");
+        let fecha = prompt("Introduzca la fecha del nuevo gasto: ");
         let etiquetas = prompt("Introduzca las etiquetas del nuevo gasto separadas por , : ").split(', ');
+
+        valor = parseFloat(valor);
+        etiquetas = etiquetas.split(',');
 
         let g = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, etiquetas);
         gestionPresupuesto.anyadirGasto(g);
@@ -254,7 +255,6 @@ function repintar() {
         document.getElementById("anyadirgasto-formulario").disabled = true;
 
         let enviar = new enviarGastoHandle();
-
         formulario.addEventListener("submit", enviar);
 
         let cancelar = new cancelarGastoHandle();
@@ -430,7 +430,8 @@ function repintar() {
 
         if (localStorage.getItem('GestorGastosDWEC')) {
             gastosLS = JSON.parse(localStorage.getItem('GestorGastosDWEC'));
-        } else {
+        }
+        else {
             gastosLS = [];
         }
 
@@ -439,26 +440,24 @@ function repintar() {
     }
 
     function cargarGastosApi() {
-        let nombreUser = document.querySelector("#nombre_usuario").value;
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUser}`;
+        let nombreUsuario = document.getElementById('nombre_usuario').value;
 
-        if (nombreUser != ' ') {
-            fetch(url, { method: 'GET' })
-                .then(respuesta => respuesta.json())
-                .then(resultado => {
-                    if (resultado != "") {
-                        gestionPresupuesto.cargarGastos(resultado);
-                        console.log("CargargastosApi");
-                        repintar();
-                    }
-                    else {
-                        alert("Error-HTTP: " + resultado.status)
-                    }
+        if (nombreUsuario != '') {
+            let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`;
+
+            fetch(url, {
+                method: "GET",
+            })
+                .then(response => response.json())
+                .then(function (gastosAPI) {
+                    gestionPresupuesto.cargarGastos(gastosAPI);
+
+                    repintar();
                 })
-                .catch(err => console.error(err));
+                .catch(err => alert(err));
         }
         else {
-            alert("Error-HTTP: 400 ");
+            alert('No has introducido un nombre de usuario');
         }
     }
 
@@ -478,14 +477,16 @@ function repintar() {
                     .then(function (response) {
                         if (!response.ok) {
                             alert("Error " + response.status + ": en la API no hay ningún gasto con ese id");
-                        } else {
+                        }
+                        else {
                             alert("Gasto borrado correctamente");
                             cargarGastosApi();
                         }
                     })
                     .catch(err => alert(err));
 
-            } else {
+            }
+            else {
                 alert('No has introducido un nombre de usuario');
             }
         }
@@ -524,20 +525,22 @@ function repintar() {
                 .then(function (response) {
                     if (!response.ok) {
                         alert("Error " + response.status + ": no se ha podido crear el gasto en la API");
-                    } else {
+                    }
+                    else {
                         alert("Gasto creado correctamente");
                         cargarGastosApi();
                     }
                 })
                 .catch(err => alert(err));
 
-        } else {
+        }
+        else {
             alert('No has introducido un nombre de usuario');
         }
     }
 
     function ActualizarAPIHandle() {
-        this.handleEvent = function (e) {
+        this.handleEvent = function (evento) {
             let nombreUsuario = document.getElementById('nombre_usuario').value;
 
             if (nombreUsuario != '') {
@@ -569,14 +572,16 @@ function repintar() {
                     .then(function (response) {
                         if (!response.ok) {
                             alert("Error " + response.status + ": no se ha podido actualizar el gasto de la API");
-                        } else {
+                        }
+                        else {
                             alert("Gasto actualizado correctamente");
                             cargarGastosApi();
                         }
                     })
                     .catch(err => alert(err));
 
-            } else {
+            }
+            else {
                 alert('No has introducido un nombre de usuario');
             }
         }
@@ -586,6 +591,5 @@ function repintar() {
         mostrarDatoEnId,
         mostrarGastoWeb,
         mostrarGastosAgrupadosWeb,
-        repintar
     }
 }
