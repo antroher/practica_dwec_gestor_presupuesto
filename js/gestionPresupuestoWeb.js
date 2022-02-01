@@ -1,6 +1,6 @@
 "use strict";
 
-import * as gestionPresupuesto from './gestionPresupuesto.js';
+import * as gestionPresupuesto from "./gestionPresupuesto.js";
 
 document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb);
@@ -12,8 +12,10 @@ document.getElementById("cargar-gastos").addEventListener('click', cargarGastosW
 document.getElementById("cargar-gastos-api").addEventListener('click', cargarGastosApi);
 
 function mostrarDatoEnId(idElemento, valor) {
-    let mostrar = document.getElementById(idElemento);
-    mostrar.textContent = `${valor}`;
+    let elem = document.getElementById(idElemento);
+    let p = document.createElement("p");
+    p.textContent = valor;
+    elem.appendChild(p);
 }
 
 function mostrarGastoWeb(idElemento, gasto) {
