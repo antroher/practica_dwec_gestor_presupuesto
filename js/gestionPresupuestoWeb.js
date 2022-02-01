@@ -591,5 +591,8 @@ function repintar() {
         mostrarDatoEnId,
         mostrarGastoWeb,
         mostrarGastosAgrupadosWeb,
+        repintar,
+        guardarGastosWeb,
+        cargarGastosWeb
     }
 }
