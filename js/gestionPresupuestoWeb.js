@@ -12,10 +12,8 @@ document.getElementById("cargar-gastos").addEventListener('click', cargarGastosW
 document.getElementById("cargar-gastos-api").addEventListener('click', cargarGastosApi);
 
 function mostrarDatoEnId(idElemento, valor) {
-    let elem = document.getElementById(idElemento);
-    let p = document.createElement("p");
-    p.textContent = valor;
-    elem.appendChild(p);
+    let mostrar = document.getElementById(idElemento);
+    mostrar.textContent = `${valor}`;
 }
 
 function mostrarGastoWeb(idElemento, gasto) {
@@ -225,8 +223,8 @@ function repintar() {
 
     function actualizarPresupuestoWeb() {
         let presupuesto = prompt('Introduce un presupuesto nuevo');
-
         presupuesto = parseInt(presupuesto);
+
         gestionPresupuesto.actualizarPresupuesto(presupuesto);
 
         repintar();
