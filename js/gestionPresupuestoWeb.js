@@ -16,7 +16,7 @@ function mostrarDatoEnId(idElemento, valor) {
     mostrar.textContent = `${valor}`;
 }
 
-function mostrarGastoWeb(idElemento, gasto){
+function mostrarGastoWeb(idElemento, gasto) {
 
     let mostrar = document.getElementById(idElemento);
 
@@ -50,7 +50,7 @@ function mostrarGastoWeb(idElemento, gasto){
     let divEtiq = document.createElement("div");
     divEtiq.className = "gasto-etiquetas";
 
-    for(let etiqueta of gasto.etiquetas){
+    for (let etiqueta of gasto.etiquetas) {
         let spanEtiq = document.createElement("span");
         spanEtiq.className = "gasto-etiquetas-etiqueta";
         spanEtiq.textContent = `${etiqueta}`;
@@ -93,7 +93,7 @@ function mostrarGastoWeb(idElemento, gasto){
     div.append(btnBorrar);
     div.append(btnBorrarAPI);
     div.append(btnEditaFormulario);
-    mostrar.append(div);  
+    mostrar.append(div);
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
@@ -220,22 +220,30 @@ function repintar() {
 
     let gastosAgruparAnyo = gestionPresupuesto.agruparGastos("anyo");
 
-<<<<<<< HEAD
     mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAgruparAnyo, "año");
 }
 
 function actualizarPresupuestoWeb() {
     let presupuesto = prompt('Introduce un presupuesto nuevo');
     presupuesto = parseInt(presupuesto);
-=======
-    function actualizarPresupuestoWeb() {
-        let presupuesto = prompt('Introduce un presupuesto nuevo');
-        presupuesto = parseInt(presupuesto);
-
-        gestionPresupuesto.actualizarPresupuesto(presupuesto);
->>>>>>> d1d5ec900d3c798cf85cd56b4bfafb0fd03eeabe
 
     gestionPresupuesto.actualizarPresupuesto(presupuesto);
+
+    repintar();
+}
+
+function nuevoGastoWeb() {
+    let descripcion = prompt('Introduce la descripción del gasto');
+    let valor = prompt('Introduce el valor del gasto');
+    let fecha = prompt('Introduce la fecha del gasto');
+    let etiquetas = prompt('Introduce las etiquetas');
+
+    valor = parseFloat(valor);
+    etiquetas = etiquetas.split(',');
+
+    let gasto1 = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, etiquetas);
+
+    gestionPresupuesto.anyadirGasto(gasto1);
 
     repintar();
 }
@@ -292,14 +300,6 @@ function cancelarGastoHandle() {
         e.currentTarget.parentNode.remove();
         document.getElementById("anyadirgasto-formulario").removeAttribute('disabled');
 
-        repintar();
-    }
-}
-
-function cancelarGastoHandle() {
-    this.handleEvent = function (evento) {
-        evento.currentTarget.parentNode.remove();
-        document.getElementById("anyadirgasto-formulario").removeAttribute('disabled');
         repintar();
     }
 }
