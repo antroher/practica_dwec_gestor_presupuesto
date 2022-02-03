@@ -1,9 +1,9 @@
 "use strict";
 
-import * as gestionPresupuesto from "./gestionPresupuesto.js";
+import * as gestionPresupuesto from './gestionPresupuesto.js';
 
-document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb);
-document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb);
+document.getElementById("actualizarpresupuesto").addEventListener("click", actualizarPresupuestoWeb);
+document.getElementById("anyadirgasto").addEventListener("click", nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario").addEventListener("click", nuevoGastoWebFormulario);
 let evFiltrar = new filtrarGastosWeb();
 document.getElementById("formulario-filtrado").addEventListener("submit", evFiltrar);
@@ -16,7 +16,8 @@ function mostrarDatoEnId(idElemento, valor) {
     mostrar.textContent = `${valor}`;
 }
 
-function mostrarGastoWeb(idElemento, gasto) {
+function mostrarGastoWeb(idElemento, gasto){
+
     let mostrar = document.getElementById(idElemento);
 
     let evEditar = new EditarHandle();
@@ -49,12 +50,11 @@ function mostrarGastoWeb(idElemento, gasto) {
     let divEtiq = document.createElement("div");
     divEtiq.className = "gasto-etiquetas";
 
-    for (let etiqueta of gasto.etiquetas) {
+    for(let etiqueta of gasto.etiquetas){
         let spanEtiq = document.createElement("span");
         spanEtiq.className = "gasto-etiquetas-etiqueta";
         spanEtiq.textContent = `${etiqueta}`;
         divEtiq.append(spanEtiq);
-
         let evEtiqueta = new BorrarEtiquetasHandle();
         evEtiqueta.gasto = gasto;
         evEtiqueta.etiqueta = etiqueta;
@@ -93,7 +93,7 @@ function mostrarGastoWeb(idElemento, gasto) {
     div.append(btnBorrar);
     div.append(btnBorrarAPI);
     div.append(btnEditaFormulario);
-    mostrar.append(div);
+    mostrar.append(div);  
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
