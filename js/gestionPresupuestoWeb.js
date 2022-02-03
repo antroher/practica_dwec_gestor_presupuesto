@@ -1,9 +1,9 @@
 "use strict";
 
-import * as gestionPresupuesto from "./gestionPresupuesto.js";
+import * as gestionPresupuesto from './gestionPresupuesto.js';
 
-document.getElementById("actualizarpresupuesto").addEventListener('click', actualizarPresupuestoWeb);
-document.getElementById("anyadirgasto").addEventListener('click', nuevoGastoWeb);
+document.getElementById("actualizarpresupuesto").addEventListener("click", actualizarPresupuestoWeb);
+document.getElementById("anyadirgasto").addEventListener("click", nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario").addEventListener("click", nuevoGastoWebFormulario);
 let evFiltrar = new filtrarGastosWeb();
 document.getElementById("formulario-filtrado").addEventListener("submit", evFiltrar);
@@ -12,13 +12,12 @@ document.getElementById("cargar-gastos").addEventListener('click', cargarGastosW
 document.getElementById("cargar-gastos-api").addEventListener('click', cargarGastosApi);
 
 function mostrarDatoEnId(idElemento, valor) {
-    let elem = document.getElementById(idElemento);
-    let p = document.createElement("p");
-    p.textContent = valor;
-    elem.appendChild(p);
+    let mostrar = document.getElementById(idElemento);
+    mostrar.textContent = `${valor}`;
 }
 
-function mostrarGastoWeb(idElemento, gasto) {
+function mostrarGastoWeb(idElemento, gasto){
+
     let mostrar = document.getElementById(idElemento);
 
     let evEditar = new EditarHandle();
@@ -51,12 +50,11 @@ function mostrarGastoWeb(idElemento, gasto) {
     let divEtiq = document.createElement("div");
     divEtiq.className = "gasto-etiquetas";
 
-    for (let etiqueta of gasto.etiquetas) {
+    for(let etiqueta of gasto.etiquetas){
         let spanEtiq = document.createElement("span");
         spanEtiq.className = "gasto-etiquetas-etiqueta";
         spanEtiq.textContent = `${etiqueta}`;
         divEtiq.append(spanEtiq);
-
         let evEtiqueta = new BorrarEtiquetasHandle();
         evEtiqueta.gasto = gasto;
         evEtiqueta.etiqueta = etiqueta;
@@ -95,7 +93,7 @@ function mostrarGastoWeb(idElemento, gasto) {
     div.append(btnBorrar);
     div.append(btnBorrarAPI);
     div.append(btnEditaFormulario);
-    mostrar.append(div);
+    mostrar.append(div);  
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
@@ -222,12 +220,20 @@ function repintar() {
 
     let gastosAgruparAnyo = gestionPresupuesto.agruparGastos("anyo");
 
+<<<<<<< HEAD
     mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAgruparAnyo, "año");
 }
 
 function actualizarPresupuestoWeb() {
     let presupuesto = prompt('Introduce un presupuesto nuevo');
     presupuesto = parseInt(presupuesto);
+=======
+    function actualizarPresupuestoWeb() {
+        let presupuesto = prompt('Introduce un presupuesto nuevo');
+        presupuesto = parseInt(presupuesto);
+
+        gestionPresupuesto.actualizarPresupuesto(presupuesto);
+>>>>>>> d1d5ec900d3c798cf85cd56b4bfafb0fd03eeabe
 
     gestionPresupuesto.actualizarPresupuesto(presupuesto);
 
