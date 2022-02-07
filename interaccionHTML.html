@@ -6,8 +6,11 @@
         <title>
             Gestor de Presupuesto - JoseJuanCantoSoriano
         </title>
+        <!-- Scripts Librerías Externas -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0/dist/chartjs-adapter-moment.min.js"></script>
     </head>
-
     <body>
         <div id="aplicacion">
             <div id="controlesprincipales">
@@ -103,30 +106,29 @@
             </div>
 
         </div>
-        <script type="module" src="./js/generarDatosEstaticos.js"></script>
-
         <template id="formulario-template">
-            <form>
-                <div class="form-control">
-                    <label for="descripcion">Descripción</label>
-                    <input type="text" name="descripcion" id="descripcion">
-                </div>
-                <div class="form-control">
-                    <label for="valor">Valor</label>
-                    <input type="number" step="0.01" name="valor" id="valor">
-                </div>
-                <div class="form-control">
-                    <label for="fecha">Fecha</label>
-                    <input type="date" name="fecha" id="fecha">
-                </div>
-                <div class="form-control">
-                    <label for="etiquetas">Etiquetas</label>
-                    <input type="text" name="etiquetas" id="etiquetas">
-                </div>
-                <button type="submit">Enviar</button>
-                <button class="cancelar" type="button">Cancelar</button>
-                <button type="button" class="gasto-enviar-api">Enviar (API)</button>
-            </form>
+          <form>
+            <div class="form-control">
+              <label for="descripcion">Descripción</label>
+              <input type="text" name="descripcion" id="descripcion">
+            </div>
+            <div class="form-control">
+              <label for="valor">Valor</label>
+              <input type="number" step="0.01" name="valor" id="valor">
+            </div>
+            <div class="form-control">
+              <label for="fecha">Fecha</label>
+              <input type="date" name="fecha" id="fecha">
+            </div>
+            <div class="form-control">
+              <label for="etiquetas">Etiquetas</label>
+              <input type="text" name="etiquetas" id="etiquetas">
+            </div>
+            <button type="submit">Enviar</button>
+            <button class="cancelar" type="button">Cancelar</button>
+            <button type="button" class="gasto-enviar-api">Enviar (API)</button>
+          </form>
         </template>
+        <script type="module" src="./js/generarDatosEstaticos.js"></script>
     </body>
 </html>
