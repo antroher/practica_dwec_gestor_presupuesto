@@ -391,4 +391,3 @@ export   {
     transformarListadoEtiquetas,
     cargarGastos
 }
-
