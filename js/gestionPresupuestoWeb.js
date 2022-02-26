@@ -227,16 +227,7 @@ function mostrarGastoWeb(idElemento, gasto){
     let elem = document.getElementById(idElemento); 
     
     let divGasto = document.createElement('div');
-    divGasto.className += 'gasto';
-
-    let texto = "<h2> Presupuesto </h2>";                                                                          
-
-    let divPresupuesto = document.createElement('div');
-    divPresupuesto.className = 'presupuesto';
-
-    let divGastoPresupuesto = document.createElement('div');
-    divGastoPresupuesto.className = 'presupuesto';
-    divGastoPresupuesto.textContent = texto;
+    divGasto.className += 'gasto';                                                      
 
     let divGastoDescripcion = document.createElement('div');
     divGastoDescripcion.className = 'gasto-descripcion'; 
@@ -257,9 +248,6 @@ function mostrarGastoWeb(idElemento, gasto){
     divGasto.append(divGastoDescripcion);
     divGasto.append(divGastoFecha);
     divGasto.append(divGastoValor);
-    divGasto.append(divPresupuesto);
-    let spacio = "______________________________________________________"
-    let br = document.createElement('br');
     gasto.etiquetas.forEach(label =>
         {
             let borraEti = new BorrarEtiquetasHandle();
@@ -268,7 +256,7 @@ function mostrarGastoWeb(idElemento, gasto){
             
             let spanH = document.createElement('span');
             spanH.className = 'gasto-etiquetas-etiqueta';
-            spanH.textContent = label + '';  
+            spanH.textContent = label + " ";  
             if(idElemento == "listado-gastos-completo"){
                 spanH.addEventListener("click", borraEti);
             }
@@ -325,14 +313,7 @@ function mostrarGastoWeb(idElemento, gasto){
         divGasto.append(botonEditar);
         divGasto.append(botonBorrar);
         divGasto.append(botonEditarF);
-        divGasto.append(br);
-        divGasto.append(spacio);
-        divGasto.append(br);
-        
     } 
-    divGasto.append(br);
-    divGasto.append(spacio);
-    divGasto.append(br);
 }    
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -457,24 +438,25 @@ function filtrarGastosWeb(){
 }
 function cargarGastosWeb(){
     this.handleEvent = function(event){
-    let listaGastosStorage = localStorage.getItem('GestorGastosDWEC');
-    listaGastosStorage = JSON.parse(listaGastosStorage);
+    event.preventDefault();
+        let listaGastosStorage = localStorage.getItem('GestorGastosDWEC');
+        listaGastosStorage = JSON.parse(listaGastosStorage);
 
-    if(listaGastosStorage){
-        gestionPresupuesto.cargarGastos(listaGastosStorage);
-    }else{
-        listaGastosStorage = [];
-        gestionPresupuesto.cargarGastos(listaGastosStorage);
-    }
-    repintar();
+        if(listaGastosStorage){
+            gestionPresupuesto.cargarGastos(listaGastosStorage);
+        }else{
+            listaGastosStorage = [];
+            gestionPresupuesto.cargarGastos(listaGastosStorage);
+        }
+        repintar();
     }
 }
 
 function guardarGastosWeb(){
     this.handleEvent = function(event){
-      
-    let listaGastos = gestionPresupuesto.listarGastos();
-    localStorage.setItem('GestorGastosDWEC', JSON.stringify(listaGastos));
+        event.preventDefault();
+        let listaGastos = gestionPresupuesto.listarGastos();
+        localStorage.setItem('GestorGastosDWEC', JSON.stringify(listaGastos));
     }
 }
 
