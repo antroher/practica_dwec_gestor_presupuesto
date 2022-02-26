@@ -331,9 +331,11 @@ function mostrarGastoWeb(idElemento, gasto){
         divGasto.append(botonEditar);
         divGasto.append(botonBorrar);
         divGasto.append(botonEditarFormulario);
+        divGasto.append(botonBorrarAPI)
         divGasto.append(br);
         divGasto.append(espacio);
         divGasto.append(br);
+        
         
     } 
     divGasto.append(br);
@@ -350,8 +352,53 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
         
     };
     elem.innerHTML += "<div class='agrupacion'><h1>Gastos agrupados por " + periodo + " </h1>" + texto;
-    
+            
+            elem.style.width = "33%";
+            elem.style.display = "inline-block";
+            let chart = document.createElement("canvas");
+            let unit = "";
+            switch (periodo) {
+            case "anyo":
+                unit = "year";
+                break;
+            case "mes":
+                unit = "month";
+                break;
+            case "dia":
+            default:
+                unit = "day";
+                break;
 }
+    const myChart = new Chart(chart.getContext("2d"), {
+        type: 'bar',
+        data: {
+            datasets: [
+                {
+                    label: `Gastos por ${periodo}`,
+                    backgroundColor: "#555555",
+                    data: agrup
+                }
+            ],
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: unit
+                    }
+                },
+                y: {
+
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    elem.append(chart);
+}
+
 let formularioFiltrado = document.getElementById("formulario-filtrado");
 
 let eventoFiltrarGastoWeb = new filtrarGastosWeb();
@@ -425,7 +472,19 @@ function guardarGastosWeb(){
 let botonCargarGastosApi = document.getElementById("cargar-gastos-api");
 botonCargarGastosApi.addEventListener('click', new cargarGastosApi);
 
+function borrarGastoApi(){
+    this.handleEvent = async function(event){
+        event.preventDefault();
+        
+        let url = "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/";
+        let usu = document.getElementById("nombre_usuario");
 
+        let response =  await fetch(url + usu.value + "/" + this.gasto.gastoId, {method: 'DELETE'});
+        if(response.ok){
+            cargarGastosApi();
+        }
+    }
+}
 
 function cargarGastosApi(){
     let nusuario = document.getElementById('nombre_usuario').value;
