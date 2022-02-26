@@ -23,8 +23,8 @@ gestionPresupuestoWeb.mostrarDatoEnId("balance-total", gestionPresupuesto.calcul
 
 
 let gastos = gestionPresupuesto.listarGastos();
-gastos.forEach(element =>{
-    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", element);
+gastos.forEach(elemento =>{
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", elemento);
 });
 
 
@@ -48,7 +48,7 @@ gastosFiltrados.forEach(element =>{
     gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", element);
 });
 
-
+//TODO OK
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", gestionPresupuesto.agruparGastos("dia"), "día");
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", gestionPresupuesto.agruparGastos("mes"), "mes");
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", gestionPresupuesto.agruparGastos("anyo"), "año");
