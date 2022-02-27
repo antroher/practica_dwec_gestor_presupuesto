@@ -190,10 +190,10 @@ function actualizarPresupuestoWeb()  {
 }
 
 function nuevoGastoWeb() {
-    let des = prompt(`¿Ya estás gastando dinero? ¿En qué te lo has gastado, trozo de mierda?`);
-    let val = parseFloat(prompt(`¿Cuánto ha sido esta vez?`));
-    let fec = prompt(`¿Y cuándo fue eso? Dímelo siguiendo el formato yyyy-mm-dd que si no no te entiendo, figura`);
-    let eti = prompt(`Etiqueta ese rico gasto tuyo con todas las etiquetas que quieras, pero sepáralas con comas (,) para poder yo distinguir entre una y otra`);
+    let des = prompt(`Describa el gasto`);
+    let val = parseFloat(prompt(`Indique su valor`));
+    let fec = prompt(`Fecha de la compra`);
+    let eti = prompt(`Etiqueta el gasto con comas (,) para poder distinguir entre una y otra`);
     let etiArray = eti.split(',');
     let gasto = new gestionPresupuesto.CrearGasto(des, val, fec, ...etiArray);
     gestionPresupuesto.anyadirGasto(gasto);
@@ -272,10 +272,10 @@ function EditarHandleformulario() {
 }
 function EditarHandle() {
     this.handleEvent = function (e){    
-        let des = prompt("¿Cuál va a ser la nueva descripción del gasto?");
-        let val = parseFloat(prompt("¿Y de cuánto dices que es?"));
-        let fec = prompt("Dime cuándo hiciste ese gasto anda, recuerda que sólo entiendo el formato yyyy-mm-dd");
-        let etiquetas = prompt("Etiqueta el gasto como te venga en gana, pero separa cada etiqueta con una coma (,)");
+        let des = prompt("Describa el nuevo gasto");
+        let val = parseFloat(prompt("Indique su nuevo precio"));
+        let fec = prompt("Indique su nueva fecha en formato yyyy-mm-dd");
+        let etiquetas = prompt("Etiqueta el gasto con una coma (,)");
         let etiArray = etiquetas.split(',');
         this.gasto.actualizarValor(val);
         this.gasto.actualizarDescripcion(des);
