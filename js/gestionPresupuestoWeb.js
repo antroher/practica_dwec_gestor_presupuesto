@@ -1,4 +1,4 @@
-'use strict'
+'use strict' //NUEVO
 
 import * as gestionPresupuesto from './gestionPresupuesto.js';
 
@@ -469,23 +469,18 @@ saveGast.addEventListener('click', eventSaveGasto );
 
 //--------------------------
 
-function cargarGastoWeb()
+function cargarGastosWeb()
 {
     this.handleEvent = function(event)
     {   
-        
-        let carg = JSON.parse(localStorage.getItem('GestorGastosDWEC'));
 
-        if (carg !== null)
+        if (localStorage.GestorGastosDWEC == null)
         {
-            if (carg.length > 0)
-            {
-                gestionPresupuesto.cargarGastos(carg);
-            }            
+            gestionPresupuesto.cargarGastos([]);           
         }
         else
         {
-            gestionPresupuesto.cargarGastos([]);
+            gestionPresupuesto.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
         }
         
         repintar();
@@ -493,7 +488,7 @@ function cargarGastoWeb()
 }
 
 //BOTON CARGAR
-let eventLoadGasto = new cargarGastoWeb();
+let eventLoadGasto = new cargarGastosWeb();
 let loadGast = document.getElementById('cargar-gastos');
 loadGast.addEventListener('click', eventLoadGasto);
 
@@ -502,31 +497,31 @@ loadGast.addEventListener('click', eventLoadGasto);
 //******************************************************
 function cargarGastosApi ()
 {
-    let usuario = document.getElementById("nombre_usuario");
+    let usuario = document.getElementById("nombre_usuario").value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
     
-    if (usuario == '')
-    {
-        console.log('No hay el nombre del usuario');
-    }
-    else
+    if (usuario != '')
     {
         fetch (url, {method: 'GET'})
         .then(response => response.json())
         .then((result) => 
         {
-            let resp = result;
-            if (resp == '')
+            let resultado = result;
+            if (resultado == '')
             {
                 console.log('No hay el nombre del usuario');
             }
             else 
             {
-                gestionPresupuesto.cargarGastos(resp);
+                gestionPresupuesto.cargarGastos(resultado);
                 repintar();
             }
         })
-        .catch(error => console.error(error));
+        .catch(err => console.error(err));        
+    }
+    else
+    {
+        console.log('No hay el nombre del usuario');
     }
 }
 
@@ -538,7 +533,7 @@ function borrarGastoApiHandle()
 {
     this.handleEvent = function(event)
     {
-        let usuario = document.getElementById('nombre_usuario');
+        let usuario = document.getElementById('nombre_usuario').value;
         let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
 
         if(usuario == "")
@@ -551,28 +546,28 @@ function borrarGastoApiHandle()
             .then(response => response.json())
             .then(datos => 
             {
-                if(datos.errorMessage)
-                {
-                    console.log(datos.errorMessage);
-                }
-                else
+                if(!datos.errorMessage)
                 {
                     cargarGastosApi();
                 }
+                else
+                {
+                    console.log(datos.errorMessage);
+                }
             })
-            .catch(error => console.error(error));
+            .catch(err => console.error(err));
         }
     }
 }
 
 function enviarGastoApi(event)
 {
-    let usuario = document.getElementById('nombre_usuario');
+    let usuario = document.getElementById('nombre_usuario').value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
 
-    let formulario = e.currentTarget.form;
-    let descripcionNew = formulario.elements.descripcion;
-    let valorNew = parseFloat(formulario.elements.valor);
+    let formulario = event.currentTarget.form;
+    let descripcionNew = formulario.elements.descripcion.value;
+    let valorNew = parseFloat(formulario.elements.valor.value);
     let fechaNew = formulario.elements.fecha;
     let etiquetasNew = (formulario.elements.etiquetas).split(',');
 
@@ -583,6 +578,8 @@ function enviarGastoApi(event)
         valor: valorNew,
         etiquetas: etiquetasNew
     }
+
+    console.log(nuevoG);
 
     if(usuario == '')
     {
@@ -601,6 +598,7 @@ function enviarGastoApi(event)
         {
             if (response.ok)
             {
+                console.log("Correcto");
                 cargarGastosApi();
             }
             else
@@ -608,7 +606,7 @@ function enviarGastoApi(event)
                 console.log('Error');
             }
         })
-        .catch(error => console.error(error));
+        .catch(err => console.error(err));
     }    
 }
 
@@ -619,11 +617,11 @@ function EditarGastoApi()
         let usuario = document.getElementById("nombre_usuario").value;
         let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
 
-        let formulario = e.currentTarget.form;
-        let descripcionNew = formulario.elements.descripcion;
-        let valorNew = parseFloat(formulario.elements.valor);
-        let fechaNew = formulario.elements.fecha;
-        let etiquetasNew = (formulario.elements.etiquetas).split(',');
+        let formulario = event.currentTarget.form;
+        let descripcionNew = formulario.elements.descripcion.value;
+        let valorNew = parseFloat(formulario.elements.valor.value);
+        let fechaNew = formulario.elements.fecha.value;
+        let etiquetasNew = (formulario.elements.etiquetas.value).split(',');
 
         let nuevoG = 
         {
@@ -650,6 +648,7 @@ function EditarGastoApi()
             {
                 if (response.ok)
                 {
+                    console.log("Correctamente");
                     cargarGastosApi();
                 }
                 else
@@ -657,12 +656,10 @@ function EditarGastoApi()
                     console.log('Error');
                 }
             })
-            .catch(error => console.error(error));
+            .catch(err => console.error(err));
         }  
     }
 }
-
-
 
 //********** NO TOCAR **************
 export   {
