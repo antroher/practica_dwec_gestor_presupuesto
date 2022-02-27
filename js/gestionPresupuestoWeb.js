@@ -115,7 +115,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
         unit = "day";
         break;
     }
-
+    
     // Creación de la gráfica
     // La función "Chart" está disponible porque hemos incluido las etiquetas <script> correspondientes en el fichero HTML
     const myChart = new Chart(chart.getContext("2d"), {

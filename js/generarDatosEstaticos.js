@@ -21,7 +21,7 @@ gestionPresupuesto.anyadirGasto(gasto4);
 gestionPresupuesto.anyadirGasto(gasto5);
 gestionPresupuesto.anyadirGasto(gasto6);
 
-let GastosTotales = gestionPresupuesto.calcularTotalGastos();
+let GastosTotales = gestionPresupuesto.calcularTotalGastos();Ñ
 gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales", GastosTotales);
 
 let balance = gestionPresupuesto.calcularBalance();
