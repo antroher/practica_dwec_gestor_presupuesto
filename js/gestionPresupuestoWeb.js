@@ -492,7 +492,7 @@ function cargarGastosApi(){
 //         }
 //     }
 // }
-function apiSendHandle(){
+function apiSendHandle(event){
     let user = document.getElementById("nombre_usuario").value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
 
