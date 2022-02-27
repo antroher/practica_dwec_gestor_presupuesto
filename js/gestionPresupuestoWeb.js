@@ -514,15 +514,16 @@ function cargarGastosApi ()
             else 
             {
                 gestionPresupuesto.cargarGastos(resultado);
+                console.log("cargasGastosApi");
                 repintar();
             }
         })
         .catch(err => console.error(err));        
     }
-    else
-    {
-        console.log('No hay el nombre del usuario');
-    }
+    //else
+    //{
+    //    console.log('No hay el nombre del usuario');
+    //}
 }
 
 //BOTON CARGAR API
