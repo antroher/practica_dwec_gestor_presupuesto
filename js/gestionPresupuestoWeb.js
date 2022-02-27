@@ -259,14 +259,14 @@ function mostrarDatoEnId(idElemento,valor){
 
                 mostrarGastoWeb("listado-gastos-completo",GesPresu.listarGastos());
 
-                let Dia = GesPresu.agruparGastos("dia");
-    mostrarGastosAgrupadosWeb("agrupacion-dia", Dia, "día");
+                let DiaAgrup = GesPresu.agruparGastos("dia");
+                mostrarGastosAgrupadosWeb("agrupacion-dia", DiaAgrup, "día");
 
-    let Mes = GesPresu.agruparGastos("mes");
-    mostrarGastosAgrupadosWeb("agrupacion-mes", Mes, "mes");
+                let MesAgrup = GesPresu.agruparGastos("mes");
+                mostrarGastosAgrupadosWeb("agrupacion-mes", MesAgrup, "mes");
 
-    let Anyo = GesPresu.agruparGastos("anyo");
-    mostrarGastosAgrupadosWeb("agrupacion-anyo", Anyo, "año");
+                let AnyoAgrup = GesPresu.agruparGastos("anyo");
+                mostrarGastosAgrupadosWeb("agrupacion-anyo", AnyoAgrup, "año");
             }
 
             
