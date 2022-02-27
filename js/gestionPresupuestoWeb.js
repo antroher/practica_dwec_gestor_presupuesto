@@ -616,7 +616,5 @@ export {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    repintar,
-    guardarGastosWeb,
-    cargarGastosWeb
+    repintar
 }
