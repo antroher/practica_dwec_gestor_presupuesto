@@ -45,7 +45,7 @@ function mostrarGastoWeb(idElemento, gasto) {
     let edit = new EditarHandle();
     let dlt = new BorrarHandle();
     edit.gasto = gasto;
-    dlt.gasto = gasto;    
+    dlt.gasto = gasto;
     btnEditar.addEventListener('click', edit);
     btnBorrar.addEventListener('click', dlt);
     div.append(btnEditar);
@@ -383,7 +383,7 @@ let chrgGastWeb = new cargarGastosWeb();
 // }
 
 function cargarGastosApi(){
-    let user = document.QuerySele('nombre_usuario').value;
+    let user = document.getElementById('nombre_usuario').value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
 
     if (user != ''){
