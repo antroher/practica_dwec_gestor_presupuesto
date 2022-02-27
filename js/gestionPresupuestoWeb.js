@@ -395,7 +395,6 @@ function cargarGastosApi(){
                 console.log(`No existen gastos del usuario ${user}`);
             } else{
                 gesPres.cargarGastos(res);
-                console.log("Cargando gastos...");
                 repintar();
             }
         })
