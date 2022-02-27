@@ -15,7 +15,7 @@ function mostrarGastoWeb(idElemento, gasto) {
     id.append(div);        
     div.innerHTML += `<div class="gasto-descripcion">${gasto.descripcion}</div>
                       <div class="gasto-fecha">${gasto.fecha}</div> 
-                      <div class="gasto-valor">${gasto.valor}</div>`;
+                      <div class="gasto-valor">${gasto.valor}</div> `;
                         
     let etiGas = document.createElement("div");
     etiGas.className = "gasto-etiquetas";
@@ -55,7 +55,7 @@ function mostrarGastoWeb(idElemento, gasto) {
                             btnApiGastDelete.textContent = 'Borrar (API)';
                             btnApiGastDelete.type = 'button';
 
-    let dltApiObj = new apiDeleteHandle();
+    let dltApiObj = new BorrarGastoApiHandle();
     dltApiObj.gasto = gasto;
     btnApiGastDelete.addEventListener("click", dltApiObj);
 
@@ -383,7 +383,7 @@ let chrgGastWeb = new cargarGastosWeb();
 // }
 
 function cargarGastosApi(){
-    let user = document.querySelector('nombre_usuario').value;
+    let user = document.QuerySele('nombre_usuario').value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
 
     if (user != ''){
@@ -574,23 +574,25 @@ function apiEditHandle(){
     }
 }
 
-function apiDeleteHandle(){
+function BorrarGastoApiHandle(){
+    
     this.handleEvent = function(event){
-        let nombre = document.getElementById("nombre_usuario").value;
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombre}/${this.gasto.gastoId}`;
-        
-        if(nombre != "") {
-        fetch(url, {method: 'DELETE'})
-        .then(response => response.json())
-        .then(datos => {
-            if(!datos.errorMessage){
-                cargarGastosApi();
-            }
-            else{
-                console.log(datos.errorMessage);
-            }
-        })
-        .catch(error => console.error(error));
+        let usuario = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+
+        if (usuario == "") {
+            console.log("El input del nombre de usuario esta vacio");
+        } else {
+            fetch(url, {method: 'DELETE'})
+            .then(response => response.json())
+            .then(datos => {
+                if(!datos.errorMessage){
+                    cargarGastosApi();
+                } else {
+                    console.log(datos.errorMessage);
+                }
+            })
+            .catch(err => console.error(err));
         }
     }
 }
