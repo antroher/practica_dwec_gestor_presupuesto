@@ -506,19 +506,19 @@ function cargarGastosApi ()
         .then(response => response.json())
         .then((result) => 
         {
-            let resultado = result;
-            if (resultado == '')
+            let resulta = result;
+            if (resulta == '')
             {
                 console.log('No hay el nombre del usuario');
             }
             else 
             {
-                gestionPresupuesto.cargarGastos(resultado);
+                gestionPresupuesto.cargarGastos(resulta);
                 console.log("cargasGastosApi");
                 repintar();
             }
         })
-        .catch(err => console.error(err));        
+        .catch(erro => console.error(erro));        
     }
     //else
     //{
@@ -556,7 +556,7 @@ function borrarGastoApiHandle()
                     console.log(datos.errorMessage);
                 }
             })
-            .catch(err => console.error(err));
+            .catch(erro => console.error(erro));
         }
     }
 }
@@ -607,7 +607,7 @@ function enviarGastoApi(event)
                 console.log('Error');
             }
         })
-        .catch(err => console.error(err));
+        .catch(erro => console.error(erro));
     }    
 }
 
@@ -657,7 +657,7 @@ function EditarGastoApi()
                     console.log('Error');
                 }
             })
-            .catch(err => console.error(err));
+            .catch(erro => console.error(erro));
         }  
     }
 }
