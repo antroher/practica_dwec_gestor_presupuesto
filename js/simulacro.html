@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Añadir párrafo</title>
+</head>
+<body>
+    <ol>
+        <li id="1">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Labore inventore repellat vitae nostrum iste suscipit eligendi dolorum pariatur laborum, at assumenda deleniti adipisci velit ea molestias nesciunt, doloribus dignissimos expedita.</li>
+        <li id="2">Nulla, dicta quod ab alias id, doloremque accusantium consequatur quaerat minus quam amet! Eos esse atque placeat quaerat hic quasi laboriosam tempore impedit quam. Assumenda, impedit? Nam at possimus voluptatum?</li>
+        <li id="3">Deserunt iste cumque fugit quisquam, maxime vel, porro minima quaerat suscipit cupiditate optio rerum accusamus laboriosam, unde expedita nesciunt. Assumenda cumque repudiandae, culpa similique iste quas fugit asperiores possimus laborum.</li>
+        <li id="4">Ipsam ratione, atque necessitatibus, mollitia commodi quis assumenda quaerat rem placeat sapiente quo eaque iusto facilis repellendus, magnam voluptates! Deleniti nobis ab aliquid suscipit deserunt minus ad accusantium ratione perferendis.</li>
+        <li id="5">Deleniti officia voluptatibus labore? Cum porro sapiente aliquid id deserunt rerum? Nulla cumque tempora quae, temporibus ad labore aliquam rem corrupti voluptatum saepe molestias laudantium voluptas quo, quos illo autem!</li>
+        <li id="6">Illum perspiciatis vitae nihil debitis impedit, alias cum eveniet vero tempora aperiam, quo blanditiis id. Nihil obcaecati accusantium ratione corporis dicta, perferendis assumenda rem asperiores placeat quis ad consequatur. Numquam?</li>
+        <li id="7">Accusantium ab rerum impedit fugit quod illo fuga nemo, esse molestias vitae provident aspernatur quaerat ipsa. Quia id, minima fugiat, vero pariatur voluptas fuga cum saepe, sed maiores ab ducimus!</li>
+        <li id="8">Repudiandae dolorem assumenda debitis, hic enim voluptatum harum aliquid animi incidunt a. Autem illum dicta, atque fugit distinctio ullam perferendis sunt magni nisi amet? Consectetur repudiandae nulla expedita quaerat non.</li>
+        <li id="9">Hic cupiditate repudiandae ex aspernatur porro pariatur reprehenderit possimus ullam corrupti aliquam magni nostrum animi repellendus voluptatibus impedit modi, suscipit fugit repellat nam quos quia esse nulla? Odio, debitis blanditiis?</li>
+    </ol>   
+<script>
+    "use strict";
+    let texto = prompt("Agrega un texto");
+    let position = prompt("Agrege un número del 1 al 10, que será la poscición del texto");
+
+    
+    while((position > 10 || position < 0) || isNaN(position))
+    {
+        position = prompt(`El número ${position} es incorrecto o no es un número, ponga del 1 al 10`); 
+    }
+    
+    position = parseFloat(position);    
+    if(position === 10)
+    {
+        let elemento = document.getElementById(9);
+        let newLi = document.createElement("li");
+        newLi.style.fontWeight = "bold";
+        newLi.innerHTML = texto;
+        elemento.append(newLi);
+    }
+    else 
+    {
+        let Elemento = document.getElementById(position);
+        let newLi = document.createElement("li");
+        newLi.style.fontWeight = "bold";
+        newLi.innerHTML = texto;
+        Elemento.before(newLi);
+    }
+        
+   
+</script>
+</body>
+
+
+</html>
