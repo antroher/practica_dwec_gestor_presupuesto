@@ -266,25 +266,45 @@ function BorrarEtiquetasHandle() {
    }
 }
 
-function nuevoGastoWebFormulario() {
-    //Copia del formulario/template
-    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
-    var formulario = plantillaFormulario.querySelector("form");
-    //En la práctica pone que se ponga al final, pero salta error si se hace de ese modo
-    let divControlesPrincipales = document.getElementById("controlesprincipales")
-    divControlesPrincipales.appendChild(formulario);
-    let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
-    
-    //botón submit
-    let enviarObj = new EnviarGastoFormHandle();
-    formulario.addEventListener('submit', enviarObj);
-    //botón cancelar
-    let cancelarObj = new CancelarFormHandle();
-    let btnCancelar = formulario.querySelector("button.cancelar");
-    btnCancelar.addEventListener("click", cancelarObj);
+function nuevoGastoWebFormulario(event) {
 
-    let apiEnviar = formulario.querySelector("button.gasto-enviar-api");
-    apiEnviar.addEventListener("click", EnviarGastoApi);
+    // Identificamos y desactivamos el botón 
+    const botonAnyadirGasto = event.currentTarget;
+    botonAnyadirGasto.disabled = true;
+
+    // Clonamos la plantilla
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+    var formulario = plantillaFormulario.querySelector("form");
+
+    // Evento de envío
+    formulario.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const gasto = new gestionPresupuesto.CrearGasto(
+            formulario.descripcion.value,
+            parseInt(formulario.valor.value),
+            formulario.fecha.value,
+            formulario.etiquetas.value.split(',')
+        );
+
+        gestionPresupuesto.anyadirGasto(gasto);
+        botonAnyadirGasto.disabled = false;
+        repintar();
+    });
+
+    // Creación del manejador y evento de cancelación.
+    const cerrarFormularioHandler = new CerrarFormularioHandle();
+    cerrarFormularioHandler.formulario = formulario;
+    cerrarFormularioHandler.botonActivar = botonAnyadirGasto;
+    formulario.querySelector("button.cancelar").addEventListener('click', cerrarFormularioHandler);
+
+    // Creación del manejador y evento de enviar a API.
+    const enviarGastoApiHandler = new EnviarGastoApiHandle();
+    enviarGastoApiHandler.formulario = formulario;
+    formulario.querySelector("button.gasto-enviar-api").addEventListener('click', enviarGastoApiHandler);
+
+    // Añadimos el formulario al dom.
+    document.getElementById('controlesprincipales').appendChild(plantillaFormulario);
 }
 
 //Manejador del evento cancelar del formulario
@@ -411,25 +431,14 @@ function cargarGastosWeb() {
     }
 }
 
-function CargarGastosApi() {
-    let usuario = document.querySelector("#nombre_usuario").value;
-    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
-    
-    if (usuario != '') {
-        fetch(url, {method: 'GET'})
-            .then(respuesta => respuesta.json())
-            .then((result) => {
-                let resultado = result;
-                if(resultado == "") {
-                    console.log("No existen gastos en la api para el usuario")
-                } else {
-                    gestionPresupuesto.cargarGastos(resultado);
-                    console.log("Miau cargasGastosApi")
-                    repintar();
-                }
-                })
-            .catch(err => console.error(err));
-    }
+function cargarGastosApi() {
+    const nombreUsuario = document.getElementById('nombre_usuario').value;
+    fetch("https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + nombreUsuario)
+        .then(response => response.json())
+        .then(gastos => {
+            gestionPresupuesto.cargarGastos(gastos);
+            repintar()
+        })
 }
 
 function BorrarGastoApiHandle(){
