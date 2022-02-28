@@ -1,18 +1,11 @@
-
-//Ejemplo detallado de como hacer la práctica: https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley
-
-
 import * as gestionPresupuesto from './gestionPresupuesto.js';
 
-//Para iterar sobre un collection del node usar for...of
+const apiUrl = "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest";
+
 function mostrarDatoEnId(idElemento, valor) {
-    let elemento = document.getElementById(idElemento);
-    let p = document.createElement("p");
-    p.textContent = valor;
-    elemento.appendChild(p);
+    document.getElementById(idElemento).innerHTML = valor;
 }
 
-//aqui gasto es un array, con lo que habria que cambiarlo y meterlo todo dentro de una iteracción
 function mostrarGastoWeb(idElemento, gasto) {
     // Elemento raiz del gasto
     const gastoHTLM = document.createElement('div');
@@ -104,8 +97,6 @@ function mostrarGastoWeb(idElemento, gasto) {
     // Agregar el elemento gasto al ID objetivo
     document.getElementById(idElemento).append(gastoHTLM);
 }
-
-const apiUrl = "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest";
 
 function mostrarGastosAgrupadosWeb(idElemento, agrupacion, periodo) {
 
@@ -251,40 +242,6 @@ function nuevoGastoWeb() {
     repintar();
 }
 
-/* https://stackoverflow.com/questions/2230992/javascript-creating-objects-based-on-a-prototype-without-using-new-constructo*/
-
-function EditarHandle() {
-    this.handleEvent = function (event) {
-        this.gasto.actualizarDescripcion(prompt('Descripcion', this.gasto.descripcion));
-        this.gasto.actualizarValor(parseFloat(prompt('Valor', this.gasto.valor)));
-        this.gasto.actualizarFecha(prompt('Fecha (yyyy-mm-dd)', new Date(this.gasto.fecha).toISOString().substr(0, 10)));
-        this.gasto.anyadirEtiquetas(...prompt('Etiquetas (separadas por coma)', this.gasto.etiquetas).split(','));
-        repintar();
-    }
-}
-
-function BorrarHandle() {
-    this.handleEvent = function (event) {
-        gestionPresupuesto.borrarGasto(this.gasto.id);
-        repintar();
-    }
-}
-
-function BorrarApiHandle() {
-    this.handleEvent = function (event) {
-        const nombreUsuario = document.getElementById('nombre_usuario').value;
-        fetch(`${apiUrl}/${nombreUsuario}/${this.gasto.gastoId}`, { method: 'DELETE' })
-            .then(cargarGastosApi)
-    }
-}
-
-function BorrarEtiquetasHandle() {
-    this.handleEvent = function (event) {
-        this.gasto.borrarEtiquetas(this.etiqueta);
-        repintar();
-    }
-}
-
 function nuevoGastoWebFormulario(event) {
 
     // Identificamos y desactivamos el botón 
@@ -326,90 +283,6 @@ function nuevoGastoWebFormulario(event) {
     document.getElementById('controlesprincipales').appendChild(plantillaFormulario);
 }
 
-//Manejador del evento cancelar del formulario
-function CancelarFormHandle() {
-    this.handleEvent = function (event){
-        //La única forma de borrar el formulario sin que salten mil errores
-        //básicamente recoge el padre del botón cancelar -el formulario- y lo borra
-        //llevo probando combinaciones 2 horas y esto es lo mejor que me ha salido
-        event.currentTarget.parentNode.remove();
-        let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
-        repintar();
-    }
-}
-
-
-//Este handle actualizará los valores del gasto que nosotros estemos manejando
-function EnviarHandle(){
-    this.handleEvent = function(event){
-        //Evitamos que se haga el submit
-        event.preventDefault();
-        //Recogemos el evento que ha realizado el evento y actualizamos los valores del gasto
-        let formulario = event.currentTarget;
-        let descripcion = formulario.elements.descripcion.value;
-        this.gasto.actualizarDescripcion(descripcion);
-        let valor = parseFloat(formulario.elements.valor.value);
-        this.gasto.actualizarValor(valor);
-        let fecha = formulario.elements.fecha.value;
-        this.gasto.actualizarFecha(fecha);
-        let etiquetas = formulario.elements.etiquetas.value;
-        this.gasto.anyadirEtiquetas(etiquetas);
-        repintar();
-    }
-}
-
-function EnviarGastoFormHandle(){
-    this.handleEvent = function(e){
-        e.preventDefault();
-         let formulario = e.currentTarget;
-         let descripcion = formulario.elements.descripcion.value;
-         let valor = parseFloat(formulario.elements.valor.value);
-         let fecha = formulario.elements.fecha.value;
-         let etiquetas = formulario.elements.etiquetas.value;
-        let gastoNuevo = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, etiquetas);
-        gestionPresupuesto.anyadirGasto(gastoNuevo);
-        repintar();
-        document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
-    }
-}
-
-//Manejador del evento editar gasto formulario
-function EditarHandleformulario() {
-    this.handleEvent = function (event){
-
-        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
-        var formulario = plantillaFormulario.querySelector("form");
-        //En el enunciado pone que se ponga al final el añadir el formulario, pero si lo haces así explota
-        //por ello primero selecciono el nodo y después adjunto el formulario al DOM.
-        let divControlesPrincipales = document.getElementById("controlesprincipales")
-        divControlesPrincipales.appendChild(formulario);
-        //Recogemos el nodo que ha pedido el evento
-        let btnEditarFormulario = event.currentTarget;
-        btnEditarFormulario.appendChild(formulario);
-        formulario.elements.descripcion.value  = this.gasto.descripcion;
-        formulario.elements.valor.value = this.gasto.valor;
-        formulario.elements.fecha.value = new Date(this.gasto.fecha).toISOString().substr(0,10);
-        formulario.elements.etiquetas.value = this.gasto.etiquetas;
-
-        //Evento para el submit del formulario
-        let EditarFormHandle1 = new EnviarHandle();
-        EditarFormHandle1.gasto = this.gasto;
-        formulario.addEventListener('submit', EditarFormHandle1);
-        //botón cancelar
-        let btnCancelar = formulario.querySelector("button.cancelar");
-        let cancelarObj = new CancelarFormHandle();
-        btnCancelar.addEventListener("click", cancelarObj);
-
-        //Desactivar -añadir atributo disabled- al botón anyadirgasto-formulario
-        btnEditarFormulario.setAttribute("disabled", "");
-
-        let editarFormularioApi = formulario.querySelector("button.gasto-enviar-api");
-        let evenEditar = new EditarGastoApi();
-        evenEditar.gasto = this.gasto;
-        editarFormularioApi.addEventListener("click", evenEditar);
-    }
-}
-
 function filtrarGastosWeb(event) {
     event.preventDefault();
 
@@ -440,20 +313,14 @@ function filtrarGastosWeb(event) {
 }
 
 function guardarGastosWeb() {
-    this.handleEvent = function(event) {
-        let listadoGastos = gestionPresupuesto.listarGastos();
-        localStorage.GestorGastosDWEC = JSON.stringify(listadoGastos);
-    }
+    const gastos = gestionPresupuesto.listarGastos();
+    localStorage.setItem('GestorGastosDWEC', JSON.stringify(gastos));
 }
 
 function cargarGastosWeb() {
-    this.handleEvent = function(event) {
-        if (localStorage.GestorGastosDWEC == null) 
-            gestionPresupuesto.cargarGastos([]);
-        else 
-            gestionPresupuesto.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
-        repintar();    
-    }
+    const gastos = JSON.parse(localStorage.getItem('GestorGastosDWEC')) || [];
+    gestionPresupuesto.cargarGastos(gastos);
+    repintar();
 }
 
 function cargarGastosApi() {
@@ -464,29 +331,6 @@ function cargarGastosApi() {
             gestionPresupuesto.cargarGastos(gastos);
             repintar()
         })
-}
-
-function BorrarGastoApiHandle(){
-    
-    this.handleEvent = function(event){
-        let usuario = document.getElementById("nombre_usuario").value;
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
-
-        if (usuario == "") {
-            console.log("El input del nombre de usuario esta vacio");
-        } else {
-            fetch(url, {method: 'DELETE'})
-            .then(response => response.json())
-            .then(datos => {
-                if(!datos.errorMessage){
-                    CargarGastosApi();
-                } else {
-                    console.log(datos.errorMessage);
-                }
-            })
-            .catch(err => console.error(err));
-        }
-    }
 }
 
 function EnviarGastoApiHandle() {
@@ -533,6 +377,96 @@ function EditarGastoApiHandle() {
     }
 }
 
+function EditarHandle() {
+    this.handleEvent = function (event) {
+        this.gasto.actualizarDescripcion(prompt('Descripcion', this.gasto.descripcion));
+        this.gasto.actualizarValor(parseFloat(prompt('Valor', this.gasto.valor)));
+        this.gasto.actualizarFecha(prompt('Fecha (yyyy-mm-dd)', new Date(this.gasto.fecha).toISOString().substr(0, 10)));
+        this.gasto.anyadirEtiquetas(...prompt('Etiquetas (separadas por coma)', this.gasto.etiquetas).split(','));
+        repintar();
+    }
+}
+
+function BorrarHandle() {
+    this.handleEvent = function (event) {
+        gestionPresupuesto.borrarGasto(this.gasto.id);
+        repintar();
+    }
+}
+
+function BorrarApiHandle() {
+    this.handleEvent = function (event) {
+        const nombreUsuario = document.getElementById('nombre_usuario').value;
+        fetch(`${apiUrl}/${nombreUsuario}/${this.gasto.gastoId}`, { method: 'DELETE' })
+            .then(cargarGastosApi)
+    }
+}
+
+function BorrarEtiquetasHandle() {
+    this.handleEvent = function (event) {
+        this.gasto.borrarEtiquetas(this.etiqueta);
+        repintar();
+    }
+}
+
+function CerrarFormularioHandle() {
+    this.handleEvent = event => {
+        this.formulario.remove();
+        this.botonActivar.disabled = false;
+    }
+}
+
+function EditarHandleformulario() {
+    this.handleEvent = event => {
+        // Identificamos y desactivamos el botón 
+        const botonEditarGasto = event.currentTarget;
+        botonEditarGasto.disabled = true;
+
+        // Clonamos la plantilla
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+        var formulario = plantillaFormulario.querySelector("form");
+
+        // Valores actuales del gasto
+        formulario.descripcion.value = this.gasto.descripcion;
+        formulario.valor.value = this.gasto.valor;
+        formulario.fecha.value = new Date(this.gasto.fecha).toISOString().substr(0, 10);
+        formulario.etiquetas.value = this.gasto.etiquetas;
+
+        // Creación del manejador y evento de envío.
+        const enviarEditarHandler = new EnviarEditarHandle();
+        enviarEditarHandler.gasto = this.gasto;
+        formulario.addEventListener('submit', enviarEditarHandler);
+
+        // Creación del manejador y evento de cancelación.
+        const cerrarFormularioHandler = new CerrarFormularioHandle();
+        cerrarFormularioHandler.formulario = formulario;
+        cerrarFormularioHandler.botonActivar = botonEditarGasto;
+        formulario.querySelector("button.cancelar").addEventListener('click', cerrarFormularioHandler);
+
+        // Creación del manejador y evento de enviar a API.
+        const editarGastoApiHandler = new EditarGastoApiHandle();
+        editarGastoApiHandler.formulario = formulario;
+        editarGastoApiHandler.gasto = this.gasto;
+        formulario.querySelector("button.gasto-enviar-api").addEventListener('click', editarGastoApiHandler);
+
+        // Añadimos el formulario como último elemento del gasto.
+        event.currentTarget.after(formulario);
+    }
+}
+
+function EnviarEditarHandle() {
+    this.handleEvent = event => {
+        event.preventDefault();
+        let formulario = event.currentTarget;
+
+        this.gasto.actualizarDescripcion(formulario.descripcion.value);
+        this.gasto.actualizarValor(parseFloat(formulario.valor.value));
+        this.gasto.actualizarFecha(formulario.fecha.value);
+        this.gasto.anyadirEtiquetas(...formulario.etiquetas.value.split(','));
+
+        repintar();
+    }
+}
 
 // Eventos
 document.getElementById('actualizarpresupuesto').addEventListener('click', actualizarPresupuestoWeb);
