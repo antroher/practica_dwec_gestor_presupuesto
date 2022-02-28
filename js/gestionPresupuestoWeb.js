@@ -7,32 +7,25 @@ function mostrarDatoEnId(idElemento, valor) {
 }
 
 function mostrarGastoWeb(idElemento, gasto) {
-    // Elemento raiz del gasto
     const gastoHTLM = document.createElement('div');
     gastoHTLM.className = 'gasto';
-
-    // Descripción
     const descripcionHTML = document.createElement('div');
     descripcionHTML.className = 'gasto-descripcion';
     const descripcionText = document.createTextNode(gasto.descripcion);
     descripcionHTML.appendChild(descripcionText);
     gastoHTLM.appendChild(descripcionHTML);
 
-    // Fecha
     const fechaHTML = document.createElement('div');
     fechaHTML.className = 'gasto-fecha';
     const fechaText = document.createTextNode(new Date(gasto.fecha).toLocaleString());
     fechaHTML.appendChild(fechaText);
     gastoHTLM.appendChild(fechaHTML);
 
-    // Valor
     const valorHTML = document.createElement('div');
     valorHTML.className = 'gasto-valor';
     const valorText = document.createTextNode(gasto.valor);
     valorHTML.appendChild(valorText);
     gastoHTLM.appendChild(valorHTML);
-
-    // Etitquetas
     const etiquetasHTML = document.createElement('div');
     etiquetasHTML.className = 'gasto-etiquetas';
     const etiquetas = gasto.etiquetas;
@@ -99,19 +92,10 @@ function mostrarGastoWeb(idElemento, gasto) {
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrupacion, periodo) {
-
-    // Obtener la capa donde se muestran los datos agrupados por el período indicado.
-    // Seguramente este código lo tengas ya hecho pero el nombre de la variable sea otro.
-    // Puedes reutilizarlo, por supuesto. Si lo haces, recuerda cambiar también el nombre de la variable en el siguiente bloque de código
     var divP = document.getElementById(idElemento);
-    // Borrar el contenido de la capa para que no se duplique el contenido al repintar
     divP.innerHTML = "";
-
-    // Elemento raiz de la agrupación
     const agrupacionHTLM = document.createElement('div');
     agrupacionHTLM.className = 'agrupacion';
-
-    // Titulo
     const tituloHTML = document.createElement('h1');
     const tituloText = document.createTextNode(`Gastos agrupados por ${periodo}`);
     tituloHTML.appendChild(tituloText);
@@ -119,39 +103,26 @@ function mostrarGastosAgrupadosWeb(idElemento, agrupacion, periodo) {
 
     // Agrupación
     for (const agrupacionDato in agrupacion) {
-
-        // Elemento raiz del dato de la agrupación
         const agrupacionDatoHTML = document.createElement('div');
         agrupacionDatoHTML.className = 'agrupacion-dato';
-
-        // Clave dato agrupación
         const agrupacionDatoClaveHTML = document.createElement('span');
         agrupacionDatoClaveHTML.className = 'agrupacion-dato-clave';
         const agrupacionDatoClaveText = document.createTextNode(agrupacionDato);
         agrupacionDatoClaveHTML.appendChild(agrupacionDatoClaveText);
         agrupacionDatoHTML.appendChild(agrupacionDatoClaveHTML);
-
-        // Valor dato agrupación
         const agrupacionDatoValorHTML = document.createElement('span');
         agrupacionDatoValorHTML.className = 'agrupacion-dato-valor';
         const agrupacionDatoValorText = document.createTextNode(agrupacion[agrupacionDato]);
         agrupacionDatoValorHTML.appendChild(agrupacionDatoValorText);
         agrupacionDatoHTML.appendChild(agrupacionDatoValorHTML);
-
-        // Añadir dato agrupación al elemento raiz.
         agrupacionHTLM.appendChild(agrupacionDatoHTML);
     }
 
     divP.append(agrupacionHTLM);
 
-    // Estilos
     divP.style.width = "33%";
     divP.style.display = "inline-block";
-    // Crear elemento <canvas> necesario para crear la gráfica
-    // https://www.chartjs.org/docs/latest/getting-started/
     let chart = document.createElement("canvas");
-    // Variable para indicar a la gráfica el período temporal del eje X
-    // En función de la variable "periodo" se creará la variable "unit" (anyo -> year; mes -> month; dia -> day)
     let unit = "";
     switch (periodo) {
         case "anyo":
@@ -166,20 +137,13 @@ function mostrarGastosAgrupadosWeb(idElemento, agrupacion, periodo) {
             break;
     }
 
-    // Creación de la gráfica
-    // La función "Chart" está disponible porque hemos incluido las etiquetas <script> correspondientes en el fichero HTML
     const myChart = new Chart(chart.getContext("2d"), {
-        // Tipo de gráfica: barras. Puedes cambiar el tipo si quieres hacer pruebas: https://www.chartjs.org/docs/latest/charts/line.html
         type: 'bar',
         data: {
             datasets: [
                 {
-                    // Título de la gráfica
                     label: `Gastos por ${periodo}`,
-                    // Color de fondo
                     backgroundColor: "#555555",
-                    // Datos de la gráfica
-                    // "agrup" contiene los datos a representar. Es uno de los parámetros de la función "mostrarGastosAgrupadosWeb".
                     data: agrupacion
                 }
             ],
@@ -206,21 +170,17 @@ function mostrarGastosAgrupadosWeb(idElemento, agrupacion, periodo) {
 }
 
 function repintar() {
-    // Actualizar datos.
     mostrarDatoEnId('presupuesto', gestionPresupuesto.mostrarPresupuesto());
     mostrarDatoEnId('gastos-totales', gestionPresupuesto.calcularTotalGastos());
     mostrarDatoEnId('balance-total', gestionPresupuesto.calcularBalance());
 
-    // Limpiar listado de gastos.
+    //Borramos la anterior
     document.getElementById('listado-gastos-completo').innerHTML = '';
 
-    // Listado completo de gastos.
     const listadoGastos = gestionPresupuesto.listarGastos();
     listadoGastos.forEach(gasto => {
         mostrarGastoWeb('listado-gastos-completo', gasto);
     });
-
-    // Repintar gastos agrupados
     mostrarGastosAgrupadosWeb('agrupacion-dia', gestionPresupuesto.agruparGastos('dia'), 'día');
     mostrarGastosAgrupadosWeb('agrupacion-mes', gestionPresupuesto.agruparGastos('mes'), 'mes');
     mostrarGastosAgrupadosWeb('agrupacion-anyo', gestionPresupuesto.agruparGastos('anyo'), 'año');
@@ -243,16 +203,12 @@ function nuevoGastoWeb() {
 }
 
 function nuevoGastoWebFormulario(event) {
-
-    // Identificamos y desactivamos el botón 
     const botonAnyadirGasto = event.currentTarget;
     botonAnyadirGasto.disabled = true;
 
-    // Clonamos la plantilla
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
     var formulario = plantillaFormulario.querySelector("form");
 
-    // Evento de envío
     formulario.addEventListener('submit', (event) => {
         event.preventDefault();
 
@@ -268,18 +224,14 @@ function nuevoGastoWebFormulario(event) {
         repintar();
     });
 
-    // Creación del manejador y evento de cancelación.
     const cerrarFormularioHandler = new CerrarFormularioHandle();
     cerrarFormularioHandler.formulario = formulario;
     cerrarFormularioHandler.botonActivar = botonAnyadirGasto;
     formulario.querySelector("button.cancelar").addEventListener('click', cerrarFormularioHandler);
 
-    // Creación del manejador y evento de enviar a API.
     const enviarGastoApiHandler = new EnviarGastoApiHandle();
     enviarGastoApiHandler.formulario = formulario;
     formulario.querySelector("button.gasto-enviar-api").addEventListener('click', enviarGastoApiHandler);
-
-    // Añadimos el formulario al dom.
     document.getElementById('controlesprincipales').appendChild(plantillaFormulario);
 }
 
@@ -288,8 +240,6 @@ function filtrarGastosWeb(event) {
 
     const elementosFormulario = event.currentTarget.elements;
     const etiquetas = elementosFormulario['formulario-filtrado-etiquetas-tiene'].value;
-
-    // Objeto filtro.
     const filtros = {
         descripcionContiene: elementosFormulario['formulario-filtrado-descripcion'].value || undefined,
         valorMinimo: elementosFormulario['formulario-filtrado-valor-minimo'].value || undefined,
@@ -299,13 +249,8 @@ function filtrarGastosWeb(event) {
         etiquetasTiene: gestionPresupuesto.transformarListadoEtiquetas(etiquetas) || undefined
     }
 
-    // Borramos listado actual.
     document.getElementById('listado-gastos-completo').innerHTML = '';
-
-    // Filtramos los gastos.
     const gastosFiltrados = gestionPresupuesto.filtrarGastos(filtros);
-
-    // Pintamos los gastos filtrados.
     gastosFiltrados.forEach(gasto => {
         mostrarGastoWeb('listado-gastos-completo', gasto);
     });
@@ -418,38 +363,28 @@ function CerrarFormularioHandle() {
 
 function EditarHandleformulario() {
     this.handleEvent = event => {
-        // Identificamos y desactivamos el botón 
         const botonEditarGasto = event.currentTarget;
         botonEditarGasto.disabled = true;
 
-        // Clonamos la plantilla
         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
         var formulario = plantillaFormulario.querySelector("form");
 
-        // Valores actuales del gasto
         formulario.descripcion.value = this.gasto.descripcion;
         formulario.valor.value = this.gasto.valor;
         formulario.fecha.value = new Date(this.gasto.fecha).toISOString().substr(0, 10);
         formulario.etiquetas.value = this.gasto.etiquetas;
-
-        // Creación del manejador y evento de envío.
         const enviarEditarHandler = new EnviarEditarHandle();
         enviarEditarHandler.gasto = this.gasto;
         formulario.addEventListener('submit', enviarEditarHandler);
-
-        // Creación del manejador y evento de cancelación.
         const cerrarFormularioHandler = new CerrarFormularioHandle();
         cerrarFormularioHandler.formulario = formulario;
         cerrarFormularioHandler.botonActivar = botonEditarGasto;
         formulario.querySelector("button.cancelar").addEventListener('click', cerrarFormularioHandler);
 
-        // Creación del manejador y evento de enviar a API.
         const editarGastoApiHandler = new EditarGastoApiHandle();
         editarGastoApiHandler.formulario = formulario;
         editarGastoApiHandler.gasto = this.gasto;
         formulario.querySelector("button.gasto-enviar-api").addEventListener('click', editarGastoApiHandler);
-
-        // Añadimos el formulario como último elemento del gasto.
         event.currentTarget.after(formulario);
     }
 }
