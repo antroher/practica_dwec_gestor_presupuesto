@@ -229,44 +229,26 @@ function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
     }
 
     this.obtenerPeriodoAgrupacion = function(periodo) {
-        let validarFecha = new Date(this.fecha);
-        switch(periodo) {
-            case "dia": { 
-                if (validarFecha.getDate() < 10) {
-                    if (validarFecha.getMonth() < 9) {
-                        return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
-                    }
-                    else {
-                        return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-0${validarFecha.getDate()}`;
-                    }
-                }
-                else {
-                    if (validarFecha.getMonth() < 9) {
-                        return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}-${validarFecha.getDate()}`;    
-                    }
-                    else {
-                        return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}-${validarFecha.getDate()}`;
-                    }
-                }
+        const fecha = new Date(this.fecha);
+        const mes = fecha.getUTCMonth() < 9 ? `0${fecha.getUTCMonth() + 1}` : fecha.getUTCMonth() + 1;
+        const dia = fecha.getUTCDate() < 10 ? `0${fecha.getUTCDate()}` : fecha.getUTCDate();
+        const anyo = fecha.getUTCFullYear();
+
+        let agrupacion = "";
+
+        switch (periodo) {
+            case "dia":
+                agrupacion = `${anyo}-${mes}-${dia}`;
                 break;
-            }
-            case "mes": {
-                if(validarFecha.getMonth() < 9) {
-                    return `${validarFecha.getFullYear()}-0${validarFecha.getMonth()+1}`;
-                }
-                else {
-                    return `${validarFecha.getFullYear()}-${validarFecha.getMonth()+1}`;
-                }
+            case "mes":
+                agrupacion = `${anyo}-${mes}`;
                 break;
-            }
-            case "anyo": {
-                return `${validarFecha.getFullYear()}`
+            case "anyo":
+                agrupacion = anyo;
                 break;
-            }
-            default:{
-                return `Periodo no válido`;
-            }
         }
+
+        return agrupacion;
     }
 }
 
