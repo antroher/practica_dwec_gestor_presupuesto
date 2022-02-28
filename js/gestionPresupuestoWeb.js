@@ -545,29 +545,16 @@ function EditarGastoApi(){
 }
 
 
-//Botones
-const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
-const anyadirgasto = document.getElementById("anyadirgasto");
-const anyadirgastoFirmulario = document.getElementById("anyadirgasto-formulario");
-const formularioFiltrador = document.getElementById("formulario-filtrado");
-const btnGuardarGastos = document.getElementById("guardar-gastos");
-const btnCargarGastos = document.getElementById("cargar-gastos");
-const btnGastosApi = document.getElementById("cargar-gastos-api");
-btnGastosApi.addEventListener("click", CargarGastosApi);
-//Eventos
-actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
-anyadirgasto.addEventListener('click', nuevoGastoWeb);
-anyadirgastoFirmulario.addEventListener('click', nuevoGastoWebFormulario)
-//Al tener que trabajar con el propio nodo que manifiesta el evento deberemos crear un objeto manejador... o eso creo yo despúes de 3 horas sin saber que falla jeje
-let filtGastForm = new filtrarGastosWeb();
-formularioFiltrador.addEventListener('submit', filtGastForm);
+// Eventos
+document.getElementById('actualizarpresupuesto').addEventListener('click', actualizarPresupuestoWeb);
+document.getElementById('anyadirgasto').addEventListener('click', nuevoGastoWeb);
+document.getElementById('anyadirgasto-formulario').addEventListener('click', nuevoGastoWebFormulario);
+document.getElementById('formulario-filtrado').addEventListener('submit', filtrarGastosWeb);
+document.getElementById('guardar-gastos').addEventListener('click', guardarGastosWeb);
+document.getElementById('cargar-gastos').addEventListener('click', cargarGastosWeb);
+document.getElementById('cargar-gastos-api').addEventListener('click', cargarGastosApi);
 
-let objGuardarGastosWeb = new guardarGastosWeb();
-let objCargarGastosWeb = new cargarGastosWeb();
-btnGuardarGastos.addEventListener('click', objGuardarGastosWeb);
-btnCargarGastos.addEventListener('click', objCargarGastosWeb);
-
-export   {
+export {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb
