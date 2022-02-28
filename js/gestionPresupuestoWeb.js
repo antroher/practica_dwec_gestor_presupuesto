@@ -21,7 +21,15 @@ function mostrarGastoWeb(idElemento, gasto){
 
     let divGastoFec = document.createElement('div');
     divGastoFec.classList.add('gasto-fecha');
-    divGastoFec.innerHTML = `${gasto.fecha}`;
+
+    /*CAMBIO FORMATO FECHA */
+    let timestamp = gasto.fecha;
+    let fechica = new Date (timestamp);
+    divGastoFec.innerHTML = fechica.getDate()+
+    "/"+(fechica.getMonth()+1)+
+    "/"+fechica.getFullYear();
+
+    
     divGasto.append(divGastoFec); 
 
     let divGastoVal = document.createElement('div');
@@ -50,7 +58,6 @@ function mostrarGastoWeb(idElemento, gasto){
     let objEditar = new EditarHandle();
     objEditar.gasto = gasto;
     botonE.addEventListener("click",objEditar);
-    divGasto.append(botonE);
 
     let botonB = document.createElement('button');
     botonB.classList.add('gasto-borrar');
@@ -58,7 +65,6 @@ function mostrarGastoWeb(idElemento, gasto){
     let objBorrar = new BorrarHandle();
     objBorrar.gasto = gasto;
     botonB.addEventListener("click",objBorrar);
-    divGasto.append(botonB);
 
     let botonEF = document.createElement('button');
     botonEF.classList.add('gasto-editar-formulario');
@@ -66,7 +72,6 @@ function mostrarGastoWeb(idElemento, gasto){
     let objEditarForm = new EditarHandleFormulario();
     objEditarForm.gasto = gasto;
     botonEF.addEventListener("click",objEditarForm);
-    divGasto.append(botonEF);
 
     let botonBApi = document.createElement('button');
     botonBApi.classList.add('gasto-borrar-api');
@@ -74,7 +79,13 @@ function mostrarGastoWeb(idElemento, gasto){
     let objBorrarApi = new borrarApiHandle();
     objBorrarApi.gasto = gasto;
     botonBApi.addEventListener('click', objBorrarApi);
-    divGasto.append(botonBApi);
+
+    if(idElemento === "listado-gastos-completo"){
+        divGasto.append(botonE);
+        divGasto.append(botonB);
+        divGasto.append(botonEF);
+        divGasto.append(botonBApi);
+    }
 
 }
 

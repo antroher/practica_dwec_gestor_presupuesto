@@ -61,3 +61,11 @@ gPW.mostrarGastosAgrupadosWeb('agrupacion-mes', agrup2, 'mes');
 
 let agrup3 = gP.agruparGastos('anyo');
 gPW.mostrarGastosAgrupadosWeb('agrupacion-anyo', agrup3, 'año');
+
+
+//Mostrar encabezado Gastos filtrados
+let encabezadoFilt = document.createElement('h2');
+
+encabezadoFilt.textContent = "Gastos filtrados";
+
+document.getElementById('listado-gastos-completo').append(encabezadoFilt);
