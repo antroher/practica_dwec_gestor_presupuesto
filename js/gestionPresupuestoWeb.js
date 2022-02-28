@@ -82,7 +82,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     
     const divP = document.getElementById(idElemento);
     divP.innerHTML = "";
-    let data = ""
+    let data = "";
     for (let [key, value] of Object.entries(agrup)) {
         data += `
         <div class="agrupacion-dato">
@@ -254,6 +254,9 @@ function nuevoGastoWebFormulario() {
     let cancelarObj = new CancelarFormHandle();
     let btnCancelar = formulario.querySelector("button.cancelar");
     btnCancelar.addEventListener("click", cancelarObj);
+
+    let apiEnviar = formulario.querySelector("button.gasto-enviar-api");
+    apiEnviar.addEventListener("click", EnviarGastoApi);
 }
 
 //Manejador del evento cancelar del formulario
@@ -332,6 +335,11 @@ function editHandleForm() {
 
         //Desactivar -añadir atributo disabled- al botón anyadirgasto-formulario
         btnEditarFormulario.setAttribute("disabled", "");
+        let editarFormularioApi = formulario.querySelector("button.gasto-enviar-api");
+
+        let evenEditar = new EditarGastoApi();
+        evenEditar.gasto = this.gasto;
+        editarFormularioApi.addEventListener("click", evenEditar);
     }
 }
 
@@ -381,9 +389,10 @@ function CargarGastosApi(){
 
     if(user !=``){
         fetch(page, {method: 'GET'})
-            .then(respuest => respuesta.json())
+            .then(respuesta => respuesta.json())
             .then((result) => {
-                if(result == ""){
+                let resultado = result;
+                if(resultado == ""){
                     console.log("No tiene gastos")
                 } else {
                     gestionPresupuesto.cargarGastos(resultado);
@@ -519,6 +528,8 @@ const anyadirgastoFirmulario = document.getElementById("anyadirgasto-formulario"
 const formularioFiltrador = document.getElementById("formulario-filtrado");
 const btnGuardarGastos = document.getElementById("guardar-gastos");
 const btnCargarGastos = document.getElementById("cargar-gastos");
+const btnGastosApi = document.getElementById("cargar-gastos-api");
+btnGastosApi.addEventListener("click", CargarGastosApi);
 
 actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
 anyadirgasto.addEventListener('click', nuevoGastoWeb);
