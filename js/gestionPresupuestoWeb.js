@@ -94,6 +94,8 @@ function mostrarGastoWeb(idElemento, gasto) {
     divGasto.append(btnEditGastoForm);  
 }
 
+const apiUrl = "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest";
+
 function mostrarGastosAgrupadosWeb( idElemento, agrup, periodo ){
     // Crea dentro del elemento HTML con id idElemento indicado una estructura HTML para el objeto agrup que se pase como parámetro
 
