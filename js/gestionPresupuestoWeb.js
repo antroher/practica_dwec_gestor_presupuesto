@@ -11,6 +11,7 @@ document.getElementById("anyadirgasto-formulario").addEventListener('click', nue
 document.getElementById("formulario-filtrado").addEventListener('submit', filtrarGastoWeb);
 document.getElementById("guardar-gastos").addEventListener('click', guardarGastosWeb);
 document.getElementById("cargar-gastos").addEventListener('click', cargarGastosWeb);
+document.getElementById("cargar-gastos-api").addEventListener('click', cargarGastosApi);
 
 // FUNCIONES
 
@@ -81,6 +82,17 @@ function mostrarGastoWeb(idElemento, gasto) {
         borradorHandler.gasto = gasto;              // Referencia al objeto gasto en la propiedad gasto
         borradorBtn.addEventListener('click', borradorHandler);     // Cargar escuchador
 
+        
+        // Crear boton de borrar un gasto API y el objeto manejador evt asociado
+        let borradorAPIBtn = document.createElement("button");
+        borradorAPIBtn.className = 'gasto-borrar-api'
+        borradorAPIBtn.textContent = 'Borrar (API)';
+
+        let borradorAPIHandler = new BorrarApiHandle();
+        borradorAPIHandler.gasto = gasto; 
+        borradorAPIBtn.addEventListener('click', borradorAPIHandler);
+
+        
         //Crear el boton de editar gasto por formulario
         let editFormBtn = document.createElement("button");
         editFormBtn.className = 'gasto-editar-formulario';
@@ -93,7 +105,7 @@ function mostrarGastoWeb(idElemento, gasto) {
 
 
         // Colgar los botones al final del div .gasto
-        divGasto.append(editorBtn, borradorBtn, editFormBtn);
+        divGasto.append(editorBtn, borradorBtn, borradorAPIBtn, editFormBtn);
 
     }
 
@@ -206,8 +218,22 @@ function BorrarEtiquetasHandle() {
 }
 
 
+function BorrarApiHandle() {
+    this.handleEvent  = async function () {
+        // Comprobar el valor del campo del nombre y si esta vacío volver a solicitar al usuario
+        if (document.getElementById("nombre_usuario").value.length === 0) {
+            const usuario = prompt("Introduzca el nombre de usuario");
+            document.getElementById("nombre_usuario").value = usuario;
+        }
 
-// ___________________________________________________________________________________________________________
+    
+
+    }
+}
+
+
+
+// _______________________________________________________________________________________________________________________________________
 
 
 function nuevoGastoWebFormulario() {
