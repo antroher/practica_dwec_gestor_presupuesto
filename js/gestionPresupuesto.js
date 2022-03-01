@@ -7,17 +7,17 @@ var presupuesto = 0;
 var gastos = [];
 var idGasto = 0;
 
-function actualizarPresupuesto(newPresupuesto) {
-    let newValor;
+function actualizarPresupuesto(nuevoPresupuesto) {
+    let nuevoValor;
 
-    if (newPresupuesto >= 0) {
-        presupuesto = newPresupuesto;
-        newValor = presupuesto;
+    if (nuevoPresupuesto >= 0) {
+        presupuesto = nuevoPresupuesto;
+        nuevoValor = presupuesto;
     } else {
         console.log("Error. Valor introducido no valido.");
-        newValor = -1;
+        nuevoValor = -1;
     }
-    return newValor;
+    return nuevoValor;
 }
 
 function mostrarPresupuesto() {
