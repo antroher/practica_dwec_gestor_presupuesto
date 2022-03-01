@@ -57,10 +57,10 @@ for (let gasto of gestionP.filtrarGastos({ valorMaximo: 50, etiquetasTiene: ["co
 }
 
 // Mostrar el total de gastos agrupados por día en div#agrupacion-dia
-gestionPW.mostrarGastosAgrupadosWeb("agrupacion-dia", gestionP.agruparGastos("dia"), "dia");
+gestionPW.mostrarGastosAgrupadosWeb("agrupacion-dia", gestionP.agruparGastos("dia"), "día");
 
 // Mostrar el total de gastos agrupados por día en div#agrupacion-mes
 gestionPW.mostrarGastosAgrupadosWeb("agrupacion-mes", gestionP.agruparGastos("mes"), "mes");
 
 // Mostrar el total de gastos agrupados por día en div#agrupacion-anyo 
-gestionPW.mostrarGastosAgrupadosWeb("agrupacion-anyo", gestionP.agruparGastos("anyo"), "anyo");
+gestionPW.mostrarGastosAgrupadosWeb("agrupacion-anyo", gestionP.agruparGastos("anyo"), "año");
