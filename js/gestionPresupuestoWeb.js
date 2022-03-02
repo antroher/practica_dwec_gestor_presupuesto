@@ -1,659 +1,512 @@
-/*El código de este fichero hará uso de la teoría explicada en la sección Documento del tutorial de JavaScript. El fichero deberá exportar las siguientes funciones:
+import * as gestionPresupuesto from './gestionPresupuesto.js';
 
-mostrarDatoEnId
-mostrarGastoWeb
-mostrarGastosAgrupadosWeb*/ 
-import * as gp from "./gestionPresupuesto.js";
-'use strict'
-
-document.getElementById("actualizarpresupuesto").addEventListener("click", actualizarPresupuestoWeb);
-document.getElementById("anyadirgasto").addEventListener("click", nuevoGastoWeb);
-document.getElementById("anyadirgasto-formulario").addEventListener("click", nuevoGastoWebFormulario);
-
-function mostrarDatoEnId(idElemento,valor)
-{
-    /**Función de dos parámetros que se encargará de escribir el valor (texto) en el elemento HTML con id idElemento indicado:
-    idElemento - Hará referencia al id del elemento HTML donde se insertará el resultado en formato texto.
-    valor - El valor a mostrar */
-    
-    document.getElementById(idElemento).innerHTML += valor;
+function mostrarDatoEnId(idElemento, valor) {
+    document.getElementById(idElemento).innerHTML = valor;
 }
 
-function mostrarGastoWeb(idElemento,gasto)
-{
-    /*Función de dos parámetros que se encargará de añadir dentro del elemento HTML con id idElemento indicado una estructura HTML para el gasto que se pase como parámetro:
-    idElemento - Hará referencia al id del elemento HTML donde se insertará el conjunto de estructuras HTML que se crearán para cada gasto.
-    gasto - Objeto gasto
+//aqui gasto es un array, con lo que habria que cambiarlo y meterlo todo dentro de una iteracción
+function mostrarGastoWeb(idElemento, gasto) {
+    const gastoHTLM = document.createElement('div');
+    gastoHTLM.className = 'gasto';
+    const descripcionHTML = document.createElement('div');
+    descripcionHTML.className = 'gasto-descripcion';
+    const descripcionText = document.createTextNode(gasto.descripcion);
+    descripcionHTML.appendChild(descripcionText);
+    gastoHTLM.appendChild(descripcionHTML);
 
-<div class="gasto">
-  <div class="gasto-descripcion">DESCRIPCIÓN DEL GASTO</div>
-  <div class="gasto-fecha">FECHA DEL GASTO</div> 
-  <div class="gasto-valor">VALOR DEL GASTO</div> 
-  <div class="gasto-etiquetas">
-    <!-- Este elemento span tendrá un manejador de eventos -->
-    <span class="gasto-etiquetas-etiqueta">
-      ETIQUETA 1
-    </span>
-    <!-- Este elemento span tendrá un manejador de eventos -->
-    <span class="gasto-etiquetas-etiqueta">
-      ETIQUETA 2
-    </span>
-    <!-- Etcétera -->
-  </div> 
-  <!-- Este botón tendrá un manejador de eventos -->
-  <button class="gasto-editar" type="button">Editar</button>
-  <!-- Este botón tendrá un manejador de eventos -->
-  <button class="gasto-borrar" type="button">Borrar</button>
-  <!-- Este botón tendrá un manejador de eventos -->
-  <button class="gasto-borrar-api" type="button">Borrar (API)</button>
-  <!-- Este botón tendrá un manejador de eventos -->
-  <button class="gasto-editar-formulario" type="button">Editar (formulario)</button>
-</div>
-                  */
+    const fechaHTML = document.createElement('div');
+    fechaHTML.className = 'gasto-fecha';
+    const fechaText = document.createTextNode(new Date(gasto.fecha).toLocaleString());
+    fechaHTML.appendChild(fechaText);
+    gastoHTLM.appendChild(fechaHTML);
 
-                //faltaaaaa
+    const valorHTML = document.createElement('div');
+    valorHTML.className = 'gasto-valor';
+    const valorText = document.createTextNode(gasto.valor);
+    valorHTML.appendChild(valorText);
+    gastoHTLM.appendChild(valorHTML);
+    const etiquetasHTML = document.createElement('div');
+    etiquetasHTML.className = 'gasto-etiquetas';
+    const etiquetas = gasto.etiquetas;
+    etiquetas.forEach(etiqueta => {
+        const etiquetaHTML = document.createElement('span');
+        etiquetaHTML.className = 'gasto-etiquetas-etiqueta';
+        const etiquetaText = document.createTextNode(etiqueta);
+        etiquetaHTML.appendChild(etiquetaText);
+        etiquetasHTML.appendChild(etiquetaHTML);
 
-                 let elem = document.getElementById(idElemento);
+        const borrarEtiquetasHandler = new BorrarEtiquetasHandle();
+        borrarEtiquetasHandler.gasto = gasto;
+        borrarEtiquetasHandler.etiqueta = etiqueta;
+        etiquetaHTML.addEventListener('click', borrarEtiquetasHandler);
+    });
+    gastoHTLM.appendChild(etiquetasHTML);
 
-                 let divPrincipal = document.createElement("div");
-                 divPrincipal.className += "gasto";
-                 divPrincipal.id = `gasto-${gasto.id}`;
-                 elem.append(divPrincipal);
-             
-                 
-                 let divGD = document.createElement("div");
-                 divGD.className += "gasto-descripcion";
-                 divGD.textContent = gasto.descripcion;
-                 
-             
-                 
-                 let divGF = document.createElement("div");
-                 divGF.className += "gasto-fecha";
-                 divGF.textContent = new Date(gasto.fecha).toLocaleDateString();
-                
-             
-                 
-                 let divGV = document.createElement("div");
-                 divGV.className += "gasto-valor";
-                 divGV.textContent = gasto.valor;
-                 
-             
-                
-                 let divGE = document.createElement("div");
+    // Botón editar
+    const botonEditarHTLM = document.createElement('button');
+    botonEditarHTLM.className = 'gasto-editar';
+    const botonEditarText = document.createTextNode('Editar');
+    botonEditarHTLM.appendChild(botonEditarText);
+    gastoHTLM.appendChild(botonEditarHTLM);
 
-                 
-                 divGE.className += "gasto-etiquetas";
-             
-             
+    const editarHandler = new EditarHandle();
+    editarHandler.gasto = gasto;
+    botonEditarHTLM.addEventListener('click', editarHandler);
 
+    // Botón borrar
+    const botonBorrarHTLM = document.createElement('button');
+    botonBorrarHTLM.className = 'gasto-borrar';
+    const botonBorrarText = document.createTextNode('Borrar');
+    botonBorrarHTLM.appendChild(botonBorrarText);
+    gastoHTLM.appendChild(botonBorrarHTLM);
 
-                 gasto.etiquetas.forEach(item => {
-                   //Objeto eliminar con evento
-                     let borrarEtiquetas = new BorrarEtiquetasHandle();
-                     borrarEtiquetas.gasto = gasto;
-                     borrarEtiquetas.etiqueta = item;
-             
-                     let span = document.createElement("span");
-                     span.className += "gasto-etiquetas-etiqueta";
-                     span.textContent = item + " ";
-                     if(idElemento === "listado-gastos-completo"){
-                         
-                         span.addEventListener("click", borrarEtiquetas);
-                     }
-                     divGE.append(span);
-                 }); 
-                 
-                 
-                 divPrincipal.append(divGD);
-                 divPrincipal.append(divGF);
-                 divPrincipal.append(divGV);
-                 divPrincipal.append(divGE);
-            
-                 //Objeto editar con evento
-                 let editHandler = new EditarHandle();
-                 editHandler.gasto = gasto;
-                     
-                 let buttonEdit = document.createElement("button");
-                 buttonEdit.className = "gasto-editar";
-                 buttonEdit.textContent = "Editar";
-                 buttonEdit.addEventListener("click", editHandler);
-                     
-                 //Objeto eliminar con evento
-                 let borrarHandler = new BorrarHandle();
-                 borrarHandler.gasto = gasto;
-                     
-                 let buttonDelete = document.createElement("button");
-                 buttonDelete.className = "gasto-borrar";
-                 buttonDelete.textContent = "Borrar";
-                 buttonDelete.addEventListener("click", borrarHandler);
+    const borrarHandler = new BorrarHandle();
+    borrarHandler.gasto = gasto;
+    botonBorrarHTLM.addEventListener('click', borrarHandler);
 
-                 //Objeto borrarApi con evento
+    // Botón borrar gasto API
+    const botonBorrarApiHTLM = document.createElement('button');
+    botonBorrarApiHTLM.className = 'gasto-borrar-api';
+    const botonBorrarApiText = document.createTextNode('Borrar (API)');
+    botonBorrarApiHTLM.appendChild(botonBorrarApiText);
+    gastoHTLM.appendChild(botonBorrarApiHTLM);
 
-                 let objBorrarApi = new borrarApi();
-                 objBorrarApi.gasto = gasto;
+    const borrarApiHandler = new BorrarGastoApiHandle();
+    borrarApiHandler.gasto = gasto;
+    botonBorrarApiHTLM.addEventListener('click', borrarApiHandler);
 
-                 let botonBorrarApi = document.createElement('button');
-                 botonBorrarApi.className="gasto-borrar-api";
-                 botonBorrarApi.textContent = "Borrar (API)";
-                 botonBorrarApi.addEventListener("click", objBorrarApi);
-                 
+    // Botón editar (Formulario)
+    const botonEditarFormularioHTLM = document.createElement('button');
+    botonEditarFormularioHTLM.className = 'gasto-editar-formulario';
+    const botonEditarFormularioText = document.createTextNode('Editar (Formulario)');
+    botonEditarFormularioHTLM.appendChild(botonEditarFormularioText);
+    gastoHTLM.appendChild(botonEditarFormularioHTLM);
 
-                 //Objeto editar formulario con evento
+    const editarHandlerformulario = new EditarHandleformulario();
+    editarHandlerformulario.gasto = gasto;
+    botonEditarFormularioHTLM.addEventListener('click', editarHandlerformulario);
 
-                 let EditarFormHandler= new EditarHandleFormulario();
-                 EditarFormHandler.gasto=gasto;
-
-                 let buttonEditForm= document.createElement("button");
-                 buttonEditForm.className="gasto-editar-formulario";
-                 buttonEditForm.textContent="Editar (formulario)";
-                 buttonEditForm.addEventListener("click",EditarFormHandler)
-                
-                 if(idElemento === "listado-gastos-completo"){
-                     divPrincipal.append(buttonEdit);
-                     divPrincipal.append(buttonDelete);
-                     divPrincipal.append(botonBorrarApi);
-                     divPrincipal.append(buttonEditForm);
-                 }
-
-                 
-
-
+    // Agregar el elemento gasto al ID objetivo
+    document.getElementById(idElemento).append(gastoHTLM);
 }
-
-//Eventos !
-function repintar() {
-  mostrarDatoEnId('presupuesto', gestionPresupuesto.mostrarPresupuesto());
-  mostrarDatoEnId('gastos-totales', gestionPresupuesto.calcularTotalGastos());
-  mostrarDatoEnId('balance-total', gestionPresupuesto.calcularBalance());
-
-  //Borramos la anterior
-  document.getElementById('listado-gastos-completo').innerHTML = '';
-
-  const listadoGastos = gestionPresupuesto.listarGastos();
-  listadoGastos.forEach(gasto => {
-      mostrarGastoWeb('listado-gastos-completo', gasto);
-  });
-  mostrarGastosAgrupadosWeb('agrupacion-dia', gestionPresupuesto.agruparGastos('dia'), 'día');
-  mostrarGastosAgrupadosWeb('agrupacion-mes', gestionPresupuesto.agruparGastos('mes'), 'mes');
-  mostrarGastosAgrupadosWeb('agrupacion-anyo', gestionPresupuesto.agruparGastos('anyo'), 'año');
-}
-
-function actualizarPresupuestoWeb()
-{
-  let presupuesto=prompt("Introduce presupuesto");
-    gp.actualizarPresupuesto(parseFloat(presupuesto));
-    repintar();
-
-}
-
-function nuevoGastoWeb()
-{
-  /*Pedir al usuario la información necesaria para crear un nuevo gasto mediante sucesivas preguntas con prompt (por orden: descripción, valor, fecha y etiquetas). Por simplicidad, de momento no se comprobará la validez de dichos datos. La fecha vendrá dada en formato internacional (yyyy-mm-dd) y las etiquetas se introducirán en un único cuadro de texto como una lista separada por comas (por ejemplo, etiqueta1,etiqueta2,etiqueta3).
-Convertir el valor a número (recuerda que prompt siempre devuelve un string).
-Convertir la cadena de texto de etiquetas devuelta por prompt a un array.
-Crear un nuevo gasto (función crearGasto). ¡Ojo con la manera de pasar el parámetro ~etiquetas~!
-Añadir el gasto a la lista (función anyadirGasto).
-Llamar a la función repintar para que se muestre la lista con el nuevo gasto.*/
-  let descricion=prompt("Introduce descripcion gasto");
-  let valor=parseFloat(prompt("Introduce valor gasto"));
-  let fecha=prompt("Introduce fecha gasto");
-  let etiquetas=prompt("Introduce etiquetas gasto").split(",");
-
-  let gasto =new gp.CrearGasto(descricion,valor,fecha);
-  etiquetas.forEach(e => {
-      gasto.anyadirEtiquetas(e);
-  });
-  gp.anyadirGasto(gasto);
-  repintar();
-}
-
-function EditarHandle()
-{
-  this.handleEvent = function (e){
-  let descripcion,valor,fecha,etiquetasnexo,etiquetasreal;
-     descripcion = prompt("Escribe la nueva descripción del gasto");
-     valor = parseFloat(prompt("Escribe la nueva valor del gasto"));
-     fecha = new Date(prompt("Escribe la fecha del gastocon el formato ingles")).toLocaleDateString();
-     etiquetasnexo = prompt("Escribe las etiquetas del gasto separadas por ,");
-    etiquetasreal = etiquetasnexo.split(',');
-
-    this.gasto.actualizarValor(valor);
-    this.gasto.actualizarDescripcion(descripcion);
-    this.gasto.actualizarFecha(fecha);
-    this.gasto.anyadirEtiquetas(...etiquetasreal);
-    
-    repintar();
-  }
-}
-
-function BorrarHandle()
-{
-  this.handleEvent = function (){
-    let id = this.gasto.id;
-    gp.borrarGasto(id);
-    repintar();
-    
-  }
-}
-function BorrarEtiquetasHandle(){
-  this.handleEvent = function (){
-    this.gasto.borrarEtiquetas(this.etiqueta);
-    repintar();
-  }
-}
-
-function enviarGastoApi(event){
-  this.handleEvent = function(event){
-    let NombreUsuario = document.getElementById('nombre_usuario').value;
-    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${NombreUsuario}`;
-    if (NombreUsuario != ''){
-        var form = document.querySelector("#controlesprincipales form");
-        let des = form.elements.descripcion.value;
-        let val = parseFloat(form.elements.valor.value);
-        let fec = form.elements.fecha.value;
-        let eti = form.elements.etiquetas.value.split(',');
-        //obj
-        let gastoEnviar = {
-            descripcion: des,
-            valor: val,
-            fecha: fec,
-            etiquetas: eti
-        };
-        fetch (url, {method: 'POST', headers:{'Content-Type': 'application/json;charset=utf-8'}, body: JSON.stringify(gastoEnviar)})
-            .then(function(respuesta) {
-                if(respuesta.ok){
-                    alert('El gasto se ha creado correctamente');
-                    cargarGastosApi();
-                }
-                else{
-                    alert('Error ' + respuesta.status + ': no se ha podido crear el gasto correctamente en la Api');
-                }   
-            })
-            .catch(errors => alert(errors));
-    }
-    else{
-        alert('Introduce un nombre.');
-    }
-}
-}
-
-function borrarApi(){
-  this.handleEvent = function(event){
-
-      let nomApe = document.getElementById('nombre_usuario').value;
-
-      let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nomApe}/${this.gasto.gastoId}`;
-
-      if (nomApe != '' || nomApe!="" || nomApe!=null || nomApe!=undefined){
-          fetch (url, {method: 'DELETE'})
-              .then(function(gastosApi) {
-                  if(respuesta.ok){
-                      cargarGastosApi(gastosApi);
-                  }
-                  else{
-                      console.log('Error '+ respuesta.status);
-                  }
-
-              })
-              .catch(errors => alert(errors));
-      }
-      
-  }
-}
-
 
 function mostrarGastosAgrupadosWeb(idElemento, agrupacion, periodo) {
-  var divP = document.getElementById(idElemento);
-  divP.innerHTML = "";
-  const agrupacionHTLM = document.createElement('div');
-  agrupacionHTLM.className = 'agrupacion';
-  const tituloHTML = document.createElement('h1');
-  const tituloText = document.createTextNode(`Gastos agrupados por ${periodo}`);
-  tituloHTML.appendChild(tituloText);
-  agrupacionHTLM.appendChild(tituloHTML);
+    var divP = document.getElementById(idElemento);
+    divP.innerHTML = "";
+    const agrupacionHTLM = document.createElement('div');
+    agrupacionHTLM.className = 'agrupacion';
+    const tituloHTML = document.createElement('h1');
+    const tituloText = document.createTextNode(`Gastos agrupados por ${periodo}`);
+    tituloHTML.appendChild(tituloText);
+    agrupacionHTLM.appendChild(tituloHTML);
 
-  // Agrupación
-  for (const agrupacionDato in agrupacion) {
-      const agrupacionDatoHTML = document.createElement('div');
-      agrupacionDatoHTML.className = 'agrupacion-dato';
-      const agrupacionDatoClaveHTML = document.createElement('span');
-      agrupacionDatoClaveHTML.className = 'agrupacion-dato-clave';
-      const agrupacionDatoClaveText = document.createTextNode(agrupacionDato);
-      agrupacionDatoClaveHTML.appendChild(agrupacionDatoClaveText);
-      agrupacionDatoHTML.appendChild(agrupacionDatoClaveHTML);
-      const agrupacionDatoValorHTML = document.createElement('span');
-      agrupacionDatoValorHTML.className = 'agrupacion-dato-valor';
-      const agrupacionDatoValorText = document.createTextNode(agrupacion[agrupacionDato]);
-      agrupacionDatoValorHTML.appendChild(agrupacionDatoValorText);
-      agrupacionDatoHTML.appendChild(agrupacionDatoValorHTML);
-      agrupacionHTLM.appendChild(agrupacionDatoHTML);
-  }
-
-  divP.append(agrupacionHTLM);
-
-  divP.style.width = "33%";
-  divP.style.display = "inline-block";
-  let chart = document.createElement("canvas");
-  let unit = "";
-  switch (periodo) {
-      case "anyo":
-          unit = "year";
-          break;
-      case "mes":
-          unit = "month";
-          break;
-      case "dia":
-      default:
-          unit = "day";
-          break;
-  }
-
-  const myChart = new Chart(chart.getContext("2d"), {
-      type: 'bar',
-      data: {
-          datasets: [
-              {
-                  label: `Gastos por ${periodo}`,
-                  backgroundColor: "#555555",
-                  data: agrupacion
-              }
-          ],
-      },
-      options: {
-          scales: {
-              x: {
-                  // El eje X es de tipo temporal
-                  type: 'time',
-                  time: {
-                      // Indicamos la unidad correspondiente en función de si utilizamos días, meses o años
-                      unit: unit
-                  }
-              },
-              y: {
-                  // Para que el eje Y empieza en 0
-                  beginAtZero: true
-              }
-          }
-      }
-  });
-  // Añadimos la gráfica a la capa
-  divP.append(chart);
-}
-
-
-
-
-
-//PRACTICA 6
-
-function submitEditHandle () {
-  this.handleEvent = function(event) {
-    this.gasto.actualizarDescripcion(event.currentTarget.descripcion.value);
-    this.gasto.actualizarValor(parseFloat(event.currentTarget.valor.value));
-    this.gasto.actualizarFecha(event.currentTarget.fecha.value);
-    let etiquetas = event.currentTarget.etiquetas.value;
-    if (typeof etiquetas !== "undefined") {
-        etiquetas = etiquetas.split(",");
+    // Agrupación
+    for (const agrupacionDato in agrupacion) {
+        const agrupacionDatoHTML = document.createElement('div');
+        agrupacionDatoHTML.className = 'agrupacion-dato';
+        const agrupacionDatoClaveHTML = document.createElement('span');
+        agrupacionDatoClaveHTML.className = 'agrupacion-dato-clave';
+        const agrupacionDatoClaveText = document.createTextNode(agrupacionDato);
+        agrupacionDatoClaveHTML.appendChild(agrupacionDatoClaveText);
+        agrupacionDatoHTML.appendChild(agrupacionDatoClaveHTML);
+        const agrupacionDatoValorHTML = document.createElement('span');
+        agrupacionDatoValorHTML.className = 'agrupacion-dato-valor';
+        const agrupacionDatoValorText = document.createTextNode(agrupacion[agrupacionDato]);
+        agrupacionDatoValorHTML.appendChild(agrupacionDatoValorText);
+        agrupacionDatoHTML.appendChild(agrupacionDatoValorHTML);
+        agrupacionHTLM.appendChild(agrupacionDatoHTML);
     }
-    this.gasto.etiquetas = etiquetas;
 
-    repintar();
-}
-}
+    divP.append(agrupacionHTLM);
 
-function cancelarEditHandle () {
-  this.handleEvent = function() {
-      this.formulario.remove();
-      document.querySelector(`#gasto-${this.gasto.id} .gasto-editar-formulario`).disabled = false;
-  }
-}
+    divP.style.width = "33%";
+    divP.style.display = "inline-block";
+    let chart = document.createElement("canvas");
+    let unit = "";
+    switch (periodo) {
+        case "anyo":
+            unit = "year";
+            break;
+        case "mes":
+            unit = "month";
+            break;
+        case "dia":
+        default:
+            unit = "day";
+            break;
+    }
 
-function cancelarHandle () {
-  this.handleEvent = function() {
-      this.formulario.remove();
-      document.getElementById("anyadirgasto-formulario").disabled = false;
-  }
-}
-
-
-  function nuevoGastoWebFormulario(){
-
-    /**Añade un manejador de eventos necesario para gestionar el evento click del botón .gasto-enviar-api.
-   Se encargará de realizar mediante fetch una solicitud POST a la URL correspondiente de la API.
-  Se deberá crear la URL correspondiente utilizando el nombre de usuario que se haya introducido en el control input#nombre_usuario.
-  El contenido de la petición POST se obtendrá a partir del formulario de creación.
-  Una vez completada la petición, se deberá llamar a la función cargarGastosApi para actualizar la lista en la página. */
-    
-    let formTemplate = document.getElementById("formulario-template").content.cloneNode(true);
-    let form = formTemplate.querySelector("form");
-
-    document.getElementById('anyadirgasto-formulario').setAttribute('disabled', '');
-
-    document.getElementById('controlesprincipales').append(form);
-
-    form.addEventListener('submit', new submitHandle());
-
-    let envApi = form.querySelector("button.gasto-enviar-api");
-    envApi.addEventListener('click', new enviarGastoApi());
-
-    form.querySelector("button.cancelar").addEventListener('click',new cancelarHandle());
-}
-
-function submitHandle() {
-  this.handleEvent = function(event) {
-      event.preventDefault();
-      let descripcion = event.currentTarget.descripcion.value;
-      let valor = parseFloat(event.currentTarget.valor.value);
-      let fecha = event.currentTarget.fecha.value;
-      let etiquetas = event.currentTarget.etiquetas.value;
-
-      if (typeof etiquetas !== 'undefined') {
-          etiquetas = etiquetas.split(",");
-      }
-      let gasto = new gp.CrearGasto(descripcion, valor, fecha, etiquetas);
-      gp.anyadirGasto(gasto);
-      repintar();
-      event.currentTarget.remove();
-      document.getElementById('anyadirgasto-formulario').disabled = false;
-  }
-}
-
-function EditarHandleFormulario(){
-  this.handleEvent = function(event) {
-    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
-    var form = plantillaFormulario.querySelector("form");
-    document.getElementById("gasto-"+this.gasto.id).append(form);
-
-    document.querySelector(`#gasto-${this.gasto.id} .gasto-editar-formulario`).disabled = true;
-
-    form.descripcion.value = this.gasto.descripcion;
-    form.valor.value = this.gasto.valor;
-
-    let fecha = new Date(this.gasto.fecha);
-    let fechaFormateda = fecha.toISOString().substring(0,10);
-    form.fecha.value = fechaFormateda;
-
-    let etiquetaString = "";
-    this.gasto.etiquetas.forEach((etiqueta, index) => {
-        if (this.gasto.etiquetas.length - 1 === index) {
-            etiquetaString += etiqueta;
-        }
-        else {
-            etiquetaString += etiqueta + ", ";
+    const myChart = new Chart(chart.getContext("2d"), {
+        type: 'bar',
+        data: {
+            datasets: [
+                {
+                    label: `Gastos por ${periodo}`,
+                    backgroundColor: "#555555",
+                    data: agrupacion
+                }
+            ],
+        },
+        options: {
+            scales: {
+                x: {
+                    // El eje X es de tipo temporal
+                    type: 'time',
+                    time: {
+                        // Indicamos la unidad correspondiente en función de si utilizamos días, meses o años
+                        unit: unit
+                    }
+                },
+                y: {
+                    // Para que el eje Y empieza en 0
+                    beginAtZero: true
+                }
+            }
         }
     });
-    form.etiquetas.value = etiquetaString;
-
-    let cancelarEvent = new cancelarEditHandle();
-    cancelarEvent.formulario = form;
-    cancelarEvent.gasto = this.gasto;
-    form.querySelector("button[class='cancelar']").addEventListener('click', cancelarEvent);
-
-    let submitEvent = new submitEditHandle();
-    submitEvent.gasto = this.gasto;
-    form.addEventListener('submit', submitEvent);
-
-    let editApi = new editarApi();
-    editApi.gasto = this.gasto;
-    form.querySelector("button.gasto-enviar-api").addEventListener('click', editApi);
-}
+    // Añadimos la gráfica a la capa
+    divP.append(chart);
 }
 
-function filtrarGastosWeb(){
+function repintar() {
+    mostrarDatoEnId('presupuesto', gestionPresupuesto.mostrarPresupuesto());
+    mostrarDatoEnId('gastos-totales', gestionPresupuesto.calcularTotalGastos());
+    mostrarDatoEnId('balance-total', gestionPresupuesto.calcularBalance());
 
-  this.handleEvent = function(event){
+    //Borramos la anterior
+    document.getElementById('listado-gastos-completo').innerHTML = '';
 
-    event.preventDefault();
-
-    let des = document.getElementById("formulario-filtrado-descripcion").value;
-    let vMin = parseFloat(document.getElementById("formulario-filtrado-valor-minimo").value);
-    let vMax = parseFloat(document.getElementById("formulario-filtrado-valor-maximo").value);
-    let fecDes = document.getElementById("formulario-filtrado-fecha-desde").value;
-    let fecHas = document.getElementById("formulario-filtrado-fecha-hasta").value;
-    let etiTiene = document.getElementById("formulario-filtrado-etiquetas-tiene").value;
-    let filtro = {};
-
-    if (etiTiene.length > 0){
-        filtro.etiquetasTiene = gp.transformarListadoEtiquetas(etiTiene);
-    }
-    filtro.fechaDesde = fecDes;
-    filtro.fechaHasta = fecHas;
-    filtro.valorMinimo = vMin;
-    filtro.valorMaximo = vMax;
-    filtro.descripcionContiene = des;
-
-    document.getElementById("listado-gastos-completo").innerHTML="";
-    let objsFiltrGastos = gp.filtrarGastos(filtro);
-
-    for (let gasto of objsFiltrGastos){
+    const listadoGastos = gestionPresupuesto.listarGastos();
+    listadoGastos.forEach(gasto => {
         mostrarGastoWeb('listado-gastos-completo', gasto);
-    }
-
+    });
+    mostrarGastosAgrupadosWeb('agrupacion-dia', gestionPresupuesto.agruparGastos('dia'), 'día');
+    mostrarGastosAgrupadosWeb('agrupacion-mes', gestionPresupuesto.agruparGastos('mes'), 'mes');
+    mostrarGastosAgrupadosWeb('agrupacion-anyo', gestionPresupuesto.agruparGastos('anyo'), 'año');
 }
 
+function actualizarPresupuestoWeb() {
+    gestionPresupuesto.actualizarPresupuesto(
+        parseInt(prompt('Nuevo presupuesto:', gestionPresupuesto.presupuesto))
+    );
+    repintar();
 }
-document.getElementById('formulario-filtrado').addEventListener('submit', new filtrarGastosWeb());
 
-/*sta función se utilizará como manejadora de eventos del evento click del botón guardar-gastos.
-
-Se encargará de guardar el listado de gastos (disponible en la función listarGastos del paquete js/gestionPresupuesto.js)
- en la clave de almacenamiento de localstorage denominada GestorGastosDWEC.
- Ten en cuenta que solo se pueden almacenar strings. */
- function guardarGastosWeb(){
-  this.handleEvent = function(event){
-      localStorage.setItem('GestorGastosDWEC', JSON.stringify(gp.listarGastos()));    
+function nuevoGastoWeb(){
+    let descripcion = prompt("Escribe la descripción del gasto");
+    let valor1 = parseFloat(prompt("Escribe el valor del gasto"));
+    let fecha = prompt("Escribe la fecha del gasto en formato yyyy-mm-dd");
+    let etiquetas = prompt("Escribe las etiquetas del gasto separadas por ,");
+    let etiquetasArray= etiquetas.split(',');
+    let gastoAnyadido = new gestionPresupuesto.CrearGasto(descripcion,valor1,fecha,...etiquetasArray);
+    gestionPresupuesto.anyadirGasto(gastoAnyadido);
+    repintar();
   }
-}
 
-document.getElementById('guardar-gastos').addEventListener('click', new guardarGastosWeb);
+/* https://stackoverflow.com/questions/2230992/javascript-creating-objects-based-on-a-prototype-without-using-new-constructo*/
 
-/*Esta función se utilizará como manejadora de eventos del evento click del botón cargar-gastos.
-Se encargará de cargar el listado de gastos (función cargarGastos del paquete js/gestionPresupuesto.js) 
-desde la clave de almacenamiento de localstorage denominada GestorGastosDWEC. Ten en cuenta que solo se pueden almacenar strings.
-Si no existe la clave en el almacenamiento, llamará a cargarGastos con un array vacío.
-Una vez cargados los gastos deberá llamar a la función repintar para que se muestren correctamente en el HTML. */
-function cargarGastosWeb() {
-  this.handleEvent = function(event) {
-      if (localStorage.GestorGastosDWEC == null) 
-          gestionPresupuesto.cargarGastos([]);
-      else 
-          gestionPresupuesto.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
-      repintar();    
-  }
-}
-
-document.getElementById('cargar-gastos').addEventListener('click', new cargarGastosWeb);
-  
-function CargarGastosApi() {
-
-  let usuario = document.querySelector("#nombre_usuario").value;
-   
-    if (usuario != '' || usuario!=undefined || usuario !=null) {
-      fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`, {method: 'GET'})
-          .then(respuesta => respuesta.json())
-          .then((result) => {
-              let resultado = result;
-              if(resultado == "" || resultado =='') {
-                  console.log("No existe el usuario")
-              } else {
-                  gp.cargarGastos(resultado);
-                  repintar();
-              }
-              })
-          .catch(error => console.error(error));
+function EditarHandle() {
+    this.handleEvent = function (event){
+        let descripcion = prompt("Escribe la nueva descripción del gasto");
+        let valor1 = parseFloat(prompt("Escribe la nueva valor del gasto"));
+        let fecha = prompt("Escribe la fecha del gasto en formato yyyy-mm-dd");
+        let etiquetas = prompt("Escribe las etiquetas del gasto separadas por ,");
+        let etiquetasArray = etiquetas.split(',');
+        this.gasto.actualizarValor(valor1);
+        this.gasto.actualizarDescripcion(descripcion);
+        this.gasto.actualizarFecha(fecha);
+        this.gasto.anyadirEtiquetas(...etiquetasArray);
+        repintar();
     }
 }
- document.getElementById("cargar-gastos-api").addEventListener("click", CargarGastosApi);
 
- function BorrarGastoApi(){
+function BorrarHandle() {
+    this.handleEvent = function (event){
+      let number = this.gasto.id;
+      gestionPresupuesto.borrarGasto(number);
+      repintar();
+    }
+}
+
+function BorrarEtiquetasHandle() {
+    this.handleEvent = function (event){
+    this.gasto.borrarEtiquetas(this.etiqueta);
+    repintar();
+   }
+}
+
+function nuevoGastoWebFormulario() {
+    //Copia del formulario/template
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+    var formulario = plantillaFormulario.querySelector("form");
+    //En la práctica pone que se ponga al final, pero salta error si se hace de ese modo
+    let divControlesPrincipales = document.getElementById("controlesprincipales")
+    divControlesPrincipales.appendChild(formulario);
+    let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
     
-  this.handleEvent = function(event){
-      let usuario = document.getElementById("nombre_usuario").value;
-      let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+    //botón submit
+    let enviarObj = new EnviarGastoFormHandle();
+    formulario.addEventListener('submit', enviarObj);
+    //botón cancelar
+    let cancelarObj = new CancelarFormHandle();
+    let btnCancelar = formulario.querySelector("button.cancelar");
+    btnCancelar.addEventListener("click", cancelarObj);
 
-      if (usuario == "") {
-          console.log("El input del nombre de usuario esta vacio");
-      } else {
-          fetch(url, {method: 'DELETE'})
-          .then(response => response.json())
-          .then(datos => {
-              if(!datos.errorMessage){
-                  CargarGastosApi();
-              } else {
-                  console.log(datos.errorMessage);
-              }
-          })
-          .catch(err => console.error(err));
-      }
-  }
+    let apiEnviar = formulario.querySelector("button.gasto-enviar-api");
+    apiEnviar.addEventListener("click", EnviarGastoApi);
+    
 }
 
-function editarApi(){
-  this.handleEvent = function(event){
-
-      let NombreUsuario = document.getElementById('nombre_usuario').value;
-
-      let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${NombreUsuario}/${this.gasto.gastoId}`;
-
-      if (NombreUsuario != ''){
-          var form = event.currentTarget.form;
-          let des = form.elements.descripcion.value;
-          let val = parseFloat(form.elements.valor.value);
-          let fec = form.elements.fecha.value;
-          let eti = form.elements.etiquetas.value.split(',');
-
-          let gastoApi = {
-              descripcion: des,
-              valor: val,
-              fecha: fec,
-              etiquetas: eti
-          };
-          fetch (url, {method: 'PUT', body: JSON.stringify(gastoApi), headers:{'Content-Type': 'application/json;charset=utf-8'}})
-          .then(function(respuesta) {
-              if(respuesta.ok){
-                  alert('El gasto se ha editado correctamente');
-                  cargarGastosApi();
-              }   
-          })
-          .catch(errors => alert(errors));
-      }
-  }
+//Manejador del evento cancelar del formulario
+function CancelarFormHandle() {
+    this.handleEvent = function (event){
+        //La única forma de borrar el formulario sin que salten mil errores
+        //básicamente recoge el padre del botón cancelar -el formulario- y lo borra
+        //llevo probando combinaciones 2 horas y esto es lo mejor que me ha salido
+        event.currentTarget.parentNode.remove();
+        let btnAnyadirGastoForm = document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+        repintar();
+    }
 }
 
 
-export{
+//Este handle actualizará los valores del gasto que nosotros estemos manejando
+function EnviarHandle(){
+    this.handleEvent = function(event){
+        //Evitamos que se haga el submit
+        event.preventDefault();
+        //Recogemos el evento que ha realizado el evento y actualizamos los valores del gasto
+        let formulario = event.currentTarget;
+        let descripcion = formulario.elements.descripcion.value;
+        this.gasto.actualizarDescripcion(descripcion);
+        let valor = parseFloat(formulario.elements.valor.value);
+        this.gasto.actualizarValor(valor);
+        let fecha = formulario.elements.fecha.value;
+        this.gasto.actualizarFecha(fecha);
+        let etiquetas = formulario.elements.etiquetas.value;
+        this.gasto.anyadirEtiquetas(etiquetas);
+        repintar();
+    }
+}
+
+function EnviarGastoFormHandle(){
+    this.handleEvent = function(e){
+        e.preventDefault();
+         let formulario = e.currentTarget;
+         let descripcion = formulario.elements.descripcion.value;
+         let valor = parseFloat(formulario.elements.valor.value);
+         let fecha = formulario.elements.fecha.value;
+         let etiquetas = formulario.elements.etiquetas.value;
+        let gastoNuevo = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, etiquetas);
+        gestionPresupuesto.anyadirGasto(gastoNuevo);
+        repintar();
+        document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+    }
+}
+
+//Manejador del evento editar gasto formulario
+function EditarHandleformulario() {
+    this.handleEvent = function (event){
+
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+        var formulario = plantillaFormulario.querySelector("form");
+        //En el enunciado pone que se ponga al final el añadir el formulario, pero si lo haces así explota
+        //por ello primero selecciono el nodo y después adjunto el formulario al DOM.
+        let divControlesPrincipales = document.getElementById("controlesprincipales")
+        divControlesPrincipales.appendChild(formulario);
+        //Recogemos el nodo que ha pedido el evento
+        let btnEditarFormulario = event.currentTarget;
+        btnEditarFormulario.appendChild(formulario);
+        formulario.elements.descripcion.value  = this.gasto.descripcion;
+        formulario.elements.valor.value = this.gasto.valor;
+        formulario.elements.fecha.value = new Date(this.gasto.fecha).toISOString().substr(0,10);
+        formulario.elements.etiquetas.value = this.gasto.etiquetas;
+
+        //Evento para el submit del formulario
+        let EditarFormHandle1 = new EnviarHandle();
+        EditarFormHandle1.gasto = this.gasto;
+        formulario.addEventListener('submit', EditarFormHandle1);
+        //botón cancelar
+        let btnCancelar = formulario.querySelector("button.cancelar");
+        let cancelarObj = new CancelarFormHandle();
+        btnCancelar.addEventListener("click", cancelarObj);
+
+        //Desactivar -añadir atributo disabled- al botón anyadirgasto-formulario
+        btnEditarFormulario.setAttribute("disabled", "");
+
+        let editarFormularioApi = formulario.querySelector("button.gasto-enviar-api");
+        let evenEditar = new EditarGastoApi();
+        evenEditar.gasto = this.gasto;
+        editarFormularioApi.addEventListener("click", evenEditar);
+    }
+}
+
+function filtrarGastosWeb() {
+    this.handleEvent = function(event) {
+        event.preventDefault();
+        let formulario = event.currentTarget;
+        let descr = formulario.elements["formulario-filtrado-descripcion"].value;
+        let minVal = parseFloat(formulario.elements["formulario-filtrado-valor-minimo"].value);
+        let maxVal = parseFloat(formulario.elements["formulario-filtrado-valor-maximo"].value);
+        let fechaDesde1 = formulario.elements["formulario-filtrado-fecha-desde"].value;
+        let fechaHasta1 = formulario.elements["formulario-filtrado-fecha-hasta"].value;
+        let etiq = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
+        
+        if (etiq !== undefined) {
+            etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
+        }
+        let gastosFilter = ({fechaDesde : fechaDesde1, fechaHasta : fechaHasta1, valorMinimo : minVal, valorMaximo : maxVal, descripcionContiene : descr, etiquetasTiene : etiq});
+        let gastosFiltradosForm = gestionPresupuesto.filtrarGastos(gastosFilter);
+        document.getElementById("listado-gastos-completo").innerHTML = " ";
+        for (let gasto of gastosFiltradosForm) {
+            mostrarGastoWeb("listado-gastos-completo", gasto);
+        }
+    }
+}
+
+function guardarGastosWeb() {
+    this.handleEvent = function(event) {
+        let listadoGastos = gestionPresupuesto.listarGastos();
+        localStorage.GestorGastosDWEC = JSON.stringify(listadoGastos);
+    }
+}
+
+function cargarGastosWeb() {
+    this.handleEvent = function(event) {
+        if (localStorage.GestorGastosDWEC == null) 
+            gestionPresupuesto.cargarGastos([]);
+        else 
+            gestionPresupuesto.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
+        repintar();    
+    }
+}
+
+function CargarGastosApi() {
+    const nombreUsuario = document.getElementById('nombre_usuario').value;
+    fetch("https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + nombreUsuario)
+        .then(response => response.json())
+        .then(gastos => {
+            gestionPresupuesto.cargarGastos(gastos);
+            repintar()
+        })
+}
+
+function BorrarGastoApiHandle(){
+    
+    this.handleEvent = function(event){
+        let usuario = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+
+        if (usuario == "") {
+            console.log("El input del nombre de usuario esta vacio");
+        } else {
+            fetch(url, {method: 'DELETE'})
+            .then(response => response.json())
+            .then(datos => {
+                if(!datos.errorMessage){
+                    CargarGastosApi();
+                } else {
+                    console.log(datos.errorMessage);
+                }
+            })
+            .catch(err => console.error(err));
+        }
+    }
+}
+
+function EnviarGastoApi() {
+    this.handleEvent = function (event) {
+        const nombreUsuario = document.getElementById('nombre_usuario').value;
+
+        const gastoJson = {
+            "valor": Number(this.formulario.valor.value),
+            "descripcion": this.formulario.descripcion.value,
+            "fecha": this.formulario.fecha.value,
+            "etiquetas": this.formulario.etiquetas.value.split(","),
+        }
+
+        fetch(`"https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest"/${nombreUsuario}`, {
+            method: "POST",
+            body: JSON.stringify(gastoJson),
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            }
+        })
+            .then(cargarGastosApi)
+    }
+}
+
+function EditarGastoApi(){
+
+    this.handleEvent = function(event){
+        let usuario = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+        
+        let formulario = event.currentTarget.form;
+        let descripcionN = formulario.elements.descripcion.value;
+        let valorN = formulario.elements.valor.value;
+        let fechaN = formulario.elements.fecha.value;
+        let etiquetasN = formulario.elements.etiquetas.value;
+
+        valorN = parseFloat(valorN);
+        etiquetasN = etiquetasN.split(",");
+    
+        let nuevoObjeto = {
+            descripcion: descripcionN,
+            fecha: fechaN,
+            valor: valorN,
+            etiquetas: etiquetasN
+        }
+
+        if(usuario == ""){
+            console.log("El input del nombre de usuario esta vacio");
+        } else {
+            fetch(url, {
+                method: 'PUT', 
+                body: JSON.stringify(nuevoObjeto),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                
+                if(response.ok){
+                    console.log("Peticion de modificacion correcta");
+                    CargarGastosApi();
+                }else{
+                    console.log("Peticion de modificacion incorrecta");
+                }
+            })
+            .catch(err => console.error(err));
+        }
+    }
+}
+
+
+//Botones
+const actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
+const anyadirgasto = document.getElementById("anyadirgasto");
+const anyadirgastoFirmulario = document.getElementById("anyadirgasto-formulario");
+const formularioFiltrador = document.getElementById("formulario-filtrado");
+const btnGuardarGastos = document.getElementById("guardar-gastos");
+const btnCargarGastos = document.getElementById("cargar-gastos");
+const btnGastosApi = document.getElementById("cargar-gastos-api");
+btnGastosApi.addEventListener("click", CargarGastosApi);
+//Eventos
+actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
+anyadirgasto.addEventListener('click', nuevoGastoWeb);
+anyadirgastoFirmulario.addEventListener('click', nuevoGastoWebFormulario)
+//Al tener que trabajar con el propio nodo que manifiesta el evento deberemos crear un objeto manejador... o eso creo yo despúes de 3 horas sin saber que falla jeje
+let filtGastForm = new filtrarGastosWeb();
+formularioFiltrador.addEventListener('submit', filtGastForm);
+
+let objGuardarGastosWeb = new guardarGastosWeb();
+let objCargarGastosWeb = new cargarGastosWeb();
+btnGuardarGastos.addEventListener('click', objGuardarGastosWeb);
+btnCargarGastos.addEventListener('click', objCargarGastosWeb);
+
+export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb,
-    repintar,
-    actualizarPresupuestoWeb,
-    nuevoGastoWeb,
-    EditarHandle,
-    BorrarHandle,
-    BorrarEtiquetasHandle,
-    nuevoGastoWebFormulario,
-    EditarHandleFormulario,
-    filtrarGastosWeb,
-    CargarGastosApi,
-    
+    mostrarGastosAgrupadosWeb
 }
