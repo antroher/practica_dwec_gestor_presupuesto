@@ -552,18 +552,14 @@ Se encargará de cargar el listado de gastos (función cargarGastos del paquete 
 desde la clave de almacenamiento de localstorage denominada GestorGastosDWEC. Ten en cuenta que solo se pueden almacenar strings.
 Si no existe la clave en el almacenamiento, llamará a cargarGastos con un array vacío.
 Una vez cargados los gastos deberá llamar a la función repintar para que se muestren correctamente en el HTML. */
-function cargarGastosWeb(){
-this.handleEvent = function(event){
-  let clave = JSON.parse(localStorage.getItem('GestorGastosDWEC'));
-  if (clave !== null){
-      if (clave.length >= 0)
-      gp.cargarGastos(clave);
+function cargarGastosWeb() {
+  this.handleEvent = function(event) {
+      if (localStorage.GestorGastosDWEC == null) 
+          gestionPresupuesto.cargarGastos([]);
+      else 
+          gestionPresupuesto.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
+      repintar();    
   }
-  else{
-      gp.cargarGastos([]);
-  }
-  repintar();
-}
 }
 
 document.getElementById('cargar-gastos').addEventListener('click', new cargarGastosWeb);
