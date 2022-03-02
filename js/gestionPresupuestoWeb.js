@@ -481,11 +481,12 @@ function borrarGastoApi(){
 }
 
 function cargarGastosApi(){
+
     let usuario = document.getElementById('nombre_usuario').value;
 
     if(usuario != '')
     {
-        let url =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`;
+        let url =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
 
         fetch(url, {
 
@@ -513,7 +514,7 @@ function BorrarAPIHandle()
         let usuario = document.getElementById('nombre_usuario').value;
         if(usuario != '')
         {
-            let url =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}/${this.gasto.gastoId}`;
+            let url =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
             fetch(url, 
             {
 
@@ -547,7 +548,7 @@ function enviarAPIHandle()
 
     if(usuario != '')
     {
-        let url =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${NUsuario}`;    
+        let url =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;    
         var form = document.querySelector("#controlesprincipales form");
         let descrip = form.elements.descripcion.value;
         let val = form.elements.valor.value;
