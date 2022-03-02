@@ -161,49 +161,22 @@ function mostrarGastoWeb(idElemento,gasto)
 }
 
 //Eventos !
-function repintar()
-{
-  /*Por tanto, es necesario disponer de una función que vuelva a crear toda la estructura HTML que refleje los cambios realizados en el modelo de datos. 
-  Esta función se denominará repintar, y realizará las siguientes tareas:
+function repintar() {
+  mostrarDatoEnId('presupuesto', gestionPresupuesto.mostrarPresupuesto());
+  mostrarDatoEnId('gastos-totales', gestionPresupuesto.calcularTotalGastos());
+  mostrarDatoEnId('balance-total', gestionPresupuesto.calcularBalance());
 
-  Mostrar el presupuesto en div#presupuesto (funciones mostrarPresupuesto y mostrarDatoEnId)
-Mostrar los gastos totales en div#gastos-totales (funciones calcularTotalGastos y mostrarDatoEnId)
-Mostrar el balance total en div#balance-total (funciones calcularBalance y mostrarDatoEnId)
-Borrar el contenido de div#listado-gastos-completo, para que el paso siguiente no duplique la información. Puedes utilizar innerHTML para borrar el contenido de dicha capa.
-Mostrar el listado completo de gastos en div#listado-gastos-completo (funciones listarGastos y mostrarGastoWeb)
-La función repintar no actualizará el resto de capas (filtrados y agrupaciones) de la práctica anterior (lo haremos así por simplicidad).*/
+  //Borramos la anterior
+  document.getElementById('listado-gastos-completo').innerHTML = '';
 
-
-
-
-document.getElementById('presupuesto').innerHTML='';
-    document.getElementById('gastos-totales').innerHTML="";
-    document.getElementById('balance-total').innerHTML="";
-
-    mostrarDatoEnId('presupuesto',gestionPresupuesto.mostrarPresupuesto());
-    mostrarDatoEnId('gastos-totales',gestionPresupuesto.calcularTotalGastos());
-    mostrarDatoEnId('balance-total',gestionPresupuesto.calcularBalance());
-    document.getElementById('listado-gastos-completo').innerHTML="";
-
-
-    let listadoGastoCompletos = gestionPresupuesto.listarGastos();
-    for (let elem of listadoGastoCompletos){
-        mostrarGastoWeb('listado-gastos-completo',elem);
-    }
-
-    let periodo = "dia";
-    let gasto = gestionPresupuesto.agruparGastos(periodo);
-    mostrarGastosAgrupadosWeb("agrupacion-dia", gasto, "día");
-
-    periodo = "mes";
-    gasto = gestionPresupuesto.agruparGastos(periodo);
-    mostrarGastosAgrupadosWeb("agrupacion-mes", gasto, "mes");
-
-    periodo = "anyo";
-    gasto = gestionPresupuesto.agruparGastos(periodo);
-    mostrarGastosAgrupadosWeb("agrupacion-anyo", gasto, "año");
+  const listadoGastos = gestionPresupuesto.listarGastos();
+  listadoGastos.forEach(gasto => {
+      mostrarGastoWeb('listado-gastos-completo', gasto);
+  });
+  mostrarGastosAgrupadosWeb('agrupacion-dia', gestionPresupuesto.agruparGastos('dia'), 'día');
+  mostrarGastosAgrupadosWeb('agrupacion-mes', gestionPresupuesto.agruparGastos('mes'), 'mes');
+  mostrarGastosAgrupadosWeb('agrupacion-anyo', gestionPresupuesto.agruparGastos('anyo'), 'año');
 }
-
 
 function actualizarPresupuestoWeb()
 {
@@ -329,121 +302,82 @@ function borrarApi(){
 }
 
 
-function mostrarGastosAgrupadosWeb(idElemento,agroup,periodo){
-/**<div class="agrupacion">
-  <!-- PERIODO será "mes", "día" o "año" en función de si el parámetro
-       de la función es "mes", "dia" o "anyo" respectivamente -->
-  <h1>Gastos agrupados por PERIODO</h1>
+function mostrarGastosAgrupadosWeb(idElemento, agrupacion, periodo) {
+  var divP = document.getElementById(idElemento);
+  divP.innerHTML = "";
+  const agrupacionHTLM = document.createElement('div');
+  agrupacionHTLM.className = 'agrupacion';
+  const tituloHTML = document.createElement('h1');
+  const tituloText = document.createTextNode(`Gastos agrupados por ${periodo}`);
+  tituloHTML.appendChild(tituloText);
+  agrupacionHTLM.appendChild(tituloHTML);
 
-  <!-- Se deberá crear un div.agrupacion-dato para cada propiedad del objeto agrup:
-       https://es.javascript.info/keys-values-entries#object-keys-values-entries -->
-  <div class="agrupacion-dato">
-    <span class="agrupacion-dato-clave">NOMBRE_PROPIEDAD_OBJETO_AGRUP</span>
-    <span class="agrupacion-dato-valor">VALOR_PROPIEDAD_OBJETO_AGRUP</span>
-  </div>
+  // Agrupación
+  for (const agrupacionDato in agrupacion) {
+      const agrupacionDatoHTML = document.createElement('div');
+      agrupacionDatoHTML.className = 'agrupacion-dato';
+      const agrupacionDatoClaveHTML = document.createElement('span');
+      agrupacionDatoClaveHTML.className = 'agrupacion-dato-clave';
+      const agrupacionDatoClaveText = document.createTextNode(agrupacionDato);
+      agrupacionDatoClaveHTML.appendChild(agrupacionDatoClaveText);
+      agrupacionDatoHTML.appendChild(agrupacionDatoClaveHTML);
+      const agrupacionDatoValorHTML = document.createElement('span');
+      agrupacionDatoValorHTML.className = 'agrupacion-dato-valor';
+      const agrupacionDatoValorText = document.createTextNode(agrupacion[agrupacionDato]);
+      agrupacionDatoValorHTML.appendChild(agrupacionDatoValorText);
+      agrupacionDatoHTML.appendChild(agrupacionDatoValorHTML);
+      agrupacionHTLM.appendChild(agrupacionDatoHTML);
+  }
 
-  <div class="agrupacion-dato">
-    <span class="agrupacion-dato-clave">NOMBRE_PROPIEDAD_OBJETO_AGRUP</span>
-    <span class="agrupacion-dato-valor">VALOR_PROPIEDAD_OBJETO_AGRUP</span>
-  </div>
+  divP.append(agrupacionHTLM);
 
-  <!-- Etcétera -->
+  divP.style.width = "33%";
+  divP.style.display = "inline-block";
+  let chart = document.createElement("canvas");
+  let unit = "";
+  switch (periodo) {
+      case "anyo":
+          unit = "year";
+          break;
+      case "mes":
+          unit = "month";
+          break;
+      case "dia":
+      default:
+          unit = "day";
+          break;
+  }
 
-</div>
-Así, para el ejemplo de agrup dado antes se deberá generar un código como el siguiente:
-
-<div class="agrupacion">
-  <h1>Gastos agrupados por mes</h1>
-  <div class="agrupacion-dato">
-    <span class="agrupacion-dato-clave">2021-09</span>
-    <span class="agrupacion-dato-valor">5</span>
-  </div>
-
-  <div class="agrupacion-dato">
-    <span class="agrupacion-dato-clave">2021-10</span>
-    <span class="agrupacion-dato-valor">39</span>
-  </div>
-</div> */
- // Obtener la capa donde se muestran los datos agrupados por el período indicado.
- var divP = document.getElementById(idElemento);
- // Borrar el contenido de la capa para que no se duplique el contenido al repintar
- divP.innerHTML = "";
-
- let cad = "<div class='agrupacion'>\n" + 
- "<h1>Gastos agrupados por " + periodo + "</h1>\n";
- 
- for (let res in agrup){
-   
-     cad += 
-     "<div class='agrupacion-dato'>\n" +
-     "<span class='agrupacion-dato-clave'>" + res + "</span>\n" +
-     "<span class='agrupacion-dato-valor'>" + agrup[res] + "</span>\n"+
-     "</div>\n";
-}
-
- cad += "</div>\n";
- divP.innerHTML += cad;
-
- // Estilos
- divP.style.width = "33%";
- divP.style.display = "inline-block";
- // Crear elemento <canvas> necesario para crear la gráfica
- // https://www.chartjs.org/docs/latest/getting-started/
- let chart = document.createElement("canvas");
- // Variable para indicar a la gráfica el período temporal del eje X
- // En función de la variable "periodo" se creará la variable "unit" (anyo -> year; mes -> month; dia -> day)
- let unit = "";
- switch (periodo) {
- case "anyo":
-     unit = "year";
-     break;
- case "mes":
-     unit = "month";
-     break;
- case "dia":
- default:
-     unit = "day";
-     break;
- }
-
- // Creación de la gráfica
- // La función "Chart" está disponible porque hemos incluido las etiquetas <script> correspondientes en el fichero HTML
- const myChart = new Chart(chart.getContext("2d"), {
-     // Tipo de gráfica: barras. Puedes cambiar el tipo si quieres hacer pruebas: https://www.chartjs.org/docs/latest/charts/line.html
-     type: 'bar',
-     data: {
-         datasets: [
-             {
-                 // Título de la gráfica
-                 label: `Gastos por ${periodo}`,
-                 // Color de fondo
-                 backgroundColor: "#555555",
-                 // Datos de la gráfica
-                 // "agrup" contiene los datos a representar. Es uno de los parámetros de la función "mostrarGastosAgrupadosWeb".
-                 data: agrup
-             }
-         ],
-     },
-     options: {
-         scales: {
-             x: {
-                 // El eje X es de tipo temporal
-                 type: 'time',
-                 time: {
-                     // Indicamos la unidad correspondiente en función de si utilizamos días, meses o años
-                     unit: unit
-                 }
-             },
-             y: {
-                 // Para que el eje Y empieza en 0
-                 beginAtZero: true
-             }
-         }
-     }
- });
- // Añadimos la gráfica a la capa
- divP.append(chart);
- 
+  const myChart = new Chart(chart.getContext("2d"), {
+      type: 'bar',
+      data: {
+          datasets: [
+              {
+                  label: `Gastos por ${periodo}`,
+                  backgroundColor: "#555555",
+                  data: agrupacion
+              }
+          ],
+      },
+      options: {
+          scales: {
+              x: {
+                  // El eje X es de tipo temporal
+                  type: 'time',
+                  time: {
+                      // Indicamos la unidad correspondiente en función de si utilizamos días, meses o años
+                      unit: unit
+                  }
+              },
+              y: {
+                  // Para que el eje Y empieza en 0
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+  // Añadimos la gráfica a la capa
+  divP.append(chart);
 }
 
 
