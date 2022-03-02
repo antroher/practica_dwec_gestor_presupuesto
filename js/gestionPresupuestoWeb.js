@@ -217,6 +217,8 @@ function BorrarEtiquetasHandle() {
 
 }
 
+//      PRACTICA 9   ----    Manejadores de evt    <--------------------------------------------------------------------------------------
+
 
 function BorrarApiHandle() {
     this.handleEvent  = async function () {
@@ -230,6 +232,37 @@ function BorrarApiHandle() {
 
     }
 }
+
+
+// Función manejadora de eventos del evento click del botón cargar-gastos-api
+
+async function cargarGastosApi () {
+    // Comprobar el valor del campo del nombre y si esta vacío volver a solicitar al usuario
+    if (document.getElementById("nombre_usuario").value.length === 0) {
+        const usuario = prompt("Introduzca el nombre de usuario");
+        document.getElementById("nombre_usuario").value = usuario;
+    }
+     
+    // Obtener mediante fetch el listado de gastos a través de la API de servidor (método de petición GET)
+    // La URL se crea con el valor introducido en el campo nombre_usuario
+    let response = await fetch(
+        `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${document.getElementById("nombre_usuario").value}`,
+        {method: 'GET'})
+
+    // Comprobar estado de respuesta
+    // Si es OK, formatear los datos y llamar a la función cargarGastos para actualizar el array de gastos
+    // Llamar a la función repintar para que se muestren correctamente en el HTML
+    if (response.ok) {
+        const gastosJSON = await response.json();
+        gestionP.cargarGastos(gastosJSON);
+        repintar();
+    }
+    else {
+        console.log(`Error de HTTP -> ${response.status}`);
+    }
+}
+
+
 
 
 
