@@ -15,8 +15,8 @@ document.getElementById("cargar-gastos-api").addEventListener('click', cargarGas
 
 // FUNCIONES
 
-function mostrarDatoEnId(idElemento, valor){
-    document.getElementById(idElemento).innerHTML = `<p>${valor}</p>`;    
+function mostrarDatoEnId(idElemento, valor) {
+    document.getElementById(idElemento).innerHTML = `<p>${valor}</p>`;
 }
 
 function mostrarGastoWeb(idElemento, gasto) {
@@ -28,7 +28,7 @@ function mostrarGastoWeb(idElemento, gasto) {
 
     elemento.append(divGasto);
 
-    let divDesc = document.createElement("div");    
+    let divDesc = document.createElement("div");
     divDesc.className = "gasto-descripcion";
     divDesc.textContent = `${gasto.descripcion}`;
 
@@ -82,17 +82,17 @@ function mostrarGastoWeb(idElemento, gasto) {
         borradorHandler.gasto = gasto;              // Referencia al objeto gasto en la propiedad gasto
         borradorBtn.addEventListener('click', borradorHandler);     // Cargar escuchador
 
-        
+
         // Crear boton de borrar un gasto API y el objeto manejador evt asociado
         let borradorAPIBtn = document.createElement("button");
         borradorAPIBtn.className = 'gasto-borrar-api'
         borradorAPIBtn.textContent = 'Borrar (API)';
 
         let borradorAPIHandler = new BorrarApiHandle();
-        borradorAPIHandler.gasto = gasto; 
+        borradorAPIHandler.gasto = gasto;
         borradorAPIBtn.addEventListener('click', borradorAPIHandler);
 
-        
+
         //Crear el boton de editar gasto por formulario
         let editFormBtn = document.createElement("button");
         editFormBtn.className = 'gasto-editar-formulario';
@@ -111,8 +111,9 @@ function mostrarGastoWeb(idElemento, gasto) {
 
 }
 
-function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
+function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     let elemento = document.getElementById(idElemento); // captura del div con id dado
+    elemento.innerHTML = "";   // Vaciar el elemento              <--------------------------------   PRÁCTICA 10  ------------------------------------/
     let gastosAgrupados = ""; // contenedor de los datos agrupados con los pares clave-valor
     for (let key in agrup) {
         gastosAgrupados +=
@@ -129,7 +130,70 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
             ${gastosAgrupados}
         </div>
         `;
+
+    // Estilos                      <---------------------------------------------------------   PRÁCTICA 10  ----------------------------------------
+    elemento.style.width = "33%";
+    elemento.style.display = "inline-block";
+    // Crear elemento <canvas> necesario para crear la gráfica
+    // https://www.chartjs.org/docs/latest/getting-started/
+    let chart = document.createElement("canvas");
+    // Variable para indicar a la gráfica el período temporal del eje X
+    // En función de la variable "periodo" se creará la variable "unit" (anyo -> year; mes -> month; dia -> day)
+    let unit = "";
+    switch (periodo) {
+        case "anyo":
+            unit = "year";
+            break;
+        case "mes":
+            unit = "month";
+            break;
+        case "dia":
+        default:
+            unit = "day";
+            break;
+    }
+
+    // Creación de la gráfica
+    // La función "Chart" está disponible porque hemos incluido las etiquetas <script> correspondientes en el fichero HTML
+    const myChart = new Chart(chart.getContext("2d"), {
+        // Tipo de gráfica: barras. Puedes cambiar el tipo si quieres hacer pruebas: https://www.chartjs.org/docs/latest/charts/line.html
+        type: 'bar',
+        data: {
+            datasets: [
+                {
+                    // Título de la gráfica
+                    label: `Gastos por ${periodo}`,
+                    // Color de fondo
+                    backgroundColor: "#555555",
+                    // Datos de la gráfica
+                    // "agrup" contiene los datos a representar. Es uno de los parámetros de la función "mostrarGastosAgrupadosWeb".
+                    data: agrup
+                }
+            ],
+        },
+        options: {
+            scales: {
+                x: {
+                    // El eje X es de tipo temporal
+                    type: 'time',
+                    time: {
+                        // Indicamos la unidad correspondiente en función de si utilizamos días, meses o años
+                        unit: unit
+                    }
+                },
+                y: {
+                    // Para que el eje Y empieza en 0
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    // Añadimos la gráfica a la capa
+    elemento.append(chart);
+
 }
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function repintar() {
     // Mostrar el presupuesto en div#presupuesto
@@ -185,27 +249,27 @@ function nuevoGastoWeb() {
     repintar();
 }
 
-function EditarHandle () {
-    this.handleEvent = function() {
+function EditarHandle() {
+    this.handleEvent = function () {
         // Pedir al usuario la información necesaria para editar el gasto
-        this.gasto.actualizarDescripcion(prompt("Introduzca la descripción nueva: "));     
-        this.gasto.actualizarValor(parseFloat(prompt("Introduzca el valor nuevo: ")));   
+        this.gasto.actualizarDescripcion(prompt("Introduzca la descripción nueva: "));
+        this.gasto.actualizarValor(parseFloat(prompt("Introduzca el valor nuevo: ")));
         this.gasto.actualizarFecha(Date.parse(prompt("Introduzca la fecha nueva: ")));
-        let etiquetas = prompt("Introduzca las nuevas etiquetas: ");           
-        if(typeof etiquetas != "undefined" ) {
+        let etiquetas = prompt("Introduzca las nuevas etiquetas: ");
+        if (typeof etiquetas != "undefined") {
             this.gasto.anyadirEtiquetas(etiquetas.split(','))
         }
-  
+
         // Llamar a la función repintar para que se muestre la lista de gastos con los datos actualizados de la edición
         repintar();
     }
 }
 
 function BorrarHandle() {
-    this.handleEvent = function(e) {
+    this.handleEvent = function (e) {
         // Borrar objeto gasto
         gestionP.borrarGasto(this.gasto.id);
-      
+
         // Llamar a la función repintar para que se muestre la lista de gastos con los datos actualizados tras el borrado
         repintar();
     }
@@ -305,7 +369,7 @@ function EditarHandleFormulario() {
         //Insertar el formulario en la página
         // document.getElementById(`gasto-${this.gasto.id}`).append(formulario);
         e.currentTarget.parentElement.append(formulario);
-        
+
 
         //Deshabilitar el boton de editar gasto
         document.getElementById(`gasto-editar-formulario-${this.gasto.id}`).disabled = true;
@@ -412,7 +476,7 @@ function filtrarGastoWeb(e) {
 
     //Filtrar gastos
     let gastosFiltrados = gestionP.filtrarGastos(filtroObj);
-    
+
     //Borrar el listado de gastos anterior y mostrar los gastos filtrados actualizados
     document.getElementById("listado-gastos-completo").innerHTML = "";
 
@@ -445,18 +509,18 @@ function cargarGastosWeb(e) {
 
 // Función manejadora de eventos del evento click del botón cargar-gastos-api
 
-async function cargarGastosApi () {
+async function cargarGastosApi() {
     // Comprobar el valor del campo del nombre y si esta vacío volver a solicitar al usuario
     if (document.getElementById("nombre_usuario").value.length === 0) {
         const usuario = prompt("Introduzca el nombre de usuario");
         document.getElementById("nombre_usuario").value = usuario;
     }
-     
+
     // Obtener mediante fetch el listado de gastos a través de la API de servidor (método de petición GET)
     // La URL se crea con el valor introducido en el campo nombre_usuario
     let response = await fetch(
         `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${document.getElementById("nombre_usuario").value}`,
-        {method: 'GET'})
+        { method: 'GET' })
 
     // Comprobar estado de respuesta
     // Si es OK, formatear los datos y llamar a la función cargarGastos para actualizar el array de gastos
@@ -475,7 +539,7 @@ async function cargarGastosApi () {
 // Función de primera clase creadora del objeto manejador borradorAPIHandler de los botones .gasto-borrar-api 
 
 function BorrarApiHandle() {
-    this.handleEvent  = async function () {
+    this.handleEvent = async function () {
         // Comprobar el valor del campo del nombre y si esta vacío volver a solicitar al usuario
         if (document.getElementById("nombre_usuario").value.length === 0) {
             const usuario = prompt("Introduzca el nombre de usuario");
@@ -488,14 +552,14 @@ function BorrarApiHandle() {
             method: 'DELETE'
         });
         // Llamar a la función cargarGastosApi para actualizar la lista en la página
-        if(response.ok) {
+        if (response.ok) {
             cargarGastosApi();
         }
         else {
             console.log(`Error de HTTP -> ${response.status}`);
         }
 
-    
+
 
     }
 }
@@ -504,13 +568,13 @@ function BorrarApiHandle() {
 // Función de primera clase creadora del objeto manejador submitApiHandler del botón .gasto-enviar-api
 
 function SubmitApiHandle() {
-    this.handleEvent = async function() {
+    this.handleEvent = async function () {
         // Comprobar el valor del campo del nombre y si esta vacío volver a solicitar al usuario
         if (document.getElementById("nombre_usuario").value.length === 0) {
             const usuario = prompt("Introduzca el nombre de usuario");
             document.getElementById("nombre_usuario").value = usuario;
         }
-        
+
         // Obtener los datos del futuro gasto desde el valor de los inputs del formulario y crear un objeto con esos valores
         let gasto = {
             descripcion: this.formulario.descripcion.value,
@@ -519,7 +583,7 @@ function SubmitApiHandle() {
             etiquetas: (typeof this.formulario.etiquetas.value !== "undefined") ? this.formulario.etiquetas.value.split(",") : undefined,
             id: id
         }
-        
+
         // Subir el gasto actual mediante fetch a la API (método de petición POST). Línea inicial + cabecera + cuerpo de la petición
         // Formateo del objeto al incluirlo en el cuerpo de la petición
         let response = await fetch(
@@ -527,7 +591,7 @@ function SubmitApiHandle() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
-            }, 
+            },
             body: JSON.stringify(gasto)
         });
         // Llamar a la función cargarGastosApi para actualizar la lista en la página
@@ -536,24 +600,24 @@ function SubmitApiHandle() {
             cargarGastosApi();
         }
     }
-} 
+}
 
 // Función de primera clase creadora del objeto manejador editApiHandler del botón .gasto-enviar-api
 
 function EditApiHandle() {
-    this.handleEvent = async function() {
+    this.handleEvent = async function () {
         // Comprobar el valor del campo del nombre y si esta vacío volver a solicitar al usuario
         if (document.getElementById("nombre_usuario").value.length === 0) {
             const usuario = prompt("Introduzca el nombre de usuario");
             document.getElementById("nombre_usuario").value = usuario;
         }
-        
+
         // Actualizar los datos del gasto
         this.gasto.actualizarDescripcion(this.formulario.descripcion.value);
         this.gasto.actualizarValor(this.formulario.valor.value);
         this.gasto.actualizarFecha(this.formulario.fecha.value);
         this.gasto.etiquetas = (typeof this.formulario.etiquetas.value !== "undefined") ? this.formulario.etiquetas.value.split(",") : this.gasto.etiquetas;
-        
+
 
         // Editar el gasto actual mediante fetch a la API (método de petición PUT)
         // Formateo del objeto al incluirlo en el cuerpo de la petición
@@ -562,11 +626,11 @@ function EditApiHandle() {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
-            },          
+            },
             body: JSON.stringify(this.gasto)
         });
         // Llamar a la función cargarGastosApi para actualizar la lista en la página
-        if(response.ok) {
+        if (response.ok) {
             cargarGastosApi();
         }
         else {
