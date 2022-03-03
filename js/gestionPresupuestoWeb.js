@@ -48,6 +48,8 @@ function nuevoGastoWebFormulario(){
     
 }
 
+let accionar = true;
+
 function repintar(){
     let divGasto = document.createElement('div');
     divGasto.className = 'gasto';
@@ -64,10 +66,12 @@ function repintar(){
 
     document.getElementById('listado-gastos-completo').innerHTML = '';
     let gastos = gestionPresupuesto.listarGastos();
-    for(let gasto of gastos)
-    {
-    mostrarGastoWeb("listado-gastos-completo", gasto);
-    }
+    if(accionar){
+        for(let gasto of gastos)
+        {
+            mostrarGastoWeb("listado-gastos-completo", gasto);
+        }
+    }else{document.getElementById('listado-gastos-completo').innerHTML = '' }
     
     document.getElementById("agrupacion-dia").innerHTML="";
     mostrarGastosAgrupadosWeb("agrupacion-dia", gestionPresupuesto.agruparGastos("dia"), "día");
@@ -541,8 +545,11 @@ function BorrarAPIHandle()
         }
     }
 }
+
 function enviarAPIHandle(event)
 {
+    
+    
     let usuario = document.getElementById("nombre_usuario").value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
     
@@ -582,6 +589,7 @@ function enviarAPIHandle(event)
             {
                 console.log("Gasto añadido a la API");
                 cargarGastosApi();
+                accionar = false;
             }
             
             else
@@ -590,6 +598,7 @@ function enviarAPIHandle(event)
             }
         })
         .catch(err => console.error(err));
+        repintar();
     }
 }
 

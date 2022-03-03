@@ -47,8 +47,10 @@ gastosFiltrados.forEach(element =>{
 
 gastosFiltrados = gestionPresupuesto.filtrarGastos({valorMaximo: 50, etiquetasTiene: ['comida'] ['transporte']});
 gastosFiltrados.forEach(element =>{
-    gestionWeb.mostrarGastoWeb("listado-gastos-filtrado-4", element);
+gestionWeb.mostrarGastoWeb("listado-gastos-filtrado-4", element);
 });
+
+
 
 gestionWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", gestionPresupuesto.agruparGastos("dia"), "día");
 gestionWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", gestionPresupuesto.agruparGastos("mes"), "mes");
