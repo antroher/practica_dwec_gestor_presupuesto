@@ -70,18 +70,22 @@ function repintar(){
         mostrarGastoWeb("listado-gastos-completo", gasto);
     }
 
+    document.getElementById("listado-gastos-filtrado-1").innerHTML="";
     let gastosFiltrados = gestionPresupuesto.filtrarGastos({fechaDesde:'2021-09-01', fechaHasta:'2021-09-30'});
     gastosFiltrados.forEach(element =>{
     mostrarGastoWeb("listado-gastos-filtrado-1", element);
     });
+    document.getElementById("listado-gastos-filtrado-2").innerHTML="";
     gastosFiltrados = gestionPresupuesto.filtrarGastos({valorMinimo:50});
     gastosFiltrados.forEach(element =>{
     mostrarGastoWeb("listado-gastos-filtrado-2", element);
     });
+    document.getElementById("listado-gastos-filtrado-3").innerHTML="";
     gastosFiltrados = gestionPresupuesto.filtrarGastos({valorMinimo:200, etiquetasTiene: ['seguros']}); 
     gastosFiltrados.forEach(element =>{
     mostrarGastoWeb("listado-gastos-filtrado-3", element);
     });
+    document.getElementById("listado-gastos-filtrado-4").innerHTML="";
     gastosFiltrados = gestionPresupuesto.filtrarGastos({valorMaximo: 50, etiquetasTiene: ['comida'] ['transporte']});
     gastosFiltrados.forEach(element =>{
     mostrarGastoWeb("listado-gastos-filtrado-4", element);
