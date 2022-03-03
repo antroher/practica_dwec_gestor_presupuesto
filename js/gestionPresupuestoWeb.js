@@ -87,7 +87,7 @@ function mostrarGastoWeb(idElemento, gasto)
         botonBorrarApi.textContent = 'Borrar (API)';
         botonBorrarApi.type = 'button';
 
-        let borrarApiNew = new borrarGastoApiHandle();
+        let borrarApiNew = new BorrarGastoApiHandle();
         borrarApiNew.gasto = gasto;
 
         botonBorrarApi.addEventListener('click', borrarApiNew);
@@ -307,8 +307,8 @@ function nuevoGastoWebFormulario() //PRACTICA 6 - a y b
     //Boton Enviar Api - PRACTICA 9
     
     let enviarApi = new EnviarGastoApi();
-    botonEnviarApi = formulario.querySelector("button.gasto-enviar-api");
-    botonEnviarApi.addEventListener('click', enviarApi);
+    enviarApi.formulario = formulario;
+    formulario.querySelector("button[class='gasto-enviar-api']").addEventListener('click', enviarApi);
     //let botonEnviarApi = formulario.querySelector("button.gasto-enviar-api");
     //botonEnviarApi.addEventListener('click', enviarGastoApi)
 }
@@ -532,7 +532,7 @@ function cargarGastosApi ()
 let loadGastApi = document.getElementById('cargar-gastos-api');
 loadGastApi.addEventListener('click', cargarGastosApi);
 
-function borrarGastoApiHandle()
+function BorrarGastoApiHandle()
 {
     this.handleEvent = function(event)
     {
