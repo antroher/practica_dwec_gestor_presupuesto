@@ -305,8 +305,12 @@ function nuevoGastoWebFormulario() //PRACTICA 6 - a y b
     botonCancelar.addEventListener('click', cancelar);
 
     //Boton Enviar Api - PRACTICA 9
-    let botonEnviarApi = formulario.querySelector("button.gasto-enviar-api");
-    botonEnviarApi.addEventListener('click', enviarGastoApi)
+    
+    let enviarApi = new EnviarGastoApi();
+    botonEnviarApi = formulario.querySelector("button.gasto-enviar-api");
+    botonEnviarApi.addEventListener('click', enviarApi);
+    //let botonEnviarApi = formulario.querySelector("button.gasto-enviar-api");
+    //botonEnviarApi.addEventListener('click', enviarGastoApi)
 }
 
 //BOTON nuevoGastoWebFormulario
@@ -559,54 +563,31 @@ function borrarGastoApiHandle()
     }
 }
 
-function enviarGastoApi(event)
+function EnviarGastoApi(event)
 {
-    let usuario = document.getElementById('nombre_usuario').value;
-    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
-
-    let formulario = event.currentTarget.form;
-    let descripcionNew = formulario.elements.descripcion.value;
-    let valorNew = parseFloat(formulario.elements.valor.value);
-    let fechaNew = formulario.elements.fecha;
-    let etiquetasNew = (formulario.elements.etiquetas).split(',');
-
-    let nuevoG = 
+    this.handleEvent = async function() 
     {
-        descripcion: descripcionNew,
-        fecha: fechaNew,
-        valor: valorNew,
-        etiquetas: etiquetasNew
-    }
+        let nombre_usuario = document.getElementById('nombre_usuario').value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombre_usuario}`;
 
-    console.log(nuevoG);
-
-    if(usuario == '')
-    {
-        console.log('No hay el nombre del usuario')
-    }
-    else 
-    {
-        fetch(url, {
-            method: 'POST', 
-            body: JSON.stringify(nuevoG),
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => 
+        let gasto = 
         {
-            if (response.ok)
-            {
-                console.log("Correcto");
-                cargarGastosApi();
-            }
-            else
-            {
-                console.log('Error');
-            }
-        })
-        .catch(erro => console.error(erro));
-    }    
+            descripcion: this.formulario.descripcion.value,
+            valor: this.formulario.valor.value,
+            fecha: this.formulario.fecha.value,
+            etiquetas: (typeof this.formulario.etiquetas.value !== "undefined") ? this.formulario.etiquetas.value.split(",") : undefined,
+            id: id
+        }
+
+        let respuesta = await fetch(
+            url,{method: 'POST', headers:{'Content-Type': 'application/json;charset=utf-8'},
+            body: JSON.stringify(gasto)});
+
+        if(respuesta.ok)
+        {
+            id++;
+        }  
+    }      
 }
 
 function EditarGastoApi()
