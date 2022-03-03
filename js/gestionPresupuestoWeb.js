@@ -506,24 +506,22 @@ function cargarGastosApi ()
         .then(response => response.json())
         .then((result) => 
         {
-            let resulta = result;
-            if (resulta == '')
+            if (result == '')
             {
                 console.log('No hay el nombre del usuario');
             }
             else 
             {
-                gestionPresupuesto.cargarGastos(resulta);
-                console.log("cargasGastosApi");
+                gestionPresupuesto.cargarGastos(result);
                 repintar();
             }
         })
-        .catch(erro => console.error(erro));        
+        .catch(err => console.error(err));        
     }
-    //else
-    //{
-    //    console.log('No hay el nombre del usuario');
-    //}
+    else
+    {
+       console.log('No hay el nombre del usuario');
+    }
 }
 
 //BOTON CARGAR API
