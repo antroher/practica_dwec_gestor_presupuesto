@@ -534,27 +534,27 @@ function borrarGastoApiHandle()
     {
         let usuario = document.getElementById('nombre_usuario').value;
         let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
-
-        if(usuario == "")
-        {
-            console.log('No hay el nombre del usuario');
-        }
-        else
-        {
+        
+        if(usuario != "")
+        {           
             fetch(url, {method: 'DELETE'})
-            .then(response => response.json())
-            .then(datos => 
+            .then(resp => 
             {
-                if(!datos.errorMessage)
+                if(!resp.ok)
                 {
-                    cargarGastosApi();
+                    console.log('Error')
                 }
                 else
                 {
-                    console.log(datos.errorMessage);
+                    console.log('gasto borrado');
+                    cargarGastosApi;
                 }
             })
-            .catch(erro => console.error(erro));
+            .catch(err => console.error(err))
+        }   
+        else
+        {
+            console.log('Introduce un usuario');
         }
     }
 }
