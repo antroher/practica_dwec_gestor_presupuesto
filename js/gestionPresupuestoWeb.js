@@ -8,69 +8,90 @@ function mostrarDatoEnId(idElemento, valor) {
 }
 
 function mostrarGastoWeb(idElemento, gasto) {
-    let id = document.getElementById(idElemento);
-    let div = document.createElement("div");
-    div.className = "gasto";
-    id.append(div);        
-    div.innerHTML += `<div class="gasto-descripcion">${gasto.descripcion}</div>
-                      <div class="gasto-fecha">${gasto.fecha}</div> 
-                      <div class="gasto-valor">${gasto.valor}</div>`;
-                        
-    let etiGas = document.createElement("div");
-    etiGas.className = "gasto-etiquetas";
-    div.append(etiGas);
+    const gastoHTLM = document.createElement('div');
+    gastoHTLM.className = 'gasto';
+    const descripcionHTML = document.createElement('div');
+    descripcionHTML.className = 'gasto-descripcion';
+    const descripcionText = document.createTextNode(gasto.descripcion);
+    descripcionHTML.appendChild(descripcionText);
+    gastoHTLM.appendChild(descripcionHTML);
 
-    for (let eti of gasto.etiquetas) {
-        let newEti = new BorrarEtiquetasHandle(); 
-        newEti.gasto = gasto;
-        let gastoEtiq = document.createElement("span");
-        gastoEtiq.className = "gasto-etiquetas-etiqueta";
-        gastoEtiq.innerHTML = eti + "<br>";
-        newEti.etiqueta = eti;
-        etiGas.append(gastoEtiq);
-        gastoEtiq.addEventListener('click',newEti);
-    }
+    const fechaHTML = document.createElement('div');
+    fechaHTML.className = 'gasto-fecha';
+    const fechaText = document.createTextNode(new Date(gasto.fecha).toLocaleString());
+    fechaHTML.appendChild(fechaText);
+    gastoHTLM.appendChild(fechaHTML);
 
-    let btnEditar = document.createElement("button");
-                     btnEditar.className += 'gasto-editar'
-                     btnEditar.textContent = "Editar";
-                     btnEditar.type = 'button';
+    const valorHTML = document.createElement('div');
+    valorHTML.className = 'gasto-valor';
+    const valorText = document.createTextNode(gasto.valor);
+    valorHTML.appendChild(valorText);
+    gastoHTLM.appendChild(valorHTML);
+    const etiquetasHTML = document.createElement('div');
+    etiquetasHTML.className = 'gasto-etiquetas';
+    const etiquetas = gasto.etiquetas;
 
-    let btnBorrar = document.createElement("button");
-                    btnBorrar.className += 'gasto-borrar'
-                    btnBorrar.textContent = "Borrar";
-                    btnBorrar.type = 'button';
+    etiquetas.forEach(etiqueta => {
+        const etiquetaHTML = document.createElement('span');
+        etiquetaHTML.className = 'gasto-etiquetas-etiqueta';
+        const etiquetaText = document.createTextNode(etiqueta);
+        etiquetaHTML.appendChild(etiquetaText);
+        etiquetasHTML.appendChild(etiquetaHTML);
 
-    let edit = new EditarHandle();
-    let dlt = new BorrarHandle();
-    edit.gasto = gasto;
-    dlt.gasto = gasto;    
-    btnEditar.addEventListener('click', edit);
-    btnBorrar.addEventListener('click', dlt);
-    div.append(btnEditar);
-    div.append(btnBorrar);
+        const borrarEtiquetasHandler = new BorrarEtiquetasHandle();
+        borrarEtiquetasHandler.gasto = gasto;
+        borrarEtiquetasHandler.etiqueta = etiqueta;
+        etiquetaHTML.addEventListener('click', borrarEtiquetasHandler);
+    });
+    gastoHTLM.appendChild(etiquetasHTML);
 
-    let btnEditGastoForm = document.createElement("button");
-    btnEditGastoForm.className += 'gasto-editar-formulario';
-    btnEditGastoForm.textContent = 'Editar (formulario)';
-    btnEditGastoForm.type = 'button';
+    //editar
+    const botonEditarHTLM = document.createElement('button');
+    botonEditarHTLM.className = 'gasto-editar';
+    const botonEditarText = document.createTextNode('Editar');
+    botonEditarHTLM.appendChild(botonEditarText);
+    gastoHTLM.appendChild(botonEditarHTLM);
 
-    let editForm = new editHandleForm();
-    editForm.gasto = gasto;
-    btnEditGastoForm.addEventListener('click', editForm);
-    div.append(btnEditGastoForm);
+    const editarHandler = new EditarHandle();
+    editarHandler.gasto = gasto;
+    botonEditarHTLM.addEventListener('click', editarHandler);
 
-    let btnBorrarGastoApi = document.createElement("button");
-                            btnBorrarGastoApi.className += 'gasto-borrar-api';
-                            btnBorrarGastoApi.textContent = 'Borrar (API)';
-                            btnBorrarGastoApi.type = 'button';
 
-    let objBorrarGastoApi = new BorrarGastoApiHandle();
-    objBorrarGastoApi.gasto = gasto;
-    btnBorrarGastoApi.addEventListener("click", objBorrarGastoApi);
+    //borrar
+    const botonBorrarHTLM = document.createElement('button');
+    botonBorrarHTLM.className = 'gasto-borrar';
+    const botonBorrarText = document.createTextNode('Borrar');
+    botonBorrarHTLM.appendChild(botonBorrarText);
+    gastoHTLM.appendChild(botonBorrarHTLM);
 
-    div.append(btnBorrarGastoApi);
+    const borrarHandler = new BorrarHandle();
+    borrarHandler.gasto = gasto;
+    botonBorrarHTLM.addEventListener('click', borrarHandler);
 
+    //borrar gasto api
+    const botonBorrarApiHTLM = document.createElement('button');
+    botonBorrarApiHTLM.className = 'gasto-borrar-api';
+    const botonBorrarApiText = document.createTextNode('Borrar (API)');
+    botonBorrarApiHTLM.appendChild(botonBorrarApiText);
+    gastoHTLM.appendChild(botonBorrarApiHTLM);
+
+    const borrarApiHandler = new BorrarGastoApiHandle();
+    borrarApiHandler.gasto = gasto;
+    botonBorrarApiHTLM.addEventListener('click', borrarApiHandler);
+
+    // editar formulario
+    const botonEditarFormularioHTLM = document.createElement('button');
+    botonEditarFormularioHTLM.className = 'gasto-editar-formulario';
+    const botonEditarFormularioText = document.createTextNode('Editar (Formulario)');
+    botonEditarFormularioHTLM.appendChild(botonEditarFormularioText);
+    gastoHTLM.appendChild(botonEditarFormularioHTLM);
+
+    const editarHandlerformulario = new EditarHandleformulario();
+    editarHandlerformulario.gasto = gasto;
+    botonEditarFormularioHTLM.addEventListener('click', editarHandlerformulario);
+
+    // Agregar ID
+    document.getElementById(idElemento).append(gastoHTLM);
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -392,7 +413,7 @@ function guardarGastosWeb() {
         localStorage.GestorGastosDWEC = JSON.stringify(list);
     }
 }
-let guardarGastWeb = new guardarGastosWeb();
+
 
 function cargarGastosWeb() {
     this.handleEvent = function(e) {
@@ -408,13 +429,13 @@ function cargarGastosWeb() {
 let cargarGastWeb = new cargarGastosWeb();
 
 function CargarGastosApi() {
-    this.handleEvent = function(event) {
-        if (localStorage.GestorGastosDWEC == null) 
-            gestionPresupuesto.cargarGastos([]);
-        else 
-            gestionPresupuesto.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
-        repintar();    
-    }
+    const Usur = document.getElementById('nombre_usuario').value;
+    fetch("https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + Usur)
+        .then(response => response.json())
+        .then(gastos => {
+            gestionPresupuesto.cargarGastos(gastos);
+            repintar()
+        })
 }
 
 function BorrarGastoApiHandle(){
