@@ -32,6 +32,7 @@ function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
         valor = 0;
     }
 
+	
     this.valor = valor
     this.descripcion = descripcion
     this.etiquetas = [...etiquetas]
