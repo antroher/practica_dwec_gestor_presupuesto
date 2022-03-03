@@ -414,12 +414,12 @@ function filtrarGastoWeb()
         event.preventDefault();
         
         let accesoFormFilt = event.currentTarget;
-        let desc = accesoFormFilt['formulario-filtrado-descripcion'].value;
-        let vMinimo = parseInt(accesoFormFilt['formulario-filtrado-valor-minimo'].value);
-        let vMaximo = parseInt(accesoFormFilt['formulario-filtrado-valor-maximo'].value);
-        let fDesde = accesoFormFilt['formulario-filtrado-fecha-desde'].value;
-        let fHasta = accesoFormFilt['formulario-filtrado-fecha-hasta'].value;
-        let etiq = accesoFormFilt['formulario-filtrado-etiquetas-tiene'].value;
+        let desc = accesoFormFilt.elements['formulario-filtrado-descripcion'].value;
+        let vMinimo = parseFloat(accesoFormFilt.elements['formulario-filtrado-valor-minimo'].value);
+        let vMaximo = parseFloat(accesoFormFilt.elements['formulario-filtrado-valor-maximo'].value);
+        let fDesde = accesoFormFilt.elements['formulario-filtrado-fecha-desde'].value;
+        let fHasta = accesoFormFilt.elements['formulario-filtrado-fecha-hasta'].value;
+        let etiq = accesoFormFilt.elements['formulario-filtrado-etiquetas-tiene'].value;
 
         etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
                
