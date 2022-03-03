@@ -392,7 +392,7 @@ function guardarGastosWeb() {
         localStorage.GestorGastosDWEC = JSON.stringify(list);
     }
 }
-
+let guardarGastWeb = new guardarGastosWeb();
 
 function cargarGastosWeb() {
     this.handleEvent = function(e) {
@@ -408,13 +408,13 @@ function cargarGastosWeb() {
 let cargarGastWeb = new cargarGastosWeb();
 
 function CargarGastosApi() {
-    const Usur = document.getElementById('nombre_usuario').value;
-    fetch("https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + Usur)
-        .then(response => response.json())
-        .then(gastos => {
-            gestionPresupuesto.cargarGastos(gastos);
-            repintar()
-        })
+    this.handleEvent = function(event) {
+        if (localStorage.GestorGastosDWEC == null) 
+            gestionPresupuesto.cargarGastos([]);
+        else 
+            gestionPresupuesto.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
+        repintar();    
+    }
 }
 
 function BorrarGastoApiHandle(){
