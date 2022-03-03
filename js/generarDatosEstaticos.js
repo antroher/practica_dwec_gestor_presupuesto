@@ -28,6 +28,7 @@ gastos.forEach(elemento =>{
 });
 
 
+
 let gastosFiltrados = gestionPresupuesto.filtrarGastos({fechaDesde:'2021-09-01', fechaHasta:'2021-09-30'});
 gastosFiltrados.forEach(element =>{
     gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1", element);
