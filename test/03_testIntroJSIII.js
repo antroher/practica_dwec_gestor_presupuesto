@@ -120,4 +120,3 @@ describe("Función agruparGastos", function() {
         assert.equal(agrup6["2021-10"], valor6, "No se suman los totales por año filtrando por etiquetas y fechas correctamente");
     });
 });
-
