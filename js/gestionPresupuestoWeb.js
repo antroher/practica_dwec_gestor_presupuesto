@@ -48,8 +48,6 @@ function nuevoGastoWebFormulario(){
     
 }
 
-let accionar = true;
-
 function repintar(){
     let divGasto = document.createElement('div');
     divGasto.className = 'gasto';
@@ -64,14 +62,30 @@ function repintar(){
     mostrarDatoEnId('gastos-totales', gestionPresupuesto.calcularTotalGastos());
     mostrarDatoEnId('balance-total', gestionPresupuesto.calcularBalance());
 
-    document.getElementById('listado-gastos-completo').innerHTML = '';
+    
     let gastos = gestionPresupuesto.listarGastos();
-    if(accionar){
-        for(let gasto of gastos)
-        {
-            mostrarGastoWeb("listado-gastos-completo", gasto);
-        }
-    }else{document.getElementById('listado-gastos-completo').innerHTML = '' }
+    document.getElementById('listado-gastos-completo').innerHTML = '';
+    for(let gasto of gastos)
+    {
+        mostrarGastoWeb("listado-gastos-completo", gasto);
+    }
+
+    let gastosFiltrados = gestionPresupuesto.filtrarGastos({fechaDesde:'2021-09-01', fechaHasta:'2021-09-30'});
+    gastosFiltrados.forEach(element =>{
+    mostrarGastoWeb("listado-gastos-filtrado-1", element);
+    });
+    gastosFiltrados = gestionPresupuesto.filtrarGastos({valorMinimo:50});
+    gastosFiltrados.forEach(element =>{
+    mostrarGastoWeb("listado-gastos-filtrado-2", element);
+    });
+    gastosFiltrados = gestionPresupuesto.filtrarGastos({valorMinimo:200, etiquetasTiene: ['seguros']}); 
+    gastosFiltrados.forEach(element =>{
+    mostrarGastoWeb("listado-gastos-filtrado-3", element);
+    });
+    gastosFiltrados = gestionPresupuesto.filtrarGastos({valorMaximo: 50, etiquetasTiene: ['comida'] ['transporte']});
+    gastosFiltrados.forEach(element =>{
+    mostrarGastoWeb("listado-gastos-filtrado-4", element);
+    });
     
     document.getElementById("agrupacion-dia").innerHTML="";
     mostrarGastosAgrupadosWeb("agrupacion-dia", gestionPresupuesto.agruparGastos("dia"), "día");
@@ -508,6 +522,11 @@ function cargarGastosApi(){
     {
         alert('No USER NAME');
     }
+    document.getElementById("listado-gastos-filtrado-1").innerHTML="";
+    document.getElementById("listado-gastos-filtrado-2").innerHTML="";
+    document.getElementById("listado-gastos-filtrado-3").innerHTML="";
+    document.getElementById("listado-gastos-filtrado-4").innerHTML="";
+    repintar();
 }
 
 function BorrarAPIHandle()
