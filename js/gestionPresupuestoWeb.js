@@ -594,50 +594,46 @@ function EditarGastoApi()
 {
     this.handleEvent = function(event)
     {
-        let usuario = document.getElementById("nombre_usuario").value;
+        let nombreUsuario = document.getElementById("nombre_usuario").value;
         let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
 
-        let formulario = event.currentTarget.form;
-        let descripcionNew = formulario.elements.descripcion.value;
-        let valorNew = parseFloat(formulario.elements.valor.value);
-        let fechaNew = formulario.elements.fecha.value;
-        let etiquetasNew = (formulario.elements.etiquetas.value).split(',');
-
-        let nuevoG = 
+        if(nombreUsuario != '')
         {
-            descripcion: descripcionNew,
-            fecha: fechaNew,
-            valor: valorNew,
-            etiquetas: etiquetasNew
-        }
-
-        if(usuario == '')
-        {
-            console.log('No hay el nombre del usuario')
-        }
-        else 
-        {
-            fetch(url, {
-                method: 'PUT', 
-                body: JSON.stringify(nuevoG),
-                headers:{
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => 
+            let formulary = document.querySelector(".gasto form")
+            let descripcionNew = formulary.elements.descripcion.value;
+            let valorNew = parseFloat(formulary.elements.valor.value);
+            let fechaNew = formulary.elements.fecha.value;
+            let etiquetasNew = (formulary.elements.etiquetas.value).split(',');
+        
+            let gastoAPI = 
             {
-                if (response.ok)
-                {
-                    console.log("Correctamente");
-                    cargarGastosApi();
-                }
-                else
+                descripcion: descripcionNew,                
+                valor: valorNew,
+                fecha: fechaNew,
+                etiquetas: etiquetasNew
+            };
+
+            fetch(url, {method: 'PUT', headers:{'Content-Type': 'application/json;charset=utf-8'}, 
+            body: JSON.stringify(gastoAPI)})
+
+            .then(function(resp)
+            {
+                if(!resp.ok)
                 {
                     console.log('Error');
                 }
+                else
+                {
+                    console.log('gasto actualizado');
+                    cargarGastosApi();
+                }
             })
-            .catch(erro => console.error(erro));
-        }  
+            .catch(err => console.error(err));
+        } 
+        else 
+        {
+            console.log('No hay nombre del usuario');
+        }
     }
 }
 
