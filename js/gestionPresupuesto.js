@@ -7,21 +7,22 @@ var presupuesto = 0;
 var gastos = [];
 var idGasto = 0;
 
-function actualizarPresupuesto(nuevoPresupuesto) {
-    let nuevoValor;
-
-    if (nuevoPresupuesto >= 0) {
-        presupuesto = nuevoPresupuesto;
-        nuevoValor = presupuesto;
-    } else {
-        console.log("Error. Valor introducido no valido.");
-        nuevoValor = -1;
+function actualizarPresupuesto(canti) {
+    // TODO
+    if (canti > -1)
+    {
+        return presupuesto = canti;
     }
-    return nuevoValor;
+    else
+    {
+        console.log("Error: ha introducido un valor negativo")
+         return -1;
+    }
 }
-
 function mostrarPresupuesto() {
-    return(`Tu presupuesto actual es de ${presupuesto} €`);
+    // TODO
+    let x = "Tu presupuesto actual es de " + presupuesto + " €";
+    return x;
 }
 
 //Función constructora
@@ -57,14 +58,14 @@ function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
 
     this.mostrarGastoCompleto = function() 
     {
-        let fecha1;
+        let fec1;
         if(typeof this.fecha === 'string')
         {
-            fecha1 = Date.parse(this.fecha);
+            fec1 = Date.parse(this.fecha);
         }
         else
         {
-            fecha1 = this.fecha;
+            fec1 = this.fecha;
         }
         let aux = "";
         for(let etiqueta of this.etiquetas) 
@@ -72,18 +73,18 @@ function CrearGasto(descripcion, valor = 0, fecha = Date.now(), ...etiquetas) {
             aux = aux + `- ${etiqueta}\n`;
         };
 
-        let date2 = new Date(fecha1);
+        let fec2 = new Date(fec1);
 
-        let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(date2.toLocaleString())}\nEtiquetas:\n`;
-        return texto + aux;
+        let txt = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${(fec2.toLocaleString())}\nEtiquetas:\n`;
+        return txt + aux;
     }
 
-    this.actualizarFecha=function(fecha_string)
+    this.actualizarFecha=function(fecstr)
     {
-		let fecha_ok=Date.parse(fecha_string);
-		if ( !isNaN(fecha_ok) )
+		let fecnew=Date.parse(fecstr);
+		if ( !isNaN(fecnew) )
         {
-			this.fecha=fecha_ok;
+			this.fecha=fecnew;
         }
 	}
 
@@ -198,8 +199,8 @@ function calcularBalance() {
 }
 
 function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}){
-    let gFiltrados;
-    gFiltrados = gastos.filter(function(gasto)
+    let gastosFil;
+    gastosFil = gastos.filter(function(gasto)
     {
      let exist = true;
      if(fechaDesde)
@@ -227,16 +228,16 @@ function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descri
          let inside = false;                   
              for (let i = 0; i < gasto.etiquetas.length; i++) 
              {                   
-                 for (let j= 0; j < etiquetasTiene.length; j++) 
+                 for (let p= 0; p < etiquetasTiene.length; p++) 
                  {
-                     if(gasto.etiquetas[i] == etiquetasTiene[j]) inside = true;                  
+                     if(gasto.etiquetas[i] == etiquetasTiene[p]) inside = true;                  
                  }
              }
         if(inside == false) exist = false;
      }
          return exist;
     });
-return gFiltrados;  
+return gastosFil;  
 }
 
 
