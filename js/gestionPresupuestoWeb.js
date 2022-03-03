@@ -20,15 +20,15 @@ function mostrarGastoWeb(idElemento, gasto)
 
     let divDescripcion = document.createElement('div');
     divDescripcion.className += 'gasto-descripcion';
-    divDescripcion.textContent = `${gasto.descripcion}`;
+    divDescripcion.textContent = gasto.descripcion;
 
     let divValor = document.createElement('div');
     divValor.className += 'gasto-valor';
-    divValor.textContent = `${gasto.valor}`; 
+    divValor.textContent = gasto.valor + ""; 
 
     let divFecha = document.createElement('div');
     divFecha.className += 'gasto-fecha';
-    divFecha.textContent = `${gasto.fecha}`;
+    divFecha.textContent = new Date(gasto.fecha).ToLocaleDateString;
 
     let divEtiqueta = document.createElement('div');
     divEtiqueta.className += 'gasto-etiquetas';
@@ -37,7 +37,7 @@ function mostrarGastoWeb(idElemento, gasto)
     {
         let spanEtiquetas = document.createElement('span');
         spanEtiquetas.className += 'gasto-etiquetas-etiqueta';
-        spanEtiquetas.textContent = `${etiq} `;
+        spanEtiquetas.textContent = etiq + " ";
         divEtiqueta.append(spanEtiquetas);
         
         //Borrar solo para Etiquetas
