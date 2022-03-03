@@ -96,7 +96,9 @@ function mostrarGastoWeb(idElemento, gasto)
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
 {    
-    let elem =  document.getElementById(idElemento);
+    let divP =  document.getElementById(idElemento);
+    divP.innerHTML = '';
+
     let txt  =   '<div class="agrupacion">' +
                 '<h1>Gastos agrupados por '+ periodo + '</h1>';
 
@@ -109,7 +111,67 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
     }
 
     txt += '</div>';
-    elem.innerHTML += txt;  
+    divP.innerHTML += txt;
+
+    // Estilos
+    divP.style.width = "33%";
+    divP.style.display = "inline-block";
+    // Crear elemento <canvas> necesario para crear la gráfica
+    // https://www.chartjs.org/docs/latest/getting-started/
+    let chart = document.createElement("canvas");
+    // Variable para indicar a la gráfica el período temporal del eje X
+    // En función de la variable "periodo" se creará la variable "unit" (anyo -> year; mes -> month; dia -> day)
+    let unit = "";
+    switch (periodo) {
+    case "anyo":
+        unit = "year";
+        break;
+    case "mes":
+        unit = "month";
+        break;
+    case "dia":
+    default:
+        unit = "day";
+        break;
+    }
+
+    // Creación de la gráfica
+    // La función "Chart" está disponible porque hemos incluido las etiquetas <script> correspondientes en el fichero HTML
+    const myChart = new Chart(chart.getContext("2d"), {
+        // Tipo de gráfica: barras. Puedes cambiar el tipo si quieres hacer pruebas: https://www.chartjs.org/docs/latest/charts/line.html
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    // Título de la gráfica
+                    label: `Gastos por ${periodo}`,
+                    // Color de fondo
+                    backgroundColor: "#FD1300",
+                    // Datos de la gráfica
+                    // "agrup" contiene los datos a representar. Es uno de los parámetros de la función "mostrarGastosAgrupadosWeb".
+                    data: agrup
+                }
+            ],
+        },
+        options: {
+            scales: {
+                x: {
+                    // El eje X es de tipo temporal
+                    type: 'time',
+                    time: {
+                        // Indicamos la unidad correspondiente en función de si utilizamos días, meses o años
+                        unit: unit
+                    }
+                },
+                y: {
+                    // Para que el eje Y empieza en 0
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    // Añadimos la gráfica a la capa
+    divP.append(chart);
 }
 
 function repintar()
@@ -140,6 +202,15 @@ function repintar()
     document.getElementById('listado-gastos-filtrado-4').innerHTML = '';
     gastosFilt = gestionPresupuesto.filtrarGastos({valorMaximo:50, etiquetasTiene:['comida', 'transporte']});
     gastosFilt.forEach(gastoFiltrado => {mostrarGastoWeb('listado-gastos-filtrado-4', gastoFiltrado);});
+
+    document.getElementById('agrupacion-dia').innerHTML='';
+    mostrarGastosAgrupadosWeb('agrupacion-dia', gestionPresupuesto.agruparGastos('dia'), 'día');
+
+    document.getElementById('agrupacion-mes').innerHTML='';
+    mostrarGastosAgrupadosWeb('agrupacion-mes', gestionPresupuesto.agruparGastos('mes'), 'mes');
+
+    document.getElementById('agrupacion-anyo').innerHTML='';
+    mostrarGastosAgrupadosWeb('agrupacion-anyo', gestionPresupuesto.agruparGastos('anyo'), 'año');
 }
 
 function actualizarPresupuestoWeb()
@@ -212,15 +283,7 @@ function BorrarApiHandle()
             let nombre_usuario = document.getElementById("nombre_usuario").value;
             let expApi = await fetch("https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + nombre_usuario + "/" + this.gasto.gastoId, {method:'DELETE'});
 
-            if (expApi.ok)
-            {
-               cargarGastosApi();
-            }
-            
-            else
-            {
-                alert("Error: " + expApi.status);
-            }
+            (expApi.ok) ? cargarGastosApi() : alert("Error: " + expApi.status);
         }
         
         else
