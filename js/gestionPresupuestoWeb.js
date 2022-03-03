@@ -11,11 +11,18 @@ let botonAnyadirGastoFormulario = document.getElementById("anyadirgasto-formular
 botonAnyadirGastoFormulario.addEventListener('click', nuevoGastoWebFormulario);
 
 let botonGuardarGastos = document.getElementById("guardar-gastos");
-botonGuardarGastos.addEventListener('click', new guardarGastosWeb);
+botonGuardarGastos.addEventListener('click', new guardarGastosWeb());
 
 let botonCargarGastos = document.getElementById("cargar-gastos");
-botonCargarGastos.addEventListener('click', new cargarGastosWeb);
+botonCargarGastos.addEventListener('click', new cargarGastosWeb());
 
+let formularioFiltrado = document.getElementById("formulario-filtrado");
+
+let eventoFiltrarGastoWeb = new filtrarGastosWeb();
+formularioFiltrado.addEventListener("submit", eventoFiltrarGastoWeb);
+
+let botonCargarGastosApi = document.getElementById("cargar-gastos-api");
+botonCargarGastosApi.addEventListener('click', new cargarGastosApi());
 
 function nuevoGastoWebFormulario(){
     
@@ -399,10 +406,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     elem.append(chart);
 }
 
-let formularioFiltrado = document.getElementById("formulario-filtrado");
 
-let eventoFiltrarGastoWeb = new filtrarGastosWeb();
-formularioFiltrado.addEventListener("submit", eventoFiltrarGastoWeb);
 
 function filtrarGastosWeb(){
     this.handleEvent = function(e){
@@ -469,8 +473,7 @@ function guardarGastosWeb(){
     }
 }
 
-let botonCargarGastosApi = document.getElementById("cargar-gastos-api");
-botonCargarGastosApi.addEventListener('click', new cargarGastosApi);
+
 
 function borrarGastoApi(){
     this.handleEvent = async function(event){
