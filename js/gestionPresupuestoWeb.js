@@ -304,13 +304,10 @@ function nuevoGastoWebFormulario() //PRACTICA 6 - a y b
     let botonCancelar = formulario.querySelector("button.cancelar");
     botonCancelar.addEventListener('click', cancelar);
 
-    //Boton Enviar Api - PRACTICA 9
-    
+    //Boton Enviar Api - PRACTICA 9    
     let enviarApi = new EnviarGastoApi();
-    enviarApi.formulario = formulario;
-    formulario.querySelector("button[class='gasto-enviar-api']").addEventListener('click', enviarApi);
-    //let botonEnviarApi = formulario.querySelector("button.gasto-enviar-api");
-    //botonEnviarApi.addEventListener('click', enviarGastoApi)
+    let botonEnviarApi = formulario.querySelector("button[class='gasto-enviar-api']");
+    botonEnviarApi.addEventListener('click', enviarApi)
 }
 
 //BOTON nuevoGastoWebFormulario
