@@ -305,9 +305,8 @@ function nuevoGastoWebFormulario() //PRACTICA 6 - a y b
     botonCancelar.addEventListener('click', cancelar);
 
     //Boton Enviar Api - PRACTICA 9    
-    let enviarApi = new EnviarGastoApi();
     let botonEnviarApi = formulario.querySelector("button[class='gasto-enviar-api']");
-    botonEnviarApi.addEventListener('click', enviarApi)
+    botonEnviarApi.addEventListener('click', EnviarGastoApi)
 }
 
 //BOTON nuevoGastoWebFormulario
@@ -539,6 +538,7 @@ function BorrarGastoApiHandle()
         if(usuario != "")
         {           
             fetch(url, {method: 'DELETE'})
+            .then(response => response.json())
             .then(resp => 
             {
                 if(!resp.ok)
@@ -562,28 +562,31 @@ function BorrarGastoApiHandle()
 
 function EnviarGastoApi(event)
 {
-    this.handleEvent = async function() 
+    this.handleEvent = function(event) 
     {
-        let nombre_usuario = document.getElementById('nombre_usuario').value;
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombre_usuario}`;
+        let nombreUsuario = document.getElementById('nombre_usuario').value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`;
 
-        let gasto = 
+        let gastoApi = 
         {
             descripcion: this.formulario.descripcion.value,
             valor: this.formulario.valor.value,
             fecha: this.formulario.fecha.value,
-            etiquetas: (typeof this.formulario.etiquetas.value !== "undefined") ? this.formulario.etiquetas.value.split(",") : undefined,
-            id: id
+            etiquetas: this.formulario.etiquetas.value.split(","),
         }
 
-        let respuesta = await fetch(
-            url,{method: 'POST', headers:{'Content-Type': 'application/json;charset=utf-8'},
-            body: JSON.stringify(gasto)});
-
-        if(respuesta.ok)
-        {
-            id++;
-        }  
+        fetch(url,
+            {
+                method: 'POST',
+                headers: 
+                {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(gastoApi),
+                
+            }
+        )
+        .then(cargarGastosApi) 
     }      
 }
 
@@ -592,45 +595,48 @@ function EditarGastoApi()
     this.handleEvent = function(event)
     {
         let nombreUsuario = document.getElementById("nombre_usuario").value;
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}/${this.gasto.gastoId}`;
 
-        if(nombreUsuario != '')
+        let formulary = event.currentTarget.form;
+        let descripcionNew = formulary.elements.descripcion.value;
+        let valorNew = parseFloat(formulary.elements.valor.value);
+        let fechaNew = formulary.elements.fecha.value;
+        let etiquetasNew = (formulary.elements.etiquetas.value).split(",");
+    
+        let gastoAPI = 
         {
-            let formulary = document.querySelector(".gasto form")
-            let descripcionNew = formulary.elements.descripcion.value;
-            let valorNew = parseFloat(formulary.elements.valor.value);
-            let fechaNew = formulary.elements.fecha.value;
-            let etiquetasNew = (formulary.elements.etiquetas.value).split(',');
-        
-            let gastoAPI = 
-            {
-                descripcion: descripcionNew,                
-                valor: valorNew,
-                fecha: fechaNew,
-                etiquetas: etiquetasNew
-            };
+            descripcion: descripcionNew,                
+            valor: valorNew,
+            fecha: fechaNew,
+            etiquetas: etiquetasNew
+        }
 
-            fetch(url, {method: 'PUT', headers:{'Content-Type': 'application/json;charset=utf-8'}, 
-            body: JSON.stringify(gastoAPI)})
-
-            .then(function(resp)
-            {
-                if(!resp.ok)
-                {
-                    console.log('Error');
-                }
-                else
-                {
-                    console.log('gasto actualizado');
-                    cargarGastosApi();
-                }
-            })
-            .catch(err => console.error(err));
-        } 
+        if (nombreUsuario != "")
+        {
+            console.log("No hay el nombre");
+        }
         else 
         {
-            console.log('No hay nombre del usuario');
-        }
+            fetch(url, 
+                {
+                    method: 'PUT', 
+                    headers:{'Content-Type': 'application/json;charset=utf-8'},
+                    body: JSON.stringify(gastoAPI)
+                })
+        .then(resp =>
+        {
+            if(!resp.ok)
+            {
+                console.log('Error');
+            }
+            else
+            {
+                console.log('gasto actualizado');
+                cargarGastosApi();
+            }
+        })
+        .catch(err => console.error(err));
+        }        
     }
 }
 
