@@ -1,79 +1,54 @@
-"use strict";
+import * as gestionPresupuesto from './gestionPresupuesto.js'
+import * as gestionPresupuestoWeb from './gestionPresupuestoWeb.js'
 
-import * as gp from './gestionPresupuesto.js';
-import * as gpw from './gestionPresupuestoWeb.js';
+gestionPresupuesto.actualizarPresupuesto(1500);
+gestionPresupuestoWeb.mostrarDatoEnId("presupuesto", gestionPresupuesto.mostrarPresupuesto());
+let gasto1= new gestionPresupuesto.CrearGasto("Comprar carne", 23.44,"2021-10-06", "supermercado", "casa");
+let gasto2= new gestionPresupuesto.CrearGasto("Comprar fruta y verdura", 14.25,"2021-09-06", "supermercado", "comida");
+let gasto3= new gestionPresupuesto.CrearGasto("Bonobús", 18.60,"2020-05-26", "transporte");
+let gasto4= new gestionPresupuesto.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina");
+let gasto5= new gestionPresupuesto.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros");
+let gasto6= new gestionPresupuesto.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros");
 
-gp.actualizarPresupuesto(1500);
+gestionPresupuesto.anyadirGasto(gasto1);
+gestionPresupuesto.anyadirGasto(gasto2);
+gestionPresupuesto.anyadirGasto(gasto3);
+gestionPresupuesto.anyadirGasto(gasto4);
+gestionPresupuesto.anyadirGasto(gasto5);
+gestionPresupuesto.anyadirGasto(gasto6);
 
-let mpresupuesto = document.getElementById('presupuesto');
 
-mpresupuesto.innerHTML = `
-    ${gp.mostrarPresupuesto()}
-`;
+gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales", gestionPresupuesto.calcularTotalGastos());
+gestionPresupuestoWeb.mostrarDatoEnId("balance-total", gestionPresupuesto.calcularBalance());
 
-let gasto1 = new gp.CrearGasto("Compra carne", 23.44, "2021-10-06", "casa", "comida" );
-let gasto2 = new gp.CrearGasto("Compra fruta y verdura", 14.25, "2021-09-06", "supermercado", "comida" );
-let gasto3 = new gp.CrearGasto("Bonobús", 18.60, "2020-05-26", "transporte" );
-let gasto4 = new gp.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina" );
-let gasto5 = new gp.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros" );
-let gasto6 = new gp.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros" );
 
-gp.anyadirGasto(gasto1);
-gp.anyadirGasto(gasto2);
-gp.anyadirGasto(gasto3);
-gp.anyadirGasto(gasto4);
-gp.anyadirGasto(gasto5);
-gp.anyadirGasto(gasto6);
+let gastos = gestionPresupuesto.listarGastos();
+gastos.forEach(elemento =>{
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", elemento);
+});
 
-gpw.mostrarDatoEnId("gastos-totales", gp.calcularTotalGastos());
 
-gpw.mostrarDatoEnId("balance-total", gp.calcularBalance());
+let gastosFiltrados = gestionPresupuesto.filtrarGastos({fechaDesde:'2021-09-01', fechaHasta:'2021-09-30'});
+gastosFiltrados.forEach(element =>{
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1", element);
+});
 
-let gastos = gp.listarGastos();
+gastosFiltrados = gestionPresupuesto.filtrarGastos({valorMinimo:50});
+gastosFiltrados.forEach(element =>{
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2", element);
+});
 
-for(let gasto of gastos){
-    gpw.mostrarGastoWeb("listado-gastos-completo", gasto);
-}
+gastosFiltrados = gestionPresupuesto.filtrarGastos({valorMinimo:200, etiquetasTiene: ['seguros']}); 
+gastosFiltrados.forEach(element =>{
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3", element);
+});
 
-let gastosFiltro = gp.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"});
+gastosFiltrados = gestionPresupuesto.filtrarGastos({valorMaximo: 50, etiquetasTiene: ['comida'] ['transporte']});
+gastosFiltrados.forEach(element =>{
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", element);
+});
 
-for(let gasto of gastosFiltro){
-    gpw.mostrarGastoWeb("listado-gastos-filtrado-1", gasto);
-}
-
-gastosFiltro = gp.filtrarGastos({valorMinimo: 50});
-
-for(let gasto of gastosFiltro){
-    gpw.mostrarGastoWeb("listado-gastos-filtrado-2", gasto);
-}
-
-gastosFiltro = gp.filtrarGastos({valorMinimo: 200, etiquetas: "seguros"});
-
-for(let gasto of gastosFiltro){
-    gpw.mostrarGastoWeb("listado-gastos-filtrado-3", gasto);
-}
-
-gastosFiltro = gp.filtrarGastos({valorMaximo: 50, etiquetas: "comida, transporte"});
-
-for(let gasto of gastosFiltro){
-    gpw.mostrarGastoWeb("listado-gastos-filtrado-4", gasto);
-}
-
-let gastosAgruparDia = gp.agruparGastos("dia");
-
-gpw.mostrarGastosAgrupadosWeb("agrupacion-dia", gastosAgruparDia, "día");
-
-let gastosAgruparMes = gp.agruparGastos("mes");
-
-gpw.mostrarGastosAgrupadosWeb("agrupacion-mes", gastosAgruparMes, "mes");
-
-let gastosAgruparAnyo = gp.agruparGastos("anyo");
-
-gpw.mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAgruparAnyo, "año");
-
-//document.getElementById("actualizarpresupuesto").addEventListener("click", gpw.actualizarPresupuestoWeb);
-
-//document.getElementById("anyadirgasto").addEventListener("click", gpw.nuevoGastoWeb);
-
-//document.getElementById("anyadirgasto-formulario").addEventListener("click", gpw.nuevoGastoWebFormulario);
-
+//TODO OK
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", gestionPresupuesto.agruparGastos("dia"), "día");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", gestionPresupuesto.agruparGastos("mes"), "mes");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", gestionPresupuesto.agruparGastos("anyo"), "año");
