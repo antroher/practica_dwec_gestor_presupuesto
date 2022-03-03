@@ -61,9 +61,12 @@ function repintar(){
     mostrarDatoEnId('gastos-totales', gestionPresupuesto.calcularTotalGastos());
     mostrarDatoEnId('balance-total', gestionPresupuesto.calcularBalance());
 
-    document.getElementById('listado-gastos-completo').innerHTML = '';
     let gastos = gestionPresupuesto.listarGastos();
-    gastos.forEach(exp => {mostrarGastoWeb('listado-gastos-completo', exp);});
+    document.getElementById('listado-gastos-completo').innerHTML = '';
+    for(let gasto of gastos)
+    {
+        mostrarGastoWeb("listado-gastos-completo", gasto);
+    }
     
     document.getElementById('listado-gastos-filtrado-1').innerHTML = '';
     let gastos_filtrados = gestionPresupuesto.filtrarGastos({fechaDesde:'2021-09-01', fechaHasta:'2021-09-30'});
@@ -257,7 +260,6 @@ function mostrarGastoWeb(idElemento, gasto){
     divGasto.append(divFecha);
     divGasto.append(divValor);
     divGasto.append(divPresupuesto);
-    let espacio = "______________________________________________________"
     let br = document.createElement('br');
     gasto.etiquetas.forEach(label =>
         {
@@ -333,13 +335,11 @@ function mostrarGastoWeb(idElemento, gasto){
         divGasto.append(botonEditarFormulario);
         divGasto.append(botonBorrarAPI)
         divGasto.append(br);
-        divGasto.append(espacio);
         divGasto.append(br);
         
         
     } 
     divGasto.append(br);
-    divGasto.append(espacio);
     divGasto.append(br);
 }    
 
@@ -491,7 +491,7 @@ function cargarGastosApi(){
 
     if(nusuario != '')
     {
-        let url =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`;
+        let url =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nusuario}`;
 
         fetch(url, {
 
