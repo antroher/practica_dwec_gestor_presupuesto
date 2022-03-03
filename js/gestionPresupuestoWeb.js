@@ -408,23 +408,12 @@ function cargarGastosWeb() {
 let cargarGastWeb = new cargarGastosWeb();
 
 function CargarGastosApi() {
-    let user = document.querySelector("#nombre_usuario").value;
-    let page = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
-    
-    if (user != '') {
-        fetch(page, {method: 'GET'})
-            .then(respuesta => respuesta.json())
-            .then((result) => {
-                let resultado = result;
-                if(resultado == "") {
-                    console.log("por aqui no hay gastos")
-                } else {
-                    gestionPresupuesto.cargarGastos(resultado);
-                    console.log("por aqui hay gastos")
-                    repintar();
-                }
-                })
-            .catch(err => console.error(err));
+    this.handleEvent = function(event) {
+        if (localStorage.GestorGastosDWEC == null) 
+            gestionPresupuesto.cargarGastos([]);
+        else 
+            gestionPresupuesto.cargarGastos(JSON.parse(localStorage.GestorGastosDWEC));
+        repintar();    
     }
 }
 
@@ -451,48 +440,25 @@ function BorrarGastoApiHandle(){
     }
 }
 
-function EnviarGastoApi(event){
-    let user = document.getElementById("nombre_usuario").value;
-    let page = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${user}`;
-    
-    let formulario = event.currentTarget.form;
-    let descripcionN = formulario.elements.descripcion.value;
-    let valorN = formulario.elements.valor.value;
-    let fechaN = formulario.elements.fecha.value;
-    let etiquetasN = formulario.elements.etiquetas.value;
+function EnviarGastoApi(){
+    this.handleEvent = function (event) {
+        const Usur = document.getElementById('nombre_usuario').value;
 
-    valorN = parseFloat(valorN);
-    etiquetasN = etiquetasN.split(",");
+        const gastoJson = {
+            "valor": Number(this.formulario.valor.value),
+            "descripcion": this.formulario.descripcion.value,
+            "fecha": this.formulario.fecha.value,
+            "etiquetas": this.formulario.etiquetas.value.split(","),
+        }
 
-    let nuevoObjeto = {
-        descripcion: descripcionN,
-        fecha: fechaN,
-        valor: valorN,
-        etiquetas: etiquetasN
-    }
-
-    console.log(nuevoObjeto);
-
-    if(user == ""){
-        console.log("No hay nombre");
-    }else{
-        fetch(page, {
-            method: 'POST', 
-            body: JSON.stringify(nuevoObjeto),
-            headers:{
-                'Content-Type': 'application/json'
+        fetch(`"https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest"/${Usur}`, {
+            method: "POST",
+            body: JSON.stringify(gastoJson),
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
             }
         })
-        .then(response => {
-            
-            if(response.ok){
-                console.log("AÑADIR OK");
-                CargarGastosApi();
-            }else{
-                console.log("AÑADIR NONONONOONONONONONO");
-            }
-        })
-        .catch(err => console.error(err));
+            .then(cargarGastosApi)
     }
 }
 
