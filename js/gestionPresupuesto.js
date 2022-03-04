@@ -173,76 +173,60 @@ function calcularTotalGastos() {
 function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
-function filtrarGastos(objeto) {
-    let resultado = Object.assign(gastos);
-    if (typeof objeto === 'object' && objeto !== null && objeto !== undefined && Object.entries(objeto).length > 0) 
+function filtrarGastos({fechaDesde, fechaHasta, valorMinimo, valorMaximo, descripcionContiene, etiquetasTiene}){
+    let gastosFil;
+    gastosFil = gastos.filter(function(gasto)
     {
-        if (objeto.hasOwnProperty('fechaDesde') && typeof objeto.fechaDesde === 'string') {
-            resultado = resultado.filter(function(item) {
-                if(item.fecha >= Date.parse(objeto.fechaDesde)){
-                return true
-            }
-            })
-        }
-        if (objeto.hasOwnProperty('fechaHasta') && typeof objeto.fechaHasta === 'string') {
-            resultado = resultado.filter(function(item) {
-                if(item.fecha <= Date.parse(objeto.fechaHasta)){
-                return true;
-            }
-            })
-        }
-        if (objeto.hasOwnProperty('valorMinimo') && typeof objeto.valorMinimo === 'number') {
-            resultado = resultado.filter(function(item)  {
-                if(item.valor >= objeto.valorMinimo){
-                    return true
-                }               
-            })
-        }
-        if (objeto.hasOwnProperty('valorMaximo') && typeof objeto.valorMaximo === 'number') {
-            resultado = resultado.filter(function(item)  {   
-                if(item.valor <= objeto.valorMaximo){             
-                return true
-                }
-            })
-        }
-        if (objeto.hasOwnProperty('descripcionContiene') && typeof objeto.descripcionContiene === 'string') {
-            resultado = resultado.filter(function(item)  {
-                let descripcion = item.descripcion.split(" ");
-                let arraydescripcion = descripcion.join('');
-                if (arraydescripcion.indexOf(objeto.descripcionContiene) !== -1) 
-                    return true;
-            })
-        }
-        if (objeto.hasOwnProperty('etiquetasTiene') && Array.isArray(objeto.etiquetasTiene)) {
-            resultado = resultado.filter(function(item)  {
-                for (let i = 0; i < objeto.etiquetasTiene.length; i++) {
-                    if (item.etiquetas.includes(objeto.etiquetasTiene[i])) {
-                        return true;
-                    }
-                }
-            })
-        }
-        return resultado;
-    }
-    return gastos;
+     let exist = true;
+     if(fechaDesde)
+     {
+         if(gasto.fecha < Date.parse(fechaDesde)) exist = false;
+     }
+     if(fechaHasta)
+     {
+         if(gasto.fecha > Date.parse(fechaHasta)) exist = false;
+     }
+     if(valorMinimo)
+     {
+         if(gasto.valor < valorMinimo) exist = false;
+     }
+     if(valorMaximo)
+     {
+         if(gasto.valor > valorMaximo) exist = false;
+     }
+     if(descripcionContiene)
+     {
+             if(!gasto.descripcion.includes(descripcionContiene)) exist = false;
+     }
+     if(etiquetasTiene)
+     {
+         let inside = false;                   
+             for (let i = 0; i < gasto.etiquetas.length; i++) 
+             {                   
+                 for (let p= 0; p < etiquetasTiene.length; p++) 
+                 {
+                     if(gasto.etiquetas[i] == etiquetasTiene[p]) inside = true;                  
+                 }
+             }
+        if(inside == false) exist = false;
+     }
+         return exist;
+    });
+return gastosFil;  
 }
-
-function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) {
-    let objeto = {
-        etiquetasTiene: etiquetas, 
-        fechaDesde: fechaDesde, 
-        fechaHasta: fechaHasta
-    }
-    let objfiltrado = filtrarGastos(objeto);
-    let agrupar = objfiltrado.reduce(function(acumulador, item) {
-        let periodo2 = item.obtenerPeriodoAgrupacion(periodo);
-        if (acumulador[periodo2] == null) {
-            acumulador[periodo2] = item.valor;
-        } else {
-            acumulador[periodo2] += item.valor;
-        }
-        return acumulador;
-    }, {});
+function agruparGastos(periodo = "mes", etiquetas, fechaDesde, fechaHasta) 
+{
+    let funfil = {etiquetasTiene : etiquetas, fechaDesde : fechaDesde, fechaHasta : fechaHasta}
+    let rtnFiltrarGastos = filtrarGastos(funfil);
+    let agrupar =
+            rtnFiltrarGastos.reduce((acc, item) => {
+                let periRed = item.obtenerPeriodoAgrupacion(periodo);
+                if (acc[periRed] == null)
+                    acc[periRed] = item.valor;
+                else 
+                    acc[periRed] += item.valor;
+                return acc;
+            }, {});
     return agrupar;
 }
 function cargarGastos(gastosAlmacenamiento) {
