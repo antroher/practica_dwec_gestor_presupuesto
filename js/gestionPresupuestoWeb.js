@@ -1,13 +1,16 @@
 
 import * as gestionPresupuesto from './gestionPresupuesto.js';
 
-function mostrarDatoEnId(idElemento, valor) {
-    document.getElementById(idElemento).innerHTML = valor;
+function mostrarDatoEnId(valor, idElemento) {
+    if (idElemento != null){
+        let elememento = document.getElementById(idElemento);
+        elememento.innerHTML+= "" + valor;
+    }
 }
 
 //aqui gasto es un array, con lo que habria que cambiarlo y meterlo todo dentro de una iteracción
 function mostrarGastoWeb(idElemento, gasto){
-    if (idElemento !== undefined){
+    if (idElemento !== undefined) {
         let elem = document.getElementById(idElemento);
 
         let divgasto = document.createElement("div");
@@ -92,6 +95,7 @@ function mostrarGastoWeb(idElemento, gasto){
 
 }
 function mostrarGastosAgrupadosWeb(idElemento, agrupacion, periodo) {
+    if (idElemento != null){
     var divP = document.getElementById(idElemento);
     divP.innerHTML = "";
     const agrupacionHTLM = document.createElement('div');
@@ -168,22 +172,55 @@ function mostrarGastosAgrupadosWeb(idElemento, agrupacion, periodo) {
     // Añadimos la gráfica a la capa
     divP.append(chart);
 }
+}
 
 function repintar() {
-    mostrarDatoEnId('presupuesto', gestionPresupuesto.mostrarPresupuesto());
-    mostrarDatoEnId('gastos-totales', gestionPresupuesto.calcularTotalGastos());
-    mostrarDatoEnId('balance-total', gestionPresupuesto.calcularBalance());
-
-    //Borramos la anterior
-    document.getElementById('listado-gastos-completo').innerHTML = '';
-
-    const listadoGastos = gestionPresupuesto.listarGastos();
-    listadoGastos.forEach(gasto => {
-        mostrarGastoWeb('listado-gastos-completo', gasto);
+    document.getElementById("presupuesto").innerHTML= "";
+    document.getElementById("balance-total").innerHTML= "";
+    document.getElementById("gastos-totales").innerHTML= "";
+    mostrarDatoEnId(gestionPresupuesto.mostrarPresupuesto(),"presupuesto");
+    mostrarDatoEnId(gestionPresupuesto.calcularTotalGastos(),"gastos-totales");
+    mostrarDatoEnId(gestionPresupuesto.calcularBalance(),"balance-total");
+    document.getElementById("listado-gastos-completo").innerHTML= "";
+    let gastos = gestionPresupuesto.listarGastos();
+    gastos.forEach(gasto => {
+        mostrarGastoWeb("listado-gastos-completo", gasto);
     });
-    mostrarGastosAgrupadosWeb('agrupacion-dia', gestionPresupuesto.agruparGastos('dia'), 'día');
-    mostrarGastosAgrupadosWeb('agrupacion-mes', gestionPresupuesto.agruparGastos('mes'), 'mes');
-    mostrarGastosAgrupadosWeb('agrupacion-anyo', gestionPresupuesto.agruparGastos('anyo'), 'año');
+
+    
+    document.getElementById("listado-gastos-filtrado-1").innerHTML="";
+    let gastosF=gestionPresupuesto.filtrarGastos({fechaDesde:"2021-09-01", fechaHasta:"2021-09-30"});
+    gastosF.forEach(gastoFiltrado => {
+        mostrarGastoWeb("listado-gastos-filtrado-1",gastoFiltrado);
+    });
+
+    document.getElementById("listado-gastos-filtrado-2").innerHTML="";
+    gastosF=gestionPresupuesto.filtrarGastos({valorMinimo:50});
+    gastosF.forEach(gastoFiltrado => {
+        mostrarGastoWeb("listado-gastos-filtrado-2",gastoFiltrado);
+    });
+
+    document.getElementById("listado-gastos-filtrado-3").innerHTML="";
+    gastosF=gestionPresupuesto.filtrarGastos({valorMinimo:200,etiquetasTiene:["seguros"]});
+    gastosF.forEach(gastoFiltrado => {
+        mostrarGastoWeb("listado-gastos-filtrado-3",gastoFiltrado);
+    });
+
+    document.getElementById("listado-gastos-filtrado-4").innerHTML="";
+    gastosF=gestionPresupuesto.filtrarGastos({valorMaximo:50,etiquetasTiene:["comida","transporte"]});
+    gastosF.forEach(gastoFiltrado => {
+        mostrarGastoWeb("listado-gastos-filtrado-4",gastoFiltrado);
+    });
+    
+    document.getElementById("agrupacion-dia").innerHTML="";
+    mostrarGastosAgrupadosWeb("agrupacion-dia",gestionPresupuesto.agruparGastos("dia"),"día");
+
+    document.getElementById("agrupacion-mes").innerHTML="";
+    mostrarGastosAgrupadosWeb("agrupacion-mes",gestionPresupuesto.agruparGastos("mes"),"mes");
+
+    document.getElementById("agrupacion-anyo").innerHTML="";
+    mostrarGastosAgrupadosWeb("agrupacion-anyo",gestionPresupuesto.agruparGastos("anyo"),"año");
+
 }
 
 function actualizarPresupuestoWeb() {
