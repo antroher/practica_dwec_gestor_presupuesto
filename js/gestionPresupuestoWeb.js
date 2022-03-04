@@ -1,6 +1,7 @@
 'use strict';
 
 import * as gestionPresupuesto from './gestionPresupuesto.js';
+ 
 
 function mostrarDatoEnId(idElemento,valor){
     let elemento = document.getElementById(idElemento);
@@ -23,13 +24,13 @@ function mostrarGastoWeb(idElemento, gasto)
     divDescripcion.className += 'gasto-descripcion';
     divDescripcion.textContent = gasto.descripcion;
 
-    let divValor = document.createElement('div');
-    divValor.className += 'gasto-valor';
-    divValor.textContent = gasto.valor + ""; 
-
     let divFecha = document.createElement('div');
     divFecha.className += 'gasto-fecha';
-    divFecha.textContent = new Date(gasto.fecha).ToLocaleDateString;
+    divFecha.textContent = new Date(gasto.fecha).toLocaleDateString();
+
+    let divValor = document.createElement('div');
+    divValor.className += 'gasto-valor';
+    divValor.textContent = gasto.valor + "";     
 
     let divEtiqueta = document.createElement('div');
     divEtiqueta.className += 'gasto-etiquetas';
@@ -60,6 +61,7 @@ function mostrarGastoWeb(idElemento, gasto)
         //boton editar
         let botonEditar = document.createElement('button');
         botonEditar.className += 'gasto-editar';
+        botonEditar.id = 'gasto-editar';
         botonEditar.textContent = 'Editar';
         botonEditar.type = 'button';
 
@@ -71,6 +73,7 @@ function mostrarGastoWeb(idElemento, gasto)
         //boton borrar
         let botonBorrar = document.createElement('button');
         botonBorrar.className += 'gasto-borrar';
+        botonBorrar.id = "gasto-borrar";
         botonBorrar.textContent = 'Borrar';
         botonBorrar.type = 'button';
 
@@ -85,6 +88,7 @@ function mostrarGastoWeb(idElemento, gasto)
         //boton borrar API -> PRACTICA 9
         let botonBorrarApi = document.createElement('button');
         botonBorrarApi.className += 'gasto-borrar-api';
+        botonBorrarApi.id = "gasto-borrar-api";
         botonBorrarApi.textContent = 'Borrar (API)';
         botonBorrarApi.type = 'button';
 
@@ -97,6 +101,7 @@ function mostrarGastoWeb(idElemento, gasto)
         //boton editar formulario -> PRACTICA 6
         let botonEditForm = document.createElement('button');
         botonEditForm.className += 'gasto-editar-formulario';
+        botonEditForm.id = "gasto-editar-formulario";
         botonEditForm.textContent = 'Editar (formulario)';
         botonEditForm.type = 'button';
 
