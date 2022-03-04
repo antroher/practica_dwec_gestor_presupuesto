@@ -1,4 +1,4 @@
-'use strict' //NUEVO
+'use strict';
 
 import * as gestionPresupuesto from './gestionPresupuesto.js';
 
@@ -13,6 +13,7 @@ function mostrarGastoWeb(idElemento, gasto)
 
     let divG = document.createElement('div');
     divG.className += 'gasto';
+    divG.id = 'gasto-editar';
     if (idElemento.includes('completo'))
     {
         divG.id = gasto.id;
@@ -209,10 +210,6 @@ function actualizarPresupuestoWeb()
     repintar();
 }
 
-//BOTON actualizarpresupuesto
-let actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
-actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
-
 function nuevoGastoWeb()
 {
     let descripcionNew = prompt('Introduzca la descripción del gasto');
@@ -224,10 +221,6 @@ function nuevoGastoWeb()
     gestionPresupuesto.anyadirGasto(new gestionPresupuesto.CrearGasto(descripcionNew, valorNew, fechaNew, ...Etiquetas));
     repintar();
 }
-
-//BOTON anyadirgasto
-let anyadirgasto = document.getElementById("anyadirgasto");
-anyadirgasto.addEventListener('click', nuevoGastoWeb);
 
 function EditarHandle()
 {
@@ -276,15 +269,17 @@ function nuevoGastoWebFormulario() //PRACTICA 6 - a y b
     divContrPrinc.append(formulario);
 
     //Para desactivar boton
-    document.getElementById("anyadirgasto-formulario").disabled = true;
+    let botonAnyadir = document.getElementById("anyadirgasto-formulario");
+    botonAnyadir.disabled = true;
 
     //Boton Enviar
     let enviar = new EnviarFormularioHandle();
     formulario.addEventListener('submit', enviar);
 
     //Boton Cancelar
-    let cancelar = new CancelarFormularioHandle();
     let botonCancelar = formulario.querySelector("button.cancelar");
+    let cancelar = new CancelarFormularioHandle();
+    cancelar.botonAnyadir = botonAnyadir;
     botonCancelar.addEventListener('click', cancelar);
 
     //Boton Enviar Api - PRACTICA 9    
@@ -292,28 +287,21 @@ function nuevoGastoWebFormulario() //PRACTICA 6 - a y b
     botonEnviarApi.addEventListener('click', EnviarGastoApi)
 }
 
-//BOTON nuevoGastoWebFormulario
-let anyadirgastoForm = document.getElementById("anyadirgasto-formulario");
-anyadirgastoForm.addEventListener('click', nuevoGastoWebFormulario);
-
-
 function EnviarFormularioHandle() //PRACTICA 6 - a y b
 {
     this.handleEvent = function(event)
     {
         event.preventDefault();
-        let accesoEnv = event.currentTarget;
-        let desc = accesoEnv.elements.descripcion.value;
-        let val = parseFloat(accesoEnv.elements.valor.value);
-        let fec = accesoEnv.elements.fecha.value;
-        let etique = accesoEnv.elements.etiquetas.value;       
+        let formulario = event.currentTarget;
+        let desc = formulario.elements.descripcion.value;
+        let val = parseFloat(formulario.elements.valor.value);
+        let fec = formulario.elements.fecha.value;
+        let etique = formulario.elements.etiquetas.value;       
 
         let gastoEnv = new gestionPresupuesto.CrearGasto(desc, val, fec, etique);
         gestionPresupuesto.anyadirGasto(gastoEnv);      
 
         repintar();
-
-         event.currentTarget.remove();
 
         document.getElementById("anyadirgasto-formulario").disabled = false;
     }    
@@ -323,9 +311,19 @@ function CancelarFormularioHandle() //PRACTICA 6 - a y b
 {
     this.handleEvent = function(event)
     {
-        document.getElementById("anyadirgasto-formulario").disabled = false;
+        this.botonAnyadir.disabled = false;
+        //document.getElementById("anyadirgasto-formulario").disabled = false;
         event.currentTarget.parentNode.remove();
-        repintar();
+        //repintar();
+    }
+}
+
+function CancelarFormularioHandleIndividual()
+{
+    this.handleEvent = function(event)
+    {
+        this.botonEditar.disabled = false;
+        event.currentTarget.parentNode.remove();
     }
 }
 
@@ -336,46 +334,12 @@ function EditarHandleFormulario() //PRACTICA 6 - c y d
         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
         var formulario = plantillaFormulario.querySelector("form");
 
-        let divContrPrinc = document.getElementById("controlesprincipales");
-        divContrPrinc.append(formulario);
+        //let divContrPrinc = document.getElementById("controlesprincipales");
+        //divContrPrinc.append(formulario);
 
-        let accesoEditForm = event.currentTarget;
-        accesoEditForm.append(formulario);
-        accesoEditForm.disabled = true;
-
-        formulario.elements.descripcion.value = this.gasto.descripcion;
-        formulario.elements.valor.value = parseFloat(this.gasto.valor);
-        formulario.elements.fecha.value = new Date(this.gasto.fecha).toISOString().substring(0,10);
-        formulario.elements.etiquetas.value = this.gasto.etiquetas.toString(); 
-
-        //Boton Enviar
-        let enviarFormulario = new EnviarHandle();
-        enviarFormulario.gasto = this.gasto;
-        formulario.addEventListener('submit', enviarFormulario);
-
-        //Boton Cancelar
-        let cancelarFormulario = new CancelarFormularioHandle();
-        let botonCancelarFormulario = formulario.querySelector("button.cancelar");
-        botonCancelarFormulario.addEventListener('click', cancelarFormulario);
-
-        //Boton Editar Api -> PRACTICA 9
-        let editarFormularioApi = new EditarGastoApi();
-        let botonEditarFormularioApi = formulario.querySelector("button.gasto-enviar-api");
-        editarFormularioApi.gasto = this.gasto;
-        botonEditarFormularioApi.addEventListener('click', editarFormularioApi);
-    }
-    /*
-    this.handleEvent = function(event) 
-    {
-        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
-        var formulario = plantillaFormulario.querySelector("form");
-
-        let divContrPrinc = document.getElementById("controlesprincipales");
-        divContrPrinc.append(formulario);
-
-        let accesoEditForm = event.currentTarget;
-        accesoEditForm.append(formulario);
-        accesoEditForm.disabled = true;
+        let botonEditForm  = event.currentTarget;
+        botonEditForm.append(formulario);
+        botonEditForm.disabled = true;
 
         formulario.elements.descripcion.value = this.gasto.descripcion;
         formulario.elements.valor.value = parseFloat(this.gasto.valor);
@@ -388,7 +352,8 @@ function EditarHandleFormulario() //PRACTICA 6 - c y d
         formulario.addEventListener('submit', enviarFormulario);
 
         //Boton Cancelar
-        let cancelarFormulario = new CancelarFormularioHandle();
+        let cancelarFormulario = new CancelarFormularioHandleIndividual();
+        cancelarFormulario.botonEditar = botonEditForm;
         let botonCancelarFormulario = formulario.querySelector("button.cancelar");
         botonCancelarFormulario.addEventListener('click', cancelarFormulario);
 
@@ -398,7 +363,6 @@ function EditarHandleFormulario() //PRACTICA 6 - c y d
         editarFormularioApi.gasto = this.gasto;
         botonEditarFormularioApi.addEventListener('click', editarFormularioApi);
     }
-    */
 }
 
 function EnviarHandle() //PRACTICA 6 - c y d
@@ -406,18 +370,18 @@ function EnviarHandle() //PRACTICA 6 - c y d
     this.handleEvent = function(event) 
     {
         event.preventDefault();
-        let accesoEnvH = event.currentTarget;
+        let formulario = event.currentTarget;
         
-        let desc = accesoEnvH.elements.descripcion.value;
+        let desc = formulario.elements.descripcion.value;
         this.gasto.actualizarDescripcion(desc);
 
-        let val = parseFloat(accesoEnvH.elements.valor.value);
+        let val = parseFloat(formulario.elements.valor.value);
         this.gasto.actualizarValor(val);
 
-        let fec = accesoEnvH.elements.fecha.value;
+        let fec = formulario.elements.fecha.value;
         this.gasto.actualizarFecha(fec);
 
-        let etique = accesoEnvH.elements.etiquetas.value; 
+        let etique = formulario.elements.etiquetas.value; 
         this.gasto.anyadirEtiquetas(etique);           
 
         repintar();
@@ -433,15 +397,18 @@ function filtrarGastoWeb()
     {
         event.preventDefault();
         
-        let accesoFormFilt = event.currentTarget;
-        let desc = accesoFormFilt.elements['formulario-filtrado-descripcion'].value;
-        let vMinimo = parseFloat(accesoFormFilt.elements['formulario-filtrado-valor-minimo'].value);
-        let vMaximo = parseFloat(accesoFormFilt.elements['formulario-filtrado-valor-maximo'].value);
-        let fDesde = accesoFormFilt.elements['formulario-filtrado-fecha-desde'].value;
-        let fHasta = accesoFormFilt.elements['formulario-filtrado-fecha-hasta'].value;
-        let etiq = accesoFormFilt.elements['formulario-filtrado-etiquetas-tiene'].value;
+        let formulario = event.currentTarget;
+        let desc = formulario.elements['formulario-filtrado-descripcion'].value;
+        let vMinimo = parseFloat(formulario.elements['formulario-filtrado-valor-minimo'].value);
+        let vMaximo = parseFloat(formulario.elements['formulario-filtrado-valor-maximo'].value);
+        let fDesde = formulario.elements['formulario-filtrado-fecha-desde'].value;
+        let fHasta = formulario.elements['formulario-filtrado-fecha-hasta'].value;
+        let etiq = formulario.elements['formulario-filtrado-etiquetas-tiene'].value;
 
-        etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
+        if (etiq !== null)
+        {
+            etiq = gestionPresupuesto.transformarListadoEtiquetas(etiq);
+        }
                
         let crearObjeto =
         {
@@ -465,11 +432,6 @@ function filtrarGastoWeb()
     }      
 }
 
-//BOTON ENVIAR a filtrarGastoWeb
-let eventFiltrGasto = new filtrarGastoWeb();
-let formFiltrGasto = document.getElementById('formulario-filtrado');
-formFiltrGasto.addEventListener('submit', eventFiltrGasto);
-
 //******************************************************
 //********************* PRACTICA 8 *********************
 //******************************************************
@@ -481,11 +443,6 @@ function guardarGastoWeb()
         localStorage.GestorGastosDWEC = JSON.stringify(listaGuardar);
     }
 }
-
-//BOTON GUARDAR
-let eventSaveGasto = new guardarGastoWeb();
-let saveGast = document.getElementById('guardar-gastos');
-saveGast.addEventListener('click', eventSaveGasto );
 
 //--------------------------
 
@@ -507,15 +464,12 @@ function cargarGastosWeb()
     }
 }
 
-//BOTON CARGAR
-let eventLoadGasto = new cargarGastosWeb();
-let loadGast = document.getElementById('cargar-gastos');
-loadGast.addEventListener('click', eventLoadGasto);
+
 
 //******************************************************
 //********************* PRACTICA 9 *********************
 //******************************************************
-function cargarGastosApi ()
+function cargarGastosApi()
 {
     let usuario = document.getElementById("nombre_usuario").value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
@@ -544,10 +498,6 @@ function cargarGastosApi ()
     }
 }
 
-//BOTON CARGAR API
-let loadGastApi = document.getElementById('cargar-gastos-api');
-loadGastApi.addEventListener('click', cargarGastosApi);
-
 function BorrarGastoApiHandle()
 {
     this.handleEvent = function(event)
@@ -561,14 +511,14 @@ function BorrarGastoApiHandle()
             .then(response => response.json())
             .then(resp => 
             {
-                if(!resp.ok)
+                if(!resp.errorMessage)
                 {
-                    console.log('Error')
+                    console.log('gasto borrado');
+                    cargarGastosApi;                    
                 }
                 else
                 {
-                    console.log('gasto borrado');
-                    cargarGastosApi;
+                    console.log('Error')
                 }
             })
             .catch(err => console.error(err))
@@ -582,56 +532,73 @@ function BorrarGastoApiHandle()
 
 function EnviarGastoApi(event)
 {
-    this.handleEvent = function(event) 
-    {
-        let nombreUsuario = document.getElementById('nombre_usuario').value;
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`;
+    //this.handleEvent = function(event) 
+    //{
+        let usuario = document.getElementById('nombre_usuario').value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
 
+        let formulario = event.currentTarget.form;
+        
         let gastoApi = 
         {
-            descripcion: this.formulario.descripcion.value,
-            valor: this.formulario.valor.value,
-            fecha: this.formulario.fecha.value,
-            etiquetas: this.formulario.etiquetas.value.split(","),
+            descripcion: formulario.descripcion.value,
+            valor: parseFloat(formulario.valor.value),
+            fecha: formulario.fecha.value,
+            etiquetas: formulario.etiquetas.value.split(","),
         }
 
-        fetch(url,
-            {
-                method: 'POST',
-                headers: 
+        if (usuario == "")
+        {
+            console.log("El input del nombre de usuario está vacio");
+        }
+        else 
+        {
+            fetch(url,
                 {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify(gastoApi),
-                
-            }
-        )
-        .then(cargarGastosApi) 
-    }      
+                    method: 'POST',
+                    headers: 
+                    {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    body: JSON.stringify(gastoApi),                    
+                }
+            )
+            .then(response =>
+            {
+                if(response.ok)
+                {
+                    console.log("Correcto");
+                    cargarGastosApi();
+                }
+                else 
+                {
+                    console.log("Error");
+                }
+            }) 
+            .catch(err => console.error(err));
+        }
+        
+    //}      
 }
 
 function EditarGastoApi()
 {
     this.handleEvent = function(event)
     {
-        let nombreUsuario = document.getElementById("nombre_usuario").value;
-        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}/${this.gasto.gastoId}`;
+        let usuario = document.getElementById("nombre_usuario").value;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
 
-        let formulary = event.currentTarget.form;
-        let descripcionNew = formulary.elements.descripcion.value;
-        let valorNew = parseFloat(formulary.elements.valor.value);
-        let fechaNew = formulary.elements.fecha.value;
-        let etiquetasNew = (formulary.elements.etiquetas.value).split(",");
+        let formulario = event.currentTarget.form;
     
         let gastoAPI = 
         {
-            descripcion: descripcionNew,                
-            valor: valorNew,
-            fecha: fechaNew,
-            etiquetas: etiquetasNew
+            descripcion: formulario.elements.descripcion.value,                
+            valor: parseFloat(formulario.elements.valor.value),
+            fecha: formulario.elements.fecha.value,
+            etiquetas: (formulario.elements.etiquetas.value).split(",")
         }
 
-        if (nombreUsuario != "")
+        if (usuario == "")
         {
             console.log("No hay el nombre");
         }
@@ -643,9 +610,9 @@ function EditarGastoApi()
                     headers:{'Content-Type': 'application/json;charset=utf-8'},
                     body: JSON.stringify(gastoAPI)
                 })
-        .then(resp =>
+        .then(response =>
         {
-            if(!resp.ok)
+            if(!response.ok)
             {
                 console.log('Error');
             }
@@ -659,6 +626,37 @@ function EditarGastoApi()
         }        
     }
 }
+
+//BOTON actualizarpresupuesto
+let actualizarpresupuesto = document.getElementById("actualizarpresupuesto");
+actualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
+
+//BOTON anyadirgasto
+let anyadirgasto = document.getElementById("anyadirgasto");
+anyadirgasto.addEventListener('click', nuevoGastoWeb);
+
+//BOTON nuevoGastoWebFormulario
+let anyadirgastoForm = document.getElementById("anyadirgasto-formulario");
+anyadirgastoForm.addEventListener('click', nuevoGastoWebFormulario);
+
+//BOTON ENVIAR a filtrarGastoWeb
+let eventFiltrGasto = new filtrarGastoWeb();
+let formFiltrGasto = document.getElementById('formulario-filtrado');
+formFiltrGasto.addEventListener('submit', eventFiltrGasto);
+
+//BOTON GUARDAR GASTOS
+let guardarGastos = new guardarGastoWeb();
+let saveGast = document.getElementById('guardar-gastos');
+saveGast.addEventListener('click', guardarGastos);
+
+//BOTON CARGAR GASTOS
+let cargarGastos = new cargarGastosWeb();
+let loadGast = document.getElementById('cargar-gastos');
+loadGast.addEventListener('click', cargarGastos);
+
+//BOTON CARGAR API
+let loadGastApi = document.getElementById('cargar-gastos-api');
+loadGastApi.addEventListener('click', cargarGastosApi);
 
 //********** NO TOCAR **************
 export   {
