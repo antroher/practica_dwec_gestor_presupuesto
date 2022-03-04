@@ -199,7 +199,7 @@ function mostrarGastosAgrupadosWeb( idElemento, agrup, periodo )
                     // Título de la gráfica
                     label: `Gastos por ${periodo}`,
                     // Color de fondo
-                    backgroundColor: "#555555",
+                    backgroundColor: "#33E9FF",
                     // Datos de la gráfica
                     // "agrup" contiene los datos a representar. Es uno de los parámetros de la función "mostrarGastosAgrupadosWeb".
                     data: agrup
@@ -229,33 +229,50 @@ function mostrarGastosAgrupadosWeb( idElemento, agrup, periodo )
 
 function repintar()
 {
-    
+    document.getElementById("presupuesto").innerHTML="";
+    document.getElementById("gastos-totales").innerHTML="";
+    document.getElementById("balance-total").innerHTML="";
+   
     mostrarDatoEnId("presupuesto", gestionPresupuesto.mostrarPresupuesto());
     mostrarDatoEnId("gastos-totales", gestionPresupuesto.calcularTotalGastos());
     mostrarDatoEnId("balance-total", gestionPresupuesto.calcularBalance());
-
+   
     document.getElementById("listado-gastos-completo").innerHTML = "";
+    gestionPresupuesto.listarGastos().forEach(p => {
+        mostrarGastoWeb("listado-gastos-completo", p);
+    });
 
-    let lGastos = gestionPresupuesto.listarGastos();
-    for(let gasto of lGastos)
-    {
-    mostrarGastoWeb("listado-gastos-completo", gasto);
-    }
+    document.getElementById("listado-gastos-filtrado-1").innerHTML="";
+    gestionPresupuesto.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"}).forEach(pr => {
+        mostrarGastoWeb("listado-gastos-filtrado-1",pr);
+    });
 
-    let pDia = "dia";
-    let gDia = gestionPresupuesto.agruparGastos(pDia);
-    mostrarGastosAgrupadosWeb("agrupacion-dia", gDia, "día");
+    document.getElementById("listado-gastos-filtrado-2").innerHTML = "";
+    gestionPresupuesto.filtrarGastos({valorMinimo: 50}).forEach(pr => {
+        mostrarGastoWeb("listado-gastos-filtrado-2", pr);
+    });
 
-    let pMes = "mes";
-    let gMes = gestionPresupuesto.agruparGastos(pMes);
-    mostrarGastosAgrupadosWeb("agrupacion-mes", gMes, "mes");
+    document.getElementById("listado-gastos-filtrado-3").innerHTML = "";
+    gestionPresupuesto.filtrarGastos({valorMinimo: 200, etiquetasTiene: ["seguros"]}).forEach(pr => {
+        mostrarGastoWeb("listado-gastos-filtrado-3", pr);
+    });
 
-    let pAnyo = "anyo";
-    let gAnyo = gestionPresupuesto.agruparGastos(pAnyo);
-    mostrarGastosAgrupadosWeb("agrupacion-anyo", gAnyo, "año");
+    document.getElementById("listado-gastos-filtrado-4").innerHTML = "";
+    gestionPresupuesto.filtrarGastos({valorMaximo: 50, etiquetasTiene: ["comida" , "transporte"]}).forEach(pr => {
+        mostrarGastoWeb("listado-gastos-filtrado-4", pr);
+    });
 
+    document.getElementById("agrupacion-dia").innerHTML="";
+    mostrarGastosAgrupadosWeb("agrupacion-dia", gestionPresupuesto.agruparGastos("dia"), "día");
+
+    document.getElementById("agrupacion-mes").innerHTML = "";
+    mostrarGastosAgrupadosWeb("agrupacion-mes", gestionPresupuesto.agruparGastos("mes"), "mes");
+
+    document.getElementById("agrupacion-anyo").innerHTML = "";
+    mostrarGastosAgrupadosWeb("agrupacion-anyo", gestionPresupuesto.agruparGastos("anyo"), "año");
 
 }
+
 
 
 function actualizarPresupuestoWeb() 
@@ -550,7 +567,7 @@ function EnviarGastoApi(event)
 
     if(usuario == "")
     {
-        console.log("El input del nombre de usuario esta vacio");
+        console.log("Nombre de usuario vacio");
     }
     
     else
@@ -603,7 +620,7 @@ function EditarGastoApi()
         }
 
         if(usuario == ""){
-            console.log("El input del nombre de usuario esta vacio");
+            console.log("Nombre de usuario vacio");
         } else {
             fetch(url, {
                 method: 'PUT', 
@@ -615,10 +632,10 @@ function EditarGastoApi()
             .then(response => {
                 
                 if(response.ok){
-                    console.log("Peticion de modificacion correcta");
+                    console.log("Modificacion correcta");
                     CargarGastosApi();
                 }else{
-                    console.log("Peticion de modificacion incorrecta");
+                    console.log("Modificacion INcorrecta");
                 }
             })
             .catch(err => console.error(err));
