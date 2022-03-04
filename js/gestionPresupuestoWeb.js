@@ -116,7 +116,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrupacion, periodo) {
         agrupacionDatoHTML.appendChild(agrupacionDatoClaveHTML);
         const agrupacionDatoValorHTML = document.createElement('span');
         agrupacionDatoValorHTML.className = 'agrupacion-dato-valor';
-        const agrupacionDatoValorText = document.createTextNode(agrupacion[agrupacionDato]);
+        const agrupacionDatoValorText = document.createTextNode(agrupacion[agrupacionDato].toFixed(2));
         agrupacionDatoValorHTML.appendChild(agrupacionDatoValorText);
         agrupacionDatoHTML.appendChild(agrupacionDatoValorHTML);
         agrupacionHTLM.appendChild(agrupacionDatoHTML);
