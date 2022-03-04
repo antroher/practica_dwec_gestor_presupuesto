@@ -257,8 +257,8 @@ function EditarHandle()
         let etique = prompt('Introduzca las etiquetas del gasto (lista separada por comas)');
         let separador = ',';
         let etiq = etique.split(separador);
-        this.gasto.actualizarValor(val);
         this.gasto.actualizarDescripcion(desc);
+        this.gasto.actualizarValor(val);        
         this.gasto.actualizarFecha(fec);
         this.gasto.anyadirEtiquetas(...etiq);
         repintar();
@@ -320,15 +320,17 @@ function EnviarFormularioHandle() //PRACTICA 6 - a y b
     {
         event.preventDefault();
         let accesoEnv = event.currentTarget;
-        let desc = accesoEnv.descripcion.value;
-        let val = parseFloat(accesoEnv.valor.value);
-        let fec = accesoEnv.fecha.value;
-        let etique = accesoEnv.etiquetas.value;       
+        let desc = accesoEnv.elements.descripcion.value;
+        let val = parseFloat(accesoEnv.elements.valor.value);
+        let fec = accesoEnv.elements.fecha.value;
+        let etique = accesoEnv.elements.etiquetas.value;       
 
         let gastoEnv = new gestionPresupuesto.CrearGasto(desc, val, fec, etique);
         gestionPresupuesto.anyadirGasto(gastoEnv);      
 
         repintar();
+
+        event.currentTarget.remove();
 
         document.getElementById("anyadirgasto-formulario").disabled = false;
     }    
@@ -358,10 +360,10 @@ function EditarHandleFormulario() //PRACTICA 6 - c y d
         accesoEditForm.append(formulario);
         accesoEditForm.disabled = true;
 
-        formulario.descripcion.value = this.gasto.descripcion;
-        formulario.valor.value = parseFloat(this.gasto.valor);
-        formulario.fecha.value = new Date(this.gasto.fecha).toISOString().substr(0,10);
-        formulario.etiquetas.value = this.gasto.etiquetas; 
+        formulario.elements.descripcion.value = this.gasto.descripcion;
+        formulario.elements.valor.value = parseFloat(this.gasto.valor);
+        formulario.elements.fecha.value = new Date(this.gasto.fecha).toISOString().substring(0,10);
+        formulario.elements.etiquetas.value = this.gasto.etiquetas.toString(); 
 
         //Boton Enviar
         let enviarFormulario = new EnviarHandle();
@@ -379,6 +381,41 @@ function EditarHandleFormulario() //PRACTICA 6 - c y d
         editarFormularioApi.gasto = this.gasto;
         botonEditarFormularioApi.addEventListener('click', editarFormularioApi);
     }
+    /*
+    this.handleEvent = function(event) 
+    {
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+        var formulario = plantillaFormulario.querySelector("form");
+
+        let divContrPrinc = document.getElementById("controlesprincipales");
+        divContrPrinc.append(formulario);
+
+        let accesoEditForm = event.currentTarget;
+        accesoEditForm.append(formulario);
+        accesoEditForm.disabled = true;
+
+        formulario.elements.descripcion.value = this.gasto.descripcion;
+        formulario.elements.valor.value = parseFloat(this.gasto.valor);
+        formulario.elements.fecha.value = new Date(this.gasto.fecha).toISOString().substring(0,10);
+        formulario.elements.etiquetas.value = this.gasto.etiquetas.toString(); 
+
+        //Boton Enviar
+        let enviarFormulario = new EnviarHandle();
+        enviarFormulario.gasto = this.gasto;
+        formulario.addEventListener('submit', enviarFormulario);
+
+        //Boton Cancelar
+        let cancelarFormulario = new CancelarFormularioHandle();
+        let botonCancelarFormulario = formulario.querySelector("button.cancelar");
+        botonCancelarFormulario.addEventListener('click', cancelarFormulario);
+
+        //Boton Editar Api -> PRACTICA 9
+        let editarFormularioApi = new EditarGastoApi();
+        let botonEditarFormularioApi = formulario.querySelector("button.gasto-enviar-api");
+        editarFormularioApi.gasto = this.gasto;
+        botonEditarFormularioApi.addEventListener('click', editarFormularioApi);
+    }
+    */
 }
 
 function EnviarHandle() //PRACTICA 6 - c y d
@@ -388,16 +425,16 @@ function EnviarHandle() //PRACTICA 6 - c y d
         event.preventDefault();
         let accesoEnvH = event.currentTarget;
         
-        let desc = accesoEnvH.descripcion.value;
+        let desc = accesoEnvH.elements.descripcion.value;
         this.gasto.actualizarDescripcion(desc);
 
-        let val = parseFloat(accesoEnvH.valor.value);
+        let val = parseFloat(accesoEnvH.elements.valor.value);
         this.gasto.actualizarValor(val);
 
-        let fec = accesoEnvH.fecha.value;
+        let fec = accesoEnvH.elements.fecha.value;
         this.gasto.actualizarFecha(fec);
 
-        let etique = accesoEnvH.etiquetas.value; 
+        let etique = accesoEnvH.elements.etiquetas.value; 
         this.gasto.anyadirEtiquetas(etique);           
 
         repintar();
