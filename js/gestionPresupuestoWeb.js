@@ -56,7 +56,7 @@ function mostrarGastoWeb(idElemento, gasto)
 
     elemento.append(divG);
 
-    if (idElemento === 'listado-gastos-completo')
+    if (idElemento == 'listado-gastos-completo')
     {
         //boton editar
         let botonEditar = document.createElement('button');
@@ -68,7 +68,8 @@ function mostrarGastoWeb(idElemento, gasto)
         let editarNew = new EditarHandle();
         editarNew.gasto = gasto;
 
-        botonEditar.addEventListener('click', editarNew);    
+        botonEditar.addEventListener('click', editarNew); 
+        divG.append(botonEditar);   
 
         //boton borrar
         let botonBorrar = document.createElement('button');
@@ -81,9 +82,9 @@ function mostrarGastoWeb(idElemento, gasto)
         borrarNew.gasto = gasto;
 
         botonBorrar.addEventListener('click', borrarNew);
-
-        let gastoActual = document.getElementById(gasto.id);
-        gastoActual.append(botonEditar,botonBorrar);    
+        divG.append(botonBorrar);
+        //let gastoActual = document.getElementById(gasto.id);
+        //gastoActual.append(botonEditar,botonBorrar);    
 
         //boton borrar API -> PRACTICA 9
         let botonBorrarApi = document.createElement('button');
@@ -96,7 +97,8 @@ function mostrarGastoWeb(idElemento, gasto)
         borrarApiNew.gasto = gasto;
 
         botonBorrarApi.addEventListener('click', borrarApiNew);
-        gastoActual.append(botonBorrarApi);
+        divG.append(botonBorrarApi);
+        //gastoActual.append(botonBorrarApi);
 
         //boton editar formulario -> PRACTICA 6
         let botonEditForm = document.createElement('button');
@@ -108,8 +110,9 @@ function mostrarGastoWeb(idElemento, gasto)
         let editarFormNew = new EditarHandleFormulario();
         editarFormNew.gasto = gasto;
 
-        botonEditForm.addEventListener('click', editarFormNew); 
-        gastoActual.append(botonEditForm);        
+        botonEditForm.addEventListener('click', editarFormNew);
+        divG.append(botonEditForm);
+        //gastoActual.append(botonEditForm);        
     }      
 }
 
