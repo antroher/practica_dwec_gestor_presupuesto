@@ -17,7 +17,7 @@ function actualizarPresupuesto(newPresupuesto) {
         console.log("Error. Valor introducido no valido.");
         newValor = -1;
     }
-    return newValor.toFixed;
+    return newValor;
 }
 
 function mostrarPresupuesto() {
