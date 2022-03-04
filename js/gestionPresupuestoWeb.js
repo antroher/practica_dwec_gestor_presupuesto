@@ -111,7 +111,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrupacion, periodo) {
         agrupacionDatoHTML.className = 'agrupacion-dato';
         const agrupacionDatoClaveHTML = document.createElement('span');
         agrupacionDatoClaveHTML.className = 'agrupacion-dato-clave';
-        const agrupacionDatoClaveText = document.createTextNode(agrupacionDato);
+        const agrupacionDatoClaveText = document.createTextNode(agrupacionDato + " ");
         agrupacionDatoClaveHTML.appendChild(agrupacionDatoClaveText);
         agrupacionDatoHTML.appendChild(agrupacionDatoClaveHTML);
         const agrupacionDatoValorHTML = document.createElement('span');
@@ -212,14 +212,9 @@ function repintar() {
         mostrarGastoWeb("listado-gastos-filtrado-4",gastoFiltrado);
     });
     
-    document.getElementById("agrupacion-dia").innerHTML="";
-    mostrarGastosAgrupadosWeb("agrupacion-dia",gp.agruparGastos("dia"),"día");
-
-    document.getElementById("agrupacion-mes").innerHTML="";
-    mostrarGastosAgrupadosWeb("agrupacion-mes",gp.agruparGastos("mes"),"mes");
-
-    document.getElementById("agrupacion-anyo").innerHTML="";
-    mostrarGastosAgrupadosWeb("agrupacion-anyo",gp.agruparGastos("anyo"),"año");
+    mostrarGastosAgrupadosWeb('agrupacion-dia', gestionPresupuesto.agruparGastos('dia'), 'día');
+    mostrarGastosAgrupadosWeb('agrupacion-mes', gestionPresupuesto.agruparGastos('mes'), 'mes');
+    mostrarGastosAgrupadosWeb('agrupacion-anyo', gestionPresupuesto.agruparGastos('anyo'), 'año');
 
 }
 
