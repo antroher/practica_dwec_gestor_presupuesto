@@ -11,10 +11,10 @@ let botonAnyadirGastoFormulario = document.getElementById("anyadirgasto-formular
 botonAnyadirGastoFormulario.addEventListener('click', nuevoGastoWebFormulario);
 
 let botonGuardarGastos = document.getElementById("guardar-gastos");
-botonGuardarGastos.addEventListener('click', new guardarGastosWeb());
+botonGuardarGastos.addEventListener('click', new guardarGastosWeb);
 
 let botonCargarGastos = document.getElementById("cargar-gastos");
-botonCargarGastos.addEventListener('click', new cargarGastosWeb());
+botonCargarGastos.addEventListener('click', new cargarGastosWeb);
 
 let formularioFiltrado = document.getElementById("formulario-filtrado");
 
@@ -22,7 +22,7 @@ let eventoFiltrarGastoWeb = new filtrarGastosWeb();
 formularioFiltrado.addEventListener("submit", eventoFiltrarGastoWeb);
 
 let botonCargarGastosApi = document.getElementById("cargar-gastos-api");
-botonCargarGastosApi.addEventListener('click', new cargarGastosApi());
+botonCargarGastosApi.addEventListener('click', new cargarGastosApi);
 
 function nuevoGastoWebFormulario(){
     
@@ -513,6 +513,11 @@ function cargarGastosApi(){
     {
         alert('No has introducido usuario');
     }
+    document.getElementById("listado-gastos-filtrado-1").innerHTML="";
+    document.getElementById("listado-gastos-filtrado-2").innerHTML="";
+    document.getElementById("listado-gastos-filtrado-3").innerHTML="";
+    document.getElementById("listado-gastos-filtrado-4").innerHTML="";
+    repintar();
 }
 
 function BorrarAPIHandle()
