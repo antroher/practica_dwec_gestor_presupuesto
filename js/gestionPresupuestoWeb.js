@@ -1,5 +1,5 @@
 'use strict';
-import * as gestionPresupuesto from './gestionPresupuesto.js'
+import * as metodosGastos from './gestionPresupuesto.js'
 
 let botonActualizar = document.getElementById('actualizarpresupuesto')
 botonActualizar.onclick = actualizarPresupuestoWeb;
