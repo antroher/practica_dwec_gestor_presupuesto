@@ -338,7 +338,7 @@ function EditarHandleFormulario() //PRACTICA 6 - c y d
         //divContrPrinc.append(formulario);
 
         let botonEditForm  = event.currentTarget;
-        botonEditForm.append(formulario);
+        botonEditForm.after(formulario);
         botonEditForm.disabled = true;
 
         formulario.elements.descripcion.value = this.gasto.descripcion;
