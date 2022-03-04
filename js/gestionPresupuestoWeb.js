@@ -4,13 +4,13 @@ import * as gestionPresupuesto from './gestionPresupuesto.js';
 function mostrarDatoEnId(valor, idElemento) {
     if (idElemento != null){
         let elememento = document.getElementById(idElemento);
-        elememento.innerHTML+= "" + valor;
+        elememento.innerHTML+= " " + valor;
     }
 }
 
 //aqui gasto es un array, con lo que habria que cambiarlo y meterlo todo dentro de una iteracción
 function mostrarGastoWeb(idElemento, gasto){
-    if (idElemento !== undefined) {
+    if (idElemento != null) {
         let elem = document.getElementById(idElemento);
 
         let divgasto = document.createElement("div");
@@ -213,13 +213,13 @@ function repintar() {
     });
     
     document.getElementById("agrupacion-dia").innerHTML="";
-    mostrarGastosAgrupadosWeb("agrupacion-dia",gestionPresupuesto.agruparGastos("dia"),"día");
+    mostrarGastosAgrupadosWeb("agrupacion-dia",gp.agruparGastos("dia"),"día");
 
     document.getElementById("agrupacion-mes").innerHTML="";
-    mostrarGastosAgrupadosWeb("agrupacion-mes",gestionPresupuesto.agruparGastos("mes"),"mes");
+    mostrarGastosAgrupadosWeb("agrupacion-mes",gp.agruparGastos("mes"),"mes");
 
     document.getElementById("agrupacion-anyo").innerHTML="";
-    mostrarGastosAgrupadosWeb("agrupacion-anyo",gestionPresupuesto.agruparGastos("anyo"),"año");
+    mostrarGastosAgrupadosWeb("agrupacion-anyo",gp.agruparGastos("anyo"),"año");
 
 }
 
