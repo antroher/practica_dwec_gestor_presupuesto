@@ -30,11 +30,11 @@ function mostrarGastoWeb(idElemento, gasto) {
 
     let divDesc = document.createElement("div");
     divDesc.className = "gasto-descripcion";
-    divDesc.textContent = `${gasto.descripcion}`;
+    divDesc.textContent = `${gasto.descripcion}`;      
 
-    let divFech = document.createElement("div");
+    let divFech = document.createElement("div");        
     divFech.className = "gasto-fecha";
-    divFech.textContent = `${gasto.fecha}`;
+    divFech.textContent = new Date(gasto.fecha).toLocaleString();              //  <--------------------------------------------
 
     let divVal = document.createElement("div");
     divVal.className = "gasto-valor";
@@ -217,6 +217,12 @@ function repintar() {
     mostrarGastosAgrupadosWeb("agrupacion-dia", gestionP.agruparGastos("dia"), "día");
     mostrarGastosAgrupadosWeb("agrupacion-mes", gestionP.agruparGastos("mes"), "mes");
     mostrarGastosAgrupadosWeb("agrupacion-anyo", gestionP.agruparGastos("anyo"), "año");
+
+    // Limpiar divs de gastos filtrados
+    document.getElementById("listado-gastos-filtrado-1").innerHTML = "";      //  <----------     CORRECCIONES FINALES   ------------------------------
+    document.getElementById("listado-gastos-filtrado-2").innerHTML = "";
+    document.getElementById("listado-gastos-filtrado-3").innerHTML = "";  
+    document.getElementById("listado-gastos-filtrado-4").innerHTML = "";  
 
 
     // Borrar el contenido de div#listado-gastos-completo y repintar
