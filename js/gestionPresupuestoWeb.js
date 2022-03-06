@@ -633,7 +633,7 @@ function EditarGastoApi()
         let usuario = document.getElementById("nombre_usuario").value;
         let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
 
-        let formulario = e.currentTarget.form;
+        let formulario = event.currentTarget.form;
         let descripcionNew = formulario.elements.descripcion;
         let valorNew = parseFloat(formulario.elements.valor);
         let fechaNew = formulario.elements.fecha;
@@ -649,7 +649,7 @@ function EditarGastoApi()
 
         if(usuario == '')
         {
-            console.log('No hay el nombre del usuario')
+            console.log('No está el nombre del usuario')
         }
         else 
         {
