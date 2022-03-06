@@ -181,7 +181,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
     divP.append(chart);
 }
 
-function repintar()
+function repintar(flagApi)
 {
     document.getElementById('presupuesto').innerHTML='';
     mostrarDatoEnId('presupuesto', gestionPresupuesto.mostrarPresupuesto());
@@ -209,6 +209,14 @@ function repintar()
 
     let AnyoG = gestionPresupuesto.agruparGastos("anyo");
     mostrarGastosAgrupadosWeb("agrupacion-anyo", AnyoG, "año");
+
+    if(flagApi)
+    {
+        document.getElementById("listado-gastos-filtrado-1").innerHTML = "";
+        document.getElementById("listado-gastos-filtrado-2").innerHTML = "";
+        document.getElementById("listado-gastos-filtrado-3").innerHTML = "";
+        document.getElementById("listado-gastos-filtrado-4").innerHTML = "";
+    }
 }
 
 function actualizarPresupuestoWeb()
@@ -481,6 +489,8 @@ function cargarGastosApi()
 {
     let usuario = document.getElementById("nombre_usuario").value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
+
+    let flagApi = true;
     
     if (usuario != '')
     {
@@ -495,7 +505,7 @@ function cargarGastosApi()
             else 
             {
                 gestionPresupuesto.cargarGastos(result);
-                repintar();
+                repintar(flagApi);
             }
         })
         .catch(err => console.error(err));        
