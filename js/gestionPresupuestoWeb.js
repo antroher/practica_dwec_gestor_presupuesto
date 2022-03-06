@@ -299,13 +299,14 @@ function nuevoGastoWebFormulario() //PRACTICA 6 - a y b
     formulario.addEventListener('submit', enviar);
 
     //Boton Cancelar
-    let cancelar = new CancelarFormularioHandle();
-    let botonCancelar = formulario.querySelector("button.cancelar");
-    botonCancelar.addEventListener('click', cancelar);
+   let botonCancelar = formulario.querySelector("button.cancelar");
+   let cancelar = new CancelarFormularioHandle();
+   cancelar.botonAnyadir = botonAnyadir;
+   botonCancelar.addEventListener('click', cancelar);
 
     //Boton Enviar Api - PRACTICA 9 
     let botonEnviarApi = formulario.querySelector("button[class='gasto-enviar-api']");
-    botonEnviarApi.addEventListener('click', EnviarGastoApi)
+    botonEnviarApi.addEventListener('click', enviarGastoApi)
 }
 
 //BOTON nuevoGastoWebFormulario
@@ -502,33 +503,31 @@ loadGast.addEventListener('click', eventLoadGasto);
 
 function cargarGastosApi ()
 {
-    let usuario = document.getElementById("nombre_usuario");
+    let usuario = document.getElementById("nombre_usuario").value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
     
-    if (usuario == '')
-    {
-        console.log('No hay el nombre del usuario');
-    }
-    else
+    if (usuario != '')
     {
         fetch (url, {method: 'GET'})
         .then(response => response.json())
         .then((result) => 
         {
-            let resp = result;
-            if (resp == '')
+            if (result == '')
             {
-                console.log('No hay el nombre del usuario');
+                console.log('No está el nombre del usuario');
             }
             else 
             {
-                gestionPresupuesto.cargarGastos(resp);
+                gestionPresupuesto.cargarGastos(result);
                 repintar();
             }
         })
-        .catch(error => console.error(error));
+        .catch(err => console.error(err));        
     }
-    repintar();
+    else
+    {
+       console.log('No está el nombre del usuario');
+    }
 
 }
 
@@ -540,12 +539,12 @@ function borrarGastoApiHandle()
 {
     this.handleEvent = function(event)
     {
-        let usuario = document.getElementById('nombre_usuario');
+        let usuario = document.getElementById('nombre_usuario').value;
         let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
 
         if(usuario == "")
         {
-            console.log('No hay el nombre del usuario');
+            console.log('No está el nombre del usuario');
         }
         else
         {
