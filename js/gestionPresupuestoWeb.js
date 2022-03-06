@@ -528,6 +528,8 @@ function cargarGastosApi ()
         })
         .catch(error => console.error(error));
     }
+    repintar();
+
 }
 
 //BOTON CARGAR API
@@ -567,49 +569,51 @@ function borrarGastoApiHandle()
 
 function enviarGastoApi(event)
 {
-    let usuario = document.getElementById('nombre_usuario');
+
+    let usuario = document.getElementById('nombre_usuario').value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
 
-    let formulario = e.currentTarget.form;
-    let descripcionNew = formulario.elements.descripcion;
-    let valorNew = parseFloat(formulario.elements.valor);
-    let fechaNew = formulario.elements.fecha;
-    let etiquetasNew = (formulario.elements.etiquetas).split(',');
-
-    let nuevoG = 
+    let formulario = event.currentTarget.form;
+    
+    let gastoApi = 
     {
-        descripcion: descripcionNew,
-        fecha: fechaNew,
-        valor: valorNew,
-        etiquetas: etiquetasNew
+        descripcion: formulario.descripcion.value,
+        valor: parseFloat(formulario.valor.value),
+        fecha: formulario.fecha.value,
+        etiquetas: formulario.etiquetas.value.split(","),
     }
 
-    if(usuario == '')
+    if (usuario == "")
     {
-        console.log('No hay el nombre del usuario')
+        console.log("El input del nombre de usuario está vacio");
     }
     else 
     {
-        fetch(url, {
-            method: 'POST', 
-            body: JSON.stringify(nuevoG),
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => 
-        {
-            if (response.ok)
+        fetch(url,
             {
+                method: 'POST',
+                headers: 
+                {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(gastoApi),                    
+            }
+        )
+        .then(response =>
+        {
+            if(response.ok)
+            {
+                console.log("Correcto");
                 cargarGastosApi();
             }
-            else
+            else 
             {
-                console.log('Error');
+                console.log("Error");
             }
-        })
-        .catch(error => console.error(error));
-    }    
+        }) 
+        .catch(err => console.error(err));
+    }
+    
 }
 
 function EditarGastoApi()
