@@ -91,19 +91,22 @@ function mostrarGastoWeb(idElemento, gasto)
         borrarApiNew.gasto = gasto;
 
         botonBorrarApi.addEventListener('click', borrarApiNew);
-        gastoActual.append(botonBorrarApi);
+        divG.append(botonBorrarApi);
+        //gastoActual.append(botonBorrarApi);
 
         //boton editar formulario -> PRACTICA 6
         let botonEditForm = document.createElement('button');
         botonEditForm.className += 'gasto-editar-formulario';
+        botonEditForm.id = "gasto-editar-formulario";
         botonEditForm.textContent = 'Editar (formulario)';
         botonEditForm.type = 'button';
 
         let editarFormNew = new EditarHandleFormulario();
         editarFormNew.gasto = gasto;
 
-        botonEditForm.addEventListener('click', editarFormNew); 
-        gastoActual.append(botonEditForm);        
+        botonEditForm.addEventListener('click', editarFormNew);
+        divG.append(botonEditForm);
+        //gastoActual.append(botonEditForm);            
     }      
 }
 
