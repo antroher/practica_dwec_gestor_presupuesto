@@ -391,11 +391,11 @@ function agruparGastos(periodo = "mes", etiquetas1=[], fechaDesde1="", fechaHast
     return result;
 }
 
-function transformarListadoEtiquetas(etiqueta){
-
-    let etiquetas = etiqueta.match(/[a-zA-Z0-9]+/gi);
-    return etiquetas;
-
+//PRACTICA 7
+function transformarListadoEtiquetas(etiqueta)
+{
+    let ArrayEtiquetas = etiqueta.match(/[a-zA-Z0-9]+/gi);
+    return ArrayEtiquetas;
 }
 
 //Practica 8
