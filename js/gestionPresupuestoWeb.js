@@ -303,9 +303,9 @@ function nuevoGastoWebFormulario() //PRACTICA 6 - a y b
     let botonCancelar = formulario.querySelector("button.cancelar");
     botonCancelar.addEventListener('click', cancelar);
 
-    //Boton Enviar Api - PRACTICA 9
-    let botonEnviarApi = formulario.querySelector("button.gasto-enviar-api");
-    botonEnviarApi.addEventListener('click', enviarGastoApi)
+    //Boton Enviar Api - PRACTICA 9 
+    let botonEnviarApi = formulario.querySelector("button[class='gasto-enviar-api']");
+    botonEnviarApi.addEventListener('click', EnviarGastoApi)
 }
 
 //BOTON nuevoGastoWebFormulario
@@ -350,8 +350,8 @@ function EditarHandleFormulario() //PRACTICA 6
         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
         var formulario = plantillaFormulario.querySelector("form");
 
-        let divContrPrinc = document.getElementById("controlesprincipales");
-        divContrPrinc.append(formulario);
+       // let divContrPrinc = document.getElementById("controlesprincipales");
+        //divContrPrinc.append(formulario);
 
         let accesoEditForm = event.currentTarget;
         accesoEditForm.append(formulario);
@@ -372,12 +372,12 @@ function EditarHandleFormulario() //PRACTICA 6
         let botonCancelarFormulario = formulario.querySelector("button.cancelar");
         botonCancelarFormulario.addEventListener('click', cancelarFormulario);
 
-        //Boton Editar Api -> PRACTICA 9
-        let editarFormularioApi = new EditarGastoApi();
-        let botonEditarFormularioApi = formulario.querySelector("button.gasto-enviar-api");
-        editarFormularioApi.gasto = this.gasto;
-        botonEditarFormularioApi.addEventListener('click', editarFormularioApi);
-    }
+         //Boton Editar Api -> PRACTICA 9
+         let editarFormularioApi = new EditarGastoApi();
+         let botonEditarFormularioApi = formulario.querySelector("button.gasto-enviar-api");
+         editarFormularioApi.gasto = this.gasto;
+         botonEditarFormularioApi.addEventListener('click', editarFormularioApi);
+     }
 }
 
 function EnviarHandle() //PRACTICA 6 
