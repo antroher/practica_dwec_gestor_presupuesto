@@ -188,7 +188,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo)
 
 }
 
-function repintar()
+function repintar(flagApi)
 {
     document.getElementById('presupuesto').innerHTML='';
     mostrarDatoEnId('presupuesto', gestionPresupuesto.mostrarPresupuesto());
@@ -216,6 +216,14 @@ function repintar()
 
     let AnyoG = gestionPresupuesto.agruparGastos("anyo");
     mostrarGastosAgrupadosWeb("agrupacion-anyo", AnyoG, "año");
+
+    if(flagApi)
+    {
+        document.getElementById("listado-gastos-filtrado-1").innerHTML = "";
+        document.getElementById("listado-gastos-filtrado-2").innerHTML = "";
+        document.getElementById("listado-gastos-filtrado-3").innerHTML = "";
+        document.getElementById("listado-gastos-filtrado-4").innerHTML = "";
+    }
 }
 
 function actualizarPresupuestoWeb()
