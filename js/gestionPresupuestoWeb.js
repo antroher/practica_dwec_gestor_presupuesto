@@ -303,21 +303,22 @@ function nuevoGastoWebFormulario() //PRACTICA 6 - a y b
     divContrPrinc.append(formulario);
 
     //Para desactivar boton
-    document.getElementById("anyadirgasto-formulario").disabled = true;
+    let botonAnyadir = document.getElementById("anyadirgasto-formulario");
+    botonAnyadir.disabled = true;
 
     //Boton Enviar
     let enviar = new EnviarFormularioHandle();
     formulario.addEventListener('submit', enviar);
 
     //Boton Cancelar
-   let botonCancelar = formulario.querySelector("button.cancelar");
-   let cancelar = new CancelarFormularioHandle();
-   cancelar.botonAnyadir = botonAnyadir;
-   botonCancelar.addEventListener('click', cancelar);
+    let botonCancelar = formulario.querySelector("button.cancelar");
+    let cancelar = new CancelarFormularioHandle();
+    cancelar.botonAnyadir = botonAnyadir;
+    botonCancelar.addEventListener('click', cancelar);
 
-    //Boton Enviar Api - PRACTICA 9 
+    //Boton Enviar Api - PRACTICA 9    
     let botonEnviarApi = formulario.querySelector("button[class='gasto-enviar-api']");
-    botonEnviarApi.addEventListener('click', enviarGastoApi)
+    botonEnviarApi.addEventListener('click', EnviarGastoApi)
 }
 
 //BOTON nuevoGastoWebFormulario
@@ -516,6 +517,8 @@ function cargarGastosApi ()
 {
     let usuario = document.getElementById("nombre_usuario").value;
     let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
+
+    let flagApi = true;
     
     if (usuario != '')
     {
@@ -530,7 +533,7 @@ function cargarGastosApi ()
             else 
             {
                 gestionPresupuesto.cargarGastos(result);
-                repintar();
+                repintar(flagApi);
             }
         })
         .catch(err => console.error(err));        
@@ -539,7 +542,6 @@ function cargarGastosApi ()
     {
        console.log('No está el nombre del usuario');
     }
-
 }
 
 //BOTON CARGAR API
