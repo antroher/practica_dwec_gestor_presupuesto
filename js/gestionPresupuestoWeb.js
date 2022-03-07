@@ -127,7 +127,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
         "<span class='agrupacion-dato-clave'>" + res + "</span>\n" +
         "<span class='agrupacion-dato-valor'>" + agrup[res] + "</span>\n"+
         "</div>\n";
-}
+    }
 
     cad += "</div>\n";
     divP.innerHTML += cad;
@@ -205,9 +205,43 @@ function repintar(){
 
 
     let listadoGastoCompletos = gestionPresupuesto.listarGastos();
+    document.getElementById('listado-gastos-completo').innerHTML='';
     for (let elem of listadoGastoCompletos){
         mostrarGastoWeb('listado-gastos-completo',elem);
     }
+
+    //gastos filtrados
+        let obj,gastoFiltrado,etiq;
+        //mostrar los gastos de septiembre de 2021 id=listado-gastos-filtrado-1
+        document.getElementById('listado-gastos-filtrado-1').innerHTML="";
+        obj = {fechaDesde : "2021-09-01", fechaHasta:"2021-09-30"};
+        gastoFiltrado = gestionPresupuesto.filtrarGastos(obj);
+        for( let key of gastoFiltrado){
+            mostrarGastoWeb('listado-gastos-filtrado-1',key);
+        }
+        //mostrar los gastos mas de 50 id=listado-gastos-filtrado-2
+        document.getElementById('listado-gastos-filtrado-2').innerHTML="";
+        obj = {valorMinimo : 50};
+        gastoFiltrado = gestionPresupuesto.filtrarGastos(obj);
+        for( let key of gastoFiltrado){
+            mostrarGastoWeb('listado-gastos-filtrado-2',key);
+        }    
+        //mostrar los gastos mas de 200 con etiq seguros id=listado-gastos-filtrado-3
+        document.getElementById('listado-gastos-filtrado-3').innerHTML="";
+        etiq = ["seguros"];
+        obj = {valorMinimo : 200, etiquetasTiene:etiq};
+        gastoFiltrado = gestionPresupuesto.filtrarGastos(obj);
+        for( let key of gastoFiltrado){
+            mostrarGastoWeb('listado-gastos-filtrado-3',key);
+        }    
+        //mostrar los gastos menos de 50 con etiq comida o transporte id=listado-gastos-filtrado-4
+        document.getElementById('listado-gastos-filtrado-4').innerHTML="";
+        etiq = ["comida", "transporte"];
+        obj = {valorMaximo : 50, etiquetasTiene:etiq};
+        gastoFiltrado = gestionPresupuesto.filtrarGastos(obj);
+        for( let key of gastoFiltrado){
+            mostrarGastoWeb('listado-gastos-filtrado-4',key);
+        }
 
     let periodo = "dia";
     let gasto = gestionPresupuesto.agruparGastos(periodo);
