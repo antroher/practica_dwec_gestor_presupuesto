@@ -55,13 +55,15 @@ function mostrarGastoWeb(idElemento,gastos){
         let evBorrarAPI = new BorrarAPIHandle();
         evBorrarAPI.gasto = gasto;
 
-        let btnBorrarAPI = document.createElement("button");
-        btnBorrarAPI.className = "gasto-borrar-api";
-        btnBorrarAPI.type = "button";
-        btnBorrarAPI.textContent = "Borrar (API)";
+         //boton borrar API -> PRACTICA 9
 
-        btnBorrarAPI.addEventListener('click', evBorrarAPI);
+         let botonBorrarApi = document.createElement('button');
+         botonBorrarApi.className += 'gasto-borrar-api';
+         botonBorrarApi.id = "gasto-borrar-api";
+         botonBorrarApi.textContent = 'Borrar (API)';
+         botonBorrarApi.type = 'button';
 
+       
         let botonEditarForm = document.createElement("button");
         botonEditarForm.setAttribute('id', `gasto-editar-formulario-${gasto.id}`)
         botonEditarForm.className += 'gasto-editar-formulario';
@@ -416,34 +418,32 @@ function cargarGastosWeb(){
 
 function BorrarAPIHandle()
 {
-    this.handleEvent = function(e)
+    this.handleEvent = function(event)
     {
         let usuario = document.getElementById('nombre_usuario').value;
-        let direccion =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}/${this.gasto.gastoId}`;
+        let direccion =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
 
         if(usuario != '')
         {
-            fetch(direccion, 
+            fetch(url, {method: 'DELETE'})
+            .then(response => response.json())
+            .then(resp => 
             {
-                method: "DELETE",
-            })
-            .then(function(resp)
-            {
-                if(!resp.ok)
+                if(!resp.errorMessage)
                 {
-                    alert("Error "+ resp.status +": no existe el id de ese gasto");
+                    console.log('gasto borrado');
+                    cargarGastosApi;                    
                 }
                 else
                 {
-                    alert("GASTO BORRADO");
-                    cargarGastosApi();
+                    console.log('Error')
                 }
             })
-            .catch(err => alert(err));
-        }
+            .catch(err => console.error(err))
+        }   
         else
         {
-            alert('Falta nombre usuario');
+            console.log('Introduce un usuario');
         }
     }
 }
@@ -452,53 +452,48 @@ function BorrarAPIHandle()
 
 function enviarAPIHandle()
 {
-    let Nomusuario = document.getElementById('nombre_usuario').value;
-    let direccion =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${NUsuario}`;    
+    let usuario = document.getElementById('nombre_usuario').value;
+    let direccion =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;    
 
-    if(Nomusuario != '')
+    let formulario = event.currentTarget.form;
+        
+    let gastoApi = 
     {
-        var form = document.querySelector("#controlesprincipales form");
-        let descrip = form.elements.descripcion.value;
-        let val = form.elements.valor.value;
-        let fech = form.elements.fecha.value;
-        let etiqueta = form.elements.etiquetas.value;
+        descripcion: formulario.descripcion.value,
+        valor: parseFloat(formulario.valor.value),
+        fecha: formulario.fecha.value,
+        etiquetas: formulario.etiquetas.value.split(","),
+    }
 
-        val = parseFloat(val);
-        etiqueta = etiqueta.split(',');
-
-        let gastoAPI =
-        {
-            descripcion: descrip,
-            valor: val,
-            fecha: fech,
-            etiquetas: etiqueta
-        };
-
-        fetch(direccion, {
-            method: "POST",
-            headers:
+    if (usuario == "")
+    {
+        console.log("El input del nombre de usuario está vacio");
+    }
+    else 
+    {
+        fetch(url,
             {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(gastoAPI)
-    })
-    .then(function(resp)
-    {
-        if(!resp.ok)
+                method: 'POST',
+                headers: 
+                {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(gastoApi),                    
+            }
+        )
+        .then(response =>
         {
-            alert("Error "+resp.status+": no se creo el gasto");
-        }
-        else
-        {
-            alert("Gasto creado");
-            cargarGastosApi();
-        }
-    })
-    .catch(err => alert(err));         
-}
-    else
-    {
-        alert('Falta nombre usuario');
+            if(response.ok)
+            {
+                console.log("Correcto");
+                cargarGastosApi();
+            }
+            else 
+            {
+                console.log("Error");
+            }
+        }) 
+        .catch(err => console.error(err));
     }
 }
 
@@ -560,23 +555,32 @@ function ActualizarAPIHandle()
 //Función cargarGastosApi
 
 function cargarGastosApi(){
-    let NomUsuario = document.querySelector("#nombre_usuario").value;
-    let direccion = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${NomUsuario}`;
+    let usuario = document.getElementById("nombre_usuario").value;
+    let direccion = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
     
-    if (NomUsuario != '') {
-        fetch(direccion, {
-            method: 'GET'
-        })
-            .then(resp => resp.json())
-            .then(function(gastosAPI)
+    let flagApi = true;
+    
+    if (usuario != '')
+    {
+        fetch (direccion, {method: 'GET'})
+        .then(response => response.json())
+        .then((result) => 
+        {
+            if (result == '')
             {
-    
-                gestionPresupuesto.cargarGastos(gastosAPI);
-                repintar();
-            })
-            .catch(err => alert(err));
-    }else{
-        alert('Falta nombre usuario');
+                console.log('No hay el nombre del usuario');
+            }
+            else 
+            {
+                gestionPresupuesto.cargarGastos(result);
+                repintar(flagApi);
+            }
+        })
+        .catch(err => console.error(err));        
+    }
+    else
+    {
+       console.log('No hay el nombre del usuario');
     }
 }
 
@@ -591,6 +595,7 @@ document.getElementById("formulario-filtrado").addEventListener("submit", filtra
 document.getElementById("guardar-gastos").addEventListener("click", guardarGastosWeb);
 document.getElementById("cargar-gastos").addEventListener("click", cargarGastosWeb);
 
+//Boton
 export{
   mostrarDatoEnId,
   mostrarGastoWeb,
