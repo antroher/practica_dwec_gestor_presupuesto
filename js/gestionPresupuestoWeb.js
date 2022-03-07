@@ -55,15 +55,13 @@ function mostrarGastoWeb(idElemento,gastos){
         let evBorrarAPI = new BorrarAPIHandle();
         evBorrarAPI.gasto = gasto;
 
-         //boton borrar API -> PRACTICA 9
+        let btnBorrarAPI = document.createElement("button");
+        btnBorrarAPI.className = "gasto-borrar-api";
+        btnBorrarAPI.type = "button";
+        btnBorrarAPI.textContent = "Borrar (API)";
 
-         let botonBorrarApi = document.createElement('button');
-         botonBorrarApi.className += 'gasto-borrar-api';
-         botonBorrarApi.id = "gasto-borrar-api";
-         botonBorrarApi.textContent = 'Borrar (API)';
-         botonBorrarApi.type = 'button';
+        btnBorrarAPI.addEventListener('click', evBorrarAPI);
 
-       
         let botonEditarForm = document.createElement("button");
         botonEditarForm.setAttribute('id', `gasto-editar-formulario-${gasto.id}`)
         botonEditarForm.className += 'gasto-editar-formulario';
@@ -92,9 +90,7 @@ function mostrarGastoWeb(idElemento,gastos){
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
-    // Obtener la capa donde se muestran los datos agrupados por el período indicado.
-    // Seguramente este código lo tengas ya hecho pero el nombre de la variable sea otro.
-    // Puedes reutilizarlo, por supuesto. Si lo haces, recuerda cambiar también el nombre de la variable en el siguiente bloque de código
+    
     var divP = document.getElementById(idElemento);
     // Borrar el contenido de la capa para que no se duplique el contenido al repintar
     divP.innerHTML = "";
@@ -414,6 +410,41 @@ function cargarGastosWeb(){
 
 //Practica 9 
 
+//Cargar gastos Api
+function cargarGastosApi()
+{
+    let usuario = document.getElementById("nombre_usuario").value;
+    let direccion = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
+    
+    let flagApi = true;
+    
+    if (usuario != '')
+    {
+        fetch (direccion, {method: 'GET'})
+        .then(response => response.json())
+        .then((result) => 
+        {
+            if (result == '')
+            {
+                console.log('No hay nombre de usuario');
+            }
+            else 
+            {
+                gestionPresupuesto.cargarGastos(result);
+                repintar(flagApi);
+            }
+        })
+        .catch(err => console.error(err));        
+    }
+    else
+    {
+       console.log('No hay nombre de usuario');
+    }
+}
+
+
+
+
 //Funcion BorrarAPIHandle
 
 function BorrarAPIHandle()
@@ -425,7 +456,7 @@ function BorrarAPIHandle()
 
         if(usuario != '')
         {
-            fetch(url, {method: 'DELETE'})
+            fetch(direccion, {method: 'DELETE'})
             .then(response => response.json())
             .then(resp => 
             {
@@ -450,7 +481,7 @@ function BorrarAPIHandle()
 
 //Funcion enviarAPIHandle
 
-function enviarAPIHandle()
+function enviarAPIHandle(event)
 {
     let usuario = document.getElementById('nombre_usuario').value;
     let direccion =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;    
@@ -471,7 +502,7 @@ function enviarAPIHandle()
     }
     else 
     {
-        fetch(url,
+        fetch(direccion,
             {
                 method: 'POST',
                 headers: 
@@ -499,90 +530,53 @@ function enviarAPIHandle()
 
 //Funcion ActualizarAPIHandle
 
-function ActualizarAPIHandle()
+function EditarGastoApi()
 {
-    this.handleEvent = function(e)
+    this.handleEvent = function(event)
     {
-        let Nomusuario = document.getElementById('nombre_usuario').value;
+        let usuario = document.getElementById('nombre_usuario').value;
         let direccion =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
 
-        if(Nomusuario != '')
+        let formulario = event.currentTarget.form;
+
+        let gastoApi =
         {
-            var form = document.querySelector(".gasto form");
-            let descrip = form.elements.descripcion.value;
-            let val = form.elements.valor.value;
-            let fech = form.elements.fecha.value;
-            let etiq = form.elements.etiquetas.value;
-            val = parseFloat(val);
-            etiq = etiq.split(',');
-
-            let gastoAPI = 
-            {
-
-                descripcion: descrip,
-                valor: val,
-                fecha: fech,
-                etiquetas: etiq
-            };
-            fetch(direccion, {
-                method: "PUT",
-                headers:
-                {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify(gastoAPI)
-            })
-
-            .then(function(resp)
-            {
-                if(!resp.ok)
-                {
-                    alert("Error " + resp.status + ": no se ha actualizado el gasto");
-                }else
-                {
-                    alert("GASTO ACTUALIZADO");
-                    cargarGastosApi();
-                }
-            })
-            .catch(err => alert(err));
-        }else
-        {
-            alert('Falta nombre usuario');
+            descripcion: formulario.elements.descripcion.value,                
+            valor: parseFloat(formulario.elements.valor.value),
+            fecha: formulario.elements.fecha.value,
+            etiquetas: (formulario.elements.etiquetas.value).split(",")
+            
         }
-    }
-}
-
-//Función cargarGastosApi
-
-function cargarGastosApi(){
-    let usuario = document.getElementById("nombre_usuario").value;
-    let direccion = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
-    
-    let flagApi = true;
-    
-    if (usuario != '')
-    {
-        fetch (direccion, {method: 'GET'})
-        .then(response => response.json())
-        .then((result) => 
+        if(usuario != '')
         {
-            if (result == '')
+            console.log("No hay el nombre");
+        }
+        else 
+        {
+            fetch(direccion, 
+                {
+                    method: 'PUT', 
+                    headers:{'Content-Type': 'application/json;charset=utf-8'},
+                    body: JSON.stringify(gastoApi)
+                })
+        .then(response =>
+        {
+            if(!response.ok)
             {
-                console.log('No hay el nombre del usuario');
+                console.log('Error');
             }
-            else 
+            else
             {
-                gestionPresupuesto.cargarGastos(result);
-                repintar(flagApi);
+                console.log('gasto actualizado');
+                cargarGastosApi();
             }
         })
-        .catch(err => console.error(err));        
+        .catch(err => console.error(err));
+        }        
     }
-    else
-    {
-       console.log('No hay el nombre del usuario');
-    }
+       
 }
+
 
 
 
@@ -591,11 +585,10 @@ document.getElementById("actualizarpresupuesto").addEventListener("click", actua
 document.getElementById("anyadirgasto").addEventListener("click", nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario").addEventListener("click", nuevoGastoWebFormulario);
 document.getElementById("formulario-filtrado").addEventListener("submit", filtrarGastoWeb);
-//Boton pract 8
 document.getElementById("guardar-gastos").addEventListener("click", guardarGastosWeb);
 document.getElementById("cargar-gastos").addEventListener("click", cargarGastosWeb);
+document.getElementById('cargar-gastos-api').addEventListener('click',cargarGastosApi);
 
-//Boton
 export{
   mostrarDatoEnId,
   mostrarGastoWeb,
