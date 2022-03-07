@@ -27,10 +27,11 @@
                     Cargar gastos
                   </button>
                   <label>Nombre de usuario</label>
-                <input type="text" id="nombre_usuario">
+                
                 <button type="button" id="cargar-gastos-api">
                     Cargar gastos (API)
                 </button>
+                <input type="text" id="nombre_usuario">id</input>
             </div>
 
             <div id="formulario-nuevo-gasto">
@@ -111,6 +112,8 @@
         </div>
 
         <script type="module" src="./js/generarDatosEstaticos.js"></script>
+    
+        
         
         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
@@ -118,27 +121,28 @@
 
         <!-- PLANTILLA FORMULARIO PARA CREAR O EDITAR GASTO -->
         <template id="formulario-template">
-            <form>
-                <div class="form-control">
-                    <label for="descripcion">Descripción</label>
-                    <input type="text" name="descripcion" id="descripcion">
-                </div>
-                <div class="form-control">
-                    <label for="valor">Valor</label>
-                    <input type="number" step="0.01" name="valor" id="valor">
-                </div>
-                <div class="form-control">
-                    <label for="fecha">Fecha</label>
-                    <input type="date" name="fecha" id="fecha">
-                </div>
-                <div class="form-control">
-                    <label for="etiquetas">Etiquetas</label>
-                    <input type="text" name="etiquetas" id="etiquetas">
-                </div>
-                <button type="submit">Enviar</button>
-                <button class="cancelar" type="button">Cancelar</button>
-                <button type="button" class="gasto-enviar-api">Enviar (API)</button>
-            </form>
-        </template>        
+          <form>
+              <div class="form-control">
+                  <label for="descripcion">Descripción</label>
+                  <input type="text" name="descripcion" id="descripcion">
+              </div>
+              <div class="form-control">
+                  <label for="valor">Valor</label>
+                  <input type="number" step="0.01" name="valor" id="valor">
+              </div>
+              <div class="form-control">
+                  <label for="fecha">Fecha</label>
+                  <input type="date" name="fecha" id="fecha">
+              </div>
+              <div class="form-control">
+                  <label for="etiquetas">Etiquetas</label>
+                  <input type="text" name="etiquetas" id="etiquetas">
+              </div>
+              <button type="submit">Enviar</button>
+              <button class="cancelar" type="button">Cancelar</button>
+              <button type="button" class="gasto-enviar-api">Enviar (API)</button>
+
+          </form>
+      </template>
     </body>
 </html>
