@@ -432,10 +432,10 @@ function ActualizarAPIHandle()
 {
     this.handleEvent = function(e)
     {
-        let nomusuario = document.getElementById('nombre_usuario').value;
+        let usuario = document.getElementById('nombre_usuario').value;
         let direccion =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
 
-        if(nomusuario != '')
+        if(usuario != '')
         {
             var form = document.querySelector(".gasto form");
             let descrip = form.elements.descripcion.value;
@@ -515,7 +515,7 @@ function cargarGastosApi()
 
 function BorrarAPIHandle()
 {
-    this.handleEvent = function(e)
+    this.handleEvent = function(event)
     {
         let usuario = document.getElementById('nombre_usuario').value;
         let direccion =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
@@ -530,7 +530,7 @@ function BorrarAPIHandle()
             {
                 if(!resp.ok)
                 {
-                    alert("Error "+ resp.status +": no existe el id de ese gasto");
+                    alert("Error "+ resp.status +": No existe el id de ese gasto");
                 }
                 else
                 {
@@ -538,23 +538,25 @@ function BorrarAPIHandle()
                     cargarGastosApi();
                 }
             })
-            .catch(err => alert(err));
+            .catch(err => console.error(err));
         }
         else
         {
-            alert('Falta nombre usuario');
+            alert('Introduce un usuario');
         }
     }
 }
 //Funcion enviarAPIHandle
 
 function enviarAPIHandle()
-{
-    let usuario = document.getElementById('nombre_usuario').value;
-    let direccion =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;    
-
-    if(usuario != '')
     {
+    let usuario = document.getElementById('nombre_usuario').value;
+    let direccion = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`;
+
+
+    if (usuario != '')
+    {
+       
         var form = document.querySelector("#controlesprincipales form");
         let descrip = form.elements.descripcion.value;
         let val = form.elements.valor.value;
@@ -584,11 +586,11 @@ function enviarAPIHandle()
     {
         if(!resp.ok)
         {
-            alert("Error "+resp.status+": no se creo el gasto");
+            alert("Error "+resp.status+": No se puedo crear el gasto");
         }
         else
         {
-            alert("Gasto creado");
+            alert("Gasto creado correctamente");
             cargarGastosApi();
         }
     })
@@ -597,57 +599,10 @@ function enviarAPIHandle()
     else
     {
         alert('Falta nombre usuario');
-    }
+    }     
 }
 
 
-
-function EditarGastoApi()
-{
-    this.handleEvent = function(event)
-    {
-        let usuario = document.getElementById('nombre_usuario').value;
-        let direccion =  `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`;
-
-        let formulario = event.currentTarget.form;
-
-        let gastoApi =
-        {
-            descripcion: formulario.elements.descripcion.value,                
-            valor: parseFloat(formulario.elements.valor.value),
-            fecha: formulario.elements.fecha.value,
-            etiquetas: (formulario.elements.etiquetas.value).split(",")
-            
-        }
-        if(usuario != '')
-        {
-            console.log("No hay el nombre");
-        }
-        else 
-        {
-            fetch(direccion, 
-                {
-                    method: 'PUT', 
-                    headers:{'Content-Type': 'application/json;charset=utf-8'},
-                    body: JSON.stringify(gastoApi)
-                })
-        .then(response =>
-        {
-            if(!response.ok)
-            {
-                console.log('Error');
-            }
-            else
-            {
-                console.log('gasto actualizado');
-                cargarGastosApi();
-            }
-        })
-        .catch(err => console.error(err));
-        }        
-    }
-       
-}
 
 
 
@@ -659,7 +614,8 @@ document.getElementById("anyadirgasto-formulario").addEventListener("click", nue
 document.getElementById("formulario-filtrado").addEventListener("submit", filtrarGastoWeb);
 document.getElementById("guardar-gastos").addEventListener("click", guardarGastosWeb);
 document.getElementById("cargar-gastos").addEventListener("click", cargarGastosWeb);
-// document.getElementById('cargar-gastos-api').addEventListener('click',cargarGastosApi);
+document.getElementById('cargar-gastos-api').addEventListener('click',cargarGastosApi);
+
 
 export{
   mostrarDatoEnId,
