@@ -50,7 +50,7 @@ function mostrarDatoEnId(idElemento,valor){
                gastEtiqueta.addEventListener("click",newEtiqueta);
            }
 
-           //Para que solo ponga el boton el listado de gastos
+           
            if (idElemento === "listado-gastos-completo") {
             let btnEdit = document.createElement("button");
             btnEdit.className += 'gasto-editar'
@@ -63,7 +63,7 @@ function mostrarDatoEnId(idElemento,valor){
             btnBorrar.type = 'button';
         
            
-            //Borrar Api
+            
 
             let delApi = new BorrarAPIHandle();
             delApi.gasto = gasto;
@@ -75,12 +75,12 @@ function mostrarDatoEnId(idElemento,valor){
 
             btnBorrarAPI.addEventListener('click', delApi);
 
-            //Sepracion de gastos, me la ha enseñado un compañero
+            
             let divSeparador = document.createElement('div');
             divSeparador.className = 'salto';
             divSeparador.textContent = "----------------------------------"
             
-               //Formulario
+              
             let btnEditForm = document.createElement("button");
             btnEditForm.setAttribute('id', `gasto-editar-formulario-${gasto.id}`)
             btnEditForm.className += 'gasto-editar-formulario';
@@ -93,9 +93,6 @@ function mostrarDatoEnId(idElemento,valor){
             btnEditForm.addEventListener('click',editFormulario);
 
             
-
-            //botones
-    
             let editar = new EditarHandle();
             let borrar = new BorrarHandle();
     
@@ -121,54 +118,12 @@ function mostrarDatoEnId(idElemento,valor){
 
        
     }
-        //Funcion antigua q no funciona :(
-
-        /*
-    
-        gastos.forEach((gasto) => {
-            let etiquetas = "";
-            let listDeEtiqueta = [];
-            let etiquetaLista = [];
-            gasto.etiquetas.forEach((etiqueta) => {
-                etiquetas += 
-                    `<span class="gasto-etiquetas-etiqueta" id="${gasto.id}-${etiqueta}">
-                        ${etiqueta}
-                    </span>`;
-                        //Hace el push de las etiquetas
-                    listDeEtiqueta.push(`${gasto.id}-${etiqueta}`);
-                    etiquetaLista.push(`${etiqueta}`);
-            });    
-            
-            element.innerHTML +=
-                `<div class="gasto">
-                    <div class="gasto-descripcion">${gasto.descripcion}</div>
-                    <div class="gasto-fecha">${new Date(gasto.fecha).toLocaleString()}</div> 
-                    <div class="gasto-valor">${gasto.valor}</div> 
-                    <div class="gasto-etiquetas">
-                        ${etiquetas}
-                    </div>
-              
-                <!--Creamos boton-->
-                <button type="button" class="gasto-editar" id="editar-${gasto.id}">Editar</button>
-                <button type="button" class="gasto-borrar" id="borrar-${gasto.id}">Eliminar</button>`;
-                let objetoDel = new BorrarHandle()
-                objetoDel.gasto = gasto;
-                document.getElementById(`borrar-${gasto.id}`).addEventListener("click",objetoDel);//boton que borra
-                let objetoEdit = new EditarHandle()
-                objetoEdit.gasto = gasto;
-                document.getElementById(`editar-${gasto.id}`).addEventListener("click",objetoEdit);//boton que edita
-                    
-                listDeEtiqueta.forEach((tags, search) => {
-                    let etiHandle = new BorrarEtiquetasHandle();
-                    etiHandle.gasto = gasto;                                                     //Evento que borra etiquetas
-                    etiHandle.etiqueta = etiquetaLista[search];
-                    document.getElementById(tags).addEventListener('click', etiHandle);
-                });
-        });*/
+       
     
         function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
             let elemento = document.getElementById(idElemento);
 
+            elemento.innerHTML= "";
             //bucle tocho
           let gastos ="";
             for(let prop in agrup){
@@ -183,45 +138,114 @@ function mostrarDatoEnId(idElemento,valor){
             `<div class='agrupacion'> 
             <h1>Gastos agrupados por ${periodo} </h1>
             ${gastos}`;
+
+            //PRACTICA 10
+              // Estilos
+                    elemento.style.width = "33%";
+                    elemento.style.display = "inline-block";
+                    // Crear elemento <canvas> necesario para crear la gráfica
+                    // https://www.chartjs.org/docs/latest/getting-started/
+                    let chart = document.createElement("canvas");
+                    // Variable para indicar a la gráfica el período temporal del eje X
+                    // En función de la variable "periodo" se creará la variable "unit" (anyo -> year; mes -> month; dia -> day)
+                    let unit = "";
+                    switch (periodo) {
+                    case "anyo":
+                        unit = "year";
+                        break;
+                    case "mes":
+                        unit = "month";
+                        break;
+                    case "dia":
+                    default:
+                        unit = "day";
+                        break;
+                }
+
+         // Creación de la gráfica
+   
+    const myChart = new Chart(chart.getContext("2d"), {
+        // Tipo de gráfica: barras. Puedes cambiar el tipo si quieres hacer pruebas: https://www.chartjs.org/docs/latest/charts/line.html
+        type: 'bar',
+        data: {
+            datasets: [
+                {
+                    // Título de la gráfica
+                    label: `Gastos por ${periodo}`,
+                    // Color de fondo
+                    backgroundColor: "#555555",
+                    // Datos de la gráfica
+                    // "agrup" contiene los datos a representar. Es uno de los parámetros de la función "mostrarGastosAgrupadosWeb".
+                    data: agrup
+                }
+            ],
+        },
+        options: {
+            scales: {
+                x: {
+                   
+                    type: 'time',
+                    time: {
+                        
+                        unit: unit
+                    }
+                },
+                y: {
+                    
+                    beginAtZero: true
+                }
+            }
         }
+    });
+   
+    elemento.append(chart);
+
+    }
 
 
-        //Funcion repintar para actualizar la pagina
+       
             function repintar(){
                 mostrarDatoEnId("presupuesto",GesPresu.mostrarPresupuesto());
                 mostrarDatoEnId("gastos-totales",GesPresu.calcularTotalGastos());
                 mostrarDatoEnId("balance-total",GesPresu.calcularBalance());
 
-                document.getElementById("listado-gastos-completo").innerHTML = " ";      //Bora el contenido sustituyendolo por un string ("")
+                document.getElementById("listado-gastos-completo").innerHTML = " ";      
 
                 mostrarGastoWeb("listado-gastos-completo",GesPresu.listarGastos());
+
+                let DiaAgrup = GesPresu.agruparGastos("dia");
+                mostrarGastosAgrupadosWeb("agrupacion-dia", DiaAgrup, "día");
+
+                let MesAgrup = GesPresu.agruparGastos("mes");
+                mostrarGastosAgrupadosWeb("agrupacion-mes", MesAgrup, "mes");
+
+                let AnyoAgrup = GesPresu.agruparGastos("anyo");
+                mostrarGastosAgrupadosWeb("agrupacion-anyo", AnyoAgrup, "año");
             }
 
             
-        //Funcion que actualiza el presupuesto WEB
         function actualizarPresupuestoWeb(){
             GesPresu.actualizarPresupuesto(parseFloat(prompt("Introduce un presupuesto:")));
 
             repintar();
         }
 
-        //Funcion nuevo gasto WEB
 
         function nuevoGastoWeb(){
-            //datos del gasto
+           
             let descripcion = prompt("Introduce la descripcion del gasto:");
             let valor = parseFloat(prompt("Introduce el valor del gasto:"));
             let fecha = Date.parse(prompt("Introduce la fecha del gasto:"));
             let etiquetas = prompt("Introduce las etiquetas:").split(',');
 
-                //Creamos y añadimos el gasto
+               
             GesPresu.anyadirGasto(new GesPresu.CrearGasto(descripcion,valor,fecha,etiquetas))
 
             //Actualizamos los datos
             repintar();
         }
         
-        //Funcion editar Handle
+
         function EditarHandle(){
                 this.handleEvent = function(ev){
 
@@ -240,7 +264,7 @@ function mostrarDatoEnId(idElemento,valor){
                 } 
         }
 
-        // Borrar Handle
+      
 
         function BorrarHandle(){
             this.handleEvent = function(ev){
@@ -251,7 +275,7 @@ function mostrarDatoEnId(idElemento,valor){
         }
 
 
-        //Borrar etiquetas del handle
+       
 
         function BorrarEtiquetasHandle(){
             this.handleEvent = function(ev){
@@ -261,61 +285,60 @@ function mostrarDatoEnId(idElemento,valor){
             }
         }
 
-        //Funcion Formulario PRACTICA 6
+    
 
 
         function nuevoGastoWebFormulario(){
-            //Copia formulario
+
             let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
             var formulario = plantillaFormulario.querySelector("form");
 
-            //Append para los controles principales
+
             document.getElementById("controlesprincipales").append(formulario);
 
-            //Boton enviar
+
             let enviarForm = new submitHandle ();
             formulario.addEventListener("submit", enviarForm);
 
-            //Boton cancelar
+
             let cancelForm = new CancelarHandle ();
             cancelForm.formulario = formulario;
             formulario.querySelector("button[class='cancelar']").addEventListener('click', cancelForm);
 
             document.getElementById('anyadirgasto-formulario').disabled = true;
 
-            //bton de crear gastos
+
 
             let CrearApiEvento = new PostHandle();
             CrearApiEvento.formulario = formulario;
             formulario.querySelector("button[class='gasto-enviar-api']").addEventListener('click', CrearApiEvento);
         }
 
-        //selecciona los campos para crear el formulario
         function submitHandle(){
             this.handleEvent = function(event) {
-                //Prevenir el efecto por defecto del formulario.
+               
                 event.preventDefault();
         
-                //Datos del form
+               
                 let descripcion = event.currentTarget.descripcion.value;
                 let valor = parseFloat(event.currentTarget.valor.value);
                 let fecha = event.currentTarget.fecha.value;
                 let etiquetas = event.currentTarget.etiquetas.value;
         
-                //Separa las etiquetas
+               
                 if (typeof etiquetas !== 'undefined') {
                     etiquetas = etiquetas.split(",");
                 }
         
-                //Creas los gastos
+               
                 let gasto = new GesPresu.CrearGasto(descripcion, valor, fecha, etiquetas);
         
-                     //añadimos el gasto 
+                    
                 GesPresu.anyadirGasto(gasto);
         
                 repintar();
         
-                //Borramos el formulario
+                
                 event.currentTarget.remove();
         
     
@@ -324,41 +347,35 @@ function mostrarDatoEnId(idElemento,valor){
         }
 
 
-            //Cancelar formulario
+           
 
         function CancelarHandle(){
             this.handleEvent = function (){
-                //elimina el form
+                
                     this.formulario.remove();
-
-                    //Boton añadir
                 document.getElementById("anyadirgasto-formulario").disabled = false;
             }
         }
 
         
-        //De esta funcion no tenia ni idea y me la ha enseñado un compañero
+       
 
         function EditarHandleFormulario()
         {
             this.handleEvent = function(event) {
-                //Clonación y creación del formulario mediante el template (plantilla).
+               
                 let form = document.getElementById("formulario-template").content.cloneNode(true).querySelector("form");
                 document.getElementById(`gasto-${this.gasto.id}`).append(form);
         
-                //Deshabilitar el boton de editar gasto.
                 document.getElementById(`gasto-editar-formulario-${this.gasto.id}`).disabled = true;
-        
-                //Recogida y representación de datos del gasto en el formulario.
+
                 form.descripcion.value = this.gasto.descripcion;
                 form.valor.value = this.gasto.valor;
-        
-                //Recogida y representación de la fecha del gasto.
+
                 let fecha = new Date(this.gasto.fecha);
                 let fechaFormateda = fecha.toISOString().substring(0,10);
                 form.fecha.value = fechaFormateda;
-        
-                //Recogida y representacion de las etiquetas del gasto.
+
                 let etiquetaString = "";
                 this.gasto.etiquetas.forEach((etiqueta, index) => {
                     if (this.gasto.etiquetas.length - 1 === index) {
@@ -369,14 +386,12 @@ function mostrarDatoEnId(idElemento,valor){
                     }
                 });
                 form.etiquetas.value = etiquetaString;
-        
-                //Creación del objeto manejador de eventos del boton cancelar.
+
                 let cancelarEvent = new CancelarEditHandle();
                 cancelarEvent.formulario = form;
                 cancelarEvent.gasto = this.gasto;
                 form.querySelector("button[class='cancelar']").addEventListener('click', cancelarEvent);
-        
-                //Creación del objeto manejador de eventos del boton enviar.
+
                 let submitEvent = new submitEditHandle();
                 submitEvent.gasto = this.gasto;
                 form.addEventListener('submit', submitEvent);
@@ -389,7 +404,7 @@ function mostrarDatoEnId(idElemento,valor){
         }
     }
 
-    //Funcion para el submit del editar
+
         function submitEditHandle(){
             this.handleEvent = function (event){
                 this.gasto.actualizarDescripcion(event.currentTarget.descripcion.value);
@@ -405,18 +420,16 @@ function mostrarDatoEnId(idElemento,valor){
             }
         }
 
-        //Esta funcion es para el cancelar del formulario
+
         function CancelarEditHandle(){
             this.handleEvent = function (){
-                //elimina el form
                     this.formulario.remove();
 
-                    //Boton añadir
                 document.getElementById(`gasto-editar-formulario-${this.gasto.id}`).disabled = false;
             }
         }
 
-        //practica7 
+
         function filtrarGastoWeb (){
 
             event.preventDefault();
@@ -429,13 +442,12 @@ function mostrarDatoEnId(idElemento,valor){
             let filHastaFecha = formulario.elements["formulario-filtrado-fecha-hasta"].value;
             let filEtiquetas = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
 
-            //filtramos etiquetas vacias
 
             if(filEtiquetas === ""){
                 filEtiquetas = [];
             }
 
-            //Objeto filtrar
+
 
             let filtrar ={
                 descripcionContiene: (filDescripcion === "")? undefined : filDescripcion,
@@ -447,7 +459,6 @@ function mostrarDatoEnId(idElemento,valor){
             }
 console.log(filtrar)
 
-                //Filtramos  gastos
             
                 let gastosFiltrar = GesPresu.filtrarGastos(filtrar);
             console.log(gastosFiltrar)
@@ -480,8 +491,6 @@ console.log(filtrar)
             this.handleEvent = async function(){
                 let nameUser = document.getElementById("nombre_usuario").value;
 
-                //Me ayudo un compañero a cambio de 5€
-
                 let gasto = {
                     descripcion: this.formulario.descripcion.value,
                     valor: this.formulario.valor.value,
@@ -508,7 +517,6 @@ console.log(filtrar)
             }
         }
 
-        //Borrar API
 
  function BorrarAPIHandle(){
     this.handleEvent = function(e)
@@ -544,7 +552,6 @@ console.log(filtrar)
         }
     }  
 }
-            //Actualizar API
             function ActualizarAPIHandle()
             {
                 this.handleEvent = function(e)
@@ -598,7 +605,6 @@ console.log(filtrar)
                 }
             }
 
-            //Cargar Gasto APi
             function cargarGastosApi(){
                 let nameUser = document.querySelector("#nombre_usuario").value;
                 let direccion = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nameUser}`;
@@ -619,11 +625,9 @@ console.log(filtrar)
                     alert('Falta nombre usuario');
                 }
             }
-//El export de las funciones
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     repintar
 }
-
